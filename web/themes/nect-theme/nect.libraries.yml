@@ -1,0 +1,25 @@
+global-styling-and-scripts:
+  version: 8.0
+  css:
+   base:
+    'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css': { type: external, minified: true }
+    vendor/font-awesome/css/font-awesome.min.css: { minified: true }
+    'https://use.typekit.net/awb5aoh.css': { type: external }
+    vendor/lightGallery/dist/css/lightgallery.css: {}
+    css/style.css: {}
+  js:
+    'https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js': { type: external, minified: true }
+    'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js': { type: external, minified: true }
+    'https://cdn.jsdelivr.net/picturefill/2.3.1/picturefill.min.js': { type: external, minified: true }
+    vendor/lightGallery/lib/jquery.mousewheel.min.js: { minified: true }
+    js/lightgall.js: {}
+    js/main.js: {}
+    js/global.js: {}
+  dependencies:
+    - core/jquery
+
+js-header:
+  header: true
+  js:
+    'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js': { type: external, minified: true }
+    'vendor/lightGallery/dist/js/lightgallery-all.min.js': { attributes: {type: text/javascript}, minified: true }

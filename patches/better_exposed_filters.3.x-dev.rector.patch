@@ -1,0 +1,74 @@
+diff --git a/better_exposed_filters.api.php b/better_exposed_filters.api.php
+index b84a1b2..97fad32 100644
+--- a/better_exposed_filters.api.php
++++ b/better_exposed_filters.api.php
+@@ -3,17 +3,13 @@
+  * @file
+  * Hooks provided by the Better Expoosed Filters module.
+  */
+-
+ /**
+  * Alters Better Exposed Filters settings before the exposed form widgets are
+  * built.
+  *
+- * @param $settings
+- *   The settings array.
+- * @param $view
+- *   The view to which the settings apply.
+- * @param $displayHandler
+- *   The display handler to which the settings apply.
++ * @param $settings   The settings array.
++ * @param $view   The view to which the settings apply.
++ * @param $displayHandler   The display handler to which the settings apply.
+  */
+ function hook_better_exposed_filters_settings_alter(&$settings, $view, $displayHandler) {
+   // Set the min/max value of a slider.
+diff --git a/better_exposed_filters.theme b/better_exposed_filters.theme
+index d51a79d..1ecd2d6 100644
+--- a/better_exposed_filters.theme
++++ b/better_exposed_filters.theme
+@@ -49,7 +49,7 @@ function theme_select_as_checkboxes_details($vars) {
+   $children = '';
+   if (!empty($element['#bef_operator'])) {
+     // Put an exposed operator inside the details element.
+-    $children = drupal_render($element['#bef_operator']);
++    $children = \Drupal::service('renderer')->render($element['#bef_operator']);
+   }
+ 
+   // Render the checkboxes.
+@@ -174,7 +174,7 @@ function theme_select_as_radios_details($vars) {
+   $children = '';
+   if (!empty($element['#bef_operator'])) {
+     // Put an exposed operator inside the fieldset.
+-    $children = drupal_render($element['#bef_operator']);
++    $children = \Drupal::service('renderer')->render($element['#bef_operator']);
+   }
+ 
+   // Render the radio buttons.
+@@ -478,7 +478,7 @@ function theme_secondary_exposed_elements($vars) {
+   // TODO: put HTML in a template
+   $output = '<div class="bef-secondary-options">';
+   foreach (element_children($element) as $id) {
+-    $output .= drupal_render($element[$id]);
++    $output .= \Drupal::service('renderer')->render($element[$id]);
+   }
+   $output .= '</div>';
+ 
+@@ -490,7 +490,6 @@ function theme_secondary_exposed_elements($vars) {
+  * Helper functions
+  *
+  */
+-
+ /**
+  * Build a BEF checkbox.
+  *
+@@ -505,8 +504,7 @@ function theme_secondary_exposed_elements($vars) {
+  * @param bool $selected
+  *   Checked or not.
+  *
+- * @return [type]
+- *   HTML to render a checkbox.
++ * @return [type]   HTML to render a checkbox.
+  */
+ function bef_checkbox($element, $value, $label, $selected) {
+   $value = check_plain($value);
