@@ -1,0 +1,15 @@
+diff --git a/src/Plugin/Network/GoogleAuth.php b/src/Plugin/Network/GoogleAuth.php
+index b6f4e0c..5828e2e 100644
+--- a/src/Plugin/Network/GoogleAuth.php
++++ b/src/Plugin/Network/GoogleAuth.php
+@@ -59,8 +59,8 @@ class GoogleAuth extends NetworkBase implements GoogleAuthInterface {
+       ];
+ 
+       // Proxy configuration data for outward proxy.
+-      $proxyUrl = $this->siteSettings->get('http_client_config')['proxy']['http'];
+-      if ($proxyUrl) {
++      $http_client_config = $this->siteSettings->get('http_client_config');
++      if ($http_client_config && $proxyUrl = $http_client_config['proxy']['http']) {
+         $league_settings['proxy'] = $proxyUrl;
+       }
+ 
