@@ -1,0 +1,960 @@
+diff --git a/core/includes/install.core.inc b/core/includes/install.core.inc
+index 55c9e7773b..cfab412904 100644
+--- a/core/includes/install.core.inc
++++ b/core/includes/install.core.inc
+@@ -2322,7 +2322,13 @@ function install_config_import_batch() {
+   // Match up the site UUIDs, the install_base_system install task will have
+   // installed the system module and created a new UUID.
+   $system_site = $sync->read('system.site');
+-  \Drupal::configFactory()->getEditable('system.site')->set('uuid', $system_site['uuid'])->save();
++  // When installing from configuration it is possible that system.site
++  // configuration is not present. If this occurs a ConfigImporterException will
++  // by thrown when $config_importer->initialize() is called below and the error
++  // will be reported to the user.
++  if ($system_site !== FALSE) {
++    \Drupal::configFactory()->getEditable('system.site')->set('uuid', $system_site['uuid'])->save();
++  }
+ 
+   // Create the storage comparer and the config importer.
+   $storage_comparer = new StorageComparer($sync, \Drupal::service('config.storage'));
+diff --git a/core/includes/theme.inc b/core/includes/theme.inc
+index 46b86353fd..18916b2c54 100644
+--- a/core/includes/theme.inc
++++ b/core/includes/theme.inc
+@@ -1130,7 +1130,7 @@ function template_preprocess_item_list(&$variables) {
+             // \Drupal\Core\Render\Element::children(), which cannot be used
+             // here, since it triggers an error on string values.
+             foreach ($child as $child_key => $child_value) {
+-              if ($child_key[0] !== '#') {
++              if (is_int($child_key) || $child_key === '' || $child_key[0] !== '#') {
+                 $child['#items'][$child_key] = $child_value;
+                 unset($child[$child_key]);
+               }
+diff --git a/core/lib/Drupal/Component/Annotation/Doctrine/DocParser.php b/core/lib/Drupal/Component/Annotation/Doctrine/DocParser.php
+index 1d8cf2fbc3..3c0e82e882 100644
+--- a/core/lib/Drupal/Component/Annotation/Doctrine/DocParser.php
++++ b/core/lib/Drupal/Component/Annotation/Doctrine/DocParser.php
+@@ -966,9 +966,11 @@ private function Identifier()
+ 
+         $className = $this->lexer->token['value'];
+ 
+-        while ($this->lexer->lookahead['position'] === ($this->lexer->token['position'] + strlen($this->lexer->token['value']))
+-                && $this->lexer->isNextToken(DocLexer::T_NAMESPACE_SEPARATOR)) {
+-
++        while (
++            null !== $this->lexer->lookahead &&
++            $this->lexer->lookahead['position'] === ($this->lexer->token['position'] + strlen($this->lexer->token['value'])) &&
++            $this->lexer->isNextToken(DocLexer::T_NAMESPACE_SEPARATOR)
++        ) {
+             $this->match(DocLexer::T_NAMESPACE_SEPARATOR);
+             $this->matchAny(self::$classIdentifiers);
+ 
+diff --git a/core/lib/Drupal/Core/Asset/LibraryDiscoveryParser.php b/core/lib/Drupal/Core/Asset/LibraryDiscoveryParser.php
+index 9c99bdc53d..86c22c1837 100644
+--- a/core/lib/Drupal/Core/Asset/LibraryDiscoveryParser.php
++++ b/core/lib/Drupal/Core/Asset/LibraryDiscoveryParser.php
+@@ -117,7 +117,7 @@ public function buildByExtension($extension) {
+           $library['version'] = \Drupal::VERSION;
+         }
+         // Remove 'v' prefix from external library versions.
+-        elseif ($library['version'][0] === 'v') {
++        elseif (is_string($library['version']) && $library['version'][0] === 'v') {
+           $library['version'] = substr($library['version'], 1);
+         }
+       }
+diff --git a/core/lib/Drupal/Core/Config/StorageComparer.php b/core/lib/Drupal/Core/Config/StorageComparer.php
+index e362493ac3..5110111aad 100644
+--- a/core/lib/Drupal/Core/Config/StorageComparer.php
++++ b/core/lib/Drupal/Core/Config/StorageComparer.php
+@@ -388,7 +388,9 @@ public function hasChanges() {
+   public function validateSiteUuid() {
+     $source = $this->sourceStorage->read('system.site');
+     $target = $this->targetStorage->read('system.site');
+-    return $source['uuid'] === $target['uuid'];
++    // It is possible that the storage does not contain system.site
++    // configuration. In such cases the site UUID cannot be valid.
++    return $source && $target && $source['uuid'] === $target['uuid'];
+   }
+ 
+   /**
+diff --git a/core/lib/Drupal/Core/Database/Install/Tasks.php b/core/lib/Drupal/Core/Database/Install/Tasks.php
+index 7dfe5d0288..6ba3ba733c 100644
+--- a/core/lib/Drupal/Core/Database/Install/Tasks.php
++++ b/core/lib/Drupal/Core/Database/Install/Tasks.php
+@@ -243,7 +243,9 @@ public function getFormOptions(array $database) {
+     ];
+ 
+     global $install_state;
+-    $profile = $install_state['parameters']['profile'];
++    // @todo https://www.drupal.org/project/drupal/issues/3110839 remove PHP 7.4
++    //   work around and add a better message for the migrate UI.
++    $profile = $install_state['parameters']['profile'] ?? NULL;
+     $db_prefix = ($profile == 'standard') ? 'drupal_' : $profile . '_';
+     $form['advanced_options']['prefix'] = [
+       '#type' => 'textfield',
+diff --git a/core/lib/Drupal/Core/Form/FormSubmitter.php b/core/lib/Drupal/Core/Form/FormSubmitter.php
+index 8591edaa2b..4a6a34c807 100644
+--- a/core/lib/Drupal/Core/Form/FormSubmitter.php
++++ b/core/lib/Drupal/Core/Form/FormSubmitter.php
+@@ -61,7 +61,9 @@ public function doSubmitForm(&$form, FormStateInterface &$form_state) {
+ 
+       $batch['progressive'] = !$form_state->isProgrammed();
+       $response = batch_process();
+-      if ($batch['progressive']) {
++      // If the batch has been completed and _batch_finished() called then
++      // $batch will be NULL.
++      if ($batch && $batch['progressive']) {
+         return $response;
+       }
+ 
+diff --git a/core/lib/Drupal/Core/Render/Element.php b/core/lib/Drupal/Core/Render/Element.php
+index 682f236163..f27304cde8 100644
+--- a/core/lib/Drupal/Core/Render/Element.php
++++ b/core/lib/Drupal/Core/Render/Element.php
+@@ -78,7 +78,7 @@ public static function children(array &$elements, $sort = FALSE) {
+     $i = 0;
+     $sortable = FALSE;
+     foreach ($elements as $key => $value) {
+-      if ($key === '' || $key[0] !== '#') {
++      if (is_int($key) || $key === '' || $key[0] !== '#') {
+         if (is_array($value)) {
+           if (isset($value['#weight'])) {
+             $weight = $value['#weight'];
+diff --git a/core/lib/Drupal/Core/Security/RequestSanitizer.php b/core/lib/Drupal/Core/Security/RequestSanitizer.php
+index e1626ed383..a778e4be4e 100644
+--- a/core/lib/Drupal/Core/Security/RequestSanitizer.php
++++ b/core/lib/Drupal/Core/Security/RequestSanitizer.php
+@@ -153,7 +153,7 @@ protected static function checkDestination($destination, array $whitelist) {
+   protected static function stripDangerousValues($input, array $whitelist, array &$sanitized_keys) {
+     if (is_array($input)) {
+       foreach ($input as $key => $value) {
+-        if ($key !== '' && $key[0] === '#' && !in_array($key, $whitelist, TRUE)) {
++        if ($key !== '' && ((string) $key)[0] === '#' && !in_array($key, $whitelist, TRUE)) {
+           unset($input[$key]);
+           $sanitized_keys[] = $key;
+         }
+diff --git a/core/modules/color/color.module b/core/modules/color/color.module
+index 6b70035e74..3ae1030203 100644
+--- a/core/modules/color/color.module
++++ b/core/modules/color/color.module
+@@ -764,8 +764,9 @@ function _color_blend($img, $hex1, $hex2, $alpha) {
+  * Converts a hex color into an RGB triplet.
+  */
+ function _color_unpack($hex, $normalize = FALSE) {
+-  if (strlen($hex) == 4) {
+-    $hex = $hex[1] . $hex[1] . $hex[2] . $hex[2] . $hex[3] . $hex[3];
++  $hex = substr($hex, 1);
++  if (strlen($hex) == 3) {
++    $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+   }
+   $c = hexdec($hex);
+   for ($i = 16; $i >= 0; $i -= 8) {
+diff --git a/core/modules/field/src/Plugin/migrate/process/d7/FieldInstanceSettings.php b/core/modules/field/src/Plugin/migrate/process/d7/FieldInstanceSettings.php
+index a695760dfc..ed7a026b79 100644
+--- a/core/modules/field/src/Plugin/migrate/process/d7/FieldInstanceSettings.php
++++ b/core/modules/field/src/Plugin/migrate/process/d7/FieldInstanceSettings.php
+@@ -21,7 +21,6 @@ public function transform($value, MigrateExecutableInterface $migrate_executable
+     $widget_type = $widget_settings['type'];
+ 
+     $field_data = unserialize($field_definition['data']);
+-    $field_settings = $field_data['settings'];
+ 
+     // Get taxonomy term reference handler settings from allowed values.
+     if ($row->getSourceProperty('type') == 'taxonomy_term_reference') {
+@@ -38,6 +37,7 @@ public function transform($value, MigrateExecutableInterface $migrate_executable
+ 
+     // Get entityreference handler settings from source field configuration.
+     if ($row->getSourceProperty('type') == "entityreference") {
++      $field_settings = $field_data['settings'];
+       $instance_settings['handler'] = 'default:' . $field_settings['target_type'];
+       // Transform the sort settings to D8 structure.
+       $sort = [
+diff --git a/core/modules/field/src/Plugin/migrate/source/d7/FieldInstance.php b/core/modules/field/src/Plugin/migrate/source/d7/FieldInstance.php
+index 74340884d2..e15fe7bdc6 100644
+--- a/core/modules/field/src/Plugin/migrate/source/d7/FieldInstance.php
++++ b/core/modules/field/src/Plugin/migrate/source/d7/FieldInstance.php
+@@ -180,9 +180,6 @@ public function prepareRow(Row $row) {
+       }
+     }
+ 
+-    $field_data = unserialize($row->getSourceProperty('field_data'));
+-    $row->setSourceProperty('field_settings', $field_data['settings']);
+-
+     return parent::prepareRow($row);
+   }
+ 
+diff --git a/core/modules/hal/src/Normalizer/EntityReferenceItemNormalizer.php b/core/modules/hal/src/Normalizer/EntityReferenceItemNormalizer.php
+index 48dbb81b47..c2d65bfdbc 100644
+--- a/core/modules/hal/src/Normalizer/EntityReferenceItemNormalizer.php
++++ b/core/modules/hal/src/Normalizer/EntityReferenceItemNormalizer.php
+@@ -82,7 +82,10 @@ public function normalize($field_item, $format = NULL, array $context = []) {
+ 
+     // Normalize the target entity.
+     $embedded = $this->serializer->normalize($target_entity, $format, $context);
+-    $link = $embedded['_links']['self'];
++    // @todo https://www.drupal.org/project/drupal/issues/3110815 $embedded will
++    //   be NULL if the target entity does not exist. Use null coalescence
++    //   operator to preserve behaviour in PHP 7.4.
++    $link = $embedded['_links']['self'] ?? NULL;
+     // If the field is translatable, add the langcode to the link relation
+     // object. This does not indicate the language of the target entity.
+     if ($langcode) {
+diff --git a/core/modules/language/src/LanguageServiceProvider.php b/core/modules/language/src/LanguageServiceProvider.php
+index a7e934aab6..492eda38a7 100644
+--- a/core/modules/language/src/LanguageServiceProvider.php
++++ b/core/modules/language/src/LanguageServiceProvider.php
+@@ -87,6 +87,12 @@ protected function isMultilingual() {
+   protected function getDefaultLanguageValues() {
+     $config_storage = BootstrapConfigStorageFactory::get();
+     $system = $config_storage->read('system.site');
++    // In Kernel tests it's possible this code is called before system.site
++    // exists. In such cases behave as though the corresponding language
++    // configuration entity does not exist.
++    if ($system === FALSE) {
++      return FALSE;
++    }
+     $default_language = $config_storage->read(static::CONFIG_PREFIX . $system['default_langcode']);
+     if (is_array($default_language)) {
+       return $default_language;
+diff --git a/core/modules/layout_builder/tests/src/Kernel/FieldBlockTest.php b/core/modules/layout_builder/tests/src/Kernel/FieldBlockTest.php
+index ebf19c53a4..d041e39689 100644
+--- a/core/modules/layout_builder/tests/src/Kernel/FieldBlockTest.php
++++ b/core/modules/layout_builder/tests/src/Kernel/FieldBlockTest.php
+@@ -281,13 +281,22 @@ public function providerTestBuild() {
+       new ReturnPromise([[]]),
+       '',
+     ];
+-    $data['exception'] = [
+-      new ThrowPromise(new \Exception('The exception message')),
++    return $data;
++  }
++
++  /**
++   * @covers ::build
++   */
++  public function testBuildException() {
++    // In PHP 7.4 ReflectionClass cannot be serialized so this cannot be part of
++    // providerTestBuild().
++    $promise = new ThrowPromise(new \Exception('The exception message'));
++    $this->testBuild(
++      $promise,
+       '',
+       'The field "%field" failed to render with the error of "%error".',
+-      ['%field' => 'the_field_name', '%error' => 'The exception message'],
+-    ];
+-    return $data;
++      ['%field' => 'the_field_name', '%error' => 'The exception message']
++    );
+   }
+ 
+   /**
+diff --git a/core/modules/link/src/Plugin/Field/FieldType/LinkItem.php b/core/modules/link/src/Plugin/Field/FieldType/LinkItem.php
+index 373c3f03ad..90585a66a0 100644
+--- a/core/modules/link/src/Plugin/Field/FieldType/LinkItem.php
++++ b/core/modules/link/src/Plugin/Field/FieldType/LinkItem.php
+@@ -185,12 +185,12 @@ public function setValue($values, $notify = TRUE) {
+       $values += [
+         'options' => [],
+       ];
+-    }
+-    // Unserialize the values, this is deprecated as the storage takes care of
+-    // this, options must not be passed as a string anymore.
+-    if (is_string($values['options'])) {
+-      @trigger_error('Support for passing options as a serialized string is deprecated in 8.7.0 and will be removed before Drupal 9.0.0. Pass them as an array instead. See https://www.drupal.org/node/2961643.', E_USER_DEPRECATED);
+-      $values['options'] = unserialize($values['options'], ['allowed_classes' => FALSE]);
++      // Unserialize the values, this is deprecated as the storage takes care of
++      // this, options must not be passed as a string anymore.
++      if (is_string($values['options'])) {
++        @trigger_error('Support for passing options as a serialized string is deprecated in 8.7.0 and will be removed before Drupal 9.0.0. Pass them as an array instead. See https://www.drupal.org/node/2961643.', E_USER_DEPRECATED);
++        $values['options'] = unserialize($values['options'], ['allowed_classes' => FALSE]);
++      }
+     }
+     parent::setValue($values, $notify);
+   }
+diff --git a/core/modules/locale/locale.bulk.inc b/core/modules/locale/locale.bulk.inc
+index 37c4522092..a344a1b0e7 100644
+--- a/core/modules/locale/locale.bulk.inc
++++ b/core/modules/locale/locale.bulk.inc
+@@ -385,6 +385,11 @@ function locale_translate_batch_finished($success, array $results) {
+       // file), simply do nothing.
+       if ($results && isset($results['stats'])) {
+         foreach ($results['stats'] as $filepath => $report) {
++          if ($filepath === 'config') {
++            // Ignore the config entry. It is processed in
++            // locale_config_batch_finished() below.
++            continue;
++          }
+           $additions += $report['additions'];
+           $updates += $report['updates'];
+           $deletes += $report['deletes'];
+diff --git a/core/modules/migrate/tests/src/Kernel/MigrateConfigRollbackTest.php b/core/modules/migrate/tests/src/Kernel/MigrateConfigRollbackTest.php
+index 27aa45bcce..72abb0f287 100644
+--- a/core/modules/migrate/tests/src/Kernel/MigrateConfigRollbackTest.php
++++ b/core/modules/migrate/tests/src/Kernel/MigrateConfigRollbackTest.php
+@@ -78,8 +78,7 @@ public function testConfigRollback() {
+     $this->assertSame('Some site', $config->get('name'));
+     $this->assertSame('Awesome slogan', $config->get('slogan'));
+     // Confirm the map row is deleted.
+-    $map_row = $config_id_map->getRowBySource(['id' => $variable[0]['id']]);
+-    $this->assertNull($map_row['destid1']);
++    $this->assertFalse($config_id_map->getRowBySource(['id' => $variable[0]['id']]));
+ 
+     // We use system configuration to demonstrate importing and rolling back
+     // configuration translations.
+diff --git a/core/modules/node/node.module b/core/modules/node/node.module
+index bb4580a587..4899ddce67 100644
+--- a/core/modules/node/node.module
++++ b/core/modules/node/node.module
+@@ -648,7 +648,7 @@ function template_preprocess_node(&$variables) {
+     unset($variables['elements']['uid']);
+   }
+ 
+-  if (!$skip_custom_preprocessing || !$node->getFieldDefinition('title')->isDisplayConfigurable('view')) {
++  if (isset($variables['elements']['title']) && (!$skip_custom_preprocessing || !$node->getFieldDefinition('title')->isDisplayConfigurable('view'))) {
+     $variables['label'] = $variables['elements']['title'];
+     unset($variables['elements']['title']);
+   }
+diff --git a/core/modules/rdf/rdf.module b/core/modules/rdf/rdf.module
+index 6dced6adab..d09886bcbb 100644
+--- a/core/modules/rdf/rdf.module
++++ b/core/modules/rdf/rdf.module
+@@ -495,7 +495,7 @@ function rdf_preprocess_comment(&$variables) {
+   }
+   // Adds RDFa markup for the date of the comment.
+   $created_mapping = $mapping->getPreparedFieldMapping('created');
+-  if (!empty($created_mapping)) {
++  if (!empty($created_mapping) && isset($comment->rdf_data)) {
+     // The comment date is precomputed as part of the rdf_data so that it can be
+     // cached as part of the entity.
+     $date_attributes = $comment->rdf_data['date'];
+diff --git a/core/modules/rdf/tests/src/Traits/EasyRdf_ParsedUri.php b/core/modules/rdf/tests/src/Traits/EasyRdf_ParsedUri.php
+new file mode 100644
+index 0000000000..2c2aa7893e
+--- /dev/null
++++ b/core/modules/rdf/tests/src/Traits/EasyRdf_ParsedUri.php
+@@ -0,0 +1,352 @@
++<?php
++// @codingStandardsIgnoreFile
++
++namespace Drupal\Tests\rdf\Traits;
++
++/**
++ * This is copy of \EasyRdf_ParsedUri from the easyrdf/easyrdf library.
++ *
++ * It fixes a PHP 7.4 deprecation in \EasyRdf_ParsedUri::normalise().
++ *
++ * @todo https://www.drupal.org/project/drupal/issues/3110972 Remove this work
++ *   around.
++ */
++
++/**
++ * EasyRdf
++ *
++ * LICENSE
++ *
++ * Copyright (c) 2009-2013 Nicholas J Humfrey.  All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright notice,
++ *    this list of conditions and the following disclaimer in the documentation
++ *    and/or other materials provided with the distribution.
++ * 3. The name of the author 'Nicholas J Humfrey" may be used to endorse or
++ *    promote products derived from this software without specific prior
++ *    written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
++ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
++ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
++ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
++ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
++ * POSSIBILITY OF SUCH DAMAGE.
++ *
++ * @package    EasyRdf
++ * @copyright  Copyright (c) 2009-2013 Nicholas J Humfrey
++ * @license    http://www.opensource.org/licenses/bsd-license.php
++ */
++
++
++/**
++ * A RFC3986 compliant URI parser
++ *
++ * @package    EasyRdf
++ * @copyright  Copyright (c) 2009-2013 Nicholas J Humfrey
++ * @license    http://www.opensource.org/licenses/bsd-license.php
++ * @link       http://www.ietf.org/rfc/rfc3986.txt
++ */
++class EasyRdf_ParsedUri
++{
++    // For all URIs:
++    private $scheme = null;
++    private $fragment = null;
++
++    // For hierarchical URIs:
++    private $authority = null;
++    private $path = null;
++    private $query = null;
++
++    const URI_REGEX = "|^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?|";
++
++    /** Constructor for creating a new parsed URI
++     *
++     * The $uri parameter can either be a string or an
++     * associative array with the following keys:
++     * scheme, authority, path, query, fragment
++     *
++     * @param  mixed $uri  The URI as a string or an array
++     * @return object EasyRdf_ParsedUri
++     */
++    public function __construct($uri = null)
++    {
++        if (is_string($uri)) {
++            if (preg_match(self::URI_REGEX, $uri, $matches)) {
++                if (!empty($matches[1])) {
++                    $this->scheme = isset($matches[2]) ? $matches[2] : '';
++                }
++                if (!empty($matches[3])) {
++                    $this->authority = isset($matches[4]) ? $matches[4] : '';
++                }
++                $this->path = isset($matches[5]) ? $matches[5] : '';
++                if (!empty($matches[6])) {
++                    $this->query = isset($matches[7]) ? $matches[7] : '';
++                }
++                if (!empty($matches[8])) {
++                    $this->fragment = isset($matches[9]) ? $matches[9] : '';
++                }
++            }
++        } elseif (is_array($uri)) {
++            $this->scheme = isset($uri['scheme']) ? $uri['scheme'] : null;
++            $this->authority = isset($uri['authority']) ? $uri['authority'] : null;
++            $this->path = isset($uri['path']) ? $uri['path'] : null;
++            $this->query = isset($uri['query']) ? $uri['query'] : null;
++            $this->fragment = isset($uri['fragment']) ? $uri['fragment'] : null;
++        }
++    }
++
++
++    /** Returns true if this is an absolute (complete) URI
++     * @return boolean
++     */
++    public function isAbsolute()
++    {
++        return $this->scheme !== null;
++    }
++
++    /** Returns true if this is an relative (partial) URI
++     * @return boolean
++     */
++    public function isRelative()
++    {
++        return $this->scheme === null;
++    }
++
++    /** Returns the scheme of the URI (e.g. http)
++     * @return string
++     */
++    public function getScheme()
++    {
++        return $this->scheme;
++    }
++
++    /** Sets the scheme of the URI (e.g. http)
++     * @param string $scheme The new value for the scheme of the URI
++     */
++    public function setScheme($scheme)
++    {
++        $this->scheme = $scheme;
++    }
++
++    /** Returns the authority of the URI (e.g. www.example.com:8080)
++     * @return string
++     */
++    public function getAuthority()
++    {
++        return $this->authority;
++    }
++
++    /** Sets the authority of the URI (e.g. www.example.com:8080)
++     * @param string $authority The new value for the authority component of the URI
++     */
++    public function setAuthority($authority)
++    {
++        $this->authority = $authority;
++    }
++
++    /** Returns the path of the URI (e.g. /foo/bar)
++     * @return string
++     */
++    public function getPath()
++    {
++        return $this->path;
++    }
++
++    /** Set the path of the URI (e.g. /foo/bar)
++     * @param string $path The new value for the path component of the URI
++     */
++    public function setPath($path)
++    {
++        $this->path = $path;
++    }
++
++    /** Returns the query string part of the URI (e.g. foo=bar)
++     * @return string
++     */
++    public function getQuery()
++    {
++        return $this->query;
++    }
++
++    /** Set the query string of the URI (e.g. foo=bar)
++     * @param string $query The new value for the query string component of the URI
++     */
++    public function setQuery($query)
++    {
++        $this->query = $query;
++    }
++
++    /** Returns the fragment part of the URI (i.e. after the #)
++     * @return string
++     */
++    public function getFragment()
++    {
++        return $this->fragment;
++    }
++
++    /** Set the fragment of the URI (i.e. after the #)
++     * @param string $fragment The new value for the fragment component of the URI
++     */
++    public function setFragment($fragment)
++    {
++        $this->fragment = $fragment;
++    }
++
++
++    /**
++     * Normalises the path of this URI if it has one. Normalising a path means
++     * that any unnecessary '.' and '..' segments are removed. For example, the
++     * URI http://example.com/a/b/../c/./d would be normalised to
++     * http://example.com/a/c/d
++     *
++     * @return object EasyRdf_ParsedUri
++     */
++    public function normalise()
++    {
++        if (empty($this->path)) {
++            return $this;
++        }
++
++        // Remove ./ from the start
++        if (substr($this->path, 0, 2) == './') {
++            // Remove both characters
++            $this->path = substr($this->path, 2);
++        }
++
++        // Remove /. from the end
++        if (substr($this->path, -2) == '/.') {
++            // Remove only the last dot, not the slash!
++            $this->path = substr($this->path, 0, -1);
++        }
++
++        if (substr($this->path, -3) == '/..') {
++            $this->path .= '/';
++        }
++
++        // Split the path into its segments
++        $segments = explode('/', $this->path);
++        $newSegments = array();
++
++        // Remove all unnecessary '.' and '..' segments
++        foreach ($segments as $segment) {
++            if ($segment == '..') {
++                // Remove the previous part of the path
++                $count = count($newSegments);
++                if ($count > 0 && $newSegments[$count-1]) {
++                    array_pop($newSegments);
++                }
++            } elseif ($segment == '.') {
++                // Ignore
++                continue;
++            } else {
++                array_push($newSegments, $segment);
++            }
++        }
++
++        // Construct the new normalised path
++        $this->path = implode('/', $newSegments);
++
++        // Allow easy chaining of methods
++        return $this;
++    }
++
++    /**
++     * Resolves a relative URI using this URI as the base URI.
++     */
++    public function resolve($relUri)
++    {
++        // If it is a string, then convert it to a parsed object
++        if (is_string($relUri)) {
++            $relUri = new EasyRdf_ParsedUri($relUri);
++        }
++
++        // This code is based on the pseudocode in section 5.2.2 of RFC3986
++        $target = new EasyRdf_ParsedUri();
++        if ($relUri->scheme) {
++            $target->scheme = $relUri->scheme;
++            $target->authority = $relUri->authority;
++            $target->path = $relUri->path;
++            $target->query = $relUri->query;
++        } else {
++            if ($relUri->authority) {
++                $target->authority = $relUri->authority;
++                $target->path = $relUri->path;
++                $target->query = $relUri->query;
++            } else {
++                if (empty($relUri->path)) {
++                    $target->path = $this->path;
++                    if ($relUri->query) {
++                        $target->query = $relUri->query;
++                    } else {
++                        $target->query = $this->query;
++                    }
++                } else {
++                    if (substr($relUri->path, 0, 1) == '/') {
++                        $target->path = $relUri->path;
++                    } else {
++                        $path = $this->path;
++                        $lastSlash = strrpos($path, '/');
++                        if ($lastSlash !== false) {
++                            $path = substr($path, 0, $lastSlash + 1);
++                        } else {
++                            $path = '/';
++                        }
++
++                        $target->path .= $path . $relUri->path;
++                    }
++                    $target->query = $relUri->query;
++                }
++                $target->authority = $this->authority;
++            }
++            $target->scheme = $this->scheme;
++        }
++
++        $target->fragment = $relUri->fragment;
++
++        $target->normalise();
++
++        return $target;
++    }
++
++    /** Convert the parsed URI back into a string
++     *
++     * @return string The URI as a string
++     */
++    public function toString()
++    {
++        $str = '';
++        if ($this->scheme !== null) {
++            $str .= $this->scheme . ':';
++        }
++        if ($this->authority !== null) {
++            $str .= '//' . $this->authority;
++        }
++        $str .= $this->path;
++        if ($this->query !== null) {
++            $str .= '?' . $this->query;
++        }
++        if ($this->fragment !== null) {
++            $str .= '#' . $this->fragment;
++        }
++        return $str;
++    }
++
++    /** Magic method to convert the URI, when casted, back to a string
++     *
++     * @return string The URI as a string
++     */
++    public function __toString()
++    {
++        return $this->toString();
++    }
++}
+diff --git a/core/modules/rdf/tests/src/Traits/RdfParsingTrait.php b/core/modules/rdf/tests/src/Traits/RdfParsingTrait.php
+index a721a4ac63..2e1d80204a 100644
+--- a/core/modules/rdf/tests/src/Traits/RdfParsingTrait.php
++++ b/core/modules/rdf/tests/src/Traits/RdfParsingTrait.php
+@@ -4,6 +4,14 @@
+ 
+ use Drupal\Core\Url;
+ 
++/**
++ * Override \EasyRdf_ParsedUri for PHP 7.4 compatibilty.
++ *
++ * @todo https://www.drupal.org/project/drupal/issues/3110972 Remove this work
++ *   around.
++ */
++class_alias('\Drupal\Tests\rdf\Traits\EasyRdf_ParsedUri', '\EasyRdf_ParsedUri');
++
+ /**
+  * Defines a trait for parsing RDF properties from HTML.
+  */
+diff --git a/core/modules/rdf/tests/src/Unit/RdfMappingConfigEntityUnitTest.php b/core/modules/rdf/tests/src/Unit/RdfMappingConfigEntityUnitTest.php
+index d8ba6f018f..57ab681149 100644
+--- a/core/modules/rdf/tests/src/Unit/RdfMappingConfigEntityUnitTest.php
++++ b/core/modules/rdf/tests/src/Unit/RdfMappingConfigEntityUnitTest.php
+@@ -77,6 +77,9 @@ public function testCalculateDependencies() {
+     $target_entity_type->expects($this->any())
+       ->method('getBundleEntityType')
+       ->will($this->returnValue(NULL));
++    $target_entity_type->expects($this->any())
++      ->method('getBundleConfigDependency')
++      ->will($this->returnValue(['type' => 'module', 'name' => 'test_module']));
+ 
+     $this->entityTypeManager->expects($this->at(0))
+       ->method('getDefinition')
+@@ -86,7 +89,10 @@ public function testCalculateDependencies() {
+       ->method('getDefinition')
+       ->with($this->entityTypeId)
+       ->will($this->returnValue($this->entityType));
+-
++    $this->entityTypeManager->expects($this->at(2))
++      ->method('getDefinition')
++      ->with($this->entityTypeId)
++      ->will($this->returnValue($this->entityType));
+     $entity = new RdfMapping($values, $this->entityTypeId);
+     $dependencies = $entity->calculateDependencies()->getDependencies();
+     $this->assertArrayNotHasKey('config', $dependencies);
+diff --git a/core/modules/taxonomy/src/Plugin/migrate/source/d6/TermLocalizedTranslation.php b/core/modules/taxonomy/src/Plugin/migrate/source/d6/TermLocalizedTranslation.php
+index 844fb858b5..d8308c72b4 100644
+--- a/core/modules/taxonomy/src/Plugin/migrate/source/d6/TermLocalizedTranslation.php
++++ b/core/modules/taxonomy/src/Plugin/migrate/source/d6/TermLocalizedTranslation.php
+@@ -70,7 +70,13 @@ public function prepareRow(Row $row) {
+     $query->condition('lt.language', $language);
+     $query->addField('lt', 'translation');
+     $results = $query->execute()->fetchAssoc();
+-    $row->setSourceProperty($other_property . '_translated', $results['translation']);
++    if ($results) {
++      $row->setSourceProperty($other_property . '_translated', $results['translation']);
++    }
++    else {
++      // The translation does not exist.
++      $row->setSourceProperty($other_property . '_translated', NULL);
++    }
+ 
+     parent::prepareRow($row);
+   }
+diff --git a/core/modules/taxonomy/tests/src/Kernel/Views/ArgumentValidatorTermTest.php b/core/modules/taxonomy/tests/src/Kernel/Views/ArgumentValidatorTermTest.php
+index aa4269afc5..07e3ea64b4 100644
+--- a/core/modules/taxonomy/tests/src/Kernel/Views/ArgumentValidatorTermTest.php
++++ b/core/modules/taxonomy/tests/src/Kernel/Views/ArgumentValidatorTermTest.php
+@@ -61,7 +61,7 @@ public function testArgumentValidatorTerm() {
+     $view->initHandlers();
+ 
+     // Test the single validator for term IDs.
+-    $view->argument['tid']->validator->options['type'] = 'tid';
++    $view->argument['tid']->options['validate_options']['multiple'] = 0;
+ 
+     // Pass in a single valid term.
+     foreach ($this->terms as $term) {
+@@ -78,7 +78,7 @@ public function testArgumentValidatorTerm() {
+     $view->argument['tid']->argument_validated = NULL;
+ 
+     // Test the multiple validator for term IDs.
+-    $view->argument['tid']->validator->options['type'] = 'tids';
++    $view->argument['tid']->options['validate_options']['multiple'] = 1;
+     $view->argument['tid']->options['break_phrase'] = TRUE;
+ 
+     // Pass in a single term.
+diff --git a/core/modules/views/src/Plugin/views/display/PathPluginBase.php b/core/modules/views/src/Plugin/views/display/PathPluginBase.php
+index e29d8e932b..b73a42519a 100644
+--- a/core/modules/views/src/Plugin/views/display/PathPluginBase.php
++++ b/core/modules/views/src/Plugin/views/display/PathPluginBase.php
+@@ -101,7 +101,7 @@ public function getPath() {
+   protected function isDefaultTabPath() {
+     $menu = $this->getOption('menu');
+     $tab_options = $this->getOption('tab_options');
+-    return $menu['type'] == 'default tab' && !empty($tab_options['type']) && $tab_options['type'] != 'none';
++    return $menu && $menu['type'] == 'default tab' && !empty($tab_options['type']) && $tab_options['type'] != 'none';
+   }
+ 
+   /**
+diff --git a/core/modules/views/tests/src/Functional/Handler/HandlerAllTest.php b/core/modules/views/tests/src/Functional/Handler/HandlerAllTest.php
+index e948273ec0..2f82ca599d 100644
+--- a/core/modules/views/tests/src/Functional/Handler/HandlerAllTest.php
++++ b/core/modules/views/tests/src/Functional/Handler/HandlerAllTest.php
+@@ -5,6 +5,7 @@
+ use Drupal\Component\Render\FormattableMarkup;
+ use Drupal\comment\Tests\CommentTestTrait;
+ use Drupal\Tests\views\Functional\ViewTestBase;
++use Drupal\views\Plugin\views\filter\NumericFilter;
+ use Drupal\views\ViewExecutable;
+ use Drupal\views\Plugin\views\HandlerBase;
+ use Drupal\views\Plugin\views\filter\InOperator;
+@@ -86,6 +87,9 @@ public function testHandlers() {
+                 if ($handler instanceof InOperator) {
+                   $options['value'] = [1];
+                 }
++                elseif ($handler instanceof NumericFilter) {
++                  $options['value'] = ['value' => 1];
++                }
+                 else {
+                   $options['value'] = 1;
+                 }
+diff --git a/core/modules/views/tests/src/Kernel/Plugin/FieldOrLanguageJoinTest.php b/core/modules/views/tests/src/Kernel/Plugin/FieldOrLanguageJoinTest.php
+index 34e4f93000..76be7154df 100644
+--- a/core/modules/views/tests/src/Kernel/Plugin/FieldOrLanguageJoinTest.php
++++ b/core/modules/views/tests/src/Kernel/Plugin/FieldOrLanguageJoinTest.php
+@@ -137,7 +137,7 @@ public function testLanguageBundleConditions() {
+     // condition.
+     $configuration = [
+       'table' => 'node__field_tags',
+-      'left_table' => 'node',
++      'left_table' => 'views_test_data',
+       'left_field' => 'nid',
+       'field' => 'entity_id',
+       'extra' => [
+@@ -148,7 +148,7 @@ public function testLanguageBundleConditions() {
+       ],
+     ];
+     $join_info = $this->buildJoin($view, $configuration, 'node__field_tags');
+-    $this->assertContains('AND (node__field_tags.langcode = .langcode)', $join_info['condition']);
++    $this->assertContains('AND (node__field_tags.langcode = views_test_data.langcode)', $join_info['condition']);
+ 
+     array_unshift($configuration['extra'], [
+       'field' => 'deleted',
+@@ -156,7 +156,7 @@ public function testLanguageBundleConditions() {
+       'numeric' => TRUE,
+     ]);
+     $join_info = $this->buildJoin($view, $configuration, 'node__field_tags');
+-    $this->assertContains('AND (node__field_tags.langcode = .langcode)', $join_info['condition']);
++    $this->assertContains('AND (node__field_tags.langcode = views_test_data.langcode)', $join_info['condition']);
+ 
+     // Replace the language condition with a bundle condition.
+     $configuration['extra'][1] = [
+@@ -173,7 +173,7 @@ public function testLanguageBundleConditions() {
+       'field' => 'langcode',
+     ];
+     $join_info = $this->buildJoin($view, $configuration, 'node__field_tags');
+-    $this->assertContains('AND (node__field_tags.bundle = :views_join_condition_1 OR node__field_tags.langcode = .langcode)', $join_info['condition']);
++    $this->assertContains('AND (node__field_tags.bundle = :views_join_condition_1 OR node__field_tags.langcode = views_test_data.langcode)', $join_info['condition']);
+   }
+ 
+   /**
+diff --git a/core/modules/views/tests/src/Unit/Plugin/field/FieldPluginBaseTest.php b/core/modules/views/tests/src/Unit/Plugin/field/FieldPluginBaseTest.php
+index 623436e6ba..b0b6850deb 100644
+--- a/core/modules/views/tests/src/Unit/Plugin/field/FieldPluginBaseTest.php
++++ b/core/modules/views/tests/src/Unit/Plugin/field/FieldPluginBaseTest.php
+@@ -136,6 +136,9 @@ protected function setUp() {
+     $this->executable = $this->getMockBuilder('Drupal\views\ViewExecutable')
+       ->disableOriginalConstructor()
+       ->getMock();
++    $this->executable->style_plugin = $this->getMockBuilder('Drupal\views\Plugin\views\style\StylePluginBase')
++      ->disableOriginalConstructor()
++      ->getMock();
+     $this->display = $this->getMockBuilder('Drupal\views\Plugin\views\display\DisplayPluginBase')
+       ->disableOriginalConstructor()
+       ->getMock();
+diff --git a/core/tests/Drupal/KernelTests/Core/Entity/FieldSqlStorageTest.php b/core/tests/Drupal/KernelTests/Core/Entity/FieldSqlStorageTest.php
+index 2a8faf90e3..28766fd829 100644
+--- a/core/tests/Drupal/KernelTests/Core/Entity/FieldSqlStorageTest.php
++++ b/core/tests/Drupal/KernelTests/Core/Entity/FieldSqlStorageTest.php
+@@ -148,7 +148,7 @@ public function testFieldLoad() {
+           $this->assertEqual($entity->{$this->fieldName}[$delta]->value, $value);
+         }
+         else {
+-          $this->assertFalse(array_key_exists($delta, $entity->{$this->fieldName}));
++          $this->assertArrayNotHasKey($delta, $entity->{$this->fieldName});
+         }
+       }
+     }
+@@ -160,7 +160,7 @@ public function testFieldLoad() {
+         $this->assertEqual($entity->{$this->fieldName}[$delta]->value, $value);
+       }
+       else {
+-        $this->assertFalse(array_key_exists($delta, $entity->{$this->fieldName}));
++        $this->assertArrayNotHasKey($delta, $entity->{$this->fieldName});
+       }
+     }
+ 
+@@ -171,7 +171,7 @@ public function testFieldLoad() {
+     $connection->insert($this->table)->fields($columns)->values($values)->execute();
+     $connection->insert($this->revisionTable)->fields($columns)->values($values)->execute();
+     $entity = $storage->load($entity->id());
+-    $this->assertFalse(array_key_exists($unavailable_langcode, $entity->{$this->fieldName}));
++    $this->assertArrayNotHasKey($unavailable_langcode, $entity->{$this->fieldName});
+   }
+ 
+   /**
+diff --git a/core/tests/Drupal/KernelTests/KernelTestBase.php b/core/tests/Drupal/KernelTests/KernelTestBase.php
+index 957ed79582..427052b9a2 100644
+--- a/core/tests/Drupal/KernelTests/KernelTestBase.php
++++ b/core/tests/Drupal/KernelTests/KernelTestBase.php
+@@ -610,9 +610,9 @@ protected function tearDown() {
+ 
+     // Remove all prefixed tables.
+     $original_connection_info = Database::getConnectionInfo('simpletest_original_default');
+-    $original_prefix = $original_connection_info['default']['prefix']['default'];
++    $original_prefix = $original_connection_info['default']['prefix']['default'] ?? NULL;
+     $test_connection_info = Database::getConnectionInfo('default');
+-    $test_prefix = $test_connection_info['default']['prefix']['default'];
++    $test_prefix = $test_connection_info['default']['prefix']['default'] ?? NULL;
+     if ($original_prefix != $test_prefix) {
+       $tables = Database::getConnection()->schema()->findTables('%');
+       foreach ($tables as $table) {
+diff --git a/core/tests/Drupal/Tests/BrowserTestBase.php b/core/tests/Drupal/Tests/BrowserTestBase.php
+index 96657a93e7..d768bfcc3f 100644
+--- a/core/tests/Drupal/Tests/BrowserTestBase.php
++++ b/core/tests/Drupal/Tests/BrowserTestBase.php
+@@ -350,11 +350,15 @@ protected function getResponseLogHandler() {
+               $html_output = 'Called from ' . $caller['function'] . ' line ' . $caller['line'];
+               $html_output .= '<hr />' . $request->getMethod() . ' request to: ' . $request->getUri();
+ 
++              // Get the response body as a string. Any errors are silenced as
++              // tests should not fail if there is a problem. On PHP 7.4
++              // \Drupal\Tests\migrate\Functional\process\DownloadFunctionalTest
++              // fails without the usage of a silence operator.
++              $body = @(string) $response->getBody();
+               // On redirect responses (status code starting with '3') we need
+               // to remove the meta tag that would do a browser refresh. We
+               // don't want to redirect developers away when they look at the
+               // debug output file in their browser.
+-              $body = $response->getBody();
+               $status_code = (string) $response->getStatusCode();
+               if ($status_code[0] === '3') {
+                 $body = preg_replace('#<meta http-equiv="refresh" content=.+/>#', '', $body, 1);
+diff --git a/core/tests/Drupal/Tests/Core/Asset/CssCollectionRendererUnitTest.php b/core/tests/Drupal/Tests/Core/Asset/CssCollectionRendererUnitTest.php
+index af30711717..d3f973dc39 100644
+--- a/core/tests/Drupal/Tests/Core/Asset/CssCollectionRendererUnitTest.php
++++ b/core/tests/Drupal/Tests/Core/Asset/CssCollectionRendererUnitTest.php
+@@ -290,7 +290,7 @@ public function testRenderInvalidType() {
+       'browsers' => [],
+       'data' => 'http://example.com/popular.js',
+     ];
+-    $this->renderer->render($css_group);
++    $this->renderer->render([$css_group]);
+   }
+ 
+ }
+diff --git a/core/tests/Drupal/Tests/Core/DependencyInjection/YamlFileLoaderTest.php b/core/tests/Drupal/Tests/Core/DependencyInjection/YamlFileLoaderTest.php
+index 4093b6a2eb..26ffcd4b84 100644
+--- a/core/tests/Drupal/Tests/Core/DependencyInjection/YamlFileLoaderTest.php
++++ b/core/tests/Drupal/Tests/Core/DependencyInjection/YamlFileLoaderTest.php
+@@ -34,7 +34,11 @@ class: \Drupal\Core\ExampleClass
+ YAML;
+ 
+     vfsStream::setup('drupal', NULL, [
+-      'modules/example/example.yml' => $yml,
++      'modules' => [
++        'example' => [
++          'example.yml' => $yml,
++        ],
++      ],
+     ]);
+ 
+     $builder = new ContainerBuilder();
