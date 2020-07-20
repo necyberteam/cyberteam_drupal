@@ -24,13 +24,13 @@
    $form['gpct_front_text'] = array(
      '#type'          => 'textarea',
      '#title'         => t('Great Plains Cyberteam Front Text'),
-     '#default_value' => t('Great Plains front text'),
+     '#default_value' => theme_get_setting('gpct_front_text'),
      '#description'   => t("This text will be placed in the frontpage banner."),
    );
    $form['rmacc_front_text'] = array(
      '#type'          => 'textarea',
      '#title'         => t('RMACC Front Text'),
-     '#default_value' => t('RMACC front text'),
+     '#default_value' => theme_get_setting('rmacc_front_text'),
      '#description'   => t("This text will be placed in the frontpage banner."),
    );
  }
