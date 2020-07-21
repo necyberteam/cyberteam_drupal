@@ -154,7 +154,9 @@
 		{% if page.primary_sidebar or page.secondary_sidebar %}
 			<div class="col-lg-8 col-12 mx-auto">
         {{ page.page_top }}
+        {{ page.title_area }}
         {{ page.view_type_buttons }}
+        {{ page.drupal_tabs }}
         {{ page.exposed_filters }}
         {{ page.tags_page_resources }}
         {{ page.tags_page_projects }}
@@ -179,7 +181,9 @@
 		{% else %}
 			<div class="col-12 mx-auto">
         {{ page.page_top }}
+        {{ page.title_area }}
         {{ page.view_type_buttons }}
+        {{ page.drupal_tabs }}
         {{ page.exposed_filters }}
         {{ page.tags_page_resources }}
         {{ page.tags_page_projects }}
