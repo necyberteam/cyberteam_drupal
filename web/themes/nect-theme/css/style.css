@@ -1,7 +1,6 @@
 /* set fonts */
 .museo-sans{font-family:"museo-sans",sans-serif;}
 .museo-slab{font-family:"museo-slab",serif;}
-.permanent-marker { font-family: "permanent-marker",sans-serif; }
 
 /* standard elements */
 html, body {
@@ -108,6 +107,10 @@ img::-moz-selection {
 .bg-charcoal {
   background: #30363d;
   color: #fff;
+}
+
+.mt-n25 {
+  margin-top: -2.5rem !important;
 }
 
 .btn {
@@ -252,7 +255,6 @@ img::-moz-selection {
 
 /* navigation */
 .navbar.navbar-light {
-  //background-color: transparent !important;
   background-color: #fff !important;
   font-family: 'museo-sans', sans-serif;
 }
@@ -262,7 +264,7 @@ img::-moz-selection {
 }
 
 .navbar-brand > * {
-  font-family: permanent-marker, sans-serif !important;
+  font-family: 'museo-sans', sans-serif !important;
   font-style: normal;
   font-weight: 400;
 }
@@ -302,14 +304,12 @@ img::-moz-selection {
 }
 .navbar-brand img.logo {
   float: left;
-  //max-width: 350px;
   min-width: 150px;
   width: auto !important;
   padding: 5px;
   margin: auto 0;
   display: inline-block;
   vertical-align: middle;
-  //max-height: 70px;
 }
 
 .navbar-light .navbar-light {
@@ -317,12 +317,6 @@ img::-moz-selection {
   width: 100%;
   text-align:center;
   z-index: 50;
-}
-
-.navbar-light.scrolled, .navbar-light:hover, .navbar-light:active {
-    //background-color: #fff !important;
-	//filter: initial;
-	//transition: background-color 200ms linear, filter 200ms linear;
 }
 
 .navbar li.nav-item a.nav-link {
@@ -400,6 +394,7 @@ li.dropdown-item a.nav-link:active {
 .fixed-top { position: relative; }
 .fixed-top.scrolled { position: fixed; }
 
+/* secondaryNav */
 #secondaryNav .navbar-toggler {
   color: #fff;
   font-size: 0.6em;
@@ -422,7 +417,7 @@ li.dropdown-item a.nav-link:active {
  color: #8473d2;
 }
 
-#secondaryNav.navbar-light, #secondaryNav.navbar-light {
+#secondaryNav.navbar-light {
   background-color: #30363d !important;
   height: auto !important;
   width: 100%;
@@ -504,7 +499,7 @@ li.dropdown-item a.nav-link:active {
 		padding: 0px 15px !important;
 	}
 	#secondaryNav .navbar, #secondaryNav .navbar-nav {
-		background-color: #30363d;
+		background-color: #30363d !important;
 	}
 	#secondaryNav a.dropdown-item {
 		color: #fff;
@@ -1030,8 +1025,8 @@ ul.footer-links li:hover * {
 
 
 /* people card view */
-form#views-exposed-form-people-card-view-block-1 .form-checkbox { display: none; }
-form#views-exposed-form-people-card-view-block-1 label.option {
+form#views-exposed-form-people-card-view-card-all .form-checkbox { display: none; }
+form#views-exposed-form-people-card-view-card-all label.option {
   font-size: 10px;
   font-weight: 700;
   padding: 5px 10px;
@@ -1045,23 +1040,23 @@ form#views-exposed-form-people-card-view-block-1 label.option {
   color: white;
 }
 
-form#views-exposed-form-people-card-view-block-1 label:hover,
-form#views-exposed-form-people-card-view-block-1 label:focus,
-form#views-exposed-form-people-card-view-block-1 label:active {
+form#views-exposed-form-people-card-view-card-all label:hover,
+form#views-exposed-form-people-card-view-card-all label:focus,
+form#views-exposed-form-people-card-view-card-all label:active {
   color: #fff;
   background-color: #231F20 !important;
   border-color: #231F20 !important;
   cursor: pointer;
 }
 
-form#views-exposed-form-people-card-view-block-1 input:checked + label {
+form#views-exposed-form-people-card-view-card-all input:checked + label {
   color: #fff;
   background-color: #231F20 !important;
   border-color: #231F20 !important;
 }
 
-form#views-exposed-form-people-card-view-block-3 .form-checkbox { display: none; }
-form#views-exposed-form-people-card-view-block-3 label.option {
+form#views-exposed-form-people-card-view-card-careers .form-checkbox { display: none; }
+form#views-exposed-form-people-card-view-card-careers label.option {
   font-size: 10px;
   font-weight: 700;
   padding: 5px 10px;
@@ -1070,26 +1065,280 @@ form#views-exposed-form-people-card-view-block-3 label.option {
   border-radius: 0;
   font-family: 'museo-sans', sans-serif;
   margin-bottom: 10px;
+  background-color: #007baf;
+  border-color: #007baf;
+  color: white;
+}
+
+form#views-exposed-form-people-card-view-card-careers label:hover,
+form#views-exposed-form-people-card-view-card-careers label:focus,
+form#views-exposed-form-people-card-view-card-careers label:active {
+  color: #fff;
+  background-color: #231F20 !important;
+  border-color: #231F20 !important;
+  cursor: pointer;
+}
+
+form#views-exposed-form-people-card-view-card-careers input:checked + label {
+  color: #fff;
+  background-color: #231F20 !important;
+  border-color: #231F20 !important;
+}
+
+form#views-exposed-form-people-card-view-card-greatplains .form-checkbox { display: none; }
+form#views-exposed-form-people-card-view-card-greatplains label.option {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 0;
+  font-family: 'museo-sans', sans-serif;
+  margin-bottom: 10px;
+  background-color: #007baf;
+  border-color: #007baf;
+  color: white;
+}
+
+form#views-exposed-form-people-card-view-card-greatplains label:hover,
+form#views-exposed-form-people-card-view-card-greatplains label:focus,
+form#views-exposed-form-people-card-view-card-greatplains label:active {
+  color: #fff;
+  background-color: #231F20 !important;
+  border-color: #231F20 !important;
+  cursor: pointer;
+}
+
+form#views-exposed-form-people-card-view-card-greatplains input:checked + label {
+  color: #fff;
+  background-color: #231F20 !important;
+  border-color: #231F20 !important;
+}
+
+form#views-exposed-form-people-card-view-card-kentucky .form-checkbox { display: none; }
+form#views-exposed-form-people-card-view-card-kentucky label.option {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 0;
+  font-family: 'museo-sans', sans-serif;
+  margin-bottom: 10px;
+  background-color: #007baf;
+  border-color: #007baf;
+  color: white;
+}
+
+form#views-exposed-form-people-card-view-card-kentucky label:hover,
+form#views-exposed-form-people-card-view-card-kentucky label:focus,
+form#views-exposed-form-people-card-view-card-kentucky label:active {
+  color: #fff;
+  background-color: #231F20 !important;
+  border-color: #231F20 !important;
+  cursor: pointer;
+}
+
+form#views-exposed-form-people-card-view-card-kentucky input:checked + label {
+  color: #fff;
+  background-color: #231F20 !important;
+  border-color: #231F20 !important;
+}
+
+form#views-exposed-form-people-card-view-card-northeast .form-checkbox { display: none; }
+form#views-exposed-form-people-card-view-card-northeast label.option {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 0;
+  font-family: 'museo-sans', sans-serif;
+  margin-bottom: 10px;
+  background-color: #007baf;
+  border-color: #007baf;
+  color: white;
+}
+
+form#views-exposed-form-people-card-view-card-northeast label:hover,
+form#views-exposed-form-people-card-view-card-northeast label:focus,
+form#views-exposed-form-people-card-view-card-northeast label:active {
+  color: #fff;
+  background-color: #231F20 !important;
+  border-color: #231F20 !important;
+  cursor: pointer;
+}
+
+form#views-exposed-form-people-card-view-card-northeast input:checked + label {
+  color: #fff;
+  background-color: #231F20 !important;
+  border-color: #231F20 !important;
+}
+
+form#views-exposed-form-people-card-view-card-rmacc .form-checkbox { display: none; }
+form#views-exposed-form-people-card-view-card-rmacc label.option {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 0;
+  font-family: 'museo-sans', sans-serif;
+  margin-bottom: 10px;
+  background-color: #007baf;
+  border-color: #007baf;
+  color: white;
+}
+
+form#views-exposed-form-people-card-view-card-rmacc label:hover,
+form#views-exposed-form-people-card-view-card-rmacc label:focus,
+form#views-exposed-form-people-card-view-card-rmacc label:active {
+  color: #fff;
+  background-color: #231F20 !important;
+  border-color: #231F20 !important;
+  cursor: pointer;
+}
+
+form#views-exposed-form-people-card-view-card-rmacc input:checked + label {
+  color: #fff;
+  background-color: #231F20 !important;
+  border-color: #231F20 !important;
+}
+
+form#views-exposed-form-people-card-view-card-sweeter .form-checkbox { display: none; }
+form#views-exposed-form-people-card-view-card-sweeter label.option {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 0;
+  font-family: 'museo-sans', sans-serif;
+  margin-bottom: 10px;
+  background-color: #007baf;
+  border-color: #007baf;
+  color: white;
+}
+
+form#views-exposed-form-people-card-view-card-sweeter label:hover,
+form#views-exposed-form-people-card-view-card-sweeter label:focus,
+form#views-exposed-form-people-card-view-card-sweeter label:active {
+  color: #fff;
+  background-color: #231F20 !important;
+  border-color: #231F20 !important;
+  cursor: pointer;
+}
+
+form#views-exposed-form-people-card-view-card-sweeter input:checked + label {
+  color: #fff;
+  background-color: #231F20 !important;
+  border-color: #231F20 !important;
+}
+
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-all label.option {
   background-color: #A0AF32;
   border-color: #A0AF32;
   color: white;
 }
 
-form#views-exposed-form-people-card-view-block-3 label:hover,
-form#views-exposed-form-people-card-view-block-3 label:focus,
-form#views-exposed-form-people-card-view-block-3 label:active {
-  color: #fff;
-  background-color: #656565 !important;
-  border-color: #656565 !important;
-  cursor: pointer;
-}
-
-form#views-exposed-form-people-card-view-block-3 input:checked + label {
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-all label:hover,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-all label:focus,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-all label:active,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-all input:checked + label {
   color: #fff;
   background-color: #656565 !important;
   border-color: #656565 !important;
 }
 
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-careers label.option {
+  background-color: #A0AF32;
+  border-color: #A0AF32;
+  color: white;
+}
+
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-careers label:hover,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-careers label:focus,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-careers label:active,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-careers input:checked + label {
+  color: #fff;
+  background-color: #656565 !important;
+  border-color: #656565 !important;
+}
+
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-greatplains label.option {
+  background-color: #A0AF32;
+  border-color: #A0AF32;
+  color: white;
+}
+
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-greatplains label:hover,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-greatplains label:focus,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-greatplains label:active,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-greatplains input:checked + label {
+  color: #fff;
+  background-color: #656565 !important;
+  border-color: #656565 !important;
+}
+
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-kentucky label.option {
+  background-color: #A0AF32;
+  border-color: #A0AF32;
+  color: white;
+}
+
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-kentucky label:hover,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-kentucky label:focus,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-kentucky label:active,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-kentucky input:checked + label {
+  color: #fff;
+  background-color: #656565 !important;
+  border-color: #656565 !important;
+}
+
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-northeast label.option {
+  background-color: #A0AF32;
+  border-color: #A0AF32;
+  color: white;
+}
+
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-northeast label:hover,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-northeast label:focus,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-northeast label:active,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-northeast input:checked + label {
+  color: #fff;
+  background-color: #656565 !important;
+  border-color: #656565 !important;
+}
+
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-rmacc label.option {
+  background-color: #A0AF32;
+  border-color: #A0AF32;
+  color: white;
+}
+
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-rmacc label:hover,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-rmacc label:focus,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-rmacc label:active,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-rmacc input:checked + label {
+  color: #fff;
+  background-color: #656565 !important;
+  border-color: #656565 !important;
+}
+
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-sweeter label.option {
+  background-color: #A0AF32;
+  border-color: #A0AF32;
+  color: white;
+}
+
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-sweeter label:hover,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-sweeter label:focus,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-sweeter label:active,
+.greatplains-cyberteam form#views-exposed-form-people-card-view-card-sweeter input:checked + label {
+  color: #fff;
+  background-color: #656565 !important;
+  border-color: #656565 !important;
+}
 
 /* peoplev2 */
 form#views-exposed-form-peoplev2-block-1 .form-checkbox { display: none; }
@@ -1272,4 +1521,42 @@ li.nav-item[domain~="all"] {
 
 .great-plains-cyberteam .sidebar-ul > li > a:hover {
   color: #656565;
+}
+
+/* kentucky nav */
+.kentucky-cyberteam .navbar li.nav-item a.nav-link { color: #fff; }
+.kentucky-cyberteam .navbar li.nav-item a.nav-link:hover { color: #0033a0 !important; }
+.kentucky-cyberteam .navbar li.nav-item a.dropdown-item:hover { color: #0033a0; }
+
+.kentucky-cyberteam .navbar-light .navbar-toggler { color: #fff; }
+
+.kentucky-cyberteam .navbar, .kentucky-cyberteam .navbar-light {
+  background-color: #000e18 !important;
+}
+
+@media screen and (max-width: 991.98px) {
+  .kentucky-cyberteam .navbar, .kentucky-cyberteam .navbar-nav {
+    background-color: #000e18 !important;
+  }
+	.kentucky-cyberteam .navbar li.nav-item a.dropdown-item { color: #fff; }
+	.kentucky-cyberteam .navbar li.nav-item a.dropdown-item:hover { color: #0033a0 !important; }
+}
+
+/* rmacc nav */
+.rmacc .navbar li.nav-item a.nav-link { color: #fff; }
+.rmacc .navbar li.nav-item a.nav-link:hover { color: #6eb857 !important; }
+.rmacc .navbar li.nav-item a.dropdown-item:hover { color: #6eb857; }
+
+.rmacc .navbar-light .navbar-toggler { color: #fff; }
+
+.rmacc .navbar, .kentucky-cyberteam .navbar-light {
+  background-color: #0a2102 !important;
+}
+
+@media screen and (max-width: 991.98px) {
+  .rmacc .navbar, .rmacc .navbar-nav {
+    background-color: #0a2102 !important;
+  }
+	.rmacc .navbar li.nav-item a.dropdown-item { color: #fff; }
+	.rmacc .navbar li.nav-item a.dropdown-item:hover { color: #6eb857 !important; }
 }
