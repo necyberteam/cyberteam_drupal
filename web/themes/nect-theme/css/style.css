@@ -1,7 +1,6 @@
 /* set fonts */
 .museo-sans{font-family:"museo-sans",sans-serif;}
 .museo-slab{font-family:"museo-slab",serif;}
-.permanent-marker { font-family: "permanent-marker",sans-serif; }
 
 /* standard elements */
 html, body {
@@ -9,12 +8,11 @@ html, body {
 }
 
 body {
-  font-size: 1rem;//20px;
+  font-size: 1rem;
   color: #212529;
   font-family: 'museo-sans', sans-serif;
   display: flex;
   flex-direction: column;
-  //background: #FEFEFE;
 }
 
 @media screen and (min-width: 992px) {
@@ -27,7 +25,6 @@ body {
 
 p {
   line-height: 1.5;
-  //margin: 30px 0;
 }
 
 
@@ -35,7 +32,7 @@ h1,
 h3,
 h5 {
   font-weight: 800;
-  font-family: 'museo-sans', serif; //slab
+  font-family: 'museo-sans', serif;
   letter-spacing: 0.02em;
 }
 
@@ -108,6 +105,10 @@ img::-moz-selection {
 .bg-charcoal {
   background: #30363d;
   color: #fff;
+}
+
+.mt-n25 {
+  margin-top: -2.5rem !important;
 }
 
 .btn {
@@ -252,7 +253,6 @@ img::-moz-selection {
 
 /* navigation */
 .navbar.navbar-light {
-  //background-color: transparent !important;
   background-color: #fff !important;
   font-family: 'museo-sans', sans-serif;
 }
@@ -262,7 +262,7 @@ img::-moz-selection {
 }
 
 .navbar-brand > * {
-  font-family: permanent-marker, sans-serif !important;
+  font-family: 'museo-sans', sans-serif !important;
   font-style: normal;
   font-weight: 400;
 }
@@ -302,14 +302,12 @@ img::-moz-selection {
 }
 .navbar-brand img.logo {
   float: left;
-  //max-width: 350px;
   min-width: 150px;
   width: auto !important;
   padding: 5px;
   margin: auto 0;
   display: inline-block;
   vertical-align: middle;
-  //max-height: 70px;
 }
 
 .navbar-light .navbar-light {
@@ -317,12 +315,6 @@ img::-moz-selection {
   width: 100%;
   text-align:center;
   z-index: 50;
-}
-
-.navbar-light.scrolled, .navbar-light:hover, .navbar-light:active {
-    //background-color: #fff !important;
-	//filter: initial;
-	//transition: background-color 200ms linear, filter 200ms linear;
 }
 
 .navbar li.nav-item a.nav-link {
@@ -400,6 +392,7 @@ li.dropdown-item a.nav-link:active {
 .fixed-top { position: relative; }
 .fixed-top.scrolled { position: fixed; }
 
+/* secondaryNav */
 #secondaryNav .navbar-toggler {
   color: #fff;
   font-size: 0.6em;
@@ -422,7 +415,7 @@ li.dropdown-item a.nav-link:active {
  color: #8473d2;
 }
 
-#secondaryNav.navbar-light, #secondaryNav.navbar-light {
+#secondaryNav.navbar-light {
   background-color: #30363d !important;
   height: auto !important;
   width: 100%;
@@ -504,7 +497,7 @@ li.dropdown-item a.nav-link:active {
 		padding: 0px 15px !important;
 	}
 	#secondaryNav .navbar, #secondaryNav .navbar-nav {
-		background-color: #30363d;
+		background-color: #30363d !important;
 	}
 	#secondaryNav a.dropdown-item {
 		color: #fff;
@@ -529,7 +522,6 @@ li.dropdown-item a.nav-link:active {
 
 /* header - banner images, carousel */
 header.masthead {
-  //margin-bottom: 25px;
   background: no-repeat center center;
   background-color: #868e96;
   background-attachment: scroll;
@@ -615,13 +607,13 @@ header.masthead .site-heading .subheading {
   border-radius: 0;
   background: none;
   box-shadow: none !important;
-  font-family: 'museo-sans', sans-serif;; //slab
+  font-family: 'museo-sans', sans-serif;
 }
 
 .floating-label-form-group input::-webkit-input-placeholder,
 .floating-label-form-group textarea::-webkit-input-placeholder {
   color: #868e96;
-  font-family: 'museo-sans', sans-serif; //slab
+  font-family: 'museo-sans', sans-serif;
 }
 
 .floating-label-form-group label {
@@ -694,7 +686,6 @@ p.card-text { margin-top: 0; }
 }
 
 .row.projects .card-img-overlay {
-  //display: none !important;
   overflow: hidden;
   background-color: rgba(0,0,0,0);
   -webkit-transition: all 1s ease;
@@ -775,7 +766,7 @@ footer .list-inline {
 .footer h4 {
   font-weight: 600;
   margin-top: 10px;
-  font-family: 'museo-sans', sans-serif; //slab
+  font-family: 'museo-sans', sans-serif;
 }
 
 .footer-main {
@@ -1030,8 +1021,8 @@ ul.footer-links li:hover * {
 
 
 /* people card view */
-form#views-exposed-form-people-card-view-block-1 .form-checkbox { display: none; }
-form#views-exposed-form-people-card-view-block-1 label.option {
+form#views-exposed-form-people-card-view-card-all .form-checkbox { display: none; }
+form#views-exposed-form-people-card-view-card-all label.option {
   font-size: 10px;
   font-weight: 700;
   padding: 5px 10px;
@@ -1045,23 +1036,23 @@ form#views-exposed-form-people-card-view-block-1 label.option {
   color: white;
 }
 
-form#views-exposed-form-people-card-view-block-1 label:hover,
-form#views-exposed-form-people-card-view-block-1 label:focus,
-form#views-exposed-form-people-card-view-block-1 label:active {
+form#views-exposed-form-people-card-view-card-all label:hover,
+form#views-exposed-form-people-card-view-card-all label:focus,
+form#views-exposed-form-people-card-view-card-all label:active {
   color: #fff;
-  background-color: #231F20 !important;
-  border-color: #231F20 !important;
+  background-color: #231F20;
+  border-color: #231F20;
   cursor: pointer;
 }
 
-form#views-exposed-form-people-card-view-block-1 input:checked + label {
+form#views-exposed-form-people-card-view-card-all input:checked + label {
   color: #fff;
-  background-color: #231F20 !important;
-  border-color: #231F20 !important;
+  background-color: #231F20;
+  border-color: #231F20;
 }
 
-form#views-exposed-form-people-card-view-block-3 .form-checkbox { display: none; }
-form#views-exposed-form-people-card-view-block-3 label.option {
+form#views-exposed-form-people-card-view-card-careers .form-checkbox { display: none; }
+form#views-exposed-form-people-card-view-card-careers label.option {
   font-size: 10px;
   font-weight: 700;
   padding: 5px 10px;
@@ -1070,26 +1061,280 @@ form#views-exposed-form-people-card-view-block-3 label.option {
   border-radius: 0;
   font-family: 'museo-sans', sans-serif;
   margin-bottom: 10px;
+  background-color: #007baf;
+  border-color: #007baf;
+  color: white;
+}
+
+form#views-exposed-form-people-card-view-card-careers label:hover,
+form#views-exposed-form-people-card-view-card-careers label:focus,
+form#views-exposed-form-people-card-view-card-careers label:active {
+  color: #fff;
+  background-color: #231F20;
+  border-color: #231F20;
+  cursor: pointer;
+}
+
+form#views-exposed-form-people-card-view-card-careers input:checked + label {
+  color: #fff;
+  background-color: #231F20;
+  border-color: #231F20;
+}
+
+form#views-exposed-form-people-card-view-card-greatplains .form-checkbox { display: none; }
+form#views-exposed-form-people-card-view-card-greatplains label.option {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 0;
+  font-family: 'museo-sans', sans-serif;
+  margin-bottom: 10px;
+  background-color: #007baf;
+  border-color: #007baf;
+  color: white;
+}
+
+form#views-exposed-form-people-card-view-card-greatplains label:hover,
+form#views-exposed-form-people-card-view-card-greatplains label:focus,
+form#views-exposed-form-people-card-view-card-greatplains label:active {
+  color: #fff;
+  background-color: #231F20;
+  border-color: #231F20;
+  cursor: pointer;
+}
+
+form#views-exposed-form-people-card-view-card-greatplains input:checked + label {
+  color: #fff;
+  background-color: #231F20;
+  border-color: #231F20;
+}
+
+form#views-exposed-form-people-card-view-card-kentucky .form-checkbox { display: none; }
+form#views-exposed-form-people-card-view-card-kentucky label.option {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 0;
+  font-family: 'museo-sans', sans-serif;
+  margin-bottom: 10px;
+  background-color: #007baf;
+  border-color: #007baf;
+  color: white;
+}
+
+form#views-exposed-form-people-card-view-card-kentucky label:hover,
+form#views-exposed-form-people-card-view-card-kentucky label:focus,
+form#views-exposed-form-people-card-view-card-kentucky label:active {
+  color: #fff;
+  background-color: #231F20;
+  border-color: #231F20;
+  cursor: pointer;
+}
+
+form#views-exposed-form-people-card-view-card-kentucky input:checked + label {
+  color: #fff;
+  background-color: #231F20;
+  border-color: #231F20;
+}
+
+form#views-exposed-form-people-card-view-card-northeast .form-checkbox { display: none; }
+form#views-exposed-form-people-card-view-card-northeast label.option {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 0;
+  font-family: 'museo-sans', sans-serif;
+  margin-bottom: 10px;
+  background-color: #007baf;
+  border-color: #007baf;
+  color: white;
+}
+
+form#views-exposed-form-people-card-view-card-northeast label:hover,
+form#views-exposed-form-people-card-view-card-northeast label:focus,
+form#views-exposed-form-people-card-view-card-northeast label:active {
+  color: #fff;
+  background-color: #231F20;
+  border-color: #231F20;
+  cursor: pointer;
+}
+
+form#views-exposed-form-people-card-view-card-northeast input:checked + label {
+  color: #fff;
+  background-color: #231F20;
+  border-color: #231F20;
+}
+
+form#views-exposed-form-people-card-view-card-rmacc .form-checkbox { display: none; }
+form#views-exposed-form-people-card-view-card-rmacc label.option {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 0;
+  font-family: 'museo-sans', sans-serif;
+  margin-bottom: 10px;
+  background-color: #007baf;
+  border-color: #007baf;
+  color: white;
+}
+
+form#views-exposed-form-people-card-view-card-rmacc label:hover,
+form#views-exposed-form-people-card-view-card-rmacc label:focus,
+form#views-exposed-form-people-card-view-card-rmacc label:active {
+  color: #fff;
+  background-color: #231F20;
+  border-color: #231F20;
+  cursor: pointer;
+}
+
+form#views-exposed-form-people-card-view-card-rmacc input:checked + label {
+  color: #fff;
+  background-color: #231F20;
+  border-color: #231F20;
+}
+
+form#views-exposed-form-people-card-view-card-sweeter .form-checkbox { display: none; }
+form#views-exposed-form-people-card-view-card-sweeter label.option {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 0;
+  font-family: 'museo-sans', sans-serif;
+  margin-bottom: 10px;
+  background-color: #007baf;
+  border-color: #007baf;
+  color: white;
+}
+
+form#views-exposed-form-people-card-view-card-sweeter label:hover,
+form#views-exposed-form-people-card-view-card-sweeter label:focus,
+form#views-exposed-form-people-card-view-card-sweeter label:active {
+  color: #fff;
+  background-color: #231F20;
+  border-color: #231F20;
+  cursor: pointer;
+}
+
+form#views-exposed-form-people-card-view-card-sweeter input:checked + label {
+  color: #fff;
+  background-color: #231F20;
+  border-color: #231F20;
+}
+
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-all label.option {
   background-color: #A0AF32;
   border-color: #A0AF32;
   color: white;
 }
 
-form#views-exposed-form-people-card-view-block-3 label:hover,
-form#views-exposed-form-people-card-view-block-3 label:focus,
-form#views-exposed-form-people-card-view-block-3 label:active {
-  color: #fff;
-  background-color: #656565 !important;
-  border-color: #656565 !important;
-  cursor: pointer;
-}
-
-form#views-exposed-form-people-card-view-block-3 input:checked + label {
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-all label:hover,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-all label:focus,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-all label:active,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-all input:checked + label {
   color: #fff;
   background-color: #656565 !important;
   border-color: #656565 !important;
 }
 
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-careers label.option {
+  background-color: #A0AF32 !important;
+  border-color: #A0AF32 !important;
+  color: white;
+}
+
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-careers label:hover,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-careers label:focus,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-careers label:active,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-careers input:checked + label {
+  color: #fff;
+  background-color: #656565 !important;
+  border-color: #656565 !important;
+}
+
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-greatplains label.option {
+  background-color: #A0AF32;
+  border-color: #A0AF32;
+  color: white;
+}
+
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-greatplains label:hover,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-greatplains label:focus,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-greatplains label:active,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-greatplains input:checked + label {
+  color: #fff;
+  background-color: #656565 !important;
+  border-color: #656565 !important;
+}
+
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-kentucky label.option {
+  background-color: #A0AF32;
+  border-color: #A0AF32;
+  color: white;
+}
+
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-kentucky label:hover,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-kentucky label:focus,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-kentucky label:active,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-kentucky input:checked + label {
+  color: #fff;
+  background-color: #656565 !important;
+  border-color: #656565 !important;
+}
+
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-northeast label.option {
+  background-color: #A0AF32 !important;
+  border-color: #A0AF32 !important;
+  color: white;
+}
+
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-northeast label:hover,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-northeast label:focus,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-northeast label:active,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-northeast input:checked + label {
+  color: #fff;
+  background-color: #656565 !important;
+  border-color: #656565 !important;
+}
+
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-rmacc label.option {
+  background-color: #A0AF32;
+  border-color: #A0AF32;
+  color: white;
+}
+
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-rmacc label:hover,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-rmacc label:focus,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-rmacc label:active,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-rmacc input:checked + label {
+  color: #fff;
+  background-color: #656565 !important;
+  border-color: #656565 !important;
+}
+
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-sweeter label.option {
+  background-color: #A0AF32 !important;
+  border-color: #A0AF32 !important;
+  color: white;
+}
+
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-sweeter label:hover,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-sweeter label:focus,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-sweeter label:active,
+.great-plains-cyberteam form#views-exposed-form-people-card-view-card-sweeter input:checked + label {
+  color: #fff;
+  background-color: #656565 !important;
+  border-color: #656565 !important;
+}
 
 /* peoplev2 */
 form#views-exposed-form-peoplev2-block-1 .form-checkbox { display: none; }
@@ -1173,103 +1418,309 @@ li.nav-item[domain~="all"] {
   display: initial !important;
 }
 
-//great plains color overrides
-
-.great-plains-cyberteam a {
-  color: #656565;
+.careers-cyberteam li.nav-item[domain~="careers-cyberteam"] {
+  display: initial !important;
 }
 
-.great-plains-cyberteam a:focus, .great-plains-cyberteam a:hover {
+.kentucky-cyberteam li.nav-item[domain~="kentucky-cyberteam"] {
+  display: initial !important;
+}
+
+.sweeter-cyberteam li.nav-item[domain~="sweeter-cyberteam"] {
+  display: initial !important;
+}
+
+/*great plains color overrides*/
+.great-plains-cyberteam a:not(.btn),
+.great-plains-cyberteam .btn-outline-primary.disabled,
+.great-plains-cyberteam .btn-outline-primary:disabled,
+.great-plains-cyberteam .btn-outline-light:hover,
+.great-plains-cyberteam .btn-outline-light:not(:disabled):not(.disabled):active,
+.great-plains-cyberteam .btn-outline-light:not(:disabled):not(.disabled).active,
+.great-plains-cyberteam .show > .btn-outline-light.dropdown-toggle,
+.great-plains-cyberteam #featuredButtons .btn:hover {
   color: #A0AF32;
 }
-
-.great-plains-cyberteam ::-moz-selection {
-  background: #656565;
-}
-
-.great-plains-cyberteam ::selection {
-  background: #656565;
-}
-
-.great-plains-cyberteam .btn-primary {
-  background-color: #656565;
-  border-color: #656565;
-}
-
-.great-plains-cyberteam .btn-outline-primary {
+.great-plains-cyberteam a:focus, .great-plains-cyberteam a:hover,
+.great-plains-cyberteam .floating-label-form-group-with-focus label,
+.great-plains-cyberteam .sidebar-ul > li > a:hover,
+.great-plains-cyberteam .navbar li.nav-item a.dropdown-item:hover,
+.great-plains-cyberteam #secondaryNav li.nav-item > a:hover,
+.great-plains-cyberteam .footer .copyright a:hover,
+.great-plains-cyberteam .footer-sub a:hover,
+.great-plains-cyberteam ul.footer-links li:hover *,
+.great-plains-cyberteam .footer-socialmedia i:hover {
   color: #656565 !important;
-  border-color: #656565 !important;
+}
+.great-plains-cyberteam ::-moz-selection,
+.great-plains-cyberteam ::selection,
+.great-plains-cyberteam #featuredButtons {
+  background: #A0AF32;
+}
+.great-plains-cyberteam .btn-primary,
+.great-plains-cyberteam .btn-outline-primary:not(:disabled):not(.disabled):active,
+.great-plains-cyberteam .btn-outline-primary:not(:disabled):not(.disabled).active,
+.great-plains-cyberteam .show > .btn-outline-primary.dropdown-toggle {
+  background-color: #A0AF32;
+  border-color: #A0AF32;
+}
+.great-plains-cyberteam .btn-outline-primary {
+  color: #fff !important;
+  border-color: #A0AF32 !important;
 }
 .great-plains-cyberteam .btn-outline-primary:hover {
   background-color: #656565 !important;
   border-color: #656565 !important;
 }
-.great-plains-cyberteam .btn-outline-primary.disabled, .great-plains-cyberteam .btn-outline-primary:disabled {
-  color: #656565 !important;
-}
-.great-plains-cyberteam .btn-outline-primary:not(:disabled):not(.disabled):active, .great-plains-cyberteam .btn-outline-primary:not(:disabled):not(.disabled).active,
-.great-plains-cyberteam .show > .btn-outline-primary.dropdown-toggle {
-  background-color: #656565 !important;
-  border-color: #656565 !important;
-}
 
-.great-plains-cyberteam .btn-outline-light:hover {
-  color: #A0AF32 !important;
-}
-
-.great-plains-cyberteam .btn-outline-light:not(:disabled):not(.disabled):active, .great-plains-cyberteam .btn-outline-light:not(:disabled):not(.disabled).active,
-.great-plains-cyberteam .show > .btn-outline-light.dropdown-toggle {
-  color: #A0AF32 !important;
-}
-
-.great-plains-cyberteam #featuredButtons {
-  background: #A0AF32;
-}
-
-.great-plains-cyberteam #featuredButtons .btn:hover {
-  color: #A0AF32;
-}
-
-.great-plains-cyberteam .navbar.navbar-light .navbar-brand {
-  color: #A0AF32;
-}
-
-.great-plains-cyberteam .navbar.navbar-light .navbar-toggler {
-  color: #A0AF32;
-}
-
+.great-plains-cyberteam .navbar.navbar-light .navbar-brand,
+.great-plains-cyberteam .navbar.navbar-light .navbar-toggler,
 .great-plains-cyberteam .navbar li.nav-item a.nav-link {
   color: #A0AF32;
 }
-
-.great-plains-cyberteam .navbar li.nav-item a.dropdown-item:hover { color: #A0AF32; }
-
-.great-plains-cyberteam #secondaryNav li.nav-item > a:hover {
- color: #A0AF32;
-}
-
 @media screen and (max-width: 991.98px) {
   .great-plains-cyberteam .navbar li.nav-item a.dropdown-item { color: #A0AF32; }
 }
 
-.great-plains-cyberteam .footer .copyright a:hover { color: #A0AF32; }
-
-.great-plains-cyberteam .footer-sub a:hover {
-  color: #A0AF32 !important;
+/*kentucky style*/
+.kentucky-cyberteam a:not(.btn),
+.kentucky-cyberteam .btn-outline-primary.disabled,
+.kentucky-cyberteam .btn-outline-primary:disabled,
+.kentucky-cyberteam .btn-outline-light:hover,
+.kentucky-cyberteam .btn-outline-light:not(:disabled):not(.disabled):active,
+.kentucky-cyberteam .btn-outline-light:not(:disabled):not(.disabled).active,
+.kentucky-cyberteam .show > .btn-outline-light.dropdown-toggle,
+.kentucky-cyberteam #featuredButtons .btn:hover {
+  color: #0033a0;
+}
+.kentucky-cyberteam a:focus, .kentucky-cyberteam a:hover,
+.kentucky-cyberteam .floating-label-form-group-with-focus label,
+.kentucky-cyberteam .sidebar-ul > li > a:hover,
+.kentucky-cyberteam .navbar li.nav-item a.dropdown-item:hover,
+.kentucky-cyberteam #secondaryNav li.nav-item > a:hover,
+.kentucky-cyberteam .footer .copyright a:hover,
+.kentucky-cyberteam .footer-sub a:hover,
+.kentucky-cyberteam ul.footer-links li:hover *,
+.kentucky-cyberteam .footer-socialmedia i:hover {
+  color: #656565 !important;
+}
+.kentucky-cyberteam ::-moz-selection,
+.kentucky-cyberteam ::selection,
+.kentucky-cyberteam #featuredButtons {
+  background: #0033a0;
+}
+.kentucky-cyberteam .btn-primary,
+.kentucky-cyberteam .btn-outline-primary:not(:disabled):not(.disabled):active,
+.kentucky-cyberteam .btn-outline-primary:not(:disabled):not(.disabled).active,
+.kentucky-cyberteam .show > .btn-outline-primary.dropdown-toggle {
+  background-color: #0033a0;
+  border-color: #0033a0;
+}
+.kentucky-cyberteam .btn-outline-primary {
+  color: #fff !important;
+  border-color: #0033a0 !important;
+}
+.kentucky-cyberteam .btn-outline-primary:hover {
+  background-color: #656565 !important;
+  border-color: #656565 !important;
 }
 
-.great-plains-cyberteam ul.footer-links li:hover * {
-  color: #A0AF32;
+.kentucky-cyberteam .navbar.navbar-light .navbar-brand,
+.kentucky-cyberteam .navbar.navbar-light .navbar-toggler,
+.kentucky-cyberteam .navbar li.nav-item a.nav-link {
+  color: #0033a0;
+}
+@media screen and (max-width: 991.98px) {
+  .kentucky-cyberteam .navbar li.nav-item a.dropdown-item { color: #0033a0; }
 }
 
-.great-plains-cyberteam .footer-socialmedia i:hover {
-  color: #A0AF32;
+/*careers style */
+.careers-cyberteam a:not(.btn),
+.careers-cyberteam .btn-outline-primary.disabled,
+.careers-cyberteam .btn-outline-primary:disabled,
+.careers-cyberteam .btn-outline-light:hover,
+.careers-cyberteam .btn-outline-light:not(:disabled):not(.disabled):active,
+.careers-cyberteam .btn-outline-light:not(:disabled):not(.disabled).active,
+.careers-cyberteam .show > .btn-outline-light.dropdown-toggle,
+.careers-cyberteam #featuredButtons .btn:hover {
+  color: #0f4d92;
+}
+.careers-cyberteam a:focus, .careers-cyberteam a:hover,
+.careers-cyberteam .floating-label-form-group-with-focus label,
+.careers-cyberteam .sidebar-ul > li > a:hover,
+.careers-cyberteam .navbar li.nav-item a.dropdown-item:hover,
+.careers-cyberteam #secondaryNav li.nav-item > a:hover,
+.careers-cyberteam .footer .copyright a:hover,
+.careers-cyberteam .footer-sub a:hover,
+.careers-cyberteam ul.footer-links li:hover *,
+.careers-cyberteam .footer-socialmedia i:hover {
+  color: #656565 !important;
+}
+.careers-cyberteam ::-moz-selection,
+.careers-cyberteam ::selection,
+.careers-cyberteam #featuredButtons {
+  background: #0f4d92;
+}
+.careers-cyberteam .btn-primary,
+.careers-cyberteam .btn-outline-primary:not(:disabled):not(.disabled):active,
+.careers-cyberteam .btn-outline-primary:not(:disabled):not(.disabled).active,
+.careers-cyberteam .show > .btn-outline-primary.dropdown-toggle {
+  background-color: #0f4d92;
+  border-color: #0f4d92;
+}
+.careers-cyberteam .btn-outline-primary {
+  color: #fff !important;
+  border-color: #0f4d92 !important;
+}
+.careers-cyberteam .btn-outline-primary:hover {
+  background-color: #656565 !important;
+  border-color: #656565 !important;
 }
 
-.great-plains-cyberteam .floating-label-form-group-with-focus label {
-  color: #656565;
+.careers-cyberteam .navbar.navbar-light .navbar-brand,
+.careers-cyberteam .navbar.navbar-light .navbar-toggler,
+.careers-cyberteam .navbar li.nav-item a.nav-link {
+  color: #0f4d92;
+}
+@media screen and (max-width: 991.98px) {
+  .careers-cyberteam .navbar li.nav-item a.dropdown-item { color: #0f4d92; }
 }
 
-.great-plains-cyberteam .sidebar-ul > li > a:hover {
-  color: #656565;
+/* rmacc style */
+.rmacc a:not(.btn),
+.rmacc .btn-outline-primary.disabled,
+.rmacc .btn-outline-primary:disabled,
+.rmacc .btn-outline-light:hover,
+.rmacc .btn-outline-light:not(:disabled):not(.disabled):active,
+.rmacc .btn-outline-light:not(:disabled):not(.disabled).active,
+.rmacc .show > .btn-outline-light.dropdown-toggle,
+.rmacc #featuredButtons .btn:hover {
+  color: #6eb857;
 }
+.rmacc a:focus, .rmacc a:hover,
+.rmacc .floating-label-form-group-with-focus label,
+.rmacc .sidebar-ul > li > a:hover,
+.rmacc .navbar li.nav-item a.dropdown-item:hover,
+.rmacc #secondaryNav li.nav-item > a:hover,
+.rmacc .footer .copyright a:hover,
+.rmacc .footer-sub a:hover,
+.rmacc ul.footer-links li:hover *,
+.rmacc .footer-socialmedia i:hover {
+  color: #656565 !important;
+}
+.rmacc ::-moz-selection,
+.rmacc ::selection,
+.rmacc #featuredButtons {
+  background: #6eb857;
+}
+.rmacc .btn-primary,
+.rmacc .btn-outline-primary:not(:disabled):not(.disabled):active,
+.rmacc .btn-outline-primary:not(:disabled):not(.disabled).active,
+.rmacc .show > .btn-outline-primary.dropdown-toggle {
+  background-color: #6eb857;
+  border-color: #6eb857;
+}
+.rmacc .btn-outline-primary {
+  color: #fff !important;
+  border-color: #6eb857 !important;
+}
+.rmacc .btn-outline-primary:hover {
+  background-color: #656565 !important;
+  border-color: #656565 !important;
+}
+
+.rmacc .navbar.navbar-light .navbar-brand,
+.rmacc .navbar.navbar-light .navbar-toggler,
+.rmacc .navbar li.nav-item a.nav-link {
+  color: #6eb857;
+}
+@media screen and (max-width: 991.98px) {
+  .rmacc .navbar li.nav-item a.dropdown-item { color: #6eb857; }
+}
+
+/* sweeter style */
+.sweeter-cyberteam a:not(.btn),
+.sweeter-cyberteam .btn-outline-primary.disabled,
+.sweeter-cyberteam .btn-outline-primary:disabled,
+.sweeter-cyberteam .btn-outline-light:hover,
+.sweeter-cyberteam .btn-outline-light:not(:disabled):not(.disabled):active,
+.sweeter-cyberteam .btn-outline-light:not(:disabled):not(.disabled).active,
+.sweeter-cyberteam .show > .btn-outline-light.dropdown-toggle,
+.sweeter-cyberteam #featuredButtons .btn:hover {
+  color: #500000;
+}
+.sweeter-cyberteam a:focus, .sweeter-cyberteam a:hover,
+.sweeter-cyberteam .floating-label-form-group-with-focus label,
+.sweeter-cyberteam .sidebar-ul > li > a:hover,
+.sweeter-cyberteam .navbar li.nav-item a.dropdown-item:hover,
+.sweeter-cyberteam #secondaryNav li.nav-item > a:hover,
+.sweeter-cyberteam .footer .copyright a:hover,
+.sweeter-cyberteam .footer-sub a:hover,
+.sweeter-cyberteam ul.footer-links li:hover *,
+.sweeter-cyberteam .footer-socialmedia i:hover {
+  color: #656565 !important;
+}
+.sweeter-cyberteam ::-moz-selection,
+.sweeter-cyberteam ::selection,
+.sweeter-cyberteam #featuredButtons {
+  background: #500000;
+}
+.sweeter-cyberteam .btn-primary,
+.sweeter-cyberteam .btn-outline-primary:not(:disabled):not(.disabled):active,
+.sweeter-cyberteam .btn-outline-primary:not(:disabled):not(.disabled).active,
+.sweeter-cyberteam .show > .btn-outline-primary.dropdown-toggle {
+  background-color: #500000;
+  border-color: #500000;
+}
+.sweeter-cyberteam .btn-outline-primary {
+  color: #fff !important;
+  border-color: #500000 !important;
+}
+.sweeter-cyberteam .btn-outline-primary:hover {
+  background-color: #656565 !important;
+  border-color: #656565 !important;
+}
+
+.sweeter-cyberteam .navbar.navbar-light .navbar-brand,
+.sweeter-cyberteam .navbar.navbar-light .navbar-toggler,
+.sweeter-cyberteam .navbar li.nav-item a.nav-link {
+  color: #500000;
+}
+@media screen and (max-width: 991.98px) {
+  .sweeter-cyberteam .navbar li.nav-item a.dropdown-item { color: #500000; }
+}
+
+/* kentucky nav */
+.kentucky-cyberteam .navbar li.nav-item a.nav-link { color: #fff; }
+.kentucky-cyberteam .navbar li.nav-item a.nav-link:hover { color: #000e18 !important; }
+.kentucky-cyberteam .navbar li.nav-item a.dropdown-item:hover { color: #000e18; }
+.kentucky-cyberteam .navbar-light .navbar-toggler { color: #fff; }
+.kentucky-cyberteam .navbar, .kentucky-cyberteam .navbar-light {
+  background-color: #0033a0 !important;
+}
+@media screen and (max-width: 991.98px) {
+  .kentucky-cyberteam .navbar, .kentucky-cyberteam .navbar-nav {
+    background-color: #0033a0 !important;
+  }
+	.kentucky-cyberteam .navbar li.nav-item a.dropdown-item { color: #fff; }
+	.kentucky-cyberteam .navbar li.nav-item a.dropdown-item:hover { color: #000e18 !important; }
+}
+
+/* rmacc nav */
+.rmacc .navbar li.nav-item a.nav-link { color: #fff; }
+.rmacc .navbar li.nav-item a.nav-link:hover { color: #6eb857 !important; }
+.rmacc .navbar li.nav-item a.dropdown-item:hover { color: #6eb857; }
+.rmacc .navbar-light .navbar-toggler { color: #fff; }
+.rmacc .navbar, .rmacc .navbar-light {
+  background-color: #0a2102 !important;
+}
+@media screen and (max-width: 991.98px) {
+  .rmacc .navbar, .rmacc .navbar-nav {
+    background-color: #0a2102 !important;
+  }
+	.rmacc .navbar li.nav-item a.dropdown-item { color: #fff; }
+	.rmacc .navbar li.nav-item a.dropdown-item:hover { color: #6eb857 !important; }
+}
+
+.toolbar-tab a { color: #fff !important; }
+.toolbar-tray a { color: #000 !important; }

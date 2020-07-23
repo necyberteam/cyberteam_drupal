@@ -86,7 +86,15 @@
         {% elseif domain_name == "great-plains-cyberteam" %}
         <img src="/themes/nect-theme/GP.cyberteam_logo.jpg" class="logo" alt="Great Plains Cyberteam">
         {% elseif domain_name == "rmacc" %}
-        RMACC
+        <img src="/themes/nect-theme/rmacc.ctlogo.png" class="logo" alt="RMACC Cyberteam">
+        {% elseif domain_name == "careers-cyberteam" %}
+        <img src="/themes/nect-theme/careerslogo.flat.png" class="logo" alt="CAREERS Cyberteam">
+        {% elseif domain_name == "kentucky-cyberteam" %}
+        <img src="/themes/nect-theme/kyctlogo.png" class="logo" alt="Kentucky Cyberteam">
+        {% elseif domain_name == "sweeter-cyberteam" %}
+        <img src="/themes/nect-theme/sweeter.logo.png" class="logo" alt="SWEETER Cyberteam">
+        {% elseif domain_name == "mines-cyberteam" %}
+        <img src="/themes/nect-theme/mines.logo.png" class="logo" alt="MINES Cyberteam">
         {% endif %}
       </a>
 			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,8 +111,23 @@
 	{% endif %}
 
 	{% if is_front %}
-		<header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
-		  <div class="overlay"></div>
+    {% if domain_name == "northeast-cyberteam" %}
+    <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
+    {% elseif domain_name == "great-plains-cyberteam" %}
+    <header class="masthead" style="background-image: url('/themes/nect-theme/img/greatplainsct.background.jpg')">
+    {% elseif domain_name == "rmacc" %}
+    <header class="masthead" style="background-image: url('/themes/nect-theme/img/rmacc.background.jpg')">
+    {% elseif domain_name == "careers-cyberteam" %}
+    <header class="masthead" style="background-image: url('/themes/nect-theme/img/crct.background.jpg')">
+    {% elseif domain_name == "kentucky-cyberteam" %}
+    <header class="masthead" style="background-image: url('/themes/nect-theme/img/kyct.background.jpg')">
+    {% elseif domain_name == "sweeter-cyberteam" %}
+    <header class="masthead" style="background-image: url('/themes/nect-theme/img/sweeter.background.jpg')">
+    {% elseif domain_name == "mines-cyberteam" %}
+    <header class="masthead" style="background-image: url('/themes/nect-theme/img/mines.background.jpg')">
+    {% else %}
+    <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
+    {% endif %}
 		  <div class="container">
 			<div class="row">
 			  <div class="col-12 mx-auto">
@@ -116,6 +139,14 @@
             {{ gpct_front_text }}
           {% elseif domain_name == "rmacc" %}
             {{ rmacc_front_text }}
+          {% elseif domain_name == "careers-cyberteam" %}
+            {{ careers_front_text }}
+          {% elseif domain_name == "kentucky-cyberteam" %}
+            {{ kentucky_front_text }}
+          {% elseif domain_name == "sweeter-cyberteam" %}
+            {{ sweeter_front_text }}
+          {% elseif domain_name == "mines-cyberteam" %}
+            {{ mines_front_text }}
           {% endif %}
           </h2>
 					<ul class="d-none fa-ul mt-5 mx-auto">
@@ -153,6 +184,25 @@
 	  <div class="row">
 		{% if page.primary_sidebar or page.secondary_sidebar %}
 			<div class="col-lg-8 col-12 mx-auto">
+        {{ page.page_top }}
+        {{ page.title_area }}
+        {{ page.view_type_buttons }}
+        {{ page.drupal_tabs }}
+        {{ page.exposed_filters }}
+        {{ page.tags_page_resources }}
+        {{ page.tags_page_projects }}
+        {{ page.tags_page_students }}
+        {{ page.tags_page_mentors }}
+        {{ page.tags_page_researchers }}
+        {{ page.tags_page_blog }}
+        {{ page.tags_page_askci }}
+        {{ page.people_page_card }}
+        {{ page.people_page_list }}
+        {{ page.projects_page }}
+        {{ page.resources_page }}
+        {{ page.blog_page }}
+        {{ page.help_desk }}
+        {{ page.user_profile }}
 				{{ page.content }}
 			</div>
 			<div class="col-lg-4 col-12 mx-auto">
@@ -161,6 +211,25 @@
 			</div>
 		{% else %}
 			<div class="col-12 mx-auto">
+        {{ page.page_top }}
+        {{ page.title_area }}
+        {{ page.view_type_buttons }}
+        {{ page.drupal_tabs }}
+        {{ page.exposed_filters }}
+        {{ page.tags_page_resources }}
+        {{ page.tags_page_projects }}
+        {{ page.tags_page_students }}
+        {{ page.tags_page_mentors }}
+        {{ page.tags_page_researchers }}
+        {{ page.tags_page_blog }}
+        {{ page.tags_page_askci }}
+        {{ page.people_page_card }}
+        {{ page.people_page_list }}
+        {{ page.projects_page }}
+        {{ page.resources_page }}
+        {{ page.blog_page }}
+        {{ page.help_desk }}
+        {{ page.user_profile }}
 				{{ page.content }}
 			</div>
 		{% endif %}
