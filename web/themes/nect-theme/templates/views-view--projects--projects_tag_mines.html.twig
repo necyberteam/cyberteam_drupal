@@ -35,11 +35,6 @@
 
 <div{{ attributes.addClass('card mb-3') }}>
   <div class="card-body">
-  <style>
-    iframe {
-      width: 100% !important;
-    }
-  </style>
   {{ title }}
 
   {% if header %}
@@ -51,17 +46,11 @@
   {{ exposed }}
   {{ attachment_before }}
 
-  {% for row in rows %}
-    <script src="https://ask.cyberinfrastructure.org/javascripts/embed-topics.js"></script>
-    <script type="application/javascript">
-        var links= document.getElementsByTagName('d-topics-list')[0].children;
-        for (let i=0; i<links.length; i++){
-            links[i].setAttribute('target', '_blank');
-        }
-        console.log('here!');
-    </script>
-    <d-topics-list discourse-url="https://ask.cyberinfrastructure.org" category="" per-page="15" tags="{{- row.content -}}"></d-topics-list>
-  {% endfor %}
+  {% if rows -%}
+    {{ rows }}
+  {% elseif empty -%}
+    {{ empty }}
+  {% endif %}
   {{ pager }}
 
   {{ attachment_after }}
