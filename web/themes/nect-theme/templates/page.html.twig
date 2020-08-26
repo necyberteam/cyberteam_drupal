@@ -203,7 +203,8 @@
         {{ page.blog_page }}
         {{ page.help_desk }}
         {{ page.user_profile }}
-				{{ page.content }}
+        {{ page.content }}
+        {{ page.below_main_content }}
 			</div>
 			<div class="col-lg-4 col-12 mx-auto">
 				{{ page.primary_sidebar }}
@@ -230,7 +231,8 @@
         {{ page.blog_page }}
         {{ page.help_desk }}
         {{ page.user_profile }}
-				{{ page.content }}
+        {{ page.content }}
+        {{ page.below_main_content }}
 			</div>
 		{% endif %}
 	  </div>
@@ -281,7 +283,7 @@
   <div class="container-fluid footer-sub">
 	<div class="row">
 	  <div class="col-lg-12 col-md-10 mx-auto">
-		<p class="copyright">Copyright &copy; {{ 'now'|date('Y') }}, {{ site_name }} &bull; All Rights Reserved &bull; <a href="/contact/{{domain_name|replace({'-':'_'})}}" style="color: white;">Contact Us</a></p>
+		<p class="copyright">Copyright &copy; {{ 'now'|date('Y') }}, {{ site_name }} &bull; All Rights Reserved &bull; <a href="/regions" style="color: white;">Regions</a> &bull; <a href="/contact/{{domain_name|replace({'-':'_'})}}" style="color: white;">Contact Us</a></p>
 	  </div>
 	</div>
   </div>
