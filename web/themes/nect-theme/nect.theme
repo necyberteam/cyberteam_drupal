@@ -82,7 +82,7 @@ function nect_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 	$form['pass']['#attributes']['class'][] = 'form-control';
     $form['pass']['#title_display'] = 'invisible';
 	$form['actions']['#prefix'] = '<div class="success">';
-	$form['actions']['#suffix'] = '<a class="btn btn-secondary mx-1" href="/user/password">Forgot Password</a></div><hr><a class="btn btn-danger" href="/user/login/google"><i class="fa fa-google"></i> Sign in with Google</a></div></div>';
+	$form['actions']['#suffix'] = '<a class="btn btn-secondary mx-1" href="/user/password">Forgot Password</a></div></div></div>';
 	$form['actions']['submit']['#attributes']['class'][] = 'btn btn-success mx-1';
 	unset($form['name']['#description']);
 	unset($form['pass']['#description']);
