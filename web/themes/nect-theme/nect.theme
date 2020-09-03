@@ -68,73 +68,76 @@ function nect_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   }
   if ($form_id == 'search_form') {
     $form['keys']['#title_display'] = 'invisible';
-	$form['keys']['#attributes']['placeholder'] = t('Search');
+    $form['keys']['#attributes']['placeholder'] = t('Search');
+  }
+  if ($form_id == 'user_form') {
+    $form['field_region']['#description_display'] = 'before';
   }
   if ($form_id == 'user_login_form') {
     $form['name']['#prefix'] = '<div class="col-lg-6 col-md-8 mx-auto text-center card my-4"><div class="card-body"><p>Please login with your Cyberteam account below or <a href="/user/register">Join the Team</a>.</p><div class="control-group form-group">';
-	$form['name']['#suffix'] = '</div>';
-	$form['name']['#attributes']['placeholder'][] = $form['name']['#title'].'*';
-	$form['name']['#attributes']['class'][] = 'form-control';
+    $form['name']['#suffix'] = '</div>';
+    $form['name']['#attributes']['placeholder'][] = $form['name']['#title'].'*';
+    $form['name']['#attributes']['class'][] = 'form-control';
     $form['name']['#title_display'] = 'invisible';
     $form['pass']['#prefix'] = '<div class="control-group form-group">';
-	$form['pass']['#suffix'] = '</div>';
-	$form['pass']['#attributes']['placeholder'][] = $form['pass']['#title'].'*';
-	$form['pass']['#attributes']['class'][] = 'form-control';
+    $form['pass']['#suffix'] = '</div>';
+    $form['pass']['#attributes']['placeholder'][] = $form['pass']['#title'].'*';
+    $form['pass']['#attributes']['class'][] = 'form-control';
     $form['pass']['#title_display'] = 'invisible';
-	$form['actions']['#prefix'] = '<div class="success">';
-	$form['actions']['#suffix'] = '<a class="btn btn-secondary mx-1" href="/user/password">Forgot Password</a></div></div></div>';
-	$form['actions']['submit']['#attributes']['class'][] = 'btn btn-success mx-1';
-	unset($form['name']['#description']);
-	unset($form['pass']['#description']);
+    $form['actions']['#prefix'] = '<div class="success">';
+    $form['actions']['#suffix'] = '<a class="btn btn-secondary mx-1" href="/user/password">Forgot Password</a></div></div></div>';
+    $form['actions']['submit']['#attributes']['class'][] = 'btn btn-success mx-1';
+    unset($form['name']['#description']);
+    unset($form['pass']['#description']);
   }
 
   if ($form_id == 'contact_message_questions_form') {
-	// Name
-	$form['name']['#prefix'] = '<div class="control-group form-group">';
-	$form['name']['#suffix'] = '</div>';
-	$form['name']['#attributes']['placeholder'][] = $form['name']['#title'].'*';
-	$form['name']['#attributes']['class'][] = 'form-control';
-	unset($form['name']['#title']);
+    // Name
+    $form['name']['#prefix'] = '<div class="control-group form-group">';
+    $form['name']['#suffix'] = '</div>';
+    $form['name']['#attributes']['placeholder'][] = $form['name']['#title'].'*';
+    $form['name']['#attributes']['class'][] = 'form-control';
+    unset($form['name']['#title']);
 
-	// Mail
-	$form['mail']['#prefix'] = '<div class="control-group form-group">';
-	$form['mail']['#suffix'] = '</div>';
-	$form['mail']['#attributes']['placeholder'][] = $form['mail']['#title'].'*';
-	$form['mail']['#attributes']['class'][] = 'form-control';
-	unset($form['mail']['#title']);
+    // Mail
+    $form['mail']['#prefix'] = '<div class="control-group form-group">';
+    $form['mail']['#suffix'] = '</div>';
+    $form['mail']['#attributes']['placeholder'][] = $form['mail']['#title'].'*';
+    $form['mail']['#attributes']['class'][] = 'form-control';
+    unset($form['mail']['#title']);
 
-	// Phone
-	$form['field_phone']['widget'][0]['value']['#attributes']['class'][] = 'form-control';
-	$form['field_phone']['widget'][0]['value']['#attributes']['required'][] = 'required';
-	$form['field_phone']['widget'][0]['value']['#attributes']['placeholder'][] = $form['field_phone']['widget'][0]['#title'].'*';
-	$form['field_phone']['widget'][0]['#title'] = '';
-	unset($form['field_phone']['widget'][0]['value']['#title']);
-	$form['field_phone']['widget'][0]['#prefix'] = '<div class="control-group form-group">';
-	$form['field_phone']['widget'][0]['#suffix'] = '</div>';
+    // Phone
+    $form['field_phone']['widget'][0]['value']['#attributes']['class'][] = 'form-control';
+    $form['field_phone']['widget'][0]['value']['#attributes']['required'][] = 'required';
+    $form['field_phone']['widget'][0]['value']['#attributes']['placeholder'][] = $form['field_phone']['widget'][0]['#title'].'*';
+    $form['field_phone']['widget'][0]['#title'] = '';
+    unset($form['field_phone']['widget'][0]['value']['#title']);
+    $form['field_phone']['widget'][0]['#prefix'] = '<div class="control-group form-group">';
+    $form['field_phone']['widget'][0]['#suffix'] = '</div>';
 
-	// Subject
-	$form['subject']['widget'][0]['value']['#attributes']['class'][] = 'form-control';
-	$form['subject']['widget'][0]['value']['#attributes']['required'][] = 'required';
-	$form['subject']['widget'][0]['value']['#attributes']['placeholder'][] = $form['subject']['widget'][0]['#title'].'*';
-	$form['subject']['widget'][0]['#title'] = '';
-	unset($form['subject']['widget'][0]['value']['#title']);
-	$form['subject']['widget'][0]['#prefix'] = '<div class="control-group form-group">';
-	$form['subject']['widget'][0]['#suffix'] = '</div>';
+    // Subject
+    $form['subject']['widget'][0]['value']['#attributes']['class'][] = 'form-control';
+    $form['subject']['widget'][0]['value']['#attributes']['required'][] = 'required';
+    $form['subject']['widget'][0]['value']['#attributes']['placeholder'][] = $form['subject']['widget'][0]['#title'].'*';
+    $form['subject']['widget'][0]['#title'] = '';
+    unset($form['subject']['widget'][0]['value']['#title']);
+    $form['subject']['widget'][0]['#prefix'] = '<div class="control-group form-group">';
+    $form['subject']['widget'][0]['#suffix'] = '</div>';
 
-	// Message
-	$form['message']['widget'][0]['value']['#attributes']['class'][] = 'form-control';
-	$form['message']['widget'][0]['value']['#attributes']['required'][] = 'required';
-	$form['message']['widget'][0]['value']['#attributes']['placeholder'][] = $form['message']['widget'][0]['#title'].'*';
-	$form['message']['widget'][0]['#title'] = '';
-	unset($form['message']['widget'][0]['value']['#title']);
-	$form['message']['widget'][0]['#prefix'] = '<div class="control-group form-group">';
-	$form['message']['widget'][0]['#suffix'] = '</div>';
+    // Message
+    $form['message']['widget'][0]['value']['#attributes']['class'][] = 'form-control';
+    $form['message']['widget'][0]['value']['#attributes']['required'][] = 'required';
+    $form['message']['widget'][0]['value']['#attributes']['placeholder'][] = $form['message']['widget'][0]['#title'].'*';
+    $form['message']['widget'][0]['#title'] = '';
+    unset($form['message']['widget'][0]['value']['#title']);
+    $form['message']['widget'][0]['#prefix'] = '<div class="control-group form-group">';
+    $form['message']['widget'][0]['#suffix'] = '</div>';
 
-	// Submit
-	$form['actions']['#prefix'] = '<div class="success">';
-	$form['actions']['#suffix'] = '</div>';
-	$form['actions']['submit']['#attributes']['class'][] = 'btn btn-success';
-	$form['actions']['preview']['#attributes']['class'][] = 'btn btn-primary';
+    // Submit
+    $form['actions']['#prefix'] = '<div class="success">';
+    $form['actions']['#suffix'] = '</div>';
+    $form['actions']['submit']['#attributes']['class'][] = 'btn btn-success';
+    $form['actions']['preview']['#attributes']['class'][] = 'btn btn-primary';
   }
 }
 
