@@ -60,7 +60,8 @@
 <script>
 $(document).ready(function() {
   var iframeSrc = $("d-topics-list iframe").attr('src');
-  $.get(iframeSrc, function(data) {
+  $.get(iframeSrc, function(data, statusText, statusCode) {
+    if (statusCode.readyState == 4 && statusCode.status == 200 ){
     if (data.indexOf('<div class=') > -1) {
       var items = data.substring(data.indexOf('<div class='));
     } else {
@@ -70,6 +71,10 @@ $(document).ready(function() {
     $("#ask-ci-topics .topics-list").addClass("list-group list-group-flush");
     $("#ask-ci-topics .topics-list .topic-list-item").addClass("list-group-item py-1");
     $("#ask-ci-topics a").attr('target','_blank');
+    $("#ask-ci-topics").removeClass('d-none');
+  }}).fail(function(){
+    var failure = "<div class='alert alert-danger'>Error fetching.</div>";
+    $("#ask-ci-topics").html(failure);
     $("#ask-ci-topics").removeClass('d-none');
   });
 });
