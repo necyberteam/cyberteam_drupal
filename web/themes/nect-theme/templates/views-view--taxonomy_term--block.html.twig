@@ -45,13 +45,14 @@
 
   {{ exposed }}
   {{ attachment_before }}
-<div class="row">
+
   {% if rows -%}
-    {{ rows }}
+    <div class="row">
+      {{ rows }}
+    </div>
   {% elseif empty -%}
     {{ empty }}
   {% endif %}
-</div>
   {{ pager }}
 
   {{ attachment_after }}
