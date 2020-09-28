@@ -1,0 +1,35 @@
+diff --git a/realname.views.inc b/realname.views.inc
+index a4af06a..e8da6bc 100644
+--- a/realname.views.inc
++++ b/realname.views.inc
+@@ -11,7 +11,7 @@
+ function realname_views_data() {
+   $data['realname']['table']['group'] = t('Realname');
+   $data['realname']['table']['join'] = [
+-    'users' => [
++    'users_field_data' => [
+       'left_field' => 'uid',
+       'field' => 'uid',
+     ],
+@@ -21,17 +21,17 @@ function realname_views_data() {
+     'title' => t('Real name'),
+     'help' => t("The user's real name."),
+     'field' => [
+-      'handler' => 'views_handler_field_user',
++      'id' => 'standard',
+       'click sortable' => TRUE,
+     ],
+     'sort' => [
+-      'handler' => 'views_handler_sort',
++      'id' => 'standard',
+     ],
+     'argument' => [
+-      'handler' => 'views_handler_argument_string',
++      'id' => 'string',
+     ],
+     'filter' => [
+-      'handler' => 'views_handler_filter_string',
++      'id' => 'string',
+       'title' => t('Name'),
+       'help' => t("The user's real name. This filter does not check if the user exists and allows partial matching. Does not utilize autocomplete."),
+     ],
