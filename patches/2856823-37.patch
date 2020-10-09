@@ -1,0 +1,112 @@
+diff --git a/core/modules/taxonomy/taxonomy.module b/core/modules/taxonomy/taxonomy.module
+index efb1850377..408414fa48 100644
+--- a/core/modules/taxonomy/taxonomy.module
++++ b/core/modules/taxonomy/taxonomy.module
+@@ -107,13 +107,26 @@ function taxonomy_page_attachments_alter(array &$page) {
+   if ($route_match->getRouteName() == 'entity.taxonomy_term.canonical' && ($term = $route_match->getParameter('taxonomy_term')) && $term instanceof TermInterface) {
+     foreach ($term->uriRelationships() as $rel) {
+       // Set the URI relationships, like canonical.
+-      $page['#attached']['html_head_link'][] = [
+-        [
+-          'rel' => $rel,
+-          'href' => $term->toUrl($rel)->toString(),
+-        ],
+-        TRUE,
+-      ];
++      $url = $term->toUrl($rel)->setAbsolute(TRUE);
++      // Add link relationships if the user is authenticated or if the anonymous
++      // user has access. Access checking must be done for anonymous users to
++      // avoid traffic to inaccessible pages from web crawlers. For
++      // authenticated users, showing the links in HTML head does not impact
++      // user experience or security, since the routes are access checked when
++      // visited and only visible via view source. This prevents doing
++      // potentially expensive and hard to cache access checks on every request.
++      // This means that the page will vary by user.permissions. We also rely on
++      // the access checking fallback to ensure the correct cacheability
++      // metadata if we have to check access.
++      if (\Drupal::currentUser()->isAuthenticated() || $url->access()) {
++        $page['#attached']['html_head_link'][] = [
++          [
++            'rel' => $rel,
++            'href' => $url->toString(),
++          ],
++          TRUE,
++        ];
++      }
+ 
+       // Set the term path as the canonical URL to prevent duplicate content.
+       if ($rel == 'canonical') {
+@@ -121,12 +134,19 @@ function taxonomy_page_attachments_alter(array &$page) {
+         $page['#attached']['html_head_link'][] = [
+           [
+             'rel' => 'shortlink',
+-            'href' => $term->toUrl($rel, ['alias' => TRUE])->toString(),
++            'href' => $url->setOption('alias', TRUE)->toString(),
+           ],
+           TRUE,
+         ];
+       }
+     }
++
++    // Since this generates absolute URLs, it can only be cached "per site".
++    $build['#cache']['contexts'][] = 'url.site';
++
++    // Given this varies by $this->currentUser->isAuthenticated(), add a cache
++    // context based on the anonymous role.
++    $build['#cache']['contexts'][] = 'user.roles:anonymous';
+   }
+ }
+ 
+diff --git a/core/modules/taxonomy/tests/src/Functional/Views/TaxonomyTermViewTest.php b/core/modules/taxonomy/tests/src/Functional/Views/TaxonomyTermViewTest.php
+index 13cd7286b1..9fdd1664a0 100644
+--- a/core/modules/taxonomy/tests/src/Functional/Views/TaxonomyTermViewTest.php
++++ b/core/modules/taxonomy/tests/src/Functional/Views/TaxonomyTermViewTest.php
+@@ -161,4 +161,48 @@ public function testTaxonomyTermView() {
+     $this->assertResponse(403);
+   }
+ 
++  /**
++   * Tests the HTML head links.
++   */
++  public function testHtmlHeadLinks() {
++    $term = $this->createTerm();
++    $this->drupalLogout();
++
++    $this->drupalGet($term->toUrl());
++
++    $result = $this->xpath('//link[@rel = "canonical"]');
++    $this->assertEqual($result[0]->getAttribute('href'), $term->toUrl()->setAbsolute()->toString());
++
++    // Link relations are checked for access for anonymous users.
++    $result = $this->xpath('//link[@rel = "edit-form"]');
++    $this->assertEmpty($result, 'Edit form not present for anonymous users without access.');
++
++    $this->drupalLogin($this->createUser(['access content']));
++    $this->drupalGet($term->toUrl());
++
++    $result = $this->xpath('//link[@rel = "canonical"]');
++    $this->assertEqual($result[0]->getAttribute('href'), $term->toUrl()->setAbsolute()->toString());
++
++    // Link relations are present regardless of access for authenticated users.
++    $result = $this->xpath('//link[@rel = "edit-form"]');
++    $this->assertEqual($result[0]->getAttribute('href'), $term->toUrl('edit-form')->setAbsolute()->toString());
++
++    // Give anonymous users access to edit the node. Do this through the UI to
++    // ensure caches are handled properly.
++    $this->drupalLogin($this->rootUser);
++    $edit = [
++      'anonymous[edit terms in ' . $term->bundle() . ']' => TRUE,
++    ];
++    $this->drupalPostForm('admin/people/permissions', $edit, 'Save permissions');
++    $this->drupalLogout();
++
++    // Anonymous users should now see the edit-form link.
++    $this->drupalGet($term->toUrl());
++    $result = $this->xpath('//link[@rel = "canonical"]');
++    $this->assertEqual($result[0]->getAttribute('href'), $term->toUrl()->setAbsolute()->toString());
++
++    $result = $this->xpath('//link[@rel = "edit-form"]');
++    $this->assertEqual($result[0]->getAttribute('href'), $term->toUrl('edit-form')->setAbsolute()->toString());
++  }
++
+ }
