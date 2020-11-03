@@ -95,6 +95,8 @@
         <img src="/themes/nect-theme/sweeter.logo.png" class="logo" alt="SWEETER Cyberteam">
         {% elseif domain_name == "mines-cyberteam" %}
         <img src="/themes/nect-theme/mines.logo.png" class="logo" alt="MINES Cyberteam">
+        {% elseif domain_name == "campus-champions" %}
+        Campus Champions
         {% endif %}
       </a>
 			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,7 +112,7 @@
 	 {% endblock %}
 	{% endif %}
 
-	{% if is_front %}
+	{% if is_front and domain_name != "campus-champions" %}
     {% if domain_name == "northeast-cyberteam" %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
     {% elseif domain_name == "great-plains-cyberteam" %}
@@ -180,62 +182,94 @@
 
 
 	{% if is_front %}<div class="w-100 py-3 bg-light">{% endif %}
-	<div class="container{% if is_front %} main-container mt-3{% else %} mt-4{% endif %}">
-	  <div class="row">
-		{% if page.primary_sidebar or page.secondary_sidebar %}
-			<div class="col-lg-8 col-12 mx-auto">
-        {{ page.page_top }}
-        {{ page.title_area }}
-        {{ page.view_type_buttons }}
-        {{ page.drupal_tabs }}
-        {{ page.exposed_filters }}
-        {{ page.tags_page_resources }}
-        {{ page.tags_page_projects }}
-        {{ page.tags_page_students }}
-        {{ page.tags_page_mentors }}
-        {{ page.tags_page_researchers }}
-        {{ page.tags_page_blog }}
-        {{ page.tags_page_askci }}
-        {{ page.people_page_card }}
-        {{ page.people_page_list }}
-        {{ page.projects_page }}
-        {{ page.resources_page }}
-        {{ page.blog_page }}
-        {{ page.help_desk }}
-        {{ page.user_profile }}
-        {{ page.content }}
-        {{ page.below_main_content }}
-			</div>
-			<div class="col-lg-4 col-12 mx-auto">
-				{{ page.primary_sidebar }}
-				{{ page.secondary_sidebar }}
-			</div>
-		{% else %}
-			<div class="col-12 mx-auto">
-        {{ page.page_top }}
-        {{ page.title_area }}
-        {{ page.view_type_buttons }}
-        {{ page.drupal_tabs }}
-        {{ page.exposed_filters }}
-        {{ page.tags_page_resources }}
-        {{ page.tags_page_projects }}
-        {{ page.tags_page_students }}
-        {{ page.tags_page_mentors }}
-        {{ page.tags_page_researchers }}
-        {{ page.tags_page_blog }}
-        {{ page.tags_page_askci }}
-        {{ page.people_page_card }}
-        {{ page.people_page_list }}
-        {{ page.projects_page }}
-        {{ page.resources_page }}
-        {{ page.blog_page }}
-        {{ page.help_desk }}
-        {{ page.user_profile }}
-        {{ page.content }}
-        {{ page.below_main_content }}
-			</div>
-		{% endif %}
-	  </div>
+	<div class="container{% if is_front %} main-container mt-3{{ domain_name == "campus-champions" ? ' py-3'}}{% else %} mt-4{% endif %}">
+	  {% if domain_name == "campus-champions" and is_front %}
+      {% if page.campus_champions_front_header %}
+        <div class="row">
+          {{ page.campus_champions_front_header }}
+        </div>
+      {% endif %}
+      {% if page.campus_champions_front_quick_links %}
+        <div class="row mx-auto border-top py-3 text-center">
+          <div class="col-12 my-3"><h3>Quick Links</h3></div>
+          {{ page.campus_champions_front_quick_links }}
+        </div>
+      {% endif %}
+      {% if page.campus_champions_front_community_events %}
+        <div class="row mx-auto border-top py-3">
+          <div class="col-12 my-3 text-center"><h3>Community Events</h3></div>
+          {{ page.campus_champions_front_community_events }}
+        </div>
+      {% endif %}
+      {% if page.campus_champions_front_blog %}
+        <div class="row mx-auto border-top py-3">
+          <div class="col-12 my-3 text-center"><h3>Blog</h3></div>
+          {{ page.campus_champions_front_blog }}
+        </div>
+      {% endif %}
+      {% if page.campus_champions_front_jobs %}
+        <div class="row mx-auto border-top py-3">
+          <div class="col-12 my-3 text-center"><h3>Jobs</h3></div>
+          {{ page.campus_champions_front_jobs }}
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="row">
+  		{% if page.primary_sidebar or page.secondary_sidebar %}
+  			<div class="col-lg-8 col-12 mx-auto">
+          {{ page.page_top }}
+          {{ page.title_area }}
+          {{ page.view_type_buttons }}
+          {{ page.drupal_tabs }}
+          {{ page.exposed_filters }}
+          {{ page.tags_page_resources }}
+          {{ page.tags_page_projects }}
+          {{ page.tags_page_students }}
+          {{ page.tags_page_mentors }}
+          {{ page.tags_page_researchers }}
+          {{ page.tags_page_blog }}
+          {{ page.tags_page_askci }}
+          {{ page.people_page_card }}
+          {{ page.people_page_list }}
+          {{ page.projects_page }}
+          {{ page.resources_page }}
+          {{ page.blog_page }}
+          {{ page.help_desk }}
+          {{ page.user_profile }}
+          {{ page.content }}
+          {{ page.below_main_content }}
+  			</div>
+  			<div class="col-lg-4 col-12 mx-auto">
+  				{{ page.primary_sidebar }}
+  				{{ page.secondary_sidebar }}
+  			</div>
+  		{% else %}
+  			<div class="col-12 mx-auto">
+          {{ page.page_top }}
+          {{ page.title_area }}
+          {{ page.view_type_buttons }}
+          {{ page.drupal_tabs }}
+          {{ page.exposed_filters }}
+          {{ page.tags_page_resources }}
+          {{ page.tags_page_projects }}
+          {{ page.tags_page_students }}
+          {{ page.tags_page_mentors }}
+          {{ page.tags_page_researchers }}
+          {{ page.tags_page_blog }}
+          {{ page.tags_page_askci }}
+          {{ page.people_page_card }}
+          {{ page.people_page_list }}
+          {{ page.projects_page }}
+          {{ page.resources_page }}
+          {{ page.blog_page }}
+          {{ page.help_desk }}
+          {{ page.user_profile }}
+          {{ page.content }}
+          {{ page.below_main_content }}
+  			</div>
+  		{% endif %}
+  	  </div>
+    {% endif %}
 	</div>
 	{% if is_front %}</div>{% endif %}
 </div>{# /.wrapper #}
