@@ -908,10 +908,12 @@ ul.footer-links li:hover * { color: var(--footer-link-hover); }
   margin-right: 1.5rem!important;
 }
 
-form[id^="views-exposed-form-people"] .form-checkbox {
+form[id^="views-exposed-form-people"] .form-checkbox,
+form[id^="views-exposed-form-resources"] .form-checkbox {
   display: none;
 }
-form[id^="views-exposed-form-people"] label.option {
+form[id^="views-exposed-form-people"] label.option,
+form[id^="views-exposed-form-resources"] label.option {
   font-size: 10px;
   font-weight: 700;
   padding: 5px 10px;
@@ -926,13 +928,17 @@ form[id^="views-exposed-form-people"] label.option {
 }
 form[id^="views-exposed-form-people"] label:hover,
 form[id^="views-exposed-form-people"] label:focus,
-form[id^="views-exposed-form-people"] label:active {
+form[id^="views-exposed-form-people"] label:active,
+form[id^="views-exposed-form-resources"] label:hover,
+form[id^="views-exposed-form-resources"] label:focus,
+form[id^="views-exposed-form-resources"] label:active {
   color: var(--light-text);
   background-color: var(--primary-hover);
   border-color: var(--primary-hover);
   cursor: pointer;
 }
-form[id^="views-exposed-form-people"] input:checked + label {
+form[id^="views-exposed-form-people"] input:checked + label,
+form[id^="views-exposed-form-resources"] input:checked + label {
   color: var(--light-text);
   background-color: var(--text);
   border-color: var(--text);
