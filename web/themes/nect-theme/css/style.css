@@ -110,9 +110,30 @@ body.sweeter-cyberteam{
   --navbar-dropdown: var(--text);
   --navbar-dropdown-hover: var(--navbar-link);
 }
-body.texas-cyberteam{
-
+body.trecis-cyberteam{
+  --link: var(--primary);
+  --link-hover: #245f87;
+  --primary: #6e71f3;
+  --navbar-background: #ffffff;
+  --navbar-link: #472586;
+  --navbar-link-hover: var(--text);
+  --navbar-toggler: var(--navbar-link);
+  --navbar-dropdown: var(--text);
+  --navbar-dropdown-hover: var(--navbar-link);
 }
+
+.careers-cyberteam .region-specific:not(.display-careers) { display: none !important; }
+.great-plains-cyberteam .region-specific:not(.display-great-plains) { display: none !important; }
+.kentucky-cyberteam .region-specific:not(.display-kentucky) { display: none !important; }
+.mines-cyberteam .region-specific:not(.display-mines) { display: none !important; }
+.northeast-cyberteam .region-specific:not(.display-northeast) { display: none !important; }
+.rmacc-cyberteam .region-specific:not(.display-rmacc) { display: none !important; }
+.sweeter-cyberteam .region-specific:not(.display-sweeter) { display: none !important; }
+.trecis-cyberteam .region-specific:not(.display-trecis) { display: none !important; }
+
+
+body:not(.logged_in) .authenticated-only { display: none !important; }
+body.logged_in .anon-only { display: none !important; }
 
 /* set fonts */
 .museo-sans{font-family:"museo-sans",sans-serif;}
@@ -887,10 +908,12 @@ ul.footer-links li:hover * { color: var(--footer-link-hover); }
   margin-right: 1.5rem!important;
 }
 
-form[id^="views-exposed-form-people"] .form-checkbox {
+form[id^="views-exposed-form-people"] .form-checkbox,
+form[id^="views-exposed-form-resources"] .form-checkbox {
   display: none;
 }
-form[id^="views-exposed-form-people"] label.option {
+form[id^="views-exposed-form-people"] label.option,
+form[id^="views-exposed-form-resources"] label.option {
   font-size: 10px;
   font-weight: 700;
   padding: 5px 10px;
@@ -905,13 +928,17 @@ form[id^="views-exposed-form-people"] label.option {
 }
 form[id^="views-exposed-form-people"] label:hover,
 form[id^="views-exposed-form-people"] label:focus,
-form[id^="views-exposed-form-people"] label:active {
+form[id^="views-exposed-form-people"] label:active,
+form[id^="views-exposed-form-resources"] label:hover,
+form[id^="views-exposed-form-resources"] label:focus,
+form[id^="views-exposed-form-resources"] label:active {
   color: var(--light-text);
   background-color: var(--primary-hover);
   border-color: var(--primary-hover);
   cursor: pointer;
 }
-form[id^="views-exposed-form-people"] input:checked + label {
+form[id^="views-exposed-form-people"] input:checked + label,
+form[id^="views-exposed-form-resources"] input:checked + label {
   color: var(--light-text);
   background-color: var(--text);
   border-color: var(--text);
@@ -934,7 +961,7 @@ li.nav-item[domain~="all"] { display: initial !important; }
 .northeast-cyberteam li.nav-item[domain~="northeast-cyberteam"] { display: initial !important; }
 .rmacc-cyberteam li.nav-item[domain~="rmacc-cyberteam"] { display: initial !important; }
 .sweeter-cyberteam li.nav-item[domain~="sweeter-cyberteam"] { display: initial !important; }
-.texas-cyberteam li.nav-item[domain~="texas-cyberteam"] { display: initial !important; }
+.trecis-cyberteam li.nav-item[domain~="trecis-cyberteam"] { display: initial !important; }
 
 a.map-careers { fill: #0f4d92; }
 a.map-great-plains { fill: #A0AF32; }
@@ -943,7 +970,7 @@ a.map-mines { fill: #92A2BD; }
 a.map-northeast { fill: #8473d2; }
 a.map-rmacc { fill: #6eb857; }
 a.map-sweeter { fill: #500000; }
-a.map-texas { fill: none; }
+a.map-trecis { fill: #472586; }
 a[class^="map-"]:hover { fill: var(--default-hover); }
 
 .toolbar-tab a { color: #fff !important; }

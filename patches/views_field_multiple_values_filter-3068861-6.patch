@@ -1,0 +1,33 @@
+diff --git a/src/Plugin/views/field/WebformSubmissionField.php b/src/Plugin/views/field/WebformSubmissionField.php
+index aa710ca..bb1b873 100644
+--- a/src/Plugin/views/field/WebformSubmissionField.php
++++ b/src/Plugin/views/field/WebformSubmissionField.php
+@@ -109,16 +109,24 @@ class WebformSubmissionField extends FieldPluginBase {
+    * {@inheritdoc}
+    */
+   public function query() {
++    if ($this->definition['multiple'] && $this->options['webform_multiple_value']) {
++      // Do not join multiple value fields!!!
++      return;
++    }
+     parent::query();
+ 
+     // Webform submission might have multiple values stored for the webform
+     // element we are operating on. Let's make sure we are not introducing
+     // duplicate rows in the resultset by enforcing just the first delta.
+     if (!empty($this->query->getTableInfo($this->tableAlias)['join']->extra)) {
+-      $this->query->getTableInfo($this->tableAlias)['join']->extra[] = [
+-        'field' => 'delta',
+-        'value' => 0,
+-      ];
++      if (!$this->options['webform_multiple_value']) {
++        $delta = !empty($this->options['webform_multiple_delta']) ? $this->options['webform_multiple_delta'] : 0;
++
++        $this->query->getTableInfo($this->tableAlias)['join']->extra[] = [
++          'field' => 'delta',
++          'value' => $delta,
++        ];
++      }
+     }
+   }
+ 
