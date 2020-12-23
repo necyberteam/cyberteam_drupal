@@ -64,6 +64,9 @@
 </div>
 <script>
 $('.flag-affinity-group a').click(function() {
-  location.reload();
+  setTimeout(
+   function() {
+    window.location.reload(true);
+   }, 100);
 });
 </script>
