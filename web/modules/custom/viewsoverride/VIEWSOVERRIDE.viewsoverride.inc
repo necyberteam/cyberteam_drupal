@@ -1,4 +1,19 @@
 <?php
+function VIEWSOVERRIDE_cron() {
+  \Drupal::logger('cron_files_delete')->notice('cron_files_delete ran');
+  // get all files ids
+  $fids = Drupal::entityQuery('file')->execute();
+  $file_usage = Drupal::service('file.usage');
+  // loop all fids and load files by fid
+  foreach ($fids as $fid) {
+    $file = Drupal\file\Entity\File::load($fid);
+    $usage = $file_usage->listUsage($file);
+    // check if file not used
+    if (count($usage) == 0) {
+      $file->delete();
+    }
+  }
+}
 
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
