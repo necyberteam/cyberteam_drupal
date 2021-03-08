@@ -1,0 +1,46 @@
+diff --git a/src/Context/Form/ContextFormTrait.php b/src/Context/Form/ContextFormTrait.php
+old mode 100644
+new mode 100755
+index d85c7de..da496f1
+--- a/src/Context/Form/ContextFormTrait.php
++++ b/src/Context/Form/ContextFormTrait.php
+@@ -72,6 +72,9 @@ trait ContextFormTrait {
+       $element['#attributes']['data-autocomplete-path'] = $url->toString();
+       $element['#attached']['library'][] = 'rules/rules.autocomplete';
+     }
++    elseif ($context_definition->getDataType() === 'text') {
++      $element['#type'] = 'textarea';
++    }
+     elseif ($context_definition->isMultiple()) {
+       $element['#type'] = 'textarea';
+       // @todo Get a description for possible values that can be filled in.
+diff --git a/src/Plugin/RulesAction/SystemMailToUsersOfRole.php b/src/Plugin/RulesAction/SystemMailToUsersOfRole.php
+old mode 100644
+new mode 100755
+index 1d13aee..ec305e8
+--- a/src/Plugin/RulesAction/SystemMailToUsersOfRole.php
++++ b/src/Plugin/RulesAction/SystemMailToUsersOfRole.php
+@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
+  *       label = @Translation("Subject"),
+  *       description = @Translation("The email's subject.")
+  *     ),
+- *     "message" = @ContextDefinition("string",
++ *     "message" = @ContextDefinition("text",
+  *       label = @Translation("Message"),
+  *       description = @Translation("The email's message body.")
+  *     ),
+diff --git a/src/Plugin/RulesAction/SystemSendEmail.php b/src/Plugin/RulesAction/SystemSendEmail.php
+old mode 100644
+new mode 100755
+index a467149..0fad2d2
+--- a/src/Plugin/RulesAction/SystemSendEmail.php
++++ b/src/Plugin/RulesAction/SystemSendEmail.php
+@@ -26,7 +26,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
+  *       label = @Translation("Subject"),
+  *       description = @Translation("The email's subject.")
+  *     ),
+- *     "message" = @ContextDefinition("string",
++ *     "message" = @ContextDefinition("text",
+  *       label = @Translation("Message"),
+  *       description = @Translation("The email's message body. This must be plain text, but may contain tokens.")
+  *     ),
