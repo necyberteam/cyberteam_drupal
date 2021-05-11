@@ -24,7 +24,21 @@ $getInterestInProject->execute();
 $getInterestInProjectResult = $getInterestInProject->get_result();
 if ($getInterestInProjectResult->num_rows > 0) {
   while($row = $getInterestInProjectResult->fetch_assoc()) {
-    $data[] = array('project_title' => $row['project_title'],
+    if ($row['p_program'] == "CAREERS") {
+      $careersdata[] = array('project_title' => $row['project_title'],
+      'name' => $row['last_name'] . ', '. $row['first_name'],
+      'email' => $row['email'],
+      'date_interested' => date("m/d/Y", $row['created']),
+      'user_program' => $row['user_program'],
+      'project_program' => $row['p_program'],
+      'anchor_institution' => $row['anchor_institution'],
+      'project_leader_email' => $row['pl_email'],
+      'project_leader' => $row['pl_last'] . ', '. $row['pl_first'],
+      'user_link' => $domains[$row['user_program']] . "user/" . $row['uid'],
+      'project_link' => $domains[$row['p_program']] . "project/" . $row['sid']
+      );
+    }
+    $alldata[] = array('project_title' => $row['project_title'],
     'name' => $row['last_name'] . ', '. $row['first_name'],
     'email' => $row['email'],
     'date_interested' => date("m/d/Y", $row['created']),
@@ -35,25 +49,29 @@ if ($getInterestInProjectResult->num_rows > 0) {
     'project_leader' => $row['pl_last'] . ', '. $row['pl_first'],
     'user_link' => $domains[$row['user_program']] . "user/" . $row['uid'],
     'project_link' => $domains[$row['p_program']] . "project/" . $row['sid']
-  );
- }
+    );
+  }
 } else {
   $data = "";
+  $careersdata = "";
 }
 $getInterestInProject->close();
 $conn->close();
 
-function sendMail($data, $filename) {
+function sendMail($alldata, $careersdata, $filename) {
   $contacts = array(
-    "jma@mghpcc.org, kaylea.nelson@yale.edu",
-    "eibrown12@gmail.com"
+    "jma@mghpcc.org",
+    "kaylea.nelson@yale.edu"
   );
   foreach($contacts as $contact) {
     $to      = $contact;
     $subject = '[Connect.CI] Users interested in projects: ' . date("m/d/Y");
     $headers = "From: Connect.CI <noreply@wpi.edu>\r\nX-Mailer: PHP/" . phpversion();
-    if ($contact != "eibrown12@gmail.com") {
-      $headers .= "\r\nCc: eric.brown@unh.edu";
+    $headers .= "\r\nCc: eric.brown@unh.edu";
+    if ($contact == "kaylea.nelson@yale.edu") {
+      $data = $careersdata;
+    } else {
+      $data = $alldata;
     }
     if (empty($data) || $data == "") {
       $message = "There were no users that indicated that they were interested in a project in the last 24 hours";
@@ -116,5 +134,5 @@ function outputCSV($data) {
 }
 
 $filename = "interested_in_project_" . date('Ymd') . ".csv";
-sendMail($data, $filename);
+sendMail($alldata, $careersdata, $filename);
 ?>
