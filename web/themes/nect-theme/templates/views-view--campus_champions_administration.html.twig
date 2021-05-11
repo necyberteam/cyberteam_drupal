@@ -33,43 +33,36 @@
  */
 #}
 
-<div{{ attributes }}>
-  {{ title }}
+{% set escdiv = 'div' %}
+{% autoescape 'div' %}{% spaceless %}
+{%- if rows -%}
+<div><iframe id="session-frame" scrolling="no" src="https://connectcidev.wpi.edu/cc/cc-login.php?{% autoescape 'div' %}{% spaceless %}{{- rows -}}{% endspaceless %}{% endautoescape %}" style="border:none" width="100%" data-hj-allow-iframe></iframe></div>
 
-  {% if header %}
-    <header>
-      {{ header }}
-    </header>
-  {% endif %}
-
-  {{ exposed }}
-  {{ attachment_before }}
-
-  {% if rows -%}
-    {{ rows }}
-  {% elseif empty -%}
-    {{ empty }}
-  {% endif %}
-  {{ pager }}
-
-  {{ attachment_after }}
-  {{ more }}
-
-  {% if footer %}
-    <footer>
-      {{ footer }}
-    </footer>
-  {% endif %}
-
-</div>
-<script>
-$(document).ready(function() {
-  $('.flag-affinity-group a.btn-sm').addClass('btn-block').removeClass('px-2').removeClass('py-1').removeClass('btn-sm');
+<script type="text/javascript">(function() {
+var iframe = document.getElementById('session-frame');
+function resizeCrossDomainIframe() {
+  var iframe = document.getElementById('session-frame');
+  window.addEventListener('message', function(event) {
+    if (isNaN(event.data)) return;
+    var height = parseInt(event.data) + 20;
+    iframe.height = height + "px";
+  }, false);
+}
+iframe.addEventListener("load", resizeCrossDomainIframe);
+window.addEventListener("message", function(e) {
+  if (e.data === "reload") {
+    window.location.reload();
+  }
 });
-$('.flag-affinity-group a').click(function() {
-  setTimeout(
-   function() {
-    window.location.reload(true);
-   }, 100);
-});
+})();
 </script>
+{#
+<script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.1/iframeResizer.min.js"></script>
+<script>
+  iFrameResize({ log: true, checkOrigin:false, inPageLinks: true })
+</script>
+#}
+{%- elseif empty -%}
+  {{ empty }}
+{%- endif -%}
+{% endspaceless %}{% endautoescape %}
