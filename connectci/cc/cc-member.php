@@ -8,6 +8,9 @@ if (isset($_GET['uid']) && preg_match("/^[0-9]*$/", $_GET['uid'])) {
 } else {
   header("Location: ./campus_champions.php"); exit;
 }
+if (isset($_GET['application_id']) && preg_match("/^[0-9]*$/", $_GET['application_id'])) {
+  $sid = $_GET['application_id'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,6 +81,9 @@ if (isset($_GET['uid']) && preg_match("/^[0-9]*$/", $_GET['uid'])) {
                     //update entry ?>
                     <input type="hidden" name="type" value="update">
                     <input type="hidden" name="cc_id" value="<?php echo $row['cc_id']; ?>">
+                  <?php }
+                  if (isset($sid) && $sid != "") { ?>
+                    <input type="hidden" name="sid" value="<?php echo $sid; ?>">
                   <?php }
                   ?>
                   <input type="hidden" name="uid" value="<?php echo $uid; ?>">

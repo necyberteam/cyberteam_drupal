@@ -53,41 +53,125 @@ if(empty($_SESSION["uid"]) || empty($_SESSION['campus_champions_admin'])) {
     if ($conn->connect_error) { ?>
       <div class="alert alert-danger"><strong>Connection Error:</strong> Please contact a system administrator.</div>
     <?php } ?>
-    <div class="table-responsive">
-      <table class="table table-sm table-hover" id="championsTable">
-        <thead>
-          <tr>
-            <th>carnegie_code</th>
-            <th>name</th>
-            <th>email</th>
-            <th>institution</th>
-            <th>classification</th>
-            <th>approved</th>
-            <th>edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-          $getCampusChampionsListQuery = 'SELECT cc.uid, cc.approved, cc.carnegie_code, cc.classification, uf.field_user_first_name_value AS first_name, ul.field_user_last_name_value AS last_name, ue.mail AS email, ui.field_institution_value AS institution FROM campus_champions cc LEFT JOIN user__field_user_first_name uf ON cc.uid = uf.entity_id LEFT JOIN user__field_user_last_name ul ON cc.uid = ul.entity_id LEFT JOIN users_field_data ue ON cc.uid = ue.uid LEFT JOIN user__field_institution ui ON cc.uid = ui.entity_id WHERE cc.approved=1';
-          $getCampusChampionsList = $conn->prepare($getCampusChampionsListQuery);
-          $getCampusChampionsList->execute();
-          $getCampusChampionsListResult = $getCampusChampionsList->get_result();
-          if ($getCampusChampionsListResult->num_rows > 0) {
-            while($row = $getCampusChampionsListResult->fetch_assoc()) { ?>
+    <div class="card mb-3">
+      <div class="card-body">
+        <a href="./past-applications.php" class="float-md-right">Past Applications</a>
+        <h3>Applications</h3>
+        <div class="table-responsive">
+          <table class="table table-sm table-hover" id="pendingChampionsTable">
+            <thead>
               <tr>
-                <td><?php echo $row['carnegie_code']; ?></td>
-                <td><?php echo $row['last_name']; ?>, <?php echo $row['first_name']; ?></td>
-                <td><?php echo $row['email']; ?></td>
-                <td><?php echo $row['institution']; ?></td>
-                <td><?php echo $row['classification']; ?></td>
-                <td><?php echo $row['approved']; ?></td>
-                <td><a href="./cc-member.php?uid=<?php echo $row['uid']; ?>">edit</a></td>
+                <th>name</th>
+                <th>email</th>
+                <th>institution</th>
+                <th>application_date</th>
+                <th>letter_of_collaboration</th>
+                <th>approve</th>
               </tr>
-            <?php }
-          } ?>
-        </tbody>
-      </table>
-    </div><?php
+            </thead>
+            <tbody>
+              <?php
+              include "./drupal-url.php";
+              $getPendingQuery = 'SELECT s.sid, s.completed, s.uid, f.uri, uf.field_user_first_name_value AS first_name, ul.field_user_last_name_value AS last_name, ue.mail AS email, ui.field_institution_value AS institution FROM webform_submission s LEFT JOIN webform_submission_data d ON s.sid = d.sid and d.name = "letter_of_collaboration" LEFT JOIN webform_submission_data status ON s.sid = status.sid and status.name = "status" LEFT JOIN file_managed f ON f.fid = d.value LEFT JOIN user__field_user_first_name uf ON s.uid = uf.entity_id LEFT JOIN user__field_user_last_name ul ON s.uid = ul.entity_id LEFT JOIN users_field_data ue ON s.uid = ue.uid LEFT JOIN user__field_institution ui ON s.uid = ui.entity_id WHERE s.webform_id = "join_campus_champions" and status.value="new"';
+              $getPending = $conn->prepare($getPendingQuery);
+              $getPending->execute();
+              $getPendingResult = $getPending->get_result();
+              if ($getPendingResult->num_rows > 0) {
+                while($row = $getPendingResult->fetch_assoc()) { ?>
+                  <tr>
+                    <td><?php echo $row['last_name']; ?>, <?php echo $row['first_name']; ?></td>
+                    <td><?php echo $row['email']; ?></td>
+                    <td><?php echo $row['institution']; ?></td>
+                    <td><?php echo date("m/d/Y",$row['completed']); ?></td>
+                    <td><a href="<?php echo str_replace("private://",$drupalUrl."/system/files/",$row['uri']); ?>" target="_blank"><i class="fa fa-download pr-1"></i> Download</a></td>
+                    <td><a href="./cc-member.php?uid=<?php echo $row['uid']; ?>&application_id=<?php echo $row['sid']; ?>">approve</a></td>
+                  </tr>
+                <?php }
+              }
+              $getPending->close();
+              ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h3>Indicated Existing Member (need approval)</h3>
+        <div class="table-responsive">
+          <table class="table table-sm table-hover" id="needApprovalTable">
+            <thead>
+              <tr>
+                <th>name</th>
+                <th>email</th>
+                <th>institution</th>
+                <th>approve</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $getNeedApprovalQuery = 'SELECT cc.entity_id, uf.field_user_first_name_value AS first_name, ul.field_user_last_name_value AS last_name, ue.mail AS email, ui.field_institution_value AS institution FROM user__field_is_cc cc LEFT JOIN user__field_user_first_name uf ON cc.entity_id = uf.entity_id LEFT JOIN user__field_user_last_name ul ON cc.entity_id = ul.entity_id LEFT JOIN users_field_data ue ON cc.entity_id = ue.uid LEFT JOIN user__field_institution ui ON cc.entity_id = ui.entity_id WHERE (cc.entity_id NOT IN (SELECT uid FROM campus_champions) OR cc.entity_id NOT IN (SELECT s.uid FROM webform_submission s LEFT JOIN webform_submission_data status ON s.sid = status.sid WHERE s.webform_id="join_campus_champions")) AND cc.deleted=0 AND cc.field_is_cc_value=1';
+              $getNeedApproval = $conn->prepare($getNeedApprovalQuery);
+              $getNeedApproval->execute();
+              $getNeedApprovalResult = $getNeedApproval->get_result();
+              if ($getNeedApprovalResult->num_rows > 0) {
+                while($row = $getNeedApprovalResult->fetch_assoc()) { ?>
+                  <tr>
+                    <td><?php echo $row['last_name']; ?>, <?php echo $row['first_name']; ?></td>
+                    <td><?php echo $row['email']; ?></td>
+                    <td><?php echo $row['institution']; ?></td>
+                    <td><a href="./cc-member.php?uid=<?php echo $row['entity_id']; ?>">approve</a></td>
+                  </tr>
+                <?php }
+              }
+              $getPending->close();
+              ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h3>Members</h3>
+        <div class="table-responsive">
+          <table class="table table-sm table-hover" id="championsTable">
+            <thead>
+              <tr>
+                <th>carnegie_code</th>
+                <th>name</th>
+                <th>email</th>
+                <th>institution</th>
+                <th>classification</th>
+                <th>approved</th>
+                <th>edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $getCampusChampionsListQuery = 'SELECT cc.uid, cc.approved, cc.carnegie_code, cc.classification, uf.field_user_first_name_value AS first_name, ul.field_user_last_name_value AS last_name, ue.mail AS email, ui.field_institution_value AS institution FROM campus_champions cc LEFT JOIN user__field_user_first_name uf ON cc.uid = uf.entity_id LEFT JOIN user__field_user_last_name ul ON cc.uid = ul.entity_id LEFT JOIN users_field_data ue ON cc.uid = ue.uid LEFT JOIN user__field_institution ui ON cc.uid = ui.entity_id WHERE cc.approved=1';
+              $getCampusChampionsList = $conn->prepare($getCampusChampionsListQuery);
+              $getCampusChampionsList->execute();
+              $getCampusChampionsListResult = $getCampusChampionsList->get_result();
+              if ($getCampusChampionsListResult->num_rows > 0) {
+                while($row = $getCampusChampionsListResult->fetch_assoc()) { ?>
+                  <tr>
+                    <td><?php echo $row['carnegie_code']; ?></td>
+                    <td><?php echo $row['last_name']; ?>, <?php echo $row['first_name']; ?></td>
+                    <td><?php echo $row['email']; ?></td>
+                    <td><?php echo $row['institution']; ?></td>
+                    <td><?php echo $row['classification']; ?></td>
+                    <td><?php echo $row['approved']; ?></td>
+                    <td><a href="./cc-member.php?uid=<?php echo $row['uid']; ?>">edit</a></td>
+                  </tr>
+                <?php }
+              } ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <?php
     $getCampusChampionsList->close();
     $conn->close();
     ?>
@@ -114,6 +198,14 @@ if(empty($_SESSION["uid"]) || empty($_SESSION['campus_champions_admin'])) {
   </script>
   <script>
   $(document).ready(function() {
+    $('#pendingChampionsTable').DataTable({
+      "paging":false,
+      searchHighlight: true
+    });
+    $('#needApprovalTable').DataTable({
+      "paging":false,
+      searchHighlight: true
+    });
     $('#championsTable').DataTable({
       "paging":false,
       searchHighlight: true
