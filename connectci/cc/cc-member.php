@@ -133,6 +133,7 @@ if (isset($_GET['application_id']) && preg_match("/^[0-9]*$/", $_GET['applicatio
               $conn->close();
               ?>
               <input type="submit" class="btn btn-primary btn-sm" value="Save">
+              <a href="./campus_champions.php" class="btn btn-outline-secondary btn-sm">Cancel</a>
             </div>
           </section>
         </form>
