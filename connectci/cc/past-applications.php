@@ -88,7 +88,7 @@ if(empty($_SESSION["uid"]) || empty($_SESSION['campus_champions_admin'])) {
                   </tr>
                 <?php }
               }
-              $getPending->close();
+              $getPast->close();
               ?>
             </tbody>
           </table>
