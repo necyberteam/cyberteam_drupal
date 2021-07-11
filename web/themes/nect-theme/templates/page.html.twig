@@ -71,7 +71,11 @@
 					<a href="/user/login" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in</a>
 				</li>
         <li class="nav-item">
-					<a href="/user/register" class="nav-link" data-drupal-link-system-path="user/register">Join</a>
+          {% if domain_name == “campus-champions” %}
+          <a href=“/form/join-campus-champions” class=“nav-link” data-drupal-link-system-path=“form/join-campus-champions”>Join</a>
+        {% else %}
+        <a href=“/user/register” class=“nav-link” data-drupal-link-system-path=“user/register”>Join</a>
+{% endif %}
 				</li>
 			</ul>
 		  {% endif %}
