@@ -69,14 +69,16 @@
 			<ul class="navbar-nav ml-auto" style="margin-left: auto !important;">
 				<li class="nav-item">
 					<a href="/user/login" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in</a>
-				</li>
-        <li class="nav-item">
-          {% if domain_name == “campus-champions” %}
-          <a href=“/form/join-campus-champions” class=“nav-link” data-drupal-link-system-path=“form/join-campus-champions”>Join</a>
-        {% else %}
-        <a href=“/user/register” class=“nav-link” data-drupal-link-system-path=“user/register”>Join</a>
-{% endif %}
-				</li>
+				</li>       
+				{% if domain_name == "campus-champions" %}
+                                        <li class="nav-item">
+                                                <a href="/form/join-campus-champions" class="nav-link">Join</a>
+                                        </li>
+                                {% else %}
+                                        <li class="nav-item">
+                                                <a href="/user/register" class="nav-link" data-drupal-link-system-path="user/register">Join</a>
+                                        </li>
+                                {% endif %}
 			</ul>
 		  {% endif %}
 		</div>
