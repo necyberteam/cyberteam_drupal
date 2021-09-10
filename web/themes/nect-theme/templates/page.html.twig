@@ -70,9 +70,15 @@
 				<li class="nav-item">
 					<a href="/user/login" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in</a>
 				</li>
-        <li class="nav-item">
-					<a href="/user/register" class="nav-link" data-drupal-link-system-path="user/register">Join</a>
-				</li>
+				{% if domain_name == "campus-champions" %}
+					<li class="nav-item">
+						<a href="/form/join-campus-champions" class="nav-link">Join</a>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a href="/user/register" class="nav-link" data-drupal-link-system-path="user/register">Join</a>
+					</li>
+				{% endif %}
 			</ul>
 		  {% endif %}
 		</div>
@@ -95,10 +101,10 @@
         <img src="/themes/nect-theme/sweeter.logo.png" class="logo" alt="SWEETER Cyberteam">
         {% elseif domain_name == "mines-cyberteam" %}
         <img src="/themes/nect-theme/mines.logo.png" class="logo" alt="MINES Cyberteam">
-				{% elseif domain_name == "trecis-cyberteam" %}
-				<img src="/themes/nect-theme/trecis.logo.png" class="logo" alt="TRECIS Cyberteam">
+	{% elseif domain_name == "trecis-cyberteam" %}
+	<img src="/themes/nect-theme/trecis.logo.png" class="logo" alt="TRECIS Cyberteam">
         {% elseif domain_name == "campus-champions" %}
-        Campus Champions
+        <img src="/themes/nect-theme/campuschampions.png" class="logo" alt="Campus Champions">
         {% endif %}
       </a>
 			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
