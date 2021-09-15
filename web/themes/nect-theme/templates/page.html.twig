@@ -194,7 +194,7 @@
 
 
 	{% if is_front %}<div class="w-100 py-3 bg-light">{% endif %}
-	<div class="container{% if is_front %} main-container mt-3{{ domain_name == "campus-champions" ? ' py-3'}}{% else %} mt-4{% endif %}">
+	<div class="container{% if is_front %} main-container mt-3{{ domain_name == "campus-champions" ? ''}}{% else %} mt-4{% endif %}">
 	  {% if domain_name == "campus-champions" and is_front %}
       {% if page.campus_champions_front_header %}
         <div class="row">
