@@ -49,4 +49,16 @@ if (!function_exists('validate_form'))   {
     }
 }
 
+/**
+ * Implements hook_theme().
+ */
+function campuschampions_theme() {
+  return [
+    'campuschampions_block' => [
+      'variables' => [
+        'data' => [],
+      ],
+    ],
+  ];
+}
 ?>
