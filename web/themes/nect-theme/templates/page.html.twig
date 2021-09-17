@@ -72,7 +72,7 @@
 				</li>       
 				{% if domain_name == "campus-champions" %}
                                         <li class="nav-item">
-                                                <a href="/form/join-campus-champions" class="nav-link">Join</a>
+                                                <a href="/form/join-campus-champions" class="nav-link">Join CC</a>
                                         </li>
                                 {% else %}
                                         <li class="nav-item">
@@ -203,7 +203,7 @@
       {% endif %}
       {% if page.campus_champions_front_quick_links_join or page.campus_champions_front_quick_links_top_tags or page.campus_champions_front_quick_links_least_tags or page.campus_champions_front_quick_links_help %}
         <div class="row mx-auto border-top py-3 text-center">
-          <div class="col-12 my-3"><h3>Quick Links</h3></div>
+          <div class="cc-heading col-12 my-3"><h3>Quick Links</h3></div>
           {{ page.campus_champions_front_quick_links_join }}
           <div class="col-md-4 mb-3">
           <div class="card h-100">
@@ -225,7 +225,7 @@
                 <div class="tab-pane fade" id="least-tags" role="tabpanel" aria-labelledby="least-tag-tab">
                   {{ page.campus_champions_front_quick_links_least_tags }}
                 </div>
-                <a href="/tags" class="mt-3">All Tags</a>
+                <a href="/tags" class="mt-3 border border-5 p-2 font-weight-bold">All Tags</a>
               </div>
             </div>
           </div>
@@ -235,13 +235,13 @@
       {% endif %}
       {% if page.campus_champions_front_community_events %}
         <div class="row mx-auto border-top py-3">
-          <div class="col-12 my-3 text-center"><h3>Community Events</h3></div>
+          <div class="cc-heading col-12 my-3 text-center"><h3>Community Events</h3></div>
         </div>
 				{{ page.campus_champions_front_community_events }}
       {% endif %}
       {% if page.campus_champions_front_blog %}
         <div class="row mx-auto border-top py-3">
-          <div class="col-12 my-3 text-center"><h3>Blog</h3></div>
+          <div class="cc-heading col-12 my-3 text-center"><h3>Blog</h3></div>
           {{ page.campus_champions_front_blog }}
         </div>
       {% endif %}
