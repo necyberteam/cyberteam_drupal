@@ -10,7 +10,7 @@ use Drupal\views\Plugin\views\query\QueryPluginBase;
  */
 
 function campuschampions_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
-  if (($view->id() == 'people_card_view' && $view->getDisplay()->display['id'] == 'card_careers') || ($view->id() == 'people_list_view' && $view->getDisplay()->display['id'] == 'list_careers')) {  
+  if (($view->id() == 'people_card_view' && $view->getDisplay()->display['id'] == 'card_campus_champions') || ($view->id() == 'people_list_view' && $view->getDisplay()->display['id'] == 'list_campus_champions')) {  
       $definition = [
         'table' => 'campus_champions',
         'field' => 'uid',
