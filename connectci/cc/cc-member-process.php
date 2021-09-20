@@ -12,7 +12,7 @@ if ($conn->connect_error) { ?>
   <div class="alert alert-danger"><strong>Connection Error:</strong> Please contact a system administrator.</div>
 <?php }
 if (isset($_POST['uid'])) { $uid = $conn->real_escape_string($_POST['uid']); } else { header("Location: ./campus_champions.php"); exit; }
-if (isset($_POST['sid'])) { $sid = $conn->real_escape_string($_POST['sid']); } else { header("Location: ./campus_champions.php"); exit; }
+//if (isset($_POST['sid'])) { $sid = $conn->real_escape_string($_POST['sid']); } else { header("Location: ./campus_champions.php"); exit; }
 if (isset($_POST['carnegie_code'])) { $carnegieCode = $conn->real_escape_string($_POST['carnegie_code']); } else { $carnegieCode = ""; }
 if (isset($_POST['classification'])) { $classification = $conn->real_escape_string($_POST['classification']); } else { $classification = ""; }
 if (isset($_POST['approved'])) { $approved = $conn->real_escape_string($_POST['approved']); } else { $approved = "0"; }
