@@ -1,0 +1,64 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+function campuschampions_form_alter(&$form, &$form_state, $form_id) {
+    global $user;
+    if ($form_id == 'webform_submission_join_campus_champions_add_form') {
+        // Prepopulate user fields if logged into an account
+        $user = \Drupal::currentUser();
+        if($user->isAuthenticated()) {
+            $account = \Drupal\user\Entity\User::load($user->id());
+            $form['elements']['username']['#default_value'] = $account->name->value;
+            $form['elements']['user_first_name']['#default_value'] = $account->field_user_first_name->value;
+            $form['elements']['user_last_name']['#default_value'] = $account->field_user_last_name->value;
+            $form['elements']['user_email']['#default_value'] = $account->mail->value;
+            $form['elements']['username']['#access'] = FALSE;
+            $form['elements']['user_first_name']['#access'] = FALSE;
+            $form['elements']['user_last_name']['#access'] = FALSE;
+            $form['elements']['user_email']['#access'] = FALSE;
+        }
+
+        $form['elements']['carnegie_classification']['#autocomplete_route_name'] = 'campuschampions.autocomplete';
+        
+        // Reorder form
+        $cc_checkbox = $form['elements']['i_can_t_find_my_carnegie_code'];
+        $user_institution = $form['elements']['user_institution'];
+        unset($form['elements']['i_can_t_find_my_carnegie_code']);
+        unset($form['elements']['user_institution']);
+        $form['elements']['i_can_t_find_my_carnegie_code'] = $cc_checkbox;
+        $form['elements']['user_institution'] = $user_institution;
+        
+        if ($form['#validate'] != 'validate_form') {
+          $form['#validate'][] = 'validate_form';
+        }
+    }
+
+}
+
+if (!function_exists('validate_form'))   {
+    function validate_form(array &$form, FormStateInterface $form_state) {
+        $user_email = $form_state->getValue('user_email');
+        if ($form['elements']['user_email']['#access'] != FALSE) {
+            $ids = \Drupal::entityQuery('user')->condition('mail', $user_email)->execute();
+
+            if (!empty($ids)) {
+                $form_state->setErrorByName('user_email', t('There is an account associated with this email address. Please <a href="/user/login">login</a> first.'));
+            }
+        }
+    }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function campuschampions_theme() {
+  return [
+    'campuschampions_block' => [
+      'variables' => [
+        'data' => [],
+      ],
+    ],
+  ];
+}
+?>
