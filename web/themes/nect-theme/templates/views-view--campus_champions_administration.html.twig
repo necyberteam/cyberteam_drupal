@@ -36,8 +36,8 @@
 {% set escdiv = 'div' %}
 {% autoescape 'div' %}{% spaceless %}
 {%- if rows -%}
-<div><iframe id="session-frame" scrolling="no" src="https://connect.cyberinfrastructure.org/cc/cc-login.php?{% autoescape 'div' %}{% spaceless %}{{- rows -}}{% endspaceless %}{% endautoescape %}" style="border:none" width="100%" data-hj-allow-iframe></iframe></div>
-
+<div><iframe id="session-frame" scrolling="yes" src="https://connect.cyberinfrastructure.org/cc/cc-login.php?{% autoescape 'div' %}{% spaceless %}{{- rows -}}{% endspaceless %}{% endautoescape %}" style="border:none" width="100%" height="10000" data-hj-allow-iframe></iframe></div>
+{#
 <script type="text/javascript">(function() {
 var iframe = document.getElementById('session-frame');
 function resizeCrossDomainIframe() {
@@ -56,12 +56,12 @@ window.addEventListener("message", function(e) {
 });
 })();
 </script>
-{#
+#}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.1/iframeResizer.min.js"></script>
 <script>
-  iFrameResize({ log: true, checkOrigin:false, inPageLinks: true })
+  iFrameResize({ log: true, checkOrigin:false, inPageLinks: true }, '#session-frame')
 </script>
-#}
+
 {%- elseif empty -%}
   {{ empty }}
 {%- endif -%}
