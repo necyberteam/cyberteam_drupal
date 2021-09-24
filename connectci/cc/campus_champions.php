@@ -72,8 +72,8 @@ if(empty($_SESSION["uid"]) || empty($_SESSION['campus_champions_admin'])) {
             <tbody>
               <?php
               include "./drupal-url.php";
-              $getPendingQuery = "SELECT ws.sid, ws.completed, ws.uid,GROUP_CONCAT((IF(wsd.name='user_first_name', wsd.value, '')) SEPARATOR '') AS user_first_name, GROUP_CONCAT((IF(wsd.name='user_last_name', wsd.value, '')) SEPARATOR '') AS user_last_name, GROUP_CONCAT((IF(wsd.name='user_email', wsd.value, '')) SEPARATOR '') AS user_email, GROUP_CONCAT((IF(wsd.name='institution_name', wsd.value, '')) SEPARATOR '') AS institution, GROUP_CONCAT((IF(wsd.name='letter_of_collaboration', wsd.value, '')) SEPARATOR '') AS uri, GROUP_CONCAT((IF(wsd.name='status', wsd.value, '')) SEPARATOR '') AS status FROM webform_submission ws
-              LEFT JOIN webform_submission_data wsd ON ws.sid = wsd.sid WHERE ws.webform_id = 'join_campus_champions' GROUP BY ws.sid HAVING status='new'";
+              //$getPendingQuery = 'SELECT s.sid, s.completed, s.uid, f.uri, uf.field_user_first_name_value AS first_name, ul.field_user_last_name_value AS last_name, ue.mail AS email, ui.field_institution_value AS institution FROM webform_submission s LEFT JOIN webform_submission_data d ON s.sid = d.sid and d.name = "letter_of_collaboration" LEFT JOIN webform_submission_data status ON s.sid = status.sid and status.name = "status" LEFT JOIN file_managed f ON f.fid = d.value LEFT JOIN user__field_user_first_name uf ON s.uid = uf.entity_id LEFT JOIN user__field_user_last_name ul ON s.uid = ul.entity_id LEFT JOIN users_field_data ue ON s.uid = ue.uid LEFT JOIN user__field_institution ui ON s.uid = ui.entity_id WHERE s.webform_id = "join_campus_champions" and status.value="new"';
+              $getPendingQuery = "SELECT ws.sid, ws.completed, ws.uid,GROUP_CONCAT((IF(wsd.name='user_first_name', wsd.value, '')) SEPARATOR '') AS first_name, GROUP_CONCAT((IF(wsd.name='user_last_name', wsd.value, '')) SEPARATOR '') AS last_name, GROUP_CONCAT((IF(wsd.name='user_email', wsd.value, '')) SEPARATOR '') AS email, GROUP_CONCAT((IF(wsd.name='institution_name', wsd.value, '')) SEPARATOR '') AS institution, GROUP_CONCAT((IF(wsd.name='letter_of_collaboration', wsd.value, '')) SEPARATOR '') AS uri, GROUP_CONCAT((IF(wsd.name='status', wsd.value, '')) SEPARATOR '') AS status FROM webform_submission ws LEFT JOIN webform_submission_data wsd ON ws.sid = wsd.sid WHERE ws.webform_id = 'join_campus_champions' GROUP BY ws.sid HAVING status='new'";
               $getPending = $conn->prepare($getPendingQuery);
               $getPending->execute();
               $getPendingResult = $getPending->get_result();
@@ -111,7 +111,7 @@ if(empty($_SESSION["uid"]) || empty($_SESSION['campus_champions_admin'])) {
             </thead>
             <tbody>
               <?php
-              $getNeedApprovalQuery = 'SELECT cc.entity_id, uf.field_user_first_name_value AS first_name, ul.field_user_last_name_value AS last_name, ue.mail AS email, ui.field_institution_value AS institution FROM user__field_is_cc cc LEFT JOIN user__field_user_first_name uf ON cc.entity_id = uf.entity_id LEFT JOIN user__field_user_last_name ul ON cc.entity_id = ul.entity_id LEFT JOIN users_field_data ue ON cc.entity_id = ue.uid LEFT JOIN user__field_institution ui ON cc.entity_id = ui.entity_id WHERE (cc.entity_id NOT IN (SELECT uid FROM campus_champions) OR cc.entity_id NOT IN (SELECT s.uid FROM webform_submission s LEFT JOIN webform_submission_data status ON s.sid = status.sid WHERE s.webform_id="join_campus_champions")) AND cc.deleted=0 AND cc.field_is_cc_value=1';
+              $getNeedApprovalQuery = 'SELECT cc.entity_id, uf.field_user_first_name_value AS first_name, ul.field_user_last_name_value AS last_name, ue.mail AS email, ui.field_institution_value AS institution FROM user__field_is_cc cc LEFT JOIN user__field_user_first_name uf ON cc.entity_id = uf.entity_id LEFT JOIN user__field_user_last_name ul ON cc.entity_id = ul.entity_id LEFT JOIN users_field_data ue ON cc.entity_id = ue.uid LEFT JOIN user__field_institution ui ON cc.entity_id = ui.entity_id WHERE (cc.entity_id NOT IN (SELECT uid FROM campus_champions) AND cc.entity_id NOT IN (SELECT s.uid FROM webform_submission s LEFT JOIN webform_submission_data status ON s.sid = status.sid WHERE s.webform_id="join_campus_champions")) AND cc.deleted=0 AND cc.field_is_cc_value=1';
               $getNeedApproval = $conn->prepare($getNeedApprovalQuery);
               $getNeedApproval->execute();
               $getNeedApprovalResult = $getNeedApproval->get_result();
@@ -200,15 +200,12 @@ if(empty($_SESSION["uid"]) || empty($_SESSION['campus_champions_admin'])) {
   <script>
   $(document).ready(function() {
     $('#pendingChampionsTable').DataTable({
-      "paging":false,
       searchHighlight: true
     });
     $('#needApprovalTable').DataTable({
-      "paging":false,
       searchHighlight: true
     });
     $('#championsTable').DataTable({
-      "paging":false,
       searchHighlight: true
     });
   });

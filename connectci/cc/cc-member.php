@@ -1,8 +1,10 @@
 <?php
 session_start();
+/*
 if(empty($_SESSION["uid"]) || empty($_SESSION['campus_champions_admin'])) {
   header("Location: ./cc-login.php"); exit;
 }
+ */
 if (isset($_GET['uid']) && preg_match("/^[0-9]*$/", $_GET['uid'])) {
   $uid = $_GET['uid'];
 } else {
@@ -100,7 +102,7 @@ if (isset($_GET['application_id']) && preg_match("/^[0-9]*$/", $_GET['applicatio
                   </div>
                   <div class="form-row">
                     <div class="col-md-6 mb-3">
-                      <input type="text" name="carnegie_code" class="form-control" placeholder="Carnegie Code" value="<?php echo !empty($row['carnegie_code']) ? $row['carnegie_code'] : '';?>" required>
+                      <input type="text" name="carnegie_code" id="carnegie_code" class="form-control" placeholder="Carnegie Code" value="<?php echo !empty($row['carnegie_code']) ? $row['carnegie_code'] : '';?>">
                     </div>
                     <div class="col-md-6 mb-3">
                       <input type="text" name="institution" class="form-control" placeholder="Institution" value="<?php echo !empty($row['institution']) ? $row['institution'] : '';?>" disabled>
@@ -153,5 +155,19 @@ if (isset($_GET['application_id']) && preg_match("/^[0-9]*$/", $_GET['applicatio
   <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.colVis.min.js" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.1/iframeResizer.contentWindow.min.js"></script>
+  <script src="./js/jquery.autocomplete.min.js"/></script>
+  <script>
+    $('#carnegie_code').devbridgeAutocomplete({
+      serviceUrl: 'https://campuschampions.cyberinfrastructure.org/autocomplete/carnegiecode',
+      paramName: 'q',
+      transformResult: function(res) {
+        return {
+          suggestions: $.map(res, function(item) {
+            return { value: item.label, data: item.value };
+          })
+        }
+      }
+    });
+  </script>
 </body>
 </html>
