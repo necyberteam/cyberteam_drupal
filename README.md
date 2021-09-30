@@ -31,5 +31,6 @@ returns
 ### Campus Champions Banner Block
 A full width banner for the home page with Campus Champions statistics. Includes the Odometer library to animate number transitions.
 
-### Views Bulk Operations action
-A VBO action to set a user's is_cc field and field_region field.
+### Views Bulk Operations actions
+- Set a user's is_cc field and field_region field
+- Password reset for selected users
