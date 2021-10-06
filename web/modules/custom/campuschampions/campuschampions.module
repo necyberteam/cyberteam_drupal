@@ -13,10 +13,10 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
             $form['elements']['user_first_name']['#default_value'] = $account->field_user_first_name->value;
             $form['elements']['user_last_name']['#default_value'] = $account->field_user_last_name->value;
             $form['elements']['user_email']['#default_value'] = $account->mail->value;
-            $form['elements']['username']['#access'] = FALSE;
-            $form['elements']['user_first_name']['#access'] = FALSE;
-            $form['elements']['user_last_name']['#access'] = FALSE;
-            $form['elements']['user_email']['#access'] = FALSE;
+            $form['elements']['username']['#attributes'] = array('readonly' => 'readonly');
+            $form['elements']['user_first_name']['#attributes'] = array('readonly' => 'readonly');
+            $form['elements']['user_last_name']['#attributes'] = array('readonly' => 'readonly');
+            $form['elements']['user_email']['#attributes'] = array('readonly' => 'readonly');
         }
 
         $form['elements']['carnegie_classification']['#autocomplete_route_name'] = 'campuschampions.autocomplete';
@@ -39,11 +39,19 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
 if (!function_exists('validate_form'))   {
     function validate_form(array &$form, FormStateInterface $form_state) {
         $user_email = $form_state->getValue('user_email');
-        if ($form['elements']['user_email']['#access'] != FALSE) {
+        $username = $form_state->getValue('username');
+
+        if (!\Drupal::currentUser()->isAuthenticated()) {
             $ids = \Drupal::entityQuery('user')->condition('mail', $user_email)->execute();
 
             if (!empty($ids)) {
                 $form_state->setErrorByName('user_email', t('There is an account associated with this email address. Please <a href="/user/login">login</a> first.'));
+            }
+
+            $uids = \Drupal::entityQuery('user')->condition('name', $username)->execute();
+
+            if (!empty($uids)) {
+                $form_state->setErrorByName('username', t('There is an account associated with this username. Please <a href="/user/login">login</a> first.'));
             }
         }
     }
