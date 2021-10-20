@@ -34,6 +34,10 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
         }
     }
 
+    if ($form_id == 'user_form') {
+      // ksm($form);
+      $form['role_change']['widget']['#options']['student'] = 'student-facilitator <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Student Facilitator"></i>';      
+    }
 }
 
 if (!function_exists('validate_form'))   {
