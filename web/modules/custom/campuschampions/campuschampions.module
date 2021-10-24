@@ -35,9 +35,23 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
     }
 
     if ($form_id == 'user_form') {
-      // ksm($form);
+      //ksm($form);
       $form['role_change']['widget']['#options']['student'] = 'student-facilitator <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Student Facilitator"></i>';      
-    }
+      $form['role_change']['widget']['#options']['mentor'] = 'mentor <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Mentor"></i>';
+       $form['role_change']['widget']['#options']['professional_mentor'] = 'regional-facilitator <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Regional Facilitator"></i>'; 
+     }
+
+ //    if($form_id == "user_login_form") {
+ //      ksm($form);
+ //      $form['name']['#prefix'] = '<div class="col-lg-6 col-md-8 mx-auto text-center card my-4"><div class="card-body"><p>Please login with your Cyberteam account below or <a href="/user/register/student">JOIN US</a>.</p><div class="control-group form-group">';
+	// }
+
+	// if($form_id == "user_register_form") {
+ //      ksm($form);
+ //      // $form -> set_hide('field_user_first_name');
+ //      // $form['role_change']['#options'] -> set_hide("administrator");
+	// }
+
 }
 
 if (!function_exists('validate_form'))   {
