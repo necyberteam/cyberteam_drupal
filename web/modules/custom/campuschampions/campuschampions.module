@@ -13,10 +13,10 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
             $form['elements']['user_first_name']['#default_value'] = $account->field_user_first_name->value;
             $form['elements']['user_last_name']['#default_value'] = $account->field_user_last_name->value;
             $form['elements']['user_email']['#default_value'] = $account->mail->value;
-            $form['elements']['username']['#access'] = FALSE;
-            $form['elements']['user_first_name']['#access'] = FALSE;
-            $form['elements']['user_last_name']['#access'] = FALSE;
-            $form['elements']['user_email']['#access'] = FALSE;
+            $form['elements']['username']['#attributes'] = array('readonly' => 'readonly');
+            $form['elements']['user_first_name']['#attributes'] = array('readonly' => 'readonly');
+            $form['elements']['user_last_name']['#attributes'] = array('readonly' => 'readonly');
+            $form['elements']['user_email']['#attributes'] = array('readonly' => 'readonly');
         }
 
         $form['elements']['carnegie_classification']['#autocomplete_route_name'] = 'campuschampions.autocomplete';
@@ -34,16 +34,42 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
         }
     }
 
+    if ($form_id == 'user_form') {
+      //ksm($form);
+      $form['role_change']['widget']['#options']['student'] = 'student-facilitator <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Student Facilitator"></i>';      
+      $form['role_change']['widget']['#options']['mentor'] = 'mentor <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Mentor"></i>';
+       $form['role_change']['widget']['#options']['professional_mentor'] = 'regional-facilitator <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Regional Facilitator"></i>'; 
+     }
+
+ //    if($form_id == "user_login_form") {
+ //      ksm($form);
+ //      $form['name']['#prefix'] = '<div class="col-lg-6 col-md-8 mx-auto text-center card my-4"><div class="card-body"><p>Please login with your Cyberteam account below or <a href="/user/register/student">JOIN US</a>.</p><div class="control-group form-group">';
+	// }
+
+	// if($form_id == "user_register_form") {
+ //      ksm($form);
+ //      // $form -> set_hide('field_user_first_name');
+ //      // $form['role_change']['#options'] -> set_hide("administrator");
+	// }
+
 }
 
 if (!function_exists('validate_form'))   {
     function validate_form(array &$form, FormStateInterface $form_state) {
         $user_email = $form_state->getValue('user_email');
-        if ($form['elements']['user_email']['#access'] != FALSE) {
+        $username = $form_state->getValue('username');
+
+        if (!\Drupal::currentUser()->isAuthenticated()) {
             $ids = \Drupal::entityQuery('user')->condition('mail', $user_email)->execute();
 
             if (!empty($ids)) {
                 $form_state->setErrorByName('user_email', t('There is an account associated with this email address. Please <a href="/user/login">login</a> first.'));
+            }
+
+            $uids = \Drupal::entityQuery('user')->condition('name', $username)->execute();
+
+            if (!empty($uids)) {
+                $form_state->setErrorByName('username', t('There is an account associated with this username. Please <a href="/user/login">login</a> first.'));
             }
         }
     }
