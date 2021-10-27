@@ -66,19 +66,22 @@
 		  {% if page.secondary_menu and logged_in %}
 			  {{ page.secondary_menu }}
 		  {% else %}
-			<ul class="navbar-nav ml-auto" style="margin-left: auto !important;">
-				<li class="nav-item">
-					<a href="/user/login" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in</a>
-				</li>       
+			<ul class="navbar-nav ml-auto" style="margin-left: auto !important;">       
 				{% if domain_name == "campus-champions" %}
-                                        <li class="nav-item">
-                                                <a href="/form/join-campus-champions" class="nav-link">Join CC</a>
-                                        </li>
-                                {% else %}
-                                        <li class="nav-item">
-                                                <a href="/user/register" class="nav-link" data-drupal-link-system-path="user/register">Join</a>
-                                        </li>
-                                {% endif %}
+            <li class="nav-item">
+              <a href="/user/login" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in/Join Portal</a>
+            </li>
+            <li class="nav-item">
+              <a href="/form/join-campus-champions" class="nav-link">Join CC</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+              <a href="/user/login" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in</a>
+            </li>
+            <li class="nav-item">
+              <a href="/user/register" class="nav-link" data-drupal-link-system-path="user/register">Join</a>
+            </li>
+        {% endif %}
 			</ul>
 		  {% endif %}
 		</div>
@@ -137,39 +140,39 @@
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/mines.background.jpg')">
 	{% elseif domain_name == "trecis-cyberteam" %}
 		<header class="masthead" style="background-image: url('/themes/nect-theme/img/trecis.background.jpg')">
-    {% else %}
+  {% else %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
-    {% endif %}
-		  <div class="container">
-			<div class="row">
-			  <div class="col-12 mx-auto">
-				<div class="site-heading">
-					<h2 class="mb-5 mx-auto">
-          {% if domain_name == "northeast-cyberteam" %}
-            {{ nect_front_text }}
-          {% elseif domain_name == "great-plains-cyberteam" %}
-            {{ gpct_front_text }}
-          {% elseif domain_name == "rmacc-cyberteam" %}
-            {{ rmacc_front_text }}
-          {% elseif domain_name == "careers-cyberteam" %}
-            {{ careers_front_text }}
-          {% elseif domain_name == "kentucky-cyberteam" %}
-            {{ kentucky_front_text }}
-          {% elseif domain_name == "sweeter-cyberteam" %}
-            {{ sweeter_front_text }}
-          {% elseif domain_name == "mines-cyberteam" %}
-            {{ mines_front_text }}
-					{% elseif domain_name == "trecis-cyberteam" %}
-            {{ trecis_front_text }}
-          {% endif %}
-          </h2>
-					<ul class="d-none fa-ul mt-5 mx-auto">
-						<li class="d-inline mx-3"><a href="/about" class="btn btn-sm-block btn-outline-light btn-pill px-5">About The Team</a></li>
-            <li class="d-inline mx-3"><a href="/blog" class="btn btn-sm-block btn-outline-light btn-pill px-5">Blog</a></li>
-					</ul>
-				</div>
-			  </div>
-			</div>
+  {% endif %}
+      <div class="container">
+        <div class="row">
+          <div class="col-12 mx-auto">
+            <div class="site-heading">
+              <h2 class="mx-auto my-0">
+              {% if domain_name == "northeast-cyberteam" %}
+                {{ nect_front_text }}
+              {% elseif domain_name == "great-plains-cyberteam" %}
+                {{ gpct_front_text }}
+              {% elseif domain_name == "rmacc-cyberteam" %}
+                {{ rmacc_front_text }}
+              {% elseif domain_name == "careers-cyberteam" %}
+                {{ careers_front_text | raw }}
+              {% elseif domain_name == "kentucky-cyberteam" %}
+                {{ kentucky_front_text }}
+              {% elseif domain_name == "sweeter-cyberteam" %}
+                {{ sweeter_front_text }}
+              {% elseif domain_name == "mines-cyberteam" %}
+                {{ mines_front_text }}
+              {% elseif domain_name == "trecis-cyberteam" %}
+                {{ trecis_front_text }}
+              {% endif %}
+              </h2>
+              <ul class="d-none fa-ul mt-5 mx-auto">
+                <li class="d-inline mx-3"><a href="/about" class="btn btn-sm-block btn-outline-light btn-pill px-5">About The Team</a></li>
+                <li class="d-inline mx-3"><a href="/blog" class="btn btn-sm-block btn-outline-light btn-pill px-5">Blog</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
 		  </div>
 		</header>
 	{% else %}
@@ -355,7 +358,7 @@
 	<div class="row">
 	  <div class="col-lg-12 col-md-10 mx-auto">
                 <p class="copyright">Funded in part by the <a href="https://nsf.gov" target="_blank" style="color: #fff;">National Science Foundation</a></p>
-		<p class="copyright">Copyright &copy; {{ 'now'|date('Y') }}, {{ site_name }} &bull; All Rights Reserved &bull; <a href="/regions" style="color: white;">Regions</a> &bull; <a href="/contact/{{domain_name|replace({'-':'_'})}}" style="color: white;">Contact Us</a></p>
+		<p class="copyright">Copyright &copy; {{ 'now'|date('Y') }}, {{ site_name }} &bull; All Rights Reserved &bull; <a href="/regions" style="color: white;">Connect.CI</a> &bull; <a href="/contact/{{domain_name|replace({'-':'_'})}}" style="color: white;">Contact Us</a></p>
 	  </div>
 	</div>
   </div>
