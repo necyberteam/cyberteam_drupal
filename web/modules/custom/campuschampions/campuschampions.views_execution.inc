@@ -51,7 +51,7 @@ function campuschampions_views_query_alter(ViewExecutable $view, QueryPluginBase
     $rel = $query->addRelationship('campus_champions', $join, 'users');
     $query->addTable('campus_champions', $rel, $join, 'campus_champions');
 
-    $query->addWhere('', 'campus_champions.approved', 1, '=');
+    //$query->addWhere('', 'campus_champions.approved', 1, '=');
   }
 }
 ?>
