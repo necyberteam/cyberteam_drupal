@@ -38,20 +38,19 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
       //ksm($form);
       $form['role_change']['widget']['#options']['student'] = 'student-facilitator <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Student Facilitator"></i>';      
       $form['role_change']['widget']['#options']['mentor'] = 'mentor <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Mentor"></i>';
-       $form['role_change']['widget']['#options']['professional_mentor'] = 'regional-facilitator <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Regional Facilitator"></i>'; 
+      $form['role_change']['widget']['#options']['professional_mentor'] = 'regional-facilitator <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Regional Facilitator"></i>'; 
+
+      // Hide is_campus_champion field unless you are an admin
+      $roles = \Drupal::currentUser()->getRoles();
+      if(!in_array("administrator", $roles)) {
+        $form['field_is_cc']['widget']['#access'] = FALSE;
+      }
+
+      // Don't allow people to join Campus Champions field unless the is_cc field is checked
+      if ($form['#validate'] != 'validate_user_form') {
+        $form['#validate'][] = 'validate_user_form';
+      }
      }
-
- //    if($form_id == "user_login_form") {
- //      ksm($form);
- //      $form['name']['#prefix'] = '<div class="col-lg-6 col-md-8 mx-auto text-center card my-4"><div class="card-body"><p>Please login with your Cyberteam account below or <a href="/user/register/student">JOIN US</a>.</p><div class="control-group form-group">';
-	// }
-
-	// if($form_id == "user_register_form") {
- //      ksm($form);
- //      // $form -> set_hide('field_user_first_name');
- //      // $form['role_change']['#options'] -> set_hide("administrator");
-	// }
-
 }
 
 if (!function_exists('validate_form'))   {
@@ -73,6 +72,22 @@ if (!function_exists('validate_form'))   {
             }
         }
     }
+}
+
+/**
+ * Implements validate_user_form().
+ * 
+ * Require is_cc field to assign Campus Champions Program
+ */
+if (!function_exists('validate_user_form'))   {
+  function validate_user_form(array &$form, FormStateInterface $form_state) {
+    $programs = $form_state->getValue('field_region');
+    $is_cc = $form_state->getValue('field_is_cc');
+    // 572 is Campus Champions
+    if (array_filter($programs, function($program) { return $program['target_id'] == '572'; }) && !$is_cc['value']) {
+      $form_state->setErrorByName('field_region', t('Please join the Campus Champions by submitting <a href="https://campuschampions.cyberinfrastructure.org/form/join-campus-champions">this form</a> before selecting "Campus Champions" in the Programs list.'));
+    }
+  }
 }
 
 /**
