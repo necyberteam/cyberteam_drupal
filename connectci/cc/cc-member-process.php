@@ -66,8 +66,34 @@ if ($_POST['type'] == "new") {
   $updateCC->bind_param("ssss", $carnegieCode, $approved, $classification, $ccId);
   $updateCC->execute();
   $updateCC->close();
-  header("Location: ./campus_champions.php"); exit;
-} else {
-  header("Location: ./campus_champions.php"); exit;
 }
+// Send notication email that user was approved
+if ($approved) {
+  $sql = 'SELECT mail FROM users_field_data ufd WHERE ufd.uid='.$uid;
+  $result = $conn->query($sql);
+  if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+      $to_email = $row['mail'];
+      $from_email = 'no-reply@wpi.edu';
+      $subject = "You have been approved as a Campus Champion";
+      $message = '
+<html>
+<head>
+  <title>You are a Campus Champion</title>
+</head>
+<body>
+<p>You have been approved as a Campus Champion</p>
+</body>
+</html>
+';
+      $headers[] = 'MIME-Version: 1.0';
+      $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+      $headers[] = 'From: '.$from_email;
+      $parameters = '';
+      //mail($to_email, $subject, $message, implode("\r\n", $headers), $parameters);
+    }
+  }
+}
+
+header("Location: ./campus_champions.php"); exit;
 ?>
