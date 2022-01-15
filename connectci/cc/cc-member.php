@@ -62,6 +62,7 @@ if (isset($_GET['application_id']) && preg_match("/^[0-9]*$/", $_GET['applicatio
     if ($conn->connect_error) { ?>
       <div class="alert alert-danger"><strong>Connection Error:</strong> Please contact a system administrator.</div>
     <?php } ?>
+    <div class="alert alert-info"><strong>Database:</strong> <?php echo $dbname; ?></div>
     <div class="my-2"><?php include "./message.php"; ?></div>
     <div class="card my-2">
       <div class="card-body">
@@ -69,7 +70,7 @@ if (isset($_GET['application_id']) && preg_match("/^[0-9]*$/", $_GET['applicatio
           <section class="row justify-content-center">
             <div class="col mx-auto">
               <?php
-              $findUserQuery = 'SELECT (SELECT count(*) FROM (SELECT uid FROM campus_champions WHERE uid=?) tl) as in_cc, cc.id as cc_id, ue.uid, cc.approved, cc.carnegie_code, cc.classification, uf.field_user_first_name_value AS first_name, ul.field_user_last_name_value AS last_name, ue.mail AS email, ui.field_institution_value AS institution FROM users_field_data ue LEFT JOIN user__field_user_first_name uf ON ue.uid = uf.entity_id LEFT JOIN user__field_user_last_name ul ON ue.uid = ul.entity_id LEFT JOIN campus_champions cc ON ue.uid = cc.uid LEFT JOIN user__field_institution ui ON ue.uid = ui.entity_id WHERE ue.uid=?';
+              $findUserQuery = 'SELECT (SELECT count(*) FROM (SELECT uid FROM campus_champions WHERE uid=?) tl) as in_cc, cc.id as cc_id, ue.uid, cc.approved, ufcc.field_carnegie_code_value as carnegie_code, cc.classification, uf.field_user_first_name_value AS first_name, ul.field_user_last_name_value AS last_name, ue.mail AS email, ui.field_institution_value AS institution FROM users_field_data ue LEFT JOIN user__field_user_first_name uf ON ue.uid = uf.entity_id LEFT JOIN user__field_user_last_name ul ON ue.uid = ul.entity_id LEFT JOIN campus_champions cc ON ue.uid = cc.uid LEFT JOIN user__field_institution ui ON ue.uid = ui.entity_id LEFT JOIN user__field_carnegie_code ufcc ON ue.uid = ufcc.entity_id WHERE ue.uid=?';
               $findUser = $conn->prepare($findUserQuery);
               $findUser->bind_param("ii",$uid, $uid);
               $findUser->execute();
