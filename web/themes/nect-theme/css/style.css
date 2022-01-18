@@ -490,11 +490,16 @@ li.dropdown-item a.nav-link:active {
     height: auto !important;
   }
   .navbar-toggler { padding: 0.25rem 0rem; }
+  .dropdown .dropdown-toggle {
+    display: block;
+    margin-bottom: 0;
+  }
   .dropdown .dropdown-menu {
-    display: block !important;
+    /*display: block !important; */
     opacity: 1;
     max-height: initial;
     overflow: initial;
+    top: 0;
   }
   .dropdown-menu .dropdown-item a {
     margin-left: 15px;
