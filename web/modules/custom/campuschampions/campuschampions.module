@@ -51,7 +51,19 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
       if ($form['#validate'] != 'validate_user_form') {
         $form['#validate'][] = 'validate_user_form';
       }
-     }
+    }
+
+    // Don't allow people to register as Campus Champions
+    if ($form_id == 'user_register_form') {
+      $form['field_is_cc']['widget']['#access'] = FALSE;
+      $options = $form['field_region']['widget']['#options'];
+      $form['field_region']['widget']['#options'] = array_filter( $options, function($option) {
+        if ($option == 'Campus Champions') {
+          return false;
+	}
+        return true;	
+      }); 
+    }
 }
 
 if (!function_exists('validate_form'))   {
