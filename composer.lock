@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cd6b4d61027df19e8194382d846ca117",
+    "content-hash": "f613ac6fbc6f32673192d27f3a8d7675",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2232,33 +2232,35 @@
         },
         {
             "name": "drupal/content_sync",
-            "version": "2.1.0",
+            "version": "3.0.0-beta1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/content_sync.git",
-                "reference": "8.x-2.1"
+                "reference": "3.0.0-beta1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/content_sync-8.x-2.1.zip",
-                "reference": "8.x-2.1",
-                "shasum": "6eab25cdeed48efdd608db40191243f0bd61db47"
+                "url": "https://ftp.drupal.org/files/projects/content_sync-3.0.0-beta1.zip",
+                "reference": "3.0.0-beta1",
+                "shasum": "3685d705f3371fe1b64b32b05129f72746cd5cad"
             },
             "require": {
-                "drupal/core": "^8"
+                "drupal/core": "^8.8 || ^9"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-2.1",
-                    "datestamp": "1551619984",
+                    "version": "3.0.0-beta1",
+                    "datestamp": "1631154042",
                     "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
+                        "status": "not-covered",
+                        "message": "Beta releases are not covered by Drupal security advisories."
                     }
                 },
-                "patches_applied": {
-                    "content normalizer": "patches/content_sync-entity_manager_refs.patch"
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9 || ^10"
+                    }
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -2268,29 +2270,34 @@
             "authors": [
                 {
                     "name": "Blanca.Esqueda",
-                    "homepage": "https://www.drupal.org/user/3082389"
+                    "homepage": "https://www.drupal.org/u/blancaesqueda",
+                    "role": "Maintainer"
                 },
                 {
-                    "name": "andrew.trebble",
-                    "homepage": "https://www.drupal.org/user/3159065"
+                    "name": "David Gil Hidalgo",
+                    "homepage": "https://www.drupal.org/u/dabito",
+                    "role": "Maintainer"
                 },
                 {
-                    "name": "chris.smith",
-                    "homepage": "https://www.drupal.org/user/1812018"
+                    "name": "David Nova",
+                    "homepage": "https://www.drupal.org/u/david4lim",
+                    "role": "Maintainer"
                 },
                 {
-                    "name": "dabito",
-                    "homepage": "https://www.drupal.org/user/2400660"
+                    "name": "Andrés Moncada",
+                    "homepage": "https://www.drupal.org/u/acmoncadab4",
+                    "role": "Contributor"
                 },
                 {
-                    "name": "david4lim",
-                    "homepage": "https://www.drupal.org/user/934262"
+                    "name": "See contributors",
+                    "homepage": "https://www.drupal.org/node/2865869/committers"
                 }
             ],
-            "description": "Allows to import/export content using YAML files",
-            "homepage": "https://www.drupal.org/project/content_sync",
+            "description": "Content Sync functionality.",
+            "homepage": "http://drupal.org/project/content_sync",
             "support": {
-                "source": "https://git.drupalcode.org/project/content_sync"
+                "source": "https://git.drupalcode.org/project/content_sync",
+                "issues": "http://drupal.org/project/content_sync"
             }
         },
         {
