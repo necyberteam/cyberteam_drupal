@@ -124,17 +124,17 @@ function campuschampions_theme() {
  */
 function campuschampions_mail_alter(&$message) {
   switch ($message['key']) {
-    case 'page_mail':
-    case 'page_copy':
-    case 'cancel_confirm':
+    //case 'page_mail':
+    //case 'page_copy':
+    //case 'cancel_confirm':
     case 'password_reset':
-    case 'register_admin_created':
-    case 'register_no_approval_required':
-    case 'register_pending_approval':
-    case 'register_pending_approval_admin':
-    case 'status_activated':
-    case 'status_blocked':
-    case 'status_canceled':
+    //case 'register_admin_created':
+    //case 'register_no_approval_required':
+    //case 'register_pending_approval':
+    //case 'register_pending_approval_admin':
+    //case 'status_activated':
+    //case 'status_blocked':
+    //case 'status_canceled':
       $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
       foreach ($message['body'] as $key => &$body) {
         $body = new FormattableMarkup($body, []);

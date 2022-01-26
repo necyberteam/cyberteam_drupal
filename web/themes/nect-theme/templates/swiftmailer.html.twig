@@ -1,0 +1,68 @@
+{#
+/**
+ * @file
+ * The default template file for e-mails.
+ *
+ * Available variables:
+ * - subject: The subject.
+ * - body: The message content.
+ * - is_html: True if generating HTML output, false for plain text.
+ * - message: The $message array created and used in the mail building
+ *   procedure. Its content varies between cases, but typically contains at
+ *   least the following elements:
+ *   - id: The message identifier.
+ *   - module: The module that handles the building of the message.
+ *   - key: The key of the message.
+ *   - to: The recipient email address.
+ *   - from: The email address of the sender.
+ *   - langcode: The langcode to use to compose the e-mail.
+ *   - params: The message parameters.
+ * - base_url: The site base url including scheme, without trailing slash.
+ *
+ * This template may be overriden by module and/or mail key, using any of the
+ * following template names:
+ * - swiftmailer.html.twig: global, used by default.
+ * - swiftmailer--mymodule.html.twig: only emails sent by the module "mymodule".
+ * - swiftmailer--mymodule--test.html.twig: only emails by the module
+ *   "mymodule" with key "test".
+ *
+ * @see template_preprocess()
+ * @see template_preprocess_swiftmailer()
+ *
+ * @ingroup themeable
+ */
+#}
+{% if is_html %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="x-apple-disable-message-reformatting">
+	<title></title>
+	<!--[if mso]>
+	<noscript>
+		<xml>
+            <o:OfficeDocumentSettings>
+				<o:PixelsPerInch>96</o:PixelsPerInch>
+			</o:OfficeDocumentSettings>
+		</xml>
+	</noscript>
+	<![endif]-->
+	<style>
+		table, td, div, h1, p {font-family: Arial, sans-serif;}
+	</style>
+</head>
+<body style="margin:0;padding:0;">
+    <table role="presentation" cellpadding="20" style="width:100%;max-width: 800px;border-collapse:collapse;border:0;border-spacing:0;mso-padding-alt: 20px 20px 20px 20px">
+		<tr>
+			<td>
+				{{ body }}
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
+{% else %}
+{{ body }}
+{% endif %}
