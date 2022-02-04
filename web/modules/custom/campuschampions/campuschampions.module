@@ -2,6 +2,7 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Render\FormattableMarkup;
+use Drupal\webform\WebformSubmissionInterface;
 
 function campuschampions_form_alter(&$form, &$form_state, $form_id) {
     global $user;
@@ -63,6 +64,12 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
 	}
         return true;	
       }); 
+    }
+
+    // Hide Preview button on contact forms
+    $start = 'contact_message';
+    if (@substr_compare($form_id, $start, 0, strlen($start))==0) {
+        $form['actions']['preview']['#access'] = FALSE;
     }
 }
 
