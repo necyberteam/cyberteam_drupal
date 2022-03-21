@@ -4,9 +4,6 @@ The Campus Champions custom module implements the following features:
 
 ## Campus Champion Features
 
-### Filter Approved Campus Champions
-Implements the _views_query_alter function to filter Campus Champions on the approved field in the campus_champions table for the people_card_view and the people_list_view.
-
 ### Join the Campus Champions form
 Implements the _form_alter function to:
 - Prepopulate and hide user fields if the user is authenticated
@@ -62,6 +59,14 @@ Drush command to export members. Currently exports as a csv and emails to an adm
 
 ### Hide preview button on contact forms
 - Implemented in _form_alter()
+
+### Redirect after password change
+Redirect to the user's profile page after changing the password. Requires the following change in change_pwd_page module:
+```
+  if ($form_id == 'change_pwd_form') {
+    $form['actions']['submit']['#submit'] = $form['#submit'];
+    $form['actions']['submit']['#submit'][] = 'campuschampions_redirect_to_profile_page_form_submit'; // <-- add this line
+```
 
 ### Make CV upload field private
 - Implement _update_8901() to change the cv_resume field from public to private 
