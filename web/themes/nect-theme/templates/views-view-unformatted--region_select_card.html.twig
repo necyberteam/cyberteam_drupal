@@ -1,7 +1,8 @@
 <div class="dropdown">
-    <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-right: 10px; padding-left: 0px; margin-bottom: 0;">
        Filter By Program
-    </a>
+    </a><a href="https://cnct.ci/"><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Click here to read more about ConnectCI programs"></i></a>
+
     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
         {% for row in rows %}
             {{ row.content}}

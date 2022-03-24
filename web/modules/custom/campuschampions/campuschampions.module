@@ -2,6 +2,12 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Render\FormattableMarkup;
+use Drupal\webform\WebformSubmissionInterface;
+use Drupal\node\NodeInterface;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Mail\MailManagerInterface;
+use Drupal\Component\Utility\SafeMarkup;
+use Drupal\Component\Utility\Html;
 
 function campuschampions_form_alter(&$form, &$form_state, $form_id) {
     global $user;
@@ -51,7 +57,29 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
       if ($form['#validate'] != 'validate_user_form') {
         $form['#validate'][] = 'validate_user_form';
       }
-     }
+    }
+
+    // Don't allow people to register as Campus Champions
+    if ($form_id == 'user_register_form') {
+      $form['field_is_cc']['widget']['#access'] = FALSE;
+      $options = $form['field_region']['widget']['#options'];
+      $form['field_region']['widget']['#options'] = array_filter( $options, function($option) {
+        if ($option == 'Campus Champions') {
+          return false;
+	}
+        return true;	
+      }); 
+    }
+    
+    if ($form_id == 'change_pwd_form') {
+        $form['actions']['submit']['#submit'][] = 'campuschampions_redirect_to_profile_page_form_submit';
+    }
+
+    // Hide Preview button on contact forms
+    $start = 'contact_message';
+    if (@substr_compare($form_id, $start, 0, strlen($start))==0) {
+        $form['actions']['preview']['#access'] = FALSE;
+    }
 }
 
 if (!function_exists('validate_form'))   {
@@ -101,7 +129,32 @@ function campuschampions_theme() {
         'data' => [],
       ],
     ],
+    'socialauthgoogle' => [
+      'template' => 'block--socialauthgoogle',
+      'variables' => [
+	 'destination_path' => '',
+      ],
+    ],
   ];
+}
+
+
+/** 
+ * Implements hook_mail(). 
+ *
+ * Send mail to approved campus champions
+ */
+function campuschampions_mail($key, &$message, $params) {
+  $options = array(
+    'langcode' => $message['langcode'],
+  );
+  switch ($key) {
+    case 'approve_campuschampion':
+      $message['from'] = 'leadership@campuschampions.org';
+      $message['subject'] = 'Welcome to the Campus Champions Portal!';
+      $message['body'][] = $params['message'];
+      break;
+  }
 }
 
 
@@ -112,17 +165,18 @@ function campuschampions_theme() {
  */
 function campuschampions_mail_alter(&$message) {
   switch ($message['key']) {
-    case 'page_mail':
-    case 'page_copy':
-    case 'cancel_confirm':
+    //case 'page_mail':
+    //case 'page_copy':
+    //case 'cancel_confirm':
     case 'password_reset':
-    case 'register_admin_created':
-    case 'register_no_approval_required':
-    case 'register_pending_approval':
-    case 'register_pending_approval_admin':
-    case 'status_activated':
-    case 'status_blocked':
-    case 'status_canceled':
+    //case 'register_admin_created':
+    //case 'register_no_approval_required':
+    //case 'register_pending_approval':
+    //case 'register_pending_approval_admin':
+    //case 'status_activated':
+    //case 'status_blocked':
+    //case 'status_canceled':
+    case 'approve_campuschampion':
       $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
       foreach ($message['body'] as $key => &$body) {
         $body = new FormattableMarkup($body, []);
@@ -131,4 +185,28 @@ function campuschampions_mail_alter(&$message) {
 
   }
 }
+
+/**
+ * Implements hook_node_access().
+ * 
+ * Allow Affinity Group coordinators to edit the affinity group node.
+ */
+function campuschampions_node_access(NodeInterface $node, $op, $account) {
+  $type = $node->bundle();
+
+  if ($type != 'affinity_group' || $op != 'update') {
+    return AccessResult::neutral();
+  }
+
+  $uids = array_column($node->field_coordinator->getValue(), 'target_id');
+
+  return AccessResult::allowedIf(in_array($account->id(), $uids))->cachePerUser()->addCacheableDependency($node);
+}
+
+function campuschampions_redirect_to_profile_page_form_submit($form, &$form_state) {
+    ksm($form);
+    $form_state->setRedirect('user.page');
+}
+
 ?>
+

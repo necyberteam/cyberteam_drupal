@@ -55,28 +55,29 @@
 	<nav class="navbar navbar-expand secondary-nav navbar-light bg-light " id="secondaryNav">
 	{% endif %}
 	  <div class="container">
-		<button class="navbar-toggler navbar-toggler-right ml-auto" type="button" data-toggle="collapse" data-target="#secondaryNavbarResponsive" aria-controls="secondaryNavbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+	<!--	<button class="navbar-toggler navbar-toggler-right ml-auto" type="button" data-toggle="collapse" data-target="#secondaryNavbarResponsive" aria-controls="secondaryNavbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 		  {% if logged_in %}
 			<i class="fa fa-user"></i> &nbsp; User Menu &nbsp; <i class="fa fa-caret-down"></i>
 		  {% else %}
 			<i class="fa fa-user"></i> &nbsp; User Menu &nbsp; <i class="fa fa-caret-down"></i>
-		  {% endif %}
-		</button>
+		  {% endif %} 
+		</button> 
 		<div class="collapse navbar-collapse" id="secondaryNavbarResponsive">
+	-->	<div id="secondaryNavbarResponsive" style="margin-left: auto; margin-right: 0;">
 		  {% if page.secondary_menu and logged_in %}
 			  {{ page.secondary_menu }}
 		  {% else %}
 			<ul class="navbar-nav ml-auto" style="margin-left: auto !important;">       
 				{% if domain_name == "campus-champions" %}
             <li class="nav-item">
-              <a href="/user/login" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in/Join Portal</a>
+              <a href="/user/login?current={{ path("<current>") }}" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in/Join Portal</a>
             </li>
             <li class="nav-item">
               <a href="/form/join-campus-champions" class="nav-link">Join CC</a>
             </li>
         {% else %}
             <li class="nav-item">
-              <a href="/user/login" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in</a>
+              <a href="/user/login?current={{ path("<current>") }}" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in</a>
             </li>
             <li class="nav-item">
               <a href="/user/register" class="nav-link" data-drupal-link-system-path="user/register">Join</a>
@@ -108,6 +109,8 @@
 	<img src="/themes/nect-theme/trecis.logo.png" class="logo" alt="TRECIS Cyberteam">
         {% elseif domain_name == "campus-champions" %}
         <img src="/themes/nect-theme/campuschampions.png" class="logo" alt="Campus Champions">
+        {% elseif domain_name == "connect-ci" %}
+        <img src="/themes/nect-theme/connectci.png" class="logo" alt="Connect CI">
         {% endif %}
       </a>
 			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,7 +125,6 @@
 	 </nav>
 	 {% endblock %}
 	{% endif %}
-
 	{% if is_front and domain_name != "campus-champions" %}
     {% if domain_name == "northeast-cyberteam" %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
@@ -138,32 +140,36 @@
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/sweeter.background.jpg')">
     {% elseif domain_name == "mines-cyberteam" %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/mines.background.jpg')">
-	{% elseif domain_name == "trecis-cyberteam" %}
-		<header class="masthead" style="background-image: url('/themes/nect-theme/img/trecis.background.jpg')">
-  {% else %}
-    <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
-  {% endif %}
+    {% elseif domain_name == "trecis-cyberteam" %}
+	<header class="masthead" style="background-image: url('/themes/nect-theme/img/trecis.background.jpg')">
+    {% elseif domain_name == "connect-ci" %}
+	<header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
+    {% else %}
+        <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
+    {% endif %}
       <div class="container">
         <div class="row">
           <div class="col-12 mx-auto">
             <div class="site-heading">
               <h2 class="mx-auto my-0">
               {% if domain_name == "northeast-cyberteam" %}
-                {{ nect_front_text }}
+                {{ nect_front_text | raw }}
               {% elseif domain_name == "great-plains-cyberteam" %}
-                {{ gpct_front_text }}
+                {{ gpct_front_text | raw }}
               {% elseif domain_name == "rmacc-cyberteam" %}
-                {{ rmacc_front_text }}
+                {{ rmacc_front_text | raw }}
               {% elseif domain_name == "careers-cyberteam" %}
                 {{ careers_front_text | raw }}
               {% elseif domain_name == "kentucky-cyberteam" %}
-                {{ kentucky_front_text }}
+                {{ kentucky_front_text | raw }}
               {% elseif domain_name == "sweeter-cyberteam" %}
-                {{ sweeter_front_text }}
+                {{ sweeter_front_text | raw }}
               {% elseif domain_name == "mines-cyberteam" %}
-                {{ mines_front_text }}
+                {{ mines_front_text | raw }}
               {% elseif domain_name == "trecis-cyberteam" %}
-                {{ trecis_front_text }}
+                {{ trecis_front_text | raw }}
+              {% elseif domain_name == "connect-ci" %}
+                {{ connectci_front_text | raw }}
               {% endif %}
               </h2>
               <ul class="d-none fa-ul mt-5 mx-auto">
@@ -290,13 +296,13 @@
           {{ page.view_type_buttons }}
           {{ page.drupal_tabs }}
           {{ page.exposed_filters }}
-          {{ page.tags_page_resources }}
-          {{ page.tags_page_projects }}
+	  {{ page.tags_page_mentors }}
+	  {{ page.tags_page_askci }}
           {{ page.tags_page_students }}
-          {{ page.tags_page_mentors }}
           {{ page.tags_page_researchers }}
+	  {{ page.tags_page_resources }}
+          {{ page.tags_page_projects }}
           {{ page.tags_page_blog }}
-          {{ page.tags_page_askci }}
           {{ page.people_page_card }}
           {{ page.people_page_list }}
           {{ page.projects_page }}

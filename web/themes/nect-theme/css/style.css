@@ -437,6 +437,22 @@ li.dropdown-item a.nav-link:active {
 .fixed-top { position: relative; z-index:50; }
 .fixed-top.scrolled { position: fixed; }
 
+/* People Page Dropdown */
+@media screen and (max-width: 991.98px) {
+  #block-views-block-peoplebuttonblocks-region-select-card .dropdown-menu {
+    position: absolute;
+    background-color: #FFFFFF;
+    top: 40px;
+    border: 1px solid rgba(0,0,0,.2);
+    box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+    display: none !important;
+  }
+
+  #block-views-block-peoplebuttonblocks-region-select-card .show {
+    display: block !important;
+  } 
+}
+
 /* secondaryNav */
 #secondaryNav .navbar-toggler {
   color: var(--secondary-navbar-toggler);
@@ -490,11 +506,16 @@ li.dropdown-item a.nav-link:active {
     height: auto !important;
   }
   .navbar-toggler { padding: 0.25rem 0rem; }
+  .dropdown .dropdown-toggle {
+    display: inline-block;
+    margin-bottom: 0;
+  }
   .dropdown .dropdown-menu {
-    display: block !important;
+    /*display: block !important; */
     opacity: 1;
     max-height: initial;
     overflow: initial;
+    top: 0;
   }
   .dropdown-menu .dropdown-item a {
     margin-left: 15px;
@@ -1029,6 +1050,18 @@ table.sticky-header th {
   display: inline-block;
   margin: 0 5px;
 }
+.fixed-width-150 {
+  display: block;
+  width: 150px !important;
+}
 .fixed-width-200 {
   width: 200px;
+  display: block;
+  width: 200px !important;
+}
+
+@media screen and (max-width:575.98px) {
+  .views-exposed-form {
+    margin-left: 20px;
+  }
 }
