@@ -55,18 +55,11 @@
 	<nav class="navbar navbar-expand secondary-nav navbar-light bg-light " id="secondaryNav">
 	{% endif %}
 	  <div class="container">
-	<!--	<button class="navbar-toggler navbar-toggler-right ml-auto" type="button" data-toggle="collapse" data-target="#secondaryNavbarResponsive" aria-controls="secondaryNavbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-		  {% if logged_in %}
-			<i class="fa fa-user"></i> &nbsp; User Menu &nbsp; <i class="fa fa-caret-down"></i>
-		  {% else %}
-			<i class="fa fa-user"></i> &nbsp; User Menu &nbsp; <i class="fa fa-caret-down"></i>
-		  {% endif %} 
-		</button> 
-		<div class="collapse navbar-collapse" id="secondaryNavbarResponsive">
-	-->	<div id="secondaryNavbarResponsive" style="margin-left: auto; margin-right: 0;">
+	    <div id="secondaryNavbarResponsive" style="margin-left: auto; margin-right: 0;">
 		  {% if page.secondary_menu and logged_in %}
 			  {{ page.secondary_menu }}
 		  {% else %}
+                        {{ drupal_block('search_form_block') }}
 			<ul class="navbar-nav ml-auto" style="margin-left: auto !important;">       
 				{% if domain_name == "campus-champions" %}
             <li class="nav-item">
