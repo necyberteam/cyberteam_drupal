@@ -194,8 +194,13 @@
 
 	{{ page.header }}
 
-
 	{% if is_front %}<div class="w-100 py-3 bg-light">{% endif %}
+
+        {# grey background #}
+        {% if (view_id == 'organization') and (display_id == 'organizations') %}
+        <div class="w-100 py-3 bg-light">
+        {% endif %}  
+
 	<div class="container{% if is_front %} main-container mt-3{{ domain_name == "campus-champions" ? ''}}{% else %} mt-4{% endif %}">
 	  {% if domain_name == "campus-champions" and is_front %}
       {% if page.campus_champions_front_header %}
@@ -311,6 +316,11 @@
     {% endif %}
 	</div>
 	{% if is_front %}</div>{% endif %}
+        
+        {# end grey background #}
+        {% if (view_id == 'organization') and (display_id == 'organizations') %}
+        <div class="w-100 py-3 bg-light">
+        {% endif %}
 </div>{# /.wrapper #}
 
 <footer class="footer">

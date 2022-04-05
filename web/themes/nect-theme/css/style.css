@@ -1078,6 +1078,30 @@ table.sticky-header th {
     margin-left: 20px;
   }
 }
+/* card view styles */
+.card-image > img {
+  object-fit: contain; 
+  max-width: 100%;
+  height: 100px;
+}
+.label {
+  opacity: 0.8;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+.type-outline > a {
+  background-color: lavender;
+  color: #1e1e99;
+  padding: 3px 6px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
+.tag-outline > a {
+  background-color: aliceblue;
+  padding: 3px 6px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
 /* AMP styles */
 #amp-logo-text {
   font-family : Montserrat;
@@ -1135,4 +1159,21 @@ table.sticky-header th {
 .amp.footer-sub {
   font-family: Montserrat;
   background-color: rgba(40, 40, 89, 1);
+}
+.ellipsis a {
+  display: block;
+  max-width: 350px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+@media only screen and (min-width: 768px) {
+  .ellipsis a {
+    max-width: 150px;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .ellipsis a {
+    max-width: 245px;
+  }
 }

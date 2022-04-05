@@ -213,4 +213,7 @@ function nect_preprocess_page(&$variables) {
   $siteConfig = \Drupal::config('system.site');
   $variables['site_name'] = $siteConfig->get('name');
   $variables['site_slogan'] = $siteConfig->get('slogan');
+
+  $variables['view_id'] = \Drupal::routeMatch()->getParameter('view_id');
+  $variables['display_id'] = \Drupal::routeMatch()->getParameter('display_id');
 }
