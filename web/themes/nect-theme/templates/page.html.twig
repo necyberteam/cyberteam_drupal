@@ -55,28 +55,22 @@
 	<nav class="navbar navbar-expand secondary-nav navbar-light bg-light " id="secondaryNav">
 	{% endif %}
 	  <div class="container">
-		<button class="navbar-toggler navbar-toggler-right ml-auto" type="button" data-toggle="collapse" data-target="#secondaryNavbarResponsive" aria-controls="secondaryNavbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-		  {% if logged_in %}
-			<i class="fa fa-user"></i> &nbsp; User Menu &nbsp; <i class="fa fa-caret-down"></i>
-		  {% else %}
-			<i class="fa fa-user"></i> &nbsp; User Menu &nbsp; <i class="fa fa-caret-down"></i>
-		  {% endif %}
-		</button>
-		<div class="collapse navbar-collapse" id="secondaryNavbarResponsive">
+	    <div id="secondaryNavbarResponsive" style="margin-left: auto; margin-right: 0;">
 		  {% if page.secondary_menu and logged_in %}
 			  {{ page.secondary_menu }}
 		  {% else %}
+                        {{ drupal_block('search_form_block') }}
 			<ul class="navbar-nav ml-auto" style="margin-left: auto !important;">       
 				{% if domain_name == "campus-champions" %}
             <li class="nav-item">
-              <a href="/user/login" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in/Join Portal</a>
+              <a href="/user/login?current={{ path("<current>") }}" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in/Join Portal</a>
             </li>
             <li class="nav-item">
               <a href="/form/join-campus-champions" class="nav-link">Join CC</a>
             </li>
         {% else %}
             <li class="nav-item">
-              <a href="/user/login" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in</a>
+              <a href="/user/login?current={{ path("<current>") }}" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in</a>
             </li>
             <li class="nav-item">
               <a href="/user/register" class="nav-link" data-drupal-link-system-path="user/register">Join</a>
@@ -200,8 +194,13 @@
 
 	{{ page.header }}
 
-
 	{% if is_front %}<div class="w-100 py-3 bg-light">{% endif %}
+
+        {# grey background #}
+        {% if (view_id == 'organization') and (display_id == 'organizations') %}
+        <div class="w-100 py-3 bg-light">
+        {% endif %}  
+
 	<div class="container{% if is_front %} main-container mt-3{{ domain_name == "campus-champions" ? ''}}{% else %} mt-4{% endif %}">
 	  {% if domain_name == "campus-champions" and is_front %}
       {% if page.campus_champions_front_header %}
@@ -295,13 +294,13 @@
           {{ page.view_type_buttons }}
           {{ page.drupal_tabs }}
           {{ page.exposed_filters }}
-          {{ page.tags_page_resources }}
-          {{ page.tags_page_projects }}
+	  {{ page.tags_page_mentors }}
+	  {{ page.tags_page_askci }}
           {{ page.tags_page_students }}
-          {{ page.tags_page_mentors }}
           {{ page.tags_page_researchers }}
+	  {{ page.tags_page_resources }}
+          {{ page.tags_page_projects }}
           {{ page.tags_page_blog }}
-          {{ page.tags_page_askci }}
           {{ page.people_page_card }}
           {{ page.people_page_list }}
           {{ page.projects_page }}
@@ -317,6 +316,11 @@
     {% endif %}
 	</div>
 	{% if is_front %}</div>{% endif %}
+        
+        {# end grey background #}
+        {% if (view_id == 'organization') and (display_id == 'organizations') %}
+        <div class="w-100 py-3 bg-light">
+        {% endif %}
 </div>{# /.wrapper #}
 
 <footer class="footer">
