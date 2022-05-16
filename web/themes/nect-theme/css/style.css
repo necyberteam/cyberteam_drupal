@@ -437,6 +437,22 @@ li.dropdown-item a.nav-link:active {
 .fixed-top { position: relative; z-index:50; }
 .fixed-top.scrolled { position: fixed; }
 
+/* People Page Dropdown */
+@media screen and (max-width: 991.98px) {
+  #block-views-block-peoplebuttonblocks-region-select-card .dropdown-menu {
+    position: absolute;
+    background-color: #FFFFFF;
+    top: 40px;
+    border: 1px solid rgba(0,0,0,.2);
+    box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+    display: none !important;
+  }
+
+  #block-views-block-peoplebuttonblocks-region-select-card .show {
+    display: block !important;
+  } 
+}
+
 /* secondaryNav */
 #secondaryNav .navbar-toggler {
   color: var(--secondary-navbar-toggler);
@@ -491,7 +507,7 @@ li.dropdown-item a.nav-link:active {
   }
   .navbar-toggler { padding: 0.25rem 0rem; }
   .dropdown .dropdown-toggle {
-    display: block;
+    display: inline-block;
     margin-bottom: 0;
   }
   .dropdown .dropdown-menu {
@@ -958,10 +974,20 @@ ul.footer-links li:hover * { color: var(--footer-link-hover); }
   margin-right: 1.5rem!important;
 }
 
+form[id="views-exposed-form-organization-organizations"] .form-checkbox,
 form[id^="views-exposed-form-people"] .form-checkbox,
 form[id^="views-exposed-form-resources"] .form-checkbox {
   display: none;
 }
+
+form[id="views-exposed-form-organization-organizations"] label.option {
+  background-color: lavender;
+  color: #1E1E99;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 1.0rem;
+}
+
 form[id^="views-exposed-form-people"] label.option,
 form[id^="views-exposed-form-resources"] label.option {
   font-size: 10px;
@@ -976,6 +1002,15 @@ form[id^="views-exposed-form-resources"] label.option {
   border-color: var(--primary);
   color: var(--light-text);
 }
+
+form[id="views-exposed-form-organization-organizations"] label:hover,
+form[id="views-exposed-form-organization-organizations"] label:focus,
+form[id="views-exposed-form-organization-organizations"] label:active {
+  color: var(--light-text);
+  background-color: var(--primary-hover);
+  cursor: pointer;
+}
+
 form[id^="views-exposed-form-people"] label:hover,
 form[id^="views-exposed-form-people"] label:focus,
 form[id^="views-exposed-form-people"] label:active,
@@ -987,6 +1022,12 @@ form[id^="views-exposed-form-resources"] label:active {
   border-color: var(--primary-hover);
   cursor: pointer;
 }
+
+form[id="views-exposed-form-organization-organizations"] input:checked + label {
+  color: lavender;
+  background-color: #1E1E99;
+}
+
 form[id^="views-exposed-form-people"] input:checked + label,
 form[id^="views-exposed-form-resources"] input:checked + label {
   color: var(--light-text);
@@ -1057,6 +1098,35 @@ table.sticky-header th {
   width: 200px !important;
 }
 
+@media screen and (max-width:575.98px) {
+  .views-exposed-form {
+    margin-left: 20px;
+  }
+}
+/* card view styles */
+.card-image > img {
+  object-fit: contain; 
+  max-width: 100%;
+  height: 100px;
+}
+.label {
+  opacity: 0.8;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+.type-outline > a {
+  background-color: lavender;
+  color: #1e1e99;
+  padding: 3px 6px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
+.tag-outline > a {
+  background-color: aliceblue;
+  padding: 3px 6px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
 /* AMP styles */
 #amp-logo-text {
   font-family : Montserrat;
