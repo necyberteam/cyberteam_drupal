@@ -1,0 +1,40 @@
+<div class="container mb-5">
+    <div class="row mb-3">
+        <div class="col-md-6 col-sm-12">
+            {{ content.field_logo }}
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="label">Website</div>
+            <div>{{ content.field_website.0 }}</div>
+            
+            <div class="label mt-3">Type</div>
+            <div class="type-outline">
+                {% for item in content.field_type %}
+                    {% if item.entity.name %}
+                        <a href="#">{{ item.entity.name.value }}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="label mt-3">Tags</div>
+            <div class="tag-outline">
+            {% for item in content.field_organization_tags %}
+                {% if item.entity.name %}
+                    <a href="/tags/{{item.entity.name.value}}">{{ item.entity.name.value }}</a>
+                {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div>
+                {{ content.field_description }}
+            </div>
+            <div>
+            {% if content.field_contact_email.0 %}
+                <a href="mailto:{{ content.field_contact_email.0 }}" class="btn btn-primary">Contact</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
