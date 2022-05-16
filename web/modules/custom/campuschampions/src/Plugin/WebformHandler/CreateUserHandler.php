@@ -142,4 +142,5 @@ class CreateUserHandler extends WebformHandlerBase
         $headers[] = 'From: ' . $from_email;
         $parameters = '';
         mail($to_email, $subject, $message, implode('\r\n', $headers), $parameters);
+    }
 }
