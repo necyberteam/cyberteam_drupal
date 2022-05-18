@@ -12,7 +12,12 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
         }
+    
     ],
     "require": {
         "composer/installers": "^1.2",
@@ -105,7 +110,9 @@
         "drupal/webform": "^6.1",
         "drupal/webform_views": "^5.0alpha",
         "drupal/yaml_editor": "^1.0",
-        "drush/drush": "^10.2"
+        "drush/drush": "^10.2",
+        "npm-asset/select2": "^4.0",
+        "oomphinc/composer-installers-extender": "^2.0"
     },
     "require-dev": {
         "drupal/core-dev": "^8.8",
@@ -134,7 +141,11 @@
         "patches-file": "composer.patches.json",
         "installer-paths": {
             "web/core": ["type:drupal-core"],
-            "web/libraries/{$name}": ["type:drupal-library"],
+            "web/libraries/{$name}": [
+                "type:drupal-library",
+                "type:bower-asset",
+                "type:npm-asset"
+            ],
             "web/modules/contrib/{$name}": ["type:drupal-module"],
             "web/profiles/contrib/{$name}": ["type:drupal-profile"],
             "web/themes/contrib/{$name}": ["type:drupal-theme"],
@@ -142,6 +153,7 @@
             "web/modules/custom/{$name}": ["type:drupal-custom-module"],
             "web/themes/custom/{$name}": ["type:drupal-custom-theme"]
         },
+        "installer-types": ["bower-asset", "npm-asset"],
         "drupal-core-project-message": {
             "include-keys": ["homepage", "support"],
             "post-create-project-cmd-message": [
