@@ -59,8 +59,8 @@
 		  {% if page.secondary_menu and logged_in %}
 			  {{ page.secondary_menu }}
 		  {% else %}
-                        {{ drupal_block('search_form_block') }}
-			<ul class="navbar-nav ml-auto" style="margin-left: auto !important;">       
+        {{ drupal_block('search_form_block') }}
+        <ul class="navbar-nav ml-auto" style="margin-left: auto !important;">       
 				{% if domain_name == "campus-champions" %}
             <li class="nav-item">
               <a href="/user/login?current={{ path("<current>") }}" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in/Join Portal</a>
@@ -76,7 +76,7 @@
               <a href="/user/register" class="nav-link" data-drupal-link-system-path="user/register">Join</a>
             </li>
         {% endif %}
-			</ul>
+        </ul>
 		  {% endif %}
 		</div>
 	  </div>
@@ -98,8 +98,8 @@
         <img src="/themes/nect-theme/sweeter.logo.png" class="logo" alt="SWEETER Cyberteam">
         {% elseif domain_name == "mines-cyberteam" %}
         <img src="/themes/nect-theme/mines.logo.png" class="logo" alt="MINES Cyberteam">
-	{% elseif domain_name == "trecis-cyberteam" %}
-	<img src="/themes/nect-theme/trecis.logo.png" class="logo" alt="TRECIS Cyberteam">
+        {% elseif domain_name == "trecis-cyberteam" %}
+        <img src="/themes/nect-theme/trecis.logo.png" class="logo" alt="TRECIS Cyberteam">
         {% elseif domain_name == "campus-champions" %}
         <img src="/themes/nect-theme/campuschampions.png" class="logo" alt="Campus Champions">
         {% elseif domain_name == "connect-ci" %}
