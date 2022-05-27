@@ -142,6 +142,8 @@ body.trecis-cyberteam{
 .rmacc-cyberteam .region-specific:not(.display-rmacc) { display: none !important; }
 .sweeter-cyberteam .region-specific:not(.display-sweeter) { display: none !important; }
 .trecis-cyberteam .region-specific:not(.display-trecis) { display: none !important; }
+.coco .region-specific:not(.display-coco) { display: none !important; }
+.usrse .region-specific:not(.display-usrse) { display: none !important; }
 
 .campus-champions .hide-campus-champions { display: none !important; }
 .careers-cyberteam .hide-careers { display: none !important; }
@@ -152,6 +154,9 @@ body.trecis-cyberteam{
 .rmacc-cyberteam .hide-rmacc { display: none !important; }
 .sweeter-cyberteam .hide-sweeter { display: none !important; }
 .trecis-cyberteam .hide-trecis { display: none !important; }
+.coco .hide-coco { display: none !important; }
+.usrse .hide-usrse { display: none !important; }
+.coco #mainNav #navbarResponsive, .usrse #mainNav #navbarResponsive, .coco #mainNav .navbar-toggler, .usrse #mainNav .navbar-toggler { display: none !important; }  
 
 body:not(.logged_in) .authenticated-only { display: none !important; }
 body.logged_in .anon-only { display: none !important; }
@@ -438,6 +443,9 @@ li.dropdown-item a.nav-link:active {
 .fixed-top.scrolled { position: fixed; }
 
 /* People Page Dropdown */
+#block-views-block-peoplebuttonblocks-region-select-card .dropdown-menu {
+  top: 90%;
+}
 @media screen and (max-width: 991.98px) {
   #block-views-block-peoplebuttonblocks-region-select-card .dropdown-menu {
     position: absolute;

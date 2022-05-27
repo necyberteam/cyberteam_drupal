@@ -75,6 +75,18 @@
      '#default_value' => theme_get_setting('amp_front_text'),
      '#description'   => t("This text will be placed in the frontpage banner."),
    );
+   $form['coco_front_text'] = array(
+     '#type'          => 'textarea',
+     '#title'         => t('CoCo Front Text'),
+     '#default_value' => theme_get_setting('coco_front_text'),
+     '#description'   => t("This text will be placed in the frontpage banner."),
+   );
+   $form['usrse_front_text'] = array(
+     '#type'          => 'textarea',
+     '#title'         => t('USRSE Front Text'),
+     '#default_value' => theme_get_setting('usrse_front_text'),
+     '#description'   => t("This text will be placed in the frontpage banner."),
+   );
  }
 
 /**
@@ -205,6 +217,8 @@ function nect_preprocess_page(&$variables) {
   $variables['trecis_front_text'] = theme_get_setting('trecis_front_text');
   $variables['connectci_front_text'] = theme_get_setting('connectci_front_text');
   $variables['amp_front_text'] = theme_get_setting('amp_front_text');
+  $variables['coco_front_text'] = theme_get_setting('coco_front_text');
+  $variables['usrse_front_text'] = theme_get_setting('usrse_front_text');
  
   $domain = \Drupal::config('domain.settings');
   $token = \Drupal::token();
