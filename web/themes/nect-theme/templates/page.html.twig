@@ -74,6 +74,10 @@
                                         <li class="nav-item">
                                                 <a href="/form/join-campus-champions" class="nav-link">Join CC</a>
                                         </li>
+				{% if domain_name == "coco" %}
+                                        <li class="nav-item">
+                                                <a href="/user/register/representative" class="nav-link">Join</a>
+                                        </li>
                                 {% else %}
                                         <li class="nav-item">
                                                 <a href="/user/register" class="nav-link" data-drupal-link-system-path="user/register">Join</a>
@@ -105,6 +109,10 @@
 	<img src="/themes/nect-theme/trecis.logo.png" class="logo" alt="TRECIS Cyberteam">
         {% elseif domain_name == "campus-champions" %}
         <img src="/themes/nect-theme/campuschampions.png" class="logo" alt="Campus Champions">
+        {% elseif domain_name == "coco" %}
+        <img src="/themes/nect-theme/coco-logo.png" class="logo" alt="CoCo">
+        {% elseif domain_name == "usrse" %}
+        <img src="/themes/nect-theme/usrse-logo.png" class="logo" alt="USRSE">
         {% endif %}
       </a>
 			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
