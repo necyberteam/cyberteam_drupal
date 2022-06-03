@@ -22,6 +22,36 @@ if (isset($sid) && $sid != "") {
   $updateApplication->execute();
   $updateApplication->close();
 }
+// Update user__field_is_cc table with approved status
+$bundle = 'user';
+$deleted = 0;
+$entity_id = $uid;
+$revision_id = $uid;
+$langcode = 'en';
+$delta = 0;
+$region_id = 572; // Campus Champions Region
+$updateCC = $conn->prepare("INSERT INTO user__field_is_cc (bundle, deleted, entity_id, revision_id, langcode, delta, field_is_cc_value) VALUES (?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE field_is_cc_value = ?");
+$updateCC->bind_param("sisisiss", $bundle, $deleted, $entity_id, $revision_id, $langcode, $delta, $approved, $approved);
+$updateCC->execute();
+$updateCC->close();
+// Update user__field_regions table
+if ($approved) {
+  // Set delta to one more than the current highest number
+  $sql = 'select MAX(delta) from user__field_region ufr WHERE ufr.entity_id='.$entity_id;
+  $result = $conn->query($sql);
+  if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+      $delta = $row['MAX(delta)'] + 1;
+    }
+  }
+  $updateCC = $conn->prepare("INSERT INTO user__field_region (bundle, deleted, entity_id, revision_id, langcode, delta, field_region_target_id) VALUES (?,?,?,?,?,?,?)");
+  $updateCC->bind_param("sisisii", $bundle, $deleted, $entity_id, $revision_id, $langcode, $delta, $region_id);
+} else {
+  $updateCC = $conn->prepare("DELETE FROM user__field_region ufr WHERE ufr.entity_id = ? AND ufr.field_region_target_id = ?");
+  $updateCC->bind_param("ss", $entity_id, $region_id);
+}
+$updateCC->execute();
+$updateCC->close();
 if ($_POST['type'] == "new") {
   //insert new record
   $insertCC = $conn->prepare("INSERT INTO campus_champions(uid, carnegie_code, approved, classification) VALUES (?,?,?,?)");
@@ -36,8 +66,34 @@ if ($_POST['type'] == "new") {
   $updateCC->bind_param("ssss", $carnegieCode, $approved, $classification, $ccId);
   $updateCC->execute();
   $updateCC->close();
-  header("Location: ./campus_champions.php"); exit;
-} else {
-  header("Location: ./campus_champions.php"); exit;
 }
+// Send notication email that user was approved
+if ($approved) {
+  $sql = 'SELECT mail FROM users_field_data ufd WHERE ufd.uid='.$uid;
+  $result = $conn->query($sql);
+  if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+      $to_email = $row['mail'];
+      $from_email = 'no-reply@wpi.edu';
+      $subject = "You have been approved as a Campus Champion";
+      $message = '
+<html>
+<head>
+  <title>You are a Campus Champion</title>
+</head>
+<body>
+<p>You have been approved as a Campus Champion</p>
+</body>
+</html>
+';
+      $headers[] = 'MIME-Version: 1.0';
+      $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+      $headers[] = 'From: '.$from_email;
+      $parameters = '';
+      //mail($to_email, $subject, $message, implode("\r\n", $headers), $parameters);
+    }
+  }
+}
+
+header("Location: ./campus_champions.php"); exit;
 ?>

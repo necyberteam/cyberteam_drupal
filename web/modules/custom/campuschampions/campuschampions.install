@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the campus champions module.
+ */
+
+function campuschampions_update_8901() {
+  // Change the cv_resume field from public to private
+
+  $field_type = 'file';
+  $field_name = 'field_cv_resume';
+
+  if (!$field_storage_configs = \Drupal::entityTypeManager()
+    ->getStorage('field_storage_config')
+    ->loadByProperties(['type' => $field_type])) {
+    return;
+  }
+
+  foreach ($field_storage_configs as $field_storage) {
+      if ($field_storage->getName() == $field_name) {
+          $field_storage->setSetting('uri_scheme', 'private');
+          $field_storage->enforceIsNew(FALSE);
+          $field_storage->save();
+      }
+  }
+  return t('The cv_resume field was changed from public to private.');
+}

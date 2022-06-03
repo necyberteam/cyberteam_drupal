@@ -62,6 +62,7 @@ if (isset($_GET['application_id']) && preg_match("/^[0-9]*$/", $_GET['applicatio
     if ($conn->connect_error) { ?>
       <div class="alert alert-danger"><strong>Connection Error:</strong> Please contact a system administrator.</div>
     <?php } ?>
+    <div class="alert alert-info"><strong>Database:</strong> <?php echo $dbname; ?></div>
     <div class="my-2"><?php include "./message.php"; ?></div>
     <div class="card my-2">
       <div class="card-body">
@@ -69,7 +70,7 @@ if (isset($_GET['application_id']) && preg_match("/^[0-9]*$/", $_GET['applicatio
           <section class="row justify-content-center">
             <div class="col mx-auto">
               <?php
-              $findUserQuery = 'SELECT (SELECT count(*) FROM (SELECT uid FROM campus_champions WHERE uid=?) tl) as in_cc, cc.id as cc_id, ue.uid, cc.approved, cc.carnegie_code, cc.classification, uf.field_user_first_name_value AS first_name, ul.field_user_last_name_value AS last_name, ue.mail AS email, ui.field_institution_value AS institution FROM users_field_data ue LEFT JOIN user__field_user_first_name uf ON ue.uid = uf.entity_id LEFT JOIN user__field_user_last_name ul ON ue.uid = ul.entity_id LEFT JOIN campus_champions cc ON ue.uid = cc.uid LEFT JOIN user__field_institution ui ON ue.uid = ui.entity_id WHERE ue.uid=?';
+              $findUserQuery = 'SELECT (SELECT count(*) FROM (SELECT uid FROM campus_champions WHERE uid=?) tl) as in_cc, cc.id as cc_id, ue.uid, cc.approved, ufcc.field_carnegie_code_value as carnegie_code, cc.classification, uf.field_user_first_name_value AS first_name, ul.field_user_last_name_value AS last_name, ue.mail AS email, ui.field_institution_value AS institution FROM users_field_data ue LEFT JOIN user__field_user_first_name uf ON ue.uid = uf.entity_id LEFT JOIN user__field_user_last_name ul ON ue.uid = ul.entity_id LEFT JOIN campus_champions cc ON ue.uid = cc.uid LEFT JOIN user__field_institution ui ON ue.uid = ui.entity_id LEFT JOIN user__field_carnegie_code ufcc ON ue.uid = ufcc.entity_id WHERE ue.uid=?';
               $findUser = $conn->prepare($findUserQuery);
               $findUser->bind_param("ii",$uid, $uid);
               $findUser->execute();
@@ -102,7 +103,7 @@ if (isset($_GET['application_id']) && preg_match("/^[0-9]*$/", $_GET['applicatio
                   </div>
                   <div class="form-row">
                     <div class="col-md-6 mb-3">
-                      <input type="text" name="carnegie_code" class="form-control" placeholder="Carnegie Code" value="<?php echo !empty($row['carnegie_code']) ? $row['carnegie_code'] : '';?>">
+                      <input type="text" name="carnegie_code" id="carnegie_code" class="form-control" placeholder="Carnegie Code" value="<?php echo !empty($row['carnegie_code']) ? $row['carnegie_code'] : '';?>">
                     </div>
                     <div class="col-md-6 mb-3">
                       <input type="text" name="institution" class="form-control" placeholder="Institution" value="<?php echo !empty($row['institution']) ? $row['institution'] : '';?>" disabled>
@@ -155,5 +156,19 @@ if (isset($_GET['application_id']) && preg_match("/^[0-9]*$/", $_GET['applicatio
   <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.colVis.min.js" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.1/iframeResizer.contentWindow.min.js"></script>
+  <script src="./js/jquery.autocomplete.min.js"/></script>
+  <script>
+    $('#carnegie_code').devbridgeAutocomplete({
+      serviceUrl: 'https://campuschampions.cyberinfrastructure.org/autocomplete/carnegiecode',
+      paramName: 'q',
+      transformResult: function(res) {
+        return {
+          suggestions: $.map(res, function(item) {
+            return { value: item.label, data: item.value };
+          })
+        }
+      }
+    });
+  </script>
 </body>
 </html>
