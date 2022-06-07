@@ -62,6 +62,19 @@
         {{ drupal_block('search_form_block') }}
         <ul class="navbar-nav ml-auto" style="margin-left: auto !important;">       
 				{% if domain_name == "campus-champions" %}
+                                        <li class="nav-item">
+                                                <a href="/form/join-campus-champions" class="nav-link">Join CC</a>
+                                        </li>
+				{% if domain_name == "coco" %}
+                                        <li class="nav-item">
+                                                <a href="/user/register/representative" class="nav-link">Join</a>
+                                        </li>
+                                {% else %}
+                                        <li class="nav-item">
+                                                <a href="/user/register" class="nav-link" data-drupal-link-system-path="user/register">Join</a>
+                                        </li>
+                                {% endif %}
+			</ul>
             <li class="nav-item">
               <a href="/user/login?current={{ path("<current>") }}" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in/Join Portal</a>
             </li>
