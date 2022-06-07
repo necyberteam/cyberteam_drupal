@@ -19,11 +19,8 @@ class SocialAuthGoogle extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    // Get parameter from url to redirect after login
-    $destination = \Drupal::request()->query->get('current');
     return [
       '#theme' => 'socialauthgoogle',
-      '#destination_path' => $destination,
     ];
   }
 
