@@ -73,14 +73,17 @@
             <li class="nav-item">
               <a href="/user/register/representative" class="nav-link">Join</a>
             </li>
+            <li class="nav-item">
+              <a href="/user/login?current=/" class="nav-link" data-drupal-link-system-path="user/login">Log in</a>
+            </li>
             {% else %}
             <li class="nav-item">
               <a href="/user/register" class="nav-link" data-drupal-link-system-path="user/register">Join</a>
             </li>
-            {% endif %}
             <li class="nav-item">
               <a href="/user/login?current={{ path("<current>") }}" class="nav-link" data-drupal-link-system-path="user/login">Log in</a>
             </li>
+            {% endif %}
           {% endif %}
         </ul>
 		  {% endif %}
