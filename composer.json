@@ -147,6 +147,22 @@
         }
     },
     "extra": {
+      "drupal-scaffold": {
+          "locations": {
+              "web-root": "web/"
+          },
+          "file-mapping": {
+              "[web-root]/README.txt": false,
+              "[web-root]/sites/README.txt": false,
+              "[web-root]/example.gitignore": false,
+              "[web-root]/sites/example.settings.local.php": false,
+              "[web-root]/sites/example.sites.php": false,
+              "[web-root]/modules/README.txt": false,
+              "[web-root]/profiles/README.txt": false,
+              "[web-root]/themes/README.txt": false,
+              "[web-root]/INSTALL.txt": false
+          }
+      },
         "patches-file": "composer.patches.json",
         "installer-paths": {
             "web/core": ["type:drupal-core"],
