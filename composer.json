@@ -1,6 +1,6 @@
 {
     "name": "drupal/recommended-project",
-    "description": "Project template for Drupal 8 projects with a relocated document root",
+    "description": "Drupal 9 project",
     "type": "project",
     "license": "GPL-2.0-or-later",
     "homepage": "https://www.drupal.org/project/drupal",
@@ -149,16 +149,22 @@
         }
     },
     "extra": {
-        "drupal-scaffold": {
-            "locations": {
-                "web-root": "web/"
-            },
-            "file-mapping": {
-              "[web-root]/.htaccess": {
-                "prepend": "htaccess.patch"
-              }
-            }
-        },
+      "drupal-scaffold": {
+          "locations": {
+              "web-root": "web/"
+          },
+          "file-mapping": {
+              "[web-root]/README.txt": false,
+              "[web-root]/sites/README.txt": false,
+              "[web-root]/example.gitignore": false,
+              "[web-root]/sites/example.settings.local.php": false,
+              "[web-root]/sites/example.sites.php": false,
+              "[web-root]/modules/README.txt": false,
+              "[web-root]/profiles/README.txt": false,
+              "[web-root]/themes/README.txt": false,
+              "[web-root]/INSTALL.txt": false
+          }
+      },
         "patches-file": "composer.patches.json",
         "installer-paths": {
             "web/core": ["type:drupal-core"],
@@ -174,25 +180,6 @@
             "web/modules/custom/{$name}": ["type:drupal-custom-module"],
             "web/themes/custom/{$name}": ["type:drupal-custom-theme"]
         },
-        "installer-types": ["bower-asset", "npm-asset"],
-        "drupal-core-project-message": {
-            "include-keys": ["homepage", "support"],
-            "post-create-project-cmd-message": [
-                "<bg=blue;fg=white>                                                         </>",
-                "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
-                "<bg=blue;fg=white>  from the drupal/recommended-project template!          </>",
-                "<bg=blue;fg=white>                                                         </>",
-                "",
-                "<bg=yellow;fg=black>Next steps</>:",
-
-                "  * Install the site: https://www.drupal.org/docs/8/install",
-                "  * Read the user guide: https://www.drupal.org/docs/user_guide/en/index.html",
-                "  * Get support: https://www.drupal.org/support",
-                "  * Get involved with the Drupal community:",
-                "      https://www.drupal.org/getting-involved",
-                "  * Remove the plugin that prints this message:",
-                "      composer remove drupal/core-project-message"
-            ]
-        }
+        "installer-types": ["bower-asset", "npm-asset"]
     }
 }
