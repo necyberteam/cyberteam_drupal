@@ -17,7 +17,7 @@ $settings['file_private_path'] = 'sites/default/files/private';
 $settings['container_yamls'][] = 'sites/default/services.yml';
 
 
-$env = getenv('CURRENT_ENVIRONMENT');
+$env = getenv('PANTHEON_ENVIRONMENT');
 
 if (isset($env) ) {
 
