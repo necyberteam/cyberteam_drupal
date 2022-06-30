@@ -1,0 +1,44 @@
+name: cyberteam
+recipe: drupal9
+env_file:
+  - .env
+config:
+  php: 7.4
+  webroot: web
+  database: mysql:5.7
+  xdebug: debug
+  config:
+    php: ./.lando.php.ini
+services:
+  database:
+    portforward: 3300
+  appserver:
+    build_as_root:
+      - apt-get update
+      - apt-get install libxss1
+      - echo "Run additional build commands here. Run lando rebuild after updating this file."
+      - curl -sL https://deb.nodesource.com/setup_14.x | bash -
+      - apt install -y nodejs
+      - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      - apt install -y ./google-chrome-stable_current_amd64.deb
+      - rm google-chrome-stable_current_amd64.deb
+proxy:
+  appserver:
+    - cyberteam.lndo.site
+    - amp.lndo.site
+    - cyberinfrastructure.lndo.site
+    - campuschampions.lndo.site
+tooling:
+  blt:
+    service: appserver
+    cmd: /app/vendor/bin/blt
+  xdebug-on:
+    service: appserver
+    description: Enable xdebug for apache.
+    cmd: "docker-php-ext-enable xdebug && /etc/init.d/apache2 reload"
+    user: root
+  xdebug-off:
+    service: appserver
+    description: Disable xdebug for apache.
+    cmd: "rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && /etc/init.d/apache2 reload"
+    user: root

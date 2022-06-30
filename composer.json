@@ -181,5 +181,15 @@
             "web/themes/custom/{$name}": ["type:drupal-custom-theme"]
         },
         "installer-types": ["bower-asset", "npm-asset"]
+    },
+    "autoload": {
+        "psr-4": {
+            "Example\\": "blt/src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
+        }
     }
 }
