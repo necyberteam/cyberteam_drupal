@@ -28,6 +28,8 @@
 
     },
     "require": {
+        "acquia/blt": "^12.0",
+        "acquia/blt-behat": "^1.3",
         "composer/installers": "^1.2",
         "cweagans/composer-patches": "^1.6",
         "drupal/auditfiles": "^3.0@beta",
@@ -125,6 +127,7 @@
         "drupal/devel_kint_extras": "^1.0",
         "drupal/upgrade_status": "^3.14",
         "mglaman/drupal-check": "^1.4",
+        "mikemadison13/blt-lando": "dev-main",
         "phpspec/prophecy-phpunit": "^2",
         "phpstan/phpstan-deprecation-rules": "^1.0"
     },
@@ -142,7 +145,7 @@
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
             "oomphinc/composer-installers-extender": true,
-            "zaporylie/composer-drupal-optimizations": true
+            "acquia/blt": true
         }
     },
     "extra": {
@@ -178,5 +181,15 @@
             "web/themes/custom/{$name}": ["type:drupal-custom-theme"]
         },
         "installer-types": ["bower-asset", "npm-asset"]
+    },
+    "autoload": {
+        "psr-4": {
+            "Example\\": "blt/src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
+        }
     }
 }
