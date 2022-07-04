@@ -1,4 +1,4 @@
-@page
+@cyberteam
 @api
 Feature: test node types
   In order to create a Basic Page
