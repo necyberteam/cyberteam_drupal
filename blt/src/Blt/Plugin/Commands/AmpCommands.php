@@ -17,7 +17,7 @@ class AmpCommands extends BltTasks {
    * @description pull in production database.
    */
   public function landosetup() {
-    $this->_exec("ln -s web docroot");
+    $this->_exec("ln -s web docroot && mkdir backups");
     $this->_exec("mkdir -p web/sites/default/settings");
     $this->_exec("mv blt/lando.local.settings.php web/sites/default/settings/local.settings.php");
     $username = $this->ask("What is your drupal username: ");
@@ -67,9 +67,13 @@ AMP_USERNAME=$username'>.env");
       ];
     }
 
+    $lando = $this->lando() == 'lando '?"lando ssh -c \"(":"(";
+    $lando_end = $this->lando() == 'lando '?"\"":"";
+
     foreach ($domains as $domain) {
-      $this->_exec($this->lando() . 'ssh -c "(\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v"');
-      $this->_exec('lando drush cim -y && lando drush cr');
+      $this->_exec($lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end);
+      $this->_exec( $this->lando() . 'drush cim -y');
+      $this->_exec( $this->lando() . 'drush cr');
     }
   }
 
@@ -80,7 +84,9 @@ AMP_USERNAME=$username'>.env");
    * @description Run behat.
    */
   public function behat_dl() {
-      $this->_exec('lando ssh -c "(\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat -dl  /app/tests/behat --config /app/tests/behat/local.yml --profile local"');
+    $lando = $this->lando() == 'lando '?"lando ssh -c \"(":"(";
+    $lando_end = $this->lando() == 'lando '?"\"":"";
+    $this->_exec($lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat -dl  /app/tests/behat --config /app/tests/behat/local.yml --profile local' . $lando_end);
   }
 
     /**
@@ -102,12 +108,11 @@ AMP_USERNAME=$username'>.env");
    * @description Login locally with personal username set in github.
    */
   public function uli() {
-    $un = $_ENV["AMP_USERNAME"];
-    if ( getcwd() == '/app' ) {
-      $this->_exec("drush uli --name='$un'");
-    } else {
-      $this->_exec("lando drush uli --name=$un");
+    $lando = $this->lando() == 'lando '?'lando ssh -s appserver -c ':'';    
+    if ($this->lando() == 'lando '){      
+      $this->_exec("export $(lando ssh -s appserver -c env | grep AMP_USERNAME)");
     }
+    $this->_exec($this->lando() . "drush uli --name=$(printenv AMP_USERNAME)");
   }
 
   /**
@@ -118,11 +123,11 @@ AMP_USERNAME=$username'>.env");
    */
   public function did() {
     $un = $_ENV["AMP_USERNAME"];
-    $this->_exec("lando db-import backups/site.sql.gz");
+    $this->_exec($this->lando() . "db-import backups/site.sql.gz");
     #$this->_exec("lando drush deploy -y");
     #$this->_exec("lando drush cim -y");
-    $this->_exec("lando drush cr");
-    $this->_exec("lando drush uli --name=$un");
+    $this->_exec($this->lando() . "drush cr");
+    $this->_exec($this->lando() . "blt amp:uli");
   }
 
 }
