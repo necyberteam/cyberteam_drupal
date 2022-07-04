@@ -34,7 +34,7 @@ AMP_USERNAME=$username'>.env");
    * Start lando.
    *
    * @command amp:start
-   * @description Start lando and run the behat fix.
+   * @description Start lando.
    */
   public function start() {
     $this->_exec("lando start");
@@ -46,13 +46,54 @@ AMP_USERNAME=$username'>.env");
    * @command amp:behat
    * @description Run behat.
    */
-  public function behat() {
-    if ( getcwd() == '/app' ) {
-      $this->_exec('(\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags ~@liaison -v');
+  public function behat(array $args) {
+    if ($args) {
+      $domains = $args;
     } else {
-      $this->_exec('lando ssh -c "(\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags ~@liaison -v"');
+      $domains = [
+        'amp',
+        'careers',
+        'cci',
+        'champ',
+        'coco',
+        'cyberteam',
+        'gpc',
+        'ky',
+        'mines',
+        'rmacc',
+        'sweeter',
+        'trecis',
+        'usrse'
+      ];
+    }
+
+    foreach ($domains as $domain) {
+      $this->_exec($this->lando() . 'ssh -c "(\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v"');
+      $this->_exec('lando drush cim -y && lando drush cr');
     }
   }
+
+  /**
+   * Get behat definition list.
+   *
+   * @command amp:behat:dl
+   * @description Run behat.
+   */
+  public function behat_dl() {
+      $this->_exec('lando ssh -c "(\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat -dl  /app/tests/behat --config /app/tests/behat/local.yml --profile local"');
+  }
+
+    /**
+   * Command prefix.
+   */
+  private function lando() {
+    $lando = "lando ";
+    if ( getcwd() == '/app' ) {
+      $lando = "";
+    }
+    return $lando;
+  }
+
 
   /**
    * Login with username.
