@@ -83,7 +83,7 @@ AMP_USERNAME=$username'>.env");
       $this->_exec('lando ssh -c "(\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat -dl  /app/tests/behat --config /app/tests/behat/local.yml --profile local"');
   }
 
-    /**
+  /**
    * Command prefix.
    */
   private function lando() {
