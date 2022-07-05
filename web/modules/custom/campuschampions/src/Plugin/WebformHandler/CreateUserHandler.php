@@ -95,7 +95,7 @@ class CreateUserHandler extends WebformHandlerBase
      * @return null
      */
     protected function emailAccountNotification($user) {
-        $to_email = $user->mail();
+        $to_email = $user->getEmail();
         $name = $user->getDisplayName();
         $url = user_pass_reset_url($user);
         $from_email = 'leadership@campuschampions.org';
@@ -113,7 +113,7 @@ class CreateUserHandler extends WebformHandlerBase
 <p><strong>ACCESS YOUR ACCOUNT</strong></p>
 <p></p>
 <p>Click on this link or copy and paste it to your browser:</p>
-<p>' . $url . '</p>
+<p><a href="' . $url . '">'. $url . '</a></p>
 <p>This link can only be used once to log in and will lead you to a page where you can set your password. It expires after seven days and nothing will happen if it&apos;s not used. </p>
 <p></p>
 <p><strong>SET UP YOUR PORTAL PROFILE</strong></p>
@@ -136,11 +136,21 @@ class CreateUserHandler extends WebformHandlerBase
 </body>
 </html>
 ';
-        $this->output()->writeln($message);
+        $mailManager = \Drupal::service('plugin.manager.mail');
+        $module = 'campuschampions';
+        $key = 'approve_campuschampion';
+        $params['message'] = $message;
+        $params['subject'] = 'Welcome to the Campus Champions Portal!';
+        $langcode = $user->getPreferredLangcode();
+        $send = true;
+
         $headers[] = 'MIME-Version: 1.0';
         $headers[] = 'Content-type: text/html; charset=iso-8859-1';
         $headers[] = 'From: ' . $from_email;
-        $parameters = '';
-        mail($to_email, $subject, $message, implode('\r\n', $headers), $parameters);
+        $params['headers'] = $headers;
+        $result = $mailManager->mail($module, $key, $to_email, $langcode, $params, NULL, $send);
+        if ($result['result'] !== true) {
+                \Drupal::messenger()->addError(t('There was a problem sending your message and it was not sent.'));
+        }
     }
 }
