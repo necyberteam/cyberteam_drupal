@@ -108,11 +108,11 @@ AMP_USERNAME=$username'>.env");
    * @description Login locally with personal username set in github.
    */
   public function uli() {
-    $lando = $this->lando() == 'lando '?'lando ssh -s appserver -c ':'';    
-    if ($this->lando() == 'lando '){      
+    if ($this->lando() == 'lando ') {
       $this->_exec("export $(lando ssh -s appserver -c env | grep AMP_USERNAME)");
     }
-    $this->_exec($this->lando() . "drush uli --name=$(printenv AMP_USERNAME)");
+    $username = Xss::filter(shell_exec("printenv AMP_USERNAME"));
+    $this->_exec($this->lando() . "drush uli --name=$username");
   }
 
   /**
@@ -122,7 +122,6 @@ AMP_USERNAME=$username'>.env");
    * @description pull in production database.
    */
   public function did() {
-    $un = $_ENV["AMP_USERNAME"];
     $this->_exec($this->lando() . "db-import backups/site.sql.gz");
     #$this->_exec("lando drush deploy -y");
     #$this->_exec("lando drush cim -y");
