@@ -1,0 +1,15 @@
+uuid: e0c49794-11cd-4405-8211-07c094545f12
+langcode: en
+status: true
+dependencies:
+  config:
+    - flag.flag.interest
+  module:
+    - flag
+id: flag_action.interest_unflag
+label: 'Remove Interest'
+type: taxonomy_term
+plugin: 'flag_action:interest_unflag'
+configuration:
+  flag_id: interest
+  flag_action: unflag

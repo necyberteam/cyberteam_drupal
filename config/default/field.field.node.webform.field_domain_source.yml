@@ -1,0 +1,25 @@
+uuid: cc8c61a0-0bde-40c6-86c0-293d2d6db26f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_domain_source
+    - node.type.webform
+id: node.webform.field_domain_source
+field_name: field_domain_source
+entity_type: node
+bundle: webform
+label: 'Domain Source'
+description: 'Select the canonical domain for this content.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:domain'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: weight
+      direction: ASC
+field_type: entity_reference

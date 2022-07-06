@@ -1,0 +1,38 @@
+uuid: 896dc795-70c9-47c6-a90b-970eb55392c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.project_submissions
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__project_submissions_northeast
+theme: nect
+region: projects_page
+weight: -70
+provider: null
+plugin: 'views_block:project_submissions-northeast'
+settings:
+  id: 'views_block:project_submissions-northeast'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      nectd8_wpi_edu: nectd8_wpi_edu
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /project-submissions

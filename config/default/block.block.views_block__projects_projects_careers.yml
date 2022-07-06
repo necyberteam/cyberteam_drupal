@@ -1,0 +1,38 @@
+uuid: 4aeec045-1bfe-4c63-826f-711d3338631a
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.projects
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__projects_projects_careers
+theme: nect
+region: projects_page
+weight: -85
+provider: null
+plugin: 'views_block:projects-projects_careers'
+settings:
+  id: 'views_block:projects-projects_careers'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /projects

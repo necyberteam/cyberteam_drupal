@@ -1,0 +1,29 @@
+uuid: 4cb7652a-98b3-459c-a38e-2c97ba75d8b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - nect
+id: exposedformpeople_list_viewlist_all
+theme: nect
+region: exposed_filters
+weight: 24
+provider: null
+plugin: 'views_exposed_filter_block:people_list_view-list_all'
+settings:
+  id: 'views_exposed_filter_block:people_list_view-list_all'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list

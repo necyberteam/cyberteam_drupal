@@ -1,0 +1,31 @@
+uuid: 8f1f5516-74b3-4d50-b0a2-08bb4d018cc5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_community
+    - node.type.published_articles
+    - taxonomy.vocabulary.affinity_groups
+    - taxonomy.vocabulary.region
+id: node.published_articles.field_community
+field_name: field_community
+entity_type: node
+bundle: published_articles
+label: Program
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      affinity_groups: affinity_groups
+      region: region
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: affinity_groups
+field_type: entity_reference

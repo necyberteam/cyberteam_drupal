@@ -1,0 +1,27 @@
+uuid: 7a366fa0-cc19-4ed2-914a-6d6f0ffd5c3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_press_release
+    - node.type.press_release
+  module:
+    - file
+id: node.press_release.field_press_release
+field_name: field_press_release
+entity_type: node
+bundle: press_release
+label: 'Press Release'
+description: 'Upload your press release.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt pdf doc xls xlsx docx'
+  max_filesize: '12 MB'
+  description_field: false
+field_type: file

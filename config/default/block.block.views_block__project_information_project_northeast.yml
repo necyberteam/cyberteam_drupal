@@ -1,0 +1,30 @@
+uuid: cd13b9e9-f4ca-430e-bdcf-0f4b1d01d573
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.project_information
+  module:
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__project_information_project_northeast
+theme: nect
+region: projects_page
+weight: 0
+provider: null
+plugin: 'views_block:project_information-project_northeast'
+settings:
+  id: 'views_block:project_information-project_northeast'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /project-additional-information

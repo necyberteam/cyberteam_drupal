@@ -1,0 +1,38 @@
+uuid: 6800e309-3ce2-4270-bf2d-8434c7a8cbe7
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.projects
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__projects_projects_kentucky
+theme: nect
+region: projects_page
+weight: -83
+provider: null
+plugin: 'views_block:projects-projects_kentucky'
+settings:
+  id: 'views_block:projects-projects_kentucky'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      kycyberteam_cyberinfrastructure_org: kycyberteam_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /projects

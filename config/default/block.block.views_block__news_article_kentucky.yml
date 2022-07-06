@@ -1,0 +1,38 @@
+uuid: 80dd63f4-f060-484a-91b8-9a8e993acc47
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.news
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__news_article_kentucky
+theme: nect
+region: content
+weight: -87
+provider: null
+plugin: 'views_block:news-article_kentucky'
+settings:
+  id: 'views_block:news-article_kentucky'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      kycyberteam_cyberinfrastructure_org: kycyberteam_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /news
