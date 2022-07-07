@@ -28,5 +28,5 @@ then
   storeKey
   sh -c "composer config -g github-oauth.github.com $gh_token"
   composer install --no-dev --ignore-platform-reqs
-  GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" $blt artifact:deploy --commit-msg "$message" --branch "main" --ignore-dirty --ignore-platform-reqs --no-interaction --verbose
+  GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" $blt artifact:deploy --commit-msg "$message" --branch "master" --ignore-dirty --ignore-platform-reqs --no-interaction --verbose
 fi
