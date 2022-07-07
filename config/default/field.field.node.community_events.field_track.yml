@@ -1,0 +1,29 @@
+uuid: 3f163886-fc33-4f5e-b1a6-ea52702c7718
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_track
+    - node.type.community_events
+    - taxonomy.vocabulary.track
+id: node.community_events.field_track
+field_name: field_track
+entity_type: node
+bundle: community_events
+label: Track
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      track: track
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

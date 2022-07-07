@@ -1,0 +1,38 @@
+uuid: b18371b6-329a-463d-baf2-f623cd298924
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.projects
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__projects_projects_mines
+theme: nect
+region: projects_page
+weight: -82
+provider: null
+plugin: 'views_block:projects-projects_mines'
+settings:
+  id: 'views_block:projects-projects_mines'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      mines_cyberinfrastructure_org: mines_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /projects

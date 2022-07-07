@@ -1,0 +1,31 @@
+uuid: 0301f3ff-d775-424e-8dc3-d0998c65dd20
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_community
+    - node.type.community_events
+    - taxonomy.vocabulary.affinity_groups
+    - taxonomy.vocabulary.region
+id: node.community_events.field_community
+field_name: field_community
+entity_type: node
+bundle: community_events
+label: Community
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      affinity_groups: affinity_groups
+      region: region
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: affinity_groups
+field_type: entity_reference

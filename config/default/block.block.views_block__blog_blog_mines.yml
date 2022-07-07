@@ -1,0 +1,38 @@
+uuid: 4eb7468d-d1b7-4b7e-bd88-c9f080398ba1
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.blog
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__blog_blog_mines
+theme: nect
+region: blog_page
+weight: -53
+provider: null
+plugin: 'views_block:blog-blog_mines'
+settings:
+  id: 'views_block:blog-blog_mines'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      mines_cyberinfrastructure_org: mines_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /blog

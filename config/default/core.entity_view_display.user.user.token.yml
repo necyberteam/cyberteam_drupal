@@ -1,0 +1,62 @@
+uuid: 52747cdb-4e5b-443a-b9d0-22b75cc7bd28
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.user.token
+    - field.field.user.user.field_carnegie_code
+    - field.field.user.user.field_current_degree_program
+    - field.field.user.user.field_current_occupation
+    - field.field.user.user.field_cv_resume
+    - field.field.user.user.field_degree
+    - field.field.user.user.field_domain_access
+    - field.field.user.user.field_domain_admin
+    - field.field.user.user.field_domain_all_affiliates
+    - field.field.user.user.field_hpc_experience
+    - field.field.user.user.field_institution
+    - field.field.user.user.field_is_cc
+    - field.field.user.user.field_region
+    - field.field.user.user.field_user_first_name
+    - field.field.user.user.field_user_last_name
+    - field.field.user.user.user_picture
+  module:
+    - user
+id: user.user.token
+targetEntityType: user
+bundle: user
+mode: token
+content:
+  field_institution:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  masquerade:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 50
+    region: content
+  member_for:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+hidden:
+  field_carnegie_code: true
+  field_current_degree_program: true
+  field_current_occupation: true
+  field_cv_resume: true
+  field_degree: true
+  field_domain_access: true
+  field_domain_admin: true
+  field_domain_all_affiliates: true
+  field_hpc_experience: true
+  field_is_cc: true
+  field_region: true
+  field_user_first_name: true
+  field_user_last_name: true
+  realname: true
+  user_picture: true
