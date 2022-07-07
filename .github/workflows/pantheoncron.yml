@@ -1,0 +1,18 @@
+name: (A) Cron run
+on:
+  schedule:
+    - cron:  '00 * * * *'
+jobs:
+  deploy:
+    name: Deploy site
+    runs-on: ubuntu-latest
+    environment: oit-ci
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ./.github/actions/dingorunner
+        env:
+          runner: cron
+          terminus_api: ${{ secrets.TERMINUS_API }}
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY }}
+          site_name: ${{ secrets.TERMINUS_SITE_NAME }}
+          env: dev

@@ -1,0 +1,55 @@
+name: (M) Create Release
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Tag next major/minor release. Use 1.x.x scheme. Leave default iterate to auto tag the next patch version.'
+        required: true
+        default: 'iterate'
+permissions:
+  contents: write
+jobs:
+  release:
+    name: Tag code
+    runs-on: ubuntu-latest
+    environment: oit-ci
+    steps:
+      - uses: actions/checkout@v1
+      - name: Create/push tag
+        run: |
+          git remote set-url origin https://$gh_user:$gh_token@github.com/necyberteam/cyberteam_drupal.git
+          git config user.name "$(git log -n 1 --pretty=format:%an)"
+          git config user.email "$(git log -n 1 --pretty=format:%ae)"
+          git fetch origin
+          latest_sha=$(git rev-list --tags --max-count=1)
+          current_version=$(git describe --tags --abbrev=0)
+          if [ $set_version == 'iterate' ]
+          then
+            next_version=$(echo ${current_version} | awk -F. -v OFS=. '{$NF += 1 ; print}')
+            next_version_message="Patch level change, see releases notes for more info"
+          else
+            next_version=$set_version
+            next_version_message="New major/minor release, see releases notesfor more info"
+          fi
+          git checkout $latest_sha
+          git checkout main
+          git tag -a $next_version -m "$next_version_message"
+          git push origin --tags
+          touch release1.txt && touch release.md && echo '# CHANGELOG' > release.md
+          git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s' $latest_sha..main --no-merges >> release.md
+          jq -Rs '{ tag_name: "TAGNAMEZ", name: "TAGNAMEZ", body: .,draft: false, prerelease: false, generate_release_notes: false }' release.md > release1.txt
+          sed "s/TAGNAMEZ/$next_version/g" release1.txt > release.txt
+          description=$(cat release.txt)
+          echo $description;
+          curl \
+            -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -u "$gh_user:$gh_token"\
+            https://api.github.com/repos/UCBoulder/oit_dingo/releases \
+            -d "$description"
+        permissions:
+          contents: write
+        env:
+          set_version: ${{ github.event.inputs.version }}
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          gh_user: ${{ secrets.GH_USER }}

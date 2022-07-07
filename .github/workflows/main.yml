@@ -1,0 +1,27 @@
+name: (A) Deploy to dev
+on:
+  push:
+    branches:
+      - 'main'
+jobs:
+  deploy:
+    name: Deploy site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: necyber
+        with:
+          path: |
+            vendor
+            web
+          key: ${{ env.cache-name }}
+      - uses: ./.github/actions/dingorunner
+        env:
+          runner: deploy
+          blt: ./vendor/bin/blt
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+          message: ${{ github.event.head_commit.message }}
+          gh_token: ${{ secrets.GH_TOKEN_REPO }}
