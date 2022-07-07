@@ -12,12 +12,11 @@ jobs:
   release:
     name: Tag code
     runs-on: ubuntu-latest
-    environment: oit-ci
     steps:
       - uses: actions/checkout@v1
       - name: Create/push tag
         run: |
-          git remote set-url origin https://$gh_user:$gh_token@github.com/necyberteam/cyberteam_drupal.git
+          git remote set-url origin https://$gh_user:$gh_token@github.com/$gh_repo.git
           git config user.name "$(git log -n 1 --pretty=format:%an)"
           git config user.email "$(git log -n 1 --pretty=format:%ae)"
           git fetch origin
@@ -45,9 +44,10 @@ jobs:
             -X POST \
             -H "Accept: application/vnd.github.v3+json" \
             -u "$gh_user:$gh_token"\
-            https://api.github.com/repos/UCBoulder/oit_dingo/releases \
+            https://api.github.com/repos/$gh_repo/releases \
             -d "$description"       
         env:
           set_version: ${{ github.event.inputs.version }}
           gh_token: ${{ secrets.GITHUB_TOKEN }}
           gh_user: ${{ secrets.GH_USER }}
+          gh_repo: necyberteam/cyberteam_drupal
