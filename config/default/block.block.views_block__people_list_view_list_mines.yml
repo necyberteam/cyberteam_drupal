@@ -1,0 +1,30 @@
+uuid: 62f65223-fdd0-4785-a8e2-449c809a98be
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__people_list_view_list_mines
+theme: nect
+region: people_page_list
+weight: 0
+provider: null
+plugin: 'views_block:people_list_view-list_mines'
+settings:
+  id: 'views_block:people_list_view-list_mines'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list/mines

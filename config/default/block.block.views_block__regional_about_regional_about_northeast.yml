@@ -1,0 +1,38 @@
+uuid: 7d5a8d90-9761-4b16-87d6-14e7f477b61c
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.regional_about
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__regional_about_regional_about_northeast
+theme: nect
+region: content
+weight: -69
+provider: null
+plugin: 'views_block:regional_about-regional_about_northeast'
+settings:
+  id: 'views_block:regional_about-regional_about_northeast'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      nectd8_wpi_edu: nectd8_wpi_edu
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /about

@@ -1,0 +1,38 @@
+uuid: 6a4e1fdd-bf85-4e91-b6a3-966382c6bd28
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.peoplebuttonblocks
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__peoplebuttonblocks_view_select_list
+theme: nect
+region: view_type_buttons
+weight: 13
+provider: null
+plugin: 'views_block:peoplebuttonblocks-view_select_list'
+settings:
+  id: 'views_block:peoplebuttonblocks-view_select_list'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains: {  }
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people/list\r\n/people/list/*"

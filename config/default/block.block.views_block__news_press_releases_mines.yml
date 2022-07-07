@@ -1,0 +1,38 @@
+uuid: a0e631df-5363-4e1f-bf92-3405dd698923
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.news
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__news_press_releases_mines
+theme: nect
+region: content
+weight: -78
+provider: null
+plugin: 'views_block:news-press_releases_mines'
+settings:
+  id: 'views_block:news-press_releases_mines'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      mines_cyberinfrastructure_org: mines_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /news

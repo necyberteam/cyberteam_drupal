@@ -1,0 +1,38 @@
+uuid: 04abb622-2283-450b-9bf7-cac00e1bfe92
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.blog
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__blog_blog_campus_champions
+theme: nect
+region: blog_page
+weight: 0
+provider: null
+plugin: 'views_block:blog-blog_campus_champions'
+settings:
+  id: 'views_block:blog-blog_campus_champions'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /blog

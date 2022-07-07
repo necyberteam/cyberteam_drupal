@@ -1,0 +1,33 @@
+uuid: 6be3ad86-1a02-4a49-9e6f-19cfd3e92014
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:2004401a-1f7d-4f70-8739-d24f9070e398'
+  module:
+    - block_content
+    - domain
+  theme:
+    - nect
+id: ccunderdevelopmentmessage
+theme: nect
+region: header
+weight: 0
+provider: null
+plugin: 'block_content:2004401a-1f7d-4f70-8739-d24f9070e398'
+settings:
+  id: 'block_content:2004401a-1f7d-4f70-8739-d24f9070e398'
+  label: 'CC Under Development message'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org

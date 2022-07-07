@@ -17,7 +17,7 @@ $settings['file_private_path'] = 'sites/default/files/private';
 $settings['container_yamls'][] = 'sites/default/services.yml';
 
 
-$env = getenv('CURRENT_ENVIRONMENT');
+$env = getenv('PANTHEON_ENVIRONMENT');
 
 if (isset($env) ) {
 
@@ -42,10 +42,18 @@ $settings['entity_update_batch_size'] = 50;
 global $content_directories;
 $content_directories['sync'] = '/datastorage/content/sync';
 $settings['config_sync_directory'] = '/datastorage/config/sync';
-$settings['config_exclude_modules'] = ['devel', 'webprofiler'];
+$settings['config_exclude_modules'] = [
+  'devel', 
+  'webprofiler',
+  'cilogon_auth',
+  'login_disable',
+  'recaptcha'
+];
 
 $additionalSettingsFiles = [
-  ( DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php" )
+  ( DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php" ),
+  ( __DIR__ . "/settings/local.settings.php" ),
+  ( __DIR__ . "/settings.pantheon.php" )
 ];
 
 foreach ($additionalSettingsFiles as $settingsFile) {
