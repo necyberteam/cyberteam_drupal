@@ -47,7 +47,8 @@ $settings['config_exclude_modules'] = [
   'webprofiler',
   'cilogon_auth',
   'login_disable',
-  'recaptcha'
+  'recaptcha',
+  'swiftmailer'
 ];
 
 $additionalSettingsFiles = [
