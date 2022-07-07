@@ -14,7 +14,7 @@ $settings['update_free_access'] = false;
 $settings['file_public_path'] = 'sites/default/files';
 $settings['file_private_path'] = 'sites/default/files/private';
 
-$settings['container_yamls'][] = 'sites/default/services.yml';
+$settings['container_yamls'][] = __DIR__ . '/services.yml';
 
 
 $env = getenv('PANTHEON_ENVIRONMENT');
