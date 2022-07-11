@@ -1,0 +1,79 @@
+<h2>Outages</h2>
+<table border="1">
+
+  <tr>
+    <td>
+      <h3>Current </h3>
+    </td>
+    <td>
+      <div id='outages-current'> </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h3>Future </h3>
+    </td>
+    <td>
+      <div id='outages-future'> </div>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td>
+      <h3>Recent </h3>
+    </td>
+    <td>
+      <div id='outages-recent'></div>
+    </td>
+  </tr>
+</table>
+
+<script>
+  const showOutages = async function showOutages(outageName, endpointUrl, displayLimit) {
+
+    const outagesList = document.getElementById('outages-' + outageName)
+    const response = await fetch(endpointUrl)
+    let outages = await response.json()
+    const numOutsTotal = outages.length
+    console.log(numOutsTotal)
+
+    const div = document.createElement('div')
+    const summary = document.createElement('h3')
+
+    if (numOutsTotal === 0) {
+      summary.textContent = 'No ' + outageName + ' outages'
+    } else {
+
+      outages.sort((a, b) => new Date(b.OutageStart) - new Date(a.OutageStart))
+      outages = outages.slice(0, displayLimit)
+      summary.textContent = 'There are ' + numOutsTotal + ' reported ' + outageName + ' outages.  Here are ' + displayLimit + ' of the most recent:'
+    }
+
+    div.appendChild(summary)
+    outagesList.appendChild(div)
+
+    outages.map(outage => {
+      /* console.log(outage) */
+
+      const div = document.createElement('div')
+
+      const subject = document.createElement('h3')
+      subject.textContent = '#' + outage.OutageID + ': ' + outage.Subject
+      div.appendChild(subject)
+
+      const dates = document.createElement('div')
+      dates.textContent = "When: " + outage.OutageStart + ' - ' + outage.OutageEnd
+      div.appendChild(dates)
+
+      const content = document.createElement('div')
+      content.textContent = "Details: " + outage.Content
+      div.appendChild(content)
+
+      outagesList.appendChild(div)
+    })
+  }
+
+  showOutages('current', 'https://info.xsede.org/wh1/outages/v1/outages/Current', 10)
+  showOutages('future', 'https://info.xsede.org/wh1/outages/v1/outages/Future', 10)
+  showOutages('recent', 'https://info.xsede.org/wh1/outages/v1/outages/', 5)
+
+</script>
