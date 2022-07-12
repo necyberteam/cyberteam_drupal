@@ -53,8 +53,8 @@ $settings['config_exclude_modules'] = [
 
 $additionalSettingsFiles = [
   ( DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php" ),
-  ( __DIR__ . "/settings/local.settings.php" ),
-  ( __DIR__ . "/settings.pantheon.php" )
+  ( __DIR__ . "/settings.pantheon.php" ),
+  ( __DIR__ . "/settings/local.settings.php" )
 ];
 
 foreach ($additionalSettingsFiles as $settingsFile) {

@@ -4,6 +4,7 @@ namespace Example\Blt\Plugin\Commands;
 
 use Acquia\Blt\Robo\BltTasks;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Drupal\Component\Utility\Xss;
 
 /**
  * Defines commands in the "amp" namespace.
