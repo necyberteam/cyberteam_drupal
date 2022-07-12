@@ -1,0 +1,26 @@
+uuid: 521ab751-1f6c-4d82-a447-dc5a122d9db1
+langcode: en
+status: true
+dependencies:
+  module:
+    - campuschampions
+    - system
+  theme:
+    - nect
+id: socialauthgooglelogin
+theme: nect
+region: below_main_content
+weight: 0
+provider: null
+plugin: socialauthgoogle
+settings:
+  id: socialauthgoogle
+  label: 'Social Auth Google Login'
+  label_display: '0'
+  provider: campuschampions
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /user/login

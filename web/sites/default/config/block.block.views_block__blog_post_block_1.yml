@@ -1,0 +1,33 @@
+uuid: cb0fcad7-a623-44eb-9684-7f88173a2411
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.blog_post
+  module:
+    - node
+    - views
+  theme:
+    - nect
+id: views_block__blog_post_block_1
+theme: nect
+region: blog_page
+weight: -57
+provider: null
+plugin: 'views_block:blog_post-block_1'
+settings:
+  id: 'views_block:blog_post-block_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      blog_post: blog_post

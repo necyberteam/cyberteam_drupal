@@ -1,0 +1,30 @@
+uuid: 393591f5-fcde-4c7c-a919-eb03c960a3dc
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__people_card_view_card_northeast
+theme: nect
+region: people_page_card
+weight: 0
+provider: null
+plugin: 'views_block:people_card_view-card_northeast'
+settings:
+  id: 'views_block:people_card_view-card_northeast'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/card/northeast
