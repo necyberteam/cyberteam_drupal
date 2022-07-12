@@ -8,7 +8,7 @@ use Drupal\Core\Block\BlockBase;
  * @Block(
  *   id = "outages_block",
  *   admin_label = @Translation("Outages block"),
- *   category = @Translation("Outages"),
+ *   category = @Translation("AMP"),
  * )
  */
 class OutagesBlock extends BlockBase {
@@ -19,7 +19,6 @@ class OutagesBlock extends BlockBase {
   public function build() {
     return [
       '#theme' => 'outages_block',
-      '#data' => ['age' => '31', 'DOB' => '2 May 2000'],
     ];
   }
 
