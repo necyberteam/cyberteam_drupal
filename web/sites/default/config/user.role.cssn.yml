@@ -1,9 +1,16 @@
 uuid: 30bc5135-38e5-474b-821a-6143a354c72a
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - node.type.organization
+  module:
+    - node
 id: cssn
 label: cssn
 weight: 10
 is_admin: null
-permissions: {  }
+permissions:
+  - 'create organization content'
+  - 'edit own organization content'
+  - 'view own unpublished content'
