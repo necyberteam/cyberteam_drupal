@@ -6,7 +6,6 @@
         <div class="col-md-6 col-sm-12">
             <div class="label">Website</div>
             <div>{{ content.field_website.0 }}</div>
-            
             <div class="label mt-3">Type</div>
             <div class="type-outline">
                 {% for item in content.field_type %}
@@ -18,7 +17,7 @@
 
             <div class="label mt-3">Tags</div>
             <div class="tag-outline">
-            {% for item in content.field_organization_tags %}
+            {% for item in content.field_organization_tags['#items'] %}
                 {% if item.entity.name %}
                     <a href="/tags/{{item.entity.name.value}}">{{ item.entity.name.value }}</a>
                 {% endif %}
