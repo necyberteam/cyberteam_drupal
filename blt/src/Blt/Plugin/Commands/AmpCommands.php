@@ -20,7 +20,7 @@ class AmpCommands extends BltTasks {
   public function landosetup() {
     $this->_exec("ln -s web docroot && mkdir backups");
     $this->_exec("mkdir -p web/sites/default/settings");
-    $this->_exec("mv blt/lando.local.settings.php web/sites/default/settings/local.settings.php");
+    $this->_exec("cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php");
     $username = $this->ask("What is your drupal username: ");
     $hash = \Drupal\Component\Utility\Crypt::randomBytesBase64(55);
     $this->_exec("echo 'PANTHEON_ENVIRONMENT=local
