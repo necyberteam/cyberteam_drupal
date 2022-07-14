@@ -49,15 +49,12 @@ jobs:
           lando drush sql-sanitize --sanitize-password -y
           lando drush cr
           cd ..
-          lando drush en dblog devel devel_kint_extras
-          rm backups/site.sql.gz
-          lando db-export backups/site.sql
-          ls backups
+          lando db-export site.sql
         env:
           gh_token: ${{ secrets.GH_TOKEN_REPO }}
       - name: 'Upload Backup Artifact'
         uses: actions/upload-artifact@v3
         with:
           name: amp-daily-backup
-          path: backups/site.sql.gz
+          path: site.sql.gz
           retention-days: 5
