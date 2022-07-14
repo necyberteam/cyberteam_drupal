@@ -33,6 +33,7 @@ jobs:
       - uses: ./.github/actions/dingorunner
         env:
           runner: bkup
+          terminus_api: ${{ secrets.TERMINUS_API }}
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
           site_name: ${{ secrets.TERMINUS_SITE_NAME }}
           env: live
