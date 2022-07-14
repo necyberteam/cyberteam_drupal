@@ -23,6 +23,14 @@ then
   terminus remote:drush $site_name.$env -- core-cron -v
 fi
 
+if [ "$runner" = bkup ];
+then
+  storeKey
+  terminusApi
+  mkdir backups
+  terminus backup:get accessmatch.live --element=db --to=backups/site.sql.gz
+fi
+
 if [ "$runner" = deploy ];
 then
   storeKey
