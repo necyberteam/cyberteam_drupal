@@ -65,5 +65,6 @@ $settings['config_exclude_modules'] = [
   'cilogon_auth',
   'login_disable',
   'recaptcha',
+  'upgrade_status',
   'swiftmailer'
 ];
