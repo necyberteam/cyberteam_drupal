@@ -15,24 +15,7 @@ $settings['file_public_path'] = 'sites/default/files';
 $settings['file_private_path'] = 'sites/default/files/private';
 
 $settings['container_yamls'][] = __DIR__ . '/services.yml';
-
-
-$env = getenv('PANTHEON_ENVIRONMENT');
-
-if (isset($env) ) {
-
-  # Per environment settings
-  switch ($env) {
-  case 'dev':
-    $config['system.logging']['error_level'] = 'verbose';
-    break;
-  case 'local':
-    $config['system.logging']['error_level'] = 'verbose';
-    $config['system.performance']['css']['preprocess'] = FALSE;
-    $config['system.performance']['js']['preprocess'] = FALSE;
-    break;
-  }
-}
+$config['config_split.config_split.local']['status'] = false;
 
 $settings['file_scan_ignore_directories'] = [
   'node_modules',
@@ -41,14 +24,6 @@ $settings['file_scan_ignore_directories'] = [
 $settings['entity_update_batch_size'] = 50;
 global $content_directories;
 $content_directories['sync'] = '/datastorage/content/sync';
-$settings['config_sync_directory'] = '/datastorage/config/sync';
-$settings['config_exclude_modules'] = [
-  'webprofiler',
-  'cilogon_auth',
-  'login_disable',
-  'recaptcha',
-  'swiftmailer'
-];
 
 $additionalSettingsFiles = [
   ( DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php" ),
@@ -61,3 +36,28 @@ foreach ($additionalSettingsFiles as $settingsFile) {
     require $settingsFile;
   }
 }
+
+$env = getenv('PANTHEON_ENVIRONMENT');
+
+if (isset($env) ) {
+  # Per environment settings
+  switch ($env) {
+    case 'dev':
+      $config['system.logging']['error_level'] = 'verbose';
+      break;
+    case 'local':
+      $config['config_split.config_split.local']['status'] = true;
+      $config['system.logging']['error_level'] = 'verbose';
+      $config['system.performance']['css']['preprocess'] = false;
+      $config['system.performance']['js']['preprocess'] = false;
+      break;
+  }
+}
+
+$settings['config_exclude_modules'] = [
+  'webprofiler',
+  'cilogon_auth',
+  'login_disable',
+  'recaptcha',
+  'swiftmailer'
+];
