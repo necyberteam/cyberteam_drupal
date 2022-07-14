@@ -29,6 +29,7 @@ jobs:
           lando start && lando xdebug-off
         env:
           lando_env: ${{ secrets.LANDO_ENV }}
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
       - uses: ./.github/actions/dingorunner
         env:
           runner: bkup
