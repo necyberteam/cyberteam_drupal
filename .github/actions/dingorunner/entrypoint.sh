@@ -28,7 +28,6 @@ then
   storeKey
   terminusApi
   mkdir backups
-  terminus remote:drush $site_name.$env -- status
   terminus backup:get $site_name.$env --element=db --to=backups/site.sql.gz
 fi
 

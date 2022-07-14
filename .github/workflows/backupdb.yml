@@ -39,4 +39,27 @@ jobs:
           env: live
       - name: Sync DB
         run: |
+          lando composer config -g github-oauth.github.com $gh_token
+          composer config -g github-oauth.github.com $gh_token
+          composer config -g gitlab-token.gitlab.com $gitlab_token
+          composer install --ignore-platform-reqs
+          lando db-import backups/site.sql.gz          
+          cd web
+          lando drush cr
+          lando drush cim -y
+          lando drush sql-sanitize --sanitize-password -y
+          lando drush cr
+          cd ..
+          lando drush en dblog devel devel_kint_extras
+          rm backups/site.sql.gz
+          lando db-export backups/site.sql
           ls backups
+        env:
+          gh_token: ${{ secrets.GH_TOKEN_REPO }}
+          gitlab_token: ${{ secrets.GITLAB_TOKEN }}
+      - name: 'Upload Backup Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: amp-daily-backup
+          path: backups/site.sql.gz
+          retention-days: 5
