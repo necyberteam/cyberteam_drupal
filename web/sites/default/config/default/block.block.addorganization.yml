@@ -1,0 +1,47 @@
+uuid: 2c1b3787-8e04-40c4-bb9b-dfed987bf406
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:c2d0b164-912c-4b90-bc40-9c6f59225639'
+  module:
+    - block_content
+    - domain
+    - system
+    - user
+  theme:
+    - nect
+id: addorganization
+theme: nect
+region: view_type_buttons
+weight: 0
+provider: null
+plugin: 'block_content:c2d0b164-912c-4b90-bc40-9c6f59225639'
+settings:
+  id: 'block_content:c2d0b164-912c-4b90-bc40-9c6f59225639'
+  label: 'Add Organization'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/organizations\r\n<front>"
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      coco_cyberinfrastructure_org: coco_cyberinfrastructure_org

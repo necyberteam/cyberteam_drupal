@@ -1,0 +1,37 @@
+uuid: aa8aa635-cf6a-4ac3-8b22-2f106315c9df
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.projects
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: exposedformprojectsprojects_careers
+theme: nect
+region: exposed_filters
+weight: 6
+provider: null
+plugin: 'views_exposed_filter_block:projects-projects_careers'
+settings:
+  id: 'views_exposed_filter_block:projects-projects_careers'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /projects

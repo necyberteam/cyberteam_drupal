@@ -1,0 +1,15 @@
+uuid: 0deb8d7e-609e-4b5e-8913-a985bd36b7a5
+langcode: en
+status: true
+dependencies:
+  config:
+    - flag.flag.interested_in_project
+  module:
+    - flag
+id: flag_action.interested_in_project_flag
+label: 'I''m interested'
+type: webform_submission
+plugin: 'flag_action:interested_in_project_flag'
+configuration:
+  flag_id: interested_in_project
+  flag_action: flag

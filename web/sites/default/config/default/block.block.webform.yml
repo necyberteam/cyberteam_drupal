@@ -1,0 +1,31 @@
+uuid: 1533529c-16b5-40e7-84d0-d6e489778b11
+langcode: en
+status: true
+dependencies:
+  config:
+    - webform.webform.amp_newsletter
+  module:
+    - system
+    - webform
+  theme:
+    - nect
+id: webform
+theme: nect
+region: content
+weight: 0
+provider: null
+plugin: webform_block
+settings:
+  id: webform_block
+  label: 'Get updates about AMP'
+  label_display: visible
+  provider: webform
+  webform_id: amp_newsletter
+  default_data: ''
+  redirect: false
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /amp-front-page

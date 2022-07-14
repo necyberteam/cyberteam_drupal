@@ -1,0 +1,38 @@
+uuid: 9418c9b0-98a2-42fd-8444-c3337c469743
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.news
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__news_press_releases_kentucky
+theme: nect
+region: content
+weight: -79
+provider: null
+plugin: 'views_block:news-press_releases_kentucky'
+settings:
+  id: 'views_block:news-press_releases_kentucky'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      kycyberteam_cyberinfrastructure_org: kycyberteam_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /news

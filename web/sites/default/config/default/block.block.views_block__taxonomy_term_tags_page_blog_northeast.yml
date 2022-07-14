@@ -1,0 +1,39 @@
+uuid: f9b7605f-a0ff-4604-91f3-0fb727cbd401
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.taxonomy_term
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__taxonomy_term_tags_page_blog_northeast
+theme: nect
+region: tags_page_blog
+weight: -91
+provider: null
+plugin: 'views_block:taxonomy_term-tags_page_blog_northeast'
+settings:
+  id: 'views_block:taxonomy_term-tags_page_blog_northeast'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      nectd8_wpi_edu: nectd8_wpi_edu
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '/taxonomy/term/*'

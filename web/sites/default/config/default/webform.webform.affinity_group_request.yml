@@ -1,0 +1,311 @@
+uuid: 85eef29a-7c49-4faf-b053-73ee71f732ee
+langcode: en
+status: open
+dependencies: {  }
+weight: 0
+open: null
+close: null
+uid: 289
+template: false
+archive: false
+id: affinity_group_request
+title: 'Affinity Group Request'
+description: ''
+category: ''
+elements: |-
+  approved:
+    '#type': checkbox
+    '#title': Approved
+    '#access_create_roles':
+      - administrator
+      - representative
+  affinity_group_name:
+    '#type': textfield
+    '#title': 'Affinity Group Name'
+    '#required': true
+  affinity_group_image:
+    '#type': webform_image_file
+    '#title': 'Affinity Group Image'
+    '#file_preview': 'thumbnail:image'
+    '#file_extensions': 'gif jpg png svg jpeg'
+  coordinators:
+    '#type': entity_autocomplete
+    '#title': Coordinators
+    '#multiple': 2
+    '#description': |
+      Type a few letters in the name and then select from the list of names presented. The first name in the coordinators list will have editing capability on the affinity group listing when it is posted on the site.<br />
+      &nbsp;
+      
+    '#required': true
+    '#target_type': user
+    '#selection_handler': 'default:user'
+    '#selection_settings':
+      include_anonymous: false
+      filter:
+        type: _none
+  tags:
+    '#type': webform_term_checkboxes
+    '#title': Tags
+    '#attributes':
+      class:
+        - mb-auto
+    '#format': value
+    '#format_attributes':
+      class:
+        - mb-auto
+    '#vocabulary': tags
+    '#breadcrumb_delimiter': ''
+    '#tree_delimiter': '-'
+  tags_helper:
+    '#type': webform_markup
+    '#markup': '<small class="text-muted"><span style="-webkit-text-stroke-width:0px; background-color:#f8f8f8; color:#1d1c1d; display:inline !important; float:none; font-family:Slack-Lato,appleLogo,sans-serif; font-size:13px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:common-ligatures; font-weight:400; letter-spacing:normal; orphans:2; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-indent:0px; text-transform:none; white-space:normal; widows:2; word-spacing:0px">Select one (or more) tags that apply to the Affinity Group.</span></small>'
+  short_description:
+    '#type': textarea
+    '#title': 'Short Description'
+    '#description': 'Provide a short description that will appear on the Affinity Groups directory page.'
+    '#required': true
+    '#counter_type': character
+    '#counter_minimum': 1
+    '#counter_maximum': 300
+    '#counter_maximum_message': 'Maximum 300 Characters Allowed'
+    '#format_items': comma
+  project_description:
+    '#type': textarea
+    '#title': Description
+    '#description': 'Provide a description that will be displayed on the front page for this Affinity Group. It can be the same as the short description above if there is no additional information needed.&nbsp;'
+    '#required': true
+    '#format_items': comma
+  slack_link:
+    '#type': webform_link
+    '#title': Conversation
+    '#title__access': false
+    '#url__title': 'Conversation Link'
+    '#url__description': 'Provide a link to Slack, Discord, Reddit, or another platform where Affinity Group members can join the conversation.'
+  ask_ci_locale:
+    '#type': webform_link
+    '#title': 'Q&A Platform'
+    '#title__access': false
+    '#url__title': 'Q&A Platform Link'
+    '#url__description': 'Provide a link to Ask.CI, StackExchange, or other Q&A platform specific to the Affinity Group.'
+  github_organization:
+    '#type': webform_link
+    '#title': 'GitHub Organization'
+    '#title__access': false
+    '#url__title': 'Github Organization Link'
+    '#url__description': 'Provide a link to the Github Organization.'
+  email_list:
+    '#type': webform_link
+    '#title': 'Email this list'
+    '#format_items': ol
+    '#title__access': false
+    '#url__title': 'Email List'
+    '#url__description': 'Provide a link to the email list or email contact for the Affinity Group. Please enter the full URL to your mailing list including the "https://", or if an email please type "mailto:" before the address. For example: mailto:example@email.com'
+css: 'body:not(.path-admin) .webform-submission-information, body:not(.path-admin) .webform-submission-navigation {display: none}'
+javascript: ''
+settings:
+  ajax: false
+  ajax_scroll_top: ''
+  ajax_progress_type: ''
+  ajax_effect: ''
+  ajax_speed: null
+  page: true
+  page_submit_path: ''
+  page_confirm_path: ''
+  page_theme_name: ''
+  form_title: source_entity_webform
+  form_submit_once: false
+  form_open_message: ''
+  form_close_message: ''
+  form_exception_message: ''
+  form_previous_submissions: false
+  form_confidential: false
+  form_confidential_message: ''
+  form_disable_remote_addr: false
+  form_convert_anonymous: false
+  form_prepopulate: false
+  form_prepopulate_source_entity: false
+  form_prepopulate_source_entity_required: false
+  form_prepopulate_source_entity_type: ''
+  form_unsaved: false
+  form_disable_back: false
+  form_submit_back: false
+  form_disable_autocomplete: false
+  form_novalidate: false
+  form_disable_inline_errors: false
+  form_required: false
+  form_autofocus: false
+  form_details_toggle: false
+  form_reset: false
+  form_access_denied: login
+  form_access_denied_title: ''
+  form_access_denied_message: 'You must be logged in to request an affinity group. Please <a href="/user/login">Log in</a> or <a href="/user/register">Join the Team</a>.'
+  form_access_denied_attributes: {  }
+  form_file_limit: ''
+  form_attributes: {  }
+  form_method: ''
+  form_action: ''
+  share: false
+  share_node: false
+  share_theme_name: ''
+  share_title: true
+  share_page_body_attributes: {  }
+  submission_label: '[webform_submission:values:affinity_group_namewebform_submission]'
+  submission_exception_message: ''
+  submission_locked_message: ''
+  submission_log: true
+  submission_excluded_elements: {  }
+  submission_exclude_empty: false
+  submission_exclude_empty_checkbox: false
+  submission_views: {  }
+  submission_views_replace: {  }
+  submission_user_columns: {  }
+  submission_user_duplicate: false
+  submission_access_denied: default
+  submission_access_denied_title: ''
+  submission_access_denied_message: ''
+  submission_access_denied_attributes: {  }
+  previous_submission_message: ''
+  previous_submissions_message: ''
+  autofill: false
+  autofill_message: ''
+  autofill_excluded_elements: {  }
+  wizard_progress_bar: true
+  wizard_progress_pages: false
+  wizard_progress_percentage: false
+  wizard_progress_link: false
+  wizard_progress_states: false
+  wizard_start_label: ''
+  wizard_preview_link: false
+  wizard_confirmation: true
+  wizard_confirmation_label: ''
+  wizard_auto_forward: true
+  wizard_auto_forward_hide_next_button: false
+  wizard_keyboard: true
+  wizard_track: ''
+  wizard_prev_button_label: ''
+  wizard_next_button_label: ''
+  wizard_toggle: true
+  wizard_toggle_show_label: ''
+  wizard_toggle_hide_label: ''
+  preview: 0
+  preview_label: ''
+  preview_title: ''
+  preview_message: ''
+  preview_attributes: {  }
+  preview_excluded_elements: {  }
+  preview_exclude_empty: true
+  preview_exclude_empty_checkbox: false
+  draft: none
+  draft_multiple: false
+  draft_auto_save: false
+  draft_saved_message: ''
+  draft_loaded_message: ''
+  draft_pending_single_message: ''
+  draft_pending_multiple_message: ''
+  confirmation_type: message
+  confirmation_url: 'project/[webform_submission:sid]'
+  confirmation_title: ''
+  confirmation_message: 'Thank you for your submission. We will contact you when your affinity group has been created.&nbsp;'
+  confirmation_attributes: {  }
+  confirmation_back: true
+  confirmation_back_label: ''
+  confirmation_back_attributes: {  }
+  confirmation_exclude_query: false
+  confirmation_exclude_token: false
+  confirmation_update: false
+  limit_total: null
+  limit_total_interval: null
+  limit_total_message: ''
+  limit_total_unique: false
+  limit_user: null
+  limit_user_interval: null
+  limit_user_message: ''
+  limit_user_unique: false
+  entity_limit_total: null
+  entity_limit_total_interval: null
+  entity_limit_user: null
+  entity_limit_user_interval: null
+  purge: none
+  purge_days: null
+  results_disabled: false
+  results_disabled_ignore: false
+  results_customize: true
+  token_view: false
+  token_update: false
+  token_delete: false
+  serial_disabled: false
+access:
+  create:
+    roles:
+      - authenticated
+    users: {  }
+    permissions: {  }
+  view_any:
+    roles:
+      - anonymous
+      - authenticated
+    users: {  }
+    permissions: {  }
+  update_any:
+    roles:
+      - administrator
+      - representative
+    users: {  }
+    permissions: {  }
+  delete_any:
+    roles:
+      - administrator
+      - representative
+    users: {  }
+    permissions: {  }
+  purge_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  view_own:
+    roles:
+      - authenticated
+    users: {  }
+    permissions: {  }
+  update_own:
+    roles:
+      - authenticated
+    users: {  }
+    permissions: {  }
+  delete_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  administer:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  test:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  configuration:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+handlers:
+  action:
+    id: action
+    handler_id: action
+    label: Action
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 0
+    settings:
+      states:
+        - completed
+        - updated
+      notes: ''
+      sticky: null
+      locked: null
+      data: 'terms: ''[webform_submission:values:tags]'''
+      message: ''
+      message_type: status
+      debug: false
+variants: {  }

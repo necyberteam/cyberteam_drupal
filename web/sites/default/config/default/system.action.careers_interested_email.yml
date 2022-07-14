@@ -1,0 +1,12 @@
+uuid: bab73d56-bce9-4662-9f1d-f578c612b2b0
+langcode: en
+status: true
+dependencies: {  }
+id: careers_interested_email
+label: 'CAREERS Interested Email'
+type: system
+plugin: action_send_email_action
+configuration:
+  recipient: eric.brown@unh.edu
+  subject: 'CAREERS - Interested in Project'
+  message: "[current-user:display-name] is Interested in Project: [webform_submission:values:project_title] \r\n[current-page:url:absolute]"

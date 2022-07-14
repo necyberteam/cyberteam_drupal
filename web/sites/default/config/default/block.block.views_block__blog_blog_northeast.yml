@@ -1,0 +1,38 @@
+uuid: 43fa08c5-608e-438d-b023-bc039a81ff89
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.blog
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__blog_blog_northeast
+theme: nect
+region: blog_page
+weight: -52
+provider: null
+plugin: 'views_block:blog-blog_northeast'
+settings:
+  id: 'views_block:blog-blog_northeast'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      nectd8_wpi_edu: nectd8_wpi_edu
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /blog

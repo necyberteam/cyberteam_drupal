@@ -1,0 +1,25 @@
+uuid: a2f01690-4927-410c-9b4a-b89e7a64fef4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.peoplecardview.body
+    - field.field.node.peoplecardview.field_domain_access
+    - field.field.node.peoplecardview.field_domain_all_affiliates
+    - field.field.node.peoplecardview.field_domain_source
+    - field.field.node.peoplecardview.field_region
+    - node.type.peoplecardview
+  module:
+    - user
+id: node.peoplecardview.default
+targetEntityType: node
+bundle: peoplecardview
+mode: default
+content: {  }
+hidden:
+  body: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  field_region: true
+  links: true
