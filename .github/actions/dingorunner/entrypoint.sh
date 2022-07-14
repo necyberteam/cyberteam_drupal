@@ -28,7 +28,8 @@ then
   storeKey
   terminusApi
   mkdir backups
-  terminus backup:get accessmatch.live --element=db --to=backups/site.sql.gz
+  terminus remote:drush $site_name.$env -- status
+  terminus backup:get $site_name.$env --element=db --to=backups/site.sql.gz
 fi
 
 if [ "$runner" = deploy ];

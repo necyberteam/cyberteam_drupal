@@ -33,8 +33,9 @@ jobs:
       - uses: ./.github/actions/dingorunner
         env:
           runner: bkup
-          blt: ./vendor/bin/blt
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+          site_name: ${{ secrets.TERMINUS_SITE_NAME }}
+          env: live
       - name: Sync DB
         run: |
           ls backups
