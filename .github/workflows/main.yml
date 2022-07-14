@@ -12,11 +12,11 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v2
         env:
-          cache-name: necyber-0
+          cache-name: necyber-1
         with:
           path: |
             vendor
-            web
+            web/core
           key: ${{ env.cache-name }}
       - uses: ./.github/actions/dingorunner
         env:
