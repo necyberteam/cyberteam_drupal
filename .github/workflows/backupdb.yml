@@ -41,7 +41,6 @@ jobs:
         run: |
           lando composer config -g github-oauth.github.com $gh_token
           composer config -g github-oauth.github.com $gh_token
-          composer config -g gitlab-token.gitlab.com $gitlab_token
           composer install --ignore-platform-reqs
           lando db-import backups/site.sql.gz          
           cd web
@@ -56,7 +55,6 @@ jobs:
           ls backups
         env:
           gh_token: ${{ secrets.GH_TOKEN_REPO }}
-          gitlab_token: ${{ secrets.GITLAB_TOKEN }}
       - name: 'Upload Backup Artifact'
         uses: actions/upload-artifact@v3
         with:
