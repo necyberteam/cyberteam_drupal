@@ -37,7 +37,11 @@ foreach ($additionalSettingsFiles as $settingsFile) {
   }
 }
 
-$env = getenv('PANTHEON_ENVIRONMENT');
+if (defined('PANTHEON_ENVIRONMENT')) {
+  $env = PANTHEON_ENVIRONMENT;
+} else {
+  $env = getenv('PANTHEON_ENVIRONMENT');
+}
 
 if (isset($env) ) {
   # Per environment settings
