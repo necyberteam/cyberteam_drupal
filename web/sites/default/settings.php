@@ -43,7 +43,6 @@ global $content_directories;
 $content_directories['sync'] = '/datastorage/content/sync';
 $settings['config_sync_directory'] = '/datastorage/config/sync';
 $settings['config_exclude_modules'] = [
-  'devel', 
   'webprofiler',
   'cilogon_auth',
   'login_disable',
