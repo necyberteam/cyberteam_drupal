@@ -100,7 +100,6 @@ jobs:
       - name: Run them tests
         run: |
           lando blt amp:behat
-          exit 0
       - name: Push new branch
         run: |
           git remote set-url origin "https://$gh_user:$gh_token@github.com/necyberteam/cyberteam_drupal.git"
