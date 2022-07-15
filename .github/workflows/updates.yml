@@ -85,7 +85,7 @@ jobs:
           gh_token: ${{ secrets.GH_TOKEN_REPO }}
       - name: Run composer updates
         run: |
-          lando ssh -c "git remote set-url origin https://$gh_user:$gh_token@github.com/necyberteam/cyberteam_drupal.git"
+          git remote set-url origin https://$gh_user:$gh_token@github.com/necyberteam/cyberteam_drupal.git
           lando ssh -c "git config --global user.email \"$email\""
           lando ssh -c "git config --global user.name \"$username\""
           lando blt amp:ciupdate "$drupal_update"
