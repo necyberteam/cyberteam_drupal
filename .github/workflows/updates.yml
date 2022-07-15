@@ -95,7 +95,7 @@ jobs:
           drupal_update: ${{ github.event.inputs.drupal_update }}
           username: ${{ github.actor }}
           email: github.actions@necyberteam.org
-          gh_token: ${{ secrets.GH_TOKEN_REPO }}
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run them tests
         run: |
           vendor/bin/blt amp:behat
