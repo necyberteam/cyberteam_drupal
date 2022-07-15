@@ -3,11 +3,15 @@
  * @file
  * Local development override configuration feature.
  */
+
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Component\Assertion\Handle;
+
 $settings['hash_salt'] = $_ENV['DRUPAL_HASH_SALT'];
+
 $creds = json_decode(getenv('LANDO_INFO'));
 $creds = $creds->database;
+
 /**
  * Database configuration.
  */
@@ -20,11 +24,14 @@ $databases['default']['default'] = [
   'driver' => 'mysql',
   'prefix' => '',
 ];
+
 // Use development service parameters.
 $settings['container_yamls'][] = EnvironmentDetector::getRepoRoot() . '/docroot/sites/development.services.yml';
 $settings['container_yamls'][] = EnvironmentDetector::getRepoRoot() . '/docroot/sites/blt.development.services.yml';
+
 // Allow access to update.php.
 $settings['update_free_access'] = TRUE;
+
 /**
  * Assertions.
  *
@@ -72,6 +79,8 @@ Handle::register();
  * purposes.
  */
 $settings['extension_discovery_scan_tests'] = FALSE;
+
+
 /**
  * Configure static caches.
  *
