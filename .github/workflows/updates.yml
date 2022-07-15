@@ -99,7 +99,7 @@ jobs:
           gh_user: ${{ github.actor }}
       - name: Run them tests
         run: |
-          lando blt amp:behat
+          vendor/bin/blt amp:behat
       - name: Push new branch
         run: |
           git remote set-url origin "https://$gh_user:$gh_token@github.com/necyberteam/cyberteam_drupal.git"
