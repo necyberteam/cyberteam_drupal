@@ -93,10 +93,10 @@ jobs:
           lando drush cr
         env:
           drupal_update: ${{ github.event.inputs.drupal_update }}
-          username: ${{ secrets.GIT_USER }}
-          email: ${{ secrets.GIT_EMAIL }}
+          username: ${{ github.actor }}
+          email: github.actions@necyberteam.org
           gh_token: ${{ secrets.GH_TOKEN_REPO }}
-          gh_user: ${{ secrets.GH_USER }}
+          gh_user: ${{ github.actor }}
       - name: Run them tests
         run: |
           lando blt amp:behat
