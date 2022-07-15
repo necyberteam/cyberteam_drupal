@@ -168,5 +168,6 @@ $update_list");
       $this->_exec("git commit -m\"$update_list\"");
       $this->_exec("rm log.txt");
     }
+  }
 
 }
