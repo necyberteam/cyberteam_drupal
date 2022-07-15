@@ -124,10 +124,49 @@ AMP_USERNAME=$username'>.env");
    */
   public function did() {
     $this->_exec($this->lando() . "db-import backups/site.sql.gz");
-    #$this->_exec("lando drush deploy -y");
-    #$this->_exec("lando drush cim -y");
+    $this->_exec("lando drush deploy -y");
+    $this->_exec("lando drush cim -y");
     $this->_exec($this->lando() . "drush cr");
     $this->_exec($this->lando() . "blt amp:uli");
   }
+
+    /**
+   * Update ran in github actions.
+   *
+   * @command amp:ciupdate
+   * @description Updates through CI.
+   */
+  public function ciupdate(array $args) {
+    $arrrrgs = implode($args);
+
+    $this->_exec("touch log.txt");
+    if ($arrrrgs == 'drupal/core') {
+      $this->_exec("composer update drupal/core drupal/core-composer-scaffold drupal/core-dev drupal/core-recommended drupal/core-project-message -W >log.txt 2>&1");
+      $this->composer_updates('/Upgrading (drupal)\/core \((.* \=\> .*)\)$/mU');
+    } elseif (!empty($arrrrgs)) {
+      $this->_exec("composer update $arrrrgs --no-scripts >log.txt 2>&1");
+      $this->composer_updates('/Upgrading .*\/(.*)\((.* \=\> .*)\)$/msU');
+    }
+  }
+
+  private function composer_updates($regex) {
+    $log = file_get_contents("log.txt");
+    $log = preg_match_all($regex, $log, $update_matches);
+    $this->say("-=-=-=-=-Log Message=-=-===-\n$log");
+    $update_list = '';
+    foreach ($update_matches[1] as $key => $update_match) {
+      $seperator = $key > 0 ? ' — ': '';
+      $version = $update_matches[2][$key];
+      $update_list .= "$seperator$update_match: $version";
+    }
+      $this->_exec("lando drush updatedb -y");
+      $this->_exec("lando drush cr");
+    if ($log > 0) {
+      $this->say("\n The following updated:
+$update_list");
+      $this->_exec("git add composer.*");
+      $this->_exec("git commit -m\"$update_list\"");
+      $this->_exec("rm log.txt");
+    }
 
 }

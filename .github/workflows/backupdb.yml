@@ -1,8 +1,7 @@
 name: (A) Database to artifact
 on:
-  push:
-    branches:
-      - 'main'
+  schedule:
+    - cron:  '16 11 * * *'
 jobs:
   build:
     name: Grab backup and fix backup
@@ -45,7 +44,7 @@ jobs:
           lando db-import backups/site.sql.gz          
           cd web
           lando drush cr
-          lando drush cim -y
+          lando drush deploy
           lando drush sql-sanitize --sanitize-password -y
           lando drush cr
           cd ..
