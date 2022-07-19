@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: Install Lando
         run: |
-          sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-v3.6.2"
+          sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-v3.6.4"
           sudo chmod +x /usr/local/bin/lando
       - name: Setup Lando cache
         uses: actions/cache@v2
@@ -95,15 +95,13 @@ jobs:
           drupal_update: ${{ github.event.inputs.drupal_update }}
           username: ${{ github.actor }}
           email: github.actions@necyberteam.org
-          gh_token: ${{ secrets.GH_TOKEN_REPO }}
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
           gh_user: ${{ github.actor }}
       - name: Run them tests
         run: |
-          lando blt amp:behat
-          exit 0
+          vendor/bin/blt amp:behat
       - name: Push new branch
         run: |
-          git remote set-url origin "https://$gh_user:$gh_token@github.com/necyberteam/cyberteam_drupal.git"
           git config --global user.email "$email"
           git config --global user.name "$username"
           git push origin $drupal_update
@@ -111,5 +109,3 @@ jobs:
           drupal_update: ${{ github.event.inputs.drupal_update }}
           username: ${{ secrets.GIT_USER }}
           email: ${{ secrets.GIT_EMAIL }}
-          gh_token: ${{ secrets.GH_TOKEN_REPO }}
-          gh_user: ${{ secrets.GH_USER }}
