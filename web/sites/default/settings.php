@@ -28,7 +28,8 @@ $content_directories['sync'] = '/datastorage/content/sync';
 $additionalSettingsFiles = [
   ( DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php" ),
   ( __DIR__ . "/settings.pantheon.php" ),
-  ( __DIR__ . "/settings/local.settings.php" )
+  ( __DIR__ . "/settings/local.settings.php" ), // for lando blt tests
+  ( __DIR__ . "/local.settings.php" ) // this can contain keys, since specifically not in git 
 ];
 
 foreach ($additionalSettingsFiles as $settingsFile) {
