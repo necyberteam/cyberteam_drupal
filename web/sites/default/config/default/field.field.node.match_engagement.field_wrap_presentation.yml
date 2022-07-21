@@ -1,0 +1,27 @@
+uuid: 143c596b-6b83-4e93-ac37-e5cb7016a970
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_wrap_presentation
+    - node.type.match_engagement
+  module:
+    - file
+id: node.match_engagement.field_wrap_presentation
+field_name: field_wrap_presentation
+entity_type: node
+bundle: match_engagement
+label: 'Wrap Presentation'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: 'match_engagement/[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'ppt pptx'
+  max_filesize: 25mb
+  description_field: false
+field_type: file

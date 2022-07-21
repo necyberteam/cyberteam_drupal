@@ -1,0 +1,23 @@
+uuid: 2e6142e1-ba7d-421a-9497-66e2d633f284
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_accepted
+    - node.type.match_engagement
+id: node.match_engagement.field_accepted
+field_name: field_accepted
+entity_type: node
+bundle: match_engagement
+label: Accepted
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'yes'
+  off_label: 'no'
+field_type: boolean

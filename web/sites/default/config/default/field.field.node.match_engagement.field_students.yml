@@ -1,0 +1,50 @@
+uuid: eec9245a-3579-4fe0-a7c9-968cb1951548
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_students
+    - node.type.match_engagement
+id: node.match_engagement.field_students
+field_name: field_students
+entity_type: node
+bundle: match_engagement
+label: Students
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: role
+      role:
+        student_champion: student_champion
+        student: '0'
+        mentor: '0'
+        professional_mentor: '0'
+        researcher: '0'
+        steering_committee: '0'
+        regional_admin: '0'
+        leadership: '0'
+        representative: '0'
+        administrator: '0'
+        masquerade: '0'
+        regional_expert: '0'
+        campuschampionsadmin: '0'
+        exportpeople: '0'
+        research_computing_facilitator: '0'
+        research_software_engineer: '0'
+        ci_systems_engineer: '0'
+        mentee: '0'
+        domain_champion: '0'
+        cssn: '0'
+    include_anonymous: false
+field_type: entity_reference

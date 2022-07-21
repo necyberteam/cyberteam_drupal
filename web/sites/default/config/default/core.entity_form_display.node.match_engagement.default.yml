@@ -1,0 +1,463 @@
+uuid: 765403f2-996b-48f5-896a-1ca94aa7473c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.match_engagement.body
+    - field.field.node.match_engagement.field_accepted
+    - field.field.node.match_engagement.field_domain_access
+    - field.field.node.match_engagement.field_domain_all_affiliates
+    - field.field.node.match_engagement.field_domain_source
+    - field.field.node.match_engagement.field_education_
+    - field.field.node.match_engagement.field_field_group
+    - field.field.node.match_engagement.field_git_contribution
+    - field.field.node.match_engagement.field_hpc_resources_needed
+    - field.field.node.match_engagement.field_institution
+    - field.field.node.match_engagement.field_is_there_an_impact_on_info
+    - field.field.node.match_engagement.field_is_there_an_impact_on_inst
+    - field.field.node.match_engagement.field_is_there_an_impact_on_soci
+    - field.field.node.match_engagement.field_is_there_an_impact_on_tech
+    - field.field.node.match_engagement.field_is_there_an_impact_physica
+    - field.field.node.match_engagement.field_launch_presentation
+    - field.field.node.match_engagement.field_launch_presentation_date
+    - field.field.node.match_engagement.field_lessons_learned
+    - field.field.node.match_engagement.field_mentor
+    - field.field.node.match_engagement.field_mileston
+    - field.field.node.match_engagement.field_milestone_actual_date
+    - field.field.node.match_engagement.field_milestone_completion_date
+    - field.field.node.match_engagement.field_notes
+    - field.field.node.match_engagement.field_overall_results
+    - field.field.node.match_engagement.field_planned_portal_contributio
+    - field.field.node.match_engagement.field_planned_publications
+    - field.field.node.match_engagement.field_programming_
+    - field.field.node.match_engagement.field_project_deliverables
+    - field.field.node.match_engagement.field_project_image
+    - field.field.node.match_engagement.field_qualifications
+    - field.field.node.match_engagement.field_requested_engagement
+    - field.field.node.match_engagement.field_researcher
+    - field.field.node.match_engagement.field_status
+    - field.field.node.match_engagement.field_student_learning
+    - field.field.node.match_engagement.field_students
+    - field.field.node.match_engagement.field_tags
+    - field.field.node.match_engagement.field_urgency
+    - field.field.node.match_engagement.field_what_is_the_impact_on_othe
+    - field.field.node.match_engagement.field_what_is_the_impact_on_the_
+    - field.field.node.match_engagement.field_what_match_will_learn
+    - field.field.node.match_engagement.field_wrap_presentation
+    - field.field.node.match_engagement.field_wrap_presentation_date
+    - image.style.thumbnail
+    - node.type.match_engagement
+  module:
+    - datetime
+    - field_group
+    - file
+    - image
+    - link
+    - path
+    - text
+third_party_settings:
+  field_group:
+    group_milestones:
+      children:
+        - field_mileston
+        - field_field_group
+        - field_milestone_completion_date
+        - field_milestone_actual_date
+      label: Milestones
+      region: content
+      parent_name: ''
+      weight: 20
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: ''
+        required_fields: true
+id: node.match_engagement.default
+targetEntityType: node
+bundle: match_engagement
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 15
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_accepted:
+    type: boolean_checkbox
+    weight: 46
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_domain_access:
+    type: options_buttons
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_domain_all_affiliates:
+    type: boolean_checkbox
+    weight: 8
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_domain_source:
+    type: options_select
+    weight: 9
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_education_:
+    type: options_select
+    weight: 26
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_field_group:
+    type: string_textarea
+    weight: 18
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_git_contribution:
+    type: link_default
+    weight: 32
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_hpc_resources_needed:
+    type: string_textarea
+    weight: 21
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_institution:
+    type: string_textfield
+    weight: 12
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_is_there_an_impact_on_info:
+    type: string_textarea
+    weight: 41
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_is_there_an_impact_on_inst:
+    type: string_textarea
+    weight: 40
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_is_there_an_impact_on_soci:
+    type: string_textarea
+    weight: 43
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_is_there_an_impact_on_tech:
+    type: string_textarea
+    weight: 42
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_is_there_an_impact_physica:
+    type: string_textarea
+    weight: 39
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_launch_presentation:
+    type: file_generic
+    weight: 28
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  field_launch_presentation_date:
+    type: datetime_default
+    weight: 29
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_lessons_learned:
+    type: string_textarea
+    weight: 44
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_mentor:
+    type: entity_reference_autocomplete
+    weight: 22
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_mileston:
+    type: string_textfield
+    weight: 17
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_milestone_actual_date:
+    type: datetime_default
+    weight: 20
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_milestone_completion_date:
+    type: datetime_default
+    weight: 19
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_notes:
+    type: string_textarea
+    weight: 36
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_overall_results:
+    type: string_textarea
+    weight: 45
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_planned_portal_contributio:
+    type: string_textarea
+    weight: 33
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_planned_publications:
+    type: string_textarea
+    weight: 34
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_programming_:
+    type: options_select
+    weight: 27
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_project_deliverables:
+    type: string_textarea
+    weight: 19
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_project_image:
+    type: image_image
+    weight: 18
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_qualifications:
+    type: string_textarea
+    weight: 24
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_requested_engagement:
+    type: options_select
+    weight: 17
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_researcher:
+    type: entity_reference_autocomplete
+    weight: 13
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_status:
+    type: options_select
+    weight: 47
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_student_learning:
+    type: string_textarea
+    weight: 25
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_students:
+    type: entity_reference_autocomplete
+    weight: 23
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_tags:
+    type: entity_reference_autocomplete
+    weight: 16
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_urgency:
+    type: options_select
+    weight: 14
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_what_is_the_impact_on_othe:
+    type: string_textarea
+    weight: 38
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_what_is_the_impact_on_the_:
+    type: string_textarea
+    weight: 37
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_what_match_will_learn:
+    type: string_textarea
+    weight: 35
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_wrap_presentation:
+    type: file_generic
+    weight: 30
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  field_wrap_presentation_date:
+    type: datetime_default
+    weight: 31
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 4
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 11
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

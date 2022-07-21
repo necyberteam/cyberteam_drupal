@@ -1,0 +1,24 @@
+uuid: 3ddc0069-fca1-4c00-8a2d-166c8ee033ca
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_milestone_completion_date
+    - node.type.match_engagement
+  module:
+    - datetime
+id: node.match_engagement.field_milestone_completion_date
+field_name: field_milestone_completion_date
+entity_type: node
+bundle: match_engagement
+label: 'Completion Date Goal'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    default_date_type: now
+    default_date: now
+default_value_callback: ''
+settings: {  }
+field_type: datetime
