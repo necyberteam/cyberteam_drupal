@@ -4,11 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.node.match_engagement.body
-    - field.field.node.match_engagement.field_accepted
     - field.field.node.match_engagement.field_domain_access
     - field.field.node.match_engagement.field_domain_all_affiliates
     - field.field.node.match_engagement.field_domain_source
-    - field.field.node.match_engagement.field_education_
+    - field.field.node.match_engagement.field_education
+    - field.field.node.match_engagement.field_email_user
     - field.field.node.match_engagement.field_field_group
     - field.field.node.match_engagement.field_git_contribution
     - field.field.node.match_engagement.field_hpc_resources_needed
@@ -29,7 +29,7 @@ dependencies:
     - field.field.node.match_engagement.field_overall_results
     - field.field.node.match_engagement.field_planned_portal_contributio
     - field.field.node.match_engagement.field_planned_publications
-    - field.field.node.match_engagement.field_programming_
+    - field.field.node.match_engagement.field_programming_skill_level
     - field.field.node.match_engagement.field_project_deliverables
     - field.field.node.match_engagement.field_project_image
     - field.field.node.match_engagement.field_qualifications
@@ -66,7 +66,14 @@ content:
     third_party_settings: {  }
     weight: 101
     region: content
-  field_accepted:
+  field_education:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 140
+    region: content
+  field_email_user:
     type: boolean
     label: above
     settings:
@@ -74,14 +81,7 @@ content:
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-    weight: 137
-    region: content
-  field_education_:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 113
+    weight: 142
     region: content
   field_field_group:
     type: basic_string
@@ -238,12 +238,12 @@ content:
     third_party_settings: {  }
     weight: 126
     region: content
-  field_programming_:
+  field_programming_skill_level:
     type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 123
+    weight: 141
     region: content
   field_project_deliverables:
     type: basic_string
