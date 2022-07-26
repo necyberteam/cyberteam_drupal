@@ -2,6 +2,8 @@
 
 use Drupal\user\UserInterface;
 use Drupal\core\Site\Settings;
+use Drupal\openid_connect\Plugin\OpenIDConnectClientBase;
+use Drupal\Component\Serialization\Json;
 
 /**
  * Implements hook_user_login()
@@ -23,6 +25,13 @@ class UserProfilesLogger
     $this->enabled = $enable;
   }
 
+  /**
+   * Log the message to the apache log and to Drupal's messenger
+   * if $is_error is TRUE, report the message as an error.  Otherwise as a status message.
+   * 
+   * Note the message has the content of $this->prefix prepended.
+   * 
+   */
   private function _log_it($msg, $is_error)
   {
     $msg = $this->prefix . $msg;
@@ -79,9 +88,10 @@ function userprofiles_user_login(UserInterface $account)
   //    [countryId] => 210 [workPhone] => (217) 265-5293 [email] => minsker@uiuc.edu 
   //    [citizenships] => Array ( ) [profileVerificationDate] => )
 
-  $account->set('field_institution', $account_json['organizationName']);
   $account->set('field_user_first_name', $account_json['firstName']);
   $account->set('field_user_last_name', $account_json['lastName']);
+  $account->set('field_institution', $account_json['organizationName']);
+  $account->set('field_citizenships', implode(',', $account_json['citizenships']));  // convert to comma separated string
 
   if (!$testing_use_other_username)
     $account->setEmail($account_json['email']);
@@ -90,6 +100,7 @@ function userprofiles_user_login(UserInterface $account)
   $logger->log('after set, field_user_first_name = [' . $account->get('field_user_first_name')->value . ']');
   $logger->log('after set, field_user_last_name = [' . $account->get('field_user_last_name')->value . ']');
   $logger->log('after set, field_institution = [' . $account->get('field_institution')->value . ']');
+  $logger->log('after set, field_citizenships = [' . $account->get('field_citizenships')->value . ']');
   $logger->log('after set, email = [' . $account->getEmail() . ']');
 
   //
@@ -162,5 +173,61 @@ function get_account_data_from_api($logger, $username)
   }
 
   $json = json_decode($response, true);
+
   return $json;
+}
+
+// Attempt to use guzzle to hit xsede api -- but,
+// haven't been able to get this to work -- headers not found properly, not sure why
+function get_account_data_from_api_guzzle($logger, $username)
+{
+
+  $base_url = 'https://xras-identity-service-demo.xsede.org/profiles/v1/people';
+  $request_url = $base_url . '/' . $username;
+
+  // look for the ramps key in directory /var/www/cyberteam_drupal_dev/web/
+  // in file sites/default/files/private/.keys/secrets.json
+  $path = 'sites/default/files/private/.keys/secrets.json';
+  if (!file_exists($path)) {
+    Drupal::messenger()->addError("[User Profiles] Unable to get ramps api key");
+    return false;
+  }
+  $secrets_json_text = file_get_contents($path);
+  $secrets_data = json_decode($secrets_json_text, TRUE);
+  $api_key = $secrets_data['ramps_api_key'];
+
+  $request_options = [
+     'headers' => [
+      'XA-API-KEY: ' . $api_key,
+      'XA-REQUESTER: MATCH',
+      'Content-Type: application/json'
+    ],
+  ];
+
+  // ------------  try with guzzle ---------
+
+  /** @var \GuzzleHttp\Client $client */
+  $client = new GuzzleHttp\Client();
+
+  try {
+
+    $response = $client->get($request_url, $request_options);
+
+    $logger->log("$response = " . print_r($response, true));
+
+    $userinfo = Json::decode((string) $response->getBody());
+
+    return $userinfo;
+
+  } catch (\Exception $e) {
+
+    $variables = [
+      '@message' => 'Could not retrieve user profile information',
+      '@error_message' => $e->getMessage(),
+    ];
+
+    $logger->log_error(" error: " . print_r($variables, true));
+
+  }
+  return false;
 }
