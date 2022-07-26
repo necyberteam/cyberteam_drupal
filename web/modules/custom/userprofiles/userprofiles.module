@@ -1,8 +1,7 @@
 <?php
 
+use Exception;
 use Drupal\user\UserInterface;
-use Drupal\core\Site\Settings;
-use Drupal\openid_connect\Plugin\OpenIDConnectClientBase;
 use Drupal\Component\Serialization\Json;
 
 /**
@@ -15,42 +14,6 @@ use Drupal\Component\Serialization\Json;
  * If user not found, just quietly do nothing.
  */
 
-class UserProfilesLogger
-{
-
-  private $enabled;
-  private $prefix = "[User Profiles] ";
-  function __construct($enable)
-  {
-    $this->enabled = $enable;
-  }
-
-  /**
-   * Log the message to the apache log and to Drupal's messenger
-   * if $is_error is TRUE, report the message as an error.  Otherwise as a status message.
-   * 
-   * Note the message has the content of $this->prefix prepended.
-   * 
-   */
-  private function _log_it($msg, $is_error)
-  {
-    $msg = $this->prefix . $msg;
-    if ($this->enabled) {
-      error_log($msg);
-      $is_error ? Drupal::messenger()->addError($msg) : Drupal::messenger()->addStatus($msg);
-    }
-  }
-
-  function log($msg)
-  {
-    $this->_log_it($msg, false);
-  }
-  function log_error($msg)
-  {
-    $this->_log_it($msg, true);
-  }
-}
-
 function userprofiles_user_login(UserInterface $account)
 {
   $testing_enable_verbose_logging = TRUE;
@@ -62,21 +25,21 @@ function userprofiles_user_login(UserInterface $account)
 
   $username = $account->get('name')->value;
 
-  $logger->log("Into user_login hook.  User account email: " . print_r($account->getEmail(), true));
+  $logger->log("user account email = [" . print_r($account->getEmail(), true)). ']';
 
   if ($testing_use_other_username) {
     $username = 'karpenko';
-    $logger->log("Using username $username for testing");
+    $logger->log("For testing, using alternative username [$username] for testing");
   }
 
-  $account_json = get_account_data_from_api($logger, $username);
+  $api_account_array = get_account_data_from_api($logger, $username);
 
-  if ($account_json === false) {
+  if ($api_account_array === false) {
     // api call failed -- can't continue, and errors already reported
     return;
   }
 
-  $logger->log("account_json = " . print_r($account_json, true));
+  $logger->log("api call results: " . print_r($api_account_array, true));
 
   // set following fields based on API call response:
   //    field_institution field_user_first_name field_user_last_name email 
@@ -88,13 +51,13 @@ function userprofiles_user_login(UserInterface $account)
   //    [countryId] => 210 [workPhone] => (217) 265-5293 [email] => minsker@uiuc.edu 
   //    [citizenships] => Array ( ) [profileVerificationDate] => )
 
-  $account->set('field_user_first_name', $account_json['firstName']);
-  $account->set('field_user_last_name', $account_json['lastName']);
-  $account->set('field_institution', $account_json['organizationName']);
-  $account->set('field_citizenships', implode(',', $account_json['citizenships']));  // convert to comma separated string
+  $account->set('field_user_first_name', $api_account_array['firstName']);
+  $account->set('field_user_last_name', $api_account_array['lastName']);
+  $account->set('field_institution', $api_account_array['organizationName']);
+  $account->set('field_citizenships', implode(',', $api_account_array['citizenships']));  // convert to comma separated string
 
   if (!$testing_use_other_username)
-    $account->setEmail($account_json['email']);
+    $account->setEmail($api_account_array['email']);
 
   // while testing, verify sets
   $logger->log('after set, field_user_first_name = [' . $account->get('field_user_first_name')->value . ']');
@@ -131,7 +94,6 @@ function userprofiles_user_login(UserInterface $account)
  */
 function get_account_data_from_api($logger, $username)
 {
-
   $base_url = 'https://xras-identity-service-demo.xsede.org/profiles/v1/people';
   $request_url = $base_url . '/' . $username;
 
@@ -146,88 +108,62 @@ function get_account_data_from_api($logger, $username)
   $secrets_data = json_decode($secrets_json_text, TRUE);
   $api_key = $secrets_data['ramps_api_key'];
 
-  $curl = curl_init($request_url);
-
-  curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); // put response in return value
-  curl_setopt($curl, CURLOPT_FAILONERROR, true); // include HTTP errors as failure
-  curl_setopt($curl, CURLOPT_HTTPHEADER, [
-    'XA-API-KEY: ' . $api_key,
-    'XA-REQUESTER: MATCH',
-    'Content-Type: application/json'
-  ]);
-
-  $response = curl_exec($curl);
-  $curl_errno = curl_errno($curl);
-  $curl_error = curl_error($curl);
-  $responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-  curl_close($curl);
-
-  $logger->log("response = " . print_r($response, true));
-  $logger->log("curl_errno = $curl_errno");
-  $logger->log("curl_error = $curl_error");
-  $logger->log("responseCode = $responseCode");
-
-  if ($responseCode >= 400) {
-    Drupal::messenger()->addError("[User Profiles] Unable to get data for user [$username].  ($curl_error)");
-    return false;
-  }
-
-  $json = json_decode($response, true);
-
-  return $json;
-}
-
-// Attempt to use guzzle to hit xsede api -- but,
-// haven't been able to get this to work -- headers not found properly, not sure why
-function get_account_data_from_api_guzzle($logger, $username)
-{
-
-  $base_url = 'https://xras-identity-service-demo.xsede.org/profiles/v1/people';
-  $request_url = $base_url . '/' . $username;
-
-  // look for the ramps key in directory /var/www/cyberteam_drupal_dev/web/
-  // in file sites/default/files/private/.keys/secrets.json
-  $path = 'sites/default/files/private/.keys/secrets.json';
-  if (!file_exists($path)) {
-    Drupal::messenger()->addError("[User Profiles] Unable to get ramps api key");
-    return false;
-  }
-  $secrets_json_text = file_get_contents($path);
-  $secrets_data = json_decode($secrets_json_text, TRUE);
-  $api_key = $secrets_data['ramps_api_key'];
-
-  $request_options = [
-     'headers' => [
-      'XA-API-KEY: ' . $api_key,
-      'XA-REQUESTER: MATCH',
-      'Content-Type: application/json'
-    ],
-  ];
-
-  // ------------  try with guzzle ---------
+  $request_options = array('headers' => array(
+      'XA-API-KEY' => $api_key,
+      'XA-REQUESTER' => 'MATCH',
+      'Content-Type' => 'application/json'));
+  
 
   /** @var \GuzzleHttp\Client $client */
   $client = new GuzzleHttp\Client();
-
   try {
-
-    $response = $client->get($request_url, $request_options);
-
-    $logger->log("$response = " . print_r($response, true));
-
+    $response = $client->request('GET', $request_url, $request_options);
     $userinfo = Json::decode((string) $response->getBody());
-
     return $userinfo;
-
-  } catch (\Exception $e) {
-
+  } catch (Exception $e) {
     $variables = [
       '@message' => 'Could not retrieve user profile information',
       '@error_message' => $e->getMessage(),
     ];
-
     $logger->log_error(" error: " . print_r($variables, true));
-
   }
   return false;
 }
+
+
+class UserProfilesLogger
+{
+  private $enabled;
+
+  function __construct($enable)
+  {
+    $this->enabled = $enable;
+  }
+
+  /**
+   * Log the message to the apache log and to Drupal's messenger
+   * if $is_error is TRUE, report the message as an error.  Otherwise as a status message.
+   * 
+   */
+  private function _log_it($msg, $is_error)
+  {
+    if ($this->enabled) {
+      // prepend call function & linenumber to msg
+      $stack = debug_backtrace(~DEBUG_BACKTRACE_PROVIDE_OBJECT|DEBUG_BACKTRACE_IGNORE_ARGS,2);
+      $msg = basename($stack[1]['file']) . ':' . $stack[1]['line'] . ' -- ' . $msg;
+
+      error_log($msg);
+      $is_error ? Drupal::messenger()->addError($msg) : Drupal::messenger()->addStatus($msg);
+    }
+  }
+
+  function log($msg)
+  {
+    $this->_log_it($msg, false);
+  }
+  function log_error($msg)
+  {
+    $this->_log_it($msg, true);
+  }
+}
+
