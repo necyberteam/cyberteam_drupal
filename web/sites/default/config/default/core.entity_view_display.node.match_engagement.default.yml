@@ -4,12 +4,19 @@ status: true
 dependencies:
   config:
     - field.field.node.match_engagement.body
+    - field.field.node.match_engagement.field_actual_completion_date_1
+    - field.field.node.match_engagement.field_actual_completion_date_2
+    - field.field.node.match_engagement.field_actual_completion_date_3
+    - field.field.node.match_engagement.field_actual_completion_date_4
+    - field.field.node.match_engagement.field_completion_date_goal_1
+    - field.field.node.match_engagement.field_completion_date_goal_2
+    - field.field.node.match_engagement.field_completion_date_goal_3
+    - field.field.node.match_engagement.field_completion_date_goal_4
     - field.field.node.match_engagement.field_domain_access
     - field.field.node.match_engagement.field_domain_all_affiliates
     - field.field.node.match_engagement.field_domain_source
     - field.field.node.match_engagement.field_education
     - field.field.node.match_engagement.field_email_user
-    - field.field.node.match_engagement.field_field_group
     - field.field.node.match_engagement.field_git_contribution
     - field.field.node.match_engagement.field_hpc_resources_needed
     - field.field.node.match_engagement.field_institution
@@ -25,6 +32,15 @@ dependencies:
     - field.field.node.match_engagement.field_mileston
     - field.field.node.match_engagement.field_milestone_actual_date
     - field.field.node.match_engagement.field_milestone_completion_date
+    - field.field.node.match_engagement.field_milestone_description
+    - field.field.node.match_engagement.field_milestone_description_1
+    - field.field.node.match_engagement.field_milestone_description_2
+    - field.field.node.match_engagement.field_milestone_description_3
+    - field.field.node.match_engagement.field_milestone_description_4
+    - field.field.node.match_engagement.field_milestone_title_1
+    - field.field.node.match_engagement.field_milestone_title_2
+    - field.field.node.match_engagement.field_milestone_title_3
+    - field.field.node.match_engagement.field_milestone_title_4
     - field.field.node.match_engagement.field_notes
     - field.field.node.match_engagement.field_overall_results
     - field.field.node.match_engagement.field_planned_portal_contributio
@@ -66,6 +82,78 @@ content:
     third_party_settings: {  }
     weight: 101
     region: content
+  field_actual_completion_date_1:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 146
+    region: content
+  field_actual_completion_date_2:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 150
+    region: content
+  field_actual_completion_date_3:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 154
+    region: content
+  field_actual_completion_date_4:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 158
+    region: content
+  field_completion_date_goal_1:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 145
+    region: content
+  field_completion_date_goal_2:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 149
+    region: content
+  field_completion_date_goal_3:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 153
+    region: content
+  field_completion_date_goal_4:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 157
+    region: content
   field_education:
     type: list_default
     label: above
@@ -82,13 +170,6 @@ content:
       format_custom_true: ''
     third_party_settings: {  }
     weight: 142
-    region: content
-  field_field_group:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 107
     region: content
   field_git_contribution:
     type: link
@@ -209,6 +290,74 @@ content:
       format_type: medium
     third_party_settings: {  }
     weight: 108
+    region: content
+  field_milestone_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 159
+    region: content
+  field_milestone_description_1:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 144
+    region: content
+  field_milestone_description_2:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 148
+    region: content
+  field_milestone_description_3:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 152
+    region: content
+  field_milestone_description_4:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 156
+    region: content
+  field_milestone_title_1:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 143
+    region: content
+  field_milestone_title_2:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 147
+    region: content
+  field_milestone_title_3:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 151
+    region: content
+  field_milestone_title_4:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 155
     region: content
   field_notes:
     type: basic_string
