@@ -1,9 +1,9 @@
-uuid: 85ace2f3-d198-4798-a18d-fd67a81bde03
+uuid: 01ab529a-0699-4f42-9f0e-3bd963e9d9a4
 langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.node.teaser
+    - core.entity_view_mode.node.match_engagement_view_mode
     - field.field.node.match_engagement.body
     - field.field.node.match_engagement.field_actual_completion_date_1
     - field.field.node.match_engagement.field_actual_completion_date_2
@@ -63,27 +63,58 @@ dependencies:
     - field.field.node.match_engagement.field_what_match_will_learn
     - field.field.node.match_engagement.field_wrap_presentation
     - field.field.node.match_engagement.field_wrap_presentation_date
+    - image.style.large
     - node.type.match_engagement
   module:
+    - image
     - text
     - user
-id: node.match_engagement.teaser
+id: node.match_engagement.match_engagement_view_mode
 targetEntityType: node
 bundle: match_engagement
-mode: teaser
+mode: match_engagement_view_mode
 content:
   body:
-    type: text_summary_or_trimmed
+    type: text_default
     label: hidden
-    settings:
-      trim_length: 600
-    third_party_settings: {  }
-    weight: 101
-    region: content
-  links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 3
+    region: content
+  field_institution:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_project_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: large
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_researcher:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_tags:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 4
     region: content
 hidden:
   field_actual_completion_date_1: true
@@ -101,7 +132,6 @@ hidden:
   field_email_user: true
   field_git_contribution: true
   field_hpc_resources_needed: true
-  field_institution: true
   field_is_there_an_impact_on_info: true
   field_is_there_an_impact_on_inst: true
   field_is_there_an_impact_on_soci: true
@@ -130,17 +160,15 @@ hidden:
   field_planned_publications: true
   field_programming_skill_level: true
   field_project_deliverables: true
-  field_project_image: true
   field_qualifications: true
   field_requested_engagement: true
-  field_researcher: true
   field_status: true
   field_student_learning: true
   field_students: true
-  field_tags: true
   field_urgency: true
   field_what_is_the_impact_on_othe: true
   field_what_is_the_impact_on_the_: true
   field_what_match_will_learn: true
   field_wrap_presentation: true
   field_wrap_presentation_date: true
+  links: true

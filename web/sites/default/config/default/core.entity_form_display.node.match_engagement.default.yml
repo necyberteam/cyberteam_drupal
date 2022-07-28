@@ -42,6 +42,7 @@ dependencies:
     - field.field.node.match_engagement.field_milestone_title_3
     - field.field.node.match_engagement.field_milestone_title_4
     - field.field.node.match_engagement.field_notes
+    - field.field.node.match_engagement.field_notes_to_author
     - field.field.node.match_engagement.field_overall_results
     - field.field.node.match_engagement.field_planned_portal_contributio
     - field.field.node.match_engagement.field_planned_publications
@@ -454,6 +455,14 @@ content:
   field_notes:
     type: string_textarea
     weight: 41
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_notes_to_author:
+    type: string_textarea
+    weight: 54
     region: content
     settings:
       rows: 5
