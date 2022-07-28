@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.match_engagement.field_completion_date_goal_2
     - field.field.node.match_engagement.field_completion_date_goal_3
     - field.field.node.match_engagement.field_completion_date_goal_4
+    - field.field.node.match_engagement.field_consultant
     - field.field.node.match_engagement.field_domain_access
     - field.field.node.match_engagement.field_domain_all_affiliates
     - field.field.node.match_engagement.field_domain_source
@@ -41,6 +42,7 @@ dependencies:
     - field.field.node.match_engagement.field_milestone_title_2
     - field.field.node.match_engagement.field_milestone_title_3
     - field.field.node.match_engagement.field_milestone_title_4
+    - field.field.node.match_engagement.field_node_type
     - field.field.node.match_engagement.field_notes
     - field.field.node.match_engagement.field_notes_to_author
     - field.field.node.match_engagement.field_overall_results
@@ -154,6 +156,14 @@ content:
       format_type: medium
     third_party_settings: {  }
     weight: 157
+    region: content
+  field_consultant:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 162
     region: content
   field_education:
     type: list_default
@@ -359,6 +369,13 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 155
+    region: content
+  field_node_type:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 161
     region: content
   field_notes:
     type: basic_string

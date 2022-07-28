@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.match_engagement.field_completion_date_goal_2
     - field.field.node.match_engagement.field_completion_date_goal_3
     - field.field.node.match_engagement.field_completion_date_goal_4
+    - field.field.node.match_engagement.field_consultant
     - field.field.node.match_engagement.field_domain_access
     - field.field.node.match_engagement.field_domain_all_affiliates
     - field.field.node.match_engagement.field_domain_source
@@ -41,6 +42,7 @@ dependencies:
     - field.field.node.match_engagement.field_milestone_title_2
     - field.field.node.match_engagement.field_milestone_title_3
     - field.field.node.match_engagement.field_milestone_title_4
+    - field.field.node.match_engagement.field_node_type
     - field.field.node.match_engagement.field_notes
     - field.field.node.match_engagement.field_notes_to_author
     - field.field.node.match_engagement.field_overall_results
@@ -233,6 +235,16 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_consultant:
+    type: entity_reference_autocomplete
+    weight: 26
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_domain_access:
     type: options_buttons
     weight: 7
@@ -352,7 +364,7 @@ content:
     third_party_settings: {  }
   field_mentor:
     type: entity_reference_autocomplete
-    weight: 26
+    weight: 27
     region: content
     settings:
       match_operator: CONTAINS
@@ -452,6 +464,12 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_node_type:
+    type: options_select
+    weight: 54
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_notes:
     type: string_textarea
     weight: 41
@@ -462,7 +480,7 @@ content:
     third_party_settings: {  }
   field_notes_to_author:
     type: string_textarea
-    weight: 54
+    weight: 53
     region: content
     settings:
       rows: 5
