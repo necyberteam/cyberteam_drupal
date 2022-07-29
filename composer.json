@@ -124,7 +124,8 @@
         "drupal_fork/domain_adv": "dev-main",
         "drush/drush": "^10.2",
         "npm-asset/select2": "^4.0",
-        "oomphinc/composer-installers-extender": "^2.0"
+        "oomphinc/composer-installers-extender": "^2.0",
+        "pantheon-systems/quicksilver-pushback": "^2.1"
     },
     "require-dev": {
         "drupal/core-dev": "9.4.*",
@@ -183,7 +184,8 @@
             "web/themes/contrib/{$name}": ["type:drupal-theme"],
             "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
             "web/modules/custom/{$name}": ["type:drupal-custom-module"],
-            "web/themes/custom/{$name}": ["type:drupal-custom-theme"]
+            "web/themes/custom/{$name}": ["type:drupal-custom-theme"],
+	    "web/private/scripts/quicksilver/{$name}/": ["type:quicksilver-script"]
         },
         "installer-types": ["bower-asset", "npm-asset"]
     },
