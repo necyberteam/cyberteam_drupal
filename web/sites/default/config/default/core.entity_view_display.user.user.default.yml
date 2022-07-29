@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.user.user.field_carnegie_code
+    - field.field.user.user.field_citizenships
     - field.field.user.user.field_current_degree_program
     - field.field.user.user.field_current_occupation
     - field.field.user.user.field_cv_resume
@@ -26,7 +27,15 @@ id: user.user.default
 targetEntityType: user
 bundle: user
 mode: default
-content: {  }
+content:
+  field_citizenships:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   field_carnegie_code: true
   field_current_degree_program: true
