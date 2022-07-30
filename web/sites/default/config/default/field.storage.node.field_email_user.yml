@@ -1,25 +1,22 @@
-uuid: 0f411b03-c9df-41b4-b478-56d6411008b8
-langcode: und
+uuid: 368a2b4d-0a0a-42c3-9adc-1e669054ec13
+langcode: en
 status: true
 dependencies:
   module:
     - field_permissions
     - node
-    - text
 third_party_settings:
   field_permissions:
     permission_type: public
-_core:
-  default_config_hash: EBUo7qOWqaiZaQ_RC9sLY5IoDKphS34v77VIHSACmVY
-id: node.body
-field_name: body
+id: node.field_email_user
+field_name: field_email_user
 entity_type: node
-type: text_with_summary
+type: boolean
 settings: {  }
-module: text
+module: core
 locked: false
 cardinality: 1
 translatable: true
 indexes: {  }
-persist_with_no_fields: true
+persist_with_no_fields: false
 custom_storage: false

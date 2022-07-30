@@ -1,0 +1,23 @@
+uuid: 679884f6-3ac4-48db-aaaa-ace294387455
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_email_user
+    - node.type.match_engagement
+id: node.match_engagement.field_email_user
+field_name: field_email_user
+entity_type: node
+bundle: match_engagement
+label: 'Email User'
+description: 'Check this box to notify the user their submission has been accepted.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: email
+  off_label: no_email
+field_type: boolean
