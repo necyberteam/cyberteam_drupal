@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.page.field_domain_source
     - field.field.node.page.field_image
     - field.field.node.page.field_region
+    - field.field.node.page.field_subtitle
     - image.style.thumbnail
     - node.type.page
   module:
@@ -86,6 +87,14 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_subtitle:
+    type: string_textfield
+    weight: 51
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   path:
     type: path
     weight: 9
@@ -98,6 +107,11 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
@@ -130,5 +144,10 @@ content:
       match_limit: 10
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden: {  }

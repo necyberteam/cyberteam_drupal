@@ -1,0 +1,95 @@
+// Sub theme styling.
+@import 'variables_drupal';
+
+// Bootstrap overriden variables.
+// @see https://getbootstrap.com/docs/5.1/customize/sass/#variable-defaults.
+@import 'variables_bootstrap';
+
+// Include bootstrap.
+@import '../../../../themes/contrib/bootstrap5/scss/style';
+
+.section {
+    padding: 50px 0px;
+}
+.section .col {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.section .content-box {
+    justify-content: flex-start;
+    text-align: left;
+    padding: 30px;
+}
+.region-title-banner {
+    padding: 30px 0 ;
+    background-color: var(--bs-gray-dark);
+
+    .field--name-field-subtitle {
+        text-align: center;
+        color: var(--bs-light);
+    }
+    .page-title {
+        margin: 0;
+        color: var(--bs-light);
+    }
+}
+.nav-item {
+    padding: 4px 24px;
+}
+.region-nav-main, .region-nav-additional {
+    .nav-link {
+        color: var(--bs-light);
+    }
+    .nav-item:hover {
+        background-color: var(--bs-light);
+        .nav-link {
+            color: var(--bs-dark);
+        }
+    }
+}
+.menu--access-secondary-menu {
+    .nav-link {
+        color: var(--bs-dark);
+    }
+    .nav-item:hover {
+        background-color: var(--bs-dark);
+        .nav-link {
+            color: var(--bs-light);
+        }
+    }
+}
+.text-center .section-subtitle {
+}
+.text-constrained {
+    max-width: 640px;
+    margin: 0 auto;
+}
+.icon-horizontal {
+    display: flex;
+    align-items: center;
+}
+.icon-horizontal > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 12px;
+}
+.section ul {
+    padding-left: 0;
+}
+.section li {
+    list-style: none;
+}
+.icon-box {
+    max-width: 240px;
+    padding: 20px;
+    margin: 20px 30px;
+}
+.icon-box svg {
+    height: 64px;
+    margin-bottom: 12px;
+}
+.icon-box img {
+    max-width: 100%;
+}

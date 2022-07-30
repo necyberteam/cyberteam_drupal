@@ -1,0 +1,31 @@
+uuid: f847c0dc-1a4f-4cf6-8507-2e60cd7b8a1b
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.access-secondary-menu
+  module:
+    - menu_block
+  theme:
+    - accesstheme
+id: accesssecondarymenu
+theme: accesstheme
+region: sub_nav
+weight: 0
+provider: null
+plugin: 'menu_block:access-secondary-menu'
+settings:
+  id: 'menu_block:access-secondary-menu'
+  label: 'ACCESS Secondary Menu'
+  label_display: '0'
+  provider: menu_block
+  follow: false
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 0
+  expand_all_items: false
+  parent: 'access-secondary-menu:'
+  suggestion: access_secondary_menu
+visibility: {  }

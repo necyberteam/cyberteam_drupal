@@ -1,0 +1,31 @@
+uuid: b2f8901c-ea5b-42dd-ac54-4e1829867634
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.access-additional-universal-menu
+  module:
+    - menu_block
+  theme:
+    - accesstheme
+id: accessadditionaluniversalmenu
+theme: accesstheme
+region: nav_additional
+weight: 0
+provider: null
+plugin: 'menu_block:access-additional-universal-menu'
+settings:
+  id: 'menu_block:access-additional-universal-menu'
+  label: 'ACCESS Additional Universal Menu'
+  label_display: '0'
+  provider: menu_block
+  follow: false
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 0
+  expand_all_items: false
+  parent: 'access-additional-universal-menu:'
+  suggestion: access_additional_universal_menu
+visibility: {  }
