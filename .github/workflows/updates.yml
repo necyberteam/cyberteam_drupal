@@ -13,6 +13,7 @@ on:
 permissions:
   actions: read
   contents: write
+  pull-requests: write
 jobs:
   build:
     name: Run updates
@@ -109,3 +110,9 @@ jobs:
           drupal_update: ${{ github.event.inputs.drupal_update }}
           username: ${{ secrets.GIT_USER }}
           email: ${{ secrets.GIT_EMAIL }}
+      - name: Create Pull Request
+        run: |
+          gh pr create --title "[Composer] $drupal_update" --body "$(git log -1 --pretty=%B)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          drupal_update: ${{ github.event.inputs.drupal_update }}
