@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.user.user.field_carnegie_code
+    - field.field.user.user.field_citizenships
     - field.field.user.user.field_current_degree_program
     - field.field.user.user.field_current_occupation
     - field.field.user.user.field_cv_resume
@@ -48,6 +49,14 @@ content:
     weight: 1
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_citizenships:
+    type: string_textfield
+    weight: 16
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_current_degree_program:
     type: string_textfield
