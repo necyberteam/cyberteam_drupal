@@ -5,6 +5,7 @@ dependencies:
   config:
     - system.menu.account
   module:
+    - domain
     - system
   theme:
     - nect
@@ -24,4 +25,11 @@ settings:
   level: 1
   depth: 0
   expand_all_items: true
-visibility: {  }
+visibility:
+  domain:
+    id: domain
+    negate: true
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org

@@ -1,0 +1,38 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.access-additional-menu
+  module:
+    - domain
+    - menu_block
+  theme:
+    - nect
+id: accessadditionalmenu
+theme: nect
+region: secondary_menu
+weight: 0
+provider: null
+plugin: 'menu_block:access-additional-menu'
+settings:
+  id: 'menu_block:access-additional-menu'
+  label: 'ACCESS Additional Menu'
+  label_display: visible
+  provider: menu_block
+  follow: false
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 0
+  expand_all_items: false
+  parent: 'access-additional-menu:'
+  suggestion: access_additional_menu
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org

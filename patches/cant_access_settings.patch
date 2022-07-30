@@ -1,0 +1,54 @@
+diff --git a/fieldblock.info.yml b/fieldblock.info.yml
+index db8950d..dd83f52 100644
+--- a/fieldblock.info.yml
++++ b/fieldblock.info.yml
+@@ -2,7 +2,7 @@ name: Field as Block
+ description: 'Display fields of the current entity as blocks.'
+ type: module
+-core: 8.x
+-core_version_requirement: ^8 || ^9
++core_version_requirement: ^8.7.7.1 | ^9
+ dependencies:
+   - drupal:block
+ configure: fieldblock.field_block_config_form
+diff --git a/fieldblock.services.yml b/fieldblock.services.yml
+index d013561..6accb72 100644
+--- a/fieldblock.services.yml
++++ b/fieldblock.services.yml
+@@ -1,4 +1,4 @@
+ services:
+   fieldblock.block_storage:
+     class: Drupal\fieldblock\BlockEntityStorage
+-    arguments: ["@config.factory", "@uuid", "@language_manager", "@entity_type.manager"]
++    arguments: ["@config.factory", "@uuid", "@language_manager", "@entity_type.manager", "@entity.memory_cache"]
+diff --git a/src/BlockEntityStorage.php b/src/BlockEntityStorage.php
+index 1012052..1de8c73 100644
+--- a/src/BlockEntityStorage.php
++++ b/src/BlockEntityStorage.php
+@@ -3,6 +3,7 @@
+ namespace Drupal\fieldblock;
+ 
+ use Drupal\Component\Uuid\UuidInterface;
++use Drupal\Core\Cache\MemoryCache\MemoryCacheInterface;
+ use Drupal\Core\Config\ConfigFactoryInterface;
+ use Drupal\Core\Config\Entity\ConfigEntityStorage;
+ use Drupal\Core\Entity\EntityTypeManagerInterface;
+@@ -54,14 +55,16 @@ class BlockEntityStorage extends ConfigEntityStorage {
+    *   The language manager.
+    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+    *   The entity type manager.
++   * @param \Drupal\Core\Cache\MemoryCache\MemoryCacheInterface $memory_cache
++   *   The memory cache backend.
+    */
+-  public function __construct(ConfigFactoryInterface $config_factory, UuidInterface $uuid_service, LanguageManagerInterface $language_manager, EntityTypeManagerInterface $entityTypeManager) {
++  public function __construct(ConfigFactoryInterface $config_factory, UuidInterface $uuid_service, LanguageManagerInterface $language_manager, EntityTypeManagerInterface $entityTypeManager, MemoryCacheInterface $memory_cache) {
+     $this->configFactory = $config_factory;
+     $this->uuidService = $uuid_service;
+     $this->languageManager = $language_manager;
+     $this->entityTypeManager = $entityTypeManager;
+     $entity_type = $entityTypeManager->getDefinition('block');
+-    parent::__construct($entity_type, $config_factory, $uuid_service, $language_manager);
++    parent::__construct($entity_type, $config_factory, $uuid_service, $language_manager, $memory_cache);
+   }
+ 
+   /**

@@ -1,0 +1,27 @@
+uuid: 32b916c6-daa0-45db-862d-0d1ac70c9def
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_subtitle
+  module:
+    - fieldblock
+  theme:
+    - accesstheme
+id: contentfield
+theme: accesstheme
+region: title_banner
+weight: -2
+provider: null
+plugin: 'fieldblock:node'
+settings:
+  id: 'fieldblock:node'
+  label: 'Content field'
+  label_display: '0'
+  provider: fieldblock
+  label_from_field: true
+  field_name: field_subtitle
+  formatter_id: string
+  formatter_settings:
+    link_to_entity: false
+visibility: {  }
