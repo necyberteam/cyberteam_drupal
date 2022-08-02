@@ -55,7 +55,6 @@ set footer_classes = ' ' ~
   (b5_footer_schema != 'none' ? (b5_footer_schema == 'dark' ? ' text-light' : ' text-dark' ) : ' ') ~
   (b5_footer_bg_schema != 'none' ? " bg-#{b5_footer_bg_schema}" : ' ')
 %}
-
 <header>
     <div class="bg-dark">
         <div class="container">
@@ -142,7 +141,7 @@ set footer_classes = ' ' ~
 {% if page.footer %}
 <footer class="mt-auto {{ footer_classes }}">
   <div class="{{ b5_top_container }}">
-    {{ page.footer }}
+    {# {{ page.footer }} #}
   </div>
 </footer>
 {% endif %}
