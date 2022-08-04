@@ -55,6 +55,7 @@ if (isset($env) ) {
       $config['system.logging']['error_level'] = 'verbose';
       $config['system.performance']['css']['preprocess'] = false;
       $config['system.performance']['js']['preprocess'] = false;
+      $settings['container_yamls'][] = __DIR__ . '/../development.services.yml';
       break;
   }
 }
