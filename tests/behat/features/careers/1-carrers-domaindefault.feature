@@ -15,4 +15,8 @@ Feature: test careers domain
     When I am on the homepage
     Then I should get a "200" HTTP response
     Then I should see "Learn more about how CAREERS can benefit your research"
+    Then I should see "CAREERS: Bringing Computing Support to Small to Mid-Size Institutions in the Northeast U.S."
+    Then I should see "About Us"
+    When I click "About Us"
+    Then I should see "About"
 
