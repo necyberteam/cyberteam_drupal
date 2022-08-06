@@ -1,0 +1,29 @@
+uuid: bb9255d4-fd1b-41e3-ab54-176412e68585
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.eventseries.field_affinity_group
+    - recurring_events.eventseries_type.default
+    - taxonomy.vocabulary.affinity_groups
+id: eventseries.default.field_affinity_group
+field_name: field_affinity_group
+entity_type: eventseries
+bundle: default
+label: 'Affinity Group'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      affinity_groups: affinity_groups
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
