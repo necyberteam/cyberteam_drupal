@@ -13,51 +13,10 @@ title: 'RT Ticketing System '
 description: 'Send an email containing an issue'
 category: ''
 elements: |-
-  first_name:
-    '#type': textfield
-    '#title': 'First name'
-    '#required': true
-  last_name:
-    '#type': textfield
-    '#title': 'Last name'
-    '#required': true
-  email:
-    '#type': email
-    '#title': Email
-    '#required': true
-  cc:
-    '#type': textfield
-    '#title': CC
-  resource:
-    '#type': select
-    '#title': Resource
-    '#options': rt_resources
-    '#sort_options': true
-    '#select2': true
-  system:
-    '#type': webform_term_select
-    '#title': System
-    '#vocabulary': region
-    '#breadcrumb': true
-    '#breadcrumb_delimiter': ' &rarr; '
-    '#tree_delimiter': ''
-  category:
-    '#type': checkboxes
-    '#title': Category
-    '#options':
-      Allocations: Allocations
-      Operations: Operations
-      Metrics: Metrics
-      Support: Support
-    '#options_display': side_by_side
-  tags:
-    '#type': webform_term_checkboxes
-    '#title': Tags
-    '#vocabulary': tags
-    '#breadcrumb': true
-    '#breadcrumb_delimiter': ' &rarr; '
-    '#tree_delimiter': ''
-    '#depth': 1
+  markup:
+    '#type': webform_markup
+    '#display_on': view
+    '#markup': '<h3>Submit a ticket from [current-user:field_user_first_name:value] [current-user:field_user_last_name:value] ([current-user:mail])</h3>'
   subject:
     '#type': textfield
     '#title': 'Problem Synopsis'
@@ -65,12 +24,45 @@ elements: |-
   problem_description:
     '#type': textarea
     '#title': 'Problem description'
+  category:
+    '#type': select
+    '#title': 'ACCESS Category'
+    '#description': 'Is your issue related to ACCESS allocations, operations, metrics or support?'
+    '#title_display': before
+    '#description_display': before
+    '#options': rt_categories
+    '#options_display': buttons_horizontal
+    '#select2': true
+    '#access_create_roles':
+      - authenticated
+    '#access_update_roles':
+      - authenticated
+    '#access_view_roles':
+      - authenticated
+  resource:
+    '#type': select
+    '#title': Resource
+    '#description': 'Is your issue related to one of these resources?'
+    '#description_display': before
+    '#options': rt_resources
+    '#select2': true
+  tags:
+    '#type': webform_term_select
+    '#title': Tags
+    '#description': 'Help us answer your ticket by tagging your issue with relevant tags.'
+    '#description_display': before
+    '#select2': true
+    '#vocabulary': tags
+    '#breadcrumb_delimiter': ''
+  cc:
+    '#type': textfield
+    '#title': CC
+    '#description': 'Optional comma delimited list of additional emails to receive notifications.'
+    '#description_display': before
   attachment:
     '#type': managed_file
     '#title': Attachments
     '#multiple': 10
-  flexbox:
-    '#type': webform_flexbox
   actions:
     '#type': webform_actions
     '#title': 'Submit button(s)'
@@ -87,8 +79,8 @@ settings:
   page: true
   page_submit_path: ''
   page_confirm_path: ''
-  page_theme_name: ''
-  form_title: both
+  page_theme_name: accesstheme
+  form_title: source_entity_webform
   form_submit_once: false
   form_open_message: ''
   form_close_message: ''
@@ -109,12 +101,12 @@ settings:
   form_novalidate: false
   form_disable_inline_errors: false
   form_required: false
-  form_autofocus: false
+  form_autofocus: true
   form_details_toggle: false
   form_reset: false
-  form_access_denied: default
+  form_access_denied: login
   form_access_denied_title: ''
-  form_access_denied_message: ''
+  form_access_denied_message: 'Please login to submit a ticket.'
   form_access_denied_attributes: {  }
   form_file_limit: ''
   form_attributes: {  }
@@ -160,7 +152,7 @@ settings:
   wizard_track: ''
   wizard_prev_button_label: ''
   wizard_next_button_label: ''
-  wizard_toggle: false
+  wizard_toggle: true
   wizard_toggle_show_label: ''
   wizard_toggle_hide_label: ''
   preview: 0
