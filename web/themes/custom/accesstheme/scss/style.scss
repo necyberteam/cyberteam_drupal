@@ -8,6 +8,15 @@
 // Include bootstrap.
 @import '../../../../themes/contrib/bootstrap5/scss/style';
 
+.bg-dark-teal {
+    background-color: var(--bs-dark);
+}
+.bg-med-teal {
+    background-color: var(--bs-secondary);
+}
+.bg-light-teal {
+    background-color: var(--bs-teal);
+}
 .section {
     padding: 50px 0px;
 }
@@ -17,13 +26,12 @@
     flex-direction: column;
 }
 .section .content-box {
-    justify-content: flex-start;
     text-align: left;
     padding: 30px;
 }
 .region-title-banner {
     padding: 30px 0 ;
-    background-color: var(--bs-gray-dark);
+    background-color: var(--bs-dark);
 
     .field--name-field-subtitle {
         text-align: center;
@@ -34,8 +42,55 @@
         color: var(--bs-light);
     }
 }
+.navbar {
+    padding: 0;
+}
 .nav-item {
     padding: 4px 24px;
+}
+ul.sf-menu {
+    a, .menuparent {
+        color: #ffffff;
+        text-decoration: none;
+    }
+}
+#superfish-access-universal-nav-menu, #superfish-access-additional-universal-menu {
+    li:hover {
+        background-color: var(--bs-secondary);
+    }
+    ul {
+        background-color: var(--bs-secondary);
+        top: 3em;
+        li:hover {
+            background-color: var(--bs-dark);
+        }
+    }
+}
+#superfish-access-secondary-menu {
+    li:hover {
+        background-color: var(--bs-light);
+        a, .menuparent {
+            color: var(--bs-dark);
+        }
+    }
+    ul {
+        background-color: var(--bs-light);
+        top: 3em;
+        li a {
+            color: var(--bs-dark);
+        }
+        li:hover {
+            background-color: var(--bs-dark);
+            a {
+                color: var(--bs-light);
+            }
+        }
+    }
+}
+ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.sf-menu.sf-navbar.sf-shadow ul ul {
+    -webkit-box-shadow: 2px 12px 12px rgba(0,0,0,0.3);
+    -moz-box-shadow: 2px 12px 12px rgba(0,0,0,0.3);
+    box-shadow: 2px 12px 12px rgba(0,0,0,0.3);
 }
 .region-nav-main, .region-nav-additional {
     .nav-link {
@@ -85,11 +140,22 @@
     max-width: 240px;
     padding: 20px;
     margin: 20px 30px;
+    justify-content: center;
 }
 .icon-box svg {
     height: 64px;
     margin-bottom: 12px;
 }
 .icon-box img {
-    max-width: 100%;
+    width: 100%;
+    max-height: 120px;
+    object-fit: contain;
+}
+.btn, .button, a.button {
+    width: fit-content;
+}
+@media (max-width: 800px) {
+    .sui-layout-sidebar-toggle {
+        display: block !important;
+    }
 }
