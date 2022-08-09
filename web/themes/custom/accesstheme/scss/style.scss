@@ -17,17 +17,48 @@
 .bg-light-teal {
     background-color: var(--bs-teal);
 }
+.bg-orange {
+    background-color: var(--bs-orange);
+}
+h3 {
+    font-size: 1.3rem;
+}
+.subtitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+img {
+    max-width: 100%;
+}
+.fit-content {
+    width: fit-content;
+}
 .section {
     padding: 50px 0px;
-}
-.section .col {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
-.section .content-box {
-    text-align: left;
-    padding: 30px;
+    
+    .col, .col-12 {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+    
+    .content-box {
+        text-align: left;
+        padding: 30px;
+
+        .svg-inline--fa {
+            font-size: 42px;
+            width: 42px;
+        }
+
+        h4 {
+            margin-bottom: 0;
+        }
+
+        li {
+            margin-bottom: 24px;
+        }
+    }
 }
 .region-title-banner {
     padding: 30px 0 ;
@@ -55,8 +86,11 @@ ul.sf-menu {
     }
 }
 #superfish-access-universal-nav-menu, #superfish-access-additional-universal-menu {
-    li:hover {
+    li:hover, li.active-trail  {
         background-color: var(--bs-secondary);
+    }
+    a.is-active {
+        color: var(--bs-light);
     }
     ul {
         background-color: var(--bs-secondary);
@@ -65,9 +99,10 @@ ul.sf-menu {
             background-color: var(--bs-dark);
         }
     }
+    
 }
 #superfish-access-secondary-menu {
-    li:hover {
+    li:hover, li.active-trail {
         background-color: var(--bs-light);
         a, .menuparent {
             color: var(--bs-dark);
@@ -142,6 +177,11 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
     margin: 20px 30px;
     justify-content: center;
 }
+.icon-box.boxed {
+    background: white;
+    border: 1px solid rgba(0,0,0,0.3);
+    box-shadow: 2px 4px 12px rgba(0,0,0,0.3);
+}
 .icon-box svg {
     height: 64px;
     margin-bottom: 12px;
@@ -158,4 +198,19 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
     .sui-layout-sidebar-toggle {
         display: block !important;
     }
+}
+.path-user-login {
+    #block-accesstheme-local-tasks, .user-login-form {
+        // display: none;
+    }
+    .cilogon-auth-login-form {
+        display: flex;
+        justify-content: center;
+        padding-top: 50px;
+    }
+}
+
+.sui-search-box {
+    max-width: 640px;
+    margin: auto;
 }
