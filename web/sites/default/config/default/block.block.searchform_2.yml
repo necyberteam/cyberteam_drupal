@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - domain
     - search
   theme:
     - nect
@@ -18,4 +19,11 @@ settings:
   label_display: '0'
   provider: search
   page_id: ''
-visibility: {  }
+visibility:
+  domain:
+    id: domain
+    negate: true
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org

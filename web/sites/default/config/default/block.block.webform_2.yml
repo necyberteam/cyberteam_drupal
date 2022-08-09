@@ -1,0 +1,38 @@
+uuid: b7986fff-5fb0-4c58-8096-34529ffaf38a
+langcode: en
+status: true
+dependencies:
+  config:
+    - webform.webform.rt_ticketing_system
+  module:
+    - domain
+    - system
+    - webform
+  theme:
+    - accesstheme
+id: webform_2
+theme: accesstheme
+region: content
+weight: 0
+provider: null
+plugin: webform_block
+settings:
+  id: webform_block
+  label: 'RT Ticket Webform'
+  label_display: '0'
+  provider: webform
+  webform_id: rt_ticketing_system
+  default_data: ''
+  redirect: false
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: /open-a-ticket

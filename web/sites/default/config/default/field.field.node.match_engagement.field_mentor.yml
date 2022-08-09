@@ -1,0 +1,50 @@
+uuid: 747fa952-9b61-444e-b458-b7869236f38c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_mentor
+    - node.type.match_engagement
+id: node.match_engagement.field_mentor
+field_name: field_mentor
+entity_type: node
+bundle: match_engagement
+label: Mentor
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: role
+      role:
+        mentor: mentor
+        student: '0'
+        professional_mentor: '0'
+        researcher: '0'
+        steering_committee: '0'
+        regional_admin: '0'
+        leadership: '0'
+        representative: '0'
+        administrator: '0'
+        masquerade: '0'
+        regional_expert: '0'
+        campuschampionsadmin: '0'
+        exportpeople: '0'
+        research_computing_facilitator: '0'
+        research_software_engineer: '0'
+        ci_systems_engineer: '0'
+        mentee: '0'
+        student_champion: '0'
+        domain_champion: '0'
+        cssn: '0'
+    include_anonymous: false
+field_type: entity_reference

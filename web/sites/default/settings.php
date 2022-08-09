@@ -28,7 +28,8 @@ $content_directories['sync'] = '/datastorage/content/sync';
 $additionalSettingsFiles = [
   ( DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php" ),
   ( __DIR__ . "/settings.pantheon.php" ),
-  ( __DIR__ . "/settings/local.settings.php" )
+  ( __DIR__ . "/settings/local.settings.php" ), // for lando blt tests
+  ( __DIR__ . "/local.settings.php" ) // more local settings
 ];
 
 foreach ($additionalSettingsFiles as $settingsFile) {
@@ -54,6 +55,7 @@ if (isset($env) ) {
       $config['system.logging']['error_level'] = 'verbose';
       $config['system.performance']['css']['preprocess'] = false;
       $config['system.performance']['js']['preprocess'] = false;
+      $settings['container_yamls'][] = __DIR__ . '/../development.services.yml';
       break;
   }
 }
@@ -63,6 +65,8 @@ $settings['config_sync_directory'] = 'sites/default/config/default';
 $settings['config_exclude_modules'] = [
   'webprofiler',
   'cilogon_auth',
+  'devel',
+  'devel_generate',
   'login_disable',
   'recaptcha',
   'upgrade_status',

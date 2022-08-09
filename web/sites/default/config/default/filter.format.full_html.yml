@@ -1,7 +1,10 @@
 uuid: 30173152-6e46-4099-92ff-0fda4be6806a
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - obfuscate_email
+    - shortcode
 _core:
   default_config_hash: hewPmBgni9jlDK_IjLxUx1HsTbinK-hdl0lOwjbteIY
 name: 'Full HTML'
@@ -12,18 +15,54 @@ filters:
     id: filter_htmlcorrector
     provider: filter
     status: true
-    weight: 10
+    weight: -10
     settings: {  }
   filter_autop:
     id: filter_autop
     provider: filter
     status: true
-    weight: 1
+    weight: -10
     settings: {  }
   filter_url:
     id: filter_url
     provider: filter
     status: true
-    weight: 0
+    weight: 10
     settings:
       filter_url_length: 72
+  filter_html:
+    id: filter_html
+    provider: filter
+    status: false
+    weight: 0
+    settings:
+      allowed_html: '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol type start> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <s> <sup> <sub> <img src alt data-entity-type data-entity-uuid data-align data-caption> <table> <caption> <tbody> <thead> <tfoot> <th> <td> <tr> <hr> <p> <h1> <pre>'
+      filter_html_help: true
+      filter_html_nofollow: false
+  filter_html_escape:
+    id: filter_html_escape
+    provider: filter
+    status: false
+    weight: 0
+    settings: {  }
+  filter_caption:
+    id: filter_caption
+    provider: filter
+    status: false
+    weight: 9
+    settings: {  }
+  obfuscate_email:
+    id: obfuscate_email
+    provider: obfuscate_email
+    status: false
+    weight: 0
+    settings:
+      click: '0'
+      click_label: 'Click here to show mail address'
+  shortcode:
+    id: shortcode
+    provider: shortcode
+    status: true
+    weight: 0
+    settings:
+      icon_block: '1'

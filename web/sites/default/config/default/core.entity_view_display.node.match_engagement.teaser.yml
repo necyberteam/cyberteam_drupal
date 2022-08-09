@@ -1,0 +1,150 @@
+uuid: 85ace2f3-d198-4798-a18d-fd67a81bde03
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.match_engagement.body
+    - field.field.node.match_engagement.field_actual_completion_date_1
+    - field.field.node.match_engagement.field_actual_completion_date_2
+    - field.field.node.match_engagement.field_actual_completion_date_3
+    - field.field.node.match_engagement.field_actual_completion_date_4
+    - field.field.node.match_engagement.field_completion_date_goal_1
+    - field.field.node.match_engagement.field_completion_date_goal_2
+    - field.field.node.match_engagement.field_completion_date_goal_3
+    - field.field.node.match_engagement.field_completion_date_goal_4
+    - field.field.node.match_engagement.field_consultant
+    - field.field.node.match_engagement.field_domain_access
+    - field.field.node.match_engagement.field_domain_all_affiliates
+    - field.field.node.match_engagement.field_domain_source
+    - field.field.node.match_engagement.field_education
+    - field.field.node.match_engagement.field_email_user
+    - field.field.node.match_engagement.field_git_contribution
+    - field.field.node.match_engagement.field_hpc_resources_needed
+    - field.field.node.match_engagement.field_institution
+    - field.field.node.match_engagement.field_is_there_an_impact_on_info
+    - field.field.node.match_engagement.field_is_there_an_impact_on_inst
+    - field.field.node.match_engagement.field_is_there_an_impact_on_soci
+    - field.field.node.match_engagement.field_is_there_an_impact_on_tech
+    - field.field.node.match_engagement.field_is_there_an_impact_physica
+    - field.field.node.match_engagement.field_launch_presentation
+    - field.field.node.match_engagement.field_launch_presentation_date
+    - field.field.node.match_engagement.field_lessons_learned
+    - field.field.node.match_engagement.field_mentor
+    - field.field.node.match_engagement.field_mileston
+    - field.field.node.match_engagement.field_milestone_actual_date
+    - field.field.node.match_engagement.field_milestone_completion_date
+    - field.field.node.match_engagement.field_milestone_description
+    - field.field.node.match_engagement.field_milestone_description_1
+    - field.field.node.match_engagement.field_milestone_description_2
+    - field.field.node.match_engagement.field_milestone_description_3
+    - field.field.node.match_engagement.field_milestone_description_4
+    - field.field.node.match_engagement.field_milestone_title_1
+    - field.field.node.match_engagement.field_milestone_title_2
+    - field.field.node.match_engagement.field_milestone_title_3
+    - field.field.node.match_engagement.field_milestone_title_4
+    - field.field.node.match_engagement.field_node_type
+    - field.field.node.match_engagement.field_notes
+    - field.field.node.match_engagement.field_notes_to_author
+    - field.field.node.match_engagement.field_overall_results
+    - field.field.node.match_engagement.field_planned_portal_contributio
+    - field.field.node.match_engagement.field_planned_publications
+    - field.field.node.match_engagement.field_programming_skill_level
+    - field.field.node.match_engagement.field_project_deliverables
+    - field.field.node.match_engagement.field_project_image
+    - field.field.node.match_engagement.field_qualifications
+    - field.field.node.match_engagement.field_requested_engagement
+    - field.field.node.match_engagement.field_researcher
+    - field.field.node.match_engagement.field_status
+    - field.field.node.match_engagement.field_student_learning
+    - field.field.node.match_engagement.field_students
+    - field.field.node.match_engagement.field_tags
+    - field.field.node.match_engagement.field_urgency
+    - field.field.node.match_engagement.field_what_is_the_impact_on_othe
+    - field.field.node.match_engagement.field_what_is_the_impact_on_the_
+    - field.field.node.match_engagement.field_what_match_will_learn
+    - field.field.node.match_engagement.field_wrap_presentation
+    - field.field.node.match_engagement.field_wrap_presentation_date
+    - node.type.match_engagement
+  module:
+    - text
+    - user
+id: node.match_engagement.teaser
+targetEntityType: node
+bundle: match_engagement
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_actual_completion_date_1: true
+  field_actual_completion_date_2: true
+  field_actual_completion_date_3: true
+  field_actual_completion_date_4: true
+  field_completion_date_goal_1: true
+  field_completion_date_goal_2: true
+  field_completion_date_goal_3: true
+  field_completion_date_goal_4: true
+  field_consultant: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  field_education: true
+  field_email_user: true
+  field_git_contribution: true
+  field_hpc_resources_needed: true
+  field_institution: true
+  field_is_there_an_impact_on_info: true
+  field_is_there_an_impact_on_inst: true
+  field_is_there_an_impact_on_soci: true
+  field_is_there_an_impact_on_tech: true
+  field_is_there_an_impact_physica: true
+  field_launch_presentation: true
+  field_launch_presentation_date: true
+  field_lessons_learned: true
+  field_mentor: true
+  field_mileston: true
+  field_milestone_actual_date: true
+  field_milestone_completion_date: true
+  field_milestone_description: true
+  field_milestone_description_1: true
+  field_milestone_description_2: true
+  field_milestone_description_3: true
+  field_milestone_description_4: true
+  field_milestone_title_1: true
+  field_milestone_title_2: true
+  field_milestone_title_3: true
+  field_milestone_title_4: true
+  field_node_type: true
+  field_notes: true
+  field_notes_to_author: true
+  field_overall_results: true
+  field_planned_portal_contributio: true
+  field_planned_publications: true
+  field_programming_skill_level: true
+  field_project_deliverables: true
+  field_project_image: true
+  field_qualifications: true
+  field_requested_engagement: true
+  field_researcher: true
+  field_status: true
+  field_student_learning: true
+  field_students: true
+  field_tags: true
+  field_urgency: true
+  field_what_is_the_impact_on_othe: true
+  field_what_is_the_impact_on_the_: true
+  field_what_match_will_learn: true
+  field_wrap_presentation: true
+  field_wrap_presentation_date: true
