@@ -1,5 +1,6 @@
 @cyberteam
 @api
+@javascript
 Feature: test people page
   In order to test the people page
 
@@ -18,5 +19,3 @@ Feature: test people page
     And I should see "MGHPCC"
     # When I hover over the "Filter by Program" link
     # Then I should see "All"
-
-    

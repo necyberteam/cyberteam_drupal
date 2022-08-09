@@ -26,6 +26,4 @@ Feature: test enter ticket form
     # When I select "Active" from "edit-status-select"
     When I fill in "details" with "TEST"
     When I press "Submit"
-    # Then I should see "Thank you! Your ticket has been submitted! We'll be in touch soon."
-
-    
+    # Then I should see "Thank you! Your ticket has been submitted! We'll be in touch soon." 

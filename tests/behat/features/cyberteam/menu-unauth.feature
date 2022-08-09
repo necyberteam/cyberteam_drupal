@@ -25,4 +25,3 @@ Feature: test navigation menus
     When I am on the homepage
     When I click "Tags"
     Then I should see "Tags"
-

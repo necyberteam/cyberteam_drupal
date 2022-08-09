@@ -37,6 +37,4 @@ Feature: test quick links on home page
     When I am on the homepage
     Then I should see the link "Find Projects by Tag"
     When I click "Find Projects by Tag"
-    Then I should be on "tags"
-
-    
+    Then I should be on "tags"   

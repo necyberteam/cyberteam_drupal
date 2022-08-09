@@ -12,4 +12,4 @@ Feature: test node types
   When I fill in "Body" with "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eleifend mi. Aliquam erat volutpat. In lobortis risus sit amet accumsan sollicitudin. Aliquam viverra diam ex, ut luctus est consequat at. Curabitur facilisis tellus eu ex cursus scelerisque. Suspendisse dictum ullamcorper massa, vitae accumsan tellus tincidunt non. In neque nisl, eleifend tempor sapien at, lacinia dictum ligula."
   When I press "Save"
   Then I should see "Quick TEST"
-  Then I should see "Lorem ipsum dolor sit amet" 
+  Then I should see "Lorem ipsum dolor sit amet"

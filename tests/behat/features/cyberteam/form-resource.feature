@@ -1,5 +1,6 @@
 @cyberteam
 @api
+@javascript
 Feature: test resource form
   In order to test the resource form
   As a user of the authenticated role
@@ -20,7 +21,7 @@ Feature: test resource form
     And I should see "Link URL"
     And I should see "Add"
     When I fill in "title" with "TEST"
-    When I select "Learning" from "category"
+    When I select "learning" from "category"
     When I press "Submit"
     Then I should see "TEST"
     And I should see "Submission information"

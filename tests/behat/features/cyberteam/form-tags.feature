@@ -1,5 +1,6 @@
 @cyberteam
 @api
+@javascript
 Feature: test tags form
   In order to test the tags form
   As a user of the authenticated role
@@ -12,7 +13,8 @@ Feature: test tags form
     And I should see "Request Tag"
     And I should see "Tag Request Name"
     And I should see "Suggested Parent Tag"
-    When I fill "tag_request_name" with "TEST"
-    When I select "data-facing" from "suggested_parent_tag"
+    When I fill in "Tag Request Name" with "TEST"
+    When I select "315" from "Suggested Parent Tag"
+    And I wait 4 seconds
     When I press "Submit"
     Then I should see "Your request has been submitted! Thank you! We will add your tag soon. Please check back shortly to use your new tag."

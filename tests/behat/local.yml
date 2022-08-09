@@ -27,24 +27,14 @@ local:
       browser_name: chrome
       javascript_session: default
       # set default command for "Show last response" step.
-      show_cmd: "open %s"
-      # use the following lines to disable SSL authentication for goutte.
-      # goutte:
-      #   guzzle_parameters:
-      #     redirect.disable: true
-      #     ssl.certificate_authority: system
-      #     curl.options:
-      #       CURLOPT_SSL_VERIFYPEER: false
-      #       CURLOPT_SSL_VERIFYHOST: false
-      #       CURLOPT_CERTINFO: false
-      #       CURLOPT_TIMEOUT: 120
+      show_cmd: "open %s"      
       selenium2:
         wd_host: ${behat.selenium.url}
         browser: chrome
       sessions:
         default:
           chrome:
-            api_url: "http://localhost:9222"
+            api_url: "http://localhost:9222"          
     Drupal\DrupalExtension:
       drupal:
         # This must be an absolute path.
@@ -56,4 +46,3 @@ local:
         password_field: "Password"
         log_out: "Log out"
         log_in: "Log in"
-
