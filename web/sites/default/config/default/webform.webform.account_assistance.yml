@@ -49,7 +49,7 @@ settings:
   form_open_message: ''
   form_close_message: ''
   form_exception_message: ''
-  form_previous_submissions: true
+  form_previous_submissions: false
   form_confidential: false
   form_confidential_message: ''
   form_disable_remote_addr: false
@@ -134,12 +134,12 @@ settings:
   draft_loaded_message: ''
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
-  confirmation_type: page
+  confirmation_type: inline
   confirmation_url: ''
   confirmation_title: ''
-  confirmation_message: ''
+  confirmation_message: 'Thanks for submitting your information. ACCESS Support staff will be in touch with you soon to assist.'
   confirmation_attributes: {  }
-  confirmation_back: true
+  confirmation_back: false
   confirmation_back_label: ''
   confirmation_back_attributes: {  }
   confirmation_exclude_query: false
@@ -225,7 +225,7 @@ handlers:
     settings:
       states:
         - completed
-      to_mail: jasperjunk@gmail.com
+      to_mail: andrew@elytra.net
       to_options: {  }
       bcc_mail: ''
       bcc_options: {  }

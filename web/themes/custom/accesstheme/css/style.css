@@ -11214,7 +11214,16 @@ code {
 }
 
 h3, .h3 {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
+}
+
+h4, .h4 {
+  font-size: 1.2rem;
+}
+
+a {
+  color: #000000;
+  font-weight: 700;
 }
 
 .subtitle {
@@ -11222,7 +11231,7 @@ h3, .h3 {
   font-weight: 600;
 }
 
-img {
+img, iframe {
   max-width: 100%;
 }
 
@@ -11243,6 +11252,7 @@ img {
   padding: 30px;
 }
 .section .content-box .svg-inline--fa {
+  margin: 0.75rem;
   font-size: 42px;
   width: 42px;
 }
@@ -11269,6 +11279,18 @@ img {
 .navbar {
   padding: 0;
 }
+.navbar a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.navbar-brand {
+  margin-right: 0;
+}
+.navbar-brand img {
+  margin: 0 0 0 14px;
+  border-left: 1px solid black;
+}
 
 .nav-item {
   padding: 4px 24px;
@@ -11277,6 +11299,10 @@ img {
 ul.sf-menu a, ul.sf-menu .menuparent {
   color: #ffffff;
   text-decoration: none;
+}
+ul.sf-menu a.is-active {
+  color: var(--bs-dark) !important;
+  background-color: var(--bs-light) !important;
 }
 
 #superfish-access-universal-nav-menu li:hover, #superfish-access-universal-nav-menu li.active-trail, #superfish-access-additional-universal-menu li:hover, #superfish-access-additional-universal-menu li.active-trail {
@@ -11313,6 +11339,19 @@ ul.sf-menu a, ul.sf-menu .menuparent {
   color: var(--bs-light);
 }
 
+ul.sf-menu.sf-accordion li.sf-depth-2 {
+  margin-left: 40px;
+  list-style: disclosure-closed;
+  padding-left: 0;
+}
+ul.sf-menu.sf-accordion li.sf-depth-2 a {
+  padding-left: 12px;
+}
+
+.sf-accordion-toggle {
+  padding: 4px;
+}
+
 ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.sf-menu.sf-navbar.sf-shadow ul ul {
   -webkit-box-shadow: 2px 12px 12px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 2px 12px 12px rgba(0, 0, 0, 0.3);
@@ -11341,7 +11380,6 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
 
 .text-constrained {
   max-width: 640px;
-  margin: 0 auto;
 }
 
 .icon-horizontal {
@@ -11397,15 +11435,62 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
     display: block !important;
   }
 }
+.path-user-login #block-accesstheme-local-tasks {
+  display: none;
+}
 .path-user-login .cilogon-auth-login-form {
   display: flex;
   justify-content: center;
   padding-top: 50px;
 }
+.path-user-login .cilogon-auth-login-form #cilogon-auth-login-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.path-user-login .cilogon-auth-login-form #cilogon-auth-login-group #cilogon-auth-login-suffix {
+  margin-top: 50px;
+}
 
 .sui-search-box {
   max-width: 640px;
   margin: auto;
+}
+
+.card.teal, fieldset.teal.form-item, .teal.form-item-upload, .teal.form-type-managed-file, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity, .media-library-selection .teal.media-library-item.media-library-item--grid {
+  background-color: var(--bs-dark);
+  color: var(--bs-light);
+  border: 2px solid var(--bs-dark);
+}
+.card.teal .card-body, fieldset.teal.form-item .card-body, .teal.form-item-upload .card-body, .teal.form-type-managed-file .card-body, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity .card-body, .media-library-selection .teal.media-library-item.media-library-item--grid .card-body, .card.teal fieldset.form-item > .fieldset-wrapper, fieldset.teal.form-item fieldset.form-item > .fieldset-wrapper, .teal.form-item-upload fieldset.form-item > .fieldset-wrapper, .teal.form-type-managed-file fieldset.form-item > .fieldset-wrapper, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity fieldset.form-item > .fieldset-wrapper, .media-library-selection .teal.media-library-item.media-library-item--grid fieldset.form-item > .fieldset-wrapper, .card.teal .form-item-upload > div, fieldset.teal.form-item .form-item-upload > div, .teal.form-item-upload .form-item-upload > div, .teal.form-type-managed-file .form-item-upload > div, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity .form-item-upload > div, .media-library-selection .teal.media-library-item.media-library-item--grid .form-item-upload > div, .card.teal .form-type-managed-file > div, fieldset.teal.form-item .form-type-managed-file > div, .teal.form-item-upload .form-type-managed-file > div, .teal.form-type-managed-file .form-type-managed-file > div, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity .form-type-managed-file > div, .media-library-selection .teal.media-library-item.media-library-item--grid .form-type-managed-file > div, .card.teal .view-media-library .media-library-views-form .media-library-item--grid .views-field-rendered-entity, .view-media-library .media-library-views-form .media-library-item--grid .card.teal .views-field-rendered-entity, fieldset.teal.form-item .view-media-library .media-library-views-form .media-library-item--grid .views-field-rendered-entity, .view-media-library .media-library-views-form .media-library-item--grid fieldset.teal.form-item .views-field-rendered-entity, .teal.form-item-upload .view-media-library .media-library-views-form .media-library-item--grid .views-field-rendered-entity, .view-media-library .media-library-views-form .media-library-item--grid .teal.form-item-upload .views-field-rendered-entity, .teal.form-type-managed-file .view-media-library .media-library-views-form .media-library-item--grid .views-field-rendered-entity, .view-media-library .media-library-views-form .media-library-item--grid .teal.form-type-managed-file .views-field-rendered-entity, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity .views-field-rendered-entity, .media-library-selection .view-media-library .media-library-views-form .teal.media-library-item.media-library-item--grid .views-field-rendered-entity, .view-media-library .media-library-views-form .media-library-selection .teal.media-library-item.media-library-item--grid .views-field-rendered-entity, .card.teal .media-library-selection .media-library-item.media-library-item--grid > div, .media-library-selection .card.teal .media-library-item.media-library-item--grid > div, fieldset.teal.form-item .media-library-selection .media-library-item.media-library-item--grid > div, .media-library-selection fieldset.teal.form-item .media-library-item.media-library-item--grid > div, .teal.form-item-upload .media-library-selection .media-library-item.media-library-item--grid > div, .media-library-selection .teal.form-item-upload .media-library-item.media-library-item--grid > div, .teal.form-type-managed-file .media-library-selection .media-library-item.media-library-item--grid > div, .media-library-selection .teal.form-type-managed-file .media-library-item.media-library-item--grid > div, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity .media-library-selection .media-library-item.media-library-item--grid > div, .media-library-selection .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity .media-library-item.media-library-item--grid > div, .media-library-selection .teal.media-library-item.media-library-item--grid .media-library-item.media-library-item--grid > div,
+.card.teal .media-library-selection .media-library-item.media-library-item--grid article,
+.media-library-selection .media-library-item.media-library-item--grid .card.teal article,
+fieldset.teal.form-item .media-library-selection .media-library-item.media-library-item--grid article,
+.media-library-selection .media-library-item.media-library-item--grid fieldset.teal.form-item article,
+.teal.form-item-upload .media-library-selection .media-library-item.media-library-item--grid article,
+.media-library-selection .media-library-item.media-library-item--grid .teal.form-item-upload article,
+.teal.form-type-managed-file .media-library-selection .media-library-item.media-library-item--grid article,
+.media-library-selection .media-library-item.media-library-item--grid .teal.form-type-managed-file article,
+.view-media-library .media-library-views-form .media-library-selection .media-library-item.media-library-item--grid .teal.views-field-rendered-entity article,
+.media-library-selection .view-media-library .media-library-views-form .media-library-item.media-library-item--grid .teal.views-field-rendered-entity article,
+.media-library-selection .teal.media-library-item.media-library-item--grid article {
+  padding: 5rem 1rem 3rem 1rem;
+}
+
+.card.teal:hover, fieldset.teal.form-item:hover, .teal.form-item-upload:hover, .teal.form-type-managed-file:hover, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity:hover, .media-library-selection .teal.media-library-item.media-library-item--grid:hover {
+  background-color: var(--bs-light);
+  color: var(--bs-dark);
+  border-color: var(--bs-dark);
+}
+.card.teal:hover .btn-outline-light, fieldset.teal.form-item:hover .btn-outline-light, .teal.form-item-upload:hover .btn-outline-light, .teal.form-type-managed-file:hover .btn-outline-light, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity:hover .btn-outline-light, .media-library-selection .teal.media-library-item.media-library-item--grid:hover .btn-outline-light {
+  color: var(--bs-dark);
+  border-color: var(--bs-dark);
+}
+
+/* legacy stuff */
+.view-affinity-group .view-content {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -21,13 +21,20 @@
     background-color: var(--bs-orange);
 }
 h3 {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
+}
+h4 {
+    font-size: 1.2rem;
+}
+a {
+    color: #000000;
+    font-weight: 700;
 }
 .subtitle {
     font-size: 0.9rem;
     font-weight: 600;
 }
-img {
+img, iframe {
     max-width: 100%;
 }
 .fit-content {
@@ -47,6 +54,7 @@ img {
         padding: 30px;
 
         .svg-inline--fa {
+            margin: 0.75rem;
             font-size: 42px;
             width: 42px;
         }
@@ -75,6 +83,18 @@ img {
 }
 .navbar {
     padding: 0;
+    a {
+        color: #ffffff;
+        text-decoration: none;
+    }
+}
+.navbar-brand {
+    margin-right: 0;
+
+    img {
+        margin: 0 0 0 14px;
+        border-left: 1px solid black;
+    }
 }
 .nav-item {
     padding: 4px 24px;
@@ -83,6 +103,10 @@ ul.sf-menu {
     a, .menuparent {
         color: #ffffff;
         text-decoration: none;
+    }
+    a.is-active {
+        color: var(--bs-dark) !important;
+        background-color: var(--bs-light) !important;
     }
 }
 #superfish-access-universal-nav-menu, #superfish-access-additional-universal-menu {
@@ -122,6 +146,19 @@ ul.sf-menu {
         }
     }
 }
+ul.sf-menu.sf-accordion li.sf-depth-2 {
+    margin-left: 40px;
+    list-style: disclosure-closed;
+    padding-left: 0;
+
+    a {
+        padding-left: 12px;
+    }
+}
+
+.sf-accordion-toggle {
+    padding: 4px;
+}
 ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.sf-menu.sf-navbar.sf-shadow ul ul {
     -webkit-box-shadow: 2px 12px 12px rgba(0,0,0,0.3);
     -moz-box-shadow: 2px 12px 12px rgba(0,0,0,0.3);
@@ -149,11 +186,8 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
         }
     }
 }
-.text-center .section-subtitle {
-}
 .text-constrained {
     max-width: 640px;
-    margin: 0 auto;
 }
 .icon-horizontal {
     display: flex;
@@ -200,17 +234,54 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
     }
 }
 .path-user-login {
-    #block-accesstheme-local-tasks, .user-login-form {
+    #block-accesstheme-local-tasks {
+        display: none;
+    }
+    .user-login-form {
         // display: none;
     }
     .cilogon-auth-login-form {
         display: flex;
         justify-content: center;
         padding-top: 50px;
+
+        #cilogon-auth-login-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            #cilogon-auth-login-suffix {
+                margin-top: 50px;
+            }
+        }
     }
 }
 
 .sui-search-box {
     max-width: 640px;
     margin: auto;
+}
+.card.teal {
+    background-color: var(--bs-dark);
+    color: var(--bs-light);
+    border: 2px solid var(--bs-dark);
+
+    .card-body {
+        padding: 5rem 1rem 3rem 1rem;
+    }
+}
+.card.teal:hover {
+    background-color: var(--bs-light);
+    color: var(--bs-dark);
+    border-color: var(--bs-dark);
+
+    .btn-outline-light {
+        color: var(--bs-dark);
+        border-color: var(--bs-dark);
+    }
+}
+/* legacy stuff */
+.view-affinity-group .view-content {
+    display: flex;
+    flex-wrap: wrap;
 }
