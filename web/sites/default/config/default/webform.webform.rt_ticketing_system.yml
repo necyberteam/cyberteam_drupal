@@ -19,13 +19,13 @@ elements: |-
     '#markup': '<h3>Submit a ticket from [current-user:field_user_first_name:value] [current-user:field_user_last_name:value] ([current-user:mail])</h3>'
   resource:
     '#type': select
-    '#title': 'Is your issue related to a resource (e.g. Expanse, Jetstream2, Bridges-2)?'
-    '#description': 'Select a resource, or &quot;Not Related&quot;'
+    '#title': 'Is your issue related to a resource?'
+    '#description': 'Select the resource (e.g. Expanse, Jetstream2, Bridges-2) or choose &quot;Not related to a resource&quot;.'
     '#description_display': before
     '#options': rt_resources
     '#select2': true
     '#required': true
-    '#required_error': 'Please select if your issue is related to a resource'
+    '#required_error': 'Please a resource or indicate "Not related to a resource"'
   allocations_flexbox:
     '#type': container
     '#states':
