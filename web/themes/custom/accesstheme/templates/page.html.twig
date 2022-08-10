@@ -61,22 +61,24 @@ set footer_classes = ' ' ~
             {{ page.header }}
 
             <nav class="{{ nav_classes }} d-flex flex-column">
-                <div class="{{ b5_top_container }} d-flex w-100">
-                        {{ page.nav_main }}
+                <div class="{{ b5_top_container }} d-flex w-100 py-1 py-md-0">
+                    {{ page.nav_main }}
                     {{ page.nav_additional }}
                 </div>
             </nav>
         </div>
     </div>
     <div class="container">
-        <div class="{{ br_top_container }} d-flex bg-white w-100">
+        <div class="{{ br_top_container }} d-flex align-items-center bg-white w-100 py-2 py-md-0">
+            <img src="/themes/custom/accesstheme/assets/NSF_4-Color_bitmap_Logo.png" alt="NSF logo" width="60" height="60"/>
             {{ page.nav_branding }}
+            <a href="{{ front }}"><img src="/themes/custom/accesstheme/assets/support-title.gif" alt="Support"/></a>
         </div>
     </div>
     <div class="bg-med-teal">
         <div class="container">
             <nav class="{{ nav_classes }} d-flex flex-column">
-                <div class="{{ b5_top_container }} d-flex w-100">
+                <div class="{{ b5_top_container }} d-flex justify-content-end w-100 py-1 py-md-0">
                         {{ page.sub_nav }}
                 </div>
             </nav>
