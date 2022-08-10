@@ -15,8 +15,60 @@ category: ''
 elements: |-
   markup:
     '#type': webform_markup
-    '#display_on': view
+    '#display_on': both
     '#markup': '<h3>Submit a ticket from [current-user:field_user_first_name:value] [current-user:field_user_last_name:value] ([current-user:mail])</h3>'
+  resource:
+    '#type': select
+    '#title': 'Is your issue related to a resource (e.g. Expanse, Jetstream2, Bridges-2)?'
+    '#description': 'Select a resource, or &quot;Not Related&quot;'
+    '#description_display': before
+    '#options': rt_resources
+    '#select2': true
+    '#required': true
+    '#required_error': 'Please select if your issue is related to a resource'
+  allocations_flexbox:
+    '#type': container
+    '#states':
+      visible:
+        ':input[name="resource"]':
+          value: issue_not_resource_related
+    is_your_issue_related_to_allocations_:
+      '#type': radios
+      '#title': 'Is your issue related to allocations?'
+      '#options':
+        'Yes': 'Yes'
+        'No': 'No'
+      '#options_display': side_by_side
+      '#required': true
+      '#required_error': 'Please select whether your resource issue is related to allocations'
+    please_select_an_allocations_category:
+      '#type': select
+      '#title': 'Please select an allocations category'
+      '#options': rt_allocations_categories
+      '#required': true
+      '#states':
+        visible:
+          ':input[name="is_your_issue_related_to_allocations_"]':
+            value: 'Yes'
+    category:
+      '#type': select
+      '#title': 'Please select an ACCESS category'
+      '#title_display': before
+      '#description_display': before
+      '#options': rt_categories
+      '#options_display': buttons_horizontal
+      '#select2': true
+      '#required': true
+      '#states':
+        visible:
+          ':input[name="is_your_issue_related_to_allocations_"]':
+            value: 'No'
+      '#access_create_roles':
+        - authenticated
+      '#access_update_roles':
+        - authenticated
+      '#access_view_roles':
+        - authenticated
   subject:
     '#type': textfield
     '#title': 'Problem Synopsis'
@@ -24,28 +76,6 @@ elements: |-
   problem_description:
     '#type': textarea
     '#title': 'Problem description'
-  category:
-    '#type': select
-    '#title': 'ACCESS Category'
-    '#description': 'Is your issue related to ACCESS allocations, operations, metrics or support?'
-    '#title_display': before
-    '#description_display': before
-    '#options': rt_categories
-    '#options_display': buttons_horizontal
-    '#select2': true
-    '#access_create_roles':
-      - authenticated
-    '#access_update_roles':
-      - authenticated
-    '#access_view_roles':
-      - authenticated
-  resource:
-    '#type': select
-    '#title': Resource
-    '#description': 'Is your issue related to one of these resources?'
-    '#description_display': before
-    '#options': rt_resources
-    '#select2': true
   tags:
     '#type': webform_term_select
     '#title': Tags
@@ -275,7 +305,7 @@ handlers:
       sender_mail: ''
       sender_name: ''
       subject: '[webform_submission:values:subject:raw]'
-      body: "&nbsp;<br />\r\n[webform_submission:values:problem_description:nolabel]<br />\r\n<br />\r\nCF_CATEGORIES:&nbsp; [webform_submission:values:category]<br />\r\n<br />\r\nCF_TAGS: [webform_submission:values:tags]<br />\r\nCF_TAGS: [webform_submission:values:tags.values]<br />\r\nCF_TAGS (nolabel): [webform_submission:values:tags:nolabel]<br />\r\nCF_TAGS (raw): [webform_submission:values:tags:raw]<br />\r\n<br />\r\nCF_CC: [webform_submission:values:cc]<br />\r\n<br />\r\n<br />\r\n<br />\r\nSubmitted form values below<br />\r\n===========================<br />\r\n<br />\r\nfirst_name-&gt; [webform_submission:values:first_name]<br />\r\nlast_name-&gt; [webform_submission:values:last_name]<br />\r\nemail-&gt; [webform_submission:values:email]<br />\r\ncc-&gt; [webform_submission:values:cc]<br />\r\ncategory-&gt; [webform_submission:values:category]<br />\r\ntags-&gt; [webform_submission:values:tags]<br />\r\nsubject-&gt; [webform_submission:values:subject]<br />\r\nproblem_description-&gt; [webform_submission:values:problem_description]<br />\r\nattachment-&gt; [webform_submission:values:attachment]"
+      body: "&nbsp;<br />\r\n[webform_submission:values:problem_description:nolabel]<br />\r\n<br />\r\nCF_CATEGORIES:&nbsp; [webform_submission:values:category]<br />\r\n<br />\r\nCF_TAGS: [webform_submission:values:tags]<br />\r\nCF_TAGS: [webform_submission:values:tags.values]<br />\r\nCF_TAGS (nolabel): [webform_submission:values:tags:nolabel]<br />\r\nCF_TAGS (raw): [webform_submission:values:tags:raw]<br />\r\n<br />\r\nCF_CC: [webform_submission:values:cc]<br />\r\n<br />\r\n<br />\r\nSubmit a ticket from [current-user:field_user_first_name:value] [current-user:field_user_last_name:value] ([current-user:mail])<br />\r\n<br />\r\n<br />\r\nSubmitted form values below<br />\r\n===========================<br />\r\n<br />\r\nfirst_name-&gt; [webform_submission:values:first_name]<br />\r\nlast_name-&gt; [webform_submission:values:last_name]<br />\r\nemail-&gt; [webform_submission:values:email]<br />\r\ncc-&gt; [webform_submission:values:cc]<br />\r\ncategory-&gt; [webform_submission:values:category]<br />\r\ntags-&gt; [webform_submission:values:tags]<br />\r\nsubject-&gt; [webform_submission:values:subject]<br />\r\nproblem_description-&gt; [webform_submission:values:problem_description]<br />\r\nattachment-&gt; [webform_submission:values:attachment]"
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true
