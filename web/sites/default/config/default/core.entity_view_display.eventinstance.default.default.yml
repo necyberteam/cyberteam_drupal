@@ -13,30 +13,74 @@ targetEntityType: eventinstance
 bundle: default
 mode: default
 content:
+  affinity_group:
+    type: entity_reference_label
+    label: visible
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 50
+    region: content
+  contact:
+    type: string
+    label: visible
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 51
+    region: content
   date:
-    label: above
     type: daterange_default
-    weight: 1
+    label: above
     settings:
       timezone_override: ''
       format_type: long
       separator: '-'
-    region: content
     third_party_settings: {  }
+    weight: 1
+    region: content
   description:
     type: text_default
-    weight: 2
-    region: content
     label: above
     settings: {  }
     third_party_settings: {  }
+    weight: 2
+    region: content
+  location:
+    type: string
+    label: visible
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 53
+    region: content
+  registration:
+    type: link
+    label: visible
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 54
+    region: content
+  tags:
+    type: entity_reference_label
+    label: visible
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 55
+    region: content
   title:
     type: string
-    weight: 0
-    region: content
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   body: true
