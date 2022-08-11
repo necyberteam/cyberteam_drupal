@@ -56,45 +56,30 @@ set footer_classes = ' ' ~
   (b5_footer_bg_schema != 'none' ? " bg-#{b5_footer_bg_schema}" : ' ')
 %}
 <header>
-    <div class="bg-dark">
+    <div class="bg-dark-teal">
         <div class="container">
             {{ page.header }}
 
             <nav class="{{ nav_classes }} d-flex flex-column">
-                <div class="{{ b5_top_container }} d-flex w-100">
-                    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse flex-wrap" id="navbarSupportedContent">
-                        {{ page.nav_main }}
-                    </div>
-
+                <div class="{{ b5_top_container }} d-flex w-100 py-1 py-md-0">
+                    {{ page.nav_main }}
                     {{ page.nav_additional }}
                 </div>
             </nav>
         </div>
     </div>
     <div class="container">
-        <div class="{{ br_top_container }} d-flex bg-white w-100">
+        <div class="{{ br_top_container }} d-flex align-items-center bg-white w-100 py-2 py-md-0">
+            <img src="/themes/custom/accesstheme/assets/NSF_4-Color_bitmap_Logo.png" alt="NSF logo" width="60" height="60"/>
             {{ page.nav_branding }}
+            <a href="{{ front }}"><img src="/themes/custom/accesstheme/assets/support-title.gif" alt="Support"/></a>
         </div>
     </div>
-    <div class="bg-light">
+    <div class="bg-med-teal">
         <div class="container">
             <nav class="{{ nav_classes }} d-flex flex-column">
-                <div class="{{ b5_top_container }} d-flex w-100">
-                    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarSupportedContent" aria-controls="secondaryNavbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse justify-content-md-end flex-wrap" id="secondaryNavbarSupportedContent">
+                <div class="{{ b5_top_container }} d-flex justify-content-end w-100 py-1 py-md-0">
                         {{ page.sub_nav }}
-                    </div>
                 </div>
             </nav>
             </div>

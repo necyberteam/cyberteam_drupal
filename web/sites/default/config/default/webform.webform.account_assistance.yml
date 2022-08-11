@@ -1,4 +1,4 @@
-uuid: 007acbd7-4acd-448c-b007-899bec752a66
+uuid: 0a0d2509-c97a-4e49-8d4f-5b513953964a
 langcode: en
 status: open
 dependencies: {  }
@@ -8,93 +8,29 @@ close: null
 uid: 1
 template: false
 archive: false
-id: rt_ticketing_system
-title: 'RT Ticketing System '
-description: 'Send an email containing an issue'
+id: account_assistance
+title: 'Having trouble logging in?'
+description: 'A form to request assistance for trouble logging in'
 category: ''
 elements: |-
-  resource:
-    '#type': select
-    '#title': 'Is your issue related to a resource?'
-    '#description': 'Select the resource (e.g. Expanse, Jetstream2, Bridges-2) or choose &quot;Not related to a resource&quot;.'
-    '#description_display': before
-    '#options': rt_resources
-    '#select2': true
-    '#required': true
-    '#required_error': 'Please a resource or indicate "Not related to a resource"'
-  allocations_flexbox:
-    '#type': container
-    '#states':
-      visible:
-        ':input[name="resource"]':
-          value: issue_not_resource_related
-    is_your_issue_related_to_allocations_:
-      '#type': radios
-      '#title': 'Is your issue related to allocations?'
-      '#options':
-        'Yes': 'Yes'
-        'No': 'No'
-      '#options_display': side_by_side
-      '#required': true
-      '#required_error': 'Please select whether your resource issue is related to allocations'
-    please_select_an_allocations_category:
-      '#type': select
-      '#title': 'Please select an allocations category'
-      '#options': rt_allocations_categories
-      '#required': true
-      '#states':
-        visible:
-          ':input[name="is_your_issue_related_to_allocations_"]':
-            value: 'Yes'
-    category:
-      '#type': select
-      '#title': 'Please select an ACCESS category'
-      '#title_display': before
-      '#description_display': before
-      '#options': rt_categories
-      '#options_display': buttons_horizontal
-      '#select2': true
-      '#required': true
-      '#states':
-        visible:
-          ':input[name="is_your_issue_related_to_allocations_"]':
-            value: 'No'
-      '#access_create_roles':
-        - authenticated
-      '#access_update_roles':
-        - authenticated
-      '#access_view_roles':
-        - authenticated
-  subject:
+  your_name:
     '#type': textfield
-    '#title': 'Problem Synopsis'
+    '#title': 'Your Name'
     '#required': true
-  problem_description:
+  email:
+    '#type': textfield
+    '#title': Email
+    '#required': true
+  access_id:
+    '#type': textfield
+    '#title': 'ACCESS ID'
+  comment:
     '#type': textarea
-    '#title': 'Problem description'
-    '#required': true
-  tags:
-    '#type': webform_term_select
-    '#title': Tags
-    '#description': 'Help us answer your ticket by tagging your issue with relevant tags.'
-    '#description_display': before
-    '#select2': true
-    '#vocabulary': tags
-    '#breadcrumb_delimiter': ''
-    '#required': true
-  cc:
-    '#type': textfield
-    '#title': CC
-    '#description': 'Optional comma delimited list of additional emails to receive notifications.'
-    '#description_display': before
-  attachment:
-    '#type': managed_file
-    '#title': Attachments
-    '#multiple': 10
+    '#title': 'Additional Information'
   actions:
     '#type': webform_actions
     '#title': 'Submit button(s)'
-    '#submit__label': 'Submit Ticket'
+    '#submit__label': Submit
     '#update__label': 'Ticket Submitted'
 css: ''
 javascript: ''
@@ -107,13 +43,13 @@ settings:
   page: true
   page_submit_path: ''
   page_confirm_path: ''
-  page_theme_name: accesstheme
+  page_theme_name: ''
   form_title: source_entity_webform
   form_submit_once: false
   form_open_message: ''
   form_close_message: ''
   form_exception_message: ''
-  form_previous_submissions: true
+  form_previous_submissions: false
   form_confidential: false
   form_confidential_message: ''
   form_disable_remote_addr: false
@@ -132,9 +68,9 @@ settings:
   form_autofocus: true
   form_details_toggle: false
   form_reset: false
-  form_access_denied: login
+  form_access_denied: default
   form_access_denied_title: ''
-  form_access_denied_message: 'Please login to submit a ticket.'
+  form_access_denied_message: ''
   form_access_denied_attributes: {  }
   form_file_limit: ''
   form_attributes: {  }
@@ -198,12 +134,12 @@ settings:
   draft_loaded_message: ''
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
-  confirmation_type: page
+  confirmation_type: inline
   confirmation_url: ''
   confirmation_title: ''
-  confirmation_message: ''
+  confirmation_message: 'Thanks for submitting your information. ACCESS Support staff will be in touch with you soon to assist.'
   confirmation_attributes: {  }
-  confirmation_back: true
+  confirmation_back: false
   confirmation_back_label: ''
   confirmation_back_attributes: {  }
   confirmation_exclude_query: false
@@ -278,10 +214,10 @@ access:
     users: {  }
     permissions: {  }
 handlers:
-  test_rt_ticket_:
+  trouble_logging_in_email:
     id: email
-    handler_id: test_rt_ticket_
-    label: 'test RT ticket email'
+    handler_id: trouble_logging_in_email
+    label: 'Trouble Logging In Email'
     notes: ''
     status: true
     conditions: {  }
@@ -289,28 +225,28 @@ handlers:
     settings:
       states:
         - completed
-      to_mail: jasperjunk@gmail.com
+      to_mail: andrew@elytra.net
       to_options: {  }
       bcc_mail: ''
       bcc_options: {  }
       cc_mail: ''
       cc_options: {  }
-      from_mail: '[webform_submission:values:email:raw]'
+      from_mail: _default
       from_options: {  }
-      from_name: '[webform_submission:values:first_name] [webform_submission:values:last_name]'
+      from_name: _default
       reply_to: ''
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: '[webform_submission:values:subject:raw]'
-      body: "&nbsp;<br />\r\n[webform_submission:values:problem_description:nolabel]<br />\r\n<br />\r\nCF_CATEGORIES:&nbsp; [webform_submission:values:category]<br />\r\n<br />\r\nCF_TAGS: [webform_submission:values:tags]<br />\r\nCF_TAGS: [webform_submission:values:tags.values]<br />\r\nCF_TAGS (nolabel): [webform_submission:values:tags:nolabel]<br />\r\nCF_TAGS (raw): [webform_submission:values:tags:raw]<br />\r\n<br />\r\nCF_CC: [webform_submission:values:cc]<br />\r\n<br />\r\n<br />\r\nSubmit a ticket from [current-user:field_user_first_name:value] [current-user:field_user_last_name:value] ([current-user:mail])<br />\r\n<br />\r\n<br />\r\nSubmitted form values below<br />\r\n===========================<br />\r\n<br />\r\nfirst_name-&gt; [webform_submission:values:first_name]<br />\r\nlast_name-&gt; [webform_submission:values:last_name]<br />\r\nemail-&gt; [webform_submission:values:email]<br />\r\ncc-&gt; [webform_submission:values:cc]<br />\r\ncategory-&gt; [webform_submission:values:category]<br />\r\ntags-&gt; [webform_submission:values:tags]<br />\r\nsubject-&gt; [webform_submission:values:subject]<br />\r\nproblem_description-&gt; [webform_submission:values:problem_description]<br />\r\nattachment-&gt; [webform_submission:values:attachment]"
+      subject: _default
+      body: _default
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true
       exclude_empty_checkbox: false
       exclude_attachments: false
       html: true
-      attachments: true
+      attachments: false
       twig: false
       theme_name: ''
       parameters: {  }
