@@ -23,6 +23,14 @@ then
   terminus remote:drush $site_name.$env -- core-cron -v
 fi
 
+if [ "$runner" = deploy ];
+then
+  storeKey
+  terminusApi
+  current_version=$(git describe --tags --abbrev=0)
+  terminus env:deploy --note "Version: $current_version" -- $site_name.$env
+fi
+
 if [ "$runner" = bkup ];
 then
   storeKey
@@ -31,7 +39,7 @@ then
   terminus backup:get $site_name.$env --element=db --to=backups/site.sql.gz
 fi
 
-if [ "$runner" = deploy ];
+if [ "$runner" = update ];
 then
   storeKey
   sh -c "composer config -g github-oauth.github.com $gh_token"
