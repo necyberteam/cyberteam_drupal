@@ -424,10 +424,10 @@ display:
           admin_label: ''
           plugin_id: field
           label: ''
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
-            text: ''
+            text: '{{ body__value }}'
             make_link: false
             path: ''
             absolute: false
@@ -460,10 +460,10 @@ display:
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: false
-          empty: 'Where body?'
-          hide_empty: false
-          empty_zero: true
-          hide_alter_empty: true
+          empty: ''
+          hide_empty: true
+          empty_zero: false
+          hide_alter_empty: false
           click_sort_column: value
           type: text_default
           settings: {  }
@@ -489,7 +489,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div>{{ field_project_image }}</div>\r\n<div>{{ title }}</div>\r\n<div>{{ field_researcher }}</div>\r\n<div>{{ field_institution }}</div>\r\n<div class='visually-hidden'>{{ body }}</div>\r\n<div class='visually-hidden'>{{ field_tags }}</div>"
+            text: "<div>{{ field_project_image }}</div>\r\n<div>{{ title }}</div>\r\n<div>{{ field_researcher }}</div>\r\n<div>{{ field_institution }}</div>\r\n<div class='visually-hidden field--type-text-with-summary'>{{ body }}</div>\r\n<div class='visually-hidden field--name-field-tags'>{{ field_tags }}</div>"
             make_link: false
             path: ''
             absolute: false
