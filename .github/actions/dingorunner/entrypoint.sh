@@ -39,7 +39,7 @@ then
   terminus backup:get $site_name.$env --element=db --to=backups/site.sql.gz
 fi
 
-if [ "$runner" = deploy ];
+if [ "$runner" = update ];
 then
   storeKey
   sh -c "composer config -g github-oauth.github.com $gh_token"
