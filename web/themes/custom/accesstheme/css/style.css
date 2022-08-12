@@ -11221,7 +11221,7 @@ h4, .h4 {
   font-size: 1.2rem;
 }
 
-a {
+.region-content a {
   color: #000000;
   font-weight: 700;
 }
@@ -11464,6 +11464,8 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
   background-color: var(--bs-dark);
   color: var(--bs-light);
   border: 2px solid var(--bs-dark);
+  padding-top: 100%; /* 1:1 Aspect Ratio */
+  position: relative;
 }
 .card.teal .card-body, fieldset.teal.form-item .card-body, .teal.form-item-upload .card-body, .teal.form-type-managed-file .card-body, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity .card-body, .media-library-selection .teal.media-library-item.media-library-item--grid .card-body, .card.teal fieldset.form-item > .fieldset-wrapper, fieldset.teal.form-item fieldset.form-item > .fieldset-wrapper, .teal.form-item-upload fieldset.form-item > .fieldset-wrapper, .teal.form-type-managed-file fieldset.form-item > .fieldset-wrapper, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity fieldset.form-item > .fieldset-wrapper, .media-library-selection .teal.media-library-item.media-library-item--grid fieldset.form-item > .fieldset-wrapper, .card.teal .form-item-upload > div, fieldset.teal.form-item .form-item-upload > div, .teal.form-item-upload .form-item-upload > div, .teal.form-type-managed-file .form-item-upload > div, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity .form-item-upload > div, .media-library-selection .teal.media-library-item.media-library-item--grid .form-item-upload > div, .card.teal .form-type-managed-file > div, fieldset.teal.form-item .form-type-managed-file > div, .teal.form-item-upload .form-type-managed-file > div, .teal.form-type-managed-file .form-type-managed-file > div, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity .form-type-managed-file > div, .media-library-selection .teal.media-library-item.media-library-item--grid .form-type-managed-file > div, .card.teal .view-media-library .media-library-views-form .media-library-item--grid .views-field-rendered-entity, .view-media-library .media-library-views-form .media-library-item--grid .card.teal .views-field-rendered-entity, fieldset.teal.form-item .view-media-library .media-library-views-form .media-library-item--grid .views-field-rendered-entity, .view-media-library .media-library-views-form .media-library-item--grid fieldset.teal.form-item .views-field-rendered-entity, .teal.form-item-upload .view-media-library .media-library-views-form .media-library-item--grid .views-field-rendered-entity, .view-media-library .media-library-views-form .media-library-item--grid .teal.form-item-upload .views-field-rendered-entity, .teal.form-type-managed-file .view-media-library .media-library-views-form .media-library-item--grid .views-field-rendered-entity, .view-media-library .media-library-views-form .media-library-item--grid .teal.form-type-managed-file .views-field-rendered-entity, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity .views-field-rendered-entity, .media-library-selection .view-media-library .media-library-views-form .teal.media-library-item.media-library-item--grid .views-field-rendered-entity, .view-media-library .media-library-views-form .media-library-selection .teal.media-library-item.media-library-item--grid .views-field-rendered-entity, .card.teal .media-library-selection .media-library-item.media-library-item--grid > div, .media-library-selection .card.teal .media-library-item.media-library-item--grid > div, fieldset.teal.form-item .media-library-selection .media-library-item.media-library-item--grid > div, .media-library-selection fieldset.teal.form-item .media-library-item.media-library-item--grid > div, .teal.form-item-upload .media-library-selection .media-library-item.media-library-item--grid > div, .media-library-selection .teal.form-item-upload .media-library-item.media-library-item--grid > div, .teal.form-type-managed-file .media-library-selection .media-library-item.media-library-item--grid > div, .media-library-selection .teal.form-type-managed-file .media-library-item.media-library-item--grid > div, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity .media-library-selection .media-library-item.media-library-item--grid > div, .media-library-selection .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity .media-library-item.media-library-item--grid > div, .media-library-selection .teal.media-library-item.media-library-item--grid .media-library-item.media-library-item--grid > div,
 .card.teal .media-library-selection .media-library-item.media-library-item--grid article,
@@ -11477,16 +11479,24 @@ fieldset.teal.form-item .media-library-selection .media-library-item.media-libra
 .view-media-library .media-library-views-form .media-library-selection .media-library-item.media-library-item--grid .teal.views-field-rendered-entity article,
 .media-library-selection .view-media-library .media-library-views-form .media-library-item.media-library-item--grid .teal.views-field-rendered-entity article,
 .media-library-selection .teal.media-library-item.media-library-item--grid article {
-  padding: 5rem 1rem 3rem 1rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 25% 1rem 0 1rem;
+}
+.card.teal .btn-outline-light, fieldset.teal.form-item .btn-outline-light, .teal.form-item-upload .btn-outline-light, .teal.form-type-managed-file .btn-outline-light, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity .btn-outline-light, .media-library-selection .teal.media-library-item.media-library-item--grid .btn-outline-light {
+  color: var(--bs-light) !important;
 }
 
 .card.teal:hover, fieldset.teal.form-item:hover, .teal.form-item-upload:hover, .teal.form-type-managed-file:hover, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity:hover, .media-library-selection .teal.media-library-item.media-library-item--grid:hover {
   background-color: var(--bs-light);
-  color: var(--bs-dark);
+  color: var(--bs-dark) !important;
   border-color: var(--bs-dark);
 }
 .card.teal:hover .btn-outline-light, fieldset.teal.form-item:hover .btn-outline-light, .teal.form-item-upload:hover .btn-outline-light, .teal.form-type-managed-file:hover .btn-outline-light, .view-media-library .media-library-views-form .media-library-item--grid .teal.views-field-rendered-entity:hover .btn-outline-light, .media-library-selection .teal.media-library-item.media-library-item--grid:hover .btn-outline-light {
-  color: var(--bs-dark);
+  color: var(--bs-dark) !important;
   border-color: var(--bs-dark);
 }
 
@@ -11500,9 +11510,7 @@ fieldset.teal.form-item .media-library-selection .media-library-item.media-libra
 .webform-submission-rt-ticketing-system-form, .webform-submission-account-assistance-form {
   max-width: 480px;
   margin: auto;
-}
-
-/* news */
+} /* news */
 .view-access-news {
   max-width: 640px;
   margin: auto;

@@ -26,7 +26,7 @@ h3 {
 h4 {
     font-size: 1.2rem;
 }
-a {
+.region-content a {
     color: #000000;
     font-weight: 700;
 }
@@ -265,18 +265,29 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
     background-color: var(--bs-dark);
     color: var(--bs-light);
     border: 2px solid var(--bs-dark);
+    padding-top: 100%; /* 1:1 Aspect Ratio */
+    position: relative;
 
     .card-body {
-        padding: 5rem 1rem 3rem 1rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        padding: 25% 1rem 0 1rem;
+    }
+
+    .btn-outline-light {
+        color: var(--bs-light) !important;
     }
 }
 .card.teal:hover {
     background-color: var(--bs-light);
-    color: var(--bs-dark);
+    color: var(--bs-dark) !important;
     border-color: var(--bs-dark);
 
     .btn-outline-light {
-        color: var(--bs-dark);
+        color: var(--bs-dark) !important;
         border-color: var(--bs-dark);
     }
 }
