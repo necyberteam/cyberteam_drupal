@@ -24,6 +24,7 @@ then
 fi
 
 if [ "$runner" = deploy ];
+then
   storeKey
   terminusApi
   current_version=$(git describe --tags --abbrev=0)
