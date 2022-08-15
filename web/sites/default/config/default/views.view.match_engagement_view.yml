@@ -9,7 +9,7 @@ dependencies:
     - field.storage.node.field_researcher
     - field.storage.node.field_status
     - field.storage.node.field_tags
-    - image.style.medium
+    - image.style.landscape
     - node.type.match_engagement
   module:
     - image
@@ -213,7 +213,7 @@ display:
           type: image
           settings:
             image_link: ''
-            image_style: medium
+            image_style: landscape
             image_loading:
               attribute: lazy
           group_column: ''
@@ -489,7 +489,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div>{{ field_project_image }}</div>\r\n<div>{{ title }}</div>\r\n<div>{{ field_researcher }}</div>\r\n<div>{{ field_institution }}</div>\r\n<div class='visually-hidden field--type-text-with-summary'>{{ body }}</div>\r\n<div class='visually-hidden field--name-field-tags'>{{ field_tags }}</div>"
+            text: "<div class=\"card\">\r\n<div class=\"card-photo\">\r\n{{ field_project_image }} \r\n{% if field_status == 'Recruiting' %}\r\n<div class=\"engagement-status\">{{ field_status }}</div>\r\n{% endif %}\r\n</div>\r\n<div class=\"card-body\">\r\n<h5 class=\"card-title\">{{ title }}</h5>\r\n<div class=\"card-text\">{{ field_researcher }}</div>\r\n<div class=\"card-text\">{{ field_institution }}</div>\r\n<div class=\"card-text visually-hidden field--type-text-with-summary\">{{ body }}</div>\r\n<div class=\"card-text visually-hidden field--name-field-tags\">{{ field_tags }}</div>\r\n</div>\r\n<div class=\"card-footer text-center\"></div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -611,6 +611,10 @@ display:
             operator_list: {  }
       style:
         type: default
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
       row:
         type: fields
         options:
