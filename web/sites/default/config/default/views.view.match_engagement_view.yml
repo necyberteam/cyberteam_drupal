@@ -9,7 +9,7 @@ dependencies:
     - field.storage.node.field_researcher
     - field.storage.node.field_status
     - field.storage.node.field_tags
-    - image.style.medium
+    - image.style.landscape
     - node.type.match_engagement
   module:
     - image
@@ -213,7 +213,7 @@ display:
           type: image
           settings:
             image_link: ''
-            image_style: medium
+            image_style: landscape
             image_loading:
               attribute: lazy
           group_column: ''
@@ -412,7 +412,7 @@ display:
           delta_offset: 0
           delta_reversed: false
           delta_first_last: false
-          multi_type: separator
+          multi_type: ul
           separator: ', '
           field_api_classes: false
         body:
@@ -489,7 +489,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div>{{ field_project_image }}</div>\r\n<div>{{ title }}</div>\r\n<div>{{ field_researcher }}</div>\r\n<div>{{ field_institution }}</div>\r\n<div class='visually-hidden field--type-text-with-summary'>{{ body }}</div>\r\n<div class='visually-hidden field--name-field-tags'>{{ field_tags }}</div>"
+            text: "<div class=\"card\">\r\n<div class=\"card-photo\">\r\n{{ field_project_image }} \r\n{% if field_status == 'Recruiting' %}\r\n<div class=\"engagement-status\">{{ field_status }}</div>\r\n{% endif %}\r\n</div>\r\n<div class=\"card-body\">\r\n<h5 class=\"card-title\">{{ title }}</h5>\r\n<div class=\"card-text\">{{ field_researcher }}</div>\r\n<div class=\"card-text\">{{ field_institution }}</div>\r\n<div class=\"card-text visually-hidden field--type-text-with-summary\">{{ body }}</div>\r\n<div class=\"card-text visually-hidden field--name-field-tags\">{{ field_tags }}</div>\r\n</div>\r\n<div class=\"card-footer text-center\"></div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -611,6 +611,10 @@ display:
             operator_list: {  }
       style:
         type: default
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
       row:
         type: fields
         options:
@@ -657,7 +661,7 @@ display:
     display_plugin: block
     position: 2
     display_options:
-      title: 'Recent Engagements'
+      title: 'Sample Engagements from the Northeast and CAREERS Cyberteams'
       pager:
         type: some
         options:
@@ -744,7 +748,7 @@ display:
       display_description: ''
       use_more: true
       use_more_always: true
-      use_more_text: more
+      use_more_text: 'See All'
       display_extenders: {  }
     cache_metadata:
       max-age: -1
@@ -766,6 +770,7 @@ display:
     display_plugin: block
     position: 3
     display_options:
+      title: 'MATCHPlus Engagements'
       arguments:
         uid:
           id: uid
@@ -804,6 +809,7 @@ display:
           break_phrase: false
           not: false
       defaults:
+        title: false
         relationships: false
         arguments: false
       relationships: {  }
