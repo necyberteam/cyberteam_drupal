@@ -1,0 +1,27 @@
+uuid: bb7e4eae-f993-40c6-bedf-5d125ae1a8b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.access_news
+    - node.type.affinity_group
+  module:
+    - node
+    - recurring_events
+id: affinity_group_leader
+label: 'Affinity Group Leader'
+weight: 11
+is_admin: null
+permissions:
+  - 'add eventseries entity'
+  - 'clone eventinstance entity'
+  - 'clone eventseries entity'
+  - 'create access_news content'
+  - 'delete own access_news content'
+  - 'delete own eventinstance entity'
+  - 'delete own eventseries entity'
+  - 'edit own access_news content'
+  - 'edit own affinity_group content'
+  - 'edit own eventinstance entity'
+  - 'edit own eventseries entity'
+  - 'view own unpublished content'
