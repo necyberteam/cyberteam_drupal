@@ -80,7 +80,7 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 5
+    weight: 6
     region: content
   field_completion_date_goal_1:
     type: datetime_plain
@@ -88,7 +88,7 @@ content:
     settings:
       timezone_override: ''
     third_party_settings: {  }
-    weight: 4
+    weight: 5
     region: content
   field_institution:
     type: string
@@ -103,7 +103,7 @@ content:
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 3
+    weight: 4
     region: content
   field_researcher:
     type: entity_reference_label
@@ -111,7 +111,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 2
+    weight: 3
     region: content
   field_status:
     type: list_default
@@ -119,6 +119,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 1
+    region: content
+  field_urgency:
+    type: list_default
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
     region: content
 hidden:
   field_actual_completion_date_1: true
@@ -170,7 +177,6 @@ hidden:
   field_student_learning: true
   field_students: true
   field_tags: true
-  field_urgency: true
   field_what_is_the_impact_on_othe: true
   field_what_is_the_impact_on_the_: true
   field_what_match_will_learn: true
