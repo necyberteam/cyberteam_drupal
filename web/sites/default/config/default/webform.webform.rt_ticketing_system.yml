@@ -1,7 +1,9 @@
 uuid: 007acbd7-4acd-448c-b007-899bec752a66
 langcode: en
 status: open
-dependencies: {  }
+dependencies:
+  module:
+    - ticketing
 weight: 0
 open: null
 close: null
@@ -59,6 +61,8 @@ elements: |-
         visible:
           ':input[name="is_your_issue_related_to_allocations_"]':
             value: 'No'
+      '#access_create_roles':
+        - authenticated
       '#access_update_roles':
         - authenticated
       '#access_view_roles':
@@ -277,41 +281,13 @@ access:
     users: {  }
     permissions: {  }
 handlers:
-  test_rt_ticket_:
-    id: email
-    handler_id: test_rt_ticket_
-    label: 'RT ticket email'
+  ticketing_send_email:
+    id: 'Ticketing Send Email'
+    handler_id: ticketing_send_email
+    label: 'Ticketing Send Email'
     notes: ''
     status: true
     conditions: {  }
     weight: 0
-    settings:
-      states:
-        - completed
-      to_mail: jasperjunk@gmail.com
-      to_options: {  }
-      bcc_mail: ''
-      bcc_options: {  }
-      cc_mail: ''
-      cc_options: {  }
-      from_mail: '[webform_submission:values:email:raw]'
-      from_options: {  }
-      from_name: '[webform_submission:values:first_name] [webform_submission:values:last_name]'
-      reply_to: ''
-      return_path: ''
-      sender_mail: ''
-      sender_name: ''
-      subject: '[webform_submission:values:subject:raw]'
-      body: "&nbsp;<br />\r\n[webform_submission:values:problem_description:nolabel]<br />\r\n<br />\r\nCF_CATEGORIES:&nbsp; [webform_submission:values:category]<br />\r\n<br />\r\nCF_TAGS: [webform_submission:values:tags]<br />\r\nCF_TAGS: [webform_submission:values:tags.values]<br />\r\nCF_TAGS (nolabel): [webform_submission:values:tags:nolabel]<br />\r\nCF_TAGS (raw): [webform_submission:values:tags:raw]<br />\r\n<br />\r\nCF_CC: [webform_submission:values:cc]<br />\r\n<br />\r\n<br />\r\nSubmit a ticket from [current-user:field_user_first_name:value] [current-user:field_user_last_name:value] ([current-user:mail])<br />\r\n<br />\r\n<br />\r\nSubmitted form values below<br />\r\n===========================<br />\r\n<br />\r\nfirst_name-&gt; [webform_submission:values:first_name]<br />\r\nlast_name-&gt; [webform_submission:values:last_name]<br />\r\nemail-&gt; [webform_submission:values:email]<br />\r\ncc-&gt; [webform_submission:values:cc]<br />\r\ncategory-&gt; [webform_submission:values:category]<br />\r\ntags-&gt; [webform_submission:values:tags]<br />\r\nsubject-&gt; [webform_submission:values:subject]<br />\r\nproblem_description-&gt; [webform_submission:values:problem_description]<br />\r\nattachment-&gt; [webform_submission:values:attachment]"
-      excluded_elements: {  }
-      ignore_access: false
-      exclude_empty: true
-      exclude_empty_checkbox: false
-      exclude_attachments: false
-      html: true
-      attachments: true
-      twig: false
-      theme_name: ''
-      parameters: {  }
-      debug: false
+    settings: {  }
 variants: {  }
