@@ -1,9 +1,7 @@
 uuid: 007acbd7-4acd-448c-b007-899bec752a66
 langcode: en
 status: open
-dependencies:
-  module:
-    - ticketing
+dependencies: {  }
 weight: 0
 open: null
 close: null
@@ -75,16 +73,22 @@ elements: |-
     '#type': textarea
     '#title': 'Problem description'
     '#required': true
-  tags:
-    '#type': webform_term_select
+  tag2:
+    '#type': webform_entity_select
     '#title': Tags
     '#multiple': true
     '#description': 'Help us answer your ticket by tagging your issue with relevant tags.'
-    '#description_display': before
+    '#sort_options': true
     '#select2': true
     '#required': true
-    '#vocabulary': tags
-    '#breadcrumb_delimiter': ''
+    '#target_type': taxonomy_term
+    '#selection_handler': 'default:taxonomy_term'
+    '#selection_settings':
+      target_bundles:
+        tags: tags
+      sort:
+        field: name
+        direction: ASC
   cc:
     '#type': textfield
     '#title': CC
