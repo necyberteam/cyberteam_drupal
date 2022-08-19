@@ -31,13 +31,6 @@ visibility:
     negate: false
     context_mapping: {  }
     pages: "/organizations\r\n<front>"
-  domain:
-    id: domain
-    negate: false
-    context_mapping:
-      domain: '@domain.current_domain_context:domain'
-    domains:
-      coco_cyberinfrastructure_org: coco_cyberinfrastructure_org
   user_role:
     id: user_role
     negate: false
@@ -45,3 +38,10 @@ visibility:
       user: '@user.current_user_context:current_user'
     roles:
       authenticated: authenticated
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      coco_cyberinfrastructure_org: coco_cyberinfrastructure_org
