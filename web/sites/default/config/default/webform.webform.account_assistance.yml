@@ -1,7 +1,9 @@
 uuid: 0a0d2509-c97a-4e49-8d4f-5b513953964a
 langcode: en
 status: open
-dependencies: {  }
+dependencies:
+  module:
+    - ticketing
 weight: 0
 open: null
 close: null
@@ -13,6 +15,12 @@ title: 'Having trouble logging in?'
 description: 'A form to request assistance for trouble logging in'
 category: ''
 elements: |-
+  please_see_identityaccess:
+    '#type': webform_markup
+    '#markup': |-
+      Please check&nbsp;<a href="https://identity.access-ci.org/">identity.access-ci.org</a> for information about&nbsp;password reset, username reminder, MFA info, security page and general FAQ.<br />
+      <br />
+      For further help, you may help submit a request below.
   your_name:
     '#type': textfield
     '#title': 'Your Name'
@@ -214,41 +222,13 @@ access:
     users: {  }
     permissions: {  }
 handlers:
-  trouble_logging_in_email:
-    id: email
-    handler_id: trouble_logging_in_email
-    label: 'Trouble Logging In Email'
+  account_support_add_header:
+    id: 'Account Support Add Header'
+    handler_id: account_support_add_header
+    label: 'Account Support Add Header'
     notes: ''
     status: true
     conditions: {  }
     weight: 0
-    settings:
-      states:
-        - completed
-      to_mail: andrew@elytra.net
-      to_options: {  }
-      bcc_mail: ''
-      bcc_options: {  }
-      cc_mail: ''
-      cc_options: {  }
-      from_mail: _default
-      from_options: {  }
-      from_name: _default
-      reply_to: ''
-      return_path: ''
-      sender_mail: ''
-      sender_name: ''
-      subject: _default
-      body: _default
-      excluded_elements: {  }
-      ignore_access: false
-      exclude_empty: true
-      exclude_empty_checkbox: false
-      exclude_attachments: false
-      html: true
-      attachments: false
-      twig: false
-      theme_name: ''
-      parameters: {  }
-      debug: false
+    settings: {  }
 variants: {  }
