@@ -133,3 +133,13 @@ set footer_classes = ' ' ~
   </div>
 </footer>
 {% endif %}
+<script>
+  window.onUsersnapCXLoad = function(api) {
+    api.init();
+  }
+  var script = document.createElement('script');
+  script.defer = 1;
+  script.src = 'https://widget.usersnap.com/global/load/7c797226-874a-4785-aac2-c91bdc27b084?onload=onUsersnapCXLoad';
+  document.getElementsByTagName('head')[0].appendChild(script);
+</script>
+
