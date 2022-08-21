@@ -31,6 +31,13 @@ visibility:
     negate: false
     context_mapping: {  }
     pages: '<front>'
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated
   domain:
     id: domain
     negate: false
@@ -46,10 +53,3 @@ visibility:
       mines_cyberinfrastructure_org: mines_cyberinfrastructure_org
       campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
       trecis_cyberinfrastructure_org: trecis_cyberinfrastructure_org
-  user_role:
-    id: user_role
-    negate: false
-    context_mapping:
-      user: '@user.current_user_context:current_user'
-    roles:
-      authenticated: authenticated
