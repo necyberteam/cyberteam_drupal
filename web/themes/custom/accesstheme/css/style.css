@@ -11484,6 +11484,19 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
   width: fit-content;
 }
 
+.btn a, #block-views-block-match-engagement-view-block-1 .more-link a, #block-views-block-match-engagement-view-block-2 .more-link a, button.link a, .button a, .node-preview-container .node-preview-backlink a {
+  text-decoration: none !important;
+}
+
+.btn-outline-secondary a {
+  font-size: 500 !important;
+  color: var(--bs-secondary);
+}
+
+.btn-outline-secondary:hover a {
+  color: var(--bs-light) !important;
+}
+
 @media (max-width: 800px) {
   .sui-layout-sidebar-toggle {
     display: block !important;
@@ -11603,10 +11616,16 @@ fieldset.teal.form-item .media-library-selection .media-library-item.media-libra
   font-size: 0.8rem;
 }
 
-/* legacy stuff */
+/* Affinity Groups */
 .view-affinity-group .view-content {
   display: flex;
   flex-wrap: wrap;
+}
+.view-affinity-group .view-content h1, .view-affinity-group .view-content .h1 {
+  display: none;
+}
+.view-affinity-group .view-content #people {
+  display: none;
 }
 
 /* ticketing */
@@ -11650,6 +11669,11 @@ fieldset.teal.form-item .media-library-selection .media-library-item.media-libra
 }
 .dataTable td > p:last-of-type {
   margin-bottom: 0;
+}
+
+/* alerts */
+.alert {
+  margin-top: 1rem;
 }
 
 /*# sourceMappingURL=style.css.map */
