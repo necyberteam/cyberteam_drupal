@@ -237,6 +237,16 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
 .btn, .button, a.button {
     width: fit-content;
 }
+.btn a {
+    text-decoration: none !important; 
+}
+.btn-outline-secondary a {
+    font-size: 500 !important;
+    color: var(--bs-secondary);
+}
+.btn-outline-secondary:hover a {
+    color: var(--bs-light) !important;
+}
 @media (max-width: 800px) {
     .sui-layout-sidebar-toggle {
         display: block !important;
@@ -347,10 +357,16 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
         }
     }
 }
-/* legacy stuff */
+/* Affinity Groups */
 .view-affinity-group .view-content {
     display: flex;
     flex-wrap: wrap;
+    h1 {
+        display: none; // title is in title bar above
+    }
+    #people {
+        display: none;
+    }
 }
 /* ticketing */
 .webform-submission-rt-ticketing-system-form, .webform-submission-account-assistance-form {
