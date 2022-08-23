@@ -21,7 +21,7 @@ Feature: test navigation menus
     Then I should see "Get Research Computing Help"
     When I am on the homepage
     When I click "Projects"
-    Then I should see "Projects/Engagement"
+    Then I should see "Project"
     When I am on the homepage
     When I click "Tags"
     Then I should see "Tags"
