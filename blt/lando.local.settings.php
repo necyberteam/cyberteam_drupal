@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Local development override configuration feature.
@@ -51,7 +50,6 @@ $settings['update_free_access'] = TRUE;
  */
 assert_options(ASSERT_ACTIVE, TRUE);
 Handle::register();
-
 /**
  * Disable the render cache (this includes the page cache).
  *
@@ -93,7 +91,6 @@ $settings['extension_discovery_scan_tests'] = FALSE;
  * provided by Drupal core in core.services.yml.
  * See https://www.drupal.org/node/2754947
  */
-
 // $settings['cache']['bins']['bootstrap'] = 'cache.backend.null';
 // $settings['cache']['bins']['discovery'] = 'cache.backend.null';
 // $settings['cache']['bins']['config'] = 'cache.backend.null';
@@ -106,7 +103,6 @@ $settings['extension_discovery_scan_tests'] = FALSE;
  * using these parameters in a request to rebuild.php.
  */
 $settings['rebuild_access'] = FALSE;
-
 /**
  * Skip file system permissions hardening.
  *

@@ -14,5 +14,5 @@ Feature: test amp domain
     Given the cache has been cleared
     When I am on the homepage
     Then I should get a "200" HTTP response
-    Then I should see "MATCH is a new approach to providing cost-effective scaled support"
+    Then I should see " Science Gateways Community Institute"
 

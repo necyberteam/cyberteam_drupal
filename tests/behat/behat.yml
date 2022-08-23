@@ -6,7 +6,7 @@ default:
   extensions:
     Behat\MinkExtension:
       # configure the base url for your site
-      base_url: https://cyberteam.lndo.site
+      base_url: http://cyberteam.lndo.site
       default_session: goutte
       browser_name: chrome
       javascript_session: default
@@ -22,4 +22,4 @@ default:
       screenshot_taking_mode: failed_steps
       image_drivers:
         local:
-          screenshot_directory: /tmp
+          screenshot_directory: "%paths.base%/screenshots"
