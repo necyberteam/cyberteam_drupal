@@ -34,7 +34,7 @@ jobs:
       - name: Start Lando
         run: |
           echo "$lando_env" > .env
-          echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> .env
+          echo "GITHUB_TOKEN=$GITHUB_ACTOR:$GITHUB_TOKEN" >> .env
           lando destroy -y
           lando start && lando xdebug-off
         env:
