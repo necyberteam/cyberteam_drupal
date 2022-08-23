@@ -34,7 +34,7 @@ jobs:
       - name: Start Lando
         run: |
           echo "$lando_env" > .env
-          echo "GITHUB_TOKEN=$GITHUB_ACTOR:$GITHUB_TOKEN" >> .env
+          echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> .env
           lando destroy -y
           lando start && lando xdebug-off
         env:
@@ -57,6 +57,7 @@ jobs:
           else
             wget -O backups/site.sql.gz '$database'
           fi" > pull_db.sh
+          cat pull_db.sh
           chmod u+x pull_db.sh
           ./pull_db.sh
           rm pull_db.sh
