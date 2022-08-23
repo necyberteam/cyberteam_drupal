@@ -67,9 +67,6 @@ dependencies:
     - node.type.match_engagement
   module:
     - datetime
-    - file
-    - image
-    - link
     - options
     - text
     - user
@@ -83,463 +80,106 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 101
-    region: content
-  field_actual_completion_date_1:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 146
-    region: content
-  field_actual_completion_date_2:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 150
-    region: content
-  field_actual_completion_date_3:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 154
-    region: content
-  field_actual_completion_date_4:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 158
+    weight: 6
     region: content
   field_completion_date_goal_1:
-    type: datetime_default
-    label: above
+    type: datetime_plain
+    label: inline
     settings:
       timezone_override: ''
-      format_type: medium
     third_party_settings: {  }
-    weight: 145
-    region: content
-  field_completion_date_goal_2:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 149
-    region: content
-  field_completion_date_goal_3:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 153
-    region: content
-  field_completion_date_goal_4:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 157
-    region: content
-  field_consultant:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 162
-    region: content
-  field_education:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 140
-    region: content
-  field_email_user:
-    type: boolean
-    label: above
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-    weight: 142
-    region: content
-  field_git_contribution:
-    type: link
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    weight: 124
-    region: content
-  field_hpc_resources_needed:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 110
+    weight: 5
     region: content
   field_institution:
     type: string
-    label: above
+    label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 102
-    region: content
-  field_is_there_an_impact_on_info:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 132
-    region: content
-  field_is_there_an_impact_on_inst:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 131
-    region: content
-  field_is_there_an_impact_on_soci:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 134
-    region: content
-  field_is_there_an_impact_on_tech:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 133
-    region: content
-  field_is_there_an_impact_physica:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 130
-    region: content
-  field_launch_presentation:
-    type: file_default
-    label: above
-    settings:
-      use_description_as_link_text: true
-    third_party_settings: {  }
-    weight: 114
-    region: content
-  field_launch_presentation_date:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 115
-    region: content
-  field_lessons_learned:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 135
-    region: content
-  field_mentor:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 121
-    region: content
-  field_mileston:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 106
-    region: content
-  field_milestone_actual_date:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 109
-    region: content
-  field_milestone_completion_date:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 108
-    region: content
-  field_milestone_description:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 159
-    region: content
-  field_milestone_description_1:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 144
-    region: content
-  field_milestone_description_2:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 148
-    region: content
-  field_milestone_description_3:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 152
-    region: content
-  field_milestone_description_4:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 156
-    region: content
-  field_milestone_title_1:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 143
-    region: content
-  field_milestone_title_2:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 147
-    region: content
-  field_milestone_title_3:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 151
-    region: content
-  field_milestone_title_4:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 155
-    region: content
-  field_node_type:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 161
-    region: content
-  field_notes:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 139
-    region: content
-  field_notes_to_author:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 160
-    region: content
-  field_overall_results:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 136
-    region: content
-  field_planned_portal_contributio:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 125
-    region: content
-  field_planned_publications:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 126
-    region: content
-  field_programming_skill_level:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 141
-    region: content
-  field_project_deliverables:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 105
-    region: content
-  field_project_image:
-    type: image
-    label: above
-    settings:
-      image_link: ''
-      image_style: ''
-      image_loading:
-        attribute: lazy
-    third_party_settings: {  }
-    weight: 104
-    region: content
-  field_qualifications:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 111
+    weight: 0
     region: content
   field_requested_engagement:
     type: list_default
-    label: above
+    label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 103
+    weight: 4
     region: content
   field_researcher:
     type: entity_reference_label
-    label: above
+    label: inline
     settings:
       link: true
     third_party_settings: {  }
-    weight: 118
+    weight: 3
     region: content
   field_status:
     type: list_default
-    label: above
+    label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 138
-    region: content
-  field_student_learning:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 112
-    region: content
-  field_students:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 122
-    region: content
-  field_tags:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 120
+    weight: 1
     region: content
   field_urgency:
     type: list_default
-    label: above
+    label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 119
-    region: content
-  field_what_is_the_impact_on_othe:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 129
-    region: content
-  field_what_is_the_impact_on_the_:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 128
-    region: content
-  field_what_match_will_learn:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 127
-    region: content
-  field_wrap_presentation:
-    type: file_default
-    label: above
-    settings:
-      use_description_as_link_text: true
-    third_party_settings: {  }
-    weight: 116
-    region: content
-  field_wrap_presentation_date:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 117
-    region: content
-  links:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 100
+    weight: 2
     region: content
 hidden:
+  field_actual_completion_date_1: true
+  field_actual_completion_date_2: true
+  field_actual_completion_date_3: true
+  field_actual_completion_date_4: true
+  field_completion_date_goal_2: true
+  field_completion_date_goal_3: true
+  field_completion_date_goal_4: true
+  field_consultant: true
   field_domain_access: true
   field_domain_all_affiliates: true
   field_domain_source: true
+  field_education: true
+  field_email_user: true
+  field_git_contribution: true
+  field_hpc_resources_needed: true
+  field_is_there_an_impact_on_info: true
+  field_is_there_an_impact_on_inst: true
+  field_is_there_an_impact_on_soci: true
+  field_is_there_an_impact_on_tech: true
+  field_is_there_an_impact_physica: true
+  field_launch_presentation: true
+  field_launch_presentation_date: true
+  field_lessons_learned: true
+  field_mentor: true
+  field_mileston: true
+  field_milestone_actual_date: true
+  field_milestone_completion_date: true
+  field_milestone_description: true
+  field_milestone_description_1: true
+  field_milestone_description_2: true
+  field_milestone_description_3: true
+  field_milestone_description_4: true
+  field_milestone_title_1: true
+  field_milestone_title_2: true
+  field_milestone_title_3: true
+  field_milestone_title_4: true
+  field_node_type: true
+  field_notes: true
+  field_notes_to_author: true
+  field_overall_results: true
+  field_planned_portal_contributio: true
+  field_planned_publications: true
+  field_programming_skill_level: true
+  field_project_deliverables: true
+  field_project_image: true
+  field_qualifications: true
+  field_student_learning: true
+  field_students: true
+  field_tags: true
+  field_what_is_the_impact_on_othe: true
+  field_what_is_the_impact_on_the_: true
+  field_what_match_will_learn: true
+  field_wrap_presentation: true
+  field_wrap_presentation_date: true
+  links: true

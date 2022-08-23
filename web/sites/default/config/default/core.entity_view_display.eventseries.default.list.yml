@@ -1,0 +1,51 @@
+uuid: 7c89bfa7-299a-4b78-a5be-318fee939b63
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.eventseries.list
+    - field.field.eventseries.default.field_affinity_group
+    - field.field.eventseries.default.field_contact
+    - field.field.eventseries.default.field_location
+    - field.field.eventseries.default.field_registration
+    - field.field.eventseries.default.field_tags
+    - recurring_events.eventseries_type.default
+  module:
+    - text
+_core:
+  default_config_hash: qgVOKX0HFcT9mXJl4D8tpLQdtI_5GGyVXp7xFZ4rYa8
+id: eventseries.default.list
+targetEntityType: eventseries
+bundle: default
+mode: list
+content:
+  body:
+    type: text_trimmed
+    label: hidden
+    settings:
+      trim_length: 200
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  consecutive_recurring_date: true
+  custom_date: true
+  daily_recurring_date: true
+  event_instances: true
+  event_registration: true
+  field_affinity_group: true
+  field_contact: true
+  field_location: true
+  field_registration: true
+  field_tags: true
+  monthly_recurring_date: true
+  recur_type: true
+  weekly_recurring_date: true

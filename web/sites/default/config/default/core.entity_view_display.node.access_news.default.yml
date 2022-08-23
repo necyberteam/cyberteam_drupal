@@ -1,0 +1,72 @@
+uuid: 829d0868-8fa1-4d37-9b0b-071f99977694
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.access_news.body
+    - field.field.node.access_news.field_affinity_group
+    - field.field.node.access_news.field_domain_access
+    - field.field.node.access_news.field_domain_all_affiliates
+    - field.field.node.access_news.field_domain_source
+    - field.field.node.access_news.field_image
+    - field.field.node.access_news.field_published_date
+    - field.field.node.access_news.field_tags
+    - node.type.access_news
+  module:
+    - datetime
+    - image
+    - text
+    - user
+id: node.access_news.default
+targetEntityType: node
+bundle: access_news
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_affinity_group:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_published_date:
+    type: datetime_default
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_tags:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  links: true

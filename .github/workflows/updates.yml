@@ -57,6 +57,7 @@ jobs:
           else
             wget -O backups/site.sql.gz '$database'
           fi" > pull_db.sh
+          cat pull_db.sh
           chmod u+x pull_db.sh
           ./pull_db.sh
           rm pull_db.sh

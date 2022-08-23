@@ -51,3 +51,10 @@ jobs:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
           gh_user: ${{ secrets.GH_USER }}
           gh_repo: necyberteam/cyberteam_drupal
+      - uses: ./.github/actions/dingorunner
+        env:
+          runner: deploy
+          terminus_api: ${{ secrets.TERMINUS_API }}
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+          site_name: ${{ secrets.TERMINUS_SITE_NAME }}
+          env: test

@@ -1,0 +1,24 @@
+uuid: 54a318a5-4076-49bf-9c1e-df9b934243fd
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - recurring_events
+    - taxonomy
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: eventseries.field_tags
+field_name: field_tags
+entity_type: eventseries
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

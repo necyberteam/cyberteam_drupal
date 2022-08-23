@@ -1,0 +1,29 @@
+uuid: 0788974b-d15d-48c5-92a4-8b64a2f4fd39
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tags
+    - node.type.access_news
+    - taxonomy.vocabulary.tags
+id: node.access_news.field_tags
+field_name: field_tags
+entity_type: node
+bundle: access_news
+label: Tags
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tags: tags
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -56,45 +56,32 @@ set footer_classes = ' ' ~
   (b5_footer_bg_schema != 'none' ? " bg-#{b5_footer_bg_schema}" : ' ')
 %}
 <header>
-    <div class="bg-dark">
+    <div class="bg-dark-teal">
         <div class="container">
             {{ page.header }}
 
             <nav class="{{ nav_classes }} d-flex flex-column">
-                <div class="{{ b5_top_container }} d-flex w-100">
-                    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse flex-wrap" id="navbarSupportedContent">
-                        {{ page.nav_main }}
-                    </div>
-
+                <div class="{{ b5_top_container }} d-flex w-100 py-1 py-md-0">
+                    {{ page.nav_main }}
                     {{ page.nav_additional }}
                 </div>
             </nav>
         </div>
     </div>
     <div class="container">
-        <div class="{{ br_top_container }} d-flex bg-white w-100">
+        <div class="{{ br_top_container }} d-flex justify-content-between align-items-center bg-white w-100 py-2 py-md-0">
+          <div class="d-flex align-items-center">
+            {# <img src="/themes/custom/accesstheme/assets/NSF_4-Color_bitmap_Logo.png" alt="NSF logo" width="60" height="60"/> #}
             {{ page.nav_branding }}
+          </div>
+          <a href="/outages" class="btn btn-outline-secondary">OUTAGES</a>
         </div>
     </div>
-    <div class="bg-light">
+    <div class="bg-med-teal">
         <div class="container">
             <nav class="{{ nav_classes }} d-flex flex-column">
-                <div class="{{ b5_top_container }} d-flex w-100">
-                    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarSupportedContent" aria-controls="secondaryNavbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse justify-content-md-end flex-wrap" id="secondaryNavbarSupportedContent">
+                <div class="{{ b5_top_container }} d-flex justify-content-end w-100 py-1 py-md-0">
                         {{ page.sub_nav }}
-                    </div>
                 </div>
             </nav>
             </div>
@@ -105,15 +92,15 @@ set footer_classes = ' ' ~
   <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
 
   {%
-  set sidebar_first_classes = (page.sidebar_first and page.sidebar_second) ? 'col-12 col-sm-6 col-lg-3' : 'col-12 col-lg-3'
+  set sidebar_first_classes = (page.sidebar_first and page.sidebar_second) ? 'col-12 col-sm-6 col-lg-4' : 'col-12 col-lg-4'
   %}
 
   {%
-  set sidebar_second_classes = (page.sidebar_first and page.sidebar_second) ? 'col-12 col-sm-6 col-lg-3' : 'col-12 col-lg-3'
+  set sidebar_second_classes = (page.sidebar_first and page.sidebar_second) ? 'col-12 col-sm-6 col-lg-4' : 'col-12 col-lg-4'
   %}
 
   {%
-  set content_classes = (page.sidebar_first and page.sidebar_second) ? 'col-12 col-lg-6' : ((page.sidebar_first or page.sidebar_second) ? 'col-12 col-lg-9' : 'col-12' )
+  set content_classes = (page.sidebar_first and page.sidebar_second) ? 'col-12 col-lg-6' : ((page.sidebar_first or page.sidebar_second) ? 'col-12 col-lg-8' : 'col-12' )
    %}
 
 
@@ -145,3 +132,13 @@ set footer_classes = ' ' ~
   </div>
 </footer>
 {% endif %}
+<script>
+  window.onUsersnapCXLoad = function(api) {
+    api.init();
+  }
+  var script = document.createElement('script');
+  script.defer = 1;
+  script.src = 'https://widget.usersnap.com/global/load/7c797226-874a-4785-aac2-c91bdc27b084?onload=onUsersnapCXLoad';
+  document.getElementsByTagName('head')[0].appendChild(script);
+</script>
+

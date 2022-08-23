@@ -35,7 +35,7 @@ jobs:
           terminus_api: ${{ secrets.TERMINUS_API }}
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
           site_name: ${{ secrets.TERMINUS_SITE_NAME }}
-          env: live
+          env: test
       - name: Sync DB
         run: |
           lando composer config -g github-oauth.github.com $gh_token

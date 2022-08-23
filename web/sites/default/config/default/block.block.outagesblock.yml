@@ -1,0 +1,25 @@
+uuid: 29bb1fed-a7e0-41be-ac4d-126a5a9e5fb5
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_outages
+    - system
+  theme:
+    - accesstheme
+id: outagesblock
+theme: accesstheme
+region: content
+weight: 0
+provider: null
+plugin: outages_block
+settings:
+  id: outages_block
+  label: 'Outages block'
+  label_display: '0'
+  provider: access_outages
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /outages
