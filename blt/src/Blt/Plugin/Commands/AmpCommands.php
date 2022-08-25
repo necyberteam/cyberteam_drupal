@@ -60,10 +60,7 @@ AMP_USERNAME=$username'>.env");
         'cyberteam',
         'gpc',
         'ky',
-        'mines',
         'rmacc',
-        'sweeter',
-        'trecis',
         'usrse'
       ];
     }
