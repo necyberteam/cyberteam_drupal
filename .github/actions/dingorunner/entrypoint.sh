@@ -61,5 +61,5 @@ then
   git config --global user.name \"$username\"
   composer config -g github-oauth.github.com $gh_token
   composer install --no-dev --ignore-platform-reqs
-  $blt amp:ciupdate "$drupal_update"
+  $blt amp:ciupdate "$drupal_update" --no-interaction --verbose
 fi
