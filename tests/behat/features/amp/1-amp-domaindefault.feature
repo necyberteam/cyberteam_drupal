@@ -15,4 +15,3 @@ Feature: test amp domain
     When I am on the homepage
     Then I should get a "200" HTTP response
     Then I should see "Supporting the ACCESS Research Community"
-
