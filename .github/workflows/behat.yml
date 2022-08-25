@@ -49,7 +49,7 @@ jobs:
           composer config -g github-oauth.github.com $gh_token
           lando composer install --ignore-platform-reqs
           echo "#! /bin/bash
-          if [[ '$database' != '' ]]
+          if [[ '$database' == '' ]]
           then
             lando blt gh:pulldb
           else
@@ -71,7 +71,7 @@ jobs:
           mkdir web/sites/default/files
           chmod 777 web/sites/default/files
           echo "#! /bin/bash
-          if [[ '$database' == '' ]]
+          if [[ '$database' != '' ]]
           then
             lando drush sql-sanitize --sanitize-password -y
           fi" > clean_db.sh
@@ -88,14 +88,13 @@ jobs:
           vendor/bin/blt amp:behat $sites
         env:
           sites: ${{ github.event.inputs.sites }}
-      - name: Slack Notification
+      - name: Slack Notification Success
         uses: rtCamp/action-slack-notify@v2
-        if: always()
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: 'success :rocket:'
           SLACK_TITLE: 'Github action: behat'
-      - name: Slack Notification
+      - name: Slack Notification Fail
         uses: rtCamp/action-slack-notify@v2
         if: failure()
         env:
