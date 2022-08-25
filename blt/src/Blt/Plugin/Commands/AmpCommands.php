@@ -162,8 +162,8 @@ AMP_USERNAME=$username'>.env");
       $version = $update_matches[2][$key];
       $update_list .= "$seperator$update_match: $version";
     }
-      $this->_exec("lando drush updatedb -y");
-      $this->_exec("lando drush cr");
+      #$this->_exec("lando drush updatedb -y");
+      #$this->_exec("lando drush cr");
     if ($log > 0) {
       $this->say("\n The following updated:
 $update_list");
