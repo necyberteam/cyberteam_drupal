@@ -86,6 +86,6 @@ jobs:
           gh_token: ${{ secrets.GH_TOKEN_REPO }}
       - name: Run them tests
         run: |
-          lando blt amp:behat $sites
+          vendor/bin/blt amp:behat $sites
         env:
           sites: ${{ github.event.inputs.sites }}
