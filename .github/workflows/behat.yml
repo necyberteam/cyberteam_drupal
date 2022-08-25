@@ -87,6 +87,5 @@ jobs:
       - name: Run them tests
         run: |
           lando blt amp:behat $sites
-          exit 0
         env:
           sites: ${{ github.event.inputs.sites }}
