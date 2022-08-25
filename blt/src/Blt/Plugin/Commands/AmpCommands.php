@@ -76,7 +76,7 @@ AMP_USERNAME=$username'>.env");
       # Todo: need to figure out a better way of getting this output.
       $pattern = "/Failed scenarios/i";
       if (preg_match($pattern, $behat)) {
-        $this->_exec("exit 1");
+        throw new Exception('Failed behat tests.');
       }
     }
   }
