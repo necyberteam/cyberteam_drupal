@@ -69,7 +69,9 @@ AMP_USERNAME=$username'>.env");
     $lando_end = $this->lando() == 'lando '?"\"":"";
 
     foreach ($domains as $domain) {
-      $this->_exec($lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end);
+      $behat = $this->_exec($lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end)
+        ->printOutput(false)
+        ->run()->stopOnFail()->getMessage();
       $this->_exec( $this->lando() . 'drush cim -y');
       $this->_exec( $this->lando() . 'drush cr');
     }
