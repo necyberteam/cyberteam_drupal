@@ -11,6 +11,7 @@ on:
         description: 'Pull request number — adds a comment to a pull request (nomally empty)'
 permissions:
   actions: read
+  pull-requests: write
 jobs:
   build:
     name: Run updates
@@ -94,12 +95,14 @@ jobs:
         run: |
           gh pr comment $prnum --body "Behat Test was Successful"
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
       - name: Comment on pull request
         if: "${{ github.event.inputs.prnum != '' &&  failure() }}"
         run: |
           gh pr comment $prnum --body "Behat Test Failed"
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
       - name: Slack Notification Success
         uses: rtCamp/action-slack-notify@v2
