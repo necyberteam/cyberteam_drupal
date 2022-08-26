@@ -28,10 +28,9 @@ jobs:
           message: ${{ github.event.head_commit.message }}
           gh_token: ${{ secrets.GH_TOKEN_REPO }}
       - name: Trigger Behat workflow
-        if: ${{ contains(github.event.head_commit.message, '#behat') }}
+        if: "contains(github.event.head_commit.message, '#behat')"
         run: |
-          pr=$(cat prnum.txt)
-          gh workflow run behat.yml -r "$drupal_update" -f "prnum=$pr"
+          gh workflow run behat.yml -r "$drupal_update"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
           drupal_update: ${{ github.event.inputs.drupal_update }}
