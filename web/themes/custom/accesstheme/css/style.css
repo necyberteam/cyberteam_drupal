@@ -1,4 +1,11 @@
 @charset "UTF-8";
+:root {
+  --accordion-active-color: rgb(23, 82, 99);
+  --accordion-active-bg: rgb(232, 239, 241);
+  --accordion-border-color: rgb(23, 82, 99);
+  --accordion-box-shadow-color: rgba(23, 82, 99, 0.2) ;
+}
+
 /*!
  * Bootstrap v5.1.3 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
@@ -11678,6 +11685,32 @@ fieldset.teal.form-item .media-library-selection .media-library-item.media-libra
 /* alerts */
 .alert {
   margin-top: 1rem;
+}
+
+.accordion {
+  --bs-accordion-color: #000;
+  --bs-accordion-bg: #fff;
+  --bs-accordion-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease;
+  --bs-accordion-border-color: var(--bs-border-color);
+  --bs-accordion-btn-color: var(--bs-primary);
+  --bs-accordion-btn-bg: var(--bs-accordion-bg);
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='var%28--bs-body-color%29'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='var%28--bs-body-color%29'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --bs-accordion-btn-focus-border-color: #8dadb7;
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(26, 91, 110, 0.25);
+  --bs-accordion-active-color: var(--bs-primary);
+  --bs-accordion-active-bg: #e8eff1;
+}
+
+.accordion-button:focus, .accordion-button:not(.collapsed) {
+  border-color: var(--accordion-border-color);
+  box-shadow: 0 0 0 0.25rem var(--accordion-box-shadow-color);
+  color: var(--accordion-active-color);
+  background-color: var(--accordion-active-bg);
+}
+
+.accordion-button:not(.collapsed)::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
 
 /*# sourceMappingURL=style.css.map */
