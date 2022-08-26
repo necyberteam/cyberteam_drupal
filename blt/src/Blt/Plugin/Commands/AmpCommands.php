@@ -148,7 +148,8 @@ AMP_USERNAME=$username'>.env");
       $this->composer_updates('/Upgrading (drupal)\/core \((.* \=\> .*)\)$/mU');
     } elseif (!empty($arrrrgs)) {
       $this->_exec("composer update $arrrrgs --no-scripts >log.txt 2>&1");
-      $this->composer_updates('/Upgrading .*\/(.*)\((.* \=\> .*)\)$/msU');
+      $this->_exec("cat log.txt");
+      $this->composer_updates('/Upgrading .*\/(.*)\((.* \=\> .*)\)$/m');
     }
   }
 
