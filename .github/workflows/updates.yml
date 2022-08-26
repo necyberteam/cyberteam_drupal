@@ -38,7 +38,7 @@ jobs:
           touch prnum.txt
           gh pr create --title "[Composer] $drupal_update" --body "$(git log -1 --pretty=%B)" | sed 's/https:\/\/github.com\/necyberteam\/cyberteam_drupal\/pull\///g' > prnum.txt
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
           drupal_update: ${{ github.event.inputs.drupal_update }}
       - name: Trigger Behat workflow
         run: |
