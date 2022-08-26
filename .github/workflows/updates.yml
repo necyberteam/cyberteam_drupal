@@ -40,11 +40,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
           drupal_update: ${{ github.event.inputs.drupal_update }}
-      - name: Trigger Behat workflow
-        run: |
-          pr=$(cat prnum.txt)
-          echo "gh workflow run behat.yml -r $drupal_update -f prnum=$pr"
-          gh workflow run behat.yml -r "$drupal_update" -f "prnum=$pr"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          drupal_update: ${{ github.event.inputs.drupal_update }}
