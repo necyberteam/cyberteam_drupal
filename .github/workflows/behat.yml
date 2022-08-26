@@ -8,6 +8,8 @@ on:
         required: true
       sites:
         description: 'Specify which sites to test or leave blank to run all tests'
+      prnum:
+        description: 'Pull request number — adds a comment to a pull request (nomally empty)'
 permissions:
   actions: read
 jobs:
@@ -88,6 +90,18 @@ jobs:
           vendor/bin/blt amp:behat $sites
         env:
           sites: ${{ github.event.inputs.sites }}
+      - name: Comment on pull request
+        if: "${{ github.event.inputs.prnum != '' }}"
+        run: |
+          gh pr comment $prnum --body "Behat Test was Successful"
+        env:
+          prnum: ${{ github.event.inputs.prnum }}
+      - name: Comment on pull request
+        if: "${{ github.event.inputs.prnum != '' &&  failure() }}"
+        run: |
+          gh pr comment $prnum --body "Behat Test Failed"
+        env:
+          prnum: ${{ github.event.inputs.prnum }}
       - name: Slack Notification Success
         uses: rtCamp/action-slack-notify@v2
         env:
