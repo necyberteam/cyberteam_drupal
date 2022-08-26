@@ -1,0 +1,33 @@
+uuid: f781d55d-a6cf-4449-88b6-7fb8b4ee55fb
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:21e03464-b9c9-455a-87c1-7506b20bf2b6'
+  module:
+    - block_content
+    - node
+  theme:
+    - nect
+id: articlenodetypelinkbacktonewsview
+theme: nect
+region: content
+weight: 36
+provider: null
+plugin: 'block_content:21e03464-b9c9-455a-87c1-7506b20bf2b6'
+settings:
+  id: 'block_content:21e03464-b9c9-455a-87c1-7506b20bf2b6'
+  label: 'Article node type :: link back to /news view'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      published_articles: published_articles
