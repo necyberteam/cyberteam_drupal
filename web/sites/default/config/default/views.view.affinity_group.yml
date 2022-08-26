@@ -23,7 +23,6 @@ dependencies:
     - flag.flag.affinity_group
     - image.style.3_by_4_forced_dimensions
     - image.style.landscape__480x220__keep_ratio_
-    - image.style.medium
     - node.type.affinity_group
     - user.role.authenticated
   module:
@@ -364,10 +363,26 @@ display:
           empty_zero: false
           hide_alter_empty: true
       pager:
-        type: none
+        type: full
         options:
           offset: 0
           items_per_page: 0
+          total_pages: 1
+          id: 0
+          tags:
+            next: 'Next ›'
+            previous: '‹ Previous'
+            first: '« First'
+            last: 'Last »'
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
+          quantity: null
       exposed_form:
         type: basic
         options:
@@ -486,6 +501,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url.query_args
         - 'user.node_grants:view'
         - user.permissions
       tags:
@@ -972,6 +988,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url.query_args
         - 'user.node_grants:view'
         - user.permissions
       tags:
@@ -1703,6 +1720,7 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - url.query_args
         - user
         - 'user.node_grants:view'
         - user.permissions
@@ -2180,7 +2198,7 @@ display:
         - 'config:field.storage.node.field_affinity_group'
   block_4:
     id: block_4
-    display_title: 'Affinity Groups List View'
+    display_title: 'Affinity Groups Card View'
     display_plugin: block
     position: 8
     display_options:
@@ -2238,7 +2256,7 @@ display:
           type: image
           settings:
             image_link: content
-            image_style: medium
+            image_style: landscape__480x220__keep_ratio_
             image_loading:
               attribute: lazy
           group_column: ''
@@ -2328,7 +2346,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"card\">\r\n<div class=\"card-body\">\r\n<div class=\"col-lg-2 col-md-3 col-sm-4 col-8 mb-3 mb-sm-0 align-center img-fluid float-sm-left\">\r\n{% if field_image %}\r\n{{ field_image }}\r\n{% else %}\r\n<img src=\"https://necyberteam.org/themes/nect-theme/affinity-groups-default.png\" class=\"img-fluid\">\r\n{% endif %}\r\n</div>\r\n<div>\r\n<h6>{{ title }}</h6>\r\n{{ body }}\r\n</div>\r\n</div>\r\n</div>"
+            text: "<div class=\"img-fluid\">\r\n{% if field_image %}\r\n{{ field_image }}\r\n{% else %}\r\n<img src=\"/themes/nect-theme/affinity-groups-default.png\" class=\"img-fluid\">\r\n{% endif %}\r\n<div class=\"card-body\">\r\n<h4>{{ title }}</h4>\r\n{{ body }}\r\n</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -2393,10 +2411,31 @@ display:
           separator: ''
           hide_empty: true
       defaults:
+        use_more: false
+        use_more_always: false
+        use_more_text: false
         style: false
         row: false
         fields: false
-      display_description: ''
+        header: false
+      display_description: 'Card view of affinity groups with pagination'
+      use_more: true
+      use_more_always: true
+      use_more_text: 'All Affinity Groups'
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: "<h2 class=\"text-start text-md-center mx-md-auto\">Affinity Groups</h2>\r\n\r\n<div class=\"text-start text-md-center mx-md-auto text-constrained mb-3\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>\r\n"
+            format: full_html
+          tokenize: false
       display_extenders:
         simple_sitemap_display_extender: {  }
     cache_metadata:
@@ -2404,6 +2443,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url.query_args
         - 'user.node_grants:view'
         - user.permissions
       tags:
@@ -4986,6 +5026,7 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - url.query_args
         - 'user.node_grants:view'
         - user.permissions
       tags:
@@ -5708,6 +5749,7 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - url.query_args
         - 'user.node_grants:view'
         - user.permissions
       tags:
@@ -5716,4 +5758,3 @@ display:
         - 'config:field.storage.user.field_user_first_name'
         - 'config:field.storage.user.field_user_last_name'
         - 'config:field.storage.user.user_picture'
-
