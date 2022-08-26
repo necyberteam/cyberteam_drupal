@@ -2,10 +2,6 @@ name: (M) Composer Updates
 on:
   workflow_dispatch:
     inputs:
-      database:
-        description: 'Recent database dump to use'
-        required: true
-        default: 'artifact'
       drupal_update:
         description: 'core or module to update'
         required: true
@@ -20,97 +16,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Install Lando
-        run: |
-          sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-v3.6.4"
-          sudo chmod +x /usr/local/bin/lando
-      - name: Setup Lando cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.lando/cache
-          key: ${{ runner.os }}-lando${{ matrix.lando.version }}-${{ github.ref }}
-          restore-keys: |
-            ${{ runner.os }}-lando${{ matrix.lando.version }}-
-      - name: Start Lando
-        run: |
-          echo "$lando_env" > .env
-          echo "GITHUB_TOKEN=$GITHUB_ACTOR:$GITHUB_TOKEN" >> .env
-          lando destroy -y
-          lando start && lando xdebug-off
+      - uses: ./.github/actions/dingorunner
         env:
-          lando_env: ${{ secrets.LANDO_ENV }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
-      - name: Sync DB
-        run: |
-          mkdir backups
-          git branch $drupal_update
-          git checkout $drupal_update
-          lando composer self-update
-          lando composer config -g github-oauth.github.com $gh_token
-          composer config -g github-oauth.github.com $gh_token
-          lando composer install --ignore-platform-reqs
-          echo "#! /bin/bash
-          if [[ '$database' == 'artifact' ]]
-          then
-            lando blt gh:pulldb
-          else
-            wget -O backups/site.sql.gz '$database'
-          fi" > pull_db.sh
-          cat pull_db.sh
-          chmod u+x pull_db.sh
-          ./pull_db.sh
-          rm pull_db.sh
-          lando db-import backups/site.sql.gz
-          mkdir -p web/sites/default/settings
-          cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php
-          cd web
-          lando drush cr
-          lando drush cim -y
-          lando drush cr
-          cd ..     
-          #todo: Grab files later here    
-          mkdir web/sites/default/files
-          chmod 777 web/sites/default/files
-          echo "#! /bin/bash
-          if [[ '$database' != 'artifact' ]]
-          then
-            lando drush sql-sanitize --sanitize-password -y
-          fi" > clean_db.sh
-          chmod u+x clean_db.sh
-          ./clean_db.sh
-          rm clean_db.sh
-          git branch
-        env:
-          database: ${{ github.event.inputs.database }}
-          drupal_update: ${{ github.event.inputs.drupal_update }}
-          gh_token: ${{ secrets.GH_TOKEN_REPO }}
-      - name: Run composer updates
-        run: |
-          git remote set-url origin "https://$gh_user:$gh_token@github.com/necyberteam/cyberteam_drupal.git"
-          lando ssh -c "git config --global user.email \"$email\""
-          lando ssh -c "git config --global user.name \"$username\""
-          lando blt amp:ciupdate "$drupal_update"
-          lando drush updatedb -y
-          lando drush cr
-        env:
+          runner: composer_update
+          blt: ./vendor/bin/blt
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
           drupal_update: ${{ github.event.inputs.drupal_update }}
           username: ${{ github.actor }}
           email: github.actions@necyberteam.org
           gh_token: ${{ secrets.GITHUB_TOKEN }}
-          gh_user: ${{ github.actor }}
-      - name: Run them tests
-        run: |
-          vendor/bin/blt amp:behat
-      - name: Push new branch
-        run: |
-          git config --global user.email "$email"
-          git config --global user.name "$username"
-          git push origin $drupal_update
-        env:
-          drupal_update: ${{ github.event.inputs.drupal_update }}
-          username: ${{ secrets.GIT_USER }}
-          email: ${{ secrets.GIT_EMAIL }}
       - name: Create Pull Request
         run: |
           gh pr create --title "[Composer] $drupal_update" --body "$(git log -1 --pretty=%B)"

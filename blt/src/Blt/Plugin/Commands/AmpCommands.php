@@ -144,11 +144,12 @@ AMP_USERNAME=$username'>.env");
 
     $this->_exec("touch log.txt");
     if ($arrrrgs == 'drupal/core') {
-      $this->_exec("composer update drupal/core drupal/core-composer-scaffold drupal/core-dev drupal/core-recommended drupal/core-project-message -W >log.txt 2>&1");
+      $this->_exec("composer update drupal/core drupal/core-composer-scaffold drupal/core-dev drupal/core-recommended drupal/core-project-message -W --ignore-platform-req=ext-gd >log.txt 2>&1");
       $this->composer_updates('/Upgrading (drupal)\/core \((.* \=\> .*)\)$/mU');
     } elseif (!empty($arrrrgs)) {
-      $this->_exec("composer update $arrrrgs --no-scripts >log.txt 2>&1");
-      $this->composer_updates('/Upgrading .*\/(.*)\((.* \=\> .*)\)$/msU');
+      $this->_exec("composer update $arrrrgs --no-scripts --ignore-platform-req=ext-gd >log.txt 2>&1");
+      $this->_exec("cat log.txt");
+      $this->composer_updates('/Upgrading .*\/(.*)\((.* \=\> .*)\)$/m');
     }
   }
 
@@ -162,8 +163,8 @@ AMP_USERNAME=$username'>.env");
       $version = $update_matches[2][$key];
       $update_list .= "$seperator$update_match: $version";
     }
-      $this->_exec("lando drush updatedb -y");
-      $this->_exec("lando drush cr");
+      #$this->_exec("lando drush updatedb -y");
+      #$this->_exec("lando drush cr");
     if ($log > 0) {
       $this->say("\n The following updated:
 $update_list");
