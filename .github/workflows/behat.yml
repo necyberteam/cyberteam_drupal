@@ -1,12 +1,6 @@
 name: (M) Behat Tests
 on:
   pull_request:
-    types:
-      - opened
-  workflow_run:
-    workflows: ["(M) Composer Updates"]
-    types:
-      - completed
   workflow_dispatch:
     inputs:
       database:

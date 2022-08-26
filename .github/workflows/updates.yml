@@ -27,7 +27,17 @@ jobs:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Pull Request
         run: |
-          gh pr create --title "[Composer] $drupal_update" --body "$(git log -1 --pretty=%B)"
+          touch prnum.txt
+          gh pr create --title "[Composer] $drupal_update" --body "$(git log -1 --pretty=%B)" | sed 's/https:\/\/github.com\/necyberteam\/cyberteam_drupal\/pull\///g' > prnum.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          drupal_update: ${{ github.event.inputs.drupal_update }}
+      - name: Trigger Behat workflow
+        run: |
+          pr=$(cat prnum.txt)
+          echo "gh workflow run behat.yml -r $drupal_update -f prnum=$pr"
+          gh workflow run behat.yml -r $drupal_update -f prnum=$pr
+          gh run list --workflow=behat.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           drupal_update: ${{ github.event.inputs.drupal_update }}
