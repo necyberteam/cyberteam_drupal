@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.access_news.body
     - field.field.node.access_news.field_affinity_group
+    - field.field.node.access_news.field_affinity_group_node
     - field.field.node.access_news.field_domain_access
     - field.field.node.access_news.field_domain_all_affiliates
     - field.field.node.access_news.field_domain_source
@@ -31,11 +32,11 @@ content:
     region: content
   field_affinity_group:
     type: entity_reference_label
-    label: inline
+    label: above
     settings:
       link: true
     third_party_settings: {  }
-    weight: 3
+    weight: 4
     region: content
   field_image:
     type: image
@@ -63,9 +64,10 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 4
+    weight: 3
     region: content
 hidden:
+  field_affinity_group_node: true
   field_domain_access: true
   field_domain_all_affiliates: true
   field_domain_source: true
