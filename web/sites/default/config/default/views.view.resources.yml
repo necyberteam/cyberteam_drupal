@@ -674,7 +674,7 @@ display:
             sid_1: sid_1
             webform_submission_value_2: webform_submission_value_2
             field_affinity_group: field_affinity_group
-          default: webform_submission_value
+          default: '-1'
           info:
             sid:
               sortable: false
@@ -2577,6 +2577,19 @@ display:
             format: full_no_editor
           tokenize: false
       sorts:
+        webform_submission_value_1:
+          id: webform_submission_value_1
+          table: webform_submission_field_resource_category
+          field: webform_submission_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_field_sort
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
         count:
           id: count
           table: flag_counts
