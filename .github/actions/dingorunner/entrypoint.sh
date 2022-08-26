@@ -62,4 +62,5 @@ then
   composer config -g github-oauth.github.com $gh_token
   composer install --no-dev --ignore-platform-reqs
   $blt amp:ciupdate "$drupal_update" --no-interaction --verbose
+  git push origin $drupal_update
 fi
