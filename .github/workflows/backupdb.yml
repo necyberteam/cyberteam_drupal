@@ -41,11 +41,13 @@ jobs:
           lando composer config -g github-oauth.github.com $gh_token
           composer config -g github-oauth.github.com $gh_token
           composer install --ignore-platform-reqs
-          lando db-import backups/site.sql.gz          
+          lando db-import backups/site.sql.gz
           cd web
           lando drush cr
           lando drush deploy
           lando drush sql-sanitize --sanitize-password -y
+          lando drush en amp_dev
+          lando drush pmu amp_dev
           lando drush cr
           cd ..
           lando db-export site.sql
