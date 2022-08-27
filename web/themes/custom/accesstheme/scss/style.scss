@@ -8,6 +8,11 @@
 // Include bootstrap.
 @import '../../../../themes/contrib/bootstrap5/scss/style';
 
+$lightgreen: #ecf9f8;
+
+body {
+    background-color: var(--light-green);
+}
 .bg-dark-teal {
     background-color: var(--bs-dark);
 }
@@ -23,12 +28,26 @@
 .bg-light {
     background-color: var(--bs-light) !important;
 }
+/* typography */
+h1 {
+    @include font-size(36px);
+    font-weight: 500;
+}
+h2 {
+    @include font-size(23px);
+    font-weight: 700;
+}
 h3 {
-    font-size: 1.5rem;
+    @include font-size(18px);
+    font-weight: 700;
+    color: var(--bs-dark);
 }
 h4 {
-    font-size: 1.2rem;
+    @include font-size(18px);
+    font-weight: 700;
+    color: var(--bs-dark);
 }
+
 .btn {
     border-radius: 0;
 }
@@ -194,6 +213,7 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
 }
 .text-constrained {
     max-width: 640px;
+    color: var(--bs-dark);
 }
 .icon-horizontal {
     display: flex;
@@ -233,6 +253,7 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
 }
 .btn, .button, a.button {
     width: fit-content;
+    font-weight: 700;
 }
 .btn a {
     text-decoration: none !important; 
@@ -272,11 +293,32 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
         }
     }
 }
-
+/* Search */
 .sui-search-box {
     max-width: 640px;
     margin: auto;
+    .sui-search-box__text-input {
+        border-radius: 0;
+    }
+    .sui-search-box__submit {
+        @extend .btn, .btn-primary;
+        background: none;
+        background-color: var(--bs-primary);
+        box-shadow: none;
+    }
+    .sui-search-box__submit:hover {
+        background: none;
+        background-color: var(--primary-hover);
+        box-shadow: none;
+    }
 }
+.sui-layout-body__inner {
+    background-color: var(--light-green);
+    .sui-result__title {
+        @extend h3;
+    }
+}
+
 .card.teal {
     background-color: var(--bs-dark);
     color: var(--bs-light);
@@ -358,11 +400,17 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
 .view-affinity-group .view-content {
     display: flex;
     flex-wrap: wrap;
-    h1 {
-        display: none; // title is in title bar above
-    }
-    #people {
-        display: none;
+    .card {
+        background-color: transparent;
+        h1 {
+            display: none; // title is in title bar above
+        }
+        .list-group-item {
+            background-color: transparent;
+        }
+        #people {
+            display: none;
+        }
     }
 }
 #block-views-block-affinity-group-block-6 {
@@ -422,6 +470,11 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
 /* alerts */
 .alert {
     margin-top: 1rem;
+    &.alert-success {
+        color: var(--bs-dark);
+        background-color: tint-color($dark, 85%);
+        border-color: tint-color($dark, 10%);
+    }
 }
 /* accordion */
 .accordion {
