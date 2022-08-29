@@ -33,7 +33,7 @@ jobs:
           path: ~/.lando/cache
           key: ${{ runner.os }}-lando${{ matrix.lando.version }}-${{ github.ref }}
           restore-keys: |
-            ${{ runner.os }}-lando${{ matrix.lando.version }}-
+            ${{ runner.os }}-lando${{ matrix.lando.version }}-1
       - name: Start Lando
         run: |
           echo "$lando_env" > .env
