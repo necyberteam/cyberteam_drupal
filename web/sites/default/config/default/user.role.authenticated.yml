@@ -8,6 +8,7 @@ dependencies:
     - node.type.affinity_group
     - node.type.blog_post
     - node.type.blog_post_region_
+    - node.type.match_engagement
     - taxonomy.vocabulary.tags
   module:
     - comment
@@ -16,7 +17,6 @@ dependencies:
     - domain_access
     - filter
     - flag
-    - fontawesome
     - login_disable
     - node
     - role_delegation
@@ -50,6 +50,7 @@ permissions:
   - 'create blog_post content on assigned domains'
   - 'create blog_post_region_ content'
   - 'create blog_post_region_ content on assigned domains'
+  - 'create match_engagement content'
   - 'create terms in tags'
   - 'delete own blog_post content'
   - 'delete own blog_post_region_ content'
@@ -57,6 +58,7 @@ permissions:
   - 'edit own affinity_group content'
   - 'edit own blog_post content'
   - 'edit own blog_post_region_ content'
+  - 'edit own match_engagement content'
   - 'edit own webform'
   - 'edit own webform submission'
   - 'flag affinity_group'
