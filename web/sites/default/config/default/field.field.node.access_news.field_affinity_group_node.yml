@@ -1,29 +1,29 @@
-uuid: 4bbf2fd2-3229-4710-90bf-e04d17c4178e
+uuid: 637c6395-47a9-4552-81d6-6e2ba234bc66
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_affinity_group
+    - field.storage.node.field_affinity_group_node
     - node.type.access_news
-    - taxonomy.vocabulary.affinity_groups
-id: node.access_news.field_affinity_group
-field_name: field_affinity_group
+    - node.type.affinity_group
+id: node.access_news.field_affinity_group_node
+field_name: field_affinity_group_node
 entity_type: node
 bundle: access_news
 label: 'Affinity Group'
 description: ''
 required: false
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:taxonomy_term'
+  handler: 'default:node'
   handler_settings:
     target_bundles:
-      affinity_groups: affinity_groups
+      affinity_group: affinity_group
     sort:
-      field: name
-      direction: asc
+      field: _none
+      direction: ASC
     auto_create: false
     auto_create_bundle: ''
 field_type: entity_reference
