@@ -10,6 +10,7 @@ on:
       prnum:
         description: 'Pull request number — adds a comment to a pull request (nomally empty)'
 permissions:
+  contents: write
   actions: read
   pull-requests: write
 jobs:
@@ -68,8 +69,8 @@ jobs:
           lando drush cr
           lando drush cim -y
           lando drush cr
-          cd ..     
-          #todo: Grab files later here    
+          cd ..
+          #todo: Grab files later here
           mkdir web/sites/default/files
           chmod 777 web/sites/default/files
           echo "#! /bin/bash
