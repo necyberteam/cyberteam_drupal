@@ -69,6 +69,9 @@ AMP_USERNAME=$username'>.env");
     $lando_end = $this->lando() == 'lando '?"\"":"";
 
     foreach ($domains as $domain) {
+      if ($domain != 'cyberteam') {
+        $behat = shell_exec("cp tests/behat/features/cyberteam/* tests/behat/features/$domain/ && sed -i '1 s/@cyberteam/@$domain/g' tests/behat/features/$domain/*.feature");
+      }
       $behat = shell_exec($lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end);
       $this->say($behat);
       $this->_exec( $this->lando() . 'drush cim -y');
