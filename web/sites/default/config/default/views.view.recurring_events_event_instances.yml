@@ -1220,7 +1220,18 @@ display:
           entity_field: uid
           plugin_id: standard
           required: false
-      header: {  }
+      header:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: false
+          content: '<h2 class="mt-4 mb-0">Filter events by</h2>'
+          tokenize: false
       footer: {  }
       display_extenders: {  }
     cache_metadata:
@@ -1738,7 +1749,7 @@ display:
           entity_field: title
           plugin_id: field
           label: Series
-          exclude: false
+          exclude: true
           alter:
             alter_text: true
             text: '{{ "View Series"|t }}'
@@ -1912,8 +1923,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: text_default
-          settings: {  }
+          type: text_trimmed
+          settings:
+            trim_length: 600
           group_column: value
           group_columns: {  }
           group_rows: true
