@@ -18,7 +18,7 @@ elements: |-
     '#title': Approved
     '#access_create_roles':
       - administrator
-      - representative
+      - match_pm
   title:
     '#type': textfield
     '#title': Title
@@ -210,12 +210,20 @@ access:
     permissions: {  }
   update_any:
     roles:
+      - steering_committee
+      - regional_admin
+      - leadership
       - administrator
+      - match_pm
     users: {  }
     permissions: {  }
   delete_any:
     roles:
+      - steering_committee
+      - regional_admin
+      - leadership
       - administrator
+      - match_pm
     users: {  }
     permissions: {  }
   purge_any:
