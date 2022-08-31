@@ -128,7 +128,27 @@ set footer_classes = ' ' ~
 {% if page.footer %}
 <footer class="mt-auto {{ footer_classes }}">
   <div class="{{ b5_top_container }}">
-    {# {{ page.footer }} #}
+    {{ page.footer }}
+    <div class="row mb-5">
+      <div class="col-12 col-md-8 fs-md-5 d-flex flex-wrap flex-sm-nowrap">
+        <a id="nsf-logo" href="https://www.nsf.gov/">
+          <img alt="National Science Foundation" src="/themes/custom/accesstheme/assets/NSF_4-Color_bitmap_Logo_350x350.png">
+        </a>
+        <div>
+          ACCESS is an advanced computing and data resource supported by the <a href="https://www.nsf.gov/">National Science Foundation</a> and made possible through these lead institutions and their partners —
+          <a href="https://www.cmu.edu/">Carnegie Mellon University</a>, <a href="https://www.colorado.edu/">University of Colorado, Boulder</a>,
+          <a href="https://illinois.edu/">University of Illinois at Urbana-Champaign</a>, and <a href="https://www.buffalo.edu/">State University of New York at Buffalo</a>.
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4 pt-4 border-top border-dark">
+      <div class="col-md-6 text-center text-md-start" id="footer-brand">
+        <img alt="ACCESS" src="/themes/custom/accesstheme/assets/ACCS050322_ACCESS_Brand_Tagline-RGB.png">
+      </div>
+      <div class="col-md-6 text-center text-md-end mt-4">
+        <a href="https://identity.access-ci.org/aup.html">Acceptable Use</a> | <a href="/code-conduct">Code of Conduct</a> | <a href="/privacy-policy">Privacy Policy</a> | All rights reserved. © 2022 ACCESS
+      </div>
+    </div>
   </div>
 </footer>
 {% endif %}
