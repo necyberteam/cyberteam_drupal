@@ -10,6 +10,24 @@
 
 $lightgreen: #ecf9f8;
 
+@include media-breakpoint-down(md) {
+    html {
+        overflow-x: hidden;
+    }
+    main > .container {
+        padding: 0;
+        .region-content {
+            margin: 0 1rem;
+        }
+        .bg-light {
+            margin: 0 calc(50% - 50vw);
+            padding: 1.5rem;
+            width: auto;
+            max-width: 100vw;
+        }
+    }
+}
+
 .bg-dark-teal {
     background-color: var(--bs-dark);
 }
@@ -316,7 +334,6 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
     }
 }
 .sui-layout-body__inner {
-    background-color: var(--light-green);
     .sui-result__title {
         @extend h3;
     }
@@ -402,9 +419,14 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
     }
 }
 /* Affinity Groups */
+.fixed-width-150 {
+    width: 150px !important;
+    display: block;
+}
 .view-affinity-group .view-content {
     display: flex;
     flex-wrap: wrap;
+    @extend .table-responsive;
     .card {
         background-color: transparent;
         h1 {
@@ -423,9 +445,13 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
         justify-content: space-between;
         .card {
             max-width: 480px;
-            width: 32%;
             img {
-                width: 100%
+                width: 100%;
+            }
+        }
+        @include media-breakpoint-up(md) {
+            .card {
+                width: 32%;
             }
         }
     }
@@ -517,3 +543,44 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
   float: left;
   margin-top: 2.45em;
 }
+footer {
+    .navigation.menu--footer {
+        background-color: var(--bs-dark);
+        padding: 50px 0;
+        margin: 0px 0 50px;
+        .navbar-nav {
+            flex-direction: row;
+            padding: 0 30px;
+            .nav-item {
+                font-weight: 700;
+                list-style: none;
+                padding: 0px 0.5rem;
+                margin-bottom: 20px;
+                .nav-link:after {
+                    display: none;
+                }
+            }
+            ul {
+                padding-left: 0;
+                .nav-item {
+                    padding-left: 0;
+                    font-weight: 400;
+                    margin-bottom: 0;
+                }
+            }
+        }
+        .nav-link {
+            color: #ffffff;
+        }
+    }
+    #nsf-logo {
+        flex-shrink: 0;
+        margin-right: 20px;
+        img {
+            width: 150px;
+        }
+    }
+}
+
+
+   
