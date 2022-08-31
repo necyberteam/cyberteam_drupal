@@ -1,0 +1,38 @@
+uuid: ce7c1aac-b6b4-4faf-b8ba-b18ab1e5c5df
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:65611105-4a26-446c-b4ef-94a6c2093ccc'
+  module:
+    - block_content
+    - domain
+    - system
+  theme:
+    - accesstheme
+id: accessresourcespageintro
+theme: accesstheme
+region: content
+weight: -8
+provider: null
+plugin: 'block_content:65611105-4a26-446c-b4ef-94a6c2093ccc'
+settings:
+  id: 'block_content:65611105-4a26-446c-b4ef-94a6c2093ccc'
+  label: 'ACCESS Resources Page intro'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: /resources
