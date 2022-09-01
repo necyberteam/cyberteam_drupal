@@ -52,8 +52,8 @@ jobs:
           date=$(date '+%y%m%d')
           git branch config-prod-$date
           git checkout config-prod-$date
-          lando composer config -g github-oauth.github.com $gh_token_repo
-          composer config -g github-oauth.github.com $gh_token_repo
+          lando composer config -g github-oauth.github.com $gh_token
+          composer config -g github-oauth.github.com $gh_token
           composer install --ignore-platform-reqs
           lando db-import backups/site.sql.gz
           mkdir -p web/sites/default/settings
