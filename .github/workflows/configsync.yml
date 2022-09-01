@@ -1,0 +1,105 @@
+name: (A) Config Sync — Run backups
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '20 19 * * 3'
+permissions:
+  pull-requests: write
+  contents: write
+jobs:
+  sync:
+    name: Grab live db and add un-synced files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ./.github/actions/dingorunner
+        env:
+          runner: bkup
+          terminus_api: ${{ secrets.TERMINUS_API }}
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+          site_name: ${{ secrets.TERMINUS_SITE_NAME }}
+          env: live
+      - name: Install Lando
+        run: |
+          sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-v3.6.4"
+          sudo chmod +x /usr/local/bin/lando
+      - name: Setup Lando cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.lando/cache
+          key: ${{ runner.os }}-lando${{ matrix.lando.version }}-${{ github.ref }}
+          restore-keys: |
+            ${{ runner.os }}-lando${{ matrix.lando.version }}-
+      - name: Start Lando
+        run: |
+          echo "$lando_env" > .env
+          echo "GITHUB_TOKEN=$GITHUB_ACTOR:$GITHUB_TOKEN" >> .env
+          lando destroy -y
+          lando start && lando xdebug-off
+        env:
+          lando_env: ${{ secrets.LANDO_ENV }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+      - name: Config diff
+        run: |
+          echo ${{ github.head_ref }}
+          git remote set-url origin https://$username:$gh_token@github.com/necyberteam/cyberteam_drupal.git
+          git config --global user.email "$username"
+          git config --global user.name "$email"
+          git fetch origin
+          current_branch=git rev-parse --abbrev-ref HEAD
+          git checkout $(git rev-list --tags --max-count=1)
+          git checkout $current_branch
+          date=$(date '+%y%m%d')
+          git branch config-prod-$date
+          git checkout config-prod-$date
+          lando composer config -g github-oauth.github.com $gh_token_repo
+          composer config -g github-oauth.github.com $gh_token_repo
+          composer install --ignore-platform-reqs
+          lando db-import backups/site.sql.gz
+          echo "$settings_local_php" > docroot/sites/settings/local.settings.php
+          cp docroot/sites/settings/local.settings.php docroot/sites/default/settings/
+          echo "" > salt.txt
+          rm -fR web/sites/default/config
+          git checkout web/sites/default/config
+          lando drush cr
+          lando drush cex -y
+          git rev-list --tags --max-count=1
+          rm -fR web/sites/default/config/local
+          git checkout web/sites/default/config/local
+          git checkout .github
+          git status
+          git diff --name-status $(git rev-list --tags --max-count=1)..$current_branch config/default > checkout.sh
+          sed -i 's/^M./git checkout /g' checkout.sh
+          sed -i 's/^A./git add /g' checkout.sh
+          sed -i 's/^D./rm /g' checkout.sh
+          echo 'post status'
+          chmod u+x checkout.sh
+          ./checkout.sh
+          rm checkout.sh
+          status=$(git status --porcelain web/sites/default/config/default)
+          echo "#! /bin/bash
+          if [[ -z '$status' ]]
+          then
+          echo 'no config changes'
+          else
+          git add web/sites/default/config/default
+          git commit -m"config: adding changes from $current_branch"
+          git push origin config-prod-$date
+          fi" > commit.sh
+          chmod u+x commit.sh
+          ./commit.sh
+          rm commit.sh
+          git status
+        env:
+          gh_token_repo: ${{ secrets.GH_TOKEN_REPO }}
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          settings_local_php: ${{ secrets.LANDO_DRUPAL_SETTINGS }}
+          username: ${{ secrets.GIT_USER }}
+          email: ${{ secrets.GIT_EMAIL }}
+          gh_user: ${{ secrets.GH_USER }}
+      - name: Create Pull Request
+        run: |
+          gh pr create --title "[Config sync]" --body "Sync the config from branch"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
