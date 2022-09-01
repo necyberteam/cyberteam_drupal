@@ -91,6 +91,7 @@ GITHUB_TOKEN=$token'>.env");
       $this->say($behat);
       $this->_exec( $this->lando() . 'drush cim -y');
       $this->_exec( $this->lando() . 'drush cr');
+      $this->_exec( $this->lando() . 'git clean -f tests/behat/features/');
       # Todo: need to figure out a better way of getting this output.
       $pattern = "/Failed scenarios/i";
       if (preg_match($pattern, $behat)) {
