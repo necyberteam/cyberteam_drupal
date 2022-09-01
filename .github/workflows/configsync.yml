@@ -46,7 +46,7 @@ jobs:
           git config --global user.email "$username"
           git config --global user.name "$email"
           git fetch origin
-          current_branch=$(git rev-parse --abbrev-ref HEAD)
+          current_branch=main
           git checkout $(git rev-list --tags --max-count=1)
           git checkout $current_branch
           date=$(date '+%y%m%d')
