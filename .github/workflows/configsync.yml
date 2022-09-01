@@ -42,7 +42,7 @@ jobs:
           GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
       - name: Config diff
         run: |
-          git remote set-url origin https://$username:$gh_token_repo@github.com/necyberteam/cyberteam_drupal.git
+          git remote set-url origin https://$gh_token_repo@github.com/necyberteam/cyberteam_drupal.git
           git config --global user.email "$username"
           git config --global user.name "$email"
           git fetch origin
