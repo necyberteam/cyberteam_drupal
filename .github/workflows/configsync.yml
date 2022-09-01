@@ -56,6 +56,7 @@ jobs:
           composer config -g github-oauth.github.com $gh_token_repo
           composer install --ignore-platform-reqs
           lando db-import backups/site.sql.gz
+          mkdir -p web/sites/default/settings
           cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php
           cp web/sites/settings/local.settings.php web/sites/default/settings/
           echo "" > salt.txt
