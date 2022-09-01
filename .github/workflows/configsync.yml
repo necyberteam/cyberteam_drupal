@@ -75,7 +75,7 @@ jobs:
           sed -i 's/^M./git checkout /g' checkout.sh
           sed -i 's/^A./git add /g' checkout.sh
           sed -i 's/^D./rm /g' checkout.sh
-          sed -i 's/^R\d\d\d./git add /g' checkout.sh
+          sed -i 's/^R[[:digit:]][[:digit:]][[:digit:]]./git add /g' checkout.sh
           cat checkout.sh
           chmod u+x checkout.sh
           ./checkout.sh
