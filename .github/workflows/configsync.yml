@@ -56,8 +56,8 @@ jobs:
           composer config -g github-oauth.github.com $gh_token_repo
           composer install --ignore-platform-reqs
           lando db-import backups/site.sql.gz
-          echo "$settings_local_php" > docroot/sites/settings/local.settings.php
-          cp docroot/sites/settings/local.settings.php docroot/sites/default/settings/
+          cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php
+          cp web/sites/settings/local.settings.php web/sites/default/settings/
           echo "" > salt.txt
           rm -fR web/sites/default/config
           git checkout web/sites/default/config
@@ -93,7 +93,6 @@ jobs:
         env:
           gh_token_repo: ${{ secrets.GH_TOKEN_REPO }}
           gh_token: ${{ secrets.GITHUB_TOKEN }}
-          settings_local_php: ${{ secrets.LANDO_DRUPAL_SETTINGS }}
           username: ${{ secrets.GIT_USER }}
           email: ${{ secrets.GIT_EMAIL }}
           gh_user: ${{ secrets.GH_USER }}
