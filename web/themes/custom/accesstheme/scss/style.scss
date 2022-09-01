@@ -554,11 +554,17 @@ footer {
             .nav-item {
                 font-weight: 700;
                 list-style: none;
-                padding: 0px 0.5rem;
+                padding: 0px 1rem;
                 margin-bottom: 20px;
+                @include media-breakpoint-up(lg) {
+                    margin-bottom: 0;
+                }
                 .nav-link:after {
                     display: none;
                 }
+            }
+            .dropdown-toggle {
+                border-bottom: 1px solid white;
             }
             ul {
                 padding-left: 0;
