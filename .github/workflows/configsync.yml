@@ -95,8 +95,8 @@ jobs:
         env:
           gh_token_repo: ${{ secrets.GH_TOKEN_REPO }}
           gh_token: ${{ secrets.GITHUB_TOKEN }}
-          username: ${{ secrets.GIT_USER }}
-          email: ${{ secrets.GIT_EMAIL }}
+          username: ${{ github.actor }}
+          email: github.actions@necyberteam.org
           gh_user: ${{ secrets.GH_USER }}
       - name: Create Pull Request
         run: |
