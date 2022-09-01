@@ -68,11 +68,13 @@ jobs:
           git checkout web/sites/default/config/local
           git checkout .github
           git status
+          echo 'post status'
+          echo $current_branch
           git diff --name-status $(git rev-list --tags --max-count=1)..$current_branch config/default > checkout.sh
           sed -i 's/^M./git checkout /g' checkout.sh
           sed -i 's/^A./git add /g' checkout.sh
           sed -i 's/^D./rm /g' checkout.sh
-          echo 'post status'
+          cat checkout.sh
           chmod u+x checkout.sh
           ./checkout.sh
           rm checkout.sh
