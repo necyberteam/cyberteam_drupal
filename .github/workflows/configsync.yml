@@ -58,7 +58,6 @@ jobs:
           lando db-import backups/site.sql.gz
           mkdir -p web/sites/default/settings
           cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php
-          cp web/sites/settings/local.settings.php web/sites/default/settings/
           echo "" > salt.txt
           rm -fR web/sites/default/config
           git checkout web/sites/default/config
