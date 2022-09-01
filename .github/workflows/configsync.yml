@@ -85,8 +85,11 @@ jobs:
           then
           echo 'no config changes'
           else
+          echo 'Adding web/sites/default/config/default'
           git add web/sites/default/config/default
+          echo 'Commiting changes'
           git commit -m"config: adding changes from $current_branch"
+          echo 'pushing changes'
           git push origin config-prod-$date
           fi" > commit.sh
           chmod u+x commit.sh
