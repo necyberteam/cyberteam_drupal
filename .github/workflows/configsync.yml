@@ -87,6 +87,7 @@ jobs:
           then
           echo 'no config changes'
           else
+          git fetch
           echo 'Adding web/sites/default/config/default'
           git add web/sites/default/config/default/
           git commit -m "config: adding changes from live"
