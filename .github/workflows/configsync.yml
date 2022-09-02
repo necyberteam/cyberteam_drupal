@@ -45,10 +45,11 @@ jobs:
           git remote set-url origin https://$username:$gh_token@github.com/necyberteam/cyberteam_drupal.git
           git config --global user.email "$username"
           git config --global user.name "$email"
-          git fetch origin
+          git fetch
           current_branch=main
           git checkout $(git rev-list --tags --max-count=1)
           git checkout $current_branch
+          git branch
           date=$(date '+%y%m%d')
           git branch config-prod-$date
           git checkout config-prod-$date
