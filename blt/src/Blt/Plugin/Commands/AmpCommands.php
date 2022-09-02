@@ -22,10 +22,12 @@ class AmpCommands extends BltTasks {
     $this->_exec("mkdir -p web/sites/default/settings");
     $this->_exec("cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php");
     $username = $this->ask("What is your drupal username: ");
+    $token = $this->ask("What is your GitHub token: ");
     $hash = \Drupal\Component\Utility\Crypt::randomBytesBase64(55);
     $this->_exec("echo 'PANTHEON_ENVIRONMENT=local
 DRUPAL_HASH_SALT=$hash
-AMP_USERNAME=$username'>.env");
+AMP_USERNAME=$username
+GITHUB_TOKEN=$token'>.env");
     $this->say("❗️ Environment vars setup, now starting lando. ❗️");
     $this->_exec("lando start");
     $this->_exec("lando xdebug-off");
