@@ -88,9 +88,8 @@ jobs:
           else
           echo 'Adding web/sites/default/config/default'
           git add web/sites/default/config/default/
-          git status
-          echo "-=-=-=-=-=-=-=-=-=-\n Commiting changes"
           git commit -m"config: adding changes from $current_branch"
+          echo "Committed changes"
           git status
           echo 'pushing changes'
           git push origin config-prod-$date
