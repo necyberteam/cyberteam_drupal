@@ -97,7 +97,6 @@ jobs:
           rm commit.sh
           git status
         env:
-          gh_token_repo: ${{ secrets.GH_TOKEN_REPO }}
           gh_token: ${{ secrets.GITHUB_TOKEN }}
           username: ${{ github.actor }}
           email: github.actions@necyberteam.org
