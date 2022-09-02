@@ -88,7 +88,7 @@ jobs:
           else
           echo 'Adding web/sites/default/config/default'
           git add web/sites/default/config/default/
-          git commit -m"config: adding changes from $current_branch"
+          git commit -m "config: adding changes from live"
           echo "Committed changes"
           git status
           echo 'pushing changes'
@@ -96,6 +96,7 @@ jobs:
           fi" > commit.sh
           chmod u+x commit.sh
           ./commit.sh
+          echo 'commit.sh ran'
           rm commit.sh
           git status
         env:
