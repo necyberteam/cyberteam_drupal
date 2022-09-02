@@ -75,6 +75,7 @@ jobs:
           sed -i 's/^M./git checkout /g' checkout.sh
           sed -i 's/^A./git add /g' checkout.sh
           sed -i 's/^D./rm /g' checkout.sh
+          echo 'echo "end of checkout.sh"' >> checkout.sh
           cat checkout.sh
           chmod u+x checkout.sh
           ./checkout.sh
@@ -87,8 +88,10 @@ jobs:
           else
           echo 'Adding web/sites/default/config/default'
           git add web/sites/default/config/default
+          git status
           echo 'Commiting changes'
           git commit -m"config: adding changes from $current_branch"
+          git status
           echo 'pushing changes'
           git push origin config-prod-$date
           fi" > commit.sh
