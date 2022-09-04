@@ -31,6 +31,7 @@ GITHUB_TOKEN=$token'>.env");
     $this->say("❗️ Environment vars setup, now starting lando. ❗️");
     $this->_exec("lando start");
     $this->_exec("lando xdebug-off");
+    $this->_exec("cd web/themes/custom/accesstheme && lando npm install && lando npm run build:sass");
   }
 
   /**
