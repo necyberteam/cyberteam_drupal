@@ -128,9 +128,18 @@ GITHUB_TOKEN=$token'>.env");
    * @description pull in production database.
    */
   public function did() {
-    $this->_exec($this->lando() . "db-import backups/site.sql.gz");
-    $this->_exec("lando drush deploy -y");
-    $this->_exec("lando drush cim -y");
+    if ($this->lando() == 'lando ') {
+      $this->_exec("lando db-import backups/site.sql.gz");
+    } else {
+      $this->_exec("drush sql-drop -y &&
+        cp backups/site.sql.gz lando-import.sql.gz &&
+        gunzip lando-import.sql.gz
+        drush sqlc < lando-import.sql &&
+        rm -fR lando-import.sql
+      ");
+    }
+    $this->_exec($this->lando() . "drush deploy -y");
+    $this->_exec($this->lando() . "drush cim -y");
     $this->_exec($this->lando() . "drush cr");
     $this->_exec($this->lando() . "blt amp:uli");
   }
