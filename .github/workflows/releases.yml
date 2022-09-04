@@ -45,7 +45,7 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -u "$gh_user:$gh_token"\
             https://api.github.com/repos/$gh_repo/releases \
-            -d "$description"       
+            -d "$description"
         env:
           set_version: ${{ github.event.inputs.version }}
           gh_token: ${{ secrets.GITHUB_TOKEN }}
@@ -58,3 +58,4 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
           site_name: ${{ secrets.TERMINUS_SITE_NAME }}
           env: test
+          flags: --sync-content
