@@ -28,7 +28,7 @@ then
   storeKey
   terminusApi
   current_version=$(git describe --tags --abbrev=0)
-  terminus env:deploy --note "Version: $current_version" -- $site_name.$env
+  terminus env:deploy --note "Version: $current_version" $flags -- $site_name.$env
 fi
 
 if [ "$runner" = bkup ];
