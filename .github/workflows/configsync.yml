@@ -51,8 +51,8 @@ jobs:
           git checkout $current_branch
           git branch
           date=$(date '+%y%m%d')
-          git branch config-prod-$date
-          git checkout config-prod-$date
+          git branch md-$date
+          git checkout md-$date
           lando composer config -g github-oauth.github.com $gh_token
           composer config -g github-oauth.github.com $gh_token
           composer install --ignore-platform-reqs
@@ -94,7 +94,7 @@ jobs:
           echo "Committed changes"
           git status
           echo 'pushing changes'
-          git push origin config-prod-$date
+          git push origin md-$date
           fi" > commit.sh
           chmod u+x commit.sh
           ./commit.sh
