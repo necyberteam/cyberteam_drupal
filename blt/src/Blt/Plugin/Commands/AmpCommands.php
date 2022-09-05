@@ -21,6 +21,8 @@ class AmpCommands extends BltTasks {
     $this->_exec("ln -s web docroot && mkdir backups");
     $this->_exec("mkdir -p web/sites/default/settings");
     $this->_exec("cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php");
+    $this->_exec("lando composer install --ignore-platform-reqs -n");
+    $this->_exec("blt blt:telemetry:disable --no-interaction");
     $username = $this->ask("What is your drupal username: ");
     $token = $this->ask("What is your GitHub token: ");
     $hash = \Drupal\Component\Utility\Crypt::randomBytesBase64(55);
@@ -30,6 +32,12 @@ AMP_USERNAME=$username
 GITHUB_TOKEN=$token'>.env");
     $this->say("❗️ Environment vars setup, now starting lando. ❗️");
     $this->_exec("lando start");
+    $this->_exec("lando blt blt:telemetry:disable --no-interaction");
+    $this->_exec("lando xdebug-off");
+    $this->_exec("lando blt gh:pulldb");
+    $this->_exec("lando blt gh:pullfiles");
+    $this->_exec("lando blt amp:did");
+    $this->_exec("lando drush deploy");
     $this->_exec("lando xdebug-off");
     $this->_exec("cd web/themes/custom/accesstheme && lando npm install && lando npm run build:sass");
   }
