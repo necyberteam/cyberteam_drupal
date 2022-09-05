@@ -39,6 +39,20 @@ then
   terminus backup:get $site_name.$env --element=db --to=backups/site.sql.gz
 fi
 
+if [ "$runner" = bkup-files ];
+then
+  storeKey
+  terminusApi
+  mkdir backups
+  file_url=$(terminus backup:get $site_name.$env --element=files)
+  wget -O files.tar.gz $file_url
+  tar -xzvf files.tar.gz
+  rm -fR files_live/php/twig/*
+  rm -fR files_live/private/20*
+  rm -fR files_live/private/styles/*
+  rm -fR files_live/private/webform/*
+fi
+
 if [ "$runner" = update ];
 then
   storeKey
