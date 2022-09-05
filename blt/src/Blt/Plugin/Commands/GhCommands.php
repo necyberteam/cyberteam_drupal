@@ -36,7 +36,7 @@ class GhCommands extends BltTasks {
   public function pullfiles() {
     $location_url = $this->grabLocation('amp-file-backup');
     $this->_exec("wget -O gh_files.zip '$location_url'");
-    $this->_exec("unzip gh_files.zip && rm gh_files.zip");
+    $this->_exec("mkdir files && unzip gh_files.zip -d files && rm gh_files.zip");
     $prev_files = 'web/sites/default/files';
     if (file_exists($prev_files)) {
       $this->_exec("rm -fR $prev_files");
