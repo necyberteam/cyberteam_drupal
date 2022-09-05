@@ -5,6 +5,7 @@ dependencies:
   module:
     - access_match_engagement
     - node
+    - system
   theme:
     - accesstheme
 id: accessmatchnodeblock
@@ -26,3 +27,7 @@ visibility:
       node: '@node.node_route_context:node'
     bundles:
       match_engagement: match_engagement
+  request_path:
+    id: request_path
+    negate: true
+    pages: '/node/*/edit'
