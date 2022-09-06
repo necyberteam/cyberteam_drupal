@@ -1,0 +1,38 @@
+uuid: 64df953d-f0d7-4b0e-86b7-09cac4d75ba0
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:f3a9a2d6-045a-4613-a412-3c2b98172f53'
+  module:
+    - block_content
+    - domain
+    - system
+  theme:
+    - accesstheme
+id: accesslogingraphic
+theme: accesstheme
+region: content
+weight: 0
+provider: null
+plugin: 'block_content:f3a9a2d6-045a-4613-a412-3c2b98172f53'
+settings:
+  id: 'block_content:f3a9a2d6-045a-4613-a412-3c2b98172f53'
+  label: 'ACCESS Login Graphic'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: /user/login
