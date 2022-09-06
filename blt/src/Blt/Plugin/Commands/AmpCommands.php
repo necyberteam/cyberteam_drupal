@@ -17,18 +17,23 @@ class AmpCommands extends BltTasks {
    * @command amp:landosetup
    * @description pull in production database.
    */
-  public function landosetup() {
+  public function landosetup(array $args) {
+    if ($args) {
+      $token = $args[0];
+      $uid = $args[1];
+    } else {
+      $token = $this->ask("What is your GitHub token: ");
+      $uid = $this->ask("What is your drupal user id: ");
+    }
     $this->_exec("ln -s web docroot && mkdir backups");
     $this->_exec("mkdir -p web/sites/default/settings");
     $this->_exec("cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php");
     $this->_exec("lando composer install --ignore-platform-reqs -n");
     $this->_exec("blt blt:telemetry:disable --no-interaction");
-    $username = $this->ask("What is your drupal username: ");
-    $token = $this->ask("What is your GitHub token: ");
     $hash = \Drupal\Component\Utility\Crypt::randomBytesBase64(55);
     $this->_exec("echo 'PANTHEON_ENVIRONMENT=local
 DRUPAL_HASH_SALT=$hash
-AMP_USERNAME=$username
+AMP_UID=$uid
 GITHUB_TOKEN=$token'>.env");
     $this->say("❗️ Environment vars setup, now starting lando. ❗️");
     $this->_exec("lando start");
@@ -117,17 +122,17 @@ GITHUB_TOKEN=$token'>.env");
 
 
   /**
-   * Login with username.
+   * Login with user id.
    *
    * @command amp:uli
-   * @description Login locally with personal username set in github.
+   * @description Login locally with personal user id set in github.
    */
   public function uli() {
     if ($this->lando() == 'lando ') {
-      $this->_exec("export $(lando ssh -s appserver -c env | grep AMP_USERNAME)");
+      $this->_exec("export $(lando ssh -s appserver -c env | grep AMP_UID)");
     }
-    $username = Xss::filter(shell_exec("printenv AMP_USERNAME"));
-    $this->_exec($this->lando() . "drush uli --name=$username");
+    $uid = Xss::filter(shell_exec("printenv AMP_UID"));
+    $this->_exec($this->lando() . "drush uli --uid=$uid");
   }
 
   /**
