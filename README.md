@@ -1,72 +1,30 @@
 # cyberteam_drupal
 
-The Campus Champions custom module implements the following features:
+**Insert copy on overall site description**
 
-## Campus Champion Features
+## BLT
 
-### Join the Campus Champions form
-Implements the _form_alter function to:
-- Prepopulate and hide user fields if the user is authenticated
-- Add the autocomplete function to the Carnegie code field
-- Reorder form components
-- Require that the email and username not already be associated with an existing user account
+This uses a fairly standard [BLT](https://github.com/acquia/blt) install. See below for the custom commands.
 
-### Create user for new Campus Champions
-- Create a new user with custom Webform Handler
-- Email welcome message to new user
+| Command        | Description                                                                                                                                                                                                                                                            |
+| -------------  | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------                                                                             |
+| amp:landosetup | Runs the commands needed for an initial setup of the site.                                                                                                                                                                                                             |
+| amp:start      | Start lando.                                                                                                                                                                                                                                                           |
+| amp:behat      | Runs behat test on all domains. Optionally list the domains at the end separated by a space (amp:behat amp cci).                                                                                                                                                       |
+| amp:did        | Reload from 'backups/site.sql.gz', by running ```gh:pulldb``` you can replaces this with the latest backup.                                                                                                                                                            |
+| gh:pulldb      | Daily github action pulls in and processes the production database and places it into an [artifact](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/backupdb.yml). This pulls the latest artifact.                                                   |
+| gh:pullfiles   | Daily github action pulls in last pantheon backup and cleans up the private files directory to decrease the size and places it into an [artifact](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/backupfiles.yml).  This pulls the latest artifact. |
 
-### Campus Champions field (is_cc)
-The is_cc field determines whether a user is eligible to join the Campus Champions program
-Implements _alter_form() to:
-- Hide is_campus_champion field unless you are an admin
-- Don't allow people to join Campus Champions program unless the is_cc field is checked
-- Don't allow people to register as Campus Champions
+## Github Actions
 
-### Autocomplete Carnegie Codes
-Implements a JSON endpoint for the Carnegie code autocomplete.
-
-The route
-```
-/autocomplete/carnegiecode?q=searchterm
-```
-returns
-```json
-[
-    'label': 'School name',
-    'value': 123456 // Carnegie code 
-]
-```
-### Campus Champions Banner Block
-A full width banner for the home page with Campus Champions statistics. Includes the Odometer library to animate number transitions.
-
-### Views Bulk Operations actions
-- Set a user's is_cc field and field_region field
-- Password reset for selected users
-
-## Affinity Group Features
-
-### Affinity Groups editable by group coordinators
-- Implements _node_access() to allow coordinators to edit their affinity group node.
- 
-### Export affinity group members
-Drush command to export members. Currently exports as a csv and emails to an admin.
-
-## Other Features
-
-### Allow HTML in system email messages
-- Implements _mail_alter() to allow including html in system messages
-- Currently only password_reset is enabled. Uncomment other message types if desired for other messages.
-
-### Hide preview button on contact forms
-- Implemented in _form_alter()
-
-### Redirect after password change
-Redirect to the user's profile page after changing the password. Requires the following change in change_pwd_page module:
-```
-  if ($form_id == 'change_pwd_form') {
-    $form['actions']['submit']['#submit'] = $form['#submit'];
-    $form['actions']['submit']['#submit'][] = 'campuschampions_redirect_to_profile_page_form_submit'; // <-- add this line
-```
-
-### Make CV upload field private
-- Implement _update_8901() to change the cv_resume field from public to private 
+| Workflow                                                                                                                                                                                                                                                                                                                                                                                              | Ran                            | Description                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| --------                                                                                                                                                                                                                                                                                                                                                                                              | ---                            | -----------                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| (A) Config Sync — Run backups <br /> [![(A) Config Sync — Run backups](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/configsync.yml/badge.svg)](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/configsync.yml)                                                                                                                                                 | Weekly on Wed. Afternoon       | Pulls in prod database and adds it to an artifact. Then builds the site from the production db. Next, it diffs the config files from the last git tag and creates a file to checkout all of those files so they don't change. Then it runs ```drush cex -y`` and runs the diff file to checkout anything that has changed since the last tag, any git files that are left over are committed to a new branch and the pull request is created. |
+| (A) Cron run <br /> [![(A) Database to artifact](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/pantheoncron.yml/badge.svg)](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/pantheoncron.yml)                                                                                                                                                                   | Every 60 Minutes               | This will run cron for dev, test, and live on pantheon.                                                                                                                                                                                                                                                                                                                                                                                       |
+| (A) Database to artifact <br /> [![(A) Database to artifact](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/backupdb.yml/badge.svg)](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/backupdb.yml)                                                                                                                                                               | Daily in the early morning     | This builds the site from the lastest db and then runs everything needed for the dev version of the site. Enables modules, and sanitizes the db. Once this all is complete, the db is exported and added to an artifact. This is the db that will be pulled for the _Composer Updates_ workflow and local version of the site.                                                                                                                |
+| (A) Deploy to dev <br /> [![(A) Deploy to dev](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/main.yml/badge.svg)](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/main.yml)                                                                                                                                                                                     | Any push to main or md- branch | This builds the site using the blt command and then pushes the built version to the hosts dev site on pantheon. You can skip this workflow by adding ```#nobuild``` to your commit message. You can also run the behat workflow by adding #behat to your commit message.                                                                                                                                                                      |
+| (A) Files to artifact <br /> [![(A) Database to artifact](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/backupfiles.yml/badge.svg)](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/backupfiles.yml)                                                                                                                                                            | Daily in the early morning     | This pulls the files from dev, cleans out the private directory, and adds them to an artifact. These can then be used on the local version of the site.                                                                                                                                                                                                                                                                                       |
+| (AM) Behat Tests  <br /> [![(M) Behat Tests](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/behat.yml/badge.svg)](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/behat.yml)                                                                                                                                                                                     | PR, Deploy to dev, Manual      | This pulls builds the current PR or branch  and runs behat tests against the site.                                                                                                                                                                                                                                                                                                                                                            |
+| (M) Composer Updates <br /> [![(A) Database to artifact](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/updates.yml/badge.svg)](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/updates.yml)                                                                                                                                                                     | Manual                         | You specify the module or library name for the input box and click run. This will build the site, update the module and run the proper drush commands, and lastly run the behat tests. If all runs well, the updated composer.lock file will be committed to a branch named after the update and then a pull request will be created.                                                                                                         |
+| (M) Create Release <br /> [![(A) Database to artifact](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/releases.yml/badge.svg)](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/releases.yml)                                                                                                                                                                     | Manual                         | If the defaults are kept for the inputs this will iterate the last tag and then add release notes that include all commit messages since the last tag. After the release/tag are created, the terminus command will be ran to deploy to test.                                                                                                                                                                                                 |
+| (M) Deploy to Prod  <br /> [![(M) Deploy to Prod](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/deployprod.yml/badge.svg)](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/deployprod.yml)                                                                                                                                                                      | Manual                         | If the defaults are kept for the inputs this will iterate the last tag and then add release notes that include all commit messages since the last tag. After the release/tag are created, the terminus command will be ran to deploy to test.                                                                                                                                                                                                 |
