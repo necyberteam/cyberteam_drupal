@@ -1,0 +1,34 @@
+uuid: e192acdd-602a-402f-bc62-5b6355442434
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.affinity_group
+  module:
+    - node
+    - views
+  theme:
+    - nect
+id: views_block__affinity_group_group_2
+theme: nect
+region: content
+weight: 0
+provider: null
+plugin: 'views_block:affinity_group-group'
+settings:
+  id: 'views_block:affinity_group-group'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      affinity_group: affinity_group
+
