@@ -13,12 +13,7 @@ title: 'Affinity Group Request'
 description: ''
 category: ''
 elements: |-
-  approved:
-    '#type': checkbox
-    '#title': Approved
-    '#access_create_roles':
-      - administrator
-      - representative
+
   affinity_group_name:
     '#type': textfield
     '#title': 'Affinity Group Name'
@@ -35,7 +30,6 @@ elements: |-
     '#description': |
       Type a few letters in the name and then select from the list of names presented. The first name in the coordinators list will have editing capability on the affinity group listing when it is posted on the site.<br />
       &nbsp;
-      
     '#required': true
     '#target_type': user
     '#selection_handler': 'default:user'
