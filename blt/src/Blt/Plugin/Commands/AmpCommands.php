@@ -43,7 +43,6 @@ GITHUB_TOKEN=$token'>.env");
     $this->_exec("lando blt gh:pullfiles");
     $this->_exec("lando blt amp:did");
     $this->_exec("lando drush deploy");
-    $this->_exec("lando xdebug-off");
     $this->_exec("cd web/themes/custom/accesstheme && lando npm install && lando npm run build:sass");
   }
 
