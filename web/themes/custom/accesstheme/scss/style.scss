@@ -124,11 +124,11 @@ img, iframe {
 
     .field--name-field-subtitle {
         text-align: center;
-        color: var(--bs-light);
+        color: #ffffff;
     }
     .page-title {
         margin: 0;
-        color: var(--bs-light);
+        color: #ffffff;
     }
 }
 .navbar {
@@ -147,40 +147,66 @@ img, iframe {
     padding: 4px 24px;
 }
 ul.sf-menu {
-    a, .menuparent {
+    a, li.menuparent {
         color: #ffffff;
         text-decoration: none;
+
+    }
+    li.menuparent:hover {
+        a {
+            color: var(--bs-dark);
+        }
+        ul li:hover a {
+            color: #ffffff;
+        }
+    }
+    a:hover, .menuparent:hover {
+        color: var(--bs-dark);
+    }
+    ul {
+        a { 
+            color: var(--bs-dark);
+        }
+        a:hover, li:hover a {
+            color: #ffffff;
+        }
+        a.is-active {
+            color: var(--bs-dark) !important;
+            background-color: var(--bs-light) !important;
+        }
     }
     a.is-active {
         color: var(--bs-dark) !important;
-        background-color: var(--bs-light) !important;
+        background-color: #ffffff !important;
     }
 }
 #superfish-access-universal-nav-menu, #superfish-access-additional-universal-menu {
     li:hover, li.active-trail  {
-        background-color: var(--bs-secondary);
+        background-color: #ffffff;
+        color: var(--bs-dark);
     }
     a.is-active {
-        color: var(--bs-light);
+        color: var(--bs-dark);
     }
     ul {
-        background-color: var(--bs-secondary);
+        background-color: #ffffff;
         top: 3em;
         li:hover {
             background-color: var(--bs-dark);
+            color: #ffffff;
         }
     }
 
 }
 #superfish-access-secondary-menu {
     li:hover, li.active-trail {
-        background-color: var(--bs-light);
+        background-color: #ffffff;
         a, .menuparent {
             color: var(--bs-dark);
         }
     }
     ul {
-        background-color: var(--bs-light);
+        background-color: #ffffff;
         top: 3em;
         li a {
             color: var(--bs-dark);
@@ -188,7 +214,7 @@ ul.sf-menu {
         li:hover {
             background-color: var(--bs-dark);
             a {
-                color: var(--bs-light);
+                color: #ffffff;
             }
         }
     }
