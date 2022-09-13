@@ -45,9 +45,10 @@ elements: |-
     '#title': 'Accept and Publish'
     '#help': 'Approve the project to be displayed on the Projects page and project carousel'
     '#access_create_roles':
-      - steering_committee
-      - regional_admin
       - administrator
+      - sc
+      - lt
+      - ra
     '#access_update_roles':
       - steering_committee
       - regional_admin
@@ -790,12 +791,13 @@ access:
     permissions: {  }
   update_any:
     roles:
-      - authenticated
+      - sc
+      - lt
+      - ra
     users: {  }
     permissions: {  }
   delete_any:
     roles:
-      - representative
       - administrator
     users: {  }
     permissions: {  }
