@@ -1,9 +1,26 @@
 uuid: 9be5ce8b-f559-41e6-a4aa-0ccd795e3559
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - node.type.blog_post
+    - node.type.blog_post_region_
+    - taxonomy.vocabulary.tags
+  module:
+    - node
+    - taxonomy
 id: lt
 label: LT
 weight: 14
 is_admin: null
-permissions: {  }
+permissions:
+  - 'access content overview'
+  - 'create blog_post content'
+  - 'create blog_post_region_ content'
+  - 'create terms in tags'
+  - 'delete own blog_post content'
+  - 'delete own blog_post_region_ content'
+  - 'delete terms in tags'
+  - 'edit any blog_post content'
+  - 'edit any blog_post_region_ content'
+  - 'edit terms in tags'
