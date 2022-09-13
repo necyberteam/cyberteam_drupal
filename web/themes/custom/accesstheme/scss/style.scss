@@ -493,12 +493,12 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
     margin: auto;
 }
 /* news */
-.view-access-news {
+[id="block-views-block-access-news-block-1"] .view-access-news {
     max-width: 640px;
     margin: auto;
     .views-field-title {
         margin: 10px 0 15px 0;
-        font-size: 1.8rem;
+        @include font-size(23px);
     }
     .views-field-view-node {
         margin-top: 10px;
@@ -520,6 +520,10 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
     .views-field-view-node {
         margin-top: 10px;
     }
+}
+/* affinity group news */
+.view-affinity-group [id="block-views-block-access-news-block-1"] .view-access-news {
+    max-width: 100%;
 }
 /* outages */
 .dataTable {
@@ -615,4 +619,4 @@ footer {
 }
 
 
-   
+
