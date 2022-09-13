@@ -55,7 +55,7 @@ set footer_classes = ' ' ~
   (b5_footer_schema != 'none' ? (b5_footer_schema == 'dark' ? ' text-light' : ' text-dark' ) : ' ') ~
   (b5_footer_bg_schema != 'none' ? " bg-#{b5_footer_bg_schema}" : ' ')
 %}
-<header>
+<header data-elastic-exclude="true">
     <div class="bg-dark-teal">
         <div class="container">
             {{ page.header }}
@@ -126,7 +126,7 @@ set footer_classes = ' ' ~
 </main>
 
 {% if page.footer %}
-<footer class="mt-auto {{ footer_classes }}">
+<footer class="mt-auto {{ footer_classes }}" data-elastic-exclude="true">
   <div class="{{ b5_top_container }}">
     {{ page.footer }}
     <div class="row mb-5">
@@ -146,7 +146,7 @@ set footer_classes = ' ' ~
         <img alt="ACCESS" src="/themes/custom/accesstheme/assets/ACCS050322_ACCESS_Brand_Tagline-RGB.png">
       </div>
       <div class="col-md-6 text-center text-md-end mt-4">
-        <a href="https://identity.access-ci.org/aup.html">Acceptable Use</a> | <a href="/code-conduct">Code of Conduct</a> | <a href="/privacy-policy">Privacy Policy</a> <br/> All rights reserved. © 2022 ACCESS
+        <a href="https://identity.access-ci.org/aup.html">Acceptable Use</a> | <a href="/code-of-conduct">Code of Conduct</a> | <a href="/privacy-policy">Privacy Policy</a> <br/> All rights reserved. © 2022 ACCESS
       </div>
     </div>
   </div>
