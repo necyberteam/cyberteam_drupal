@@ -18,11 +18,7 @@ elements: |-
     '#title': Approved
     '#access_create_roles':
       - administrator
-      - affinity_group_leader
       - match_pm
-      - sc
-      - lt
-      - ra
   title:
     '#type': textfield
     '#title': Title
@@ -35,8 +31,6 @@ elements: |-
       tool: Tool
       mailing_list: 'Mailing List'
       website: Website
-      documentation: Documentation
-      video_link: 'Video Link'
     '#required': true
   tags:
     '#type': webform_term_checkboxes
@@ -216,20 +210,20 @@ access:
     permissions: {  }
   update_any:
     roles:
+      - steering_committee
+      - regional_admin
+      - leadership
       - administrator
       - match_pm
-      - sc
-      - lt
-      - ra
     users: {  }
     permissions: {  }
   delete_any:
     roles:
+      - steering_committee
+      - regional_admin
+      - leadership
       - administrator
       - match_pm
-      - sc
-      - lt
-      - ra
     users: {  }
     permissions: {  }
   purge_any:
