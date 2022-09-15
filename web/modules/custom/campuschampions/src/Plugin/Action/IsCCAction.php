@@ -30,11 +30,11 @@ class IsCCAction extends ViewsBulkOperationsActionBase {
         $entity->set('field_region', $cc_id);
     } else {
 	// Add Campus Champions program if it's not already set
-        if (!array_filter($programs, function($program) { return $program['target_id'] == $cc_id; }) ) {
+        //if (!array_filter($programs, function($program) { return $program['target_id'] == $cc_id; }) ) {
             $entity->get('field_region')->appendItem([
                 'target_id' => $cc_id,
             ]);
-	}
+	//}
     }
 
     $entity->save();
@@ -46,7 +46,7 @@ class IsCCAction extends ViewsBulkOperationsActionBase {
    * {@inheritdoc}
    */
   public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
-    return TRUE;
+    return $object->access('update', $account, $return_as_object);
   }
 
 }
