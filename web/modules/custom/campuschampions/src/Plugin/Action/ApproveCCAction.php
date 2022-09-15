@@ -20,28 +20,28 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase {
   public function execute($entity = NULL) {
 
     $cc_id = 572; // Campus Champions Program ID
-    
+
     $data = $entity->getData();
     $user = user_load_by_mail($data['user_email']);
-    
-    $user->set('field_carnegie_code', $data['$carnegie_classification']);
+
+    $user->set('field_carnegie_code', $data['carnegie_classification']);
     $user->set('field_is_cc', 1);
 
     $region[] = $user->get('field_region');
     if (count($region) == 0) {
-        $user->set('field_region', $cc_id);
+      $user->set('field_region', $cc_id);
     } else {
-	// Add Campus Champions program if it's not already set
-        if (!array_filter($programs, function($program) { return $program['target_id'] == $cc_id; }) ) {
-            $user->get('field_region')->appendItem([
-                'target_id' => $cc_id,
-            ]);
-	}
+      // Add Campus Champions program if it's not already set
+       // if (!array_filter($programs, function($program) { return $program['target_id'] == $cc_id; }) ) {
+        $user->get('field_region')->appendItem([
+          'target_id' => $cc_id,
+        ]);
+      // }
     }
 
     $user->save();
-    
-    $this->emailAccountNotification($user);
+
+    //$this->emailAccountNotification($user);
 
     return $this->t('You are a Campus Champion!');
   }
@@ -50,16 +50,17 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase {
    * {@inheritdoc}
    */
   public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
-    return TRUE;
+    // @see Drupal\Core\Field\FieldUpdateActionBase::access().
+    return $object->access('update', $account, $return_as_object);
   }
 
   /**
-     * Email notification of new account to user.
-     *
-     * @param User $user
-     *
-     * @return null
-     */
+   * Email notification of new account to user.
+   *
+   * @param User $user
+   *
+   * @return null
+   */
   protected function emailAccountNotification($user) {
     $mailManager = \Drupal::service('plugin.manager.mail');
     $module = 'campuschampions';
@@ -68,40 +69,40 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase {
     $name = $user->getDisplayName();
     $url = user_pass_reset_url($user);
     $params['message'] = '
-<html>
-<head>
-  <title>Welcome to the Campus Champions Portal</title>
-</head>
-<body>
-<p>Dear ' . $name . ',</p>
-<p></p>
-<p>The Campus Champions program is introducing <em>Affinity Groups</em> as a lightweight way for Champions with common interests to gather, share experience, and aggregate knowledge and resources. Your account has been created on the  <a href=https://campuschampions.cyberinfrastructure.org>Champions Portal</a> which will be used to manage Affinity Groups. Please take a few minutes to access your account, set up your profile, and choose your affinity groups.</p>
-<p></p>
-<p><strong>ACCESS YOUR ACCOUNT</strong></p>
-<p></p>
-<p>Click on this link or copy and paste it to your browser:</p>
-<p>' . $url . '</p>
-<p>This link can only be used once to log in and will lead you to a page where you can set your password. It expires after seven days and nothing will happen if it&apos;s not used. </p>
-<p></p>
-<p><strong>SET UP YOUR PORTAL PROFILE</strong></p>
-<ol>
-<li>Click <strong>My Profile>Edit my account</strong> in the <strong>My Profile</strong> pulldown in the top right corner and make the following choices:
-<ol>
-<li>Select the program(s) in which you are a participant. The Campus Champions program has been pre-selected. To select the additional programs, command-click (on a MAC) or right-click (on a Windows-based machine).</li>
-<li>Select the role (or roles) that are applicable.</li>
-<li>Upload a picture so that we can recognize each other more readily!</li></ol>
-<li>Indicate your skills and interests by clicking <strong>My profile>add/edit interests</strong> or <strong>My profile>add/edit skills</strong> from the pulldown in the top right corner. "Skills" are topics on which you are willing to answer a question; "Interests" are topics about which you would like to learn more.</li>
-</ol>
-<p></p>
-<p><strong>CHOOSE YOUR AFFINITY GROUPS</strong></p>
-<p>Once you have set up your profile, click on <strong><a href="https://campuschampions.cyberinfrastructure.org/affinity-groups">Community>Affinity Groups</a> </strong> to see a list of current Affinity Groups. Please click "join" for any of those that are of interest, and you will appear in the Affinity Group.</p>
-<p> If you&apos;d like to start a new Affinity Group, please start the process using <a href="https://campuschampions.cyberinfrastructure.org/form/affinity-group-request">this form</a> on the Affinity Groups page.</p>
-<p></p>
-<p>Thank you for your participation!</p>
-<p></p>
-<p>-- The Campus Champions Leadership team</p>
-</body>
-</html>';
+      <html>
+      <head>
+      <title>Welcome to the Campus Champions Portal</title>
+      </head>
+      <body>
+      <p>Dear ' . $name . ',</p>
+      <p></p>
+      <p>The Campus Champions program is introducing <em>Affinity Groups</em> as a lightweight way for Champions with common interests to gather, share experience, and aggregate knowledge and resources. Your account has been created on the  <a href=https://campuschampions.cyberinfrastructure.org>Champions Portal</a> which will be used to manage Affinity Groups. Please take a few minutes to access your account, set up your profile, and choose your affinity groups.</p>
+      <p></p>
+      <p><strong>ACCESS YOUR ACCOUNT</strong></p>
+      <p></p>
+      <p>Click on this link or copy and paste it to your browser:</p>
+      <p>' . $url . '</p>
+      <p>This link can only be used once to log in and will lead you to a page where you can set your password. It expires after seven days and nothing will happen if it&apos;s not used. </p>
+      <p></p>
+      <p><strong>SET UP YOUR PORTAL PROFILE</strong></p>
+      <ol>
+      <li>Click <strong>My Profile>Edit my account</strong> in the <strong>My Profile</strong> pulldown in the top right corner and make the following choices:
+      <ol>
+      <li>Select the program(s) in which you are a participant. The Campus Champions program has been pre-selected. To select the additional programs, command-click (on a MAC) or right-click (on a Windows-based machine).</li>
+      <li>Select the role (or roles) that are applicable.</li>
+      <li>Upload a picture so that we can recognize each other more readily!</li></ol>
+      <li>Indicate your skills and interests by clicking <strong>My profile>add/edit interests</strong> or <strong>My profile>add/edit skills</strong> from the pulldown in the top right corner. "Skills" are topics on which you are willing to answer a question; "Interests" are topics about which you would like to learn more.</li>
+      </ol>
+      <p></p>
+      <p><strong>CHOOSE YOUR AFFINITY GROUPS</strong></p>
+      <p>Once you have set up your profile, click on <strong><a href="https://campuschampions.cyberinfrastructure.org/affinity-groups">Community>Affinity Groups</a> </strong> to see a list of current Affinity Groups. Please click "join" for any of those that are of interest, and you will appear in the Affinity Group.</p>
+      <p> If you&apos;d like to start a new Affinity Group, please start the process using <a href="https://campuschampions.cyberinfrastructure.org/form/affinity-group-request">this form</a> on the Affinity Groups page.</p>
+      <p></p>
+      <p>Thank you for your participation!</p>
+      <p></p>
+      <p>-- The Campus Champions Leadership team</p>
+      </body>
+      </html>';
     $langcode = $user->getPreferredLangcode();
     $send = true;
 
