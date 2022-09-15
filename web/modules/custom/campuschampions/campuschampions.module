@@ -27,7 +27,7 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
         }
 
         $form['elements']['carnegie_classification']['#autocomplete_route_name'] = 'campuschampions.autocomplete';
-        
+
         // Reorder form
         $cc_checkbox = $form['elements']['i_can_t_find_my_carnegie_code'];
         $user_institution = $form['elements']['user_institution'];
@@ -35,7 +35,7 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
         unset($form['elements']['user_institution']);
         $form['elements']['i_can_t_find_my_carnegie_code'] = $cc_checkbox;
         $form['elements']['user_institution'] = $user_institution;
-        
+
         if ($form['#validate'] != 'validate_form') {
           $form['#validate'][] = 'validate_form';
         }
@@ -43,9 +43,9 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
 
     if ($form_id == 'user_form') {
       //ksm($form);
-      $form['role_change']['widget']['#options']['student'] = 'student-facilitator <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Student Facilitator"></i>';      
+      $form['role_change']['widget']['#options']['student'] = 'student-facilitator <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Student Facilitator"></i>';
       $form['role_change']['widget']['#options']['mentor'] = 'mentor <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Mentor"></i>';
-      $form['role_change']['widget']['#options']['professional_mentor'] = 'regional-facilitator <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Regional Facilitator"></i>'; 
+      $form['role_change']['widget']['#options']['professional_mentor'] = 'regional-facilitator <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Regional Facilitator"></i>';
 
       // Hide is_campus_champion field unless you are an admin
       $roles = \Drupal::currentUser()->getRoles();
@@ -67,10 +67,10 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
         if ($option == 'Campus Champions') {
           return false;
 	}
-        return true;	
-      }); 
+        return true;
+      });
     }
-    
+
     if ($form_id == 'change_pwd_form') {
         $form['actions']['submit']['#submit'][] = 'campuschampions_redirect_to_profile_page_form_submit';
     }
@@ -105,7 +105,7 @@ if (!function_exists('validate_form'))   {
 
 /**
  * Implements validate_user_form().
- * 
+ *
  * Require is_cc field to assign Campus Champions Program
  */
 if (!function_exists('validate_user_form'))   {
@@ -139,8 +139,8 @@ function campuschampions_theme() {
 }
 
 
-/** 
- * Implements hook_mail(). 
+/**
+ * Implements hook_mail().
  *
  * Send mail to approved campus champions
  */
@@ -153,6 +153,11 @@ function campuschampions_mail($key, &$message, $params) {
       $message['from'] = 'leadership@campuschampions.org';
       $message['subject'] = 'Welcome to the Campus Champions Portal!';
       $message['body'][] = $params['message'];
+      break;
+    case 'join-cc':
+      $message['from'] = 'leadership@campuschampions.org';
+      $message['subject'] = $params['title'];;
+      $message['body'][] = $params['body'];
       break;
   }
 }
@@ -188,7 +193,7 @@ function campuschampions_mail_alter(&$message) {
 
 /**
  * Implements hook_node_access().
- * 
+ *
  * Allow Affinity Group coordinators to edit the affinity group node.
  */
 function campuschampions_node_access(NodeInterface $node, $op, $account) {
