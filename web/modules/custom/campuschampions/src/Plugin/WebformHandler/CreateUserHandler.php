@@ -34,7 +34,6 @@ class CreateUserHandler extends WebformHandlerBase
     if (empty($ids)) {
       $user = $this->createUser($data);
       $webformSubmission->convert($user);
-      kint($user);
       $this->emailAccountNotification($user, $data['user_email']);
     }
   }
