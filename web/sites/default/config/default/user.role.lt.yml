@@ -3,18 +3,38 @@ langcode: en
 status: true
 dependencies:
   config:
+    - filter.format.basic_html
+    - filter.format.full_html
+    - filter.format.restricted_html
     - node.type.blog_post
     - node.type.blog_post_region_
     - taxonomy.vocabulary.tags
   module:
+    - contact
+    - filter
     - node
+    - role_delegation
+    - shortcut
+    - system
     - taxonomy
+    - toolbar
 id: lt
 label: LT
 weight: 14
 is_admin: null
 permissions:
+  - 'access administration pages'
   - 'access content overview'
+  - 'access shortcuts'
+  - 'access site in maintenance mode'
+  - 'access taxonomy overview'
+  - 'access toolbar'
+  - 'access user contact forms'
+  - 'assign professional_mentor role'
+  - 'assign regional_admin role'
+  - 'assign regional_expert role'
+  - 'assign representative role'
+  - 'assign steering_committee role'
   - 'create blog_post content'
   - 'create blog_post_region_ content'
   - 'create terms in tags'
@@ -24,3 +44,7 @@ permissions:
   - 'edit any blog_post content'
   - 'edit any blog_post_region_ content'
   - 'edit terms in tags'
+  - 'use text format basic_html'
+  - 'use text format full_html'
+  - 'use text format restricted_html'
+  - 'view the administration theme'
