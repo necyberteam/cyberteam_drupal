@@ -1,4 +1,4 @@
-@Hannah
+@cyberteam
 @api
 @javascript
 Feature: test affinity group page
@@ -9,7 +9,7 @@ Feature: test affinity group page
     When I go to "affinity-groups"
     Then I should see "Affinity Groups"
 
-    And I should see "Affinity Group Name"
+    And I should see "Affinity Group"
     And I should see "Description"
     And I should see "Tags"
     And I should see "Login To Join"
