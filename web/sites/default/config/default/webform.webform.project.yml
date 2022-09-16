@@ -29,17 +29,19 @@ elements: |-
     '#title': Received
     '#help': 'Approve the user to fill out the rest of the project submission'
     '#access_create_roles':
-      - steering_committee
-      - regional_admin
       - administrator
+      - sc
+      - lt
+      - ra
     '#access_update_roles':
-      - steering_committee
-      - regional_admin
-      - administrator
+      - sc
+      - lt
+      - ra
     '#access_view_roles':
-      - steering_committee
-      - regional_admin
       - administrator
+      - sc
+      - lt
+      - ra
   approved:
     '#type': checkbox
     '#title': 'Accept and Publish'
@@ -50,13 +52,15 @@ elements: |-
       - lt
       - ra
     '#access_update_roles':
-      - steering_committee
-      - regional_admin
       - administrator
+      - sc
+      - lt
+      - ra
     '#access_view_roles':
-      - steering_committee
-      - regional_admin
       - administrator
+      - sc
+      - lt
+      - ra
   project_title:
     '#type': textfield
     '#title': 'Project Title'
