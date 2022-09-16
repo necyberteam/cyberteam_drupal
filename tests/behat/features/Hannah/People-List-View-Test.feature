@@ -1,4 +1,4 @@
-@Hannah
+@cyberteam
 @api
 @javascript
 Feature: test people page list view w/ filters 
