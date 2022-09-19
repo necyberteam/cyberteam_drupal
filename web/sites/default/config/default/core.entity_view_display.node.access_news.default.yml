@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.access_news.body
+    - field.field.node.access_news.field_affinity_group
     - field.field.node.access_news.field_affinity_group_node
     - field.field.node.access_news.field_domain_access
     - field.field.node.access_news.field_domain_all_affiliates
@@ -66,6 +67,7 @@ content:
     weight: 3
     region: content
 hidden:
+  field_affinity_group: true
   field_domain_access: true
   field_domain_all_affiliates: true
   field_domain_source: true
