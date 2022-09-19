@@ -88,10 +88,12 @@ GITHUB_TOKEN=$token'>.env");
       $this->say($behat);
       $this->_exec( $this->lando() . 'drush cim -y');
       $this->_exec( $this->lando() . 'drush cr');
+      // the following deletes any work in progress in the features directory -- i think we need to rethink this
+      // $this->_exec( 'git clean -f tests/behat/features/');
       # Todo: need to figure out a better way of getting this output.
       $pattern = "/Failed scenarios/i";
       if (preg_match($pattern, $behat)) {
-        throw new Exception('Failed behat tests.');
+        throw new \Exception('Failed behat tests.');
       }
     }
   }
