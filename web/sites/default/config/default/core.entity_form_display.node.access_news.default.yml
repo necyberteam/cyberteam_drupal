@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.access_news.body
+    - field.field.node.access_news.field_affinity_group
     - field.field.node.access_news.field_affinity_group_node
     - field.field.node.access_news.field_domain_access
     - field.field.node.access_news.field_domain_all_affiliates
@@ -38,6 +39,16 @@ content:
     weight: 2
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_affinity_group:
+    type: entity_reference_autocomplete
+    weight: 14
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_affinity_group_node:
     type: entity_reference_autocomplete
