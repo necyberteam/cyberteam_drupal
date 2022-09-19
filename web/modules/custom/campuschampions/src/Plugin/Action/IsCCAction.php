@@ -14,39 +14,49 @@ use Drupal\Core\Session\AccountInterface;
  *   type = "user"
  * )
  */
-class IsCCAction extends ViewsBulkOperationsActionBase {
+class IsCCAction extends ViewsBulkOperationsActionBase
+{
 
-  /**
-   * {@inheritdoc}
-   */
-  public function execute($entity = NULL) {
+    /**
+     * {@inheritdoc}
+     */
+    public function execute($user = null)
+    {
 
-    $cc_id = 572; // Campus Champions Program ID
+        $cc_id = 572; // Campus Champions Program ID
 
-    $entity->set('field_is_cc', 1);
+        $user->set('field_is_cc', 1);
 
-    $region[] = $entity->get('field_region');
-    if (count($region) == 0) {
-        $entity->set('field_region', $cc_id);
-    } else {
-	// Add Campus Champions program if it's not already set
-        //if (!array_filter($programs, function($program) { return $program['target_id'] == $cc_id; }) ) {
-            $entity->get('field_region')->appendItem([
-                'target_id' => $cc_id,
-            ]);
-	//}
+        $region[] = $user->get('field_region')->referencedEntities();
+        if (count($region) == 0) {
+            $user->set('field_region', $cc_id);
+        } else {
+            // Add Campus Champions program if it's not already set
+            if (!array_filter(
+                $region, function ($program) {
+                    return $program[0]->id() == $cc_id; 
+                }
+            ) 
+            ) {
+                $user->get('field_region')->appendItem(
+                    [
+                    'target_id' => $cc_id,
+                    ]
+                );
+            }
+        }
+
+        $user->save();
+
+        return $this->t('You are a Campus Champion!');
     }
 
-    $entity->save();
-
-    return $this->t('You are a Campus Champion!');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
-    return $object->access('update', $account, $return_as_object);
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function access($object, AccountInterface $account = null, $return_as_object = false)
+    {
+        return $object->access('update', $account, $return_as_object);
+    }
 
 }
