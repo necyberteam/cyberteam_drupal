@@ -12,63 +12,73 @@ use Drupal\Core\Session\AccountInterface;
  *   type = ""
  * )
  */
-class ApproveCCAction extends ViewsBulkOperationsActionBase {
+class ApproveCCAction extends ViewsBulkOperationsActionBase
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function execute($entity = null)
+    {
 
-  /**
-   * {@inheritdoc}
-   */
-  public function execute($entity = NULL) {
+        $cc_id = 572; // Campus Champions Program ID
 
-    $cc_id = 572; // Campus Champions Program ID
+        $data = $entity->getData();
+        $user = user_load_by_mail($data['user_email']);
 
-    $data = $entity->getData();
-    $user = user_load_by_mail($data['user_email']);
+        $user->set('field_carnegie_code', $data['carnegie_classification']);
+        $user->set('field_is_cc', 1);
 
-    $user->set('field_carnegie_code', $data['carnegie_classification']);
-    $user->set('field_is_cc', 1);
+        $region[] = $user->get('field_region')->referencedEntities();
+        if (count($region) == 0) {
+            $user->set('field_region', $cc_id);
+        } else {
+            // Add Campus Champions program if it's not already set
+            if (!array_filter(
+                $region, function ($program) {
+                    return $program[0]->id() == $cc_id; 
+                }
+            ) 
+            ) {
+                $user->get('field_region')->appendItem(
+                    [
+                    'target_id' => $cc_id,
+                    ]
+                );
+            }
+        }
 
-    $region[] = $user->get('field_region');
-    if (count($region) == 0) {
-      $user->set('field_region', $cc_id);
-    } else {
-      // Add Campus Champions program if it's not already set
-       // if (!array_filter($programs, function($program) { return $program['target_id'] == $cc_id; }) ) {
-        $user->get('field_region')->appendItem([
-          'target_id' => $cc_id,
-        ]);
-      // }
+        $user->save();
+
+        $this->emailAccountNotification($user);
+
+        return $this->t('You are a Campus Champion!');
     }
 
-    $user->save();
+    /**
+     * {@inheritdoc}
+     */
+    public function access($object, AccountInterface $account = null, $return_as_object = false)
+    {
+        // @see Drupal\Core\Field\FieldUpdateActionBase::access().
+        return $object->access('update', $account, $return_as_object);
+    }
 
-    //$this->emailAccountNotification($user);
-
-    return $this->t('You are a Campus Champion!');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
-    // @see Drupal\Core\Field\FieldUpdateActionBase::access().
-    return $object->access('update', $account, $return_as_object);
-  }
-
-  /**
-   * Email notification of new account to user.
-   *
-   * @param User $user
-   *
-   * @return null
-   */
-  protected function emailAccountNotification($user) {
-    $mailManager = \Drupal::service('plugin.manager.mail');
-    $module = 'campuschampions';
-    $key = 'approve_campuschampion';
-    $to = $user->getEmail();
-    $name = $user->getDisplayName();
-    $url = user_pass_reset_url($user);
-    $params['message'] = '
+    /**
+     * Email notification of new account to user.
+     *
+     * @param User $user
+     *
+     * @return null
+     */
+    protected function emailAccountNotification($user)
+    {
+        $mailManager = \Drupal::service('plugin.manager.mail');
+        $module = 'campuschampions';
+        $key = 'approve_campuschampion';
+        $to = $user->getEmail();
+        $name = $user->getDisplayName();
+        $url = user_pass_reset_url($user);
+        $params['message'] = '
       <html>
       <head>
       <title>Welcome to the Campus Champions Portal</title>
@@ -103,19 +113,19 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase {
       <p>-- The Campus Champions Leadership team</p>
       </body>
       </html>';
-    $langcode = $user->getPreferredLangcode();
-    $send = true;
+        $langcode = $user->getPreferredLangcode();
+        $send = true;
 
-    $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
-    if ($result['result'] != true) {
-      $message = t('There was a problem sending your email notification to @email.', array('@email' => $to));
-      drupal_set_message($message, 'error');
-      \Drupal::logger('mail-log')->error($message);
-      return;
+        $result = $mailManager->mail($module, $key, $to, $langcode, $params, null, $send);
+        if ($result['result'] != true) {
+            $message = t('There was a problem sending your email notification to @email.', array('@email' => $to));
+            drupal_set_message($message, 'error');
+            \Drupal::logger('mail-log')->error($message);
+            return;
+        }
+
+        $message = t('An email notification has been sent to @email ', array('@email' => $to));
+        \Drupal::messenger()->addMessage($message);
+        \Drupal::logger('mail-log')->notice($message);
     }
-
-    $message = t('An email notification has been sent to @email ', array('@email' => $to));
-    drupal_set_message($message);
-    \Drupal::logger('mail-log')->notice($message);
-  }
 }
