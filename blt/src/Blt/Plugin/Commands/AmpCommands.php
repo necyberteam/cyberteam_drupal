@@ -69,18 +69,19 @@ AMP_USERNAME=$username'>.env");
     $lando_end = $this->lando() == 'lando '?"\"":"";
 
     foreach ($domains as $domain) {
-      if ($domain != 'cyberteam') {
+      $this->_exec( 'git add tests/behat/features/');
+      if ($domain != 'cyberteam' && $domain != 'wip') {
         $behat = shell_exec("cp tests/behat/features/templates/* tests/behat/features/$domain/ && sed -i '1 s/@cyberteam/@$domain/g' tests/behat/features/$domain/*.feature");
       }
       $behat = shell_exec($lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end);
       $this->say($behat);
-      $this->_exec( $this->lando() . 'drush cim -y');
-      $this->_exec( $this->lando() . 'drush cr');
-      $this->_exec( $this->lando() . 'git clean -f tests/behat/features/');
+      // $this->_exec( $this->lando() . 'drush cim -y');
+      // $this->_exec( $this->lando() . 'drush cr');
+      $this->_exec( 'git clean -f tests/behat/features/');
       # Todo: need to figure out a better way of getting this output.
       $pattern = "/Failed scenarios/i";
       if (preg_match($pattern, $behat)) {
-        throw new Exception('Failed behat tests.');
+        throw new \Exception('Failed behat tests.');
       }
     }
   }
