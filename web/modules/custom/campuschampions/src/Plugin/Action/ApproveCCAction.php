@@ -35,7 +35,7 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase
             // Add Campus Champions program if it's not already set
             if (!array_filter(
                 $region, function ($program) {
-                    return $program[0]->id() == $cc_id; 
+                    return method_exists($program[0], id) && $program[0]->id() == $cc_id; 
                 }
             ) 
             ) {
