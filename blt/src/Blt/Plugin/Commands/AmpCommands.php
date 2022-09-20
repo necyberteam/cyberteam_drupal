@@ -11,6 +11,10 @@ use Drupal\Component\Utility\Xss;
  */
 class AmpCommands extends BltTasks {
 
+  var $NO_DRUSH_CR = FALSE;   // Devs can temporarily set this to TRUE for faster tests.
+                              // This should not be checked in, nor used when a test modifies
+                              // configuration.
+
   /**
    * Reload site with prod db.
    *
@@ -75,9 +79,14 @@ AMP_USERNAME=$username'>.env");
       }
       $behat = shell_exec($lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end);
       $this->say($behat);
-      // $this->_exec( $this->lando() . 'drush cim -y');
-      // $this->_exec( $this->lando() . 'drush cr');
+
+      if (!$this->NO_DRUSH_CR) {
+        $this->_exec( $this->lando() . 'drush cim -y');
+        $this->_exec( $this->lando() . 'drush cr');
+      }
+
       $this->_exec( 'git clean -f tests/behat/features/');
+
       # Todo: need to figure out a better way of getting this output.
       $pattern = "/Failed scenarios/i";
       if (preg_match($pattern, $behat)) {
