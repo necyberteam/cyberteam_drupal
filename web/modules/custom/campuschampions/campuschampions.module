@@ -114,7 +114,7 @@ if (!function_exists('validate_user_form'))   {
     $is_cc = $form_state->getValue('field_is_cc');
     // 572 is Campus Champions
     if (array_filter($programs, function($program) { return $program['target_id'] == '572'; }) && !$is_cc['value']) {
-      $form_state->setErrorByName('field_region', t('Please join the Campus Champions by submitting <a href="https://campuschampions.cyberinfrastructure.org/form/join-campus-champions">this form</a> before selecting "Campus Champions" in the Programs list.'));
+      $form_state->setErrorByName('field_region', t('Please join the Campus Champions by submitting <a href="/form/join-campus-champions">this form</a> before selecting "Campus Champions" in the Programs list.'));
     }
   }
 }
