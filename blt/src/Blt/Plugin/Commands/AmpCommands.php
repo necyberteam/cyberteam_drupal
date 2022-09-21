@@ -11,10 +11,6 @@ use Drupal\Component\Utility\Xss;
  */
 class AmpCommands extends BltTasks {
 
-  var $NO_DRUSH_CR = FALSE;   // Devs can temporarily set this to TRUE for faster tests.
-                              // This should not be checked in, nor used when a test modifies
-                              // configuration.
-
   /**
    * Reload site with prod db.
    *
@@ -67,6 +63,16 @@ GITHUB_TOKEN=$token'>.env");
    * @description Run behat.
    */
   public function behat(array $args) {
+ 
+    // to make testing faster, skip the drush commands (useful during development)
+    // to enable this, in the shell, do "export BEHAT_NO_DRUSH=true"
+    // to disable this, in the shell, do "export BEHAT_NO_DRUSH=false"
+    $no_drush_cmds = strcasecmp(getenv("BEHAT_NO_DRUSH"), 'TRUE') == 0;
+ 
+    if ($no_drush_cmds) {
+      $this->say("NOTE: drush commands being skipped because BEHAT_NO_DRUSH is true");
+    }
+
     if ($args) {
       $domains = $args;
     } else {
@@ -92,13 +98,14 @@ GITHUB_TOKEN=$token'>.env");
       if ($domain != 'cyberteam' && $domain != 'wip') {
         $behat = shell_exec("cp tests/behat/features/templates/* tests/behat/features/$domain/ && sed -i '1 s/@cyberteam/@$domain/g' tests/behat/features/$domain/*.feature");
       }
-      $behat = shell_exec($lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end);
+      $shell_cmd = $lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end;
+      $behat = shell_exec($shell_cmd);
       $this->say($behat);
-
-      if (!$this->NO_DRUSH_CR) {
+ 
+      if (!$no_drush_cmds) {
         $this->_exec( $this->lando() . 'drush cim -y');
         $this->_exec( $this->lando() . 'drush cr');
-      }
+      } 
 
       $this->_exec( 'git clean -f tests/behat/features/');
 
