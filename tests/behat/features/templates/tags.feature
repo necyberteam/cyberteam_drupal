@@ -1,18 +1,28 @@
 @cyberteam
 @api
+@javascript
+
 Feature: test tags page
   Tests for the Tags page
 
     Scenario: Tags pages for unauthenticated user
-      Given I am not logged in
+      Given I am logged in
       When I go to "tags"
       Then I should see "Tags"
       And I should see "Contains any word"
       And I should see "Search"
       And I should see "Tree View"
       And I should see "List View"
-      # following worked for a while and now isn't working
-      #And I should not see "Request Tag"
+
+    Scenario: Tags pages shows "Request Tag" for unauthenticated user
+      Given I am logged in as a user with the "authenticated" role
+      When I go to "tags"
+      Then I should see "Request Tag"
+
+    Scenario: Tags pages does not show "Request Tag" when logged out
+      Given I am not logged in
+      When I go to "tags"
+      Then I should not see "Request Tag"
 
     Scenario: Unauthenticated user searches for a tag
       Given I am not logged in
