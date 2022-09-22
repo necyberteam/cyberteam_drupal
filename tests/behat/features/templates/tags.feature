@@ -14,7 +14,7 @@ Feature: test tags page
       And I should see "Tree View"
       And I should see "List View"
 
-    Scenario: Tags pages shows "Request Tag" for unauthenticated user
+    Scenario: Tags pages shows "Request Tag" for authenticated user
       Given I am logged in as a user with the "authenticated" role
       When I go to "tags"
       Then I should see "Request Tag"
