@@ -1,4 +1,4 @@
-@cyberteam
+@wip
 @api
 Feature: test individual tags page
   Tests for individual tags page
