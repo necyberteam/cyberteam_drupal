@@ -70,23 +70,25 @@ GITHUB_TOKEN=$token'>.env");
     $no_drush_cmds = strcasecmp(getenv("BEHAT_NO_DRUSH"), 'TRUE') == 0;
  
     if ($no_drush_cmds) {
-      $this->say("NOTE: drush commands being skipped because BEHAT_NO_DRUSH is true");
+      $this->say("NOTE: drush commands being skipped because env variable BEHAT_NO_DRUSH is true");
     }
 
     if ($args) {
       $domains = $args;
     } else {
       $domains = [
-        'amp',
         'careers',
         'cci',
         'champ',
-        'coco',
         'cyberteam',
         'gpc',
         'ky',
         'rmacc',
-        'usrse'
+        // these domains are sufficiently different that the template tests 
+        // should *not* be copied to them
+        //'amp',
+        //'coco',
+        //'usrse'
       ];
     }
 
