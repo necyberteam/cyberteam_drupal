@@ -63,20 +63,32 @@ GITHUB_TOKEN=$token'>.env");
    * @description Run behat.
    */
   public function behat(array $args) {
+ 
+    // to make testing faster, skip the drush commands (useful during development)
+    // to enable this, in the shell, do "export BEHAT_NO_DRUSH=true"
+    // to disable this, in the shell, do "export BEHAT_NO_DRUSH=false"
+    $no_drush_cmds = strcasecmp(getenv("BEHAT_NO_DRUSH"), 'TRUE') == 0;
+ 
+    if ($no_drush_cmds) {
+      $this->say("NOTE: drush commands being skipped because env variable BEHAT_NO_DRUSH is true");
+    }
+
     if ($args) {
       $domains = $args;
     } else {
       $domains = [
-        'amp',
         'careers',
         'cci',
         'champ',
-        'coco',
         'cyberteam',
         'gpc',
         'ky',
         'rmacc',
-        'usrse'
+        // these domains are sufficiently different that the template tests 
+        // should *not* be copied to them
+        //'amp',
+        //'coco',
+        //'usrse'
       ];
     }
 
@@ -84,14 +96,25 @@ GITHUB_TOKEN=$token'>.env");
     $lando_end = $this->lando() == 'lando '?"\"":"";
 
     foreach ($domains as $domain) {
-      $behat = shell_exec($lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end);
+      $this->_exec( 'git add tests/behat/features/');
+      if ($domain != 'cyberteam' && $domain != 'wip') {
+        $behat = shell_exec("cp tests/behat/features/templates/* tests/behat/features/$domain/ && sed -i '1 s/@cyberteam/@$domain/g' tests/behat/features/$domain/*.feature");
+      }
+      $shell_cmd = $lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end;
+      $behat = shell_exec($shell_cmd);
       $this->say($behat);
-      $this->_exec( $this->lando() . 'drush cim -y');
-      $this->_exec( $this->lando() . 'drush cr');
+ 
+      if (!$no_drush_cmds) {
+        $this->_exec( $this->lando() . 'drush cim -y');
+        $this->_exec( $this->lando() . 'drush cr');
+      } 
+
+      $this->_exec( 'git clean -f tests/behat/features/');
+
       # Todo: need to figure out a better way of getting this output.
       $pattern = "/Failed scenarios/i";
       if (preg_match($pattern, $behat)) {
-        throw new Exception('Failed behat tests.');
+        throw new \Exception('Failed behat tests.');
       }
     }
   }
