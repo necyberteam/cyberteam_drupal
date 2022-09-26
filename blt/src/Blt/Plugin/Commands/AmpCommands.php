@@ -83,11 +83,11 @@ GITHUB_TOKEN=$token'>.env");
         'cyberteam',
         'gpc',
         'ky',
-        'rmacc',
         // these domains are sufficiently different that the template tests 
         // should *not* be copied to them
         //'amp',
         //'coco',
+        //'rmacc',
         //'usrse'
       ];
     }
