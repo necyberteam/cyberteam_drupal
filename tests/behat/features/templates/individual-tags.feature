@@ -4,8 +4,48 @@
 Feature: test individual tags page
   To test an individual tag
   While either authenticated or not
-  I can modify tag complents  on the tag page
+  I can verify tag components appear as expected
+
+  Scenario: Verify non-admin content for tag "bioinformatics"
+    Given I am not logged in
+    When I go to "tags/bioinformatics"
+    Then I should see "bioinformatics"
+    And I should see "Mentors and Regional Facilitators"
+    And I should see "Brett Milash"
+    And I should see "RMACC"
+    And I should see "Topics from Ask.CI"
+    And I should see "Juan Vanegas"
+    And I should see "researcher/educator"
+    And I should see "Jetstream-2"
+    And I should see "There are no resources associated with this topic"
+    And I should see "There are no projects associated with this topic"
+    And I should see "There are no Blog Entries associated with this topic."
+    And I should not see "Export Mailing List"
+
+  Scenario: Verify admin content for tag "bioinformatics" shows mailing list
+    Given I am logged in as a user with the "administrator" role
+    When I go to "tags/bioinformatics"
+    And I should see "Export Mailing List"
     
+  Scenario: Add a "test-affinity-group" for login tag and verify it appears
+    Given I am logged in as a user with the "administrator" role
+    When I go to "node/add/affinity_group"
+    When I fill in "Title" with "test-affinity-group"
+    # resource is ACCESS-support
+    When I select "618" from "edit-field-affinity-group"
+    # tag is "login"
+    When I select "682" from "edit-field-tags"
+    When I check "Published" 
+    When I press "Save" 
+    Then I should see "has been created"
+
+    Given I am not logged in
+    When I go to "tags/login"
+    Then I should see "test-affinity-group"
+    When I follow "test-affinity-group"
+    Then I should see "Members get updates about news, events, and outages"
+    And I should see "test-affinity-group"
+
   Scenario: Add a "test-login-resource" for login tag and verify it appears
     Given I am logged in as a user with the "administrator" role
     When I go to "resources"
@@ -54,25 +94,5 @@ Feature: test individual tags page
     Then I should see "test-project-title"
 
     
-  Scenario: Verify non-admin content for tag "bioinformatics"
-    Given I am not logged in
-    When I go to "tags/bioinformatics"
-    Then I should see "bioinformatics"
-    And I should see "Mentors and Regional Facilitators"
-    And I should see "Brett Milash"
-    And I should see "RMACC"
-    And I should see "Topics from Ask.CI"
-    And I should see "Juan Vanegas"
-    And I should see "researcher/educator"
-    And I should see "Jetstream-2"
-    And I should see "There are no resources associated with this topic"
-    And I should see "There are no projects associated with this topic"
-    And I should see "There are no Blog Entries associated with this topic."
-    And I should not see "Export Mailing List"
-
-  Scenario: Verify admin content for tag "bioinformatics" shows mailing list
-    Given I am logged in as a user with the "administrator" role
-    When I go to "tags/bioinformatics"
-    And I should see "Export Mailing List"
 
 
