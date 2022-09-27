@@ -6,13 +6,16 @@ Feature: test tags page
   Tests for the Tags page
 
     Scenario: Tags pages for unauthenticated user
-      Given I am logged in
+      Given I am not logged in
       When I go to "tags"
       Then I should see "Tags"
       And I should see "Contains any word"
       And I should see "Search"
       And I should see "Tree View"
-      And I should see "List View"
+      And I should see "login"
+      And I should see "osg"
+      And I should see "ACCESS RPs"
+      And I should see "xsede"
 
     Scenario: Tags pages shows "Request Tag" for authenticated user
       Given I am logged in as a user with the "authenticated" role
@@ -24,12 +27,19 @@ Feature: test tags page
       When I go to "tags"
       Then I should not see "Request Tag"
 
-    Scenario: Unauthenticated user searches for a tag
+    Scenario: Unauthenticated user searches for tags (case insensitive)
       Given I am not logged in
       When I go to "tags"
       When I fill in "Search" with "login"
-      And I wait 2 seconds
+      And I wait 1 seconds
       Then I should see "login"
+      When I fill in "Search" with "LOGIN"
+      And I wait 1 seconds
+      Then I should see "login"
+      When I fill in "Search" with "LOGIN"
+      And I wait 1 seconds
+      Then I should see "login"
+      
 
     Scenario: Unauthenticated user examines tree view of tags
       Given I am not logged in
