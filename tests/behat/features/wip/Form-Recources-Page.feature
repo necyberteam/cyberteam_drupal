@@ -1,12 +1,8 @@
-@wip
+@templates
 @api
 @javascript
 Feature: test recources page 
   In order to test the Add resource page
-
-#Also add to "Make resources" on spreadhseet
-
-
 
   Scenario: Authenticated user fills out Recource Form 
     Given I am logged in as a user with the "authenticated" role
