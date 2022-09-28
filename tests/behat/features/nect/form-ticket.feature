@@ -1,4 +1,4 @@
-@cyberteam
+@nect
 @api
 Feature: test enter ticket form
   In order to test the enter ticket form
