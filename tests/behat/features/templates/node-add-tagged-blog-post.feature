@@ -1,4 +1,4 @@
-@cyberteam
+@nect
 @api
 
 Feature: add a blog post with a tag
