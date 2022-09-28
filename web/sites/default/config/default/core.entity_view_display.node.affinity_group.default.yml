@@ -13,6 +13,7 @@ dependencies:
     - field.field.node.affinity_group.field_events
     - field.field.node.affinity_group.field_github_organization
     - field.field.node.affinity_group.field_image
+    - field.field.node.affinity_group.field_list_id
     - field.field.node.affinity_group.field_mailing_list
     - field.field.node.affinity_group.field_resources_entity_reference
     - field.field.node.affinity_group.field_resources_placeholder
@@ -26,6 +27,14 @@ targetEntityType: node
 bundle: affinity_group
 mode: default
 content:
+  field_list_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }
