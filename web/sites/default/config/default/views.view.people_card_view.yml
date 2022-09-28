@@ -926,7 +926,7 @@ display:
           exposed: true
           expose:
             operator_id: combine_op
-            label: 'Search the people database'
+            label: ''
             description: ''
             use_operator: false
             operator: combine_op
@@ -945,7 +945,6 @@ display:
               researcher: '0'
               steering_committee: '0'
               regional_admin: '0'
-              leadership: '0'
               representative: '0'
               administrator: '0'
               masquerade: '0'
@@ -956,14 +955,6 @@ display:
               research_software_engineer: '0'
               ci_systems_engineer: '0'
               mentee: '0'
-              student_champion: '0'
-              domain_champion: '0'
-              cssn: '0'
-              affinity_group_leader: '0'
-              match_pm: '0'
-              sc: '0'
-              lt: '0'
-              ra: '0'
             placeholder: Search...
           is_grouped: false
           group_info:
@@ -1217,10 +1208,321 @@ display:
     position: 1
     display_options:
       title: People
+      filters:
+        status:
+          id: status
+          table: users_field_data
+          field: status
+          entity_type: user
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        uuid:
+          id: uuid
+          table: users
+          field: uuid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: user
+          entity_field: uuid
+          plugin_id: string
+          operator: '!='
+          value: '0'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          use_tokens: 0
+        combine:
+          id: combine
+          table: views
+          field: combine
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: combine
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: combine_op
+            label: 'Search by Name'
+            description: ''
+            use_operator: false
+            operator: combine_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: combine
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              student: '0'
+              mentor: '0'
+              professional_mentor: '0'
+              researcher: '0'
+              steering_committee: '0'
+              regional_admin: '0'
+              leadership: '0'
+              representative: '0'
+              administrator: '0'
+              masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+            placeholder: Search...
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          fields:
+            field_user_first_name: field_user_first_name
+            field_institution: field_institution
+            field_user_last_name: field_user_last_name
+            name: name
+            realname: realname
+        roles_target_id_1:
+          id: roles_target_id_1
+          table: user__roles
+          field: roles_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: user
+          entity_field: roles
+          plugin_id: user_roles
+          operator: or
+          value:
+            student: student
+            mentor: mentor
+            professional_mentor: professional_mentor
+            researcher: researcher
+            steering_committee: steering_committee
+            leadership: leadership
+            representative: representative
+            regional_expert: regional_expert
+            research_computing_facilitator: research_computing_facilitator
+            research_software_engineer: research_software_engineer
+            ci_systems_engineer: ci_systems_engineer
+            mentee: mentee
+            student_champion: student_champion
+            domain_champion: domain_champion
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: true
+        roles_target_id:
+          id: roles_target_id
+          table: user__roles
+          field: roles_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: user
+          entity_field: roles
+          plugin_id: user_roles
+          operator: or
+          value:
+            student: student
+            mentor: mentor
+            professional_mentor: professional_mentor
+            researcher: researcher
+            steering_committee: steering_committee
+            leadership: leadership
+            representative: representative
+            regional_expert: regional_expert
+            research_computing_facilitator: research_computing_facilitator
+            research_software_engineer: research_software_engineer
+            ci_systems_engineer: ci_systems_engineer
+            mentee: mentee
+            student_champion: student_champion
+            domain_champion: domain_champion
+          group: 1
+          exposed: true
+          expose:
+            operator_id: roles_target_id_op
+            label: 'Filter by Role'
+            description: ''
+            use_operator: false
+            operator: roles_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: roles_target_id
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              student: '0'
+              mentor: '0'
+              professional_mentor: '0'
+              researcher: '0'
+              steering_committee: '0'
+              regional_admin: '0'
+              leadership: '0'
+              representative: '0'
+              administrator: '0'
+              masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+            reduce: true
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: true
+        field_region_target_id:
+          id: field_region_target_id
+          table: user__field_region
+          field: field_region_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            572: 572
+            323: 323
+            311: 311
+            322: 322
+            325: 325
+            308: 308
+            314: 314
+            324: 324
+            326: 326
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: region
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
       defaults:
         title: false
-        filters: true
-        filter_groups: true
+        filters: false
+        filter_groups: false
       display_description: ''
       exposed_block: true
       display_extenders:
@@ -1321,7 +1623,7 @@ display:
           exposed: true
           expose:
             operator_id: combine_op
-            label: 'Search the people database'
+            label: 'Search by Name'
             description: ''
             use_operator: false
             operator: combine_op
@@ -1668,7 +1970,7 @@ display:
           exposed: true
           expose:
             operator_id: combine_op
-            label: 'Search the people database'
+            label: 'Search by Name'
             description: ''
             use_operator: false
             operator: combine_op
@@ -1993,7 +2295,7 @@ display:
           exposed: true
           expose:
             operator_id: combine_op
-            label: 'Search the people database'
+            label: 'Search by Name'
             description: ''
             use_operator: false
             operator: combine_op
@@ -2322,7 +2624,7 @@ display:
           exposed: true
           expose:
             operator_id: combine_op
-            label: 'Search the people database'
+            label: 'Search by Name'
             description: ''
             use_operator: false
             operator: combine_op
@@ -2647,7 +2949,7 @@ display:
           exposed: true
           expose:
             operator_id: combine_op
-            label: 'Search the people database'
+            label: 'Search by Name'
             description: ''
             use_operator: false
             operator: combine_op
@@ -2972,7 +3274,7 @@ display:
           exposed: true
           expose:
             operator_id: combine_op
-            label: 'Search the people database'
+            label: 'Search by Name'
             description: ''
             use_operator: false
             operator: combine_op
@@ -3295,7 +3597,7 @@ display:
           exposed: true
           expose:
             operator_id: combine_op
-            label: 'Search the people database'
+            label: 'Search by Name'
             description: ''
             use_operator: false
             operator: combine_op
@@ -3624,7 +3926,7 @@ display:
           exposed: true
           expose:
             operator_id: combine_op
-            label: 'Search the people database'
+            label: 'Search by Name'
             description: ''
             use_operator: false
             operator: combine_op
@@ -3949,7 +4251,7 @@ display:
           exposed: true
           expose:
             operator_id: combine_op
-            label: 'Search the people database'
+            label: 'Search by Name'
             description: ''
             use_operator: false
             operator: combine_op
