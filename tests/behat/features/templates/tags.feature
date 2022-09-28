@@ -1,4 +1,4 @@
-@cyberteam
+@nect
 @api
 @javascript
 
