@@ -1,4 +1,4 @@
-@cyberteam
+@nect
 @api
 
 Feature: test individual tags page
