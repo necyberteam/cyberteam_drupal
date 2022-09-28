@@ -1,4 +1,4 @@
-@cyberteam
+@nect
 @api
 @javascript
 Feature: test affinity group request form
@@ -31,7 +31,9 @@ Feature: test affinity group request form
     # And I should see "Provide a link to the email list or email contact for the Affinity Group. Please enter the full URL to your mailing list including the "https://", or if an email please type "mailto:" before the address. For example: mailto:example@email.com"
     # And I should see "Submit"
     When I fill in "affinity_group_name" with "TEST"
-    When I fill in "Coordinators" with "test test (1984)"
+    
+    #When I fill in "Coordinators" with "test test (1984)"
+    When I fill in "Coordinators" with "Andrew Pasquale (1964)"
     When I fill in "short_description" with "TEST"
     When I fill in "project_description" with "TEST"
     When I press "Submit"
