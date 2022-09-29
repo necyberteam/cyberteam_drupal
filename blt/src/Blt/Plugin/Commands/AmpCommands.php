@@ -80,7 +80,7 @@ GITHUB_TOKEN=$token'>.env");
         'careers',
         'cci',
         'champ',
-        'cyberteam',
+        'nect',
         'gpc',
         'ky',
         // these domains are sufficiently different that the template tests 
@@ -102,7 +102,7 @@ GITHUB_TOKEN=$token'>.env");
 
       // copy all tests in templates to each domain (unless the domain is one
       // of the exceptions)
-      $exceptions_to_template_copies = array('templates', 'nect', 'wip', 'Jasper', 'Hannah');
+      $exceptions_to_template_copies = array('templates', 'wip', 'Jasper', 'Hannah');
       if (!in_array($domain, $exceptions_to_template_copies)) {
         $behat = shell_exec("cp tests/behat/features/templates/* tests/behat/features/$domain/ && sed -i '1 s/@nect/@$domain/g' tests/behat/features/$domain/*.feature");
       }
