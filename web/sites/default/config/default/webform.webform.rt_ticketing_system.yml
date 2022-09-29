@@ -25,7 +25,7 @@ elements: |-
       <div class="col text-center">
       <h2>Open a ticket for expert help</h2>
 
-      <p class="text-start text-md-center mx-md-auto text-constrained">If you can&#39;t find the support you need via the <a href="https://nectd8.wpi.edu/knowledge-base">Knowledge Base documentation</a> or <a href="https://ask.ci">community support forums</a>, open a ticket for expert help. Be sure to use the relevant tags to ensure your ticket gets routed to the right expert.</p>
+      <p class="text-start text-md-center mx-md-auto text-constrained">If you can&#39;t find the support you need via the <a href="/knowledge-base">Knowledge Base documentation</a> or <a href="https://ask.ci">community support forums</a>, open a ticket for expert help. Be sure to use the relevant tags to ensure your ticket gets routed to the right expert.</p>
       </div>
       </div>
       </div>
@@ -90,7 +90,10 @@ elements: |-
     '#description_display': before
     '#sort_options': true
     '#select2': true
-    '#required': true
+    '#states':
+      required:
+        ':input[name="i_don_t_see_a_relevant_tag"]':
+          unchecked: true
     '#target_type': taxonomy_term
     '#selection_handler': 'default:taxonomy_term'
     '#selection_settings':
@@ -99,6 +102,27 @@ elements: |-
       sort:
         field: name
         direction: ASC
+  requested_tag_flexbox:
+    '#type': webform_flexbox
+    '#states':
+      required:
+        ':input[name="tag2[]"]':
+          empty: true
+    i_don_t_see_a_relevant_tag:
+      '#type': checkbox
+      '#title': 'I don''t see a relevant tag'
+    suggested_tag:
+      '#type': textfield
+      '#title': 'Suggested tag'
+      '#description': 'Please suggest a tag that is relevant to your issue.'
+      '#description_display': before
+      '#states':
+        visible:
+          ':input[name="i_don_t_see_a_relevant_tag"]':
+            checked: true
+        required:
+          ':input[name="i_don_t_see_a_relevant_tag"]':
+            checked: true
   cc:
     '#type': textfield
     '#title': CC
