@@ -1,0 +1,49 @@
+uuid: 6e6ea86a-2cf5-477d-b579-f3e943d51106
+langcode: en
+status: true
+dependencies:
+  config:
+    - recurring_events.eventinstance_type.default
+  module:
+    - datetime_range
+    - text
+id: eventinstance.default.default
+targetEntityType: eventinstance
+bundle: default
+mode: default
+content:
+  body:
+    type: text_textarea
+    weight: -4
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  date:
+    type: daterange_datelist
+    weight: -4
+    region: content
+    settings:
+      increment: 15
+      date_order: YMD
+      time_type: '12'
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 12
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }
