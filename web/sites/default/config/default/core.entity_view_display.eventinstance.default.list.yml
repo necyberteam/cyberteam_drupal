@@ -7,6 +7,8 @@ dependencies:
     - recurring_events.eventinstance_type.default
   module:
     - datetime_range
+    - link
+    - text
 _core:
   default_config_hash: ynM97GAGTtZBjg1uuiiRFaP8WTq766yoANHsZJ41__4
 id: eventinstance.default.list
@@ -16,7 +18,7 @@ mode: list
 content:
   affinity_group:
     type: entity_reference_label
-    label: visible
+    label: above
     settings:
       link: true
     third_party_settings: {  }
@@ -24,18 +26,18 @@ content:
     region: content
   contact:
     type: string
-    label: visible
+    label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
     weight: 51
     region: content
   date:
-    type: daterange_default
+    type: daterange_custom
     label: hidden
     settings:
       timezone_override: ''
-      format_type: short
+      date_format: 'n/j/Y g:i A T'
       separator: '-'
     third_party_settings: {  }
     weight: 1
@@ -50,7 +52,7 @@ content:
     region: content
   location:
     type: string
-    label: visible
+    label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
@@ -58,7 +60,7 @@ content:
     region: content
   registration:
     type: link
-    label: visible
+    label: above
     settings:
       trim_length: 80
       url_only: false
@@ -70,7 +72,7 @@ content:
     region: content
   tags:
     type: entity_reference_label
-    label: visible
+    label: above
     settings:
       link: true
     third_party_settings: {  }
