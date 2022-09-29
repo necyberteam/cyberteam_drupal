@@ -12,7 +12,9 @@ Feature: test recources page
     When I select "Tool" from "Category"
     When I check "login"
     When I check "Beginner"
-    When I fill in "Description" with "TEST"
+    When I fill in "Description" with "TEST Description"
+    When I fill in "Link Title" with "TEST Link Title"
+    When I fill in "Link URL" with "http://localhost:49185/resource/4"
     When I press "Submit"
     Then I should see "Test"
     
