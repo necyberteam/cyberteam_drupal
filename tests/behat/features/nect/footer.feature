@@ -12,8 +12,6 @@ Feature: test footer
     And I should see "Connect.CI"
     And I should see "Contact Us"
     When I follow "Connect.CI"
-    # TODO - broken - fix this:
-    #Then I should be on "regions"
+    Then I should be on "regions"
     When I follow "Contact Us"
-    # TODO - broken - fix this:
     Then I should be on "contact/northeast_cyberteam"
