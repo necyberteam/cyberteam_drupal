@@ -89,8 +89,8 @@ GITHUB_TOKEN=$token'>.env");
         //'coco',
         //'rmacc',
         //'usrse'
-        // 'cci',
-        // 'champ'
+        //'cci',
+        //'champ'
       ];
     }
 
@@ -104,6 +104,7 @@ GITHUB_TOKEN=$token'>.env");
 
       // copy all tests in templates to each domain (unless the domain is one
       // of the exceptions)
+      // also use sed to replace the @nect tag with @<domain>
       $exceptions_to_template_copies = array('templates', 'wip', 'Jasper', 'Hannah');
       if (!in_array($domain, $exceptions_to_template_copies)) {
         $behat = shell_exec("cp tests/behat/features/templates/* tests/behat/features/$domain/ && sed -i '1 s/@nect/@$domain/g' tests/behat/features/$domain/*.feature");
