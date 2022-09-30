@@ -76,10 +76,10 @@ GITHUB_TOKEN=$token'>.env");
     if ($args) {
       $domains = $args;
     } else {
+
+      // make copies of the tests to these domains:  ky, gp, careers, nect
       $domains = [
         'careers',
-        'cci',
-        'champ',
         'nect',
         'gpc',
         'ky',
@@ -89,6 +89,8 @@ GITHUB_TOKEN=$token'>.env");
         //'coco',
         //'rmacc',
         //'usrse'
+        // 'cci',
+        // 'champ'
       ];
     }
 
