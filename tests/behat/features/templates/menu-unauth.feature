@@ -1,5 +1,4 @@
-# TODO - used to work -- fix this
-@nect--
+@nect
 @api
 Feature: test navigation menus
   In order to test the navigation menus
