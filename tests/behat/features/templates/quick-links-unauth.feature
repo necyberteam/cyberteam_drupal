@@ -1,5 +1,4 @@
-# TODO - used to work -- fix this
-@nect--
+@nect
 @api
 Feature: test quick links on home page
   In order to test the quick links

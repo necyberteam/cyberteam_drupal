@@ -1,5 +1,4 @@
-# TODO - used to work -- fix this
-@nect--
+@nect
 @api
 Feature: news page contains "News"
   news page contains "News"
