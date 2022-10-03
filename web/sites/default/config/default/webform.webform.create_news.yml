@@ -200,7 +200,6 @@ settings:
 access:
   create:
     roles:
-      - anonymous
       - authenticated
     users: {  }
     permissions: {  }
@@ -221,15 +220,18 @@ access:
     users: {  }
     permissions: {  }
   view_own:
-    roles: {  }
+    roles:
+      - authenticated
     users: {  }
     permissions: {  }
   update_own:
-    roles: {  }
+    roles:
+      - authenticated
     users: {  }
     permissions: {  }
   delete_own:
-    roles: {  }
+    roles:
+      - authenticated
     users: {  }
     permissions: {  }
   administer:

@@ -1,6 +1,6 @@
 @templates
 @api
-#@javascript
+
 Feature: test tags form
   In order to test the tags form
   As a user of the authenticated role
