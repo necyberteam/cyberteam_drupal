@@ -1,4 +1,4 @@
-@nect
+@templates
 @api
 #@javascript
 Feature: test tags form

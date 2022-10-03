@@ -1,4 +1,4 @@
-@nect
+@templates
 @api
 
 Feature: add a blog post with a tag

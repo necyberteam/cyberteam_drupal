@@ -1,4 +1,4 @@
-@nect
+@templates
 @api
 
 Feature: test individual tags page

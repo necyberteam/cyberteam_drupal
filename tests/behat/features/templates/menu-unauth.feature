@@ -1,4 +1,4 @@
-@nect
+@templates
 @api
 Feature: test navigation menus
   In order to test the navigation menus

@@ -104,10 +104,10 @@ GITHUB_TOKEN=$token'>.env");
 
       // copy all tests in templates to each domain (unless the domain is one
       // of the exceptions)
-      // also use sed to replace the @nect tag with @<domain>
+      // also use sed to replace the @templates tag with @<domain>
       $exceptions_to_template_copies = array('templates', 'wip', 'Jasper', 'Hannah');
       if (!in_array($domain, $exceptions_to_template_copies)) {
-        $behat = shell_exec("cp tests/behat/features/templates/* tests/behat/features/$domain/ && sed -i '1 s/@nect/@$domain/g' tests/behat/features/$domain/*.feature");
+        $behat = shell_exec("cp tests/behat/features/templates/* tests/behat/features/$domain/ && sed -i '1 s/@templates/@$domain/g' tests/behat/features/$domain/*.feature");
       }
       $shell_cmd = $lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end;
       $behat = shell_exec($shell_cmd);

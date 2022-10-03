@@ -1,4 +1,4 @@
-@nect
+@templates
 @api
 Feature: news page contains "News"
   news page contains "News"
