@@ -1,4 +1,4 @@
-@nect
+@templates
 @api
 Feature: test submit project form
   In order to test the submit project form
