@@ -1,4 +1,4 @@
-@cyberteam
+@nect
 @api
 Feature: test contact us form
   In order to test the contact us form

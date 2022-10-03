@@ -1,4 +1,4 @@
-@cyberteam
+@templates
 @api
 Feature: test site search field
   Testing that the search field appears on the site

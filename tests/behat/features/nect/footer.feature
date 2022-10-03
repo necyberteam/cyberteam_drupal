@@ -1,4 +1,4 @@
-@cyberteam
+@nect
 @api
 Feature: test footer
   In order to test the footer

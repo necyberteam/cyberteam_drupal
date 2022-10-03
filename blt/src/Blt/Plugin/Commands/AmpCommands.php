@@ -76,19 +76,21 @@ GITHUB_TOKEN=$token'>.env");
     if ($args) {
       $domains = $args;
     } else {
+
+      // make copies of the tests to these domains:  ky, gp, careers, nect
       $domains = [
         'careers',
-        'cci',
-        'champ',
-        'cyberteam',
+        'nect',
         'gpc',
         'ky',
-        'rmacc',
         // these domains are sufficiently different that the template tests 
         // should *not* be copied to them
         //'amp',
         //'coco',
+        //'rmacc',
         //'usrse'
+        //'cci',
+        //'champ'
       ];
     }
 
@@ -96,9 +98,16 @@ GITHUB_TOKEN=$token'>.env");
     $lando_end = $this->lando() == 'lando '?"\"":"";
 
     foreach ($domains as $domain) {
-      $this->_exec( 'git add tests/behat/features/');
-      if ($domain != 'cyberteam' && $domain != 'wip') {
-        $behat = shell_exec("cp tests/behat/features/templates/* tests/behat/features/$domain/ && sed -i '1 s/@cyberteam/@$domain/g' tests/behat/features/$domain/*.feature");
+      // git add current features - this is due to the copy of the tests that
+      // happens below.  the copies are removed by the subsequent 'git clean'
+      $this->_exec('git add tests/behat/features/');
+
+      // copy all tests in templates to each domain (unless the domain is one
+      // of the exceptions)
+      // also use sed to replace the @templates tag with @<domain>
+      $exceptions_to_template_copies = array('templates', 'wip', 'Jasper', 'Hannah');
+      if (!in_array($domain, $exceptions_to_template_copies)) {
+        $behat = shell_exec("cp tests/behat/features/templates/* tests/behat/features/$domain/ && sed -i '1 s/@templates/@$domain/g' tests/behat/features/$domain/*.feature");
       }
       $shell_cmd = $lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end;
       $behat = shell_exec($shell_cmd);
