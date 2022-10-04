@@ -1,6 +1,7 @@
 @templates
 @api
-@javascript
+#@javascript
+
 Feature: test resource form
   In order to test the resource form
   As a user of the authenticated role

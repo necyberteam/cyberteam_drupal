@@ -1,6 +1,6 @@
 @Hannah
 @api
-@javascript
+
 Feature: test affinity group page
   In order to test the affinity group page
 
