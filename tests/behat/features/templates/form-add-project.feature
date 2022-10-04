@@ -12,7 +12,7 @@ Feature: add a test project via the form
     When I follow "Submit New Project"
     When I check "Received"
     When I check "Accept and Publish"
-    When I fill in "Project Title" with "test-create-project-title-508"
+    When I fill in "Project Title" with "test-create-project-title"
     When I check "At-Large"
     # tags:
     When I check "login"
