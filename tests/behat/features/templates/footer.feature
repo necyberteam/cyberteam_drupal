@@ -1,4 +1,4 @@
-@templates
+@nect
 @api
 Feature: test footer
   In order to test the footer
@@ -13,5 +13,4 @@ Feature: test footer
     And I should see "Contact Us"
     When I follow "Connect.CI"
     Then I should be on "regions"
-    When I follow "Contact Us"
-    Then I should be on "contact/northeast_cyberteam"
+    
