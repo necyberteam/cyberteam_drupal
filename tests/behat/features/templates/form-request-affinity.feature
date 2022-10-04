@@ -1,6 +1,6 @@
 @templates
 @api
-@javascript
+
 Feature: test affinity group request form
   In order to test the affinity group request form
   As a user of the authenticated role
