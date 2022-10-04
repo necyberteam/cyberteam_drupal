@@ -1,6 +1,7 @@
 @templates
 @api
-@javascript
+#@javascript
+
 Feature: test people page
   In order to test the people page
 
