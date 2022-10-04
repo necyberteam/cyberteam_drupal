@@ -1,4 +1,4 @@
-@wip
+@templates
 @api
 @javascript
 Feature: test recources page 
