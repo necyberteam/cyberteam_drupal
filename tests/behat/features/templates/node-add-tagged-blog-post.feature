@@ -20,7 +20,7 @@ Feature: add a blog post with a tag
     Given I am not logged in
     When I go to "tags/login"
     Then I should see "Blog Entries"
-    # following should work - bug filed at https://cyberteamportal.atlassian.net/browse/D8-991
+    # TODO following should work - bug filed at https://cyberteamportal.atlassian.net/browse/D8-991
     # And I should see "test-blog-post"
     
     
