@@ -7,6 +7,4 @@ Feature: test footer
     Given I am not logged in
     When I follow "Contact Us"
     Then I should be on "contact/northeast_cyberteam"
-    And I should see "Northeast Cyberteam"
-
-    
+    And I should see "Northeast Cyberteam"    
