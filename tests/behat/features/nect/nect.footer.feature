@@ -8,5 +8,3 @@ Feature: test footer
     When I follow "Contact Us"
     Then I should be on "contact/northeast_cyberteam"
     And I should see "Northeast Cyberteam"
-
-    
