@@ -63,8 +63,11 @@ GITHUB_TOKEN=$token'>.env");
    * @description Run behat.
    */
   public function behat(array $args) {
+
+    // set following to true to see a dry-run of this script, 
+    // with no actual copying or running of tests
+    $dry_run = false;
  
-    $this->say("------------------ BEHAT TESTING ------------------------");
 
     // to make testing faster, skip the drush commands (useful during development)
     // to enable this, in the shell, do "export BEHAT_NO_DRUSH=true"
@@ -72,8 +75,8 @@ GITHUB_TOKEN=$token'>.env");
     $no_drush_cmds = strcasecmp(getenv("BEHAT_NO_DRUSH"), 'TRUE') == 0;
  
     // special handling for the 'wip_template' directory -- we want to run 
-    // all the tests in this directory on all the domains but 
-    // not run all the template tests 
+    // all the tests in this directory on all the domains but save time by
+    // not copying & running all the tests in the templates directory 
     $wip_template = false;
 
     if ($args) {
@@ -98,17 +101,11 @@ GITHUB_TOKEN=$token'>.env");
         //'champ'
       ];
     }
-
-    $this->say("TESTING these domains:  " . implode(', ', $domains));
-
-    // it is sometimes useful to turn the following off, to 
-    // allow much more rapid testing of specific tests
-    $copy_templates = true;
+    
     $copy_from = $wip_template ? "wip_template" : "templates";
 
-    $this->say($copy_templates 
-      ? "  copying templates from directory $copy_from"
-      : "  *not* copying any templates");
+    $this->say("------------------ BEHAT TESTING ------------------------");
+    $this->say("TESTING these domains:  " . implode(', ', $domains));
 
     if ($no_drush_cmds) {
       $this->say("NOTE: drush commands being skipped because env variable BEHAT_NO_DRUSH is true");
@@ -120,19 +117,37 @@ GITHUB_TOKEN=$token'>.env");
     foreach ($domains as $domain) {
       // git add current features - this is due to the copy of the tests that
       // happens below.  the copies are removed by the subsequent 'git clean'
-      $this->_exec('git add tests/behat/features/');
+      if (!$dry_run) $this->_exec('git add tests/behat/features/');
 
       // copy all tests in templates to each domain
       // also use sed to replace the @templates tag with @<domain>
       // OR, if $wip_template is true, copy from the wip_template directory instead of the templates directory
 
-      // sometimes nice not to copy all the templates
+      // if domain is one of the following, don't copy the templates
+      $exceptions_to_template_copies = array('templates', 'wip', 'Jasper', 'Hannah');
+      $copy_templates = !in_array($domain, $exceptions_to_template_copies);
+
+      
+      // it is sometimes useful to turn the following off, to 
+      // allow much more rapid testing of specific tests
+      //
+      // $copy_templates = false;
+      
+      $this->say("  Testing domain $domain");
+      $this->say($copy_templates 
+      ? "  copying templates from directory $copy_from"
+      : "  *not* copying any templates");
+
       if ($copy_templates) {
         $cmd = "cp tests/behat/features/$copy_from/* tests/behat/features/$domain/ && sed -i '1 s/@templates/@$domain/g' tests/behat/features/$domain/*.feature";
-        //$this->say($cmd);
-        $behat = shell_exec($cmd);
+        if ($dry_run) $this->say('dry-run: ' . $cmd);
+        else $behat = shell_exec($cmd);
       }
       $shell_cmd = $lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end;
+
+      if ($dry_run) {
+        $shell_cmd = 'echo dry-run: ' . $shell_cmd;
+      }
       $behat = shell_exec($shell_cmd);
       $this->say($behat);
  
@@ -141,7 +156,7 @@ GITHUB_TOKEN=$token'>.env");
         $this->_exec( $this->lando() . 'drush cr');
       } 
 
-      $this->_exec( 'git clean -f tests/behat/features/');
+      if (!$dry_run) $this->_exec( 'git clean -f tests/behat/features/');
 
       # Todo: need to figure out a better way of getting this output.
       $pattern = "/Failed scenarios/i";
