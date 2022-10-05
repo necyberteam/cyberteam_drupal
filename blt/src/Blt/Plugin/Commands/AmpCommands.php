@@ -64,19 +64,26 @@ GITHUB_TOKEN=$token'>.env");
    */
   public function behat(array $args) {
  
+    $this->say("------------------ BEHAT TESTING ------------------------");
+
     // to make testing faster, skip the drush commands (useful during development)
     // to enable this, in the shell, do "export BEHAT_NO_DRUSH=true"
     // to disable this, in the shell, do "export BEHAT_NO_DRUSH=false"
     $no_drush_cmds = strcasecmp(getenv("BEHAT_NO_DRUSH"), 'TRUE') == 0;
  
-    if ($no_drush_cmds) {
-      $this->say("NOTE: drush commands being skipped because env variable BEHAT_NO_DRUSH is true");
-    }
+    // special handling for the 'wip_template' directory -- we want to run 
+    // all the tests in this directory on all the domains but 
+    // not run all the template tests 
+    $wip_template = false;
+
+    $this->say("args = " . print_r($args, true));
 
     if ($args) {
       $domains = $args;
-    } else {
-
+      $wip_template = $domains[0] == 'wip_template';
+    } 
+    
+    if (!$args || $wip_template) {
       // make copies of the tests to these domains:  ky, gp, careers, nect
       $domains = [
         'careers',
@@ -94,7 +101,20 @@ GITHUB_TOKEN=$token'>.env");
       ];
     }
 
-    $lando = $this->lando() == 'lando '?"lando ssh -c \"(":"(";
+    $this->say("TESTING these domains:  " . implode(', ', $domains));
+
+    $copy_templates = false;
+    $copy_from = $wip_template ? "wip_template" : "templates";
+
+    $this->say($copy_templates 
+      ? "  copying templates from diretory $copy_from"
+      : "  *not* copying any templates");
+
+    if ($no_drush_cmds) {
+      $this->say("NOTE: drush commands being skipped because env variable BEHAT_NO_DRUSH is true");
+    }
+
+    $lando = $this->lando() == 'lando '? "lando ssh -c \"(":"(";
     $lando_end = $this->lando() == 'lando '?"\"":"";
 
     foreach ($domains as $domain) {
@@ -102,12 +122,13 @@ GITHUB_TOKEN=$token'>.env");
       // happens below.  the copies are removed by the subsequent 'git clean'
       $this->_exec('git add tests/behat/features/');
 
-      // copy all tests in templates to each domain (unless the domain is one
-      // of the exceptions)
+      // copy all tests in templates to each domain
       // also use sed to replace the @templates tag with @<domain>
-      $exceptions_to_template_copies = array('templates', 'wip', 'Jasper', 'Hannah');
-      if (!in_array($domain, $exceptions_to_template_copies)) {
-        $behat = shell_exec("cp tests/behat/features/templates/* tests/behat/features/$domain/ && sed -i '1 s/@templates/@$domain/g' tests/behat/features/$domain/*.feature");
+      // OR, if $wip_template is true, copy from the wip_template directory instead of the templates directory
+
+      // sometimes nice not to copy all the templates
+      if ($copy_templates) {
+        $behat = shell_exec("cp tests/behat/features/$copy_from/* tests/behat/features/$domain/ && sed -i '1 s/@templates/@$domain/g' tests/behat/features/$domain/*.feature");
       }
       $shell_cmd = $lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end;
       $behat = shell_exec($shell_cmd);
