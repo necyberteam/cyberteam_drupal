@@ -80,9 +80,9 @@ GITHUB_TOKEN=$token'>.env");
       // make copies of the tests to these domains:  ky, gp, careers, nect
       $domains = [
         'careers',
-        'nect',
         'gpc',
         'ky',
+        'nect',
         // these domains are sufficiently different that the template tests 
         // should *not* be copied to them
         //'amp',
