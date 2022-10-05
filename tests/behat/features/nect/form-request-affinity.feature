@@ -1,4 +1,4 @@
-@templates
+@nect
 @api
 
 Feature: test affinity group request form
@@ -35,5 +35,5 @@ Feature: test affinity group request form
     When I fill in "short_description" with "TEST"
     When I fill in "project_description" with "TEST"
     When I press "Submit"
-    And I wait 4 seconds
+    # And I wait 4 seconds
     Then I should see "Thank you for your submission. We will contact you when your affinity group has been created."
