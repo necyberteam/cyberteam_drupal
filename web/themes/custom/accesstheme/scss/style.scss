@@ -150,7 +150,7 @@ ul.sf-menu {
     a, li.menuparent {
         color: #ffffff;
         text-decoration: none;
-
+        font-size: 0.9rem;
     }
     li.menuparent:hover {
         a {
@@ -170,14 +170,19 @@ ul.sf-menu {
         a:hover, li:hover a {
             color: #ffffff;
         }
-        a.is-active {
-            color: var(--bs-dark) !important;
-            background-color: var(--bs-light) !important;
+        li a.is-active {
+            background-color: var(--bs-secondary) !important;
+            color: #ffffff !important;
         }
     }
-    a.is-active, .active-trail a {
-        color: var(--bs-dark) !important;
-        background-color: #ffffff !important;
+    a.is-active {
+        color: #ffffff !important;
+        background-color: var(--bs-dark) !important;
+    }
+    // Active item in top menus
+    .active-trail > a, .active-trail > .nolink {
+        color: #ffffff !important;
+        background-color: var(--bs-secondary) !important;
     }
 }
 #superfish-access-universal-nav-menu, #superfish-access-additional-universal-menu {
@@ -199,23 +204,43 @@ ul.sf-menu {
 
 }
 #superfish-access-secondary-menu {
+    // Active item in secondary menu
     li:hover, li.active-trail {
         background-color: #ffffff;
-        a, .menuparent {
-            color: var(--bs-dark);
+        color: #ffffff !important;
+        background-color: var(--bs-dark) !important;
+        .menuparent, .nolink, .is-active {
+            color: #ffffff !important;
+            background-color: var(--bs-dark) !important;
         }
+    }
+    li:hover > a {
+        color: #ffffff !important;
+        background-color: var(--bs-dark) !important;
     }
     ul {
         background-color: #ffffff;
         top: 3em;
         li a {
             color: var(--bs-dark);
+            background-color: #ffffff !important;
+        }
+    }
+    li:hover ul {
+        li a {
+            background-color: #ffffff !important;
+            color: var(--bs-dark) !important;
         }
         li:hover {
             background-color: var(--bs-dark);
             a {
-                color: #ffffff;
+                background-color: var(--bs-dark) !important;
+                color: #ffffff !important;
             }
+        }
+        li a.is-active {
+            background-color: var(--bs-secondary) !important;
+            color: #ffffff !important;
         }
     }
 }
