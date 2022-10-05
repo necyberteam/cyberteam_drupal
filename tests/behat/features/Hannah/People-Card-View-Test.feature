@@ -1,5 +1,7 @@
-# TODO - not working - commenting out whole test
-@templates--
+@templates
+
+# HI HANNAH -- sorry to say this test is not working on all domains, so 
+# I'm stashing it back in this Hannah directory
 @api
 @javascript
 Feature: test people page Card view w/ filters 
