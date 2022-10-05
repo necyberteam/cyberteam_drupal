@@ -10,7 +10,7 @@ Feature: test careers domain
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/domain/edit/careersct_cyberinfrastucture_org"
     When I select "1" from "Default domain"
-    #When I fill in "Hostname" with "cyberteam.lndo.site"
+    When I fill in "Hostname" with "cyberteam.lndo.site"
     When I press "Save"
     Given the cache has been cleared
     Then I should get a "200" HTTP response
