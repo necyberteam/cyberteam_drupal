@@ -76,8 +76,6 @@ GITHUB_TOKEN=$token'>.env");
     // not run all the template tests 
     $wip_template = false;
 
-    $this->say("args = " . print_r($args, true));
-
     if ($args) {
       $domains = $args;
       $wip_template = $domains[0] == 'wip_template';
@@ -109,7 +107,7 @@ GITHUB_TOKEN=$token'>.env");
     $copy_from = $wip_template ? "wip_template" : "templates";
 
     $this->say($copy_templates 
-      ? "  copying templates from diretory $copy_from"
+      ? "  copying templates from directory $copy_from"
       : "  *not* copying any templates");
 
     if ($no_drush_cmds) {
@@ -130,7 +128,9 @@ GITHUB_TOKEN=$token'>.env");
 
       // sometimes nice not to copy all the templates
       if ($copy_templates) {
-        $behat = shell_exec("cp tests/behat/features/$copy_from/* tests/behat/features/$domain/ && sed -i '1 s/@templates/@$domain/g' tests/behat/features/$domain/*.feature");
+        $cmd = "cp tests/behat/features/$copy_from/* tests/behat/features/$domain/ && sed -i '1 s/@templates/@$domain/g' tests/behat/features/$domain/*.feature";
+        //$this->say($cmd);
+        $behat = shell_exec($cmd);
       }
       $shell_cmd = $lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end;
       $behat = shell_exec($shell_cmd);
