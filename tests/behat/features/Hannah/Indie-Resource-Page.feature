@@ -1,11 +1,8 @@
-# TODO - not working - commenting out whole test
-@templates--
+@templates
 @api
 @javascript
 Feature: test individual recources page 
   In order to test the individual resources page
-
-
 
   Scenario: Unauthenticated user Test the individual resource page
     Given I am not logged in
