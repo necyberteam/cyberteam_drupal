@@ -8,7 +8,6 @@ Feature: test contact us form
     Given I am not logged in
     When I am on the homepage
     When I follow "Contact Us"
-    Then I should be on "contact/northeast_cyberteam"
     And I should see "Your name"
     And I should see "Your email address"
     And I should see "Subject"
