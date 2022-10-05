@@ -103,7 +103,9 @@ GITHUB_TOKEN=$token'>.env");
 
     $this->say("TESTING these domains:  " . implode(', ', $domains));
 
-    $copy_templates = false;
+    // it is sometimes useful to turn the following off, to 
+    // allow much more rapid testing of specific tests
+    $copy_templates = true;
     $copy_from = $wip_template ? "wip_template" : "templates";
 
     $this->say($copy_templates 
