@@ -4,8 +4,6 @@
 Feature: test individual recources page 
   In order to test the individual resources page
 
-
-
   Scenario: Unauthenticated user Test the individual resource page
     Given I am not logged in
     When I go to "/resource/4"

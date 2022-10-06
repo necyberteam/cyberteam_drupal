@@ -1,10 +1,12 @@
-@nect
+@usrse
 @api
-Feature: test footer
+Feature: verify contact us
   In order to test the footer
 
   Scenario: User is on the homepage
     Given I am not logged in
+    When I am on the homepage
     When I follow "Contact Us"
-    Then I should be on "contact/northeast_cyberteam"
+    Then I should be on "contact/usrse"
+    And I should see "USRSE"
     
