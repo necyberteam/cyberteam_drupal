@@ -135,8 +135,8 @@ GITHUB_TOKEN=$token'>.env");
       
       $this->say("  Testing domain $domain");
       $this->say($copy_templates 
-      ? "  copying templates from directory $copy_from"
-      : "  *not* copying any templates");
+        ? "  copying templates from directory $copy_from"
+        : "  *not* copying any templates");
 
       if ($copy_templates) {
         $cmd = "cp tests/behat/features/$copy_from/* tests/behat/features/$domain/ && sed -i '1 s/@templates/@$domain/g' tests/behat/features/$domain/*.feature";
