@@ -29,7 +29,6 @@ class AmpCommands extends BltTasks {
     $this->_exec("mkdir -p web/sites/default/settings");
     $this->_exec("cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php");
     $this->_exec("lando composer install --ignore-platform-reqs -n");
-    $this->_exec("blt blt:telemetry:disable --no-interaction");
     $hash = \Drupal\Component\Utility\Crypt::randomBytesBase64(55);
     $this->_exec("echo 'PANTHEON_ENVIRONMENT=local
 DRUPAL_HASH_SALT=$hash
