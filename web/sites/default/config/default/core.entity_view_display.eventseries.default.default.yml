@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.eventseries.default.field_affinity_group
+    - field.field.eventseries.default.field_affinity_group_node
     - field.field.eventseries.default.field_contact
     - field.field.eventseries.default.field_location
     - field.field.eventseries.default.field_registration
@@ -38,7 +39,7 @@ content:
     third_party_settings: {  }
     weight: 3
     region: content
-  field_affinity_group:
+  field_affinity_group_node:
     type: entity_reference_label
     label: above
     settings:
@@ -102,5 +103,6 @@ hidden:
   custom_date: true
   daily_recurring_date: true
   event_registration: true
+  field_affinity_group: true
   monthly_recurring_date: true
   weekly_recurring_date: true

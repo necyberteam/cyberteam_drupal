@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.eventseries.default.field_affinity_group
+    - field.field.eventseries.default.field_affinity_group_node
     - field.field.eventseries.default.field_contact
     - field.field.eventseries.default.field_location
     - field.field.eventseries.default.field_registration
@@ -53,7 +54,7 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_affinity_group:
+  field_affinity_group_node:
     type: entity_reference_autocomplete
     weight: 13
     region: content
@@ -146,4 +147,5 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_affinity_group: true
