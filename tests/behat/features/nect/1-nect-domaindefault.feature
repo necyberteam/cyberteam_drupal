@@ -1,10 +1,10 @@
 @nect
 @api
 
-Feature: test ky domain
-  In order to test the ky domain
+Feature: test nect domain
+  In order to test the nect domain
   As a user of the admin role
-  I need to switch ky to the default domain
+  I need to switch nect to the default domain
 
   Scenario: Admin user sets ky domain to the default
     Given I am logged in as a user with the "administrator" role
