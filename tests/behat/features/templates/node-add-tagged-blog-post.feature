@@ -6,7 +6,7 @@ Feature: add a blog post with a tag
   As admin
   I can add a blog post with a tag and verify the blog appears for the tag
 
-  Scenario: Add a "test-affinity-group" for "login" tag and verify it appears
+  Scenario: Add a "test-blog-post" for "login" tag and verify it appears
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/blog_post"
     When I fill in "Title" with "test-blog-post"
