@@ -6,12 +6,12 @@ Feature: test individual recources page
 
   Scenario: Unauthenticated user Test the individual resource page
     Given I am not logged in
-    When I go to "/resource/4"
-    Then I should see "TEst"
-    Then I should see "vote"
+    When I go to "/resource/33"
+    Then I should see "Test2"
+    Then I should see "votes"
     Then I should see "login"
     Then I should see "Beginner"
-    #Then I should see "Test Description"
-    #Then I should see "Test Link Title"
+    Then I should see "Testing Description"
+    Then I should see "http://localhost:49185/form/resource"
 
 

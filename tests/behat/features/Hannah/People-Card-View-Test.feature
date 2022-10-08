@@ -10,10 +10,10 @@ Feature: test people page Card view w/ filters
   Scenario: Unauthenticated user tests the people page in Card View and filters
     Given I am not logged in
     When I go to "people/Card"
-
+#People names come up as links
     Then I should see "People"
-
-    And I should see "Julie Ma"
+    When I fill in "Search" with "Julie Ma"
+    Then I should see "Julie Ma"
     And I should see "Programs"
     And I should see "Roles"
     And I should see "Affinity Groups"
