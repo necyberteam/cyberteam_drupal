@@ -1,4 +1,4 @@
-@wip--
+@templates
 @api
 @javascript
 Feature: test Registration form page 
@@ -7,7 +7,6 @@ Feature: test Registration form page
   Scenario: Unauthenticated user Test the Registration Page
     Given I am not logged in
 
-#reCAPTCHA Error
 
     #student
 
@@ -25,12 +24,9 @@ Feature: test Registration form page
     Then I should see "Institution"
     When I fill in "Institution" with "test"
     Then I should see "CV/Resume"
-    #Then I should see "reCAPTCHA"
-    #Need to check reCAPTCHA
-    #Then I should check ""
     Then I should see "Current Degree Program"
     Then I should see "HPC Experience"
-    When I press "edit-submit"
+    Then I press "edit-submit"
 
     #mentor
 
@@ -43,7 +39,6 @@ Feature: test Registration form page
     Then I should see "Time zone"
     Then I should see "Institution"
     Then I should see "CV/Resume"
-    #Then I should see "reCAPTCHA"
     Then I should see "Current Occupation"
     Then I should see "Degree"
 
@@ -58,7 +53,6 @@ Feature: test Registration form page
     Then I should see "Time zone"
     Then I should see "Institution"
     Then I should see "CV/Resume"
-    #Then I should see "reCAPTCHA"
     Then I should see "Current Occupation"
     Then I should see "Degree"
     When I press "edit-submit"
@@ -67,4 +61,5 @@ Feature: test Registration form page
     #Then I should see "Please fill out this field"
     
     #Line 393 is not tested for
+    #reCAPTCHA is not tested for
   
