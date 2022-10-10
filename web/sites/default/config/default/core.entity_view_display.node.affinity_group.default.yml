@@ -22,7 +22,6 @@ dependencies:
     - field.field.node.affinity_group.field_tags
     - node.type.affinity_group
   module:
-    - options
     - user
 id: node.affinity_group.default
 targetEntityType: node
@@ -33,14 +32,7 @@ content:
     type: string
     label: above
     settings:
-      link_to_entity: false
-  field_affinity_group_category:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 1
-    region: content
+      link_to_entity: false 
   links:
     settings: {  }
     third_party_settings: {  }
@@ -49,6 +41,7 @@ content:
 hidden:
   body: true
   field_affinity_group: true
+  field_affinity_group_category: true
   field_ask_ci_locale: true
   field_coordinator: true
   field_domain_access: true
