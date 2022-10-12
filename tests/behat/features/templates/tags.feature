@@ -17,11 +17,6 @@ Feature: test tags page
       And I should see "ACCESS RPs"
       And I should see "xsede"
 
-    Scenario: Tags pages shows "Request Tag" for authenticated user
-      Given I am logged in as a user with the "authenticated" role
-      When I go to "tags"
-      Then I should see "Request Tag"
-
     Scenario: Tags pages does not show "Request Tag" when logged out
       Given I am not logged in
       When I go to "tags"
@@ -32,15 +27,17 @@ Feature: test tags page
       Given I am not logged in
       When I go to "tags"
       When I fill in "Search" with "login"
-      And I wait 1 seconds
+      #And I wait 1 seconds
       Then I should see "login"
       When I fill in "Search" with "LOGIN"
-      And I wait 1 seconds
+      #And I wait 1 seconds
       Then I should see "login"
       When I fill in "Search" with "LOGIN"
-      And I wait 1 seconds
+      #And I wait 1 seconds
       Then I should see "login"
-      
+      When I follow "login"
+      Then I should be on "tags/login"
+      And I should see "Blog Entries"
 
     Scenario: Unauthenticated user examines tree view of tags
       Given I am not logged in
