@@ -486,7 +486,7 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
         .list-group-item {
             background-color: transparent;
         }
-        #people, #access_news .view-display-id-people {
+        #people {
             display: none;
         }
     }
@@ -592,11 +592,19 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
 }
 
 /* events page on AMP */
-[id="views-exposed-form-recurring-events-event-instances-events-listing"] .form-actions {
-  clear: inherit;
-  width: fit-content;
-  float: left;
-  margin-top: 2.45em;
+[id="views-exposed-form-recurring-events-event-instances-block-1"], [id="views-exposed-form-recurring-events-event-instances-block-2"] {
+    .form-item, .form-actions {
+        margin-bottom: 0;
+    }    
+    .form--inline .form-actions {
+        clear: none;
+        width: fit-content;
+        float: left;
+        margin-top: 2.45em;
+    }
+}
+#block-views-block-recurring-events-event-instances-block-2 {
+    margin-top: 50px;
 }
 a.button.button-action {
     @extend .btn, .btn-outline-secondary;
