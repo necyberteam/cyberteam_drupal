@@ -1,11 +1,10 @@
-@wip
+@wip--
 @api
 
 Feature: test individual tags page
   To test an individual tag
   While either authenticated or not
   I can verify tag components appear as expected
-    And I should see "Export Mailing List"
     
   Scenario: Add a "test-affinity-group" for login tag and verify it appears
     Given I am logged in as a user with the "administrator" role
