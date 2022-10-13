@@ -65,6 +65,7 @@ $settings['config_sync_directory'] = 'sites/default/config/default';
 $settings['config_exclude_modules'] = [
   'webprofiler',
   'cilogon_auth',
+  'constantcontact',
   'devel',
   'devel_generate',
   'login_disable',
