@@ -4,12 +4,26 @@ namespace Drupal;
 
 use Behat\Behat\Tester\Exception\PendingException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 
 /**
  * FeatureContext class defines custom step definitions for Behat.
  */
 class FeatureContext extends RawDrupalContext
 {
+
+/**
+   * Work around https://github.com/jhedstrom/drupalextension/issues/486
+   *
+   * @BeforeScenario
+   */
+  public function beforeJavascriptScenario(BeforeScenarioScope $scope) {
+    $mink_context = $scope->getEnvironment()->getContext('Drupal\DrupalExtension\Context\MinkContext');
+    if (!$mink_context) {
+      return;
+    }
+    $mink_context->setMinkParameter('ajax_timeout', 5);
+  }
 
     /**
      * Every scenario gets its own context instance.
