@@ -49,6 +49,7 @@ Feature: add a test project via the form
     When I fill in "What will the Cyberteam program learn from this project?" with "test What will the Cyberteam program learn"
     When I fill in "HPC resources needed to complete this project?" with "test HPC resources needed to complete"
     When I fill in "Notes" with "test Notes"
+    When I click "Final Report"
     When I fill in "What is the impact on the development of the principal discipline(s) of the project?" with "test What is the impact on the development"
    
     When I press "Submit"
