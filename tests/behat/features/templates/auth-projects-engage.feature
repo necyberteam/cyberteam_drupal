@@ -1,4 +1,4 @@
-@wip=--
+@templates
 @api
 #@javascript
 Feature: test projects/engagements page
@@ -17,15 +17,15 @@ Feature: test projects/engagements page
     Then I should see "Status"
     Then I should see "Project Leader"
 
-    #Search does not get filled
-    When I fill in "Search" with "test"
+  
+    When I fill in "edit-search--2" with "test"
     And I wait 4 seconds
     Then I should see "Test"
-    When I fill in "Search" with "testnothere"
+    When I fill in "edit-search--2" with "testnothere"
     And I wait 4 seconds
+    Then I should see "There are no projects at this time"
 
-    #Just to get an error
-    Then I should see "TestingTestTest"
     When I click "Submit New Project"
+    Then I should be on "/form/project"
     Then I should see "Project"
 
