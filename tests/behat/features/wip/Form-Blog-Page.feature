@@ -1,6 +1,7 @@
-@templates
+#NOTWORKING
+@wip--
 @api
-#@javascript
+@javascript
 Feature: test blog page 
   In order to test the Blog page
 
@@ -20,18 +21,18 @@ Feature: test blog page
     When I fill in "Project" with "TEST(1)"
 
     # TODO - doesn't work
-    #When I attach the file "media/logo.png" to "edit-field-image-0-upload"
+    When I attach the file "media/logo.png" to "edit-field-image-0-upload"
 
     # Body fill has error
     # Todo: Custom feature context for rich text 
 
-    #When I fill in "Body" with "TEST "
+    When I fill in "Body" with "TEST "
 
     When I press "Save"
     Then I should see "Test"
 
     # TODO - not working
-    # Then I should see "Hello World"
+     Then I should see "Hello World"
    
 
 
