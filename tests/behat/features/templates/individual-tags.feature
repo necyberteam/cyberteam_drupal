@@ -48,6 +48,13 @@ Feature: test individual tags page
     Then I should see "Members get updates about news, events, and outages"
     And I should see "test-affinity-group"
 
+    Given I am logged in as a user with the "authenticated" role
+    When I go to "tags/login"
+    Then I should see "test-affinity-group"
+    When I follow "test-affinity-group"
+    Then I should see "Members get updates about news, events, and outages"
+    And I should see "test-affinity-group"
+
   Scenario: Add a "test-login-resource" for login tag and verify it appears
     Given I am logged in as a user with the "administrator" role
     When I go to "resources"
@@ -61,6 +68,13 @@ Feature: test individual tags page
     Then I should see "test-login-resource"
 
     Given I am not logged in
+    When I go to "tags/login"
+    Then I should see "test-login-resource"
+    When I follow "test-login-resource"
+    Then I should see "votes"
+    And I should see "test-login-resource"
+
+    Given I am logged in as a user with the "authenticated" role
     When I go to "tags/login"
     Then I should see "test-login-resource"
     When I follow "test-login-resource"
@@ -88,6 +102,14 @@ Feature: test individual tags page
     And I should see "test project description"
 
     Given I am not logged in
+    When I go to "tags/login"
+    Then I should see "test-project-title"
+    When I follow "test-project-title"
+    Then I should see "test project description"
+    When I go to "tags/password"
+    Then I should see "test-project-title"
+
+    Given I am logged in as a user with the "authenticated" role
     When I go to "tags/login"
     Then I should see "test-project-title"
     When I follow "test-project-title"

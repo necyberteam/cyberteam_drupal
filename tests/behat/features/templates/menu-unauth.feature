@@ -6,6 +6,7 @@ Feature: test navigation menus
   Scenario: Unauthenticated user navigates through navigation menus
     Given I am not logged in
     When I am on the homepage
+    # TODO - broken
     Then I should see the link "About Us"
     And I should see the link "Community"
     And I should see the link "Get Help"

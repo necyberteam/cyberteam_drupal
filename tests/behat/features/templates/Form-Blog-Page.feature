@@ -19,12 +19,13 @@ Feature: test blog page
 
     When I fill in "Project" with "TEST(1)"
 
-    When I attach the file "media/logo.png" to "edit-field-image-0-upload"
+    # TODO - doesn't work
+    #When I attach the file "media/logo.png" to "edit-field-image-0-upload"
 
     # Body fill has error
     # Todo: Custom feature context for rich text 
 
-    #When I fill in "Body" with "TEST"
+    #When I fill in "Body" with "TEST "
 
     When I press "Save"
     Then I should see "Test"

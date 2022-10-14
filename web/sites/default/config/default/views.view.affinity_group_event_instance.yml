@@ -1,9 +1,9 @@
 uuid: a4d9d7f3-f6c0-4cee-b314-3285c1e0b3ea
 langcode: en
-status: true
+status: false
 dependencies:
   config:
-    - field.storage.eventseries.field_affinity_group
+    - field.storage.eventseries.field_affinity_group_node
     - field.storage.eventseries.field_location
   module:
     - datetime_range
@@ -157,16 +157,16 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_affinity_group:
-          id: field_affinity_group
-          table: eventseries__field_affinity_group
-          field: field_affinity_group
+        field_affinity_group_node:
+          id: field_affinity_group_node
+          table: eventseries__field_affinity_group_node
+          field: field_affinity_group_node
           relationship: eventseries_id
           group_type: group
           admin_label: ''
           plugin_id: field
           label: ''
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -332,7 +332,7 @@ display:
           empty: ''
           hide_empty: false
           empty_zero: false
-          hide_alter_empty: true
+          hide_alter_empty: false
           text: 'View details'
           output_url_as_text: false
           absolute: false
@@ -361,10 +361,10 @@ display:
       empty: {  }
       sorts: {  }
       arguments:
-        field_affinity_group_target_id:
-          id: field_affinity_group_target_id
-          table: eventseries__field_affinity_group
-          field: field_affinity_group_target_id
+        field_affinity_group_node_target_id:
+          id: field_affinity_group_node_target_id
+          table: eventseries__field_affinity_group_node
+          field: field_affinity_group_node_target_id
           relationship: eventseries_id
           group_type: group
           admin_label: ''
@@ -376,13 +376,9 @@ display:
             title: All
           title_enable: false
           title: ''
-          default_argument_type: taxonomy_tid
+          default_argument_type: fixed
           default_argument_options:
-            term_page: '1'
-            node: false
-            limit: false
-            vids: {  }
-            anyall: ','
+            argument: '297'
           default_argument_skip_url: false
           summary_options:
             base_path: ''
@@ -459,5 +455,5 @@ display:
         - url
         - user.permissions
       tags:
-        - 'config:field.storage.eventseries.field_affinity_group'
+        - 'config:field.storage.eventseries.field_affinity_group_node'
         - 'config:field.storage.eventseries.field_location'

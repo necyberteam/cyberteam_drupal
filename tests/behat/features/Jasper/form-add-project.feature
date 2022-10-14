@@ -6,7 +6,7 @@ Feature: add a test project via the form
   As admin
   I can add a project
 
-  Scenario: Add a "test-affinity-group" for "password" tag and verify it appears
+  Scenario: Add a test-project for "password" tag and verify it appears
     Given I am logged in as a user with the "administrator" role
     When I go to "projects"
     When I follow "Submit New Project"

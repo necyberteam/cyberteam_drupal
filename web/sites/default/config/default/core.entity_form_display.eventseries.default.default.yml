@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.eventseries.default.field_affinity_group
+    - field.field.eventseries.default.field_affinity_group_node
     - field.field.eventseries.default.field_contact
     - field.field.eventseries.default.field_location
     - field.field.eventseries.default.field_registration
@@ -55,6 +56,16 @@ content:
     third_party_settings: {  }
   field_affinity_group:
     type: entity_reference_autocomplete
+    weight: 14
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_affinity_group_node:
+    type: entity_reference_autocomplete
     weight: 13
     region: content
     settings:
@@ -89,7 +100,7 @@ content:
     third_party_settings: {  }
   field_tags:
     type: entity_reference_autocomplete
-    weight: 14
+    weight: 15
     region: content
     settings:
       match_operator: CONTAINS
@@ -117,7 +128,7 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 16
+    weight: 17
     region: content
     settings:
       display_label: true
@@ -132,7 +143,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 15
+    weight: 16
     region: content
     settings:
       match_operator: CONTAINS

@@ -29,7 +29,6 @@ class AmpCommands extends BltTasks {
     $this->_exec("mkdir -p web/sites/default/settings");
     $this->_exec("cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php");
     $this->_exec("lando composer install --ignore-platform-reqs -n");
-    $this->_exec("blt blt:telemetry:disable --no-interaction");
     $hash = \Drupal\Component\Utility\Crypt::randomBytesBase64(55);
     $this->_exec("echo 'PANTHEON_ENVIRONMENT=local
 DRUPAL_HASH_SALT=$hash
@@ -135,8 +134,8 @@ GITHUB_TOKEN=$token'>.env");
       
       $this->say("  Testing domain $domain");
       $this->say($copy_templates 
-      ? "  copying templates from directory $copy_from"
-      : "  *not* copying any templates");
+        ? "  copying templates from directory $copy_from"
+        : "  *not* copying any templates");
 
       if ($copy_templates) {
         $cmd = "cp tests/behat/features/$copy_from/* tests/behat/features/$domain/ && sed -i '1 s/@templates/@$domain/g' tests/behat/features/$domain/*.feature";

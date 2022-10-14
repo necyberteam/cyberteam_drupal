@@ -4,13 +4,22 @@ default:
       paths:
         - "%paths.base%/features"
   extensions:
-    Behat\MinkExtension:
-      # configure the base url for your site
-      base_url: http://cyberteam.lndo.site
-      default_session: goutte
+    Drupal\MinkExtension:
+      ajax_timeout: 5
       browser_name: chrome
       javascript_session: default
-      goutte: ~
+      # configure the base url for your site
+      base_url: http://cyberteam.lndo.site
+      # set default command for "Show last response" step.
+      show_cmd: "open %s"
+    Behat\MinkExtension:
+      base_url: http://cyberteam.lndo.site
+      sessions:
+        default:
+          chrome:
+            api_url: "http://localhost:9222"
+            # Set the optimal Socket Timeout to avoid client-server connection problems in behat scripts.
+            socket_timeout: 60
       files_path: "%paths.base%/media"
     Drupal\DrupalExtension:
       blackbox: ~
