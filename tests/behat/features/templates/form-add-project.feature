@@ -1,5 +1,6 @@
 @templates
 @api
+@javascript
 
 Feature: add a test project via the form
   To test adding project
@@ -27,9 +28,9 @@ Feature: add a test project via the form
     #When I fill in "edit-mentor-items-0-item-" with "Julie Ma"
     #When I fill in "edit-student-items-0-item-" with "Julie Ma (100)"
     When I fill in "Project Description" with "test project description"
-    When I fill in "Project Deliverables" with "test project Deliverables"
-    When I fill in "Student Research Computing Facilitator Profile" with "test project student facilitator profile"
-    When I select "One programming class" from "Student Facilitator Programming Skill Level"
+    #When I fill in "edit-project-deliverables-mentee" with "test project Deliverables"
+    #When I fill in "Student Research Computing Facilitator Profile" with "test project student facilitator profile"
+    #When I select "One programming class" from "Student Facilitator Programming Skill Level"
     When I fill in "Project Institution" with "test Project Institution"
     When I fill in "Address" with "test Address"
     When I fill in "Address 2" with "test Address 2"
@@ -45,10 +46,11 @@ Feature: add a test project via the form
     When I fill in "Github Contributions Link" with "http://test.com"
     When I fill in "Planned Portal Contributions (if any)" with "test Planned Portal Contributions"
     When I fill in "Planned Publications (if any)" with "test Planned Publications (if any)"
-    When I fill in "What will the student learn?" with "test Address"
+    #When I fill in "What will the student learn?" with "test learning"
     When I fill in "What will the Cyberteam program learn from this project?" with "test What will the Cyberteam program learn"
     When I fill in "HPC resources needed to complete this project?" with "test HPC resources needed to complete"
     When I fill in "Notes" with "test Notes"
+    When I click "Final Report"
     When I fill in "What is the impact on the development of the principal discipline(s) of the project?" with "test What is the impact on the development"
    
     When I press "Submit"

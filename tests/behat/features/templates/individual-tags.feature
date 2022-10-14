@@ -48,8 +48,7 @@ Feature: test individual tags page
     Then I should see "Members get updates about news, events, and outages"
     And I should see "test-affinity-group"
 
-    # TODO does not work
-    # Given I am logged in as a user with the "authenticated" role
+    Given I am logged in as a user with the "authenticated" role
     When I go to "tags/login"
     Then I should see "test-affinity-group"
     When I follow "test-affinity-group"
@@ -75,8 +74,7 @@ Feature: test individual tags page
     Then I should see "votes"
     And I should see "test-login-resource"
 
-    # TODO does not work
-    #Given I am logged in as a user with the "authenticated" role
+    Given I am logged in as a user with the "authenticated" role
     When I go to "tags/login"
     Then I should see "test-login-resource"
     When I follow "test-login-resource"
@@ -111,8 +109,7 @@ Feature: test individual tags page
     When I go to "tags/password"
     Then I should see "test-project-title"
 
-    # TODO does not work
-    #Given I am logged in as a user with the "authenticated" role
+    Given I am logged in as a user with the "authenticated" role
     When I go to "tags/login"
     Then I should see "test-project-title"
     When I follow "test-project-title"
