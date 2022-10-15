@@ -30,7 +30,6 @@ dependencies:
     - field.field.node.match_engagement.field_launch_presentation_date
     - field.field.node.match_engagement.field_lessons_learned
     - field.field.node.match_engagement.field_mentor
-    - field.field.node.match_engagement.field_mileston
     - field.field.node.match_engagement.field_milestone_actual_date
     - field.field.node.match_engagement.field_milestone_completion_date
     - field.field.node.match_engagement.field_milestone_description
@@ -38,10 +37,6 @@ dependencies:
     - field.field.node.match_engagement.field_milestone_description_2
     - field.field.node.match_engagement.field_milestone_description_3
     - field.field.node.match_engagement.field_milestone_description_4
-    - field.field.node.match_engagement.field_milestone_title_1
-    - field.field.node.match_engagement.field_milestone_title_2
-    - field.field.node.match_engagement.field_milestone_title_3
-    - field.field.node.match_engagement.field_milestone_title_4
     - field.field.node.match_engagement.field_node_type
     - field.field.node.match_engagement.field_notes
     - field.field.node.match_engagement.field_notes_to_author
@@ -78,14 +73,13 @@ third_party_settings:
   field_group:
     group_milestones:
       children:
-        - field_mileston
         - field_milestone_description
         - field_milestone_completion_date
         - field_milestone_actual_date
       label: Milestones
       region: content
       parent_name: ''
-      weight: 20
+      weight: 22
       format_type: details
       format_settings:
         classes: ''
@@ -96,46 +90,9 @@ third_party_settings:
         required_fields: true
     group_milestone_1:
       children:
-        - field_milestone_title_1
         - field_milestone_description_1
         - field_completion_date_goal_1
         - field_actual_completion_date_1
-      label: Milestone
-      region: content
-      parent_name: ''
-      weight: 21
-      format_type: details
-      format_settings:
-        classes: ''
-        show_empty_fields: false
-        id: ''
-        open: false
-        description: ''
-        required_fields: true
-    group_milestone_2:
-      children:
-        - field_milestone_title_2
-        - field_milestone_description_2
-        - field_completion_date_goal_2
-        - field_actual_completion_date_2
-      label: Milestone
-      region: content
-      parent_name: ''
-      weight: 22
-      format_type: details
-      format_settings:
-        classes: ''
-        show_empty_fields: false
-        id: ''
-        open: false
-        description: ''
-        required_fields: true
-    group_milestone_3:
-      children:
-        - field_milestone_title_3
-        - field_milestone_description_3
-        - field_completion_date_goal_3
-        - field_actual_completion_date_3
       label: Milestone
       region: content
       parent_name: ''
@@ -148,16 +105,49 @@ third_party_settings:
         open: false
         description: ''
         required_fields: true
+    group_milestone_2:
+      children:
+        - field_milestone_description_2
+        - field_completion_date_goal_2
+        - field_actual_completion_date_2
+      label: Milestone
+      region: content
+      parent_name: ''
+      weight: 24
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
+    group_milestone_3:
+      children:
+        - field_milestone_description_3
+        - field_completion_date_goal_3
+        - field_actual_completion_date_3
+      label: Milestone
+      region: content
+      parent_name: ''
+      weight: 25
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
     group_milestone_4:
       children:
-        - field_milestone_title_4
         - field_milestone_description_4
         - field_completion_date_goal_4
         - field_actual_completion_date_4
       label: Milestone
       region: content
       parent_name: ''
-      weight: 24
+      weight: 26
       format_type: details
       format_settings:
         classes: ''
@@ -180,7 +170,30 @@ third_party_settings:
       label: 'Final Report'
       region: content
       parent_name: ''
-      weight: 45
+      weight: 36
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
+    group_launch_and_wrap_presentati:
+      children:
+        - field_launch_presentation
+        - field_launch_presentation_date
+        - field_wrap_presentation
+        - field_wrap_presentation_date
+        - field_planned_portal_contributio
+        - field_notes
+        - field_email_user
+        - field_notes_to_author
+        - field_node_type
+      label: 'Launch and Wrap Presentations'
+      region: content
+      parent_name: ''
+      weight: 35
       format_type: details
       format_settings:
         classes: ''
@@ -260,7 +273,7 @@ content:
     third_party_settings: {  }
   field_consultant:
     type: entity_reference_autocomplete
-    weight: 26
+    weight: 28
     region: content
     settings:
       match_operator: CONTAINS
@@ -287,12 +300,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_education:
-    type: options_select
-    weight: 31
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_email_user:
     type: boolean_checkbox
     weight: 42
@@ -302,7 +309,7 @@ content:
     third_party_settings: {  }
   field_git_contribution:
     type: link_default
-    weight: 37
+    weight: 34
     region: content
     settings:
       placeholder_url: ''
@@ -310,7 +317,7 @@ content:
     third_party_settings: {  }
   field_hpc_resources_needed:
     type: string_textarea
-    weight: 25
+    weight: 27
     region: content
     settings:
       rows: 5
@@ -387,19 +394,11 @@ content:
     third_party_settings: {  }
   field_mentor:
     type: entity_reference_autocomplete
-    weight: 27
+    weight: 29
     region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_mileston:
-    type: string_textfield
-    weight: 17
-    region: content
-    settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
@@ -455,38 +454,6 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_milestone_title_1:
-    type: string_textfield
-    weight: 21
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_milestone_title_2:
-    type: string_textfield
-    weight: 50
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_milestone_title_3:
-    type: string_textfield
-    weight: 25
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_milestone_title_4:
-    type: string_textfield
-    weight: 27
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_node_type:
     type: options_select
     weight: 44
@@ -527,7 +494,7 @@ content:
     third_party_settings: {  }
   field_planned_publications:
     type: string_textarea
-    weight: 39
+    weight: 16
     region: content
     settings:
       rows: 5
@@ -535,13 +502,13 @@ content:
     third_party_settings: {  }
   field_programming_skill_level:
     type: options_select
-    weight: 32
+    weight: 33
     region: content
     settings: {  }
     third_party_settings: {  }
   field_project_deliverables:
     type: string_textarea
-    weight: 19
+    weight: 21
     region: content
     settings:
       rows: 5
@@ -549,7 +516,7 @@ content:
     third_party_settings: {  }
   field_project_image:
     type: image_image
-    weight: 18
+    weight: 20
     region: content
     settings:
       progress_indicator: throbber
@@ -557,7 +524,7 @@ content:
     third_party_settings: {  }
   field_qualifications:
     type: string_textarea
-    weight: 29
+    weight: 31
     region: content
     settings:
       rows: 5
@@ -565,7 +532,7 @@ content:
     third_party_settings: {  }
   field_requested_engagement:
     type: options_select
-    weight: 17
+    weight: 19
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -587,7 +554,7 @@ content:
     third_party_settings: {  }
   field_student_learning:
     type: string_textarea
-    weight: 30
+    weight: 32
     region: content
     settings:
       rows: 5
@@ -595,7 +562,7 @@ content:
     third_party_settings: {  }
   field_students:
     type: entity_reference_autocomplete
-    weight: 28
+    weight: 30
     region: content
     settings:
       match_operator: CONTAINS
@@ -605,7 +572,7 @@ content:
     third_party_settings: {  }
   field_tags:
     type: entity_reference_autocomplete
-    weight: 16
+    weight: 18
     region: content
     settings:
       match_operator: CONTAINS
@@ -637,7 +604,7 @@ content:
     third_party_settings: {  }
   field_what_match_will_learn:
     type: string_textarea
-    weight: 40
+    weight: 17
     region: content
     settings:
       rows: 5
@@ -711,4 +678,5 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_education: true
