@@ -5,7 +5,9 @@ dependencies:
   config:
     - node.type.access_news
     - node.type.affinity_group
+    - workflows.workflow.editorial
   module:
+    - content_moderation
     - node
     - recurring_events
 id: affinity_group_leader
@@ -24,4 +26,5 @@ permissions:
   - 'edit own affinity_group content'
   - 'edit own eventinstance entity'
   - 'edit own eventseries entity'
+  - 'use editorial transition publish'
   - 'view own unpublished content'

@@ -1,0 +1,18 @@
+uuid: bbe9631e-d599-4be9-8473-586b809da907
+langcode: en
+status: true
+dependencies: {  }
+id: review_requested
+workflow: editorial
+transitions:
+  send_for_review: send_for_review
+roles:
+  match_pm: match_pm
+author: false
+site_mail: false
+emails: ''
+subject: '{{ entity.bundle|title }} from {{ entity.Owner.name.0.value }} Needs Review'
+body:
+  value: "<p>Please review this content from {{ entity.Owner.name.0.value }}. <a href=\"{{ url('entity.node.canonical', {'node': entity.id}) }}/edit\">{{ node.title.value }}</a></p>\r\n"
+  format: full_html
+label: 'Review Requested'
