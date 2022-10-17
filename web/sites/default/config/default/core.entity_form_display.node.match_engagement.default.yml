@@ -78,8 +78,8 @@ third_party_settings:
         - field_milestone_actual_date
       label: Milestone
       region: content
-      parent_name: ''
-      weight: 26
+      parent_name: group_milestones_group
+      weight: 27
       format_type: details
       format_settings:
         classes: ''
@@ -95,8 +95,8 @@ third_party_settings:
         - field_actual_completion_date_1
       label: Milestone
       region: content
-      parent_name: ''
-      weight: 27
+      parent_name: group_milestones_group
+      weight: 28
       format_type: details
       format_settings:
         classes: ''
@@ -112,8 +112,8 @@ third_party_settings:
         - field_actual_completion_date_2
       label: Milestone
       region: content
-      parent_name: ''
-      weight: 28
+      parent_name: group_milestones_group
+      weight: 29
       format_type: details
       format_settings:
         classes: ''
@@ -129,8 +129,8 @@ third_party_settings:
         - field_actual_completion_date_3
       label: Milestone
       region: content
-      parent_name: ''
-      weight: 29
+      parent_name: group_milestones_group
+      weight: 30
       format_type: details
       format_settings:
         classes: ''
@@ -146,8 +146,8 @@ third_party_settings:
         - field_actual_completion_date_4
       label: Milestone
       region: content
-      parent_name: ''
-      weight: 30
+      parent_name: group_milestones_group
+      weight: 31
       format_type: details
       format_settings:
         classes: ''
@@ -170,7 +170,7 @@ third_party_settings:
       label: 'Final Report'
       region: content
       parent_name: ''
-      weight: 36
+      weight: 33
       format_type: details
       format_settings:
         classes: ''
@@ -191,7 +191,7 @@ third_party_settings:
       label: 'Launch and Wrap Presentations'
       region: content
       parent_name: ''
-      weight: 35
+      weight: 32
       format_type: details
       format_settings:
         classes: ''
@@ -199,6 +199,25 @@ third_party_settings:
         id: ''
         open: false
         description: ''
+        required_fields: true
+    group_milestones_group:
+      children:
+        - group_milestones
+        - group_milestone_1
+        - group_milestone_2
+        - group_milestone_3
+        - group_milestone_4
+      label: Milestones
+      region: content
+      parent_name: ''
+      weight: 27
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: true
+        id: ''
+        open: true
+        description: 'Please enter as many as five milestones for the engagement.  Note that not all five fields are required.'
         required_fields: true
 id: node.match_engagement.default
 targetEntityType: node
@@ -223,13 +242,13 @@ content:
     third_party_settings: {  }
   field_actual_completion_date_1:
     type: datetime_default
-    weight: 25
+    weight: 20
     region: content
     settings: {  }
     third_party_settings: {  }
   field_actual_completion_date_2:
     type: datetime_default
-    weight: 53
+    weight: 24
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -247,7 +266,7 @@ content:
     third_party_settings: {  }
   field_completion_date_goal_1:
     type: datetime_default
-    weight: 24
+    weight: 23
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -271,7 +290,7 @@ content:
     third_party_settings: {  }
   field_consultant:
     type: entity_reference_autocomplete
-    weight: 32
+    weight: 29
     region: content
     settings:
       match_operator: CONTAINS
@@ -307,7 +326,7 @@ content:
     third_party_settings: {  }
   field_git_contribution:
     type: link_default
-    weight: 34
+    weight: 31
     region: content
     settings:
       placeholder_url: ''
@@ -315,7 +334,7 @@ content:
     third_party_settings: {  }
   field_hpc_resources_needed:
     type: string_textarea
-    weight: 31
+    weight: 28
     region: content
     settings:
       rows: 5
@@ -402,7 +421,7 @@ content:
     third_party_settings: {  }
   field_milestone_actual_date:
     type: datetime_default
-    weight: 20
+    weight: 53
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -460,7 +479,7 @@ content:
     third_party_settings: {  }
   field_notes:
     type: string_textarea
-    weight: 37
+    weight: 34
     region: content
     settings:
       rows: 5
@@ -484,7 +503,7 @@ content:
     third_party_settings: {  }
   field_planned_portal_contributio:
     type: string_textarea
-    weight: 33
+    weight: 30
     region: content
     settings:
       rows: 5
@@ -500,7 +519,7 @@ content:
     third_party_settings: {  }
   field_programming_skill_level:
     type: options_select
-    weight: 25
+    weight: 26
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -522,7 +541,7 @@ content:
     third_party_settings: {  }
   field_qualifications:
     type: string_textarea
-    weight: 24
+    weight: 25
     region: content
     settings:
       rows: 5
