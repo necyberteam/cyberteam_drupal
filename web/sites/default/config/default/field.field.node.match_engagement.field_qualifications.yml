@@ -5,12 +5,17 @@ dependencies:
   config:
     - field.storage.node.field_qualifications
     - node.type.match_engagement
+  module:
+    - label_help
+third_party_settings:
+  label_help:
+    label_help_description: 'To help match a good candidate, please provide qualifications needed for a student/facilitator.'
 id: node.match_engagement.field_qualifications
 field_name: field_qualifications
 entity_type: node
 bundle: match_engagement
-label: 'Preferred Student Attributes'
-description: 'To help match a good candidate, please provide qualifications needed for a student/facilitator.'
+label: 'Preferred student attributes'
+description: ''
 required: false
 translatable: false
 default_value: {  }

@@ -185,18 +185,18 @@ third_party_settings:
         - field_launch_presentation_date
         - field_wrap_presentation
         - field_wrap_presentation_date
-        - field_email_user
         - field_notes_to_author
         - field_node_type
+        - field_email_user
       label: 'Launch and Wrap Presentations'
       region: content
       parent_name: ''
-      weight: 32
+      weight: 31
       format_type: details
       format_settings:
         classes: ''
         show_empty_fields: false
-        id: ''
+        id: group_launch_details_group
         open: false
         description: ''
         required_fields: true
@@ -210,14 +210,14 @@ third_party_settings:
       label: Milestones
       region: content
       parent_name: ''
-      weight: 27
+      weight: 26
       format_type: details
       format_settings:
         classes: ''
-        show_empty_fields: true
-        id: ''
+        show_empty_fields: false
+        id: group_milestones_group
         open: true
-        description: 'Please enter as many as five milestones for the engagement.  Note that not all five fields are required.'
+        description: 'Please enter as many as five milestones for this engagement.  Note that not all five fields are required.'
         required_fields: true
 id: node.match_engagement.default
 targetEntityType: node
@@ -242,13 +242,13 @@ content:
     third_party_settings: {  }
   field_actual_completion_date_1:
     type: datetime_default
-    weight: 20
+    weight: 25
     region: content
     settings: {  }
     third_party_settings: {  }
   field_actual_completion_date_2:
     type: datetime_default
-    weight: 24
+    weight: 53
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -290,7 +290,7 @@ content:
     third_party_settings: {  }
   field_consultant:
     type: entity_reference_autocomplete
-    weight: 29
+    weight: 28
     region: content
     settings:
       match_operator: CONTAINS
@@ -319,14 +319,14 @@ content:
     third_party_settings: {  }
   field_email_user:
     type: boolean_checkbox
-    weight: 42
+    weight: 39
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_git_contribution:
     type: link_default
-    weight: 31
+    weight: 30
     region: content
     settings:
       placeholder_url: ''
@@ -334,7 +334,7 @@ content:
     third_party_settings: {  }
   field_hpc_resources_needed:
     type: string_textarea
-    weight: 28
+    weight: 27
     region: content
     settings:
       rows: 5
@@ -421,7 +421,7 @@ content:
     third_party_settings: {  }
   field_milestone_actual_date:
     type: datetime_default
-    weight: 53
+    weight: 20
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -473,7 +473,7 @@ content:
     third_party_settings: {  }
   field_node_type:
     type: options_select
-    weight: 44
+    weight: 38
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -487,7 +487,7 @@ content:
     third_party_settings: {  }
   field_notes_to_author:
     type: string_textarea
-    weight: 43
+    weight: 37
     region: content
     settings:
       rows: 5
@@ -503,7 +503,7 @@ content:
     third_party_settings: {  }
   field_planned_portal_contributio:
     type: string_textarea
-    weight: 30
+    weight: 29
     region: content
     settings:
       rows: 5
@@ -519,7 +519,7 @@ content:
     third_party_settings: {  }
   field_programming_skill_level:
     type: options_select
-    weight: 26
+    weight: 25
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -541,7 +541,7 @@ content:
     third_party_settings: {  }
   field_qualifications:
     type: string_textarea
-    weight: 25
+    weight: 24
     region: content
     settings:
       rows: 5
