@@ -1,4 +1,4 @@
-@wip--
+@wip--#Put comment in spreadsheet tha this cant be tested
 @api
 @javascript
 Feature: test individual Affinity Group page 

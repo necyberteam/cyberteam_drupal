@@ -1,5 +1,4 @@
-#CRTAIN PARTS NOT WORKING
-@wip--
+@templates
 @api
 @javascript
 Feature: test individual people page 
