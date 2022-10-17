@@ -5,12 +5,17 @@ dependencies:
   config:
     - field.storage.node.field_project_deliverables
     - node.type.match_engagement
+  module:
+    - label_help
+third_party_settings:
+  label_help:
+    label_help_description: 'Please describe the specific deliverables so that Mentors and Students will understand the goals of your project.'
 id: node.match_engagement.field_project_deliverables
 field_name: field_project_deliverables
 entity_type: node
 bundle: match_engagement
 label: 'Project Deliverables'
-description: 'Please use describe the specific deliverables so that Mentors and Students will understand the goals of your project.'
+description: ''
 required: false
 translatable: false
 default_value: {  }
