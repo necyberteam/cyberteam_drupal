@@ -1,0 +1,17 @@
+uuid: bc40a680-910c-4102-b1a4-46fc0c7c7ac3
+langcode: en
+status: true
+dependencies: {  }
+id: needs_adjustment
+workflow: editorial
+transitions:
+  request_adjustment: request_adjustment
+roles: {  }
+author: true
+site_mail: false
+emails: ''
+subject: 'Your content {{ entity.bundle|title }} needs adjustment'
+body:
+  value: "<p><a href=\"{{ url('entity.node.canonical', {'node': entity.id}) }}/edit\">{{ node.title.0.value }}</a></p>\r\n"
+  format: full_html
+label: 'Needs Adjustment'
