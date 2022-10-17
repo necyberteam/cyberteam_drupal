@@ -76,10 +76,10 @@ third_party_settings:
         - field_milestone_description
         - field_milestone_completion_date
         - field_milestone_actual_date
-      label: Milestones
+      label: Milestone
       region: content
       parent_name: ''
-      weight: 22
+      weight: 26
       format_type: details
       format_settings:
         classes: ''
@@ -96,7 +96,7 @@ third_party_settings:
       label: Milestone
       region: content
       parent_name: ''
-      weight: 23
+      weight: 27
       format_type: details
       format_settings:
         classes: ''
@@ -113,7 +113,7 @@ third_party_settings:
       label: Milestone
       region: content
       parent_name: ''
-      weight: 24
+      weight: 28
       format_type: details
       format_settings:
         classes: ''
@@ -130,7 +130,7 @@ third_party_settings:
       label: Milestone
       region: content
       parent_name: ''
-      weight: 25
+      weight: 29
       format_type: details
       format_settings:
         classes: ''
@@ -147,7 +147,7 @@ third_party_settings:
       label: Milestone
       region: content
       parent_name: ''
-      weight: 26
+      weight: 30
       format_type: details
       format_settings:
         classes: ''
@@ -185,8 +185,6 @@ third_party_settings:
         - field_launch_presentation_date
         - field_wrap_presentation
         - field_wrap_presentation_date
-        - field_planned_portal_contributio
-        - field_notes
         - field_email_user
         - field_notes_to_author
         - field_node_type
@@ -273,7 +271,7 @@ content:
     third_party_settings: {  }
   field_consultant:
     type: entity_reference_autocomplete
-    weight: 28
+    weight: 32
     region: content
     settings:
       match_operator: CONTAINS
@@ -317,7 +315,7 @@ content:
     third_party_settings: {  }
   field_hpc_resources_needed:
     type: string_textarea
-    weight: 27
+    weight: 31
     region: content
     settings:
       rows: 5
@@ -394,7 +392,7 @@ content:
     third_party_settings: {  }
   field_mentor:
     type: entity_reference_autocomplete
-    weight: 29
+    weight: 22
     region: content
     settings:
       match_operator: CONTAINS
@@ -462,7 +460,7 @@ content:
     third_party_settings: {  }
   field_notes:
     type: string_textarea
-    weight: 41
+    weight: 37
     region: content
     settings:
       rows: 5
@@ -486,7 +484,7 @@ content:
     third_party_settings: {  }
   field_planned_portal_contributio:
     type: string_textarea
-    weight: 38
+    weight: 33
     region: content
     settings:
       rows: 5
@@ -494,7 +492,7 @@ content:
     third_party_settings: {  }
   field_planned_publications:
     type: string_textarea
-    weight: 16
+    weight: 20
     region: content
     settings:
       rows: 5
@@ -502,13 +500,13 @@ content:
     third_party_settings: {  }
   field_programming_skill_level:
     type: options_select
-    weight: 33
+    weight: 25
     region: content
     settings: {  }
     third_party_settings: {  }
   field_project_deliverables:
     type: string_textarea
-    weight: 21
+    weight: 19
     region: content
     settings:
       rows: 5
@@ -516,7 +514,7 @@ content:
     third_party_settings: {  }
   field_project_image:
     type: image_image
-    weight: 20
+    weight: 18
     region: content
     settings:
       progress_indicator: throbber
@@ -524,7 +522,7 @@ content:
     third_party_settings: {  }
   field_qualifications:
     type: string_textarea
-    weight: 31
+    weight: 24
     region: content
     settings:
       rows: 5
@@ -532,7 +530,7 @@ content:
     third_party_settings: {  }
   field_requested_engagement:
     type: options_select
-    weight: 19
+    weight: 17
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -552,17 +550,9 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_student_learning:
-    type: string_textarea
-    weight: 32
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
   field_students:
     type: entity_reference_autocomplete
-    weight: 30
+    weight: 23
     region: content
     settings:
       match_operator: CONTAINS
@@ -572,7 +562,7 @@ content:
     third_party_settings: {  }
   field_tags:
     type: entity_reference_autocomplete
-    weight: 18
+    weight: 16
     region: content
     settings:
       match_operator: CONTAINS
@@ -604,7 +594,7 @@ content:
     third_party_settings: {  }
   field_what_match_will_learn:
     type: string_textarea
-    weight: 17
+    weight: 21
     region: content
     settings:
       rows: 5
@@ -680,3 +670,4 @@ content:
     third_party_settings: {  }
 hidden:
   field_education: true
+  field_student_learning: true
