@@ -170,33 +170,12 @@ third_party_settings:
       label: 'Final Report'
       region: content
       parent_name: ''
-      weight: 33
+      weight: 37
       format_type: details
       format_settings:
         classes: ''
         show_empty_fields: false
         id: ''
-        open: false
-        description: ''
-        required_fields: true
-    group_launch_and_wrap_presentati:
-      children:
-        - field_launch_presentation
-        - field_launch_presentation_date
-        - field_wrap_presentation
-        - field_wrap_presentation_date
-        - field_notes_to_author
-        - field_node_type
-        - field_email_user
-      label: 'Launch and Wrap Presentations'
-      region: content
-      parent_name: ''
-      weight: 31
-      format_type: details
-      format_settings:
-        classes: ''
-        show_empty_fields: false
-        id: group_launch_details_group
         open: false
         description: ''
         required_fields: true
@@ -216,8 +195,26 @@ third_party_settings:
         classes: ''
         show_empty_fields: false
         id: group_milestones_group
-        open: true
+        open: false
         description: 'Please enter as many as five milestones for this engagement.  Note that not all five fields are required.'
+        required_fields: true
+    group_launch_and_wrap_presentati:
+      children:
+        - field_launch_presentation
+        - field_launch_presentation_date
+        - field_wrap_presentation
+        - field_wrap_presentation_date
+      label: 'Launch and Wrap Presentations'
+      region: content
+      parent_name: ''
+      weight: 32
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: group_launch_id
+        open: false
+        description: ''
         required_fields: true
 id: node.match_engagement.default
 targetEntityType: node
@@ -319,7 +316,7 @@ content:
     third_party_settings: {  }
   field_email_user:
     type: boolean_checkbox
-    weight: 39
+    weight: 31
     region: content
     settings:
       display_label: true
@@ -473,13 +470,13 @@ content:
     third_party_settings: {  }
   field_node_type:
     type: options_select
-    weight: 38
+    weight: 40
     region: content
     settings: {  }
     third_party_settings: {  }
   field_notes:
     type: string_textarea
-    weight: 34
+    weight: 38
     region: content
     settings:
       rows: 5
@@ -487,7 +484,7 @@ content:
     third_party_settings: {  }
   field_notes_to_author:
     type: string_textarea
-    weight: 37
+    weight: 39
     region: content
     settings:
       rows: 5
