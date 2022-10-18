@@ -1,24 +1,28 @@
-uuid: 1aa16133-7d35-4c2d-ad15-4f0c0ebfb937
+uuid: dc32610c-28f3-4f89-957d-b652d0dd3962
 langcode: en
 status: true
 dependencies:
+  config:
+    - views.view.access_news
   module:
-    - access_news
     - domain
     - system
+    - views
   theme:
     - accesstheme
-id: requestanewspostblock
+id: views_block__access_news_block_3
 theme: accesstheme
 region: sidebar_second
-weight: -13
+weight: -12
 provider: null
-plugin: requestnews_block
+plugin: 'views_block:access_news-block_3'
 settings:
-  id: requestnews_block
-  label: 'Request a News Post block'
+  id: 'views_block:access_news-block_3'
+  label: ''
   label_display: '0'
-  provider: access_news
+  provider: views
+  views_label: ''
+  items_per_page: none
 visibility:
   domain:
     id: domain
@@ -26,7 +30,6 @@ visibility:
     context_mapping:
       domain: '@domain.current_domain_context:domain'
     domains:
-      nectd8_wpi_edu: nectd8_wpi_edu
       amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
   request_path:
     id: request_path
