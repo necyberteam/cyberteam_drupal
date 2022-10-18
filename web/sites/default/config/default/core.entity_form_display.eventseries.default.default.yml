@@ -10,7 +10,9 @@ dependencies:
     - field.field.eventseries.default.field_registration
     - field.field.eventseries.default.field_tags
     - recurring_events.eventseries_type.default
+    - workflows.workflow.editorial
   module:
+    - content_moderation
     - datetime_range
     - link
     - recurring_events
@@ -54,16 +56,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_affinity_group:
-    type: entity_reference_autocomplete
-    weight: 14
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_affinity_group_node:
     type: entity_reference_autocomplete
     weight: 13
@@ -75,7 +67,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_contact:
-    type: string_textfield
+    type: text_textfield
     weight: 11
     region: content
     settings:
@@ -83,7 +75,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_location:
-    type: string_textfield
+    type: text_textfield
     weight: 10
     region: content
     settings:
@@ -100,7 +92,7 @@ content:
     third_party_settings: {  }
   field_tags:
     type: entity_reference_autocomplete
-    weight: 15
+    weight: 14
     region: content
     settings:
       match_operator: CONTAINS
@@ -111,6 +103,12 @@ content:
   included_dates:
     type: daterange_default
     weight: 9
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 17
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -128,7 +126,7 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 17
+    weight: 16
     region: content
     settings:
       display_label: true
@@ -143,7 +141,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 16
+    weight: 15
     region: content
     settings:
       match_operator: CONTAINS
@@ -157,4 +155,5 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_affinity_group: true

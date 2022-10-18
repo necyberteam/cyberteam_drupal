@@ -11,9 +11,11 @@ dependencies:
     - node.type.blog_post_region_
     - node.type.match_engagement
     - taxonomy.vocabulary.tags
+    - workflows.workflow.editorial
   module:
     - comment
     - contact
+    - content_moderation
     - domain
     - domain_access
     - filter
@@ -41,6 +43,7 @@ permissions:
   - 'access site-wide contact form'
   - 'access user contact forms'
   - 'access user profiles'
+  - 'add eventseries entity'
   - 'assign ci_systems_engineer role'
   - 'assign mentee role'
   - 'assign mentor role'
@@ -65,6 +68,8 @@ permissions:
   - 'edit own affinity_group content'
   - 'edit own blog_post content'
   - 'edit own blog_post_region_ content'
+  - 'edit own eventinstance entity'
+  - 'edit own eventseries entity'
   - 'edit own match_engagement content'
   - 'edit own webform'
   - 'edit own webform submission'
@@ -75,6 +80,7 @@ permissions:
   - 'flag skill'
   - 'flag upvote'
   - 'post comments'
+  - 'revert access_news revisions'
   - 'search content'
   - 'setup own tfa'
   - 'skip comment approval'
@@ -87,9 +93,17 @@ permissions:
   - 'use advanced search'
   - 'use domain nav block'
   - 'use domain switcher block'
+  - 'use editorial transition archived_draft'
+  - 'use editorial transition create_new_draft'
+  - 'use editorial transition send_for_review'
   - 'use text format basic_html'
   - 'use text format filtered_html'
+  - 'view all eventinstance revisions'
+  - 'view all eventseries revisions'
   - 'view eventinstance entity'
   - 'view eventseries entity'
+  - 'view latest version'
   - 'view own unpublished content'
   - 'view own webform submission'
+  - 'view unpublished eventinstance entity'
+  - 'view unpublished eventseries entity'

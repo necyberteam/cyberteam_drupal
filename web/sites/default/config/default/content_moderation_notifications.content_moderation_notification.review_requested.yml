@@ -1,0 +1,18 @@
+uuid: bbe9631e-d599-4be9-8473-586b809da907
+langcode: en
+status: true
+dependencies: {  }
+id: review_requested
+workflow: editorial
+transitions:
+  send_for_review: send_for_review
+roles:
+  match_pm: match_pm
+author: false
+site_mail: false
+emails: ''
+subject: '{% if entity.bundle|title == ''Access_News'' %}ACCESS News{% else %}An ACCESS Event{% endif %} from {{ entity.Owner.name.0.value }} needs review'
+body:
+  value: "<p>Please review this content from {{ entity.Owner.name.0.value }}.</p>\r\n\r\n<p>{% if entity.bundle|title == 'Access_News' %} <a href=\"{{ url('entity.node.canonical', {'node': entity.id}) }}/edit\">{{ node.title.value }}</a>{% else %} <a href=\"{{ url('entity.eventseries.canonical', {'eventseries': entity.id.value}) }}/edit\">{{ entity.title.value }}</a> {% endif %}</p>\r\n"
+  format: full_html
+label: 'Review Requested'

@@ -1840,8 +1840,8 @@ display:
           label: 'Event Date'
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '{{ date__value__value|date(''n/d/Y g:i A T'')}}'
             make_link: false
             path: ''
             absolute: false
@@ -2121,11 +2121,13 @@ display:
           view_mode: list
       defaults:
         title: false
+        css_class: false
         style: false
         row: false
         fields: false
         filters: false
         filter_groups: false
+      css_class: ''
       display_description: ''
       display_extenders: {  }
     cache_metadata:

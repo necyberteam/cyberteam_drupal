@@ -1,24 +1,29 @@
-uuid: 1aa16133-7d35-4c2d-ad15-4f0c0ebfb937
+uuid: 2a3e1cd2-f300-4c1e-9db0-cc32156f799c
 langcode: en
 status: true
 dependencies:
+  content:
+    - 'block_content:basic:90fc385e-5b29-4879-8bab-cb361b1a1d6a'
   module:
-    - access_news
+    - block_content
     - domain
     - system
   theme:
     - accesstheme
-id: requestanewspostblock
+id: addevents
 theme: accesstheme
 region: sidebar_second
-weight: -13
+weight: -16
 provider: null
-plugin: requestnews_block
+plugin: 'block_content:90fc385e-5b29-4879-8bab-cb361b1a1d6a'
 settings:
-  id: requestnews_block
-  label: 'Request a News Post block'
+  id: 'block_content:90fc385e-5b29-4879-8bab-cb361b1a1d6a'
+  label: 'Add Events'
   label_display: '0'
-  provider: access_news
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
 visibility:
   domain:
     id: domain
@@ -26,9 +31,8 @@ visibility:
     context_mapping:
       domain: '@domain.current_domain_context:domain'
     domains:
-      nectd8_wpi_edu: nectd8_wpi_edu
       amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
   request_path:
     id: request_path
     negate: false
-    pages: /news
+    pages: /events
