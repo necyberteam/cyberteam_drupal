@@ -1,14 +1,14 @@
-#Finish and mark body red
+#Not Working (Browser Crashing)
 @wip--
 @api
-@javascript
+#@javascript
 Feature: test blog page 
   In order to test the Blog page
 
-
+#TODO: Browser Crash Error, Body input text is not working
 
   Scenario: Administrator user fills out Project Blog form
-    Given I am logged in as a user with the "administrator" role
+    Given I am logged in as a user with the "authenticated" role
     When I go to "/node/add/blog_post"
     Then I should see "Create Blog post"
     When I fill in "Title" with "TESTing"
