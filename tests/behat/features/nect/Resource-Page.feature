@@ -1,16 +1,16 @@
-@templates--
+@nect
 @api
 @javascript
-
-Feature: test resources page 
+Feature: test recources page 
   In order to test the resources page
+
+
 
   Scenario: Unauthenticated user Test the resource page
     Given I am not logged in
     When I go to "/resources"
     Then I should see "Add New Resource"
     Then I should see "These resources have been crowd-sourced"
-    # TODO - votes not found on careers page
     Then I should see "Votes"
     Then I should see "Title"
     Then I should see "Description"
