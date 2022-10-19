@@ -20,4 +20,18 @@ Feature: test get help page
     Then I click "Ask a Question of the Community"
     When I click "Find Learning Resources"
     Then I should see "Resources"
+
+  Scenario: Authenticated user Test the Get Help Page
+    Given I am logged in as a user with the "authenticated" role
+    When I go to "/get-research-computing-help"
+    Then I should see "Get Research Computing Help"
+    Then I should see "at the Regional Help Desk"
+    Then I should see "Ask a Question of the Community"
+    Then I should see "Find Learning Resources"
+
+    When I go to "/get-research-computing-help"
+    Then I click "Join the Regional Slack Discussion"
+    Then I click "Ask a Question of the Community"
+    When I click "Find Learning Resources"
+    Then I should see "Resources"
     
