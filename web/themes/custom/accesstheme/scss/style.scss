@@ -617,6 +617,29 @@ a.button.button-action:hover {
     border-color: var(--bs-secondary);
     color: #ffffff;
 }
+/* Content moderation */
+.node--unpublished {
+    background-color: transparent;
+}
+.entity-moderation-form {
+    padding: 0 1em;
+    @include media-breakpoint-up(lg) {
+        flex-wrap: nowrap;
+        .entity-moderation-form__item:last-child {
+            align-self: center;
+        }
+        input[type="submit"] {
+            margin-bottom: 0;
+        }
+    }
+    .form-item {
+        font-style: italic;
+        label {
+            font-weight: 600;
+            font-style: normal;
+        }
+    }
+}
 footer {
     .navigation.menu--footer {
         background-color: var(--bs-dark);
