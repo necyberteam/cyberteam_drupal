@@ -5,12 +5,17 @@ dependencies:
   config:
     - field.storage.node.field_researcher
     - node.type.match_engagement
+  module:
+    - label_help
+third_party_settings:
+  label_help:
+    label_help_description: 'Select the researcher(s) leading this project. They must have an account to be associated with the engagement.'
 id: node.match_engagement.field_researcher
 field_name: field_researcher
 entity_type: node
 bundle: match_engagement
-label: Researcher
-description: 'Select a the researcher who is leading this project. This person must have an account to be associated with the engagement.'
+label: Researcher(s)
+description: ''
 required: false
 translatable: false
 default_value: {  }
