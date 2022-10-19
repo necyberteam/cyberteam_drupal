@@ -1,4 +1,4 @@
-@templates
+@careers
 @api
 @javascript
 Feature: test recources page 
