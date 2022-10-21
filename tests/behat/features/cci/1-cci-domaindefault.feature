@@ -1,5 +1,7 @@
 @cci
 @api
+@javascript
+
 Feature: test cci domain
   In order to test the cci domain
   As a user of the admin role

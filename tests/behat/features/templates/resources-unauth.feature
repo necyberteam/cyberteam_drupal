@@ -1,10 +1,9 @@
 @templates
 @api
 @javascript
+
 Feature: test recources page 
   In order to test the resources page
-
-
 
   Scenario: Unauthenticated user Test the resource page
     Given I am not logged in

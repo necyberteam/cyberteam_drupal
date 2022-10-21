@@ -1,5 +1,7 @@
 @coco
 @api
+@javascript
+
 Feature: test coco domain
   In order to test the coco domain
   As a user of the admin role

@@ -1,6 +1,6 @@
 @templates
 @api
-#@javascript
+@javascript
 
 Feature: test tags page for authenticated user
 

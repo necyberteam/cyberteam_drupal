@@ -1,6 +1,6 @@
 @templates
 @api
-#@javascript
+@javascript
 
 Feature: add a tag to a blog post 
   To test adding a tag to a blog post 

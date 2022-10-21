@@ -1,10 +1,12 @@
 @templates
 @api
+@javascript
+
 Feature: test enter ticket form
   In order to test the enter ticket form
   As a user of the authenticated role
 
-# TODO -- rework this for authenticated
+  # TODO -- rework this for authenticated
   Scenario: Administrator user fills out the enter ticket form
     Given I am logged in as a user with the "administrator" role
     When I go to "form/issue"

@@ -1,5 +1,7 @@
 @templates
 @api
+@javascript
+
 Feature: news page contains "News"
   news page contains "News"
 

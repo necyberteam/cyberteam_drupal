@@ -1,6 +1,6 @@
 @templates
 @api
-#@javascript
+@javascript
 
 Feature: test tags page
   Tests for the Tags page
@@ -20,8 +20,7 @@ Feature: test tags page
     Scenario: Tags pages does not show "Request Tag" when logged out
       Given I am not logged in
       When I go to "tags"
-      # TODO - not working
-      # Then I should not see "Request Tag"
+      Then I should not see "Request Tag"
 
     Scenario: Unauthenticated user searches for tags (case insensitive)
       Given I am not logged in
@@ -45,6 +44,6 @@ Feature: test tags page
       When I follow "Tree View"
       Then I should see "Please select the"
       And I should be on "tags/hierarchal"
-      # want to test clicking the down arrow - following isn't right
+      # TODO want to test clicking the down arrow - following isn't right
       # When I follow "#admin-and-support"
       # Then I should see "login"

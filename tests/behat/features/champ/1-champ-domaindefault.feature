@@ -1,5 +1,7 @@
 @champ
 @api
+@javascript
+
 Feature: test champ domain
   In order to test the champ domain
   As a user of the admin role

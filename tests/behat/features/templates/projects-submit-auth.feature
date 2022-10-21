@@ -1,5 +1,7 @@
 @templates
 @api
+@javascript
+
 Feature: test submit project form
   In order to test the submit project form
   As a user of the authenticated role

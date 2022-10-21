@@ -1,5 +1,6 @@
 @templates
 @api
+@javascript
 
 Feature: for a new tag, verify all blocks display a no entries message
   In order to verify all block show a no entries message
