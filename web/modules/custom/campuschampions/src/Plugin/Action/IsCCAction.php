@@ -34,7 +34,9 @@ class IsCCAction extends ViewsBulkOperationsActionBase
             // Add Campus Champions program if it's not already set
             if (!array_filter(
                 $region, function ($program) {
-                    return $program[0]->id() == $cc_id; 
+                    if (count($program) > 0) {
+                        return $program[0]->id() == $cc_id; 
+                    }
                 }
             ) 
             ) {
