@@ -1,5 +1,7 @@
 @cci
 @api
+@javascript
+
 Feature: verify specific links on homepage
 
   # TODO - currently broken

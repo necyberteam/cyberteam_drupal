@@ -1,6 +1,7 @@
 @templates
 @api
 @javascript
+
 Feature: test recources page 
   In order to test the resources page
 

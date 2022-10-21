@@ -1,6 +1,7 @@
 @careers
 @api
 @javascript
+
 Feature: test get help page 
   In order to test the Get Help page
 

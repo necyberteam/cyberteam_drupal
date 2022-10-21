@@ -1,5 +1,7 @@
 @usrse
 @api
+@javascript
+
 Feature: test usrse domain
   In order to test the usrse domain
   As a user of the admin role

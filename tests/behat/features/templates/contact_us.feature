@@ -1,5 +1,7 @@
 @templates
 @api
+@javascript
+
 Feature: test contact us form
 
   Scenario: Unauthenticated user fills out the contact us form

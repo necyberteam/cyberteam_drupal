@@ -1,5 +1,7 @@
 @templates
 @api
+@javascript
+
 Feature: test connect.ci page
   In order to test the Connect.CI page
 

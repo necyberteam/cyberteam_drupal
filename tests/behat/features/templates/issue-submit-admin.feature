@@ -1,5 +1,7 @@
 @templates
 @api
+@javascript
+
 Feature: test enter ticket form
   In order to test the enter ticket form
   As a user of the authenticated role

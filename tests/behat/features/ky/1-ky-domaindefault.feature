@@ -1,5 +1,6 @@
 @ky
 @api
+@javascript
 
 Feature: test ky domain
   In order to test the ky domain

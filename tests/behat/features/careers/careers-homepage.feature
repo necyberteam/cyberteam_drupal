@@ -1,5 +1,7 @@
 @careers
 @api
+@javascript
+
 Feature: verify specific links on homepage
 
   Scenario: User is on the homepage

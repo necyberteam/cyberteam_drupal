@@ -1,5 +1,7 @@
 @templates
 @api
+@javascript
+
 Feature: verify headers for non-authenticated user
   To test headers
   As a non-authenticated user

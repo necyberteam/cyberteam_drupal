@@ -1,5 +1,7 @@
 @nect
 @api
+@javascript
+
 Feature: test footer
 
   Scenario: User is on the homepage

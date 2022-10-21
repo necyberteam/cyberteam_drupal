@@ -1,5 +1,6 @@
 @nect
 @api
+@javascript
 
 Feature: test affinity group request form
   In order to test the affinity group request form
