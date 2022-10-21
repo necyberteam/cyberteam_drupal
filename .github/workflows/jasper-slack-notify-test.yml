@@ -32,7 +32,11 @@ jobs:
         SLACK_CHANNEL: slack-notify-test-channel-for-jasper
 
     - run: 'echo hi from jasper, and github msg: "${{ github.event.inputs.message }}" > message.txt'
-    # - uses: adrey/slack-file-upload-action@master 
+    - uses: adrey/slack-file-upload-action@master 
+      with:
+        token: xoxb-949048553392-4253144963731-wVvFzs3YMLZMWQCyb870YCYy
+        channel: slack-notify-test-channel-for-jasper
+        path: 'message.txt'
     - uses: MeilCli/slack-upload-file@v2
       with:
         slack_token: xoxb-949048553392-4253144963731-wVvFzs3YMLZMWQCyb870YCYy
