@@ -1,0 +1,12 @@
+on: push
+name: Jasper Slack Notification Demo
+jobs:
+  slackNotification:
+    name: Jasper Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Jasper Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
