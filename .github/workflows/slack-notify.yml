@@ -5,6 +5,10 @@
 #
 # disabling "on: " action
 # on: push
+
+# documention says to use following for manually triggering
+# see https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
+on: workflow_dispatch
 name: Jasper Slack Notification Demo
 jobs:
   slackNotification:
