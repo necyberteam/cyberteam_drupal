@@ -31,7 +31,7 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_CHANNEL: slack-notify-test-channel-for-jasper
 
-    - run: 'echo hi from jasper, and github msg: "${{ github.event.inputs.message }}"" > message.txt'
+    - run: 'echo hi from jasper, and github msg: "${{ github.event.inputs.message }}" > message.txt'
     # - uses: adrey/slack-file-upload-action@master 
     - uses: MeilCli/slack-upload-file@v2
       with:
