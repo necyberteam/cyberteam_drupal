@@ -25,6 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - uses: adrey/slack-file-upload-action@master 
     - name: Jasper Slack Notification
       uses: rtCamp/action-slack-notify@v2
       env:
@@ -32,7 +33,6 @@ jobs:
         SLACK_CHANNEL: slack-notify-test-channel-for-jasper
 
     - run: 'echo hi from jasper, and github msg: "${{ github.event.inputs.message }}" > message.txt'
-    - uses: adrey/slack-file-upload-action@master 
       with:
         token: xoxb-949048553392-4253144963731-wVvFzs3YMLZMWQCyb870YCYy
         channel: slack-notify-test-channel-for-jasper
