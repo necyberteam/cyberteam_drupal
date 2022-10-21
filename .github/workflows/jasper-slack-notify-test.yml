@@ -25,7 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: adrey/slack-file-upload-action@master 
     - name: Jasper Slack Notification
       uses: rtCamp/action-slack-notify@v2
       env:
@@ -33,10 +32,15 @@ jobs:
         SLACK_CHANNEL: slack-notify-test-channel-for-jasper
 
     - run: 'echo hi from jasper, and github msg: "${{ github.event.inputs.message }}" > message.txt'
+
+    - uses: adrey/slack-file-upload-action@master 
       with:
-        token: xoxb-949048553392-4253144963731-wVvFzs3YMLZMWQCyb870YCYy
+        # trying with user oauth token
+        token: xoxp-949048553392-3760068896771-4253787302982-8323e1a5cc20adbdf39094b2e50ebb24
+        #token: xoxb-949048553392-4253144963731-wVvFzs3YMLZMWQCyb870YCYy
         channel: slack-notify-test-channel-for-jasper
         path: 'message.txt'
+
     - uses: MeilCli/slack-upload-file@v2
       with:
         slack_token: xoxb-949048553392-4253144963731-wVvFzs3YMLZMWQCyb870YCYy
