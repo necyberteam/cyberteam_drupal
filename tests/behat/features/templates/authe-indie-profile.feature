@@ -27,3 +27,12 @@ Feature: test individual people page
     Then I should be on "/user/100/contact"
 
 
+    #Scenario: Authenticated user tests the user individual page
+    #Given I am logged in as a user with the "authenticated" role
+    #When I go to "people/List"
+    #When I fill in "Search by Name" with "mrfYEeUO"
+    #And I wait 4 seconds
+   # Then I should see "mrfYEeUO"
+   #User test name cannot be identified
+
+
