@@ -1,3 +1,5 @@
+name: Jasper Slack Notification Demo
+
 # experiment with disabling the "on:" action
 # see https://github.com/necyberteam/cyberteam_drupal/actions/runs/3299078302 -
 #   it reports a failure with "Error: .github#L1
@@ -8,8 +10,15 @@
 
 # documention says to use following for manually triggering
 # see https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
-on: workflow_dispatch
-name: Jasper Slack Notification Demo
+on:
+  workflow_dispatch:
+    inputs:
+      message: 
+        description: 'post message as text file to slack'
+        required: true
+        default: 'Hello World from Jasper'
+
+
 jobs:
   slackNotification:
     name: Jasper Slack Notification
