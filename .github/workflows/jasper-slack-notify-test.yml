@@ -21,4 +21,20 @@ jobs:
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_CHANNEL: slack-notify-test-channel-for-jasper
+
+    # - run: 'echo hi from jasper, and github msg: "${{ github.event.inputs.message }}" > message.txt'
+
+    - uses: adrey/slack-file-upload-action@master 
+      with:
+        token: ${{ secrets.SLACK_TOKEN }}
+        channel: slack-notify-test-channel-for-jasper
+        path: 'tests/behat/media/logo.png'
+
+    - uses: MeilCli/slack-upload-file@v2
+      with:
+        slack_token: ${{ secrets.SLACK_TOKEN }}
+        channels: slack-notify-test-channel-for-jasper
+        file_path: 'tests/behat/media/logo.png'
+        file_type: 'image'
+        initial_comment: 'post by slack-upload-file'
         
