@@ -1,4 +1,4 @@
-name: upload behat screenshots
+name: (M) upload behat screenshots
 
 # experiment with disabling the "on:" action
 # see https://github.com/necyberteam/cyberteam_drupal/actions/runs/3299078302 -
@@ -44,7 +44,7 @@ jobs:
       with:
         slack_token: ${{ secrets.SLACK_TOKEN }}
         channels: behat-git-notifications
-        file_path: 'tests/behat/screenshots/*'
+        file_path: 'tests/behat/screenshots/*.png'
         file_type: 'images'
         initial_comment: 'Image files found in tests/behat/screenshots'        
          
