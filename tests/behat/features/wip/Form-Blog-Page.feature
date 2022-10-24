@@ -1,7 +1,7 @@
 #Not Working (Browser Crashing)
 @wip--
 @api
-#@javascript
+@javascript
 Feature: test blog page 
   In order to test the Blog page
 
@@ -18,7 +18,7 @@ Feature: test blog page
     
     When I fill in "Project" with "TEST(1)"
 
-    When I attach the file "media/logo.png" to "edit-field-image-0-upload"
+    #When I attach the file "media/logo.png" to "edit-field-image-0-upload"
 
     #When I fill in "Body" with "TEST "
 
@@ -37,7 +37,7 @@ Feature: test blog page
     
     When I fill in "Project" with "TEST(1)"
 
-    When I attach the file "media/logo.png" to "edit-field-image-0-upload"
+    #When I attach the file "media/logo.png" to "edit-field-image-0-upload"
 
     #When I fill in "Body" with "TEST "
 

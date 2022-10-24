@@ -1,7 +1,7 @@
-@wip--
+@templates
 @api
 @javascript
-#Error with screenshot display
+
 Feature: test people page Card view w/ filters 
   In order to test the people page from Card View
 
@@ -14,7 +14,8 @@ Feature: test people page Card view w/ filters
 
     And I should see "Programs"
     And I should see "Roles"
-    And I should see "Affinity Groups"
+    #Affinity Group is not shown on every domain
+    #And I should see "Affinity Groups"
     And I should see "Skills"
     And I should see "List view"
 
@@ -38,26 +39,26 @@ Feature: test people page Card view w/ filters
     And I wait 4 seconds
 
     When I fill in "edit-roles-target-id--2" with "Student-facilitator"
-    And I wait 4 seconds
+    And I wait 10 seconds
     Then I should see "Student-facilitator"
 
     When I fill in "edit-roles-target-id--2" with "Mentor"
-    And I wait 4 seconds
+    And I wait 10 seconds
     Then I should see "Mentor"
 
     When I fill in "edit-roles-target-id--2" with "Researcher/Educator"
-    And I wait 4 seconds
+    And I wait 10 seconds
     Then I should see "Researcher/Educator"
 
     When I fill in "edit-roles-target-id--2" with "Steering Committee"
-    And I wait 4 seconds
+    And I wait 10 seconds
     Then I should see "Steering Committee"
 
     When I fill in "edit-roles-target-id--2" with "Regional Facilitator"
-    And I wait 4 seconds
+    And I wait 10 seconds
     Then I should see "Regional Facilitator"
 
     When I fill in "edit-roles-target-id--2" with "Student-facilitator"
-    And I wait 4 seconds
+    And I wait 10 seconds
     Then I should see "Student-facilitator" 
     
