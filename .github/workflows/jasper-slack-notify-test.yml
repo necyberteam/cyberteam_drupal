@@ -33,11 +33,11 @@ jobs:
 
     # - run: 'echo hi from jasper, and github msg: "${{ github.event.inputs.message }}" > message.txt'
 
-    - uses: adrey/slack-file-upload-action@master 
-      with:
-        token: ${{ secrets.SLACK_TOKEN }}
-        channel: behat-git-notifications
-        path: 'tests/behat/screenshots/*'
+    # - uses: adrey/slack-file-upload-action@master 
+    #   with:
+    #     token: ${{ secrets.SLACK_TOKEN }}
+    #     channel: behat-git-notifications
+    #     path: 'tests/behat/screenshots/*'
 
     - uses: MeilCli/slack-upload-file@v2
       with:
