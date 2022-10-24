@@ -1,4 +1,4 @@
-name: Jasper Slack Notification Demo
+name: upload behat screenshots
 
 # experiment with disabling the "on:" action
 # see https://github.com/necyberteam/cyberteam_drupal/actions/runs/3299078302 -
@@ -14,10 +14,9 @@ on:
   workflow_dispatch:
     inputs:
       message: 
-        description: 'post messages to slack'
+        description: 'upload image files to slack'
         required: true
         default: 'upload behat screenshot image files to slack'
-
 
 jobs:
   slackNotification:
@@ -45,7 +44,7 @@ jobs:
       with:
         slack_token: ${{ secrets.SLACK_TOKEN }}
         channels: behat-git-notifications
-        file_path: 'tests/behat/screenshots/*.jpg'
+        file_path: 'tests/behat/screenshots/*'
         file_type: 'images'
         initial_comment: 'Image files found in tests/behat/screenshots'        
          

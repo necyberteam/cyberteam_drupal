@@ -120,4 +120,13 @@ jobs:
           SLACK_MESSAGE: 'fail :octagonal_sign:'
           SLACK_TITLE: 'Github action: behat'
           SLACK_CHANNEL: behat-git-notifications
+        uses: MeilCli/slack-upload-file@v2
+        if: failure()
+        with:
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          channels: behat-git-notifications
+          file_path: 'tests/behat/screenshots/*'
+          file_type: 'images'
+          initial_comment: 'Image files found in tests/behat/screenshots'
+         
 
