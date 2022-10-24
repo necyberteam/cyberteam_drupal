@@ -113,13 +113,6 @@ jobs:
           SLACK_TITLE: 'Github action: behat'
           SLACK_CHANNEL: behat-git-notifications
       - name: Slack Notification Fail
-        uses: rtCamp/action-slack-notify@v2
-        if: failure()
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: 'fail :octagonal_sign:'
-          SLACK_TITLE: 'Github action: behat'
-          SLACK_CHANNEL: behat-git-notifications
         uses: MeilCli/slack-upload-file@v2
         if: failure()
         with:
@@ -127,6 +120,14 @@ jobs:
           channels: behat-git-notifications
           file_path: 'tests/behat/screenshots/*'
           file_type: 'images'
-          initial_comment: 'Image files found in tests/behat/screenshots'
+          initial_comment: 'Files found in tests/behat/screenshots, for help in diagnosing behat failures'
+      - name: Slack Notification Fail
+        uses: rtCamp/action-slack-notify@v2
+        if: failure()
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: 'fail :octagonal_sign:'
+          SLACK_TITLE: 'Github action: behat'
+          SLACK_CHANNEL: behat-git-notifications
          
 
