@@ -14,9 +14,9 @@ on:
   workflow_dispatch:
     inputs:
       message: 
-        description: 'post message as text file to slack'
+        description: 'post messages to slack'
         required: true
-        default: 'Hello World from Jasper'
+        default: 'default text for notification'
 
 
 jobs:
@@ -30,6 +30,7 @@ jobs:
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_CHANNEL: behat-git-notifications
+        SLACK_MESSAGE: 'Displaying all images found in tests/behat/screenshots'
 
     # - run: 'echo hi from jasper, and github msg: "${{ github.event.inputs.message }}" > message.txt'
 
@@ -43,7 +44,7 @@ jobs:
       with:
         slack_token: ${{ secrets.SLACK_TOKEN }}
         channels: behat-git-notifications
-        file_path: 'tests/behat/screenshots/*'
+        file_path: 'tests/behat/screenshots/*.{jpg,png}'
         file_type: 'images'
-        initial_comment: 'Files found in tests/behat/screenshots'        
+        initial_comment: 'Image files found in tests/behat/screenshots'        
          
