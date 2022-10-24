@@ -111,6 +111,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: 'success :rocket:'
           SLACK_TITLE: 'Github action: behat'
+          SLACK_CHANNEL: behat-git-notifications
       - name: Slack Notification Fail
         uses: rtCamp/action-slack-notify@v2
         if: failure()
@@ -118,5 +119,5 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: 'fail :octagonal_sign:'
           SLACK_TITLE: 'Github action: behat'
-          SLACK_CHANNEL: slack-notify-test-channel-for-jasper
+          SLACK_CHANNEL: behat-git-notifications
 
