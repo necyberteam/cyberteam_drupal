@@ -16,7 +16,7 @@ on:
       message: 
         description: 'post messages to slack'
         required: true
-        default: 'default text for notification'
+        default: 'upload behat screenshot image files to slack'
 
 
 jobs:
@@ -25,6 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+
     - name: Jasper Slack Notification
       uses: rtCamp/action-slack-notify@v2
       env:
@@ -44,7 +45,7 @@ jobs:
       with:
         slack_token: ${{ secrets.SLACK_TOKEN }}
         channels: behat-git-notifications
-        file_path: 'tests/behat/screenshots/*.{jpg,png}'
+        file_path: 'tests/behat/screenshots/*.jpg'
         file_type: 'images'
         initial_comment: 'Image files found in tests/behat/screenshots'        
          
