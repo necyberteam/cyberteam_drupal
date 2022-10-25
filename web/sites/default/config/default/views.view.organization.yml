@@ -19,7 +19,6 @@ dependencies:
     - 'taxonomy_term:organization_type:86c699eb-e107-41b3-b583-26f43fe72d86'
     - 'taxonomy_term:organization_type:92197c3e-fa2b-4c15-bd1d-aa31fcdb7b20'
     - 'taxonomy_term:organization_type:a791f431-d5a8-474f-a9ed-b21330aa30b6'
-    - 'taxonomy_term:tags:ec66001e-741b-44bb-9f84-742cdc4478bf'
   module:
     - better_exposed_filters
     - image
@@ -571,6 +570,7 @@ display:
               allow_secondary: false
               secondary_label: 'Advanced options'
               secondary_open: false
+              reset_button_always_show: false
             filter:
               field_type_target_id:
                 plugin_id: bef
@@ -643,15 +643,12 @@ display:
           plugin_id: taxonomy_index_tid
           operator: or
           value:
-            597: 597
             603: 603
-            598: 598
-            596: 596
-            601: 601
             602: 602
-            599: 599
+            598: 598
             600: 600
-            604: 604
+            601: 601
+            599: 599
           group: 1
           exposed: true
           expose:
@@ -688,6 +685,12 @@ display:
               mentee: '0'
               student_champion: '0'
               domain_champion: '0'
+              cssn: '0'
+              affinity_group_leader: '0'
+              match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -1127,7 +1130,7 @@ display:
           click_sort_column: uri
           type: link
           settings:
-            trim_length: 80
+            trim_length: null
             url_only: false
             url_plain: false
             rel: '0'

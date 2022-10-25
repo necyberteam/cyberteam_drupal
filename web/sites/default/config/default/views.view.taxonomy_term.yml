@@ -8,6 +8,7 @@ dependencies:
     - field.storage.node.field_project
     - field.storage.node.field_tags
     - node.type.blog_post
+    - taxonomy.vocabulary.organization_type
     - taxonomy.vocabulary.tags
   module:
     - image
@@ -768,6 +769,7 @@ display:
             fail: 'not found'
           validate_options:
             bundles:
+              organization_type: organization_type
               tags: tags
             access: true
             operation: view
