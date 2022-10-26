@@ -1,24 +1,24 @@
-uuid: 2872b590-3feb-4f99-920a-8982006df684
+uuid: f3006d7c-ccf4-4d3f-95cb-d2a61b8c2617
 langcode: en
 status: true
 dependencies:
   config:
-    - views.view.affinity_groups_with_tag
+    - views.view.organization
   module:
     - taxonomy
     - views
   theme:
     - nect
-id: views_block__affinity_groups_with_tag_block_1
+id: views_block__organization_block_1
 theme: nect
-region: tags_page_askci
+region: content
 weight: 0
 provider: null
-plugin: 'views_block:affinity_groups_with_tag-block_1'
+plugin: 'views_block:organization-block_1'
 settings:
-  id: 'views_block:affinity_groups_with_tag-block_1'
+  id: 'views_block:organization-block_1'
   label: ''
-  label_display: '0'
+  label_display: visible
   provider: views
   views_label: ''
   items_per_page: none
@@ -29,4 +29,4 @@ visibility:
     context_mapping:
       taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
     bundles:
-      tags: tags
+      organization_type: organization_type

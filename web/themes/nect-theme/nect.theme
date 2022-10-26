@@ -231,3 +231,9 @@ function nect_preprocess_page(&$variables) {
   $variables['view_id'] = \Drupal::routeMatch()->getParameter('view_id');
   $variables['display_id'] = \Drupal::routeMatch()->getParameter('display_id');
 }
+
+function nect_preprocess_node__organization(&$variables) {
+  $node = $variables['node'];
+  $variables['field_type'] = $node->field_type->view();
+  $variables['field_organization_tags'] = $node->field_organization_tags->view();
+}

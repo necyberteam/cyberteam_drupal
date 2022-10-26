@@ -9,20 +9,12 @@
             
             <div class="label mt-3">Type</div>
             <div class="type-outline">
-                {% for item in content.field_type %}
-                    {% if item.entity.name %}
-                        <a href="#">{{ item.entity.name.value }}</a>
-                    {% endif %}
-                {% endfor %}
+                {{ field_type }}
             </div>
 
             <div class="label mt-3">Tags</div>
             <div class="tag-outline">
-            {% for item in content.field_organization_tags %}
-                {% if item.entity.name %}
-                    <a href="/tags/{{item.entity.name.value}}">{{ item.entity.name.value }}</a>
-                {% endif %}
-            {% endfor %}
+                {{ field_organization_tags }}
             </div>
         </div>
     </div>
