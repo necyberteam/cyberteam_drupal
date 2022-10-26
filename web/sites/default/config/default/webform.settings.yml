@@ -169,10 +169,18 @@ mail:
   default_sender_mail: ''
   default_sender_name: ''
   default_subject: 'Webform submission from: [webform_submission:source-entity]'
-  default_body_text: "Submitted on [webform_submission:created]\r\nSubmitted by: [webform_submission:user]\r\n\r\nSubmitted values are:\r\n[webform_submission:values]\r\n"
-  default_body_html: "<p>Submitted on [webform_submission:created]</p>\r\n<p>Submitted by: [webform_submission:user]</p>\r\n<p>Submitted values are:</p>\r\n[webform_submission:values]\r\n"
-  roles:
-    - campuschampionsadmin
+  default_body_text: |
+    Submitted on [webform_submission:created]
+    Submitted by: [webform_submission:user]
+
+    Submitted values are:
+    [webform_submission:values]
+  default_body_html: |
+    <p>Submitted on [webform_submission:created]</p>
+    <p>Submitted by: [webform_submission:user]</p>
+    <p>Submitted values are:</p>
+    [webform_submission:values]
+  roles: {  }
 export:
   temp_directory: ''
   exporter: delimited
