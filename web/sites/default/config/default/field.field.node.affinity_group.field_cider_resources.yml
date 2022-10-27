@@ -1,0 +1,29 @@
+uuid: 7521415a-58ae-4a46-9b51-6b16265559ee
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cider_resources
+    - node.type.access_active_resources_from_cid
+    - node.type.affinity_group
+id: node.affinity_group.field_cider_resources
+field_name: field_cider_resources
+entity_type: node
+bundle: affinity_group
+label: 'CiDeR Resources'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      access_active_resources_from_cid: access_active_resources_from_cid
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
