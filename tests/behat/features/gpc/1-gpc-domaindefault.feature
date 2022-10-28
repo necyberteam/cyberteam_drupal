@@ -1,5 +1,7 @@
 @gpc
 @api
+@javascript
+
 Feature: test gpc domain
   In order to test the gpc domain
   As a user of the admin role

@@ -1,5 +1,7 @@
 @templates
 @api
+@javascript
+
 Feature: verify headers for authenticated user
   To test headers
   As a authenticated user
@@ -9,7 +11,7 @@ Feature: verify headers for authenticated user
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
     When I click "Log out" 
-    Then I should be on the home page
+    Then I should be on the homepage
     And I should see "Log in"
     
   Scenario: Verify the My profile button

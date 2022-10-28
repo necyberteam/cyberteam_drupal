@@ -1,5 +1,7 @@
 @templates
 @api
+@javascript
+
 Feature: test quick links on home page
   In order to test the quick links
   As a user of the unauthenticated role

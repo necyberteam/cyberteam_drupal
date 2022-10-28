@@ -5,6 +5,7 @@ dependencies:
   config:
     - views.view.affinity_groups_with_tag
   module:
+    - taxonomy
     - views
   theme:
     - nect
@@ -21,4 +22,11 @@ settings:
   provider: views
   views_label: ''
   items_per_page: none
-visibility: {  }
+visibility:
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles:
+      tags: tags

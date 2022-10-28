@@ -1,0 +1,32 @@
+uuid: f3006d7c-ccf4-4d3f-95cb-d2a61b8c2617
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.organization
+  module:
+    - taxonomy
+    - views
+  theme:
+    - nect
+id: views_block__organization_block_1
+theme: nect
+region: content
+weight: 0
+provider: null
+plugin: 'views_block:organization-block_1'
+settings:
+  id: 'views_block:organization-block_1'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles:
+      organization_type: organization_type

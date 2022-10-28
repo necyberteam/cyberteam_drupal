@@ -111,10 +111,23 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: 'success :rocket:'
           SLACK_TITLE: 'Github action: behat'
+          SLACK_CHANNEL: behat-git-notifications
       - name: Slack Notification Fail
         uses: rtCamp/action-slack-notify@v2
         if: failure()
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: 'fail :octagonal_sign:'
+          SLACK_MESSAGE: ':octagonal_sign: behat tests failed :octagonal_sign:'
           SLACK_TITLE: 'Github action: behat'
+          SLACK_CHANNEL: behat-git-notifications
+      - name: Slack Notification Fail
+        uses: MeilCli/slack-upload-file@v2
+        if: failure()
+        with:
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          channels: behat-git-notifications
+          file_path: 'tests/behat/screenshots/*.png'
+          file_type: 'images'
+          initial_comment: 'Files found in tests/behat/screenshots, for help in diagnosing behat failures'
+         
+

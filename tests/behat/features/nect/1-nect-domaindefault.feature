@@ -1,5 +1,6 @@
 @nect
 @api
+@javascript
 
 Feature: test nect domain
   In order to test the nect domain
