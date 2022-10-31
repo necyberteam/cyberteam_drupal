@@ -80,9 +80,8 @@ Feature: test individual tags page
     When I go to "tags/login"
     Then I should see "test-login-resource"
     When I follow "test-login-resource"
-    Then I should not see "votes"
+    Then I should see "votes"
     And I should see "test-login-resource"
-
 
   Scenario: Add a "test-login-project" for login & projects tags and verify they appear
     Given I am logged in as a user with the "administrator" role
