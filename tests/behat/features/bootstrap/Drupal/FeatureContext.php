@@ -22,7 +22,7 @@ class FeatureContext extends RawDrupalContext
     if (!$mink_context) {
       return;
     }
-    $mink_context->setMinkParameter('ajax_timeout', 5);
+    $mink_context->setMinkParameter('ajax_timeout', 15);
   }
 
     /**
