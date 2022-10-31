@@ -80,7 +80,7 @@ Feature: test individual tags page
     When I go to "tags/login"
     Then I should see "test-login-resource"
     When I follow "test-login-resource"
-    Then I should see "votes"
+    Then I should not see "votes"
     And I should see "test-login-resource"
 
 
