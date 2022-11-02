@@ -1,8 +1,8 @@
 @champ
 @api
-Feature: test for the affinity groups page as an authenticated user 
+Feature: test for the governance page as an authenticated user 
 
-  Scenario: User runs through the affinity group page and individual page as authenticated.
+  Scenario: User runs through the governance page as authenticated.
     Given I am logged in as a user with the "authenticated" role
     When I go to "/about-us/governance"
     Then I should see "governance"
