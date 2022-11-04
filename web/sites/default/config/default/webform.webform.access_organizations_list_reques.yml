@@ -1,7 +1,9 @@
 uuid: 55fa6608-3403-4596-af7f-5a9c657948c0
 langcode: en
 status: open
-dependencies: {  }
+dependencies:
+  module:
+    - ticketing
 weight: 0
 open: null
 close: null
@@ -210,41 +212,13 @@ access:
     users: {  }
     permissions: {  }
 handlers:
-  request_confirmation_email:
-    id: email
-    handler_id: request_confirmation_email
-    label: 'request confirmation email'
-    notes: 'Send the request via email'
+  access_orgs_list_add_header:
+    id: 'ACCESS Orgs List Add Header'
+    handler_id: access_orgs_list_add_header
+    label: 'ACCESS Orgs List Add Header'
+    notes: ''
     status: true
     conditions: {  }
     weight: 0
-    settings:
-      states:
-        - completed
-      to_mail: ACCESS-Allocations-DevOPS@tickets.access-ci.org
-      to_options: {  }
-      bcc_mail: ''
-      bcc_options: {  }
-      cc_mail: ''
-      cc_options: {  }
-      from_mail: _default
-      from_options: {  }
-      from_name: _default
-      reply_to: ''
-      return_path: ''
-      sender_mail: ''
-      sender_name: ''
-      subject: _default
-      body: _default
-      excluded_elements: {  }
-      ignore_access: false
-      exclude_empty: true
-      exclude_empty_checkbox: false
-      exclude_attachments: false
-      html: true
-      attachments: false
-      twig: false
-      theme_name: ''
-      parameters: {  }
-      debug: false
+    settings: {  }
 variants: {  }
