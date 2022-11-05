@@ -3392,59 +3392,6 @@ display:
           webform_element_format: value
           webform_multiple_value: '1'
           webform_multiple_delta: '0'
-        webform_submission_value_6:
-          id: webform_submission_value_6
-          table: webform_submission_field_resource_terms
-          field: webform_submission_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: webform_submission_field
-          label: terms
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          webform_element_format: value
-          webform_multiple_value: true
-          webform_multiple_delta: 0
-          webform_check_access: 1
       pager:
         type: none
         options:
@@ -3479,10 +3426,13 @@ display:
             title: All
           title_enable: true
           title: '{{ arguments.webform_submission_value }}'
-          default_argument_type: raw
+          default_argument_type: taxonomy_tid
           default_argument_options:
-            index: 1
-            use_alias: true
+            term_page: '1'
+            node: false
+            limit: false
+            vids: {  }
+            anyall: +
           default_argument_skip_url: false
           summary_options:
             base_path: ''
@@ -3493,16 +3443,11 @@ display:
             sort_order: asc
             number_of_records: 0
             format: default_summary
-          specify_validation: true
+          specify_validation: false
           validate:
-            type: 'entity:taxonomy_term'
+            type: none
             fail: 'not found'
-          validate_options:
-            bundles:
-              tags: tags
-            access: false
-            operation: view
-            multiple: 0
+          validate_options: {  }
       filters:
         webform_id:
           id: webform_id
