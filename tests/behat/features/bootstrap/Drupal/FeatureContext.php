@@ -12,18 +12,18 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 class FeatureContext extends RawDrupalContext
 {
 
-/**
-   * Work around https://github.com/jhedstrom/drupalextension/issues/486
-   *
-   * @BeforeScenario
-   */
+    /**
+     * Work around https://github.com/jhedstrom/drupalextension/issues/486
+     *
+     * @BeforeScenario
+     */
   public function beforeJavascriptScenario(BeforeScenarioScope $scope) {
-    $mink_context = $scope->getEnvironment()->getContext('Drupal\DrupalExtension\Context\MinkContext');
-    if (!$mink_context) {
-      return;
+        $mink_context = $scope->getEnvironment()->getContext('Drupal\DrupalExtension\Context\MinkContext');
+        if (!$mink_context) {
+            return;
+        }
+        $mink_context->setMinkParameter('ajax_timeout', 15);
     }
-    $mink_context->setMinkParameter('ajax_timeout', 15);
-  }
 
     /**
      * Every scenario gets its own context instance.
@@ -35,6 +35,15 @@ class FeatureContext extends RawDrupalContext
     {
 
     }
+    /**
+     * @When I wait for the page to be loaded
+     */
+    public function waitForThePageToBeLoaded()
+    {
+        $this->getSession()->wait(10000, "document.readyState === 'complete'");
+    }
+
+
 
     /**
      * Waits a while, for debugging.
