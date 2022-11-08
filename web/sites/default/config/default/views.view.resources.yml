@@ -6,7 +6,6 @@ dependencies:
     - field.storage.node.field_affinity_group
     - flag.flag.upvote
     - system.menu.main
-    - taxonomy.vocabulary.tags
     - webform.webform.resource
   module:
     - better_exposed_filters
@@ -1005,7 +1004,7 @@ display:
       arguments:
         webform_submission_value:
           id: webform_submission_value
-          table: webform_submission_field_resource_terms
+          table: webform_submission_field_resource_tags
           field: webform_submission_value
           relationship: none
           group_type: group
@@ -1022,10 +1021,9 @@ display:
           default_argument_options:
             term_page: '1'
             node: true
-            limit: true
-            vids:
-              tags: tags
-            anyall: ','
+            limit: false
+            vids: {  }
+            anyall: +
           default_argument_skip_url: false
           summary_options:
             base_path: ''
@@ -1111,7 +1109,7 @@ display:
       display_description: ''
       use_more: true
       use_more_always: false
-      use_more_text: 'View all Resources with this tag'
+      use_more_text: 'All Resources with this tag'
       header:
         area:
           id: area
