@@ -83,7 +83,6 @@ Feature: test individual tags page
     Then I should see "votes"
     And I should see "test-login-resource"
 
-
   Scenario: Add a "test-login-project" for login & projects tags and verify they appear
     Given I am logged in as a user with the "administrator" role
     When I go to "projects"
