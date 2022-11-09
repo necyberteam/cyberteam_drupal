@@ -73,6 +73,7 @@ Feature: test individual tags page
     When I go to "tags/login"
     Then I should see "test-login-resource"
     When I follow "test-login-resource"
+    And I wait for the page to be loaded
     Then I should see "votes"
     And I should see "test-login-resource"
 
@@ -80,6 +81,7 @@ Feature: test individual tags page
     When I go to "tags/login"
     Then I should see "test-login-resource"
     When I follow "test-login-resource"
+    And I wait for the page to be loaded
     Then I should see "votes"
     And I should see "test-login-resource"
 
@@ -106,6 +108,7 @@ Feature: test individual tags page
     When I go to "tags/login"
     Then I should see "test-project-title"
     When I follow "test-project-title"
+    And I wait for the page to be loaded
     Then I should see "test project description"
     When I go to "tags/password"
     Then I should see "test-project-title"
@@ -114,6 +117,7 @@ Feature: test individual tags page
     When I go to "tags/login"
     Then I should see "test-project-title"
     When I follow "test-project-title"
+    And I wait for the page to be loaded
     Then I should see "test project description"
     When I go to "tags/password"
     Then I should see "test-project-title"
