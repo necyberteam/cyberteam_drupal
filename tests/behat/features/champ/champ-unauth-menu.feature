@@ -1,7 +1,8 @@
 @champ
 @api
 Feature: verify specific links on homepage
-
+#What file should I attatch?
+#I am joining as a... Issue
   Scenario: User is on the homepage
     Given I am not logged in
     When I am on the homepage
@@ -17,12 +18,19 @@ Feature: verify specific links on homepage
     Then I should see "Join Campus Champions"
     Then I should see "Letter of Collaboration"
     Then I should see "Username"
+    When I fill in "Username" with "test"
     Then I should see "First Name"
+    When I fill in "First Name" with "test"
     Then I should see "Last Name"
+    When I fill in "Last Name" with "test"
     Then I should see "Email"
+    When I fill in "Email" with "test@email.com"
     Then I should see "I am joining as a..."
+    #How would i test this?
+   # When I select "Student Champion" from "I am joining as a..."
     Then I should see "Carnegie Classification"
     When I fill in "Carnegie Classification" with "Champ"
     And I wait 10 seconds
     Then I should see "Champlain College"
+
 
