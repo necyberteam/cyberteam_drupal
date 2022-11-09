@@ -11,10 +11,12 @@ dependencies:
     - field.storage.node.field_tags
     - image.style.landscape
     - node.type.match_engagement
+    - taxonomy.vocabulary.tags
   module:
     - image
     - node
     - options
+    - taxonomy
     - text
     - user
 id: match_engagement_view
@@ -404,7 +406,7 @@ display:
           click_sort_column: target_id
           type: entity_reference_label
           settings:
-            link: false
+            link: true
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -653,7 +655,12 @@ display:
       use_more_text: more
       link_display: custom_url
       link_url: /engagements
-      header: {  }
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          plugin_id: text
       footer: {  }
       display_extenders: {  }
     cache_metadata:
@@ -1476,6 +1483,238 @@ display:
         - 'config:field.storage.node.field_researcher'
         - 'config:field.storage.node.field_status'
         - 'config:field.storage.node.field_tags'
+  block_6:
+    id: block_6
+    display_title: 'MATCHPlus Engagements by Tag'
+    display_plugin: block
+    position: 2
+    display_options:
+      title: 'Sample Engagements from the Northeast and CAREERS Cyberteams'
+      pager:
+        type: some
+        options:
+          offset: 0
+          items_per_page: 3
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: '<div class="alert alert-warning">There are no Engagements associated with this topic. View <a href="/engagements">All Engagements</a>.</div>'
+            format: full_html
+          tokenize: false
+      arguments:
+        field_tags_target_id:
+          id: field_tags_target_id
+          table: node__field_tags
+          field: field_tags_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: numeric
+          default_action: default
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: true
+          title: 'Engagements tagged {{ arguments.field_tags_target_id }}'
+          default_argument_type: taxonomy_tid
+          default_argument_options:
+            term_page: '1'
+            node: true
+            limit: true
+            vids:
+              tags: tags
+            anyall: ','
+          default_argument_skip_url: false
+          summary_options:
+            base_path: ''
+            count: true
+            override: false
+            items_per_page: 25
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+          specify_validation: false
+          validate:
+            type: none
+            fail: 'not found'
+          validate_options: {  }
+          break_phrase: false
+          not: false
+      filters:
+        status:
+          id: status
+          table: node_field_data
+          field: status
+          entity_type: node
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          value:
+            match_engagement: match_engagement
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        sticky:
+          id: sticky
+          table: node_field_data
+          field: sticky
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: sticky
+          plugin_id: boolean
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_status_value:
+          id: field_status_value
+          table: node__field_status
+          field: field_status_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            Recruiting: Recruiting
+            'Reviewing Applicants': 'Reviewing Applicants'
+            'In Progress': 'In Progress'
+            'Finishing Up': 'Finishing Up'
+            Complete: Complete
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        empty: false
+        title: false
+        pager: false
+        use_more: false
+        use_more_always: false
+        use_more_text: false
+        link_display: false
+        link_url: false
+        arguments: false
+        filters: false
+        filter_groups: false
+        header: false
+      display_description: ''
+      use_more: true
+      use_more_always: false
+      use_more_text: 'All Engagements with this tag'
+      link_display: page_2
+      link_url: /engagements
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: '<h2>Engagements</h2>'
+            format: basic_html
+          tokenize: false
+      display_extenders: {  }
+      block_description: 'Engagements by Tag'
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:field.storage.node.body'
+        - 'config:field.storage.node.field_institution'
+        - 'config:field.storage.node.field_project_image'
+        - 'config:field.storage.node.field_researcher'
+        - 'config:field.storage.node.field_status'
+        - 'config:field.storage.node.field_tags'
   page_1:
     id: page_1
     display_title: Page
@@ -1492,6 +1731,78 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url.query_args
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:field.storage.node.body'
+        - 'config:field.storage.node.field_institution'
+        - 'config:field.storage.node.field_project_image'
+        - 'config:field.storage.node.field_researcher'
+        - 'config:field.storage.node.field_status'
+        - 'config:field.storage.node.field_tags'
+  page_2:
+    id: page_2
+    display_title: 'Engagements by Tag Page'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: Engagements
+      arguments:
+        tid:
+          id: tid
+          table: taxonomy_index
+          field: tid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          default_action: default
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: true
+          title: 'Engagements tagged {{ arguments.tid }} '
+          default_argument_type: taxonomy_tid
+          default_argument_options:
+            term_page: '1'
+            node: true
+            limit: true
+            vids:
+              tags: tags
+            anyall: ','
+          default_argument_skip_url: false
+          summary_options:
+            base_path: ''
+            count: true
+            override: false
+            items_per_page: 25
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+          specify_validation: false
+          validate:
+            type: none
+            fail: 'not found'
+          validate_options: {  }
+          break_phrase: false
+          add_table: false
+          require_value: false
+          reduce_duplicates: false
+      defaults:
+        title: false
+        arguments: false
+      display_description: ''
+      display_extenders: {  }
+      path: tag/%taxonomy_term/engagements
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions
