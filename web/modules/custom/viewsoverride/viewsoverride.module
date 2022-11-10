@@ -34,7 +34,7 @@ function VIEWSOVERRIDE_views_query_alter(ViewExecutable $view, QueryPluginBase $
       _recursively_alter_query_conditions($condition_group['conditions']);
     }
   }
-  if ($view->storage->get('id') === 'resources' && $view->current_display === 'block_1') {
+  if ($view->storage->get('id') === 'resources' && ($view->current_display === 'block_1' || $view->current_display === 'block_3') || $view->current_display === 'page_2') {
     // foreach top level condition group
     foreach ($query->where as &$condition_group) {
       // call helper function to recursively alter conditions
