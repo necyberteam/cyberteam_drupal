@@ -130,7 +130,7 @@ GITHUB_TOKEN=$token'>.env");
       // it is sometimes useful to turn the following off, to 
       // allow much more rapid testing of specific tests
       //
-      // $copy_templates = false;
+       $copy_templates = false;
       
       $this->say("  Testing domain $domain");
       $this->say($copy_templates 

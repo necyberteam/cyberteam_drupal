@@ -1,7 +1,4 @@
 @templates
-
-# HI HANNAH -- sorry to say this test is not working on all domains, so 
-# I'm stashing it back in this Hannah directory
 @api
 @javascript
 Feature: test people page Card view w/ filters 
@@ -13,14 +10,14 @@ Feature: test people page Card view w/ filters
 
     Then I should see "People"
 
-    And I should see "Julie Ma"
+
     And I should see "Programs"
     And I should see "Roles"
     And I should see "Affinity Groups"
     And I should see "Skills"
     And I should see "List view"
 
-    When I fill in "Search the people database" with "test"
+    When I fill in "Search the people database" with "testing123"
     And I wait 4 seconds
     Then I should see "No matches found in People."
 
@@ -36,27 +33,30 @@ Feature: test people page Card view w/ filters
     And I wait 4 seconds
     Then I should see "Northeast"
 
-    When I fill in "Filter by Role" with "Student-facilitator"
+    When I fill in "Search the people database" with " "
+    And I wait 4 seconds
+
+    When I fill in "edit-roles-target-id--2" with "Student-facilitator"
     And I wait 4 seconds
     Then I should see "Student-facilitator"
 
-     When I fill in "Filter by Role" with "Mentor"
+    When I fill in "edit-roles-target-id--2" with "Mentor"
     And I wait 4 seconds
     Then I should see "Mentor"
 
-     When I fill in "Filter by Role" with "Researcher/Educator"
+    When I fill in "edit-roles-target-id--2" with "Researcher/Educator"
     And I wait 4 seconds
     Then I should see "Researcher/Educator"
 
-     When I fill in "Filter by Role" with "Steering Committee"
+    When I fill in "edit-roles-target-id--2" with "Steering Committee"
     And I wait 4 seconds
     Then I should see "Steering Committee"
 
-     When I fill in "Filter by Role" with "Regional Facilitator"
+    When I fill in "edit-roles-target-id--2" with "Regional Facilitator"
     And I wait 4 seconds
     Then I should see "Regional Facilitator"
 
-     When I fill in "Filter by Role" with "Student-facilitator"
+    When I fill in "edit-roles-target-id--2" with "Student-facilitator"
     And I wait 4 seconds
     Then I should see "Student-facilitator" 
     

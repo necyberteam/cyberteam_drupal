@@ -1,12 +1,14 @@
 @templates
 @api
-Feature: test navigation menus
-  In order to test the navigation menus
+@javascript
+Feature: test menu links
+  In order to test the menu links
 
-  Scenario: Unauthenticated user navigates through navigation menus
-    Given I am not logged in
+  Scenario: Authenticated user navigates through navigation menus
+    Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
     # TODO - broken
+    #Menu tab is in mobile form
     Then I should see the link "About Us"
     And I should see the link "Community"
     And I should see the link "Get Help"

@@ -1,16 +1,14 @@
-@templates--
+@templates
 @api
 @javascript
+Feature: test recources page as a authenticated user
+  In order to test the resource page as an authenticated user
 
-Feature: test resources page 
-  In order to test the resources page
-
-  Scenario: Unauthenticated user Test the resource page
-    Given I am not logged in
+  Scenario: Authenticated user Test the resource page
+    Given I am logged in as a user with the "authenticated" role
     When I go to "/resources"
     Then I should see "Add New Resource"
     Then I should see "These resources have been crowd-sourced"
-    # TODO - votes not found on careers page
     Then I should see "Votes"
     Then I should see "Title"
     Then I should see "Description"
