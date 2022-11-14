@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.user.field_institution
     - field.storage.user.field_is_cc
+    - user.role.lt
     - webform.webform.join_campus_champions
   module:
     - user
@@ -507,8 +508,10 @@ display:
           sort_asc_label: Asc
           sort_desc_label: Desc
       access:
-        type: none
-        options: {  }
+        type: role
+        options:
+          role:
+            lt: lt
       cache:
         type: tag
         options: {  }
@@ -693,6 +696,7 @@ display:
         - 'languages:language_interface'
         - url.query_args
         - user
+        - user.roles
       tags:
         - 'config:field.storage.user.field_institution'
         - 'config:field.storage.user.field_is_cc'
@@ -717,6 +721,7 @@ display:
         - 'languages:language_interface'
         - url.query_args
         - user
+        - user.roles
       tags:
         - 'config:field.storage.user.field_institution'
         - 'config:field.storage.user.field_is_cc'
