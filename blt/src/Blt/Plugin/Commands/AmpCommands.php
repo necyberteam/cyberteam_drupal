@@ -104,7 +104,7 @@ GITHUB_TOKEN=$token'>.env");
     $copy_from = $wip_template ? "wip_template" : "templates";
 
     $this->say("------------------ BEHAT TESTING ------------------------");
-    $this->say("TESTING these domains:  " . implode(', ', $domains));
+    $this->say("Copying template tests to these domains:  " . implode(', ', $domains));
 
     if ($no_drush_cmds) {
       $this->say("NOTE: drush commands being skipped because env variable BEHAT_NO_DRUSH is true");
