@@ -104,7 +104,7 @@ GITHUB_TOKEN=$token'>.env");
     $copy_from = $wip_template ? "wip_template" : "templates";
 
     $this->say("------------------ BEHAT TESTING ------------------------");
-    $this->say("TESTING these domains:  " . implode(', ', $domains));
+    $this->say("Copying template tests to these domains:  " . implode(', ', $domains));
 
     if ($no_drush_cmds) {
       $this->say("NOTE: drush commands being skipped because env variable BEHAT_NO_DRUSH is true");
@@ -142,7 +142,7 @@ GITHUB_TOKEN=$token'>.env");
         if ($dry_run) $this->say('dry-run: ' . $cmd);
         else $behat = shell_exec($cmd);
       }
-      $shell_cmd = $lando . '\'google-chrome\' --headless --window-size=1420,1080 --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end;
+      $shell_cmd = $lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 --window-size=1440,1080 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end;
 
       if ($dry_run) {
         $shell_cmd = 'echo dry-run: ' . $shell_cmd;

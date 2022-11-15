@@ -2,10 +2,31 @@
 @api
 @javascript
 
-Feature: add a test project via the form
-  To test adding project
-  As admin
-  I can add a project
+Feature: test projects page
+
+  Scenario: Remove all projects and verify empty messages
+    Given I am logged in as a user with the "administrator" role
+    When I go to "admin/structure/webform/manage/project/results/submissions"
+    # TODO - following doesn't work
+    #When I check "Select all rows in this table"
+    #When I select "Delete submission" from "edit-action"
+    #When I press "Apply to selected items"
+    #Then I should see "Delete these submissions"
+
+  Scenario: Unath user must login to create a project
+    Given I am not logged in
+    When I go to "projects"
+    Then I should see "Login to Add New Project"
+    When I follow "Login to Add New Project"
+    Then I should be on "user/login"
+    And I should see "Please login"
+
+  Scenario: Unath user must login to create a project
+    Given I am logged in as a user with the "authenticated" role
+    When I go to "projects"
+    Then I should see "Submit New Project"
+    When I follow "Submit New Project"
+    Then I should see "Project Description"
 
   Scenario: Add a project for verify it is created
     Given I am logged in as a user with the "administrator" role
@@ -17,7 +38,7 @@ Feature: add a test project via the form
     When I check "At-Large"
     # tags:
     When I check "login"
-    When I select "Halted" from "Status"
+    When I select "In Progress" from "Status"
     When I fill in "First" with "test-first-name"
     When I fill in "Last" with "test-last-name"
     When I fill in "Email" with "test@email.com"
@@ -57,7 +78,7 @@ Feature: add a test project via the form
     Then I should see "test-create-project-title"
     And I should see "login"
     And I should see "At-Large"
-    And I should see "Halted"
+    And I should see "In Progress"
     And I should see "test@email.com"
     And I should see "test Project Institution"
     And I should see "test Address"
@@ -69,4 +90,55 @@ Feature: add a test project via the form
     And I should see "http://test.com"
     And I should see "33"
 
+  Scenario: Verify home page shows project
+    Given I am not logged in
+    When I am on the homepage
+    When I wait for the page to be loaded
+    Then I should see "Featured Projects"
+    And I should see "test-create-project-title-for-behat"
+    When I follow "login"
+    And I wait for the page to be loaded
+    Then I should be on "tags/login"
     
+  Scenario: Verify home page shows project
+    Given I am logged in as a user with the "authenticated" role
+    When I am on the homepage
+    Then I should see "Featured Projects"
+    And I should see "test-create-project-title-for-behat"
+    When I follow "login"
+    And I wait for the page to be loaded
+    Then I should be on "tags/login"
+
+  Scenario: Verify unauth user can see test project
+    Given I am not logged in
+    When I go to "projects"
+    # test case-insensitive searching
+    When I fill in "search" with "BEHAT"
+    Then I should see "test-create-project-title-for-behat"
+    When I follow "test-create-project-title-for-behat"
+    And I wait for the page to be loaded
+    Then I should see "test-create-project-title"
+    And I should see "login"
+    And I should see "At-Large"
+    And I should see "In Progress"
+    And I should see "test@email.com"
+    And I should see "test Project Institution"
+    And I should see "test Address"
+    And I should see "test Address 2"
+    And I should see "test City/Town"
+    And I should see "Alabama"
+    And I should see "98765"
+    And I should see "test project description"
+    And I should see "http://test.com"
+    And I should see "33"
+
+  Scenario: Verify auth user can see test project
+    Given I am logged in as a user with the "authenticated" role
+    When I go to "projects"
+    When I fill in "search" with "BEhat"
+    Then I should see "test-create-project-title-for-behat"
+    When I follow "test-create-project-title-for-behat"
+    And I wait for the page to be loaded
+    Then I should see "test-create-project-title"
+    And I should see "login"
+    # not checking everything, since the above test does that  
