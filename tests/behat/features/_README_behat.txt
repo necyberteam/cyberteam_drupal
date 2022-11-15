@@ -9,6 +9,8 @@ a dash and any sub-feature (if there is one), followed by a dash
 and whether it's auth or unauth (if needed -- if not provided, we 
 can assume it contains both auth & unauth tests).
 
+Tests can contain numbers to control the order in which they are run.
+
 In general the filenames are all lower-case.
 
 so, some examples:
@@ -16,7 +18,7 @@ so, some examples:
     tags-auth.feature
     tags-no-entries.feature
     tags-individual.feature
-
-more examples:
     headers-auth.feature
     headers-unauth.feature
+    projects-part-1.feature
+    projects-part-2.feature
