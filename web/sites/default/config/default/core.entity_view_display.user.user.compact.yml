@@ -4,7 +4,9 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.user.compact
+    - field.field.user.user.field_blocked_ag_tax    
     - field.field.user.user.field_carnegie_code
+    - field.field.user.user.field_cider_resources
     - field.field.user.user.field_citizenships
     - field.field.user.user.field_constant_contact_id
     - field.field.user.user.field_current_degree_program
@@ -17,7 +19,7 @@ dependencies:
     - field.field.user.user.field_hpc_experience
     - field.field.user.user.field_institution
     - field.field.user.user.field_is_cc
-    - field.field.user.user.field_region
+    - field.field.user.user.field_region    
     - field.field.user.user.field_user_first_name
     - field.field.user.user.field_user_last_name
     - field.field.user.user.user_picture
@@ -49,7 +51,9 @@ content:
     weight: 0
     region: content
 hidden:
+  field_blocked_ag_tax: true
   field_carnegie_code: true
+  field_cider_resources: true
   field_citizenships: true
   field_constant_contact_id: true
   field_current_degree_program: true
@@ -62,7 +66,7 @@ hidden:
   field_hpc_experience: true
   field_institution: true
   field_is_cc: true
-  field_region: true
+  field_region: true  
   field_user_first_name: true
   field_user_last_name: true
   member_for: true

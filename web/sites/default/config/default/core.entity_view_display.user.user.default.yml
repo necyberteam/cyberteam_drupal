@@ -3,7 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.user.user.field_blocked_ag_tax    
     - field.field.user.user.field_carnegie_code
+    - field.field.user.user.field_cider_resources
     - field.field.user.user.field_citizenships
     - field.field.user.user.field_constant_contact_id
     - field.field.user.user.field_current_degree_program
@@ -29,6 +31,22 @@ targetEntityType: user
 bundle: user
 mode: default
 content:
+  field_blocked_ag_tax:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 4
+    region: content  
+  field_cider_resources:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
   field_citizenships:
     type: string
     label: above
