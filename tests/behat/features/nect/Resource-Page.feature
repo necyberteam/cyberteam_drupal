@@ -1,4 +1,4 @@
-@nect
+@nect--
 @api
 @javascript
 Feature: test recources page 
