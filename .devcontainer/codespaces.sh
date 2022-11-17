@@ -11,5 +11,6 @@ sudo mv composer.phar /usr/local/bin/composer
 mkdir -p ~/.lando/cache
 #cp -f $dir/config.yml ~/.lando/config.yml
 composer install --ignore-platform-reqs -n
-
-/workspaces/cyberteam_drupal/vendor/bin/blt amp:landosetup $AMP_GH_TOKEN_REPO $AMP_USER
+blt blt:telemetry:disable --no-interaction
+lando blt blt:telemetry:disable --no-interaction
+blt amp:landosetup $AMP_GH_TOKEN_REPO $AMP_USER
