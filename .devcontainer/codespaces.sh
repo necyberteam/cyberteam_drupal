@@ -8,6 +8,7 @@ php composer-setup.php
 php -r "unlink('composer-setup.php');"
 sudo mv composer.phar /usr/local/bin/composer
 
-mkdir -p ~/.lando/cache && cp -f $dir/config.yml ~/.lando/config.yml
+mkdir -p ~/.lando/cache
+#cp -f $dir/config.yml ~/.lando/config.yml
 
 vendor/bin/blt amp:landosetup $AMP_GH_TOKEN_REPO $AMP_USER
