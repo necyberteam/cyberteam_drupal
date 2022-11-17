@@ -54,7 +54,7 @@ Feature: test for the admin user to test the domain
 
    When I go to "/help-desk"
    Then I should see "Help Desk"
-   Then I should see "Northeast"
+   #Then I should see "Northeast"
    Then I should see "At-Large"
    Then I should see "All Regions"
    Then I should see "There are currently no open tickets"
