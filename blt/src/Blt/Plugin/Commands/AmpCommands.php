@@ -25,7 +25,8 @@ class AmpCommands extends BltTasks {
       $token = $this->ask("What is your GitHub token: ");
       $uid = $this->ask("What is your drupal user id: ");
     }
-    $this->_exec("composer install --ignore-platform-reqs -n");
+    # Not to self: Can't place composer install in here because
+    # it needs to run before you can run this command.
     $this->_exec("ln -s web docroot && mkdir backups");
     $this->_exec("mkdir -p web/sites/default/settings");
     $this->_exec("cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php");
