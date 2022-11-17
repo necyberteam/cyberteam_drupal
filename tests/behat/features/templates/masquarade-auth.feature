@@ -1,5 +1,7 @@
 @templates
 @api
+@javascript
+
 Feature: test for the admin user to test the domain 
 
   Scenario: User test the domain page as an administrator role
