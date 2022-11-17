@@ -13,7 +13,6 @@ title: 'Affinity Group Request'
 description: ''
 category: ''
 elements: |-
-
   affinity_group_name:
     '#type': textfield
     '#title': 'Affinity Group Name'
@@ -50,9 +49,18 @@ elements: |-
     '#vocabulary': tags
     '#breadcrumb_delimiter': ''
     '#tree_delimiter': '-'
-  tags_helper:
+  markup:
     '#type': webform_markup
     '#markup': '<small class="text-muted"><span style="-webkit-text-stroke-width:0px; background-color:#f8f8f8; color:#1d1c1d; display:inline !important; float:none; font-family:Slack-Lato,appleLogo,sans-serif; font-size:13px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:common-ligatures; font-weight:400; letter-spacing:normal; orphans:2; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-indent:0px; text-transform:none; white-space:normal; widows:2; word-spacing:0px">Select one (or more) tags that apply to the Affinity Group.</span></small>'
+  cider:
+    '#type': webform_entity_select
+    '#title': 'Select one (or more) related CiDeR resources '
+    '#multiple': true
+    '#target_type': node
+    '#selection_handler': 'default:node'
+    '#selection_settings':
+      target_bundles:
+        access_active_resources_from_cid: access_active_resources_from_cid
   short_description:
     '#type': textarea
     '#title': 'Short Description'
