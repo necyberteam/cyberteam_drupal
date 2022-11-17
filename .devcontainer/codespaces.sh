@@ -10,5 +10,6 @@ sudo mv composer.phar /usr/local/bin/composer
 
 mkdir -p ~/.lando/cache
 #cp -f $dir/config.yml ~/.lando/config.yml
+composer install --ignore-platform-reqs -n
 
-vendor/bin/blt amp:landosetup $AMP_GH_TOKEN_REPO $AMP_USER
+/workspaces/cyberteam_drupal/vendor/bin/blt amp:landosetup $AMP_GH_TOKEN_REPO $AMP_USER
