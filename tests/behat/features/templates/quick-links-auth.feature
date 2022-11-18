@@ -19,7 +19,7 @@ Feature: test quick links on home page
     When I am on the homepage
     Then I should see the link "Project Submission Form"
     When I click "Project Submission Form"
-    Then I should be on "user/login?destination=/form/project"
+    Then I should be on "/form/project"
     When I am on the homepage
     Then I should see the link "All Projects"
     When I click "All Projects"

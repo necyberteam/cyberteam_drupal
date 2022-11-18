@@ -1,5 +1,7 @@
 @champ
 @api
+@javascript
+
 Feature: verify specific links on homepage
 #What file should I attatch?
 #I am joining as a... Issue

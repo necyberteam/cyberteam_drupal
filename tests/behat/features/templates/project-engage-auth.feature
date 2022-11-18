@@ -1,6 +1,6 @@
 @templates
 @api
-#@javascript
+@javascript
 Feature: test projects/engagements page
   In order to test the Project/Engagements Page
 

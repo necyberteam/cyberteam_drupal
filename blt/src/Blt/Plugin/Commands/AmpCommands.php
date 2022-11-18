@@ -25,6 +25,8 @@ class AmpCommands extends BltTasks {
       $token = $this->ask("What is your GitHub token: ");
       $uid = $this->ask("What is your drupal user id: ");
     }
+    # Not to self: Can't place composer install in here because
+    # it needs to run before you can run this command.
     $this->_exec("ln -s web docroot && mkdir backups");
     $this->_exec("mkdir -p web/sites/default/settings");
     $this->_exec("cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php");
@@ -63,26 +65,26 @@ GITHUB_TOKEN=$token'>.env");
    */
   public function behat(array $args) {
 
-    // set following to true to see a dry-run of this script, 
+    // set following to true to see a dry-run of this script,
     // with no actual copying or running of tests
     $dry_run = false;
- 
+
 
     // to make testing faster, skip the drush commands (useful during development)
     // to enable this, in the shell, do "export BEHAT_NO_DRUSH=true"
     // to disable this, in the shell, do "export BEHAT_NO_DRUSH=false"
     $no_drush_cmds = strcasecmp(getenv("BEHAT_NO_DRUSH"), 'TRUE') == 0;
- 
-    // special handling for the 'wip_template' directory -- we want to run 
+
+    // special handling for the 'wip_template' directory -- we want to run
     // all the tests in this directory on all the domains but save time by
-    // not copying & running all the tests in the templates directory 
+    // not copying & running all the tests in the templates directory
     $wip_template = false;
 
     if ($args) {
       $domains = $args;
       $wip_template = $domains[0] == 'wip_template';
-    } 
-    
+    }
+
     if (!$args || $wip_template) {
       // make copies of the tests to these domains:  ky, gp, careers, nect
       $domains = [
@@ -90,7 +92,7 @@ GITHUB_TOKEN=$token'>.env");
         'gpc',
         'ky',
         'nect',
-        // these domains are sufficiently different that the template tests 
+        // these domains are sufficiently different that the template tests
         // should *not* be copied to them
         //'amp',
         //'coco',
@@ -100,7 +102,7 @@ GITHUB_TOKEN=$token'>.env");
         //'champ'
       ];
     }
-    
+
     $copy_from = $wip_template ? "wip_template" : "templates";
 
     $this->say("------------------ BEHAT TESTING ------------------------");
@@ -126,14 +128,14 @@ GITHUB_TOKEN=$token'>.env");
       $exceptions_to_template_copies = array('templates', 'wip', 'Jasper', 'Hannah');
       $copy_templates = !in_array($domain, $exceptions_to_template_copies);
 
-      
-      // it is sometimes useful to turn the following off, to 
+
+      // it is sometimes useful to turn the following off, to
       // allow much more rapid testing of specific tests
       //
       // $copy_templates = false;
-      
+
       $this->say("  Testing domain $domain");
-      $this->say($copy_templates 
+      $this->say($copy_templates
         ? "  copying templates from directory $copy_from"
         : "  *not* copying any templates");
 
@@ -149,11 +151,11 @@ GITHUB_TOKEN=$token'>.env");
       }
       $behat = shell_exec($shell_cmd);
       $this->say($behat);
- 
+
       if (!$no_drush_cmds) {
         $this->_exec( $this->lando() . 'drush cim -y');
         $this->_exec( $this->lando() . 'drush cr');
-      } 
+      }
 
       if (!$dry_run) $this->_exec( 'git clean -f tests/behat/features/');
 
