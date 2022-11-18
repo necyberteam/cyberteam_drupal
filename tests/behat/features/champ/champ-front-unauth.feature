@@ -1,5 +1,7 @@
 @champ
 @api
+@javascript
+
 Feature: test for the front page
 
   Scenario: Test the front page 
