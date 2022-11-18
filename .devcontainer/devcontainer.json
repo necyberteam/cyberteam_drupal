@@ -10,7 +10,72 @@
 	},
 
 	// Set *default* container specific settings.json values on container create.
-	"settings": {},
+	"settings": {
+		"breadcrumbs.enabled": true,
+		"css.validate": true,
+		"diffEditor.ignoreTrimWhitespace": false,
+		"editor.tabSize": 2,
+		"editor.autoIndent": "full",
+		"editor.insertSpaces": true,
+		"editor.formatOnPaste": true,
+		"editor.formatOnSave": false,
+		"editor.renderWhitespace": "boundary",
+		"editor.wordWrapColumn": 80,
+		"editor.wordWrap": "off",
+		"editor.detectIndentation": true,
+		"editor.rulers": [
+		  80
+		],
+		"files.associations": {
+		  "*.inc": "php",
+		  "*.module": "php",
+		  "*.install": "php",
+		  "*.theme": "php",
+		  "*.profile": "php",
+		  "*.tpl.php": "php",
+		  "*.test": "php",
+		  "*.php": "php",
+		  "*.info": "ini",
+		  "*.html": "twig",
+		},
+		"files.trimTrailingWhitespace": true,
+		"files.restoreUndoStack": false,
+		"files.insertFinalNewline": true,
+		"html.format.enable": true,
+		"html.format.wrapLineLength": 80,
+		"telemetry.telemetryLevel": "off",
+
+		"emptyIndent.removeIndent": true,
+		"emptyIndent.highlightIndent": false,
+		"emptyIndent.highlightColor": "rgba(246,36,89,0.6)",
+
+		"phpcs.enable": true,
+  		"phpcs.standard": "/workspaces/cyberteam_drupal/vendor/drupal/coder/coder_sniffer/Drupal",
+
+		"phpsab.fixerEnable": true,
+		"[php]": {
+			"editor.defaultFormatter": "valeryanm.vscode-phpsab"
+		},
+
+		"php.validate.enable": true,
+		"php.validate.executablePath": "/path/to/php",
+		"php.validate.run": "onType",
+
+		"php.suggest.basic": false,
+
+		// Intelephense and Drupal >8 only. This should be set to the path to core/index.php.
+		"intelephense.environment.documentRoot": "web",
+
+		"php-docblocker.gap": true,
+  		"php-docblocker.useShortNames": true,
+
+		"composer.enabled": true,
+		"composer.executablePath": "/usr/local/bin/composer",
+
+		"emmet.includeLanguages": {
+			"twig": "html"
+		}
+	},
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
@@ -27,6 +92,7 @@
 		"neilbrayfield.php-docblocker",
 		"bmewburn.vscode-intelephense-client",
 		"persoderlind.vscode-phpcbf",
+		"ValeryanM.vscode-phpsab",
 		"ikappas.phpcs",
 		"mechatroner.rainbow-csv",
 		"mblode.twig-language-2",
