@@ -1,5 +1,7 @@
 @champ
 @api
+@javascript
+
 Feature: test for the affinity groups page
 
   Scenario: User runs through the affinity group page and individual page.

@@ -1,5 +1,7 @@
 @templates
 @api
+@javascript
+
 Feature: test news page as an authenticated user
     In order to test the news page as an authenticated user 
 
