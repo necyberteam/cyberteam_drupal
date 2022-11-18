@@ -4,10 +4,10 @@
 
 Feature: test resource form
   In order to test the resource form
-  As a user of the authenticated role
+  As a user of the administrator role
 
-  Scenario: Authenticated user fills out the resource form
-    Given I am logged in as a user with the "authenticated" role
+  Scenario: Administrator user fills out the resource form
+    Given I am logged in as a user with the "administrator" role
     When I go to "resources"
     When I follow "Add new resource"
     Then I should be on "form/resource"
@@ -23,6 +23,7 @@ Feature: test resource form
     And I should see "Add"
     When I fill in "title" with "TEST"
     When I select "learning" from "category"
+    When I check "Approved"
     When I check "edit-tags-682"
     When I check "Beginner"
     When I fill in "Description" with "Test"
@@ -39,6 +40,7 @@ Feature: test resource form
     And I should see "Skill Level"
     And I should see "Description"
     And I should see "Link to Resource"
+    #TODO: Doesnt always work, investigate
     #When I press "Submission information"
     #Then I should see "Submission Number"
     #And I should see "Submission ID"

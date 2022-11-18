@@ -1,5 +1,7 @@
 @champ
 @api
+@javascript
+
 Feature: test for the governance page as an authenticated user 
 
   Scenario: User runs through the governance page as authenticated.
