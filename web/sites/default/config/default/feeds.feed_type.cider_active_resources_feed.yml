@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.base_field_override.node.access_active_resources_from_cid.title
+    - field.field.node.access_active_resources_from_cid.body
     - field.field.node.access_active_resources_from_cid.field_access_global_resource_id
     - field.field.node.access_active_resources_from_cid.field_access_org_logo_url
     - field.field.node.access_active_resources_from_cid.field_access_org_name
@@ -20,8 +21,6 @@ dependencies:
   module:
     - feeds_ex
     - node
-_core:
-  default_config_hash: ig02sn0V1Qi31fWrzxsXBAQwAGwFLQJR47jzdrxUvD4
 label: 'ACCESS Active Resources from CiDeR Feed'
 id: cider_active_resources_feed
 description: 'Feeds CiDeR Active Resources '
@@ -126,6 +125,16 @@ custom_sources:
     label: cider_data_url
     machine_name: cider_data_url
     type: json
+  cider_updated_at:
+    value: updated_at
+    label: updated_at
+    machine_name: cider_updated_at
+    type: json
+  cider_resource_description:
+    value: resource_description
+    label: resource_description
+    machine_name: cider_resource_description
+    type: json
 mappings:
   -
     target: title
@@ -197,25 +206,40 @@ mappings:
       uri: access_org_url
       title: ''
     settings:
-      language: null
+      language: ''
   -
     target: field_access_org_logo_url
     map:
       uri: access_org_logo_url
       title: ''
     settings:
-      language: null
+      language: ''
   -
     target: field_cider_detail_view_url
     map:
       uri: cider_view_url
       title: ''
     settings:
-      language: null
+      language: ''
   -
     target: field_cider_raw_data_url
     map:
       uri: cider_data_url
+      title: ''
+    settings:
+      language: ''
+  -
+    target: body
+    map:
+      value: cider_resource_description
+      summary: ''
+    settings:
+      language: null
+      format: plain_text
+  -
+    target: field_cider_detail_view_url
+    map:
+      uri: cider_resource_description
       title: ''
     settings:
       language: null
