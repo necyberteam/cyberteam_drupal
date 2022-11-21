@@ -1,0 +1,122 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/debian
+{
+  "name": "Debian",
+  "build": {
+    "dockerfile": "Dockerfile",
+    // Update 'VARIANT' to pick an Debian version: bullseye, buster, stretch
+    // Use bullseye or stretch on local arm64/Apple Silicon.
+    "args": { "VARIANT": "bullseye" }
+  },
+
+  // Set *default* container specific settings.json values on container create.
+  "settings": {
+    "terminal.integrated.fontFamily": "",
+    "workbench.colorTheme": "Default Dark+",
+
+    "breadcrumbs.enabled": true,
+    "css.validate": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "full",
+    "editor.insertSpaces": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": false,
+    "editor.renderWhitespace": "boundary",
+    "editor.wordWrapColumn": 80,
+    "editor.wordWrap": "off",
+    "editor.detectIndentation": true,
+    "editor.rulers": [
+      80
+    ],
+    "files.associations": {
+      "*.inc": "php",
+      "*.module": "php",
+      "*.install": "php",
+      "*.theme": "php",
+      "*.profile": "php",
+      "*.tpl.php": "php",
+      "*.test": "php",
+      "*.php": "php",
+      "*.info": "ini",
+      "*.html": "twig"
+    },
+    "files.trimTrailingWhitespace": true,
+    "files.restoreUndoStack": false,
+    "files.insertFinalNewline": true,
+    "html.format.enable": true,
+    "html.format.wrapLineLength": 80,
+    "telemetry.telemetryLevel": "off",
+
+    "emptyIndent.removeIndent": true,
+    "emptyIndent.highlightIndent": false,
+    "emptyIndent.highlightColor": "rgba(246,36,89,0.6)",
+
+    "phpcs.enable": true,
+    "phpcs.standard": "/workspaces/cyberteam_drupal/vendor/drupal/coder/coder_sniffer/Drupal",
+
+    "phpsab.fixerEnable": true,
+    "[php]": {
+      "editor.defaultFormatter": "valeryanm.vscode-phpsab"
+    },
+
+    "php.validate.enable": true,
+    "php.validate.executablePath": "/path/to/php",
+    "php.validate.run": "onType",
+
+    "php.suggest.basic": false,
+
+    // Intelephense and Drupal >8 only. This should be set to the path to core/index.php.
+    "intelephense.environment.documentRoot": "web",
+
+    "php-docblocker.gap": true,
+    "php-docblocker.useShortNames": true,
+
+    "composer.enabled": true,
+    "composer.executablePath": "/usr/local/bin/composer",
+
+    "emmet.includeLanguages": {
+      "twig": "html"
+    }
+  },
+
+  // Add the IDs of extensions you want installed when the container is created.
+  "extensions": [
+    "tsega.drupal-8-javascript-snippets",
+    "dssiqueira.drupal-8-snippets",
+    "tsega.drupal-8-twig-snippets",
+    "johnpapa.winteriscoming",
+    "ikappas.composer",
+    "ms-azuretools.vscode-docker",
+    "DmitryDorofeev.empty-indent",
+    "Tyriar.lorem-ipsum",
+    "eg2.vscode-npm-script",
+    "xdebug.php-debug",
+    "neilbrayfield.php-docblocker",
+    "bmewburn.vscode-intelephense-client",
+    "persoderlind.vscode-phpcbf",
+    "ValeryanM.vscode-phpsab",
+    "ikappas.phpcs",
+    "mechatroner.rainbow-csv",
+    "mblode.twig-language-2",
+    "eamodio.gitlens"
+  ],
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [],
+
+  // Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
+  // "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
+
+  // Uncomment when using a ptrace-based debugger like C++, Go, and Rust
+  // "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
+
+  // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "vscode",
+  "features": {
+    "docker-in-docker": "latest",
+    "lando/lando-dev-container-feature/landodevcontainer": "latest",
+  },
+
+  "postCreateCommand": "cd /workspaces/cyberteam_drupal && ./.devcontainer/codespaces.sh"
+}
