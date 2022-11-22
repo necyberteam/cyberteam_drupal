@@ -120,6 +120,16 @@
       "version": "latest"
     }
   },
-
+  "customizations": {
+    "codespaces": {
+      "repositories": {
+        "necyberteam/*": {
+          "permissions": {
+            "contents": "write"
+          }
+        }
+      }
+    }
+  },
   "postCreateCommand": "cd /workspaces/cyberteam_drupal && ./.devcontainer/codespaces.sh"
 }
