@@ -19,6 +19,6 @@ Feature: test individual people page
     #Projects section does not show in testing
     #Then I should see "Projects"
     Then I should not see "HPC Experience"
-    Then I should not see "Interest"
+    #Then I should not see "Interest"
     #It reads the Contact Us at the footer
     #Then I should not see "Contact" 
