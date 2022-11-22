@@ -9,7 +9,6 @@ php -r "unlink('composer-setup.php');"
 sudo mv composer.phar /usr/local/bin/composer
 
 mkdir -p ~/.lando/cache
-#cp -f $dir/config.yml ~/.lando/config.yml
 composer install --ignore-platform-reqs -n
 blt blt:telemetry:disable --no-interaction
 lando blt blt:telemetry:disable --no-interaction
