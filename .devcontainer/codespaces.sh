@@ -12,4 +12,4 @@ mkdir -p ~/.lando/cache
 composer install --ignore-platform-reqs -n
 blt blt:telemetry:disable --no-interaction
 lando blt blt:telemetry:disable --no-interaction
-blt amp:landosetup $AMP_GH_TOKEN_REPO $AMP_USER
+blt amp:landosetup $GITHUB_TOKEN $AMP_USER
