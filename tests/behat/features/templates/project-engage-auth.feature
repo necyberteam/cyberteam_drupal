@@ -10,7 +10,7 @@ Feature: test projects/engagements page
     When I go to "/projects"
     Then I should see "Projects"
     Then I should see "Submit New Project"
-    Then I should see "Title"
+    Then I should see "Project Title"
     Then I should see "Project Institution"
     Then I should see "Project Owner"
     Then I should see "Tags"
