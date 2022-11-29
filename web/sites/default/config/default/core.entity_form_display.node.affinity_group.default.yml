@@ -58,7 +58,7 @@ content:
     third_party_settings: {  }
   field_affinity_group_category:
     type: options_select
-    weight: 51
+    weight: 23
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -72,7 +72,7 @@ content:
     third_party_settings: {  }
   field_cider_resources:
     type: entity_reference_autocomplete
-    weight: 101
+    weight: 25
     region: content
     settings:
       match_operator: CONTAINS
@@ -133,6 +133,14 @@ content:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
+  field_list_id:
+    type: string_textfield
+    weight: 26
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_mailing_list:
     type: string_textfield
     weight: 8
@@ -175,7 +183,7 @@ content:
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 100
+    weight: 24
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -230,9 +238,8 @@ content:
       placeholder: ''
     third_party_settings: {  }
   url_redirects:
-    weight: 50
+    weight: 22
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden:
-  field_list_id: true
+hidden: {  }
