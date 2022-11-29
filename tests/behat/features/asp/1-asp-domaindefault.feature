@@ -16,7 +16,7 @@ Feature: test ACCESS Support domain
     Given the cache has been cleared
     When I am on the homepage
     When I wait for the page to be loaded
-    Then I should see "Testing123!"
-    Then I should get a "200" HTTP response
-    Then I should see "Community of Communities"
+    #Add in test for something on the homepage
+    #Then I should get a "200" HTTP response
+   # Then I should see "Community of Communities"
 
