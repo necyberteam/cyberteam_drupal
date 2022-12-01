@@ -1,7 +1,7 @@
 @templates
 @api
 @javascript
-Feature: test recources page as a authenticated user
+Feature: test resources page as a authenticated user
   In order to test the resource page as an authenticated user
 
   Scenario: Authenticated user Test the resource page
@@ -14,4 +14,4 @@ Feature: test recources page as a authenticated user
     Then I should see "login"
     Then I should see "Beginner"
     Then I should see "Test"
-    Then I should see "http://localhost:49205/"
+    Then I should see "http://example.com"
