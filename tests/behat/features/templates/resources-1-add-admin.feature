@@ -28,7 +28,7 @@ Feature: test resource form
     When I check "Beginner"
     When I fill in "Description" with "Test"
     When I fill in "Link Title" with "Test"
-    When I fill in "Link URL" with "http://example.com"
+    When I fill in "Link URL" with "http://localhost:49205/"
     When I press "Submit"
     Then I should see "TEST"
     And I should see "Submission information"
@@ -56,3 +56,4 @@ Feature: test resource form
     #And I should see "Webform"
     #And I should see "Delete submission"
     When I click "Edit"
+  

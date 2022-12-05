@@ -37,9 +37,3 @@ This repository is setup to run in codespaces. If you are starting from scrtach 
 - AMP_USER
 
 The ```AMP_GH_TOKEN_REPO``` secret will have a github token that has access to the cyberteam repositories with full repo control and ```AMP_USER``` is the user id of your user on the website. You can default to uid 1 if you don't have or know your user id.
-
-### Github CLI
-
-You can create, open, and ssh into your codespaces using Github CLI, see [install instructions](https://github.com/cli/cli#installation) to install on your local system. Once installed check out the [documentation](https://docs.github.com/en/codespaces/developing-in-codespaces/using-github-codespaces-with-github-cli) for commands you can use. You can authorize Github CLI by running the following command:
-
-```gh auth login```

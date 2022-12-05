@@ -2,7 +2,7 @@
 @api
 @javascript
 
-Feature: test get help page
+Feature: test get help page 
   In order to test the Get Help page
 
 
@@ -17,9 +17,10 @@ Feature: test get help page
 
     When I click "at the Regional Help Desk"
     Then I should see "You must log in to view this page"
+    
     When I go to "/get-research-computing-help"
     Then I click "Join the Regional Slack Discussion"
     Then I click "Ask a Question of the Community"
     When I click "Find Learning Resources"
-    And I wait for the page to be loaded
     Then I should see "Resources"
+    
