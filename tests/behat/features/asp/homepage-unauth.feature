@@ -2,10 +2,10 @@
 @api
 @javascript
 
-Feature: test ACCESS Support Navigation Bar
-  In order to test the Navigation Bar
+Feature: test ACCESS Support Homepage
+  In order to test the Homepage
 
-  Scenario: Unauthenticated user tests the Navigation Bar
+  Scenario: Unauthenticated user tests the Homepage
     Given I am not logged in
     When I am on the homepage
     Then I should see "Supporting the ACCESS Research Community"

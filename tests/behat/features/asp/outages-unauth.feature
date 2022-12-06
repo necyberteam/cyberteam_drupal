@@ -2,10 +2,10 @@
 @api
 @javascript
 
-Feature: test ACCESS Support Navigation Bar
-  In order to test the Navigation Bar
+Feature: test ACCESS Support Outages Page
+  In order to test the Outages Page
 
-  Scenario: Unauthenticated user tests the Navigation Bar
+  Scenario: Unauthenticated user tests the Outages Page
     Given I am not logged in
     When I go to "/outages"
     Then I should see "Current, Planned, and Past Downtimes"
