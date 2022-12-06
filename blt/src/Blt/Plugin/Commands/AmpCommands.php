@@ -30,20 +30,20 @@ class AmpCommands extends BltTasks {
     $this->_exec("ln -s web docroot && mkdir backups");
     $this->_exec("mkdir -p web/sites/default/settings");
     $this->_exec("cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php");
-    $this->_exec("lando composer install --ignore-platform-reqs -n");
+    $this->_exec($this->lando() . "composer install --ignore-platform-reqs -n");
     $hash = \Drupal\Component\Utility\Crypt::randomBytesBase64(55);
     $this->_exec("echo 'PANTHEON_ENVIRONMENT=local
 DRUPAL_HASH_SALT=$hash
 AMP_UID=$uid
 GITHUB_TOKEN=$token'>.env");
     $this->say("❗️ Environment vars setup, now starting lando. ❗️");
-    $this->_exec("lando start");
-    $this->_exec("lando blt blt:telemetry:disable --no-interaction");
-    $this->_exec("lando xdebug-off");
-    $this->_exec("lando blt gh:pulldb");
-    $this->_exec("lando blt gh:pullfiles");
-    $this->_exec("lando blt amp:did");
-    $this->_exec("lando drush deploy");
+    $this->_exec($this->lando() . " start");
+    $this->_exec($this->lando() . " blt blt:telemetry:disable --no-interaction");
+    $this->_exec($this->lando() . " xdebug-off");
+    $this->_exec($this->lando() . " blt gh:pulldb");
+    $this->_exec($this->lando() . " blt gh:pullfiles");
+    $this->_exec($this->lando() . " blt amp:did");
+    $this->_exec($this->lando() . " drush deploy");
     $this->_exec("cd web/themes/custom/accesstheme && lando npm install && lando npm run build:sass");
   }
 
@@ -184,12 +184,11 @@ GITHUB_TOKEN=$token'>.env");
    */
   private function lando() {
     $lando = "lando ";
-    if ( getcwd() == '/app' ) {
+    if (getcwd() == '/app') {
       $lando = "";
     }
     return $lando;
   }
-
 
   /**
    * Login with user id.
