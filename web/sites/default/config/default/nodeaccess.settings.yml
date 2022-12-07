@@ -813,6 +813,7 @@ allowed_types:
   organization: 0
   match_engagement: 0
   access_news: 0
+  access_active_resources_from_cid: 0
 blog_post_region_:
   anonymous:
     grant_view: '1'
@@ -897,6 +898,19 @@ match_engagement:
     grant_update: 0
     grant_delete: 0
 access_news:
+  anonymous:
+    grant_view: 1
+    grant_update: 0
+    grant_delete: 0
+  authenticated:
+    grant_view: 1
+    grant_update: 0
+    grant_delete: 0
+  author:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+access_active_resources_from_cid:
   anonymous:
     grant_view: 1
     grant_update: 0
