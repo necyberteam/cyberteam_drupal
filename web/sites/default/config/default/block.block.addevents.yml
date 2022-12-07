@@ -1,20 +1,22 @@
-uuid: 2a3e1cd2-f300-4c1e-9db0-cc32156f799c
+uuid: f1586cbf-4e5f-495e-94a5-1d31479ab8f6
 langcode: en
 status: true
 dependencies:
+  content:
+    - 'block_content:basic:c8c9b36e-739c-4e43-9401-9c06f6c0b41c'
   module:
-    - domain
+    - block_content
     - system
   theme:
     - accesstheme
 id: addevents
 theme: accesstheme
 region: sidebar_second
-weight: -16
+weight: -18
 provider: null
-plugin: 'block_content:90fc385e-5b29-4879-8bab-cb361b1a1d6a'
+plugin: 'block_content:c8c9b36e-739c-4e43-9401-9c06f6c0b41c'
 settings:
-  id: 'block_content:90fc385e-5b29-4879-8bab-cb361b1a1d6a'
+  id: 'block_content:c8c9b36e-739c-4e43-9401-9c06f6c0b41c'
   label: 'Add Events'
   label_display: '0'
   provider: block_content
@@ -22,13 +24,6 @@ settings:
   info: ''
   view_mode: full
 visibility:
-  domain:
-    id: domain
-    negate: false
-    context_mapping:
-      domain: '@domain.current_domain_context:domain'
-    domains:
-      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
   request_path:
     id: request_path
     negate: false
