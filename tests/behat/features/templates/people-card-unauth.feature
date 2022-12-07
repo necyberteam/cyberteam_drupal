@@ -1,7 +1,7 @@
 @templates
 @api
 @javascript
-Feature: test people page Card view w/ filters 
+Feature: test people page Card view w/ filters
   In order to test the people page from Card View
 
   Scenario: Unauthenticated user tests the people page in Card View and filters
@@ -48,4 +48,4 @@ Feature: test people page Card view w/ filters
     Then I should see "Regional Facilitator"
     When I fill in "edit-roles-target-id--2" with "Student-facilitator"
     And I wait 4 seconds
-    Then I should see "Student-facilitator" 
+    Then I should see "Student-facilitator"

@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.affinity_group.field_affinity_group
     - field.field.node.affinity_group.field_affinity_group_category
     - field.field.node.affinity_group.field_ask_ci_locale
+    - field.field.node.affinity_group.field_cider_resources
     - field.field.node.affinity_group.field_coordinator
     - field.field.node.affinity_group.field_domain_access
     - field.field.node.affinity_group.field_domain_all_affiliates
@@ -59,6 +60,16 @@ content:
     settings:
       placeholder_url: ''
       placeholder_title: ''
+    third_party_settings: {  }
+  field_cider_resources:
+    type: entity_reference_autocomplete
+    weight: 101
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_coordinator:
     type: entity_reference_autocomplete
