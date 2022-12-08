@@ -34,8 +34,6 @@ Feature: test individual tags page
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/affinity_group"
     When I fill in "Title" with "test-affinity-group"
-    # resource is ACCESS-support
-    When I select "618" from "edit-field-affinity-group"
     # tag is "login"
     When I select "682" from "edit-field-tags"
     When I check "Published" 
