@@ -25,7 +25,7 @@ mode: default
 content:
   body:
     type: text_default
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     weight: 1
@@ -52,16 +52,6 @@ content:
       link: true
     third_party_settings: {  }
     weight: 7
-    region: content
-  field_broadcast_affinity_groups:
-    type: boolean
-    label: above
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-    weight: 9
     region: content
   field_contact:
     type: text_default
@@ -99,7 +89,7 @@ content:
     region: content
   recur_type:
     type: list_default
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     weight: 2
@@ -118,5 +108,6 @@ hidden:
   daily_recurring_date: true
   event_registration: true
   field_affinity_group: true
+  field_broadcast_affinity_groups: true
   monthly_recurring_date: true
   weekly_recurring_date: true
