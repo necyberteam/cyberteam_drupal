@@ -13,95 +13,92 @@ title: 'Affinity Group Request'
 description: ''
 category: ''
 elements: |-
-  affinity_group_name:
-    '#type': textfield
-    '#title': 'Affinity Group Name'
-    '#required': true
-  affinity_group_image:
-    '#type': webform_image_file
-    '#title': 'Affinity Group Image'
-    '#file_preview': 'thumbnail:image'
-    '#file_extensions': 'gif jpg png svg jpeg'
-  coordinators:
-    '#type': entity_autocomplete
-    '#title': Coordinators
-    '#multiple': 2
-    '#description': |
-      Type a few letters in the name and then select from the list of names presented. The first name in the coordinators list will have editing capability on the affinity group listing when it is posted on the site.<br />
-      &nbsp;
-    '#required': true
-    '#target_type': user
-    '#selection_handler': 'default:user'
-    '#selection_settings':
-      include_anonymous: false
-      filter:
-        type: _none
-  tags:
-    '#type': webform_term_checkboxes
-    '#title': Tags
-    '#attributes':
-      class:
-        - mb-auto
-    '#format': value
-    '#format_attributes':
-      class:
-        - mb-auto
-    '#vocabulary': tags
-    '#breadcrumb_delimiter': ''
-    '#tree_delimiter': '-'
-  markup:
-    '#type': webform_markup
-    '#markup': '<small class="text-muted"><span style="-webkit-text-stroke-width:0px; background-color:#f8f8f8; color:#1d1c1d; display:inline !important; float:none; font-family:Slack-Lato,appleLogo,sans-serif; font-size:13px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:common-ligatures; font-weight:400; letter-spacing:normal; orphans:2; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-indent:0px; text-transform:none; white-space:normal; widows:2; word-spacing:0px">Select one (or more) tags that apply to the Affinity Group.</span></small>'
-  cider:
-    '#type': webform_entity_select
-    '#title': 'Select one (or more) related CiDeR resources '
-    '#multiple': true
-    '#target_type': node
-    '#selection_handler': 'default:node'
-    '#selection_settings':
-      target_bundles:
-        access_active_resources_from_cid: access_active_resources_from_cid
-  short_description:
-    '#type': textarea
-    '#title': 'Short Description'
-    '#description': 'Provide a short description that will appear on the Affinity Groups directory page.'
-    '#required': true
-    '#counter_type': character
-    '#counter_minimum': 1
-    '#counter_maximum': 300
-    '#counter_maximum_message': 'Maximum 300 Characters Allowed'
-    '#format_items': comma
-  project_description:
-    '#type': textarea
-    '#title': Description
-    '#description': 'Provide a description that will be displayed on the front page for this Affinity Group. It can be the same as the short description above if there is no additional information needed.&nbsp;'
-    '#required': true
-    '#format_items': comma
-  slack_link:
-    '#type': webform_link
-    '#title': Conversation
-    '#title__access': false
-    '#url__title': 'Conversation Link'
-    '#url__description': 'Provide a link to Slack, Discord, Reddit, or another platform where Affinity Group members can join the conversation.'
-  ask_ci_locale:
-    '#type': webform_link
-    '#title': 'Q&A Platform'
-    '#title__access': false
-    '#url__title': 'Q&A Platform Link'
-    '#url__description': 'Provide a link to Ask.CI, StackExchange, or other Q&A platform specific to the Affinity Group.'
-  github_organization:
-    '#type': webform_link
-    '#title': 'GitHub Organization'
-    '#title__access': false
-    '#url__title': 'Github Organization Link'
-    '#url__description': 'Provide a link to the Github Organization.'
-  email_list:
-    '#type': webform_link
-    '#title': 'Email this list'
-    '#format_items': ol
-    '#title__access': false
-    '#url__title': 'Email List'
-    '#url__description': 'Provide a link to the email list or email contact for the Affinity Group. Please enter the full URL to your mailing list including the "https://", or if an email please type "mailto:" before the address. For example: mailto:example@email.com'
+  flexbox_03:
+    '#type': webform_flexbox
+    affinity_group_name:
+      '#type': textfield
+      '#title': 'Affinity Group Name'
+      '#required': true
+    affinity_group_image:
+      '#type': webform_image_file
+      '#title': 'Affinity Group Image'
+      '#file_preview': 'thumbnail:image'
+      '#max_filesize': '2'
+      '#file_extensions': 'gif jpg png svg jpeg'
+  flexbox:
+    '#type': webform_flexbox
+    cider:
+      '#type': webform_entity_select
+      '#title': 'Select one (or more) related CiDeR resources '
+      '#multiple': true
+      '#select2': true
+      '#target_type': node
+      '#selection_handler': 'default:node'
+      '#selection_settings':
+        target_bundles:
+          access_active_resources_from_cid: access_active_resources_from_cid
+        sort:
+          field: title
+          direction: ASC
+    tags:
+      '#type': webform_term_select
+      '#title': Tags
+      '#multiple': true
+      '#select2': true
+      '#vocabulary': tags
+      '#breadcrumb_delimiter': ''
+  flexbox_02:
+    '#type': webform_flexbox
+    short_description:
+      '#type': textarea
+      '#title': 'Short Description'
+      '#description': 'Provide a short description that will appear on the Affinity Groups directory page.'
+      '#description_display': before
+      '#required': true
+      '#counter_type': character
+      '#counter_minimum': 1
+      '#counter_maximum': 300
+      '#counter_maximum_message': 'Maximum 300 Characters Allowed'
+      '#format_items': comma
+    project_description:
+      '#type': textarea
+      '#title': Description
+      '#description': 'Provide a description that will be displayed on this Affinity Group. It can be the same as the short description above if there is no additional information needed.'
+      '#description_display': before
+      '#required': true
+      '#format_items': comma
+  flexbox_01:
+    '#type': webform_flexbox
+    slack_link:
+      '#type': webform_link
+      '#title': Slack
+      '#description_display': before
+      '#title__access': false
+      '#url__title': Slack
+      '#url__description': 'Provide a link to the Slack group if applicable.'
+    ask_ci_locale:
+      '#type': webform_link
+      '#title': 'Q&A Platform'
+      '#title__access': false
+      '#url__title': 'Q&A Platform'
+      '#url__description': 'Provide a link to Ask.CI, StackExchange, or other Q&A platform specific to the Affinity Group.'
+      '#flexbox': '1'
+    github_organization:
+      '#type': webform_link
+      '#title': 'GitHub Organization'
+      '#title__access': false
+      '#url__title': 'Github Organization'
+      '#url__description': 'Provide a link to the Github Organization if applicable.'
+    email_list:
+      '#type': webform_link
+      '#title': Email
+      '#description_display': before
+      '#format_items': ol
+      '#title__access': false
+      '#url__title': 'Email List or Contact'
+      '#url__description': 'Provide a link to the email list or email contact for the Affinity Group. Please enter the full URL to your mailing list including the https:// or if an email please type mailto: before the address. For example: mailto:example@email.com'
+      '#url__title_display': before
+      '#flexbox': '1'
 css: 'body:not(.path-admin) .webform-submission-information, body:not(.path-admin) .webform-submission-navigation {display: none}'
 javascript: ''
 settings:
@@ -307,5 +304,42 @@ handlers:
       data: 'terms: ''[webform_submission:values:tags]'''
       message: ''
       message_type: status
+      debug: false
+  email:
+    id: email
+    handler_id: email
+    label: Email
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 0
+    settings:
+      states:
+        - completed
+      to_mail: '[webform_role:match_pm]'
+      to_options: {  }
+      bcc_mail: ''
+      bcc_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      from_mail: _default
+      from_options: {  }
+      from_name: _default
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      subject: 'Affinity Group Request'
+      body: _default
+      excluded_elements: {  }
+      ignore_access: false
+      exclude_empty: true
+      exclude_empty_checkbox: false
+      exclude_attachments: false
+      html: true
+      attachments: false
+      twig: false
+      theme_name: ''
+      parameters: {  }
       debug: false
 variants: {  }
