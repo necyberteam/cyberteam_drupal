@@ -10,14 +10,7 @@ Feature: test projects/engagements page
     When I go to "/projects"
     Then I should see "Projects"
     Then I should see "Submit New Project"
-    Then I should see "Project Title"
-    Then I should see "Project Institution"
-    Then I should see "Project Owner"
-    Then I should see "Tags"
-    Then I should see "Status"
-    Then I should see "Project Leader"
-
-  
+   
     When I fill in "edit-search--2" with "test"
     And I wait 4 seconds
     Then I should see "Test"
