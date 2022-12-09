@@ -2,12 +2,13 @@
 @api
 @javascript
 
-Feature: test asp domain
-  In order to test the asp domain
-  As a user of the admin role
-  I need to switch amp to the default domain
 
-  Scenario: Admin user sets asp domain to the default
+Feature: test ACCESS Support domain
+  In order to test the ACCESS Support domain
+  As a user of the admin role
+  I need to switch ACCESS Support to the default domain
+  
+  Scenario: Admin user sets ACCESS Support domain to the default
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/domain/edit/amp_cyberinfrastructure_org"
     When I check "Default domain"
@@ -18,3 +19,4 @@ Feature: test asp domain
     When I am on the homepage
     Then I should get a "200" HTTP response
     Then I should see "Supporting the ACCESS Research Community"
+

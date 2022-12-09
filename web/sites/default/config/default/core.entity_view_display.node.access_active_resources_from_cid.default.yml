@@ -1,0 +1,161 @@
+uuid: fbc650df-6498-43c8-901d-d060044feaa0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.access_active_resources_from_cid.body
+    - field.field.node.access_active_resources_from_cid.feeds_item
+    - field.field.node.access_active_resources_from_cid.field_access_global_resource_id
+    - field.field.node.access_active_resources_from_cid.field_access_org_logo_url
+    - field.field.node.access_active_resources_from_cid.field_access_org_name
+    - field.field.node.access_active_resources_from_cid.field_access_org_url
+    - field.field.node.access_active_resources_from_cid.field_cider_detail_view_url
+    - field.field.node.access_active_resources_from_cid.field_cider_latest_status
+    - field.field.node.access_active_resources_from_cid.field_cider_latest_status_begin
+    - field.field.node.access_active_resources_from_cid.field_cider_latest_status_end
+    - field.field.node.access_active_resources_from_cid.field_cider_project_affiliation
+    - field.field.node.access_active_resources_from_cid.field_cider_raw_data_url
+    - field.field.node.access_active_resources_from_cid.field_cider_resource_id
+    - field.field.node.access_active_resources_from_cid.field_cider_resource_type
+    - node.type.access_active_resources_from_cid
+  module:
+    - datetime
+    - link
+    - text
+    - user
+id: node.access_active_resources_from_cid.default
+targetEntityType: node
+bundle: access_active_resources_from_cid
+mode: default
+content:
+  body:
+    type: text_default
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_access_global_resource_id:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_access_org_logo_url:
+    type: link
+    label: inline
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_access_org_name:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_access_org_url:
+    type: link
+    label: inline
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_cider_detail_view_url:
+    type: link
+    label: inline
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_cider_latest_status:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_cider_latest_status_begin:
+    type: datetime_default
+    label: inline
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_cider_latest_status_end:
+    type: datetime_default
+    label: inline
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_cider_project_affiliation:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_cider_raw_data_url:
+    type: link
+    label: inline
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_cider_resource_id:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_cider_resource_type:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 13
+    region: content
+hidden:
+  feeds_item: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true

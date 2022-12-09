@@ -27,7 +27,7 @@ Feature: test resource form
     When I check "Beginner"
     When I fill in "Description" with "Test"
     When I fill in "Link Title" with "Test"
-    When I fill in "Link URL" with "http://localhost:49205/"
+    When I fill in "Link URL" with "http://example.com"
     When I press "Submit"
     Then I should see "TEST"
     And I should see "Submission information"
@@ -39,6 +39,7 @@ Feature: test resource form
     And I should see "Skill Level"
     And I should see "Description"
     And I should see "Link to Resource"
+    #TODO: Doesnt always work, investigate
     #When I press "Submission information"
     #Then I should see "Submission Number"
     #And I should see "Submission ID"

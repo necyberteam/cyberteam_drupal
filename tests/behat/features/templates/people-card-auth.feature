@@ -14,7 +14,6 @@ Feature: test people page Card view w/ filters
 
     And I should see "Programs"
     And I should see "Roles"
-    #Affinity Group is not shown on every domain
     #And I should see "Affinity Groups"
     And I should see "Skills"
     And I should see "List view"
