@@ -102,10 +102,11 @@ class FeatureContext extends RawDrupalContext
     }
 
     /**
-     * look for an element with a selector
-     * check if has the img attribute
-     * do an ajax load of the src attribute
-     
+     * Look for an element with a selector. 
+     * Check it has the img attribute
+     * and that the resource can load and has
+     * mime type image
+     *     
      * @When The image at :selector should load 
      */
     public function confirmImageLoads($selector)
