@@ -88,23 +88,20 @@ class FeatureContext extends RawDrupalContext
         }
     }
 
-
     /**
-     * @When I should see an element with the selector :selector 
+     * @When I should see an image with alt text :alt_text
      */
-    public function lookForACssClass($selector)
+    public function verifyImageWithAltTxt($alt_text)
     {
         $page = $this->getSession()->getPage();
-
-        if (!$page->has('css', $selector)) {
-            throw new \Exception("No element found with locator '$selector'");
-        }
+        $img = $page->findLink($alt_text);
+        $src = $img->find('css', 'img');
+        $this->verifyImage($src);
     }
 
     /**
-     * Look for an element with a selector. 
-     * Check it has the img attribute
-     * and that the resource can load and has
+     * Look for an element with the specified class selector. 
+     * Check it has a single img element and that the resource can load and has
      * mime type image
      *     
      * @When The image at :selector should load 
@@ -123,8 +120,19 @@ class FeatureContext extends RawDrupalContext
         if ($imgCnt != 1) {
             throw new \Exception("Found $imgCnt images, but expected just one");
         }
-        $url = $images[0]->getAttribute('src');
-        
+
+        $this->verifyImage($images[0]);
+    }
+
+    /**
+     * Given an img element, verify the src links to a loadable image type resource
+     */
+    public function verifyImage($img)
+    {
+        $url = $img->getAttribute('src');
+
+        // var_dump("url = $url");
+
         if (substr($url, 0, 4) !== "http") {
             $session_url = $this->getSession()->getCurrentUrl();
             $url = rtrim($session_url, '/') . $url;
