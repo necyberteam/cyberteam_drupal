@@ -5,12 +5,17 @@ dependencies:
   config:
     - field.storage.node.field_mailing_list
     - node.type.affinity_group
+  module:
+    - label_help
+third_party_settings:
+  label_help:
+    label_help_description: 'Enter the full URL to your mailing list (including the https://) or to add an email contact include mailto: before the email address (mailto:example@email.com).'
 id: node.affinity_group.field_mailing_list
 field_name: field_mailing_list
 entity_type: node
 bundle: affinity_group
-label: 'Mailing List'
-description: 'Please enter the full URL to your mailing list including the "https://", or if an email please type "mailto:" before the address. For example: mailto:example@email.com'
+label: 'Email List or Contact'
+description: ''
 required: false
 translatable: false
 default_value: {  }

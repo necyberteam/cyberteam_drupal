@@ -1,0 +1,166 @@
+uuid: 13af182e-0033-46f2-b97f-6085628c5eea
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.access_active_resources_from_cid.body
+    - field.field.node.access_active_resources_from_cid.feeds_item
+    - field.field.node.access_active_resources_from_cid.field_access_global_resource_id
+    - field.field.node.access_active_resources_from_cid.field_access_org_logo_url
+    - field.field.node.access_active_resources_from_cid.field_access_org_name
+    - field.field.node.access_active_resources_from_cid.field_access_org_url
+    - field.field.node.access_active_resources_from_cid.field_cider_detail_view_url
+    - field.field.node.access_active_resources_from_cid.field_cider_latest_status
+    - field.field.node.access_active_resources_from_cid.field_cider_latest_status_begin
+    - field.field.node.access_active_resources_from_cid.field_cider_latest_status_end
+    - field.field.node.access_active_resources_from_cid.field_cider_project_affiliation
+    - field.field.node.access_active_resources_from_cid.field_cider_raw_data_url
+    - field.field.node.access_active_resources_from_cid.field_cider_resource_id
+    - field.field.node.access_active_resources_from_cid.field_cider_resource_type
+    - node.type.access_active_resources_from_cid
+  module:
+    - datetime
+    - link
+    - text
+id: node.access_active_resources_from_cid.default
+targetEntityType: node
+bundle: access_active_resources_from_cid
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 1
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 14
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_access_global_resource_id:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_access_org_logo_url:
+    type: link_default
+    weight: 11
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_access_org_name:
+    type: string_textfield
+    weight: 9
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_access_org_url:
+    type: link_default
+    weight: 10
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_cider_detail_view_url:
+    type: link_default
+    weight: 12
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_cider_latest_status:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_cider_latest_status_begin:
+    type: datetime_default
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_cider_latest_status_end:
+    type: datetime_default
+    weight: 8
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_cider_project_affiliation:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_cider_raw_data_url:
+    type: link_default
+    weight: 13
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_cider_resource_id:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_cider_resource_type:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  feeds_item: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  uid: true

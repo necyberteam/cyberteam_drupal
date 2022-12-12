@@ -6,12 +6,16 @@ dependencies:
     - field.storage.node.body
     - node.type.affinity_group
   module:
+    - label_help
     - text
+third_party_settings:
+  label_help:
+    label_help_description: 'Provide a description that will be displayed on the Affinity Group page. It can be the same as the summary above if no additional information is needed.'
 id: node.affinity_group.body
 field_name: body
 entity_type: node
 bundle: affinity_group
-label: Body
+label: Description
 description: ''
 required: false
 translatable: true
