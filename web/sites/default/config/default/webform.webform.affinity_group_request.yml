@@ -25,6 +25,19 @@ elements: |-
       '#file_preview': 'thumbnail:image'
       '#max_filesize': '2'
       '#file_extensions': 'gif jpg png svg jpeg'
+  coordinators:
+    '#type': webform_entity_select
+    '#title': Coordinators
+    '#multiple': true
+    '#description': 'Type a few letters in the name and then select from the list of names presented.'
+    '#description_display': before
+    '#select2': true
+    '#target_type': user
+    '#selection_handler': 'default:user'
+    '#selection_settings':
+      include_anonymous: false
+      filter:
+        type: _none
   flexbox:
     '#type': webform_flexbox
     cider:

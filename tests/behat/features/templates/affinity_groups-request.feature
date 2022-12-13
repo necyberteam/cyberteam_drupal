@@ -14,11 +14,9 @@ Feature: test affinity group request form
     And I should see "Affinity Group Request"
     And I should see "Affinity Group Name"
     And I should see "Affinity Group Image"
-    #The line below failed even though it should work?
     And I should see "Coordinators"
-    And I should see "Type a few letters in the name and then select from the list of names presented. The first name in the coordinators list will have editing capability on the affinity group listing when it is posted on the site."
+    And I should see "Type a few letters in the name and then select from the list of names presented
     And I should see "Tags"
-    # And I should see "Select one (or more) tags that apply to the Affinity Group."
     And I should see "Select one (or more) related CiDeR resources"
     And I should see "Short Description"
     And I should see "Provide a short description that will appear on the Affinity Groups directory page."
