@@ -70,5 +70,6 @@ $settings['config_exclude_modules'] = [
   'login_disable',
   'recaptcha',
   'upgrade_status',
-  'swiftmailer'
+  'swiftmailer',
+  'constantcontact',
 ];
