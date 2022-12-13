@@ -17,7 +17,8 @@ class FeatureContext extends RawDrupalContext
      *
      * @BeforeScenario
      */
-  public function beforeJavascriptScenario(BeforeScenarioScope $scope) {
+    public function beforeJavascriptScenario(BeforeScenarioScope $scope)
+    {
         $mink_context = $scope->getEnvironment()->getContext('Drupal\DrupalExtension\Context\MinkContext');
         if (!$mink_context) {
             return;
@@ -33,8 +34,8 @@ class FeatureContext extends RawDrupalContext
      */
     public function __construct()
     {
-
     }
+
     /**
      * @When I wait for the page to be loaded
      */
@@ -42,7 +43,6 @@ class FeatureContext extends RawDrupalContext
     {
         $this->getSession()->wait(10000, "document.readyState === 'complete'");
     }
-
 
 
     /**
@@ -85,6 +85,67 @@ class FeatureContext extends RawDrupalContext
         }
         if (!$element->hasClass('disabled')) {
             throw new PendingException("Element '$selector' is not disabled");
+        }
+    }
+
+    /**
+     * @When I should see an image with alt text :alt_text
+     */
+    public function verifyImageWithAltTxt($alt_text)
+    {
+        $page = $this->getSession()->getPage();
+        $img = $page->findLink($alt_text);
+        $src = $img->find('css', 'img');
+        $this->verifyImage($src);
+    }
+
+    /**
+     * Look for an element with the specified class selector. 
+     * Check it has a single img element and that the resource can load and has
+     * mime type image
+     *     
+     * @When The image at :selector should load 
+     */
+    public function confirmImageLoads($selector)
+    {
+        $page = $this->getSession()->getPage();
+        $all = $page->findAll('css', $selector);
+        $selCnt = count($all);
+        if ($selCnt != 1) {
+            throw new \Exception("Found $selCnt selectors named '$selector', but expected just one");
+        }
+
+        $images = $all[0]->findAll('css', 'img');
+        $imgCnt = count($images);
+        if ($imgCnt != 1) {
+            throw new \Exception("Found $imgCnt images, but expected just one");
+        }
+
+        $this->verifyImage($images[0]);
+    }
+
+    /**
+     * Given an img element, verify the src links to a loadable image type resource
+     */
+    public function verifyImage($img)
+    {
+        $url = $img->getAttribute('src');
+
+        // var_dump("url = $url");
+
+        if (substr($url, 0, 4) !== "http") {
+            $session_url = $this->getSession()->getCurrentUrl();
+            $url = rtrim($session_url, '/') . $url;
+        }
+
+        $ch  = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_exec($ch);
+
+        // get the content type
+        $mime_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+        if (strpos($mime_type, 'image/') === FALSE) {
+            throw new \Exception(sprintf('%s did not return an image', $url));
         }
     }
 }

@@ -2,7 +2,7 @@
 @api
 @javascript
 
-Feature: test for the edit account page 
+Feature: test for the edit account page
   In order to test the edit account page
 
   Scenario: Authenticated user tests the edit account page
@@ -15,7 +15,7 @@ Feature: test for the edit account page
     Then I should see "View"
     Then I should see "Change Password"
     Then I should see "Edit"
-    Then I should see "Security"
+    Then I should see "TFA"
     Then I should see "Program"
     Then I should see "Email Address"
     Then I should see "Roles"
@@ -27,5 +27,5 @@ Feature: test for the edit account page
     Then I should see "Time Zone"
     Then I should see "Citizenships"
 
-    
+
 

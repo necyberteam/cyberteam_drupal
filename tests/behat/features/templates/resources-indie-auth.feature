@@ -11,5 +11,5 @@ Feature: test recources page as a authenticated user
     Then I should see "votes"
     Then I should see "login"
     Then I should see "Beginner"
-    Then I should see "Testing Description"
-    Then I should see "http://localhost:49185/form/resource"
+    Then I should see "Test"
+    Then I should see "http://example.com"

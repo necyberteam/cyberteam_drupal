@@ -7,10 +7,11 @@ php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a6110855
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
 sudo mv composer.phar /usr/local/bin/composer
+composer config --global github-protocols https
+lando composer config --global github-protocols https
 
 mkdir -p ~/.lando/cache
-#cp -f $dir/config.yml ~/.lando/config.yml
 composer install --ignore-platform-reqs -n
 blt blt:telemetry:disable --no-interaction
 lando blt blt:telemetry:disable --no-interaction
-blt amp:landosetup $AMP_GH_TOKEN_REPO $AMP_USER
+blt amp:landosetup $GITHUB_TOKEN $AMP_USER
