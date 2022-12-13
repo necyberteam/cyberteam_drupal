@@ -5,6 +5,7 @@ dependencies:
   config:
     - views.view.resources
   module:
+    - domain
     - system
     - taxonomy
     - views
@@ -23,6 +24,7 @@ settings:
   provider: views
   views_label: ''
   items_per_page: none
+  exposed: {  }
 visibility:
   request_path:
     id: request_path
@@ -36,3 +38,10 @@ visibility:
       taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
     bundles:
       tags: tags
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
