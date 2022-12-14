@@ -4,6 +4,8 @@ namespace Drupal\campuschampions\Plugin\Action;
 
 use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\webform\WebformSubmissionForm;
+use Drupal\webform\Entity\WebformSubmission;
 
 /**
  * @Action(
@@ -17,10 +19,17 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase
     /**
      * {@inheritdoc}
      */
-    public function execute($entity = null)
+    public function execute(WebformSubmission $entity = null)
     {
+        // update the status of the submission to 'approved'
 
-        $cc_id = 572; // Campus Champions Program ID
+        $sid = $entity->id();
+        $webform_submission = WebformSubmission::load($sid);
+        $webform_submission->setElementData('status', 'approved');
+        WebformSubmissionForm::submitWebformSubmission($webform_submission);
+
+        
+        // update user to campus champion
 
         $data = $entity->getData();
         $user = user_load_by_mail($data['user_email']);
@@ -28,22 +37,28 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase
         $user->set('field_carnegie_code', $data['carnegie_classification']);
         $user->set('field_is_cc', 1);
 
+        $cc_id = 572; // Campus Champions Program ID
+
         $region[] = $user->get('field_region')->referencedEntities();
+
         if (count($region) == 0) {
             $user->set('field_region', $cc_id);
         } else {
             // Add Campus Champions program if it's not already set
             if (!array_filter(
-                $region, function ($program) {
+                $region,
+                function ($program) {
+                    // got a php error that this was undefined, even though
+                    // it's defined above.  surprising scope issue.
+                    $cc_id = 572; // Campus Champions Program ID
                     if (count($program) > 0) {
-                        return $program[0]->id() == $cc_id; 
+                        return $program[0]->id() == $cc_id;
                     }
                 }
-            ) 
-            ) {
+            )) {
                 $user->get('field_region')->appendItem(
                     [
-                    'target_id' => $cc_id,
+                        'target_id' => $cc_id,
                     ]
                 );
             }
