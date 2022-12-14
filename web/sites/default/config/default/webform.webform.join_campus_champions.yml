@@ -15,6 +15,21 @@ title: 'Join Campus Champions'
 description: ''
 category: ''
 elements: |-
+  status:
+    '#type': select
+    '#title': Status
+    '#options':
+      new: new
+      approved: approved
+      declined: declined
+    '#default_value': new
+    '#access_create_roles': {  }
+    '#access_update_roles':
+      - administrator
+      - campuschampionsadmin
+    '#access_view_roles':
+      - administrator
+      - campuschampionsadmin
   approved:
     '#type': checkbox
     '#title': Approved
@@ -24,6 +39,7 @@ elements: |-
       - campuschampionsadmin
     '#access_view_roles':
       - campuschampionsadmin
+    '#access': false
   letter_of_collaboration_helper:
     '#type': webform_markup
     '#markup': '<h6>To Join the Campus Champions, we need a letter of collaboration from your institution. Please <a href="/sites/default/files/campuschampions_collaborationletter_yourinstitutionname_template_20200109.docx">download this template letter</a>. It needs to be completed before you can join the Campus Champions. Thank you!</h6>'
@@ -168,22 +184,6 @@ elements: |-
       '#postal_code__required': true
       '#country__required': true
       '#required': true
-  status:
-    '#type': select
-    '#title': Status
-    '#options':
-      new: new
-      reviewed: reviewed
-      declined: declined
-    '#default_value': new
-    '#access_create_roles': {  }
-    '#access_update_roles':
-      - administrator
-      - campuschampionsadmin
-    '#access_view_roles':
-      - administrator
-      - campuschampionsadmin
-    '#access': false
 css: ''
 javascript: ''
 settings:
