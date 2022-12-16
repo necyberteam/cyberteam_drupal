@@ -34,9 +34,16 @@ This uses a fairly standard [BLT](https://github.com/acquia/blt) install. See be
 This repository is setup to run in codespaces. If you are starting from scrtach it'll take a little over 15 minutes to run through the setup script. The script will fully start lando and install the site. You will need to set two codespaces secrets in your personal github settings under codespaces located at: https://github.com/settings/codespaces
 
 - AMP_GH_TOKEN_REPO
-- AMP_USER
+- AMP_UID
 
-The ```AMP_GH_TOKEN_REPO``` secret will have a github token that has access to the cyberteam repositories with full repo control and ```AMP_USER``` is the user id of your user on the website. You can default to uid 1 if you don't have or know your user id.
+The ```AMP_GH_TOKEN_REPO``` secret will have a github token that has access to the cyberteam repositories with full repo control and ```AMP_UID``` is the user id of your user on the website. You can default to uid 1 if you don't have or know your user id.
+
+Optionally, you can setup two other secrets to automatically login to terminus to connect to Panthon. You can always run the command to login after install as well. These are the secrets to have the login setup for you:
+
+- AMP_TERMINUS_EMAIL
+- AMP_TERMINUS_TOKEN
+
+The email secret is the email you use with pantheon and the token can be setup under your settings within your pantheon account.
 
 ### Github CLI
 
