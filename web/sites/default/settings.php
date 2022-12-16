@@ -71,5 +71,5 @@ $settings['config_exclude_modules'] = [
   'recaptcha',
   'upgrade_status',
   'swiftmailer',
-  'constantcontact',
+  'access_affinitygroup',
 ];
