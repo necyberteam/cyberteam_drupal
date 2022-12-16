@@ -19,4 +19,4 @@ RUN mkdir -p ~/terminus && cd ~/terminus
 RUN curl -L https://github.com/pantheon-systems/terminus/releases/download/3.1.0/terminus.phar --output terminus
 RUN chmod +x terminus
 RUN ./terminus self:update
-RUN mv ~/terminus/terminus /usr/local/bin/terminus && chmod 755  /usr/local/bin/terminus
+RUN mv terminus /usr/local/bin/terminus && chmod 755 /usr/local/bin/terminus
