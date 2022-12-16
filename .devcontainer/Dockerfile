@@ -11,6 +11,12 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list' \
     && sudo apt update \
     && apt -y install --no-install-recommends \
-    php php-cli php-fpm php-json php-common php-mysql php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath \
+    php8.1 php8.1-fpm php8.1-common php8.1-mysql php8.1-zip php8.1-gd php8.1-mbstring php8.1-curl php8.1-xml php8.1-bcmath \
     python3-dev python3-pip python3-setuptools
 RUN wget -O /usr/local/bin/blt https://github.com/acquia/blt-launcher/releases/latest/download/blt.phar && chmod 755 /usr/local/bin/blt
+# Install composer and terminus
+RUN mkdir -p ~/terminus && cd ~/terminus
+RUN curl -L https://github.com/pantheon-systems/terminus/releases/download/3.1.0/terminus.phar --output terminus
+RUN chmod +x terminus
+RUN ./terminus self:update
+RUN ln -s ~/terminus/terminus /usr/local/bin/terminus
