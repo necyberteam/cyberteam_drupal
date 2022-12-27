@@ -35,3 +35,88 @@ Feature: test ACCESS Support knowledge base
     Then I should see "Explore Groups"
     When I click "Explore Groups"
     Then I should be on "/affinity_groups"
+    When I go to "/knowledge-base"
+    Then I should see "Getting Started with ACCESS"
+    Then I should see "ACCESS Services are many and varied including allocations,"
+    Then I should see "How do I get started with ACCESS?"
+    Then I should see "An introductory guide."
+    #This views the first one but not the correct one
+    Then I should see "View this Documentation"
+    Then I should see "How do I request compute or storage resources?"
+    Then I should see "Everything you need to know about getting resources from ACCESS."
+    When I click "Go to Allocations"
+    Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129143245/FAQs"
+    When I go to "/knowledge-base"
+    Then I should see "Where can I find information that was on the XSEDE User Portal?"
+    Then I should see "A handy list of where to find info for researchers with XSEDE experience."
+    When I click "View Cheatsheet"
+    Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129144254/Cheatsheets+for+XSEDE+Users"
+
+  Scenario: Unauthenticated user tests the Frequently Asked Questions section on the knowledge base page
+    Given I am not logged in
+    When I go to "/knowledge-base"
+    Then I should see "Frequently Asked Questions"
+    #TODO Button for drop down does not seem to work
+    #When I click "collapseOne"
+   # Then I should see "Visit the ACCESS HOME page to learn about all of the ACCESS"
+
+  Scenario: Unauthenticated user tests the Visit our Forums section on the knowledge base page
+    Given I am not logged in
+    When I go to "/knowledge-base"
+    Then I should see "Visit our Forums"
+    Then I should see "ACCESS Support is partnering with the Ask.CI Q&A Platform"
+    Then I should see "Jetstream"
+    Then I should see "ACCESS Allocations"
+    Then I should see "Bridges-2"
+    Then I should see "Large data sets"
+    Then I should see "Quantum Computing"
+    Then I should see "Cloud Computing"
+    Then I should see "See all Forums"
+    #TODO Button is not working ?
+    #When I click "See all forums"
+
+  Scenario: Unauthenticated user tests the Community Contributed Resources section on the knowledge base page
+    Given I am not logged in
+    When I go to "/knowledge-base"
+    Then I should see "Community Contributed Resources"
+    Then I should see "ACCESS Support encourages contributions of useful websites, documentation,"
+    Then I should see "The Carpentries"
+    Then I should see "The Carpentries teach foundational coding"
+    Then I should see "Cornell Virtual Workshop"
+    Then I should see "Comprehensive training resource for high performance computing topics. "
+    Then I should see "HPC University"
+    Then I should see "A comprehensive list of training resources from Shodor."
+    Then I should see "Using Linux commands in a python script"
+    Then I should see "Learn how to use the subprocess and os modules in python to run"
+    Then I should see "Higher Ed Controlled Unclassified Information Slack (HigherEdCUI)"
+    Then I should see "This slack channel is an excellent resource for conversing about CUI."
+    Then I should see "Version control with Git"
+    Then I should see "Understand the benefits of an automated version control system"
+    Then I should see "See all Resources"
+
+  Scenario: Unauthenticated user tests the Affinity Groups section on knowledge base page
+    Given I am not logged in
+    When I go to "/knowledge-base"
+    Then I should see "Affinity Groups"
+    Then I should see "Joining ACCESS Resource Provider Affinity Groups (AGs) will add"
+    #TODO Alt text not working?
+    #Then I should see "ACCESS RP Integration graphic"
+    Then I should see "ACCESS RP Integration"
+    Then I should see "ACCESS RPs and ACCESS RP Coordinator space for"
+    Then I should see "High Performance Visualization"
+    Then I should see "This affinity group will work to strengthen understanding and"
+    Then I should see "ACCESS Support"
+    Then I should see "Become an ACCESS Support insider by joining our affinity"
+    When I click "All Affinity Groups"
+    Then I should be on "/affinity_groups"
+    When I go to "/knowledge-base"
+    When I click "ACCESS RP Integration"
+    Then I should be on "/affinity-groups/access-rp-integration"
+    When I go to "/knowledge-base"
+    When I click "High Performance Visualization"
+    Then I should be on "/affinity-groups/high-performance-visualization"
+    When I go to "/knowledge-base"
+    When I click "ACCESS Support"
+    Then I should be on "/affinity-groups/access-support"
+    
+    
