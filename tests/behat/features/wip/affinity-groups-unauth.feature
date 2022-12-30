@@ -6,7 +6,7 @@ Feature: test ACCESS Support Affinty Groups Page
 
   Scenario: Unauthenticated user tests the Affinity Groups page
     Given I am not logged in
-    When I go to "https://support.access-ci.org/affinity_groups"
+    When I go to "/affinity_groups"
     Then I should see "Affinity Groups"
     Then I should see "Affinity Groups encourage community members to gather"
     Then I should see "Logo"
@@ -16,11 +16,11 @@ Feature: test ACCESS Support Affinty Groups Page
     #Then I should see an image with alt text "The words Campus Champions ACCESS Facilitators"
     Then I should see "ACCESS Facilitators"
     Then I should see "People who use or support people"
-    When I am on "https://support.access-ci.org/affinity_groups"
+    When I am on "/affinity_groups"
     When I follow "research-facilitation"
-    Then I should be on "https://support.access-ci.org/tags/research-facilitation"
-    When I am on "https://support.access-ci.org/affinity_groups"
+    Then I should be on "/tags/research-facilitation"
+    When I am on "/affinity_groups"
     When I follow "Login to join"
-    Then I should be on "https://support.access-ci.org/user/login"
+    Then I should be on "/user/login"
 
 #TODO: test Request an Affinity Group link takes you to login and then a webform to request a new Affinity Group
