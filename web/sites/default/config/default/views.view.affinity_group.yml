@@ -18,6 +18,7 @@ dependencies:
     - domain.record.usrse_cyberinfrastructure_org
     - field.storage.node.body
     - field.storage.node.field_affinity_group
+    - field.storage.node.field_affinity_group_category
     - field.storage.node.field_ask_ci_locale
     - field.storage.node.field_cider_resources
     - field.storage.node.field_coordinator
@@ -44,6 +45,7 @@ dependencies:
     - image
     - link
     - node
+    - options
     - realname
     - rest
     - serialization
@@ -5503,7 +5505,7 @@ display:
         row: false
         fields: false
         arguments: false
-      use_ajax: true
+      use_ajax: false
       display_description: ''
       display_extenders:
         simple_sitemap_display_extender: {  }
@@ -5519,6 +5521,7 @@ display:
       tags:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_affinity_group'
+        - 'config:field.storage.node.field_affinity_group_category'
         - 'config:field.storage.node.field_ask_ci_locale'
         - 'config:field.storage.node.field_cider_resources'
         - 'config:field.storage.node.field_coordinator'
