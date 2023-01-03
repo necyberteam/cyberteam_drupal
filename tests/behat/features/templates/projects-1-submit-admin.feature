@@ -17,7 +17,7 @@ Feature: add a test project via the form
     When I check "At-Large"
     # tags:
     When I check "login"
-    When I select "Halted" from "Status"
+    When I select "In Progress" from "Status"
     When I fill in "First" with "test-first-name"
     When I fill in "Last" with "test-last-name"
     When I fill in "Email" with "test@email.com"
@@ -57,7 +57,7 @@ Feature: add a test project via the form
     Then I should see "test-create-project-title"
     And I should see "login"
     And I should see "At-Large"
-    And I should see "Halted"
+    And I should see "In Progress"
     And I should see "test@email.com"
     And I should see "test Project Institution"
     And I should see "test Address"
