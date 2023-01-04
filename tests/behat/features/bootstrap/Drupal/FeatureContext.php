@@ -59,6 +59,19 @@ class FeatureContext extends RawDrupalContext
     }
 
     /**
+     * @Given I should see element with :arg1 selector
+     */
+    public function IShouldSeeElement($selector)
+    {
+        $page = $this->getSession()->getPage();
+        $element = $page->find('css', $selector);
+
+        if (empty($element)) {
+            throw new \Exception("No html element found for the selector ('$selector')");
+        }
+
+    }
+     /**
      * @Given I click the :arg1 element
      */
     public function iClickTheElement($selector)
