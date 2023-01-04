@@ -56,4 +56,3 @@ Feature: test resource form
     #And I should see "Webform"
     #And I should see "Delete submission"
     When I click "Edit"
-  

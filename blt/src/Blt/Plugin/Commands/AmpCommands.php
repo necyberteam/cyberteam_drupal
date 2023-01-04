@@ -124,7 +124,7 @@ GITHUB_TOKEN=$token'>.env");
       // OR, if $wip_template is true, copy from the wip_template directory instead of the templates directory
 
       // if domain is one of the following, don't copy the templates
-      $exceptions_to_template_copies = array('templates', 'wip', 'Jasper', 'Hannah', 'asp');
+      $exceptions_to_template_copies = array('templates', 'wip', 'Jasper', 'Hannah');
       $copy_templates = !in_array($domain, $exceptions_to_template_copies);
 
 

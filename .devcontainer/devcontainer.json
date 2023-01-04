@@ -6,15 +6,15 @@
     "dockerfile": "Dockerfile",
     // Update 'VARIANT' to pick an Debian version: bullseye, buster, stretch
     // Use bullseye or stretch on local arm64/Apple Silicon.
-    "args": { "VARIANT": "bullseye" }
+    "args": {
+      "VARIANT": "bullseye"
+    }
   },
-
   // Set *default* container specific settings.json values on container create.
   "settings": {
     "terminal.integrated.fontFamily": "",
     "workbench.colorTheme": "Default Dark+",
     "terminal.integrated.defaultProfile.linux": "zsh",
-
     "breadcrumbs.enabled": true,
     "css.validate": true,
     "diffEditor.ignoreTrimWhitespace": false,
@@ -48,34 +48,27 @@
     "html.format.enable": true,
     "html.format.wrapLineLength": 80,
     "telemetry.telemetryLevel": "off",
-
     "emptyIndent.removeIndent": true,
     "emptyIndent.highlightIndent": false,
     "emptyIndent.highlightColor": "rgba(246,36,89,0.6)",
-
+    "phpcbf.executablePath": "/workspaces/cyberteam_drupal/vendor/squizlabs/php_codesniffer/bin/phpcbf",
+    "phpcbf.standard": "Drupal",
     "phpcs.enable": true,
     "phpcs.standard": "Drupal,DrupalPractice",
-
     "php.validate.enable": true,
     "php.validate.executablePath": "/usr/bin/php",
     "php.validate.run": "onType",
-
     "php.suggest.basic": false,
-
     // Intelephense and Drupal >8 only. This should be set to the path to core/index.php.
     "intelephense.environment.documentRoot": "web",
-
     "php-docblocker.gap": true,
     "php-docblocker.useShortNames": true,
-
     "composer.enabled": true,
     "composer.executablePath": "/usr/local/bin/composer",
-
     "emmet.includeLanguages": {
       "twig": "html"
     }
   },
-
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
     "tsega.drupal-8-javascript-snippets",
@@ -94,18 +87,15 @@
     "shevaua.phpcs",
     "mechatroner.rainbow-csv",
     "mblode.twig-language-2",
-    "eamodio.gitlens"
+    "eamodio.gitlens",
+    "valeryanm.vscode-phpsab"
   ],
-
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
-
   // Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
   // "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
-
   // Uncomment when using a ptrace-based debugger like C++, Go, and Rust
   // "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
-
   // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
   "remoteUser": "vscode",
   "features": {
