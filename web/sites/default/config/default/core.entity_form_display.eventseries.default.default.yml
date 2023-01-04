@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.field.eventseries.default.field_affinity_group
     - field.field.eventseries.default.field_affinity_group_node
-    - field.field.eventseries.default.field_broadcast_affinity_groups
     - field.field.eventseries.default.field_contact
     - field.field.eventseries.default.field_location
     - field.field.eventseries.default.field_registration
@@ -66,13 +65,6 @@ content:
       match_limit: 10
       size: 60
       placeholder: ''
-    third_party_settings: {  }
-  field_broadcast_affinity_groups:
-    type: boolean_checkbox
-    weight: 26
-    region: content
-    settings:
-      display_label: true
     third_party_settings: {  }
   field_contact:
     type: text_textfield
