@@ -14,7 +14,6 @@ dependencies:
     - field.field.node.affinity_group.field_domain_source
     - field.field.node.affinity_group.field_github_organization
     - field.field.node.affinity_group.field_image
-    - field.field.node.affinity_group.field_list_id
     - field.field.node.affinity_group.field_mailing_list
     - field.field.node.affinity_group.field_resources_entity_reference
     - field.field.node.affinity_group.field_slack
@@ -64,7 +63,7 @@ content:
     third_party_settings: {  }
   field_cider_resources:
     type: entity_reference_autocomplete
-    weight: 25
+    weight: 101
     region: content
     settings:
       match_operator: CONTAINS
@@ -116,14 +115,6 @@ content:
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
-    third_party_settings: {  }
-  field_list_id:
-    type: string_textfield
-    weight: 26
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_mailing_list:
     type: string_textfield
