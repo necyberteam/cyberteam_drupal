@@ -45,6 +45,8 @@ Optionally, you can setup two other secrets to automatically login to terminus t
 
 The email secret is the email you use with pantheon and the token can be setup under your settings within your pantheon account.
 
+When starting lando run the ```blt amp:start``` command as that will also set your composer github key with the latest GITHUB_TOKEN variable set by codespaces.
+
 ### Github CLI
 
 You can create, open, and ssh into your codespaces using Github CLI, see [install instructions](https://github.com/cli/cli#installation) to install on your local system. Once installed check out the [documentation](https://docs.github.com/en/codespaces/developing-in-codespaces/using-github-codespaces-with-github-cli) for commands you can use. You can authorize Github CLI by running the following command:
