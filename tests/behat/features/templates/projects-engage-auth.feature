@@ -10,12 +10,15 @@ Feature: test projects/engagements page
     When I go to "/projects"
     Then I should see "Projects"
     Then I should see "Submit New Project"
-   
+
     When I fill in "edit-search--2" with "test"
-    And I wait 4 seconds
-    Then I should see "Test"
-    When I fill in "edit-search--2" with "testnothere"
-    And I wait 4 seconds
+    # TODO -- following 4 lines are incorrect.  Either a project
+    #    should be created in an earlier step, or we should simply
+    #    only check that there are no projects at this time
+    # And I wait 4 seconds
+    # Then I should see "Test"
+    # When I fill in "edit-search--2" with "testnothere"
+    # And I wait 4 seconds
     Then I should see "There are no projects at this time"
 
     When I click "Submit New Project"
