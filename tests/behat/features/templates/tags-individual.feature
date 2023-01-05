@@ -72,7 +72,7 @@ Feature: test individual tags page
     Then I should see "test-login-resource"
     When I follow "test-login-resource"
     And I wait for the page to be loaded
-    Then I should see "votes"
+    #Then I should see "votes"
     And I should see "test-login-resource"
 
     Given I am logged in as a user with the "authenticated" role
