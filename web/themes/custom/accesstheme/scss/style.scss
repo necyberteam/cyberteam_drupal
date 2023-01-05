@@ -505,6 +505,8 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
     min-width: 150px !important;
 }
 .view-affinity-group .view-content {
+    display: flex;
+    flex-wrap: wrap;
     @extend .table-responsive;
     .card {
         background-color: transparent;
@@ -580,12 +582,6 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
 /* affinity group news */
 .view-affinity-group [id="block-views-block-access-news-block-1"] .view-access-news {
     max-width: 100%;
-}
-#access_news .view-access-news {
-    margin: 0;
-    .my-5 {
-        margin: 0.5rem 0 !important;
-    }
 }
 /* outages */
 .dataTable {
@@ -679,11 +675,6 @@ a.button.button-action:hover {
         }
     }
 }
-/* user profile */
-#edit-field-cider-resources-wrapper .clearfix {
-    display: none;
-}
-/* footer */
 footer {
     .navigation.menu--footer {
         background-color: var(--bs-dark);

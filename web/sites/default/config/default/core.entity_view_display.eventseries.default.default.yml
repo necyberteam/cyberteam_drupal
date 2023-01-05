@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.field.eventseries.default.field_affinity_group
     - field.field.eventseries.default.field_affinity_group_node
-    - field.field.eventseries.default.field_broadcast_affinity_groups
     - field.field.eventseries.default.field_contact
     - field.field.eventseries.default.field_location
     - field.field.eventseries.default.field_registration
@@ -25,7 +24,7 @@ mode: default
 content:
   body:
     type: text_default
-    label: hidden
+    label: above
     settings: {  }
     third_party_settings: {  }
     weight: 1
@@ -89,7 +88,7 @@ content:
     region: content
   recur_type:
     type: list_default
-    label: hidden
+    label: above
     settings: {  }
     third_party_settings: {  }
     weight: 2
@@ -108,6 +107,5 @@ hidden:
   daily_recurring_date: true
   event_registration: true
   field_affinity_group: true
-  field_broadcast_affinity_groups: true
   monthly_recurring_date: true
   weekly_recurring_date: true
