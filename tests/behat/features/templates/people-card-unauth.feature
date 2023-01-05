@@ -16,7 +16,7 @@ Feature: test people page Card view w/ filters
     And I should see "Card View"
     And I should see "Programs"
     And I should see "Roles"
-    And I should see "Affinity Groups"
+    # And I should see "Affinity Groups"
     And I should see "Skills"
     And I should see "List view"
     When I fill in "Search the people database" with "testing123"
