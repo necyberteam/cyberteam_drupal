@@ -1,0 +1,55 @@
+uuid: a43917d1-c46e-44c6-a4e0-4d9a5e65ad10
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_cider_resources
+    - node.type.access_active_resources_from_cid
+  module:
+    - multiple_registration
+    - user
+third_party_settings:
+  multiple_registration:
+    user_additional_register_form:
+      authenticated: 0
+      student: 0
+      mentor: 0
+      researcher: 0
+      representative: 0
+      research_computing_facilitator: 0
+      research_software_engineer: 0
+      ci_systems_engineer: 0
+      student_champion: 0
+      domain_champion: 0
+    user_additional_register_form_required:
+      authenticated: 0
+      student: 0
+      mentor: 0
+      researcher: 0
+      representative: 0
+      research_computing_facilitator: 0
+      research_software_engineer: 0
+      ci_systems_engineer: 0
+      student_champion: 0
+      domain_champion: 0
+id: user.user.field_cider_resources
+field_name: field_cider_resources
+entity_type: user
+bundle: user
+label: 'Allocated Resources'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      access_active_resources_from_cid: access_active_resources_from_cid
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
