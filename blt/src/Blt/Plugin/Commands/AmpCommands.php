@@ -54,11 +54,11 @@ GITHUB_TOKEN=$token'>.env");
    * @description Start lando and set GITHUB_TOKEN.
    */
   public function start() {
-    $this->_exec("lando start");
+    $this->_exec($this->lando() . " start");
     if (getenv('GITHUB_TOKEN')) {
       $this->say("❗️ Setting GITHUB_TOKEN token. ❗️");
       $this->_exec("composer config -g github-oauth.github.com $(printenv GITHUB_TOKEN)");
-      $this->_exec("lando composer config -g github-oauth.github.com $(printenv GITHUB_TOKEN)");
+      $this->_exec($this->lando() . " composer config -g github-oauth.github.com $(printenv GITHUB_TOKEN)");
     } else {
       $this->say("❗️ GITHUB_TOKEN not set. ❗️");
     }
