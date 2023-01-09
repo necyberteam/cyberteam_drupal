@@ -1,0 +1,55 @@
+uuid: 9c10ba27-ede1-4e11-a884-3286cf7ef9bb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_blocked_ag_tax
+    - taxonomy.vocabulary.affinity_groups
+  module:
+    - multiple_registration
+    - user
+third_party_settings:
+  multiple_registration:
+    user_additional_register_form:
+      authenticated: 0
+      student: 0
+      mentor: 0
+      researcher: 0
+      representative: 0
+      research_computing_facilitator: 0
+      research_software_engineer: 0
+      ci_systems_engineer: 0
+      student_champion: 0
+      domain_champion: 0
+    user_additional_register_form_required:
+      authenticated: 0
+      student: 0
+      mentor: 0
+      researcher: 0
+      representative: 0
+      research_computing_facilitator: 0
+      research_software_engineer: 0
+      ci_systems_engineer: 0
+      student_champion: 0
+      domain_champion: 0
+id: user.user.field_blocked_ag_tax
+field_name: field_blocked_ag_tax
+entity_type: user
+bundle: user
+label: 'Blocked Affinity Groups'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      affinity_groups: affinity_groups
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
