@@ -1,0 +1,21 @@
+uuid: 733e9724-1d77-4f9f-a61d-2b365c60ff25
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_match_interested_users
+    - node.type.match_engagement
+id: node.match_engagement.field_match_interested_users
+field_name: field_match_interested_users
+entity_type: node
+bundle: match_engagement
+label: 'Interested Users'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings: {  }
+field_type: entity_reference
