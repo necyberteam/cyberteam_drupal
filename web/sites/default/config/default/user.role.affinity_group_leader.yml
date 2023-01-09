@@ -8,6 +8,7 @@ dependencies:
     - workflows.workflow.editorial
   module:
     - content_moderation
+    - field_permissions
     - node
     - recurring_events
 id: affinity_group_leader
@@ -27,4 +28,6 @@ permissions:
   - 'edit own eventinstance entity'
   - 'edit own eventseries entity'
   - 'use editorial transition publish'
+  - 'view field_cider_resources'
+  - 'view own field_cider_resources'
   - 'view own unpublished content'
