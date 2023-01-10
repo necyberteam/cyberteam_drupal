@@ -48,16 +48,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_affinity_group:
-    type: entity_reference_autocomplete
-    weight: 24
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_affinity_group_category:
     type: options_select
     weight: 20
@@ -229,4 +219,5 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_affinity_group: true
   field_resources_placeholder: true
