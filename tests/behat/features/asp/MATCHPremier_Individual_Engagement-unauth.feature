@@ -6,10 +6,10 @@ Feature: test ACCESS Support MATCHPremier Indivdual Engagement Page
 
   Scenario: Unauthenticated user tests the MATCHPremier Indivdual Engagement Page
     Given I am not logged in
-    When I go to "https://support.access-ci.org/engagements"
+    When I go to "/engagements"
     Then I should see "MATCHPremier Engagements"
     When I follow "Statistical Analysis of criminal cases in the United States District Court of Puerto Rico"
-    Then I should be on "https://support.access-ci.org/node/335"
+    Then I should be on "/node/335"
     Then I should see "Statistical Analysis of criminal cases in the United States District Court of Puerto Rico"
     Then I should see "Institution"
     Then I should see "Status"
