@@ -69,9 +69,8 @@ class FeatureContext extends RawDrupalContext
         if (empty($element)) {
             throw new \Exception("No html element found for the selector ('$selector')");
         }
-
     }
-     /**
+    /**
      * @Given I click the :arg1 element
      */
     public function iClickTheElement($selector)
@@ -101,31 +100,6 @@ class FeatureContext extends RawDrupalContext
         }
     }
 
-    /**
-     * Not sure this is useful, but leaving here for now.
-     * Verifies that all images on a page have the 'alt' attribute.
-     * But how should this be used?  Would be nice if run by default for every page.
-     *
-     * @When all images should have alt text
-     */
-    public function allImagesShouldHaveAltText()
-    {
-        $imageElements = $this->getSession()->getPage()->findAll('css', 'img');
-        foreach ($imageElements as $image) {
-
-            $src = $image->getAttribute('src');
-            // we could enable this too, but on dev vms,
-            // many images are not loaded and this may be too strict
-            // $this->verifyImageLoads($src);
-
-            $alt = $image->getAttribute('alt');
-            if (!$alt) {
-                throw new \Exception('No alt text for image with src=$src on page '
-                    . $this->getSession()->getCurrentUrl());
-            }
-        }
-    }
-
 
     /**
      * Verifies the page contains an image with the specified alt attribute,
@@ -139,24 +113,52 @@ class FeatureContext extends RawDrupalContext
      *
      * @When I should see an image with alt text :alt_text
      */
-    public function verifyImageWithAltTxt($alt_text)
+    public function iShouldSeeAnImageWithAltText($alt_text)
     {
-        $page = $this->getSession()->getPage();
-        $img = $page->findLink($alt_text);
-        $src = $img->find('css', 'img');
-        $this->verifyImage($src);
+        $imageElements = $this->getSession()->getPage()->findAll('css', 'img');
+        foreach ($imageElements as $image) {
+
+            $alt = $image->getAttribute('alt');
+
+            if ($alt === $alt_text) {
+                $src = $image->getAttribute('src');
+                $this->verifyImageLoads($src);
+                // found the text -- can return from this function
+                return;
+            }
+        }
+
+        // didn't find the alt text
+        throw new Exception("Did not find an image with alt text $alt_text");
     }
+
+    /**
+     * Verify a URL loads an image
+     *
+     * @When the image url :url should load
+     */
+    public function imageUrlShouldLoad($url)
+    {
+        $this->verifyImageLoads($url);
+    }
+
 
     /**
      * Look for an element with the specified class selector.
      * Check it has a single img element and that the resource can load and has
      * mime type image
      *
+     * For example: NECT has this:
+     *      <img src="/themes/nect-theme/logo.png" class="logo" alt="Northeast Cyberteam">
+     * and the following checks for it:
+     *      Then the image at ".logo" should load
+
      * @When The image at :selector should load
      */
-    public function confirmImageLoads($selector)
+    public function imageAtSelectorShouldLoad($selector)
     {
         $page = $this->getSession()->getPage();
+
         $all = $page->findAll('css', $selector);
         $selCnt = count($all);
         if ($selCnt != 1) {
@@ -168,22 +170,20 @@ class FeatureContext extends RawDrupalContext
         if ($imgCnt != 1) {
             throw new \Exception("Found $imgCnt images, but expected just one");
         }
+        $url = $images[0]->getAttribute('src');
 
-        $this->verifyImage($images[0]);
+        $this->verifyImageLoads($url);
     }
 
     /**
-     * Given an img element, verify the src links to a loadable image type resource
+     * Verify a url points to a loadable image type resource
      */
-    public function verifyImage($img)
+    private function verifyImageLoads($url)
     {
-        $url = $img->getAttribute('src');
-
-        // var_dump("url = $url");
-
         if (substr($url, 0, 4) !== "http") {
             $session_url = $this->getSession()->getCurrentUrl();
-            $url = rtrim($session_url, '/') . $url;
+            $parsed = parse_url($session_url);
+            $url = $parsed['scheme'] . '://' . $parsed['host'] . $url;
         }
 
         $ch  = curl_init($url);
@@ -192,8 +192,8 @@ class FeatureContext extends RawDrupalContext
 
         // get the content type
         $mime_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-        if (strpos($mime_type, 'image/') === FALSE) {
-            throw new \Exception(sprintf('%s did not return an image', $url));
+        if (strpos($mime_type, 'image/') === false) {
+            throw new \Exception(sprintf('The url %s did not return an image', $url));
         }
     }
 }
