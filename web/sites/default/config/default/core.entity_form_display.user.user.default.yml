@@ -3,11 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.user.user.field_blocked_ag_tax
     - field.field.user.user.field_carnegie_code
-    - field.field.user.user.field_cider_resources
     - field.field.user.user.field_citizenships
-    - field.field.user.user.field_constant_contact_id
     - field.field.user.user.field_current_degree_program
     - field.field.user.user.field_current_occupation
     - field.field.user.user.field_cv_resume
@@ -53,37 +50,9 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_blocked_ag_tax:
-    type: entity_reference_autocomplete
-    weight: 21
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_cider_resources:
-    type: entity_reference_autocomplete
-    weight: 18
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_citizenships:
     type: string_textfield
     weight: 16
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_constant_contact_id:
-    type: string_textfield
-    weight: 17
     region: content
     settings:
       size: 60
