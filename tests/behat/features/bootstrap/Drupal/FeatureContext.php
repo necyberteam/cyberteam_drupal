@@ -87,7 +87,7 @@ class FeatureContext extends RawDrupalContext
     }
 
     /**
-     * @When I should see the :selector button is disabled 
+     * @When I should see the :selector button is disabled
      */
     public function iShouldSeetheButtonIsDisabled($selector)
     {
@@ -102,6 +102,41 @@ class FeatureContext extends RawDrupalContext
     }
 
     /**
+     * Not sure this is useful, but leaving here for now.
+     * Verifies that all images on a page have the 'alt' attribute.
+     * But how should this be used?  Would be nice if run by default for every page.
+     *
+     * @When all images should have alt text
+     */
+    public function allImagesShouldHaveAltText()
+    {
+        $imageElements = $this->getSession()->getPage()->findAll('css', 'img');
+        foreach ($imageElements as $image) {
+
+            $src = $image->getAttribute('src');
+            // we could enable this too, but on dev vms,
+            // many images are not loaded and this may be too strict
+            // $this->verifyImageLoads($src);
+
+            $alt = $image->getAttribute('alt');
+            if (!$alt) {
+                throw new \Exception('No alt text for image with src=$src on page '
+                    . $this->getSession()->getCurrentUrl());
+            }
+        }
+    }
+
+
+    /**
+     * Verifies the page contains an image with the specified alt attribute,
+     * and that the image loads.
+     *
+     * Example:
+     *      Then I should see an image with alt text "Pegasus logo"
+     * works on /pegasus, which contain this <img> :
+     *      <img alt="Pegasus logo" data-entity-type="" data-entity-uuid=""
+     *          src="/sites/default/files/inline-images/pegasus.png" width="204">
+     *
      * @When I should see an image with alt text :alt_text
      */
     public function verifyImageWithAltTxt($alt_text)
@@ -113,11 +148,11 @@ class FeatureContext extends RawDrupalContext
     }
 
     /**
-     * Look for an element with the specified class selector. 
+     * Look for an element with the specified class selector.
      * Check it has a single img element and that the resource can load and has
      * mime type image
-     *     
-     * @When The image at :selector should load 
+     *
+     * @When The image at :selector should load
      */
     public function confirmImageLoads($selector)
     {
