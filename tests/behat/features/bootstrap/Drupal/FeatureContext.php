@@ -79,7 +79,7 @@ class FeatureContext extends RawDrupalContext
         $element = $page->find('css', $selector);
 
         if (empty($element)) {
-            throw new Exception("No html element found for the selector ('$selector')");
+            throw new \Exception("No html element found for the selector ('$selector')");
         }
 
         $element->click();
@@ -123,13 +123,47 @@ class FeatureContext extends RawDrupalContext
             if ($alt === $alt_text) {
                 $src = $image->getAttribute('src');
                 $this->verifyImageLoads($src);
-                // found the text -- can return from this function
+                // found the text --  return from this test
                 return;
             }
         }
 
         // didn't find the alt text
-        throw new Exception("Did not find an image with alt text $alt_text");
+        throw new \Exception("Did not find an image with alt text $alt_text");
+    }
+
+    /**
+     * Verifies the page contains an image with the specified src attribute,
+     * and that the image loads and has some text for its alt attribute.
+     *
+     * Example:
+     *    Then I should see an image with src "/sites/default/files/inline-images/pegasus.png"
+     * works on /pegasus, which contain this <img> :
+     *    <img alt="Pegasus logo" data-entity-type="" data-entity-uuid=""
+     *          src="/sites/default/files/inline-images/pegasus.png" width="204">
+     *
+     * @When I should see an image with src :src
+     */
+    public function iShouldSeeAnImageWithSrc($src)
+    {
+        $imageElements = $this->getSession()->getPage()->findAll('css', 'img');
+        foreach ($imageElements as $image) {
+
+            $src_attr = $image->getAttribute('src');
+
+            if ($src_attr === $src) {
+                $this->verifyImageLoads($src);
+                if (!$image->getAttribute('alt')) {
+                    throw new \Exception("Image at '$src' has no alt attribute.");
+                }
+
+                // found the image -- return from this test
+                return;
+            }
+        }
+
+        // didn't find the alt text
+        throw new \Exception("Did not find an image with src $src");
     }
 
     /**
@@ -162,16 +196,22 @@ class FeatureContext extends RawDrupalContext
         $all = $page->findAll('css', $selector);
         $selCnt = count($all);
         if ($selCnt != 1) {
-            throw new \Exception("Found $selCnt selectors named '$selector', but expected just one");
+            throw new \Exception("Found $selCnt selectors named '$selector', but expected one");
         }
 
         $images = $all[0]->findAll('css', 'img');
         $imgCnt = count($images);
         if ($imgCnt != 1) {
-            throw new \Exception("Found $imgCnt images, but expected just one");
+            throw new \Exception("Found $imgCnt images, but expected one.");
         }
-        $url = $images[0]->getAttribute('src');
 
+        $image = $images[0];
+
+        if (!$image->getAttribute('alt')) {
+            throw new \Exception("Image with selector '$selector' has no alt attribute.");
+        }
+
+        $url = $image->getAttribute('src');
         $this->verifyImageLoads($url);
     }
 
@@ -185,6 +225,7 @@ class FeatureContext extends RawDrupalContext
             $parsed = parse_url($session_url);
             $url = $parsed['scheme'] . '://' . $parsed['host'] . $url;
         }
+        // var_dump("verifying image $url");
 
         $ch  = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -192,6 +233,7 @@ class FeatureContext extends RawDrupalContext
 
         // get the content type
         $mime_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+        // var_dump($mime_type);
         if (strpos($mime_type, 'image/') === false) {
             throw new \Exception(sprintf('The url %s did not return an image', $url));
         }
