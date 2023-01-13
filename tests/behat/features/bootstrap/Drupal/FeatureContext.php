@@ -185,9 +185,9 @@ class FeatureContext extends RawDrupalContext
      * For example: NECT has this:
      *      <img src="/themes/nect-theme/logo.png" class="logo" alt="Northeast Cyberteam">
      * and the following checks for it:
-     *      Then the image at ".logo" should load
+     *      Then the image with selector ".logo" should load
 
-     * @When The image at :selector should load
+     * @When The image with selector :selector should load
      */
     public function imageAtSelectorShouldLoad($selector)
     {
@@ -205,14 +205,46 @@ class FeatureContext extends RawDrupalContext
             throw new \Exception("Found $imgCnt images, but expected one.");
         }
 
-        $image = $images[0];
+        $url = $images[0]->getAttribute('src');
+        $this->verifyImageLoads($url);
+    }
 
-        if (!$image->getAttribute('alt')) {
-            throw new \Exception("Image with selector '$selector' has no alt attribute.");
+    /**
+
+     * Look for an element with the specified class selector.
+     * Check it has a single img element and that the resource can load and has
+     * mime type image and has alt text
+     * 
+     * For example: NECT has this:
+     *      <img src="/themes/nect-theme/logo.png" class="logo" alt="Northeast Cyberteam">
+     * and the following checks for it:
+     *      Then the image with selector ".logo" has alt text
+
+     * @When The image with selector :selector has alt text
+     */
+    public function imageAtSelectorHasAltText($selector)
+    {
+        $page = $this->getSession()->getPage();
+
+        $all = $page->findAll('css', $selector);
+        $selCnt = count($all);
+        if ($selCnt != 1) {
+            throw new \Exception("Found $selCnt elements with selector '$selector', but expected one");
         }
 
-        $url = $image->getAttribute('src');
+        $images = $all[0]->findAll('css', 'img');
+        $imgCnt = count($images);
+        if ($imgCnt != 1) {
+            throw new \Exception("Found $imgCnt images with selector '$selector', but expected one.");
+        }
+
+        $url = $images[0]->getAttribute('src');
+
         $this->verifyImageLoads($url);
+
+        if (!$images[0]->getAttribute('alt')) {
+            throw new \Exception("Image with selector '$selector' has no alt text.");
+        }
     }
 
     /**
