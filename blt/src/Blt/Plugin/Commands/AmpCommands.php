@@ -74,6 +74,8 @@ GITHUB_TOKEN=$token'>.env");
 
     $this->say("------------------ BEHAT TESTING ------------------------");
 
+    $this->say("------------------ BEHAT TESTING ------------------------");
+
     // to make testing faster, skip the drush commands (useful during development)
     // to enable this, in the shell, do "export BEHAT_NO_DRUSH=true"
     // to disable this, in the shell, do "export BEHAT_NO_DRUSH=false"
