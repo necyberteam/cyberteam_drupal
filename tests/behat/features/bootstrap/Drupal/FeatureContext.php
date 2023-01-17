@@ -69,9 +69,8 @@ class FeatureContext extends RawDrupalContext
         if (empty($element)) {
             throw new \Exception("No html element found for the selector ('$selector')");
         }
-
     }
-     /**
+    /**
      * @Given I click the :arg1 element
      */
     public function iClickTheElement($selector)
@@ -80,14 +79,14 @@ class FeatureContext extends RawDrupalContext
         $element = $page->find('css', $selector);
 
         if (empty($element)) {
-            throw new Exception("No html element found for the selector ('$selector')");
+            throw new \Exception("No html element found for the selector ('$selector')");
         }
 
         $element->click();
     }
 
     /**
-     * @When I should see the :selector button is disabled 
+     * @When I should see the :selector button is disabled
      */
     public function iShouldSeetheButtonIsDisabled($selector)
     {
@@ -101,55 +100,164 @@ class FeatureContext extends RawDrupalContext
         }
     }
 
+
     /**
+     * Verifies the page contains an image with the specified alt attribute,
+     * and that the image loads.
+     *
+     * Example:
+     *      Then I should see an image with alt text "Pegasus logo"
+     * works on /pegasus, which contain this <img> :
+     *      <img alt="Pegasus logo" data-entity-type="" data-entity-uuid=""
+     *          src="/sites/default/files/inline-images/pegasus.png" width="204">
+     *
      * @When I should see an image with alt text :alt_text
      */
-    public function verifyImageWithAltTxt($alt_text)
+    public function iShouldSeeAnImageWithAltText($alt_text)
     {
-        $page = $this->getSession()->getPage();
-        $img = $page->findLink($alt_text);
-        $src = $img->find('css', 'img');
-        $this->verifyImage($src);
+        $imageElements = $this->getSession()->getPage()->findAll('css', 'img');
+        foreach ($imageElements as $image) {
+
+            $alt = $image->getAttribute('alt');
+
+            if ($alt === $alt_text) {
+                $src = $image->getAttribute('src');
+                $this->verifyImageLoads($src);
+                // found the text --  return from this test
+                return;
+            }
+        }
+
+        // didn't find the alt text
+        throw new \Exception("Did not find an image with alt text $alt_text");
     }
 
     /**
-     * Look for an element with the specified class selector. 
+     * Verifies the page contains an image with the specified src attribute,
+     * and that the image loads and has some text for its alt attribute.
+     *
+     * Example:
+     *    Then I should see an image with src "/sites/default/files/inline-images/pegasus.png"
+     * works on /pegasus, which contain this <img> :
+     *    <img alt="Pegasus logo" data-entity-type="" data-entity-uuid=""
+     *          src="/sites/default/files/inline-images/pegasus.png" width="204">
+     *
+     * @When I should see an image with src :src
+     */
+    public function iShouldSeeAnImageWithSrc($src)
+    {
+        $imageElements = $this->getSession()->getPage()->findAll('css', 'img');
+        foreach ($imageElements as $image) {
+
+            $src_attr = $image->getAttribute('src');
+
+            if ($src_attr === $src) {
+                $this->verifyImageLoads($src);
+                if (!$image->getAttribute('alt')) {
+                    throw new \Exception("Image at '$src' has no alt attribute.");
+                }
+
+                // found the image -- return from this test
+                return;
+            }
+        }
+
+        // didn't find the alt text
+        throw new \Exception("Did not find an image with src $src");
+    }
+
+    /**
+     * Verify a URL loads an image
+     *
+     * @When the image url :url should load
+     */
+    public function imageUrlShouldLoad($url)
+    {
+        $this->verifyImageLoads($url);
+    }
+
+
+    /**
+     * Look for an element with the specified class selector.
      * Check it has a single img element and that the resource can load and has
      * mime type image
-     *     
-     * @When The image at :selector should load 
+     *
+     * For example: NECT has this:
+     *      <img src="/themes/nect-theme/logo.png" class="logo" alt="Northeast Cyberteam">
+     * and the following checks for it:
+     *      Then the image with selector ".logo" should load
+
+     * @When The image with selector :selector should load
      */
-    public function confirmImageLoads($selector)
+    public function imageAtSelectorShouldLoad($selector)
     {
         $page = $this->getSession()->getPage();
+
         $all = $page->findAll('css', $selector);
         $selCnt = count($all);
         if ($selCnt != 1) {
-            throw new \Exception("Found $selCnt selectors named '$selector', but expected just one");
+            throw new \Exception("Found $selCnt selectors named '$selector', but expected one");
         }
 
         $images = $all[0]->findAll('css', 'img');
         $imgCnt = count($images);
         if ($imgCnt != 1) {
-            throw new \Exception("Found $imgCnt images, but expected just one");
+            throw new \Exception("Found $imgCnt images, but expected one.");
         }
 
-        $this->verifyImage($images[0]);
+        $url = $images[0]->getAttribute('src');
+        $this->verifyImageLoads($url);
     }
 
     /**
-     * Given an img element, verify the src links to a loadable image type resource
+
+     * Look for an element with the specified class selector.
+     * Check it has a single img element and that the resource can load and has
+     * mime type image and has alt text
+     * 
+     * For example: NECT has this:
+     *      <img src="/themes/nect-theme/logo.png" class="logo" alt="Northeast Cyberteam">
+     * and the following checks for it:
+     *      Then the image with selector ".logo" has alt text
+
+     * @When The image with selector :selector has alt text
      */
-    public function verifyImage($img)
+    public function imageAtSelectorHasAltText($selector)
     {
-        $url = $img->getAttribute('src');
+        $page = $this->getSession()->getPage();
 
-        // var_dump("url = $url");
+        $all = $page->findAll('css', $selector);
+        $selCnt = count($all);
+        if ($selCnt != 1) {
+            throw new \Exception("Found $selCnt elements with selector '$selector', but expected one");
+        }
 
+        $images = $all[0]->findAll('css', 'img');
+        $imgCnt = count($images);
+        if ($imgCnt != 1) {
+            throw new \Exception("Found $imgCnt images with selector '$selector', but expected one.");
+        }
+
+        $url = $images[0]->getAttribute('src');
+
+        $this->verifyImageLoads($url);
+
+        if (!$images[0]->getAttribute('alt')) {
+            throw new \Exception("Image with selector '$selector' has no alt text.");
+        }
+    }
+
+    /**
+     * Verify a url points to a loadable image type resource
+     */
+    private function verifyImageLoads($url)
+    {
         if (substr($url, 0, 4) !== "http") {
             $session_url = $this->getSession()->getCurrentUrl();
-            $url = rtrim($session_url, '/') . $url;
+            $parsed = parse_url($session_url);
+            $url = $parsed['scheme'] . '://' . $parsed['host'] . $url;
         }
+        // var_dump("verifying image $url");
 
         $ch  = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -157,8 +265,9 @@ class FeatureContext extends RawDrupalContext
 
         // get the content type
         $mime_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-        if (strpos($mime_type, 'image/') === FALSE) {
-            throw new \Exception(sprintf('%s did not return an image', $url));
+        // var_dump($mime_type);
+        if (strpos($mime_type, 'image/') === false) {
+            throw new \Exception(sprintf('The url %s did not return an image', $url));
         }
     }
 }
