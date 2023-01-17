@@ -11,6 +11,10 @@ Feature: test
     When I am on "/pegasus"
     Then the image with selector ".logo" should load
     Then the image with selector ".logo" has alt text
+
+    #Then the image with selector "#section1 img" has alt text
+
+
     Then I should see an image with alt text "Northeast Cyberteam"
     Then I should see an image with src "/sites/default/files/inline-images/pegasus.png"
     Then I should see an image with alt text "Pegasus logo"
