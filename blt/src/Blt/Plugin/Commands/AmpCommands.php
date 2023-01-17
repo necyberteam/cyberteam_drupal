@@ -72,9 +72,7 @@ GITHUB_TOKEN=$token'>.env");
    */
   public function behat(array $args) {
 
-    $this->say(print_r($args, true));
-
-
+    $this->say("------------------ BEHAT TESTING ------------------------");
 
     // to make testing faster, skip the drush commands (useful during development)
     // to enable this, in the shell, do "export BEHAT_NO_DRUSH=true"
@@ -82,15 +80,31 @@ GITHUB_TOKEN=$token'>.env");
     // or put "no-drush" as an argument on commandline.  
     $no_drush_cmds = array_search("no-drush", $args);
     if ($no_drush_cmds !== false) {
-      unset($args[$no_drush_cmds]);
+      // remove this argument from the args array because $args is used
+      // below to contain a list of domains to test, or to test all
+      // domains if args is empty
+      array_splice($args, $no_drush_cmds, 1);
       $no_drush_cmds = true;
     }
-
     $no_drush_cmds |= strcasecmp(getenv("BEHAT_NO_DRUSH"), 'TRUE') == 0;
+    if ($no_drush_cmds) {
+      $this->say("NOTE: drush commands being skipped.");
+    }
 
     // set following to true to see a dry-run of this script,
     // with no actual copying or running of tests
-    $dry_run = false;
+    $dry_run = array_search("dry-run", $args);
+    if ($dry_run !== false) {
+      // remove this argument from the args array because $args is used
+      // below to contain a list of domains to test, or to test all
+      // domains if args is empty
+      array_splice($args, $dry_run, 1);
+      $dry_run = true;
+    }
+    if ($dry_run) {
+      $this->say("NOTE: dry-run -- nothing actually being executed.");
+    }
+
 
     // special handling for the 'wip_template' directory -- we want to run
     // all the tests in this directory on all the domains but save time by
@@ -111,23 +125,31 @@ GITHUB_TOKEN=$token'>.env");
         'nect',
         // these domains are sufficiently different that the template tests
         // should *not* be copied to them
-        //'amp',
-        //'coco',
-        //'rmacc',
-        //'usrse'
-        //'cci',
-        //'champ'
+        'asp',
+        'cci',
+        'champ',
+        'coco',
+        'rmacc',
+        'usrse',
       ];
     }
 
+    // if domain is one of the following, don't copy the templates
+    $exceptions_to_template_copies = array(
+      'templates', 
+      'wip', 
+      'Jasper', 
+      'Hannah', 
+      'Mackenzie',
+      'asp',
+      'cci',
+      'champ',
+      'coco',
+      'rmacc',
+      'usrse',
+    );
+
     $copy_from = $wip_template ? "wip_template" : "templates";
-
-    $this->say("------------------ BEHAT TESTING ------------------------");
-    $this->say("Copying template tests to these domains:  " . implode(', ', $domains));
-
-    if ($no_drush_cmds) {
-      $this->say("NOTE: drush commands being skipped.");
-    }
 
     $lando = $this->lando() == 'lando '? "lando ssh -c \"(":"(";
     $lando_end = $this->lando() == 'lando '?"\"":"";
@@ -140,9 +162,7 @@ GITHUB_TOKEN=$token'>.env");
       // copy all tests in templates to each domain
       // also use sed to replace the @templates tag with @<domain>
       // OR, if $wip_template is true, copy from the wip_template directory instead of the templates directory
-
-      // if domain is one of the following, don't copy the templates
-      $exceptions_to_template_copies = array('templates', 'wip', 'Jasper', 'Hannah', 'asp');
+      // but don't copy template tests to domains on the exceptions list
       $copy_templates = !in_array($domain, $exceptions_to_template_copies);
 
 
@@ -157,17 +177,19 @@ GITHUB_TOKEN=$token'>.env");
         : "  *not* copying any templates");
 
       if ($copy_templates) {
-        $cmd = "cp tests/behat/features/$copy_from/* tests/behat/features/$domain/ && sed -i '1 s/@templates/@$domain/g' tests/behat/features/$domain/*.feature";
-        if ($dry_run) $this->say('dry-run: ' . $cmd);
+        $cmd = "cp tests/behat/features/$copy_from/*.feature tests/behat/features/$domain/ && sed -i '1 s/@templates/@$domain/g' tests/behat/features/$domain/*.feature";
+        if ($dry_run) $this->say('    dry-run: ' . $cmd);
         else $behat = shell_exec($cmd);
       }
       $shell_cmd = $lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 --window-size=1440,1080 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end;
 
       if ($dry_run) {
-        $shell_cmd = 'echo dry-run: ' . $shell_cmd;
+        $this->say("    dry-run: $shell_cmd");
+        $behat = '';
+      } else {
+        $behat = shell_exec($shell_cmd);
+        $this->say($behat);
       }
-      $behat = shell_exec($shell_cmd);
-      $this->say($behat);
 
       if (!$no_drush_cmds) {
         $this->_exec( $this->lando() . 'drush cim -y');
