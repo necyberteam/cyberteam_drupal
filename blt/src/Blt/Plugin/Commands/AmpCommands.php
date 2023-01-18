@@ -129,7 +129,7 @@ GITHUB_TOKEN=$token'>.env");
         'cci',
         'champ',
         'coco',
-        'rmacc',
+        // 'rmacc',  // no such testing folder
         'usrse',
       ];
     }
@@ -145,7 +145,7 @@ GITHUB_TOKEN=$token'>.env");
       'cci',
       'champ',
       'coco',
-      'rmacc',
+      // 'rmacc',  // no such testing folder
       'usrse',
     );
 
