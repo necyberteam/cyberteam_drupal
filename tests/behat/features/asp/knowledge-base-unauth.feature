@@ -99,6 +99,7 @@ Feature: test ACCESS Support knowledge base
   Scenario: Unauthenticated user tests the Affinity Groups section on knowledge base page
     Given I am not logged in
     When I go to "/knowledge-base"
+    And I wait for the page to be loaded
     Then I should see "Affinity Groups"
     Then I should see "Joining ACCESS Resource Provider Affinity Groups (AGs) will add"
     #TODO Alt text not working?
