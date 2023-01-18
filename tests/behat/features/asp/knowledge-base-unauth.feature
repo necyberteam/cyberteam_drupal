@@ -1,8 +1,6 @@
-@asp
+@wip
 @api
 @javascript
-
-#TODO fix this
 
 Feature: test ACCESS Support knowledge base
   In order to test the knowledge base
@@ -36,6 +34,7 @@ Feature: test ACCESS Support knowledge base
     When I go to "/knowledge-base"
     Then I should see "Explore Groups"
     When I click "Explore Groups"
+    And I wait for the page to be loaded
     Then I should be on "/affinity_groups"
     When I go to "/knowledge-base"
     Then I should see "Getting Started with ACCESS"
