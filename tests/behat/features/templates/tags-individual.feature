@@ -29,15 +29,15 @@ Feature: test individual tags page
     Given I am logged in as a user with the "administrator" role
     When I go to "tags/bioinformatics"
     And I should see "Export Mailing List"
-    
+
   Scenario: Add a "test-affinity-group" for login tag and verify it appears
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/affinity_group"
     When I fill in "Title" with "test-affinity-group"
     # tag is "login"
     When I select "682" from "edit-field-tags"
-    When I check "Published" 
-    When I press "Save" 
+    When I check "Published"
+    When I press "Save"
     #Then I should see "has been created"
 
     #Given I am not logged in
@@ -119,8 +119,9 @@ Feature: test individual tags page
     And I wait for the page to be loaded
     Then I should see "test project description"
     When I go to "tags/password"
+    And I wait for the page to be loaded
     Then I should see "test-project-title"
 
-    
+
 
 
