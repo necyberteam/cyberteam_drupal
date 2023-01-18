@@ -114,6 +114,7 @@ Feature: test ACCESS Support knowledge base
     Then I should be on "/affinity_groups"
     When I go to "/knowledge-base"
     When I click "ACCESS RP Integration"
+    And I wait for the page to be loaded
     Then I should be on "/affinity-groups/access-rp-integration"
     When I go to "/knowledge-base"
     When I click "High Performance Visualization"
