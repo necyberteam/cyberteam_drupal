@@ -1,4 +1,4 @@
-@champ--
+@champ
 @api
 @javascript
 
@@ -20,10 +20,9 @@ Feature: test for the affinity groups page
     Then I should see "cloud-commercial"
     Then I should see "People who use or are considering"
     Then I should see "Join"
-    Then I should see "Join On Slack"
-    Then I should see "Visit Q&A Platform"
-    Then I should see "Mailing List"
-    Then I should see "Coordinators"
+    Then I should see "Slack"
+    Then I should see "Q&A"
+    Then I should see "Email"
     Then I should see "Events"
     Then I should see "Resources"
     Then I should see "News"
