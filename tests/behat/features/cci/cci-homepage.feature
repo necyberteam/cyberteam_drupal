@@ -43,6 +43,7 @@ Feature: verify specific links on homepage
     Then I should be on "https://necyberteam.org"
 
     When I am on the homepage
+    And I wait for the page to be loaded
     And I follow "RMACC"
     And I wait for the page to be loaded
     Then I should be on "https://ask.cyberinfrastructure.org/c/communities/rmacc/65"
