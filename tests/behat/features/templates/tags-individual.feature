@@ -77,6 +77,7 @@ Feature: test individual tags page
 
     Given I am logged in as a user with the "authenticated" role
     When I go to "tags/login"
+    And I wait 4 seconds
     Then I should see "test-login-resource"
     When I follow "test-login-resource"
     And I wait for the page to be loaded
