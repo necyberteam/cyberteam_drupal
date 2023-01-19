@@ -211,9 +211,8 @@ class FeatureContext extends RawDrupalContext
 
     /**
 
-     * Look for an element with the specified class selector.
-     * Check it has a single img element and that the resource can load and has
-     * mime type image and has alt text
+     * Look for element(s) with the specified class selector.
+     * Check their img element(s) can load and have mime type image and have alt text
      * 
      * For example: NECT has this:
      *      <img src="/themes/nect-theme/logo.png" class="logo" alt="Northeast Cyberteam">
@@ -227,24 +226,30 @@ class FeatureContext extends RawDrupalContext
         $page = $this->getSession()->getPage();
 
         $all = $page->findAll('css', $selector);
-        $selCnt = count($all);
-        if ($selCnt != 1) {
-            throw new \Exception("Found $selCnt elements with selector '$selector', but expected one");
+        if (count($all) == 0) {
+            throw new \Exception("Found no elements with selector '$selector'");
         }
 
-        $images = $all[0]->findAll('css', 'img');
-        $imgCnt = count($images);
-        if ($imgCnt != 1) {
-            throw new \Exception("Found $imgCnt images with selector '$selector', but expected one.");
+        foreach($all as $elem_key => $ele_value) {
+
+            $images = $ele_value->findAll('css', 'img');
+            if (count($images) == 0) {
+                throw new \Exception("Found no images for element #$elem_key with selector '$selector'");
+            }
+
+            foreach($images as $image_key => $image_value) {
+
+                $url = $image_value->getAttribute('src');
+    
+                $this->verifyImageLoads($url);
+        
+                if (!$image_value->getAttribute('alt')) {
+                    throw new \Exception("Image #$image_key for element #$elem_key with selector '$selector' has no alt text.");
+                }
+            }
+    
         }
 
-        $url = $images[0]->getAttribute('src');
-
-        $this->verifyImageLoads($url);
-
-        if (!$images[0]->getAttribute('alt')) {
-            throw new \Exception("Image with selector '$selector' has no alt text.");
-        }
     }
 
     /**
