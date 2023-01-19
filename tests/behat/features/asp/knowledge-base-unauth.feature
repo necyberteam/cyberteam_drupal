@@ -103,7 +103,8 @@ Feature: test ACCESS Support knowledge base
     Then I should see "Joining ACCESS Resource Provider Affinity Groups (AGs) will add"
     #TODO Alt text not working?
     #Then I should see "ACCESS RP Integration graphic"
-    # TODO - not working on github - also looks like css is broken
+
+    # TODO - following not working on github - also looks like css is broken
     # Then I should see "ACCESS RP Integration"
     # Then I should see "ACCESS RPs and ACCESS RP Coordinator space for"
     # Then I should see "High Performance Visualization"
