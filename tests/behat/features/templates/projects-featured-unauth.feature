@@ -19,6 +19,7 @@ Feature: test Featured projects on home page
     Then I should see "login"
     # testing project image
     #Then the image at “img[src=https://greatplains-test.cnct.ci/system/files/webform/project/178/semo-ct.jpg]" should load
-    When I click "test-create-recruiting-project-title"
-    Then I should get a "200" HTTP response
+    #TODO: link for feature projects is a stretched <a> tag, not actually the title
+    #When I click "test-create-recruiting-project-title"
+    #Then I should get a "200" HTTP response
 
