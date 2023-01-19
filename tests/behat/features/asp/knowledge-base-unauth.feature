@@ -98,7 +98,7 @@ Feature: test ACCESS Support knowledge base
   Scenario: Unauthenticated user tests the Affinity Groups section on knowledge base page
     Given I am not logged in
     When I go to "/knowledge-base"
-    And I wait 4 seconds
+    And I wait 24 seconds
 
     Then I should see "Affinity Groups"
     Then I should see "Joining ACCESS Resource Provider Affinity Groups (AGs) will add"
