@@ -44,6 +44,7 @@ Feature: verify specific links on homepage
 
     When I am on the homepage
     And I follow "RMACC"
+    And I wait for the page to be loaded
     Then I should be on "https://ask.cyberinfrastructure.org/c/communities/rmacc/65"
 
     When I am on the homepage
