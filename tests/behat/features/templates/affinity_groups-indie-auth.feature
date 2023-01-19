@@ -7,7 +7,7 @@ Feature: test individual Affinity Group page
   Scenario: Authenticated user Test the individual Affinity Group page
     Given I am logged in as a user with the "authenticated" role
     When I go to "/affinity-groups/cloud-computing"
-    When I wait for the page to be loaded
+    And I wait 4 seconds
     #Cant test image
    # Then I should see "col-lg-4 col-md-8 mb-3"
 
