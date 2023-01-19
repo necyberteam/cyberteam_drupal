@@ -44,7 +44,9 @@ Feature: verify specific links on homepage
 
     When I am on the homepage
     And I follow "RMACC"
-    # TODO - broken
+    # TODO - broken on github with error:  
+    # ╳  Unable to complete AJAX request. {"name":"step.after","feature":"verify specific links on homepage","step":"I follow \"RMACC\"","suite":"default"} (RuntimeException)
+    # └─ @AfterStep # Drupal\DrupalExtension\Context\MinkContext::afterJavascriptStep()
     # Then I should be on "c/communities/rmacc/65"
 
     When I am on the homepage
