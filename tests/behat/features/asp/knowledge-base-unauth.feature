@@ -98,20 +98,21 @@ Feature: test ACCESS Support knowledge base
   Scenario: Unauthenticated user tests the Affinity Groups section on knowledge base page
     Given I am not logged in
     When I go to "/knowledge-base"
-    And I wait for the page to be loaded
+    And I wait 4 seconds
+
     Then I should see "Affinity Groups"
     Then I should see "Joining ACCESS Resource Provider Affinity Groups (AGs) will add"
     #TODO Alt text not working?
     #Then I should see "ACCESS RP Integration graphic"
 
     # TODO - following not working on github - also looks like css is broken
-    # Then I should see "ACCESS RP Integration"
-    # Then I should see "ACCESS RPs and ACCESS RP Coordinator space for"
-    # Then I should see "High Performance Visualization"
-    # Then I should see "This affinity group will work to strengthen understanding and"
-    # Then I should see "ACCESS Support"
+    Then I should see "ACCESS RP Integration"
+    Then I should see "ACCESS RPs and ACCESS RP Coordinator space for"
+    Then I should see "High Performance Visualization"
+    Then I should see "This affinity group will work to strengthen understanding and"
+    Then I should see "ACCESS Support"
     # TODO - not showing up in automated testing
-    # Then I should see "Become an ACCESS Support insider by joining our affinity"
+    Then I should see "Become an ACCESS Support insider by joining our affinity"
     # When I click "All Affinity Groups"
     # Then I should be on "/affinity_groups"
     # When I go to "/knowledge-base"
