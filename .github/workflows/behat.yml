@@ -71,8 +71,7 @@ jobs:
           lando drush cr
           cd ..
           #todo: Grab files later here
-          mkdir web/sites/default/files
-          chmod 777 web/sites/default/files
+          vendor/bin/blt gh:pullfiles
           echo "#! /bin/bash
           if [[ '$database' != '' ]]
           then
@@ -81,6 +80,7 @@ jobs:
           chmod u+x clean_db.sh
           ./clean_db.sh
           rm clean_db.sh
+          cd web/themes/custom/accesstheme && lando npm install && lando npm run build:sass
           git branch
         env:
           database: ${{ github.event.inputs.database }}
@@ -129,5 +129,5 @@ jobs:
           file_path: 'tests/behat/screenshots/*.png'
           file_type: 'images'
           initial_comment: 'Files found in tests/behat/screenshots, for help in diagnosing behat failures'
-         
+
 
