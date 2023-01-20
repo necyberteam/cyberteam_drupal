@@ -7,6 +7,7 @@ Feature: test ACCESS Support Community Page
 
   Scenario: Unauthenticated user tests the Community Page
     Given I am not logged in
+    When I go to "/cssn"
     When I wait 4 seconds
     And I wait for the page to be loaded
     Then I should see "Engage with other researchers"
