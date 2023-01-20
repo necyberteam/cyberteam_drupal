@@ -117,10 +117,10 @@ Feature: test individual tags page
     When I go to "tags/login"
     Then I should see "test-project-title"
     When I follow "test-project-title"
-    And I wait for the page to be loaded
+    And I wait 2 seconds
     Then I should see "test project description"
     When I go to "tags/password"
-    And I wait for the page to be loaded
+    And I wait 2 seconds
     Then I should see "test-project-title"
 
 
