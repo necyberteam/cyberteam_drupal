@@ -15,6 +15,7 @@ Feature: test for the affinity groups page
     Then I should see "Join"
     Then I should see "Request An Affinity Group"
     When I go to "/affinity-groups/cloud-computing"
+    And I wait for the page to be loaded
     Then I should see "Members get updates"
     Then I should see "Cloud Computing"
     Then I should see "cloud-commercial"
