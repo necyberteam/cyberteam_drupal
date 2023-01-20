@@ -184,11 +184,11 @@ class FeatureContext extends RawDrupalContext
      * For example: NECT has this:
      *      <img src="/themes/nect-theme/logo.png" class="logo" alt="Northeast Cyberteam">
      * and the following checks for it:
-     *      Then any images with selector ".logo" should load
+     *      Then all images with selector ".logo" should load
      * Another example, checking all images at a selector:  
-     *      And any images with selector ".view-affinity-group img" should load    
+     *      And all images with selector ".view-affinity-group img" should load    
 
-     * @When any images with selector :selector should load
+     * @When all images with selector :selector should load
      */
     public function imageAtSelectorShouldLoad($selector)
     {
@@ -223,9 +223,9 @@ class FeatureContext extends RawDrupalContext
      * For example: NECT has this:
      *      <img src="/themes/nect-theme/logo.png" class="logo" alt="Northeast Cyberteam">
      * and the following checks for it:
-     *      Then any images with selector ".logo" should have alt text
+     *      Then all images with selector ".logo" should have alt text
 
-     * @When any images with selector :selector should have alt text
+     * @When all images with selector :selector should have alt text
      */
     public function imageAtSelectorHasAltText($selector)
     {
