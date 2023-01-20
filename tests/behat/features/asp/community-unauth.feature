@@ -8,6 +8,7 @@ Feature: test ACCESS Support Community Page
   Scenario: Unauthenticated user tests the Community Page
     Given I am not logged in
     When I go to "/cssn"
+    And I wait for the page to be loaded
     Then I should see "Engage with other researchers"
     Then I should see "Computational Science & Support Network"
     Then I should see "Collaborate with the CSSN Community"
