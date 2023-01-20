@@ -115,6 +115,7 @@ Feature: test individual tags page
 
     Given I am logged in as a user with the "authenticated" role
     When I go to "tags/login"
+    And I wait 2 seconds
     Then I should see "test-project-title"
     When I follow "test-project-title"
     And I wait 2 seconds
