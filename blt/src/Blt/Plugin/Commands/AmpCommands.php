@@ -54,11 +54,11 @@ GITHUB_TOKEN=$token'>.env");
    * @description Start lando and set GITHUB_TOKEN.
    */
   public function start() {
-    $this->_exec("lando start");
+    $this->_exec($this->lando() . " start");
     if (getenv('GITHUB_TOKEN')) {
       $this->say("❗️ Setting GITHUB_TOKEN token. ❗️");
       $this->_exec("composer config -g github-oauth.github.com $(printenv GITHUB_TOKEN)");
-      $this->_exec("lando composer config -g github-oauth.github.com $(printenv GITHUB_TOKEN)");
+      $this->_exec($this->lando() . " composer config -g github-oauth.github.com $(printenv GITHUB_TOKEN)");
     } else {
       $this->say("❗️ GITHUB_TOKEN not set. ❗️");
     }
@@ -72,14 +72,25 @@ GITHUB_TOKEN=$token'>.env");
    */
   public function behat(array $args) {
 
-    // set following to true to see a dry-run of this script,
-    // with no actual copying or running of tests
-    $dry_run = false;
+    $this->say(print_r($args, true));
+
+
 
     // to make testing faster, skip the drush commands (useful during development)
     // to enable this, in the shell, do "export BEHAT_NO_DRUSH=true"
     // to disable this, in the shell, do "export BEHAT_NO_DRUSH=false"
-    $no_drush_cmds = strcasecmp(getenv("BEHAT_NO_DRUSH"), 'TRUE') == 0;
+    // or put "no-drush" as an argument on commandline.  
+    $no_drush_cmds = array_search("no-drush", $args);
+    if ($no_drush_cmds !== false) {
+      unset($args[$no_drush_cmds]);
+      $no_drush_cmds = true;
+    }
+
+    $no_drush_cmds |= strcasecmp(getenv("BEHAT_NO_DRUSH"), 'TRUE') == 0;
+
+    // set following to true to see a dry-run of this script,
+    // with no actual copying or running of tests
+    $dry_run = false;
 
     // special handling for the 'wip_template' directory -- we want to run
     // all the tests in this directory on all the domains but save time by
@@ -88,7 +99,7 @@ GITHUB_TOKEN=$token'>.env");
 
     if ($args) {
       $domains = $args;
-      $wip_template = $domains[0] == 'wip_template';
+      $wip_template = array_search('wip_template', $args) !== false;
     }
 
     if (!$args || $wip_template) {
@@ -115,7 +126,7 @@ GITHUB_TOKEN=$token'>.env");
     $this->say("Copying template tests to these domains:  " . implode(', ', $domains));
 
     if ($no_drush_cmds) {
-      $this->say("NOTE: drush commands being skipped because env variable BEHAT_NO_DRUSH is true");
+      $this->say("NOTE: drush commands being skipped.");
     }
 
     $lando = $this->lando() == 'lando '? "lando ssh -c \"(":"(";
@@ -131,7 +142,7 @@ GITHUB_TOKEN=$token'>.env");
       // OR, if $wip_template is true, copy from the wip_template directory instead of the templates directory
 
       // if domain is one of the following, don't copy the templates
-      $exceptions_to_template_copies = array('templates', 'wip', 'Jasper', 'Hannah');
+      $exceptions_to_template_copies = array('templates', 'wip', 'Jasper', 'Hannah', 'asp');
       $copy_templates = !in_array($domain, $exceptions_to_template_copies);
 
 

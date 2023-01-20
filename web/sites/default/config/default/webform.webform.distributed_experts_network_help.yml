@@ -1,33 +1,41 @@
-uuid: 003683fe-c9c8-48f3-9e34-f70ceadc25fd
+uuid: 92195529-a959-42a7-ab5b-97ac672d1e0b
 langcode: en
 status: open
 dependencies: {  }
 weight: 0
 open: null
 close: null
-uid: 1986
+uid: 1
 template: false
 archive: false
-id: join_the_cssn_network
-title: 'Join the CSSN Network'
+id: distributed_experts_network_help
+title: 'Distributed Experts Network Help Request Form'
 description: ''
 category: ''
 elements: |-
-  markup:
-    '#type': webform_markup
-    '#markup': |-
-      <h3>
-        Become a CSSN Member
-      </h3>
-  i_am_joining_as_a_:
-    '#type': checkboxes
-    '#title': 'I am joining as a:'
-    '#options':
-      'General Member': 'General Member -- Contribute to the research computing community'
-      'MATCHPlus Mentor': 'MATCHPlus Mentor -- Work with students to develop appropriate solutions'
-      Student-Facilitator: |
-        Student-Facilitator -- Work with a MATCHPlus Mentor to implement solutions
-      'Premier Consultant': 'Premier Consultant -- Work as a paid consultant for MATCHPremier engagements'
+  name:
+    '#type': textfield
+    '#title': Name
+  email:
+    '#type': textfield
+    '#title': Email
+  institution:
+    '#type': textfield
+    '#title': Institution
+    '#placeholder': 'Enter your institution name to lookup your Carnegie Request Form'
+  my_institution_wasn_t_listed:
+    '#type': checkbox
+    '#title': 'My institution wasn’t listed'
+  please_provide_a_brief_description_of_your_computational_challen:
+    '#type': textarea
+    '#title': 'Please provide a brief description of your computational challenge.'
+  what_have_you_tried_so_far_to_solve_this_challenge_:
+    '#type': textarea
+    '#title': 'What have you tried so far to solve this challenge?'
+  actions:
+    '#type': webform_actions
+    '#title': 'Submit button(s)'
+    '#submit__label': 'Request Help'
 css: ''
 javascript: ''
 settings:
@@ -40,12 +48,12 @@ settings:
   page_submit_path: ''
   page_confirm_path: ''
   page_theme_name: ''
-  form_title: source_entity_webform
+  form_title: both
   form_submit_once: false
   form_open_message: ''
   form_close_message: ''
   form_exception_message: ''
-  form_previous_submissions: false
+  form_previous_submissions: true
   form_confidential: false
   form_confidential_message: ''
   form_disable_remote_addr: false
@@ -64,9 +72,9 @@ settings:
   form_autofocus: false
   form_details_toggle: false
   form_reset: false
-  form_access_denied: login
+  form_access_denied: default
   form_access_denied_title: ''
-  form_access_denied_message: 'Please login to or create an account to join the CSSN Network'
+  form_access_denied_message: ''
   form_access_denied_attributes: {  }
   form_file_limit: ''
   form_attributes: {  }
@@ -112,7 +120,7 @@ settings:
   wizard_track: ''
   wizard_prev_button_label: ''
   wizard_next_button_label: ''
-  wizard_toggle: true
+  wizard_toggle: false
   wizard_toggle_show_label: ''
   wizard_toggle_hide_label: ''
   preview: 0
@@ -130,10 +138,10 @@ settings:
   draft_loaded_message: ''
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
-  confirmation_type: url_message
-  confirmation_url: /cssn
+  confirmation_type: page
+  confirmation_url: ''
   confirmation_title: ''
-  confirmation_message: 'Thank you for joining the CSSN.'
+  confirmation_message: ''
   confirmation_attributes: {  }
   confirmation_back: true
   confirmation_back_label: ''
@@ -165,6 +173,7 @@ settings:
 access:
   create:
     roles:
+      - anonymous
       - authenticated
     users: {  }
     permissions: {  }
@@ -208,42 +217,5 @@ access:
     roles: {  }
     users: {  }
     permissions: {  }
-handlers:
-  join_the_network_email:
-    id: email
-    handler_id: join_the_network_email
-    label: 'join the network email'
-    notes: ''
-    status: true
-    conditions: {  }
-    weight: 0
-    settings:
-      states:
-        - completed
-      to_mail: '[webform_role:match_pm]'
-      to_options: {  }
-      bcc_mail: ''
-      bcc_options: {  }
-      cc_mail: ''
-      cc_options: {  }
-      from_mail: _default
-      from_options: {  }
-      from_name: _default
-      reply_to: ''
-      return_path: ''
-      sender_mail: ''
-      sender_name: ''
-      subject: 'Join the CSSN Submission'
-      body: _default
-      excluded_elements: {  }
-      ignore_access: false
-      exclude_empty: true
-      exclude_empty_checkbox: false
-      exclude_attachments: false
-      html: true
-      attachments: false
-      twig: false
-      theme_name: ''
-      parameters: {  }
-      debug: false
+handlers: {  }
 variants: {  }

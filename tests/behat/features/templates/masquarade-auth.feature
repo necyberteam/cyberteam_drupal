@@ -2,7 +2,7 @@
 @api
 @javascript
 
-Feature: test for the admin user to test the domain 
+Feature: test for the admin user to test the domain
 
   Scenario: User test the domain page as an administrator role
     Given I am logged in as a user with the "administrator" role
@@ -29,6 +29,7 @@ Feature: test for the admin user to test the domain
    When I click "Add new resource"
    Then I should see "Approved"
    When I go to "/blog"
+   And I wait 4 seconds
    Then I should see "Project Blog"
    Then I should see "Regional Blog"
    Then I should see "Read More"
@@ -61,4 +62,3 @@ Feature: test for the admin user to test the domain
 
 
 
-   

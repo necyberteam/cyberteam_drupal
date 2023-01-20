@@ -2,7 +2,7 @@
 @api
 @javascript
 
-Feature: test people page Card view w/ filters
+Feature: test people page Card view w/ filters 
   In order to test the people page from Card View
 
   Scenario: Authenticated user tests the people page in Card View and filters
@@ -27,7 +27,7 @@ Feature: test people page Card view w/ filters
     When I fill in "Search the people database" with "julie"
     And I wait 4 seconds
     Then I should see "Julie Ma"
-
+ 
 
 
     When I fill in "Search the people database" with "Northeast"
@@ -59,4 +59,5 @@ Feature: test people page Card view w/ filters
 
     When I fill in "edit-roles-target-id--2" with "Student-facilitator"
     And I wait 10 seconds
-    Then I should see "Student-facilitator"
+    Then I should see "Student-facilitator" 
+    
