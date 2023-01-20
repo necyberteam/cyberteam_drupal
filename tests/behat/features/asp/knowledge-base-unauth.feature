@@ -101,7 +101,7 @@ Feature: test ACCESS Support knowledge base
     Then I should see "Affinity Groups"
     And I should see "Joining ACCESS Resource Provider Affinity Groups (AGs) will add"
     # TODO -- maybe update to "should have alt text" after hannah reviews images
-    And any images with selector ".view-affinity-group img" should load    
+    And all images with selector ".view-affinity-group img" should load    
     When I click "All Affinity Groups"
     Then I should be on "/affinity_groups"
     
