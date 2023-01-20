@@ -28,6 +28,7 @@ Feature: test for the affinity groups page as an authenticated user
     Then I should see "Github Organization"
     Then I should see "Email List"
     When I go to "/affinity-groups/cloud-computing"
+    And I wait for the page to be loaded
     Then I should see "Join"
     When I click "Join"
     Then I should see "Joined"
