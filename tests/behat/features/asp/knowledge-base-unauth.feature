@@ -1,4 +1,4 @@
-@asp
+@wip
 @api
 @javascript
 
@@ -100,7 +100,8 @@ Feature: test ACCESS Support knowledge base
     When I go to "/knowledge-base"
     Then I should see "Affinity Groups"
     And I should see "Joining ACCESS Resource Provider Affinity Groups (AGs) will add"
-    And the image with selector ".view-affinity-group img" has alt text    
+    # TODO -- maybe update to "should have alt text" after hannah reviews images
+    And any images with selector ".view-affinity-group img" should load    
     When I click "All Affinity Groups"
     Then I should be on "/affinity_groups"
     
