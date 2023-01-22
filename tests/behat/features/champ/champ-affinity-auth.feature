@@ -33,6 +33,7 @@ Feature: test for the affinity groups page as an authenticated user
     When I click "Join"
     Then I should see "Joined"
     When I click "Leave"
+    And I wait 4 seconds
     Then I should see "Join"
     Then I should see "Slack"
     Then I should see "Q&A"
