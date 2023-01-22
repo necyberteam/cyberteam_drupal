@@ -17,6 +17,7 @@ Feature: test ACCESS Support Affinty Groups Page
     Then I should see "ACCESS Facilitators"
     Then I should see "People who use or support people"
     When I am on "/affinity_groups"
+    And I wait 4 seconds
     When I follow "research-facilitation"
     And I wait 4 seconds
     Then I should be on "/tags/research-facilitation"
