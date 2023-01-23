@@ -31,6 +31,7 @@ Feature: test for the affinity groups page as an authenticated user
     And I wait 4 seconds
     Then I should see "Join"
     When I click "Join"
+    And I wait 4 seconds
     Then I should see "Joined"
     When I click "Leave"
     And I wait 4 seconds
