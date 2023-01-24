@@ -26,6 +26,10 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
             $form['elements']['user_email']['#attributes'] = array('readonly' => 'readonly');
         }
 
+    if ($form_id == 'webform_submission_distributed_experts_network_help') {
+        $form['elements']['institution']['#autocomplete_route_name'] = 'campuschampions.autocomplete';
+        }
+
         $form['elements']['carnegie_classification']['#autocomplete_route_name'] = 'campuschampions.autocomplete';
 
         // Reorder form
