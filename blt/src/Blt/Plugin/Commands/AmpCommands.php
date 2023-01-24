@@ -166,7 +166,6 @@ GITHUB_TOKEN=$token'>.env");
       // but don't copy template tests to domains on the exceptions list
       $copy_templates = !in_array($domain, $exceptions_to_template_copies);
 
-
       // it is sometimes useful to turn the following off, to
       // allow much more rapid testing of specific tests
       //

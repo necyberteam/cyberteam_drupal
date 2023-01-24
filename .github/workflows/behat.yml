@@ -6,6 +6,9 @@ on:
       database:
         description: 'Recent database dump to use (leave blank to use artifact)'
       sites:
+        description: 'Specify which sites to test or leave the default to run all tests.'
+        default: 'cci, asp, champ, coco, usrse, careers, gpc, ky, nect'
+        required: true
       prnum:
         description: 'Pull request number — adds a comment to a pull request (nomally empty)'
 permissions:
@@ -102,6 +105,26 @@ jobs:
         if: ${{ contains(github.event.inputs.sites, 'nect') }}
         run: |
           vendor/bin/blt amp:behat nect
+      - name: Run cci test
+        if: ${{ contains(github.event.inputs.sites, 'cci') }}
+        run: |
+          vendor/bin/blt amp:behat cci
+      - name: Run asp test
+        if: ${{ contains(github.event.inputs.sites, 'asp') }}
+        run: |
+          vendor/bin/blt amp:behat asp
+      - name: Run champ test
+        if: ${{ contains(github.event.inputs.sites, 'champ') }}
+        run: |
+          vendor/bin/blt amp:behat champ
+      - name: Run coco test
+        if: ${{ contains(github.event.inputs.sites, 'coco') }}
+        run: |
+          vendor/bin/blt amp:behat coco
+      - name: Run urse test
+        if: ${{ contains(github.event.inputs.sites, 'urse') }}
+        run: |
+          vendor/bin/blt amp:behat urse
       - name: Comment on pull request
         if: "${{ github.event.inputs.prnum != '' }}"
         run: |
