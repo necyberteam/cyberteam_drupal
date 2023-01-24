@@ -138,10 +138,10 @@ GITHUB_TOKEN=$token'>.env");
 
     // if domain is one of the following, don't copy the templates
     $exceptions_to_template_copies = array(
-      'templates', 
-      'wip', 
-      'Jasper', 
-      'Hannah', 
+      'templates',
+      'wip',
+      'Jasper',
+      'Hannah',
       'Mackenzie',
       'asp',
       'cci',
