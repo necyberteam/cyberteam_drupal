@@ -34,6 +34,7 @@ Feature: test for the admin user to test the domain
    Then I should see "Regional Blog"
    Then I should see "Read More"
    When I click "Read More"
+   And I wait 4 seconds
    Then I should see "Add New Comment"
    Then I should see "Text format"
    When I fill in "Subject" with "Test"
