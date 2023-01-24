@@ -27,6 +27,7 @@ Feature: test individual people page
     #When I follow "Portal Development"
     #Then I should be on "/project/63"
     When I am on "/user/julie-ma"
+    And I wait 2 seconds
     #Projects section does not show in testing
     #Then I should not see "Projects"
     Then I should not see "HPC Experience"
