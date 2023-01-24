@@ -13,19 +13,34 @@ title: 'Distributed Experts Network Help Request Form'
 description: ''
 category: ''
 elements: |-
-  name:
-    '#type': textfield
-    '#title': Name
-  email:
-    '#type': textfield
-    '#title': Email
   institution:
     '#type': textfield
-    '#title': Institution
-    '#placeholder': 'Enter your institution name to lookup your Carnegie Request Form'
+    '#title': 'Institution Name'
+    '#placeholder': 'Enter your institution name to lookup your Carnegie Code'
   my_institution_wasn_t_listed:
     '#type': checkbox
     '#title': 'My institution wasn’t listed'
+    '#access_create_roles':
+      - authenticated
+  institution_info:
+    '#type': webform_section
+    '#title': Institution
+    '#states':
+      visible:
+        ':input[name="my_institution_wasn_t_listed"]':
+          checked: true
+    name_of_institution:
+      '#type': textfield
+      '#title': 'Name of Institution'
+    state_province:
+      '#type': webform_address
+      '#title': Address
+      '#address__required': true
+      '#address_2__required': true
+      '#city__required': true
+      '#state_province__required': true
+      '#postal_code__required': true
+      '#country__required': true
   please_provide_a_brief_description_of_your_computational_challen:
     '#type': textarea
     '#title': 'Please provide a brief description of your computational challenge.'
@@ -173,7 +188,6 @@ settings:
 access:
   create:
     roles:
-      - anonymous
       - authenticated
     users: {  }
     permissions: {  }
