@@ -77,7 +77,7 @@ GITHUB_TOKEN=$token'>.env");
     // to make testing faster, skip the drush commands (useful during development)
     // to enable this, in the shell, do "export BEHAT_NO_DRUSH=true"
     // to disable this, in the shell, do "export BEHAT_NO_DRUSH=false"
-    // or put "no-drush" as an argument on commandline.  
+    // or put "no-drush" as an argument on commandline.
     $no_drush_cmds = array_search("no-drush", $args);
     if ($no_drush_cmds !== false) {
       // remove this argument from the args array because $args is used
