@@ -71,15 +71,12 @@ GITHUB_TOKEN=$token'>.env");
    * @description Run behat.
    */
   public function behat(array $args) {
-
     $this->say(print_r($args, true));
-
-
 
     // to make testing faster, skip the drush commands (useful during development)
     // to enable this, in the shell, do "export BEHAT_NO_DRUSH=true"
     // to disable this, in the shell, do "export BEHAT_NO_DRUSH=false"
-    // or put "no-drush" as an argument on commandline.  
+    // or put "no-drush" as an argument on commandline.
     $no_drush_cmds = array_search("no-drush", $args);
     if ($no_drush_cmds !== false) {
       unset($args[$no_drush_cmds]);

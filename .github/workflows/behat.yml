@@ -6,7 +6,9 @@ on:
       database:
         description: 'Recent database dump to use (leave blank to use artifact)'
       sites:
-        description: 'Specify which sites to test or leave blank to run all tests'
+        description: 'Specify which sites to test or leave the default to run all tests.'
+        default: 'careers, gpc, ky, nect'
+        required: true
       prnum:
         description: 'Pull request number — adds a comment to a pull request (nomally empty)'
 permissions:
@@ -86,11 +88,22 @@ jobs:
           database: ${{ github.event.inputs.database }}
           drupal_update: ${{ github.event.inputs.drupal_update }}
           gh_token: ${{ secrets.GH_TOKEN_REPO }}
-      - name: Run them tests
+      - name: Run careers test
+        if: ${{ contains(github.event.inputs.sites, 'careers') }}
         run: |
-          vendor/bin/blt amp:behat $sites
-        env:
-          sites: ${{ github.event.inputs.sites }}
+          vendor/bin/blt amp:behat careers
+      - name: Run gpc test
+        if: ${{ contains(github.event.inputs.sites, 'gpc') }}
+        run: |
+          vendor/bin/blt amp:behat gpc
+      - name: Run ky test
+        if: ${{ contains(github.event.inputs.sites, 'ky') }}
+        run: |
+          vendor/bin/blt amp:behat ky
+      - name: Run nect test
+        if: ${{ contains(github.event.inputs.sites, 'nect') }}
+        run: |
+          vendor/bin/blt amp:behat nect
       - name: Comment on pull request
         if: "${{ github.event.inputs.prnum != '' }}"
         run: |
