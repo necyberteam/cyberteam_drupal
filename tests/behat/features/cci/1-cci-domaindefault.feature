@@ -12,6 +12,7 @@ Feature: test cci domain
     When I go to "admin/config/domain/edit/connectcidev_wpi_edu"
     When I check "Default domain"
     When I fill in "Hostname" with "cyberteam.lndo.site"
+    And I wait 2 seconds
     When I press "Save"
     Given the cache has been cleared
     When I am on the homepage
