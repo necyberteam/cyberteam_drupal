@@ -3,11 +3,11 @@
 @javascript
 
 Feature: verify specific links on homepage
-    
+
   Scenario: Verify the main logo goes to home page
     Given I am not logged in
     When I am on the homepage
-    When I follow "Connect CI" 
+    When I follow "Connect CI"
     Then I should be on the homepage
 
   Scenario: Verify the main page has expected content
@@ -27,7 +27,7 @@ Feature: verify specific links on homepage
     And I should see "Affinity Groups"
 
     When I am on the homepage
-    And I follow "CAREERS Cyberteam" 
+    And I follow "CAREERS Cyberteam"
     Then I should be on "https://careers-ct.cyberinfrastructure.org/"
 
     When I am on the homepage
@@ -64,6 +64,11 @@ Feature: verify specific links on homepage
     # And I follow "TRECIS Cyberteam"
     # Then I should be on "https://ask.cyberinfrastructure.org/c/cyberteams/trecis/60"
 
+    # TODO - broken
+    # When I am on the homepage
+    # And I follow "TRECIS Cyberteam"
+    # Then I should be on "https://ask.cyberinfrastructure.org/c/cyberteams/trecis/60"
+
     When I am on the homepage
     And I wait for the page to be loaded
     And I follow "MINES Research Computing"
@@ -73,16 +78,16 @@ Feature: verify specific links on homepage
     When I am on the homepage
     And I follow "Campus Champions Region 1"
     Then I should be on "affinity-groups/campus-champions-region-1"
-    
+
     When I am on the homepage
     And I follow "Anvil"
     Then I should be on "affinity-groups/anvil"
     And I should see "Purdue University is the home of Anvil"
-    
+
   Scenario: Authenticated Verify the main logo goes to home page
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
-    When I follow "Connect CI" 
+    When I follow "Connect CI"
     Then I should be on the homepage
 
   # TODO - currently broken - see D8-1014
@@ -100,4 +105,3 @@ Feature: verify specific links on homepage
   #  When I follow "Contact Us"
   #  Then I should be on "contact/connect_ci"
   #  And I should see "Welcome to Connect Cyberinfrastructure"
-    
