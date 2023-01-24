@@ -142,7 +142,6 @@ GITHUB_TOKEN=$token'>.env");
       $exceptions_to_template_copies = array('templates', 'wip', 'Jasper', 'Hannah', 'asp');
       $copy_templates = !in_array($domain, $exceptions_to_template_copies);
 
-
       // it is sometimes useful to turn the following off, to
       // allow much more rapid testing of specific tests
       //
