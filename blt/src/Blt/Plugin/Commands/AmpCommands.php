@@ -119,18 +119,19 @@ GITHUB_TOKEN=$token'>.env");
     if (!$args || $wip_template) {
       // make copies of the tests to these domains:  ky, gp, careers, nect
       $domains = [
-        'careers',
-        'gpc',
-        'ky',
-        'nect',
         // these domains are sufficiently different that the template tests
         // should *not* be copied to them
-        'asp',
         'cci',
+        'asp',
         'champ',
         'coco',
         // 'rmacc',  // no such testing folder
         'usrse',
+        // these domains get all the templated tests copied to them
+        'careers',
+        'gpc',
+        'ky',
+        'nect',
       ];
     }
 
