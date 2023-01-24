@@ -71,15 +71,12 @@ GITHUB_TOKEN=$token'>.env");
    * @description Run behat.
    */
   public function behat(array $args) {
-
     $this->say(print_r($args, true));
-
-
 
     // to make testing faster, skip the drush commands (useful during development)
     // to enable this, in the shell, do "export BEHAT_NO_DRUSH=true"
     // to disable this, in the shell, do "export BEHAT_NO_DRUSH=false"
-    // or put "no-drush" as an argument on commandline.  
+    // or put "no-drush" as an argument on commandline.
     $no_drush_cmds = array_search("no-drush", $args);
     if ($no_drush_cmds !== false) {
       unset($args[$no_drush_cmds]);
@@ -144,7 +141,6 @@ GITHUB_TOKEN=$token'>.env");
       // if domain is one of the following, don't copy the templates
       $exceptions_to_template_copies = array('templates', 'wip', 'Jasper', 'Hannah', 'asp');
       $copy_templates = !in_array($domain, $exceptions_to_template_copies);
-
 
       // it is sometimes useful to turn the following off, to
       // allow much more rapid testing of specific tests
