@@ -25,7 +25,7 @@ Feature: test ACCESS Support Homepage
     Then I should see "Create a Ticket"
     #TEST image
     Then I should see "MATCH Research Support"
-    Then I should see "Longer term support engagement with expert consultants help you focus on your research and move science forward."
+    Then I should see "Longer term support engagements with expert consultants help you focus on your research and move science forward."
     #TEST Image
     Then I should see "MATCHPLUS"
     Then I should see "Short-term Support Partnerships"
