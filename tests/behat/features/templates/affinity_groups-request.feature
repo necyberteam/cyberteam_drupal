@@ -15,7 +15,7 @@ Feature: test affinity group request form
     And I should see "Affinity Group Name"
     And I should see "Affinity Group Image"
     And I should see "Coordinators"
-    And I should see "Type a few letters in the name and then select from the list of names presented
+    And I should see "Type a few letters in the name and then select from the list of names presented"
     And I should see "Tags"
     And I should see "Select one (or more) related CiDeR resources"
     And I should see "Short Description"
