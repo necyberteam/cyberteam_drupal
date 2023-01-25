@@ -49,6 +49,7 @@ then
   tar -xzvf files.tar.gz
   rm -fR files_live/php/twig/*
   rm -fR files_live/private/20*
+  rm -fR files_live/private/.keys
   rm -fR files_live/private/styles/*
   rm -fR files_live/private/webform/*
 fi
