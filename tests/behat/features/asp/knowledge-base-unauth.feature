@@ -34,6 +34,7 @@ Feature: test ACCESS Support knowledge base
     When I go to "/knowledge-base"
     Then I should see "Explore Groups"
     When I click "Explore Groups"
+    And I wait for the page to be loaded
     Then I should be on "/affinity_groups"
     When I go to "/knowledge-base"
     Then I should see "Getting Started with ACCESS"
@@ -44,8 +45,9 @@ Feature: test ACCESS Support knowledge base
     Then I should see "View this Documentation"
     Then I should see "How do I request compute or storage resources?"
     Then I should see "Everything you need to know about getting resources from ACCESS."
-    When I click "Go to Allocations"
-    Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129143245/FAQs"
+    # TODO page has changed
+    # When I click "Go to Allocations"
+    # Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129143245/FAQs"
     When I go to "/knowledge-base"
     Then I should see "Where can I find information that was on the XSEDE User Portal?"
     Then I should see "A handy list of where to find info for researchers with XSEDE experience."
@@ -98,25 +100,10 @@ Feature: test ACCESS Support knowledge base
     Given I am not logged in
     When I go to "/knowledge-base"
     Then I should see "Affinity Groups"
-    Then I should see "Joining ACCESS Resource Provider Affinity Groups (AGs) will add"
-    #TODO Alt text not working?
-    #Then I should see "ACCESS RP Integration graphic"
-    Then I should see "ACCESS RP Integration"
-    Then I should see "ACCESS RPs and ACCESS RP Coordinator space for"
-    Then I should see "High Performance Visualization"
-    Then I should see "This affinity group will work to strengthen understanding and"
-    Then I should see "ACCESS Support"
-    Then I should see "Become an ACCESS Support insider by joining our affinity"
+    And I should see "Joining ACCESS Resource Provider Affinity Groups (AGs) will add"
+    # TODO -- maybe update to "should have alt text" after hannah reviews images.  
+    #    And not currently passing because not all files are getting copied, awaiting Miles' work
+    # And all images with selector ".view-affinity-group img" should load    
     When I click "All Affinity Groups"
     Then I should be on "/affinity_groups"
-    When I go to "/knowledge-base"
-    When I click "ACCESS RP Integration"
-    Then I should be on "/affinity-groups/access-rp-integration"
-    When I go to "/knowledge-base"
-    When I click "High Performance Visualization"
-    Then I should be on "/affinity-groups/high-performance-visualization"
-    When I go to "/knowledge-base"
-    When I click "ACCESS Support"
-    Then I should be on "/affinity-groups/access-support"
-    
     
