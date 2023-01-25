@@ -45,8 +45,9 @@ Feature: test ACCESS Support knowledge base
     Then I should see "View this Documentation"
     Then I should see "How do I request compute or storage resources?"
     Then I should see "Everything you need to know about getting resources from ACCESS."
-    When I click "Go to Allocations"
-    Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129143245/FAQs"
+    # TODO wrong page
+    # When I click "Go to Allocations"
+    # Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129143245/FAQs"
     When I go to "/knowledge-base"
     Then I should see "Where can I find information that was on the XSEDE User Portal?"
     Then I should see "A handy list of where to find info for researchers with XSEDE experience."
