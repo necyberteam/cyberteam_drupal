@@ -16,5 +16,6 @@ Feature: test cci domain
     Given the cache has been cleared
     When I am on the homepage
     Then I should get a "200" HTTP response
+    And I wait 3 seconds
     Then I should see "Connect.Cybinfrastructure is a family of portals"
 
