@@ -74,8 +74,6 @@ GITHUB_TOKEN=$token'>.env");
 
     $this->say("------------------ BEHAT TESTING ------------------------");
 
-    $this->say("------------------ BEHAT TESTING ------------------------");
-
     // to make testing faster, skip the drush commands (useful during development)
     // to enable this, in the shell, do "export BEHAT_NO_DRUSH=true"
     // to disable this, in the shell, do "export BEHAT_NO_DRUSH=false"
@@ -95,6 +93,7 @@ GITHUB_TOKEN=$token'>.env");
 
     // set following to true to see a dry-run of this script,
     // with no actual copying or running of tests
+    // or put "dry-run" as an argument on commandline.
     $dry_run = array_search("dry-run", $args);
     if ($dry_run !== false) {
       // remove this argument from the args array because $args is used
