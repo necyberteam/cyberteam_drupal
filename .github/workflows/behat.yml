@@ -123,7 +123,7 @@ jobs:
       - name: Run urse test
         if: ${{ contains(github.event.inputs.sites, 'urse') }}
         run: |
-          vendor/bin/blt amp:behat urse
+          vendor/bin/blt amp:behat usrse
       - name: Comment on pull request
         if: "${{ github.event.inputs.prnum != '' }}"
         run: |
