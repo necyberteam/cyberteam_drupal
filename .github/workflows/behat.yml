@@ -120,10 +120,10 @@ jobs:
         if: ${{ contains(github.event.inputs.sites, 'coco') }}
         run: |
           vendor/bin/blt amp:behat coco
-      - name: Run urse test
-        if: ${{ contains(github.event.inputs.sites, 'urse') }}
+      - name: Run usrse test
+        if: ${{ contains(github.event.inputs.sites, 'usrse') }}
         run: |
-          vendor/bin/blt amp:behat urse
+          vendor/bin/blt amp:behat usrse
       - name: Comment on pull request
         if: "${{ github.event.inputs.prnum != '' }}"
         run: |

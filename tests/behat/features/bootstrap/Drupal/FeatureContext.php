@@ -178,72 +178,81 @@ class FeatureContext extends RawDrupalContext
 
 
     /**
-     * Look for an element with the specified class selector.
-     * Check it has a single img element and that the resource can load and has
-     * mime type image
+     * Look for element(s) with the specified class selector.
+     * Check their img element(s) can load and have mime type image.
      *
      * For example: NECT has this:
      *      <img src="/themes/nect-theme/logo.png" class="logo" alt="Northeast Cyberteam">
      * and the following checks for it:
-     *      Then the image with selector ".logo" should load
+     *      Then all images with selector ".logo" should load
+     * Another example, checking all images at a selector:  
+     *      And all images with selector ".view-affinity-group img" should load    
 
-     * @When The image with selector :selector should load
+     * @When all images with selector :selector should load
      */
     public function imageAtSelectorShouldLoad($selector)
     {
         $page = $this->getSession()->getPage();
 
         $all = $page->findAll('css', $selector);
-        $selCnt = count($all);
-        if ($selCnt != 1) {
-            throw new \Exception("Found $selCnt selectors named '$selector', but expected one");
+        if (count($all) == 0) {
+            throw new \Exception("Found no elements with selector '$selector'");
         }
 
-        $images = $all[0]->findAll('css', 'img');
-        $imgCnt = count($images);
-        if ($imgCnt != 1) {
-            throw new \Exception("Found $imgCnt images, but expected one.");
-        }
+        foreach($all as $elem_key => $ele_value) {
 
-        $url = $images[0]->getAttribute('src');
-        $this->verifyImageLoads($url);
+            $images = $ele_value->findAll('css', 'img');
+            if (count($images) == 0) {
+                throw new \Exception("Found no images for element #$elem_key with selector '$selector'");
+            }
+
+            foreach($images as $image_key => $image_value) {
+
+                $url = $image_value->getAttribute('src');
+    
+                $this->verifyImageLoads($url);
+            }
+        }
     }
 
     /**
 
-     * Look for an element with the specified class selector.
-     * Check it has a single img element and that the resource can load and has
-     * mime type image and has alt text
+     * Look for element(s) with the specified class selector.
+     * Check their img element(s) can load and have mime type image and have alt text.
      * 
      * For example: NECT has this:
      *      <img src="/themes/nect-theme/logo.png" class="logo" alt="Northeast Cyberteam">
      * and the following checks for it:
-     *      Then the image with selector ".logo" has alt text
+     *      Then all images with selector ".logo" should have alt text
 
-     * @When The image with selector :selector has alt text
+     * @When all images with selector :selector should have alt text
      */
     public function imageAtSelectorHasAltText($selector)
     {
         $page = $this->getSession()->getPage();
 
         $all = $page->findAll('css', $selector);
-        $selCnt = count($all);
-        if ($selCnt != 1) {
-            throw new \Exception("Found $selCnt elements with selector '$selector', but expected one");
+        if (count($all) == 0) {
+            throw new \Exception("Found no elements with selector '$selector'");
         }
 
-        $images = $all[0]->findAll('css', 'img');
-        $imgCnt = count($images);
-        if ($imgCnt != 1) {
-            throw new \Exception("Found $imgCnt images with selector '$selector', but expected one.");
-        }
+        foreach($all as $elem_key => $ele_value) {
 
-        $url = $images[0]->getAttribute('src');
+            $images = $ele_value->findAll('css', 'img');
+            if (count($images) == 0) {
+                throw new \Exception("Found no images for element #$elem_key with selector '$selector'");
+            }
 
-        $this->verifyImageLoads($url);
+            foreach($images as $image_key => $image_value) {
 
-        if (!$images[0]->getAttribute('alt')) {
-            throw new \Exception("Image with selector '$selector' has no alt text.");
+                $url = $image_value->getAttribute('src');
+    
+                $this->verifyImageLoads($url);
+        
+                if (!$image_value->getAttribute('alt')) {
+                    throw new \Exception("Image #$image_key for element #$elem_key with selector '$selector' has no alt text.");
+                }
+            }
         }
     }
 

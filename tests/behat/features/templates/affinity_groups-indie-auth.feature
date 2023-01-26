@@ -1,16 +1,17 @@
 @templates
 @api
 @javascript
+
 Feature: test individual Affinity Group page
   In order to test the individual Affinity Group page
 
   Scenario: Authenticated user Test the individual Affinity Group page
     Given I am logged in as a user with the "authenticated" role
     When I go to "/affinity-groups/cloud-computing"
-    And I wait 4 seconds
-    #Cant test image
-   # Then I should see "col-lg-4 col-md-8 mb-3"
-
+    And I wait 2 seconds
+    # verify the cloud image loads
+    # TODO on github, image not getting copied yet -- wait for miles' fix
+    # Then all images with selector ".img-fluid.mb-4" should load
     Then I should see "Cloud Computing"
     Then I should see "cloud-commercial"
     Then I should see "People who use or are"
