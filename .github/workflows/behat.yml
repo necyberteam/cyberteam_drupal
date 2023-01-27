@@ -125,7 +125,7 @@ jobs:
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   success:
     name: Actions to run once complete
-    needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect]
+    if: success()
     runs-on: ubuntu-latest
     steps:
       - name: Comment on pull request
