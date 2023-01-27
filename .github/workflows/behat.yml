@@ -15,6 +15,46 @@ permissions:
   actions: read
   pull-requests: write
 jobs:
+  cci:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'cci') }}
+    secrets:
+      site: "cci"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  asp:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'asp') }}
+    secrets:
+      site: "asp"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  champ:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'champ') }}
+    secrets:
+      site: "champ"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  coco:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'coco') }}
+    secrets:
+      site: "coco"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   usrse:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'usrse') }}
@@ -30,6 +70,36 @@ jobs:
     if: ${{ contains(github.event.inputs.sites, 'careers') }}
     secrets:
       site: "careers"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  gpc:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'gpc') }}
+    secrets:
+      site: "gpc"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  ky:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'ky') }}
+    secrets:
+      site: "ky"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  nect:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'nect') }}
+    secrets:
+      site: "nect"
       database: ${{ github.event.inputs.database }}
       prnum: ${{ github.event.inputs.prnum }}
       gh_token: ${{ secrets.GH_TOKEN_REPO }}
