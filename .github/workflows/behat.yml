@@ -15,11 +15,21 @@ permissions:
   actions: read
   pull-requests: write
 jobs:
-  urse:
+  usrse:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
-    if: ${{ contains('urse', 'urse') }}
+    if: ${{ contains(github.event.inputs.sites, 'usrse') }}
     secrets:
       site: "urse"
       database: ${{ github.event.inputs.database }}
       prnum: ${{ github.event.inputs.prnum }}
       gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+  careers:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'careers') }}
+    secrets:
+      site: "urse"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
