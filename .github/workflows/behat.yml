@@ -19,6 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       sites: "urse"
+    steps:
+      -name: Print the sites
+       run: |
+          echo "Site: $sites"
   urse:
     needs:
       - urse-outputs
