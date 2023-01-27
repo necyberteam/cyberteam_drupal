@@ -17,8 +17,8 @@ permissions:
 jobs:
   urse:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'urse') }}
     secrets:
-      sites: ${{ github.event.inputs.sites }}
       site: "urse"
       database: ${{ github.event.inputs.database }}
       prnum: ${{ github.event.inputs.prnum }}
