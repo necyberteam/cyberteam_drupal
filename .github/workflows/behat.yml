@@ -19,6 +19,7 @@ jobs:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'cci') }}
     secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "cci"
       database: ${{ github.event.inputs.database }}
       prnum: ${{ github.event.inputs.prnum }}
@@ -30,6 +31,7 @@ jobs:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'asp') }}
     secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "asp"
       database: ${{ github.event.inputs.database }}
       prnum: ${{ github.event.inputs.prnum }}
@@ -41,6 +43,7 @@ jobs:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'champ') }}
     secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "champ"
       database: ${{ github.event.inputs.database }}
       prnum: ${{ github.event.inputs.prnum }}
@@ -52,6 +55,7 @@ jobs:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'coco') }}
     secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "coco"
       database: ${{ github.event.inputs.database }}
       prnum: ${{ github.event.inputs.prnum }}
@@ -63,6 +67,7 @@ jobs:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'usrse') }}
     secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "usrse"
       database: ${{ github.event.inputs.database }}
       prnum: ${{ github.event.inputs.prnum }}
@@ -74,6 +79,7 @@ jobs:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'careers') }}
     secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "careers"
       database: ${{ github.event.inputs.database }}
       prnum: ${{ github.event.inputs.prnum }}
@@ -85,6 +91,7 @@ jobs:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'gpc') }}
     secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "gpc"
       database: ${{ github.event.inputs.database }}
       prnum: ${{ github.event.inputs.prnum }}
@@ -96,6 +103,7 @@ jobs:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'ky') }}
     secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "ky"
       database: ${{ github.event.inputs.database }}
       prnum: ${{ github.event.inputs.prnum }}
@@ -107,6 +115,7 @@ jobs:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'nect') }}
     secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "nect"
       database: ${{ github.event.inputs.database }}
       prnum: ${{ github.event.inputs.prnum }}
@@ -114,27 +123,45 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
-  bugs:
-    name: Actions to run on a pull request
+  success:
+    name: Actions to run once complete
+    needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect]
     runs-on: ubuntu-latest
     steps:
-      - name: Run full behat tests
+      - name: Comment on pull request
+        if: "${{ env.prnum  != '' }}"
         run: |
-          touch test.md
-          echo "repo: $REPO" >> test.md
-          echo "prnum: $prnum" >> test.md
-          echo "sites: $sites" >> test.md
+          gh pr comment $prnum -R $REPO --body "🤖 -=-=-=-  Behat Test was Successful -=-=-=- 🤖"
         env:
-          sites: ${{ github.event.inputs.sites }}
-          database: ${{ github.event.inputs.database }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
-          gh_token: ${{ secrets.GH_TOKEN_REPO }}
+          REPO: ${{ secrets.REPO }}
+          prnum: "${{ github.server_url }}/${{ github.repository }}"
+      - name: Slack Notification Success
+        uses: rtCamp/action-slack-notify@v2
+        env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          REPO: "${{ github.server_url }}/${{ github.repository }}"
-      - name: 'Upload Test Artifact for debugging'
-        uses: actions/upload-artifact@v3
-        with:
-          name: test
-          path: test.md
-          retention-days: 1
-
+          SLACK_MESSAGE: 'success :rocket:'
+          SLACK_TITLE: "Github action: behat}"
+          SLACK_CHANNEL: behat-git-notifications
+  fail:
+    name: Actions to run on fail
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on pull request
+        if: "${{ env.prnum  != '' }}"
+        run: |
+          gh pr comment $prnum -R $REPO --body "🤖 -=-=-=-  Behat Test has failed 😩 -=-=-=- 🤖"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          prnum: ${{ github.event.inputs.prnum }}
+          REPO: ${{ secrets.REPO }}
+          prnum: "${{ github.server_url }}/${{ github.repository }}"
+      - name: Slack Notification Fail
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: ':octagonal_sign: behat tests failed :octagonal_sign:'
+          SLACK_TITLE: "Github action: behat}"
+          SLACK_CHANNEL: behat-git-notifications
