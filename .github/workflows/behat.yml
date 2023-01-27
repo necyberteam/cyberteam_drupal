@@ -114,24 +114,27 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
-  test:
-    - name: Run full behat tests
-      run: |
-        touch test.md
-        echo "repo: $REPO" >> test.md
-        echo "prnum: $prnum" >> test.md
-        echo "sites: $sites" >> test.md
-      env:
-        sites: ${{ github.event.inputs.sites }}
-        database: ${{ github.event.inputs.database }}
-        prnum: ${{ github.event.inputs.prnum }}
-        gh_token: ${{ secrets.GH_TOKEN_REPO }}
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        REPO: "${{ github.server_url }}/${{ github.repository }}"
-    - name: 'Upload Test Artifact for debugging'
-      uses: actions/upload-artifact@v3
-      with:
-        name: test
-        path: test.md
-        retention-days: 1
+  bugs:
+    name: Actions to run on a pull request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run full behat tests
+        run: |
+          touch test.md
+          echo "repo: $REPO" >> test.md
+          echo "prnum: $prnum" >> test.md
+          echo "sites: $sites" >> test.md
+        env:
+          sites: ${{ github.event.inputs.sites }}
+          database: ${{ github.event.inputs.database }}
+          prnum: ${{ github.event.inputs.prnum }}
+          gh_token: ${{ secrets.GH_TOKEN_REPO }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          REPO: "${{ github.server_url }}/${{ github.repository }}"
+      - name: 'Upload Test Artifact for debugging'
+        uses: actions/upload-artifact@v3
+        with:
+          name: test
+          path: test.md
+          retention-days: 1
 
