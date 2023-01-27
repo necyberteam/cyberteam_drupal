@@ -14,7 +14,7 @@ jobs:
       - name: Set the value of branch
         id: branch
         run: |
-          echo "branch=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
+          echo "branch=$(echo ${GITHUB_HEAD_REF})" >> $GITHUB_ENV
       - name: Set the value of prnum
         id: prnum
         run: |
