@@ -132,15 +132,15 @@ jobs:
         run: |
           fail
   success:
-    name: Actions to run once complete
+    name: Actions to run on success
     needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect, test]
-    if: ${{ success() && ! failure() && ( always() && ! cancelled() ) }}
+    if: ${{ success() || ( always() && ! cancelled() && ! failure() ) }}
     runs-on: ubuntu-latest
     steps:
       - name: Comment on pull request
         if: "${{ env.prnum  != '' }}"
         run: |
-          gh pr comment $prnum -R $REPO --body "🤖 -=-=-=-  Behat Test was Successful -=-=-=- 🤖"
+          gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Behat Test was Successful -=-=-=- 🤖"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
@@ -161,7 +161,7 @@ jobs:
       - name: Comment on pull request
         if: "${{ env.prnum  != '' }}"
         run: |
-          gh pr comment $prnum -R $REPO --body "🤖 -=-=-=-  Behat Test has failed 😩 -=-=-=- 🤖"
+          gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Behat Test has failed 😩 -=-=-=- 🤖"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
