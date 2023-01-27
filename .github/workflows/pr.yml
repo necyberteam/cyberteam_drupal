@@ -17,6 +17,7 @@ jobs:
           echo "prnum=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')" >> $GITHUB_ENV
       - name: Run full behat tests
         run: |
+          gh pr comment $PRNUM -R $REPO --body "🤖 -=-=-=- Starting behat tests -=-=-=- 🤖"
           gh workflow run behat.yml -f database= -f sites=$SITE -f prnum=$PRNUM -R $REPO -r $BRANCH
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
