@@ -31,4 +31,4 @@ jobs:
       - urse-outputs
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     with:
-      sites: "urse"
+      sites:  ${{ needs.urse-outputs.outputs.sites }}
