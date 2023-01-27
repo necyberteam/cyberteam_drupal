@@ -18,7 +18,7 @@ jobs:
       - name: Run full behat tests
         run: |
           gh pr comment $PRNUM -R $REPO --body "🤖 -=-=-=- Starting behat tests -=-=-=- 🤖"
-          gh workflow run behat.yml -f database= -f sites=$SITE -f prnum=$PRNUM -R $REPO -r $BRANCH
+          gh workflow run behat.yml -f database= -f sites="$SITE" -f prnum=$PRNUM -R $REPO -r $BRANCH
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
           PRNUM: ${{ env.prnum }}
