@@ -24,6 +24,7 @@ Feature: test resource form
     When I fill in "title" with "TEST"
     When I select "learning" from "category"
     When I check "Approved"
+    # login tag
     When I check "edit-tags-682"
     When I check "Beginner"
     When I fill in "Description" with "Test"
@@ -56,4 +57,3 @@ Feature: test resource form
     #And I should see "Webform"
     #And I should see "Delete submission"
     When I click "Edit"
-  
