@@ -123,10 +123,18 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+  test:
+    name: Attempt to force a failure for testing
+    if: ${{ contains(github.event.inputs.sites, 'fail') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forced fail
+        run: |
+          fail
   success:
     name: Actions to run once complete
-    needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect]
-    if: ${{ success() || ( always() && ! cancelled() ) }}
+    needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect, test]
+    if: ${{ success() || !failure() || ( always() && ! cancelled() ) }}
     runs-on: ubuntu-latest
     steps:
       - name: Comment on pull request
