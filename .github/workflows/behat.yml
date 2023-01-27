@@ -154,7 +154,7 @@ jobs:
           SLACK_CHANNEL: behat-git-notifications
   fail:
     name: Actions to run on fail
-    if: failure()
+    if:  ${{ failure() }}
     runs-on: ubuntu-latest
     steps:
       - name: Comment on pull request
