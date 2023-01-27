@@ -24,6 +24,7 @@ jobs:
       prnum: ${{ github.event.inputs.prnum }}
       gh_token: ${{ secrets.GH_TOKEN_REPO }}
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   careers:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'careers') }}
@@ -33,3 +34,4 @@ jobs:
       prnum: ${{ github.event.inputs.prnum }}
       gh_token: ${{ secrets.GH_TOKEN_REPO }}
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
