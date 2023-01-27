@@ -23,7 +23,7 @@ jobs:
         run: |
           echo '{"database":"", "sites":"$SITE", "prnum":"$PRNUM"}' | gh workflow run behat.yml -R $REPO -r $BRANCH --json
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
           PRNUM: ${{ env.prnum }}
           SITE: "cci, asp, champ, coco, usrse, careers, gpc, ky, nect"
           REPO: "${{ github.server_url }}/${{ github.repository }}"
