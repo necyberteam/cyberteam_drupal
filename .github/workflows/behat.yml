@@ -134,7 +134,7 @@ jobs:
   success:
     name: Actions to run once complete
     needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect, test]
-    if: ${{ success() || !failure() || ( always() && ! cancelled() ) }}
+    if: ${{ success() && ! failure() && ( always() && ! cancelled() ) }}
     runs-on: ubuntu-latest
     steps:
       - name: Comment on pull request
