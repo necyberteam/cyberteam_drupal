@@ -22,10 +22,11 @@ jobs:
       - name: Run full behat tests
         run: |
           touch test.md
-           echo "repo: $REPO \n" >> test.md
-           echo "prnum: $prnum" >> test.md
-           echo "branch: $BRANCH" >> test.md
-           echo "site: $SITE" >> test.md
+          echo "repo: $REPO \n" >> test.md
+          echo "prnum: $prnum" >> test.md
+          echo "branch: $BRANCH" >> test.md
+          echo "site: $SITE" >> test.md
+          echo "'{\"database\":\"\", \"sites\":\"$SITE\", \"prnum\":\"$PRNUM\"}' | gh workflow run behat.yml -R $REPO -r $BRANCH --json" > test.md
           echo '{"database":"", "sites":"$SITE", "prnum":"$PRNUM"}' | gh workflow run behat.yml -R $REPO -r $BRANCH --json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -35,6 +36,12 @@ jobs:
           BRANCH: ${{ env.branch }}
       - name: 'Upload Test Artifact for debugging'
         if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test
+          path: test.md
+          retention-days: 1
+      - name: 'Upload Test Artifact for debugging'
         uses: actions/upload-artifact@v3
         with:
           name: test
