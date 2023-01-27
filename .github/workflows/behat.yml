@@ -135,8 +135,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
-          REPO: ${{ secrets.REPO }}
-          prnum: "${{ github.server_url }}/${{ github.repository }}"
+          REPO: "${{ github.server_url }}/${{ github.repository }}"
       - name: Slack Notification Success
         uses: rtCamp/action-slack-notify@v2
         env:
@@ -156,8 +155,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
-          REPO: ${{ secrets.REPO }}
-          prnum: "${{ github.server_url }}/${{ github.repository }}"
+          REPO: "${{ github.server_url }}/${{ github.repository }}"
       - name: Slack Notification Fail
         uses: rtCamp/action-slack-notify@v2
         env:
