@@ -25,7 +25,7 @@ jobs:
       gh_token: ${{ secrets.GH_TOKEN_REPO }}
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      REPO: ${{ github.server_url }}/${{ github.repository }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
   asp:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'asp') }}
