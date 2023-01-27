@@ -121,7 +121,7 @@ jobs:
         echo "repo: $REPO" >> test.md
         echo "prnum: $prnum" >> test.md
         echo "sites: $sites" >> test.md
-      secrets:
+      env:
         sites: ${{ github.event.inputs.sites }}
         database: ${{ github.event.inputs.database }}
         prnum: ${{ github.event.inputs.prnum }}
@@ -129,9 +129,9 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         REPO: "${{ github.server_url }}/${{ github.repository }}"
     - name: 'Upload Test Artifact for debugging'
-         uses: actions/upload-artifact@v3
-         with:
-           name: test
-           path: test.md
-           retention-days: 1
+      uses: actions/upload-artifact@v3
+      with:
+        name: test
+        path: test.md
+        retention-days: 1
 
