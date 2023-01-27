@@ -154,6 +154,7 @@ jobs:
           SLACK_CHANNEL: behat-git-notifications
   fail:
     name: Actions to run on fail
+    needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect, test]
     if:  ${{ failure() }}
     runs-on: ubuntu-latest
     steps:
