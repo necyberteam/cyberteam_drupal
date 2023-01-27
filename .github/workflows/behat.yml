@@ -21,9 +21,9 @@ jobs:
     outputs:
       sites: ${{ steps.step1.outputs.sites }}
     steps:
-      id: step1
-      -name: Print the sites
-       run: |
+      - name: Print the sites
+        id: step1
+        run: |
           echo "::set-output name=urse::$SITES"
   urse:
     if: ${{ contains(github.event.inputs.sites, 'urse') }}
