@@ -21,6 +21,11 @@ jobs:
           echo "prnum=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')" >> $GITHUB_ENV
       - name: Run full behat tests
         run: |
+          touch test.md
+           echo "repo: $REPO \n" >> test.md
+           echo "prnum: $prnum" >> test.md
+           echo "branch: $BRANCH" >> test.md
+           echo "site: $SITE" >> test.md
           echo '{"database":"", "sites":"$SITE", "prnum":"$PRNUM"}' | gh workflow run behat.yml -R $REPO -r $BRANCH --json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -28,3 +33,10 @@ jobs:
           SITE: "cci, asp, champ, coco, usrse, careers, gpc, ky, nect"
           REPO: "${{ github.server_url }}/${{ github.repository }}"
           BRANCH: ${{ env.branch }}
+      - name: 'Upload Test Artifact for debugging'
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test
+          path: test.md
+          retention-days: 1
