@@ -15,17 +15,8 @@ permissions:
   actions: read
   pull-requests: write
 jobs:
-  urse-outputs:
-    runs-on: ubuntu-latest
-    outputs:
-      sites: "urse"
-    steps:
-      -name: Print the sites
-       run: |
-          echo "Site: $sites"
   urse:
-    needs:
-      - urse-outputs
+    if: ${{ contains(github.event.inputs.sites, 'urse') }}
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     with:
-      sites: ${{ needs.urse-outputs.outputs.sites }}
+      sites: "urse"
