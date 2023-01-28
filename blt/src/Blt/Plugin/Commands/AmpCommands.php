@@ -54,7 +54,17 @@ GITHUB_TOKEN=$token'>.env");
    * @description Start lando and set GITHUB_TOKEN.
    */
   public function start() {
-    $this->_exec($this->lando() . " start");
+    $this->_exec("lando start");
+    $this->_exec("blt amp:loadtoken");
+  }
+
+  /**
+   * Load Token.
+   *
+   * @command amp:loadtoken
+   * @description load GITHUB_TOKEN to composer.
+   */
+  public function loadToken() {
     if (getenv('GITHUB_TOKEN')) {
       $this->say("❗️ Setting GITHUB_TOKEN token. ❗️");
       $this->_exec("composer config -g github-oauth.github.com $(printenv GITHUB_TOKEN)");
