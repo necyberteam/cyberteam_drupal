@@ -1,12 +1,13 @@
 name: (M) Behat Tests
 on:
-  pull_request:
   workflow_dispatch:
     inputs:
       database:
         description: 'Recent database dump to use (leave blank to use artifact)'
       sites:
-        description: 'Specify which sites to test or leave blank to run all tests'
+        description: 'Specify which sites to test or leave the default to run all tests.'
+        default: 'cci, asp, champ, coco, usrse, careers, gpc, ky, nect'
+        required: true
       prnum:
         description: 'Pull request number — adds a comment to a pull request (nomally empty)'
 permissions:
@@ -14,120 +15,153 @@ permissions:
   actions: read
   pull-requests: write
 jobs:
-  build:
-    name: Run updates
+  cci:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'cci') }}
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "cci"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+  asp:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'asp') }}
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "asp"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+  champ:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'champ') }}
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "champ"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+  coco:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'coco') }}
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "coco"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+  usrse:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'usrse') }}
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "usrse"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+  careers:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'careers') }}
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "careers"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+  gpc:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'gpc') }}
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "gpc"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+  ky:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'ky') }}
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "ky"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+  nect:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
+    if: ${{ contains(github.event.inputs.sites, 'nect') }}
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "nect"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+  success:
+    name: Actions to run on success
+    needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect]
+    if: ${{ success() || ( always() && ! cancelled() && ! failure() ) }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-      - name: Install Lando
-        run: |
-          sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-v3.6.5"
-          sudo chmod +x /usr/local/bin/lando
-      - name: Setup Lando cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.lando/cache
-          key: ${{ runner.os }}-lando${{ matrix.lando.version }}-${{ github.ref }}
-          restore-keys: |
-            ${{ runner.os }}-lando${{ matrix.lando.version }}-1
-      - name: Start Lando
-        run: |
-          echo "$lando_env" > .env
-          echo "GITHUB_TOKEN=$GITHUB_ACTOR:$GITHUB_TOKEN" >> .env
-          lando destroy -y
-          lando start && lando xdebug-off
-        env:
-          lando_env: ${{ secrets.LANDO_ENV }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
-      - name: Sync DB
-        run: |
-          mkdir backups
-          lando composer self-update
-          lando composer config -g github-oauth.github.com $gh_token
-          composer config -g github-oauth.github.com $gh_token
-          lando composer install --ignore-platform-reqs
-          echo "#! /bin/bash
-          if [[ '$database' == '' ]]
-          then
-            lando blt gh:pulldb
-          else
-            wget -O backups/site.sql.gz '$database'
-          fi" > pull_db.sh
-          cat pull_db.sh
-          chmod u+x pull_db.sh
-          ./pull_db.sh
-          rm pull_db.sh
-          lando db-import backups/site.sql.gz
-          mkdir -p web/sites/default/settings
-          cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php
-          cd web
-          lando drush cr
-          lando drush cim -y
-          lando drush cr
-          cd ..
-          #todo: Grab files later here
-          vendor/bin/blt gh:pullfiles
-          echo "#! /bin/bash
-          if [[ '$database' != '' ]]
-          then
-            lando drush sql-sanitize --sanitize-password -y
-          fi" > clean_db.sh
-          chmod u+x clean_db.sh
-          ./clean_db.sh
-          rm clean_db.sh
-          cd web/themes/custom/accesstheme && lando npm install && lando npm run build:sass
-          git branch
-        env:
-          database: ${{ github.event.inputs.database }}
-          drupal_update: ${{ github.event.inputs.drupal_update }}
-          gh_token: ${{ secrets.GH_TOKEN_REPO }}
-      - name: Run them tests
-        run: |
-          vendor/bin/blt amp:behat $sites
-        env:
-          sites: ${{ github.event.inputs.sites }}
       - name: Comment on pull request
-        if: "${{ github.event.inputs.prnum != '' }}"
+        if: "${{ env.prnum  != '' }}"
         run: |
-          gh pr comment $prnum --body "Behat Test was Successful"
+          gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Behat Test was Successful -=-=-=- 🤖"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
-      - name: Comment on pull request
-        if: "${{ github.event.inputs.prnum != '' &&  failure() }}"
-        run: |
-          gh pr comment $prnum --body "Behat Test Failed"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          prnum: ${{ github.event.inputs.prnum }}
+          REPO: "${{ github.server_url }}/${{ github.repository }}"
       - name: Slack Notification Success
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: 'success :rocket:'
-          SLACK_TITLE: 'Github action: behat'
+          SLACK_TITLE: "Github action: behat}"
           SLACK_CHANNEL: behat-git-notifications
+  fail:
+    name: Actions to run on fail
+    needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect]
+    if:  ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on pull request
+        if: "${{ env.prnum  != '' }}"
+        run: |
+          gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Behat Test has failed 😩 -=-=-=- 🤖"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          prnum: ${{ github.event.inputs.prnum }}
+          REPO: "${{ github.server_url }}/${{ github.repository }}"
       - name: Slack Notification Fail
         uses: rtCamp/action-slack-notify@v2
-        if: failure()
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: ':octagonal_sign: behat tests failed :octagonal_sign:'
-          SLACK_TITLE: 'Github action: behat'
+          SLACK_TITLE: "Github action: behat}"
           SLACK_CHANNEL: behat-git-notifications
-      - name: Slack Notification Fail
-        uses: MeilCli/slack-upload-file@v2
-        if: failure()
-        with:
-          slack_token: ${{ secrets.SLACK_TOKEN }}
-          channels: behat-git-notifications
-          file_path: 'tests/behat/screenshots/*.png'
-          file_type: 'images'
-          initial_comment: 'Files found in tests/behat/screenshots, for help in diagnosing behat failures'
-
-

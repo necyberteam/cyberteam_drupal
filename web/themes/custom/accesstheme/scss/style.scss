@@ -160,6 +160,13 @@ img, iframe {
         margin: 10px 0px 5px 0px;
     }
 }
+@include media-breakpoint-up(lg) {
+    .navbar-brand img {
+        height: 79px;
+        margin: 50px 0px;
+    }
+}
+
 .nav-item {
     padding: 4px 24px;
 }
@@ -170,15 +177,21 @@ ul.sf-menu {
         font-size: 0.9rem;
     }
     li.menuparent:hover {
-        a {
-            color: var(--bs-dark);
-        }
+        // a {
+        //     color: var(--bs-dark);
+        // }
         ul li:hover a {
             color: #ffffff;
         }
     }
     a:hover, .menuparent:hover {
-        color: var(--bs-dark);
+        color: var(--teal);
+    }
+    span.nolink {
+        font-weight: 600;
+        line-height: 20px;
+        padding: 14px 10px;
+        letter-spacing: 0.57px;
     }
     ul {
         a {
@@ -192,14 +205,14 @@ ul.sf-menu {
             color: #ffffff !important;
         }
     }
-    a.is-active {
-        color: #ffffff !important;
-        background-color: var(--bs-dark) !important;
-    }
+    // a.is-active {
+    //     color: #ffffff !important;
+    //     background-color: var(--bs-dark) !important;
+    // }
     // Active item in top menus
     .active-trail > a, .active-trail > .nolink {
         color: #ffffff !important;
-        background-color: var(--bs-secondary) !important;
+        // background-color: var(--bs-secondary) !important;
     }
     .login-link:hover {
         color: #ffffff !important;
@@ -210,13 +223,15 @@ ul.sf-menu {
     text-transform: uppercase;
 }
 #superfish-access-universal-nav-menu, #superfish-access-additional-universal-menu {
-    li:hover, li.active-trail  {
-        background-color: #ffffff;
-        color: var(--bs-dark);
+
+    li:hover, li.active-trail:hover   {
+        // background-color: #ffffff;
+        // color: var(--bs-dark);
+        color: var(--teal);
     }
-    a.is-active {
-        color: var(--bs-dark);
-    }
+    // a.is-active {
+    //     color: var(--bs-dark);
+    // }
     ul {
         background-color: #ffffff;
         top: 3em;
@@ -226,7 +241,11 @@ ul.sf-menu {
         }
     }
     li a {
-        font-weight: 700;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        padding: 14px 10px;
+        letter-spacing: 0.57px;
     }
 }
 #superfish-access-secondary-menu {
@@ -268,6 +287,12 @@ ul.sf-menu {
             background-color: var(--bs-secondary) !important;
             color: #ffffff !important;
         }
+    }
+    li > a {
+        line-height: 20px;
+        padding: 14px;
+        font-weight: 600;
+        letter-spacing: 0.57px;
     }
 }
 ul.sf-menu.sf-accordion li.sf-depth-2 {
@@ -536,6 +561,21 @@ ul.sf-menu.sf-horizontal.sf-shadow ul, ul.sf-menu.sf-vertical.sf-shadow ul, ul.s
         }
     }
 }
+/* for join/leave button in affinity group list */
+.view-display-id-all .flag-affinity-group a {
+    @extend .btn, .btn-outline-secondary;
+}
+.view-display-id-all .flag-affinity-group a:hover {
+    @extend .btn, .btn-outline-secondary;
+}
+/* for join/leave button in single affinity group display */
+.view-display-id-group .flag-affinity-group a {
+    @extend .btn, .btn-primary;
+}
+.view-display-id-group .flag-affinity-group a:hover {
+    @extend .btn, .btn-primary;
+}
+
 #cider-resources li {
     margin-bottom: 1rem;
 }
