@@ -57,7 +57,7 @@ fi
 if [ "$runner" = update ];
 then
   storeKey
-  git config --global --add safe.directory /github/workspace/vendor/drupol/phposinfo
+  git config --global --add safe.directory /github/workspace/vendor/*
   sh -c "composer config -g github-oauth.github.com $gh_token"
   composer install --no-dev --ignore-platform-reqs
   branch="${GITHUB_REF#refs/heads/}"
