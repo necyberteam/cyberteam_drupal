@@ -28,7 +28,7 @@ Feature: test ACCESS Support Match Plus Page
     Then I should see "Student facilitator carries out the project"
     Then I should see "Research moves forward."
     Then I should see "Interested in Joining the Pilot?"
-    Then I should see "MATCHPlus will be selecting ten projects to carry out between"
+    Then I should see "MATCHPlus will be selecting up to ten projects to carry out between"
     Then I should see "Apply for MATCHPlus"
     Then I should see "Receive expert CSSN research support"
     Then I should see "Collaborate with a mentor/student pairing"
