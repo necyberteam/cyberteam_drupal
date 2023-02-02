@@ -1,0 +1,66 @@
+uuid: a6bd5212-b558-4640-8c0c-dae47f37fb4c
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.eventinstance.rollup_list
+    - recurring_events.eventinstance_type.default
+  module:
+    - datetime_range
+    - text
+_core:
+  default_config_hash: lFFUFIZPBUZQjrIYYvP6U1hzVLGjKMl0DYK93zPM_80
+id: eventinstance.default.rollup_list
+targetEntityType: eventinstance
+bundle: default
+mode: rollup_list
+content:
+  body:
+    type: text_trimmed
+    label: inline
+    settings:
+      trim_length: 100
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  date:
+    type: daterange_custom
+    label: inline
+    settings:
+      timezone_override: ''
+      date_format: 'n/j/Y g:i A T'
+      separator: '-'
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  description:
+    type: text_trimmed
+    label: inline
+    settings:
+      trim_length: 200
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  location:
+    type: text_trimmed
+    label: inline
+    settings:
+      trim_length: 100
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  affinity_group: true
+  affinity_group_node_ref: true
+  contact: true
+  content_moderation_control: true
+  registration: true
+  tags: true
