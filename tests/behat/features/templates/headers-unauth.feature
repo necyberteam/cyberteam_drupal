@@ -10,6 +10,7 @@ Feature: verify headers for non-authenticated user
   Scenario: Verify the Login button links to login flow
     Given I am not logged in
     When I am on the homepage
+    Then I should not see "My Profile"
     When I click "Log in" 
     Then I should be on "user/login"
     And I should see "Please login with your Cyberteam account below"
