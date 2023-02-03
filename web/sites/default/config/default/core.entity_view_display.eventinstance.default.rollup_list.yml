@@ -15,14 +15,6 @@ targetEntityType: eventinstance
 bundle: default
 mode: rollup_list
 content:
-  body:
-    type: text_trimmed
-    label: inline
-    settings:
-      trim_length: 100
-    third_party_settings: {  }
-    weight: 4
-    region: content
   date:
     type: daterange_custom
     label: inline
@@ -60,6 +52,7 @@ content:
 hidden:
   affinity_group: true
   affinity_group_node_ref: true
+  body: true
   contact: true
   content_moderation_control: true
   registration: true
