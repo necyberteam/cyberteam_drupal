@@ -124,6 +124,30 @@ Feature: test individual tags page
     And I wait 2 seconds
     Then I should see "test-project-title"
 
+  Scenario: Testing Tags display information for resource, projects, etc
+    Given I am not logged in
+    When I go to "tags/big-data"
+    Then I should see "big-data"
+    Then I should see "Resources"
+    Then I should see "Mentors and Regional Facilitators"
+    Then I should see "Tony Elam"
+    Then I should see "Kentucky"
+    Then I should see "Skills"
+    Then I should see "Interest"
+    Then I should see "Affinity Groups"
+    Then I should see "Large Data Sets"
+    Then I should see "For people who evaluate or use storage options for researchers with large data sets."
+    Then I should see "cloud-storage,"
+    Then I should see "Join"
+    Then I should see "Topics from Ask.CI"
+    Then I should see "Users"
+    Then I should see "Grant Scott"
+    Then I should see "mentor"
+    Then I should see "ai"
+    Then I should see "management"
+    Then I should see "There are no projects associated with this topic"
+    Then I should see "There are no Blog Entries associated with this topic."
+
 
 
 
