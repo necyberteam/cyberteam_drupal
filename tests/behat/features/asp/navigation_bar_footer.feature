@@ -43,6 +43,7 @@ Feature: test Navigation Bar footer links
   Scenario: test Q&A Forum link
     Given I am not logged in
     When I am on the homepage
+    And I wait 2 seconds
     When I follow "Q&A Forum"
     Then I should be on "https://ask.cyberinfrastructure.org/"
 
