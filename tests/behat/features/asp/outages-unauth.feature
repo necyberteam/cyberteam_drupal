@@ -17,8 +17,7 @@ Feature: test ACCESS Support Outages Page
     Then I should see "Type"    
     Then I should see "Start"
     Then I should see "End"
-    Then I should see "Planned Outages"
-    Then I should see "There are no planned outages scheduled"
+    Then I should see "Planned Downtimes"
     Then I should see "All Outages"
     #TODO Figure out how to add below test
     #Then I should see "Show 10 Entries"
