@@ -102,16 +102,10 @@ elements: |-
       '#title__access': false
       '#url__title': 'Github Organization'
       '#url__description': 'Provide a link to the Github Organization if applicable.'
-    email_list:
-      '#type': webform_link
-      '#title': Email
-      '#description_display': before
-      '#format_items': ol
-      '#title__access': false
-      '#url__title': 'Email List or Contact'
-      '#url__description': 'Provide a link to the email list or email contact for the Affinity Group. Please enter the full URL to your mailing list including the https:// or if an email please type mailto: before the address. For example: mailto:example@email.com'
-      '#url__title_display': before
-      '#flexbox': '1'
+    email_list_or_contact:
+      '#type': textfield
+      '#title': 'Email List or Contact'
+      '#description': 'Provide a link to the email list or email contact for the Affinity Group. Please enter the full URL to your mailing list including the https:// or if an email please type mailto: before the address. For example: mailto:example@email.com'
 css: 'body:not(.path-admin) .webform-submission-information, body:not(.path-admin) .webform-submission-navigation {display: none}'
 javascript: ''
 settings:
