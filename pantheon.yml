@@ -15,3 +15,13 @@ workflows:
       - type: webphp
         description: Import configuration
         script: private/scripts/drush_deploy/drush_deploy.php
+  clone_database:
+    after:
+      - type: webphp
+        description: Turn off non-prod site functions
+        script: private/scripts/no_prod.php
+  create_cloud_development_environment:
+    after:
+      - type: webphp
+        description: Turn off non-prod site functions
+        script: private/scripts/no_prod.php
