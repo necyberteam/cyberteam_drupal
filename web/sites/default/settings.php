@@ -63,6 +63,7 @@ if (isset($env) ) {
 $settings['config_sync_directory'] = 'sites/default/config/default';
 
 $settings['config_exclude_modules'] = [
+  'access_affinitygroup',
   'webprofiler',
   'cilogon_auth',
   'devel',
