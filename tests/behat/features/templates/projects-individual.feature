@@ -129,6 +129,7 @@ Feature: test projects page
     And I should see "Alabama"
     And I should see "98765"
     And I should see "test project description"
+    Then I should not see "I’m interested"
     And I should see "http://test.com"
     And I should see "33"
 
