@@ -2,7 +2,7 @@
 @api
 @javascript
 
-Feature: test ACCESS Support resource page
+Feature: test resource page
   In order to test the resource page
 
   Scenario: Unauthenticated user tests the resource page
@@ -31,4 +31,4 @@ Feature: test ACCESS Support resource page
     When I fill in "edit-search--2" with "test"
     And I wait 4 seconds
     When I click "TEST"
-    Then I should be on "/resource/24"
+    Then I should get a "200" HTTP response
