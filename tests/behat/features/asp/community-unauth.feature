@@ -9,7 +9,7 @@ Feature: test ACCESS Support Community Page
     Given I am not logged in
     When I go to "/cssn"
     Then I should see "Engage with other researchers"
-    Then I should see "Computional Science & Support Network"
+    Then I should see "Computational Science & Support Network"
     Then I should see "Collaborate with the CSSN Community"
     Then I should see "The Computational Science and Support Network (CSSN) program"
     Then I should see "Share Knowledge"
