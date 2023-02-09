@@ -9,6 +9,7 @@ storeKey () {
   echo "$SSH_PRIVATE_KEY" > ~/.ssh/private.key
   chmod 0600 ~/.ssh/private.key
   ssh-add ~/.ssh/private.key
+  git config --global --add safe.directory "*"
 }
 
 terminusApi () {
@@ -57,7 +58,6 @@ fi
 if [ "$runner" = update ];
 then
   storeKey
-  git config --global --add safe.directory "*"
   sh -c "composer config -g github-oauth.github.com $gh_token"
   composer install --no-dev --ignore-platform-reqs
   branch="${GITHUB_REF#refs/heads/}"
