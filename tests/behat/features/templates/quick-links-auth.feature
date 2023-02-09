@@ -28,3 +28,7 @@ Feature: test quick links on home page
     Then I should see the link "Find Projects by Tag"
     When I click "Find Projects by Tag"
     Then I should be on "tags"
+    When I am on the homepage
+    Then I should not see "Join the team"
+    Then I should see "Featured Projects"
+    
