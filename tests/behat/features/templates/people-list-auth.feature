@@ -1,15 +1,14 @@
 @templates
 @api
 @javascript
-Feature: test people page list view w/ filters 
+Feature: test people page list view w/ filters
   In order to test the people page from List View
 
   Scenario: Authenticated user tests the people page
     Given I am logged in as a user with the "authenticated" role
-    When I go to "people/List"
-
+    When I go to "people/list"
+    And I wait 4 seconds
     Then I should see "People"
-
     And I should see "Picture"
     And I should see "First Name"
     And I should see "Last Name"
@@ -71,7 +70,7 @@ Feature: test people page list view w/ filters
 
     When I fill in "Filter by Role" with "Student-facilitator"
     And I wait 4 seconds
-    Then I should see "Student-facilitator" 
+    Then I should see "Student-facilitator"
 
     When I fill in "Filter by Role" with " "
     And I wait 4 seconds
@@ -79,6 +78,5 @@ Feature: test people page list view w/ filters
     When I fill in "Filter by Role" with "rcf"
     And I wait 4 seconds
     Then I should see "rcf"
-    
-  
-     
+
+
