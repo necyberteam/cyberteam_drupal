@@ -17,13 +17,13 @@ Feature: test contact user page
     Then I should see "Contact Julie Ma"
     When I click "Julie Ma"
     Then I should be on "/user/julie-ma"
-    #TODO ID is not working for text boxes and Checkbox, I also tried using the name but it did not work
+    When I go to "/user/100/contact"
     #Subject ID is edit-subject-0-value
-    #When I fill in "edit-subject-0-value" with "Test"
+    When I fill in "edit-subject-0-value" with "Test"
     #Message ID is edit-message-0-value
-    #When I fill in "edit-message-0-value" with "Test"
+    When I fill in "edit-message-0-value" with "Test"
     #Checkbox ID is edit-copy
-    #Then I check "edit-copy"
+    Then I check "edit-copy"
     Then I should not see "reCaptcha"
     #op is the Submit button
     Then I click "op"
