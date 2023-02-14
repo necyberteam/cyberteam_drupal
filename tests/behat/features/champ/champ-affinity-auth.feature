@@ -3,7 +3,6 @@
 @javascript
 
 Feature: test for the affinity groups page as an authenticated user 
-
   Scenario: User runs through the affinity group page and individual page as authenticated.
     Given I am logged in as a user with the "authenticated" role
     When I go to "/affinity-groups"
@@ -24,19 +23,22 @@ Feature: test for the affinity groups page as an authenticated user
     Then I should see "Coordinators"
     Then I should see "Tags"
     Then I should see "Short Description"
-    Then I should see "Conversation Link"
-    Then I should see "Q&A Platform Link"
-    Then I should see "Github Organization Link"
+    Then I should see "Provide a link to the Slack group if applicable"
+    Then I should see "Q&A Platform"
+    Then I should see "Github Organization"
     Then I should see "Email List"
     When I go to "/affinity-groups/cloud-computing"
+    And I wait 4 seconds
     Then I should see "Join"
     When I click "Join"
+    And I wait 4 seconds
     Then I should see "Joined"
     When I click "Leave"
+    And I wait 4 seconds
     Then I should see "Join"
-    Then I should see "Join On Slack"
-    Then I should see "Visit Q&A Platform"
-    Then I should see "Mailing List"
+    Then I should see "Slack"
+    Then I should see "Q&A"
+    Then I should see "Email"
     Then I should see "Coordinators"
     Then I should see "Events"
     Then I should see "Resources"
