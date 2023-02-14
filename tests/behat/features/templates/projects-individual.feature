@@ -38,7 +38,7 @@ Feature: test projects page
     When I check "At-Large"
     # tags:
     When I check "login"
-    When I select "In Progress" from "Status"
+    When I select "Recruiting" from "Status"
     When I fill in "First" with "test-first-name"
     When I fill in "Last" with "test-last-name"
     When I fill in "Email" with "test@email.com"
@@ -73,12 +73,12 @@ Feature: test projects page
     When I fill in "Notes" with "test Notes"
     When I click "Final Report"
     When I fill in "What is the impact on the development of the principal discipline(s) of the project?" with "test What is the impact on the development"
-   
+
     When I press "Submit"
     Then I should see "test-create-project-title"
     And I should see "login"
     And I should see "At-Large"
-    And I should see "In Progress"
+    And I should see "Recruiting"
     And I should see "test@email.com"
     And I should see "test Project Institution"
     And I should see "test Address"
@@ -99,7 +99,7 @@ Feature: test projects page
     When I follow "login"
     And I wait for the page to be loaded
     Then I should be on "tags/login"
-    
+
   Scenario: Verify home page shows project
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
@@ -120,7 +120,7 @@ Feature: test projects page
     Then I should see "test-create-project-title"
     And I should see "login"
     And I should see "At-Large"
-    And I should see "In Progress"
+    And I should see "Recruiting"
     And I should see "test@email.com"
     And I should see "test Project Institution"
     And I should see "test Address"
@@ -142,4 +142,4 @@ Feature: test projects page
     And I wait for the page to be loaded
     Then I should see "test-create-project-title"
     And I should see "login"
-    # not checking everything, since the above test does that  
+    # not checking everything, since the above test does that

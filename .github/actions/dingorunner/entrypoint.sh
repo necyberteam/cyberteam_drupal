@@ -9,6 +9,7 @@ storeKey () {
   echo "$SSH_PRIVATE_KEY" > ~/.ssh/private.key
   chmod 0600 ~/.ssh/private.key
   ssh-add ~/.ssh/private.key
+  git config --global --add safe.directory "*"
 }
 
 terminusApi () {
@@ -49,6 +50,7 @@ then
   tar -xzvf files.tar.gz
   rm -fR files_live/php/twig/*
   rm -fR files_live/private/20*
+  rm -fR files_live/private/.keys
   rm -fR files_live/private/styles/*
   rm -fR files_live/private/webform/*
 fi
