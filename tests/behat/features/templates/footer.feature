@@ -12,6 +12,8 @@ Feature: test footer
     And I should see "All Rights Reserved"
     And I should see "Connect.CI"
     And I should see "Contact Us"
+    #Feedback Usersnap does not seeem to be working
+    #When I follow "Feedback"
     When I follow "Connect.CI"
     Then I should be on "regions"
     
@@ -23,6 +25,8 @@ Feature: test footer
     And I should see "All Rights Reserved"
     And I should see "Connect.CI"
     And I should see "Contact Us"
+    #Feedback Usersnap does not seeem to be working
+    #When I follow "Feedback"
     When I follow "Connect.CI"
     Then I should be on "regions"
     

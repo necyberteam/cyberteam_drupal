@@ -11,6 +11,8 @@ Feature: test news page as an authenticated user
     Then I should see "News"
     And I should see "Published Articles"
     And I should see "Press Releases"
+    And I should not see "+ Press Release"
+    And I should not see "+ Published Article"
 
   Scenario: A MGHPCC news page shows title date and byline
     Given I am logged in as a user with the "authenticated" role
