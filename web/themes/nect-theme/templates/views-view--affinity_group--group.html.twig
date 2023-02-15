@@ -63,13 +63,11 @@
 
 </div>
 <script>
-$(document).ready(function() {
-  $('.flag-affinity-group a.btn-sm').addClass('btn-block').removeClass('px-2').removeClass('py-1').removeClass('btn-sm');
-});
-$('.flag-affinity-group a').click(function() {
-  setTimeout(
-   function() {
-    window.location.reload(true);
-   }, 100);
-});
+var btns = document.querySelectorAll('.flag-affinity-group a.btn-sm');
+for (var i = 0; i < btns.length; i++) {
+  btns[i].classList.add('btn-block');
+  btns[i].classList.remove('px-2');
+  btns[i].classList.remove('py-1');
+  btns[i].classList.remove('btn-sm');
+}
 </script>
