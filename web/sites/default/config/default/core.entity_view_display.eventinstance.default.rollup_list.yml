@@ -23,15 +23,15 @@ content:
       date_format: 'n/j/Y g:i A T'
       separator: '-'
     third_party_settings: {  }
-    weight: 1
+    weight: 0
     region: content
   description:
     type: text_trimmed
-    label: inline
+    label: hidden
     settings:
       trim_length: 200
     third_party_settings: {  }
-    weight: 2
+    weight: 1
     region: content
   location:
     type: text_trimmed
@@ -39,15 +39,7 @@ content:
     settings:
       trim_length: 100
     third_party_settings: {  }
-    weight: 3
-    region: content
-  title:
-    type: string
-    label: hidden
-    settings:
-      link_to_entity: true
-    third_party_settings: {  }
-    weight: 0
+    weight: 2
     region: content
 hidden:
   affinity_group: true
@@ -57,3 +49,4 @@ hidden:
   content_moderation_control: true
   registration: true
   tags: true
+  title: true
