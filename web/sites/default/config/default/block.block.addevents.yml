@@ -6,6 +6,7 @@ dependencies:
     - 'block_content:basic:c8c9b36e-739c-4e43-9401-9c06f6c0b41c'
   module:
     - block_content
+    - domain
     - system
   theme:
     - accesstheme
@@ -28,3 +29,11 @@ visibility:
     id: request_path
     negate: false
     pages: /events
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
