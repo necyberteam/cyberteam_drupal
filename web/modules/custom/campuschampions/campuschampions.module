@@ -14,6 +14,9 @@ use Drupal\Core\Access\AccessResult;
  *
  */
 function campuschampions_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'user_form') {
+    $form['field_carnegie_code']['widget'][0]['value']['#autocomplete_route_name'] = 'campuschampions.autocomplete';
+  }
   global $user;
   if ($form_id == 'webform_submission_join_campus_champions_add_form') {
     // Prepopulate user fields if logged into an account.
