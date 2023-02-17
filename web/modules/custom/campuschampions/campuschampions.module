@@ -9,6 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Access\AccessResult;
+use Drupal\campuschampions\Plugin\CarnegieCodesLookup;
 
 /**
  *
@@ -236,4 +237,24 @@ function campuschampions_node_access(NodeInterface $node, $op, $account) {
  */
 function campuschampions_redirect_to_profile_page_form_submit($form, &$form_state) {
   $form_state->setRedirect('user.page');
+}
+
+/**
+ * Implements HOOK_preprocess_views_view_field().
+ */
+function campuschampions_preprocess_views_view_field(&$variables) {
+  $view = $variables['view'];
+  $field = $variables['field'];
+  if ($view->storage->id() == 'campus_champions_user_export' && $view->current_display == 'page_cc_users' && $field->options['id'] == 'field_carnegie_code') {
+    $cc = $variables['output']->__toString();
+    $db = new CarnegieCodesLookup;
+    $results = $db->lookupByUnitId($cc, ['CITY', 'STABBR']);
+    $variables['output'] = $results['CITY'] . ', ' . $results['STABBR'];
+  }
+  // if ($view->storage->id() == 'campus_champions_user_export' && $view->current_display == 'page_cc_users' && $field->options['id'] == 'field_carnegie_code_1') {
+  //   $cc = $variables['output']->__toString();
+  //   $db = new CarnegieCodesLookup;
+  //   $results = $db->lookupByUnitId($cc, ['basic2021']);
+  //   $variables['output'] = $results['basic2021'];
+  // }
 }
