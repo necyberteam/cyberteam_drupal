@@ -11,7 +11,6 @@ namespace Drupal\campuschampions\Plugin;
  *   description = @Translation("Lookup in the Carnegie Codes DB.")
  * )
  */
-
 class CarnegieCodesLookup {
 
   /**
