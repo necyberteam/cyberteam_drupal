@@ -5,7 +5,7 @@ dependencies:
   config:
     - field.storage.user.field_carnegie_code
     - taxonomy.vocabulary.region
-    - user.role.authenticated
+    - user.role.campuschampionsadmin
   content:
     - 'taxonomy_term:region:9551e6b0-0c26-41f1-b028-6aa4c1422242'
   module:
@@ -235,7 +235,7 @@ display:
         type: role
         options:
           role:
-            authenticated: authenticated
+            campuschampionsadmin: campuschampionsadmin
       cache:
         type: tag
         options: {  }
@@ -426,4 +426,3 @@ display:
         - user.roles
       tags:
         - 'config:field.storage.user.field_carnegie_code'
-
