@@ -8,8 +8,12 @@ dependencies:
   content:
     - 'taxonomy_term:region:9551e6b0-0c26-41f1-b028-6aa4c1422242'
   module:
+    - csv_serialization
+    - rest
+    - serialization
     - taxonomy
     - user
+    - views_data_export
 id: campus_champions_user_export
 label: 'Campus Champions - User export'
 module: views
@@ -363,12 +367,51 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.user.field_carnegie_code'
+  ccusers_data_export:
+    id: ccusers_data_export
+    display_title: 'Data export'
+    display_plugin: data_export
+    position: 2
+    display_options:
+      style:
+        type: data_export
+        options:
+          formats:
+            csv: csv
+          csv_settings:
+            delimiter: ','
+            enclosure: '"'
+            escape_char: \
+            strip_tags: true
+            trim: true
+            encoding: utf8
+            utf8_bom: '0'
+            use_serializer_encode_only: false
+      display_extenders: {  }
+      path: cc-users/export
+      filename: campus-champions-users.csv
+      automatic_download: true
+      store_in_public_file_directory: false
+      custom_redirect_path: false
+      redirect_to_display: none
+      include_query_params: false
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - request_format
+        - user
+        - user.permissions
+      tags:
+        - 'config:field.storage.user.field_carnegie_code'
   page_cc_users:
     id: page_cc_users
     display_title: Page
     display_plugin: page
     position: 1
     display_options:
+      enabled: false
       display_extenders: {  }
       path: cc-users
     cache_metadata:
