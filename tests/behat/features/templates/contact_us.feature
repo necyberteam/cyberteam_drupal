@@ -17,7 +17,7 @@ Feature: test contact us form
     Then I should get a "200" HTTP response
     
 
-  Scenario: Unauthenticated user fills out the contact us form
+  Scenario: Authenticated user fills out the contact us form
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
     When I follow "Contact Us"
