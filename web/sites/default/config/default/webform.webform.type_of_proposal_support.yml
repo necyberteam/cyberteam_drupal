@@ -210,10 +210,10 @@ access:
     users: {  }
     permissions: {  }
 handlers:
-  email_julie:
+  email:
     id: email
-    handler_id: email_julie
-    label: email_julie
+    handler_id: email
+    label: Email
     notes: ''
     status: true
     conditions: {  }
@@ -221,7 +221,7 @@ handlers:
     settings:
       states:
         - completed
-      to_mail: jma@mghpcc.org
+      to_mail: '[webform_role:match_pm]'
       to_options: {  }
       bcc_mail: ''
       bcc_options: {  }
@@ -235,7 +235,7 @@ handlers:
       sender_mail: ''
       sender_name: ''
       subject: _default
-      body: "<p>Submitted on [webform_submission:created]</p>\r\n\r\n<p>Submitted by: [webform_submission:user]</p>\r\n\r\n<p>Submitted email: [current-user:mail]</p>\r\n\r\n<p>Submitted values are:</p>\r\n[webform_submission:values]"
+      body: _default
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true

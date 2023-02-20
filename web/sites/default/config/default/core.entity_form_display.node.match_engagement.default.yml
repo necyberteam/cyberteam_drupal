@@ -29,6 +29,7 @@ dependencies:
     - field.field.node.match_engagement.field_launch_presentation
     - field.field.node.match_engagement.field_launch_presentation_date
     - field.field.node.match_engagement.field_lessons_learned
+    - field.field.node.match_engagement.field_match_interested_users
     - field.field.node.match_engagement.field_mentor
     - field.field.node.match_engagement.field_milestone_actual_date
     - field.field.node.match_engagement.field_milestone_completion_date
@@ -424,6 +425,16 @@ content:
     region: content
     settings:
       rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_match_interested_users:
+    type: entity_reference_autocomplete
+    weight: 51
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_mentor:

@@ -38,12 +38,14 @@ Feature: test tags page
       Then I should be on "tags/login"
       And I should see "Blog Entries"
 
-    Scenario: Unauthenticated user examines tree view of tags
+    Scenario: Unauthenticated user examines tree view and list view of tags
       Given I am not logged in
       When I go to "tags"
       When I follow "Tree View"
       Then I should see "Please select the"
       And I should be on "tags/hierarchal"
+      When I follow "List View"
+      Then I should be on "/tags"
       # TODO want to test clicking the down arrow - following isn't right
       # When I follow "#admin-and-support"
       # Then I should see "login"

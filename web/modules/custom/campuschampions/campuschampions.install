@@ -26,3 +26,526 @@ function campuschampions_update_8901() {
   }
   return t('The cv_resume field was changed from public to private.');
 }
+
+/**
+ * @file
+ * Remove and add new carnegie_codes table.
+ */
+function campuschampions_update_9000() {
+  $schema = \Drupal::database()->schema();
+  $schema->dropTable('carnegie_codes');
+  $schema->createTable('carnegie_codes', [
+    'fields' => [
+      'unitid' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'primary' => TRUE,
+      ],
+      'name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'city' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'stabbr' => [
+        'type' => 'varchar',
+        'length' => 2,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'basic2000' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'basic2005' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'basic2010' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'basic2015' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'basic2018' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'basic2021' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ipug2021' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ipgrad2021' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ugprofile2021' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'enrprofile2021' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'sizeset2021' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'cce2020' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'obereg' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'sector' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'iclevel' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'control' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'pset4flg' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'locale' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'landgrnt' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'medical' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'hbcu' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'tribal' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'hsi' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'msi' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'womens' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'coplac' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'cusu' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'cumu' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'assocdeg' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'baccdeg' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'mastdeg' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'docrsdeg' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'docppdeg' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'docothdeg' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'totdeg' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'serd' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'nonserd' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'pdnfrstaff' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'facnum' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'socsc_rsd' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'hum_rsd' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'stem_rsd' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'oth_rsd' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'drsas' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'drsprof' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ogrdas' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ogrdprof' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'asbadeg' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'profbadeg' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'asc2crtc' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'asc2trns' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'fallenr19' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'anenr1920' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'fallenr20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'fallfte20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ugtenr20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'grtenr20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ugdsft20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ugdspt20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ugndft20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ugndpt20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'grft20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'grpt20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ugn1sttmft20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ugn1sttmpt20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ugntrft20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ugntrpt20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'stdmixratio' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'progmixratio' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'numcip2' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'lrgstcip2_1' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'lrgstcip2_2' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'lrgstcip2_degs' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'pctlrgst' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ugcip4pr' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'grcip4pr' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'coexpr' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'pctcoex' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'docresflag' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'maxgpeduc' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'maxgpbus' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'maxgpoth' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ngcip2pxdr' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ngcip2dr' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'rooms' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'nsat' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'nact' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'satv25' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'satm25' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'satcmb25' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'actcmp25' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'satacteq25' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'actfinal' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'appsf20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'admitsf20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'pctadmitf20' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'selindex' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+    ]
+  ]);
+}

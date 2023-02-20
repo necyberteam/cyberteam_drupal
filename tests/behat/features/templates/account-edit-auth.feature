@@ -27,5 +27,15 @@ Feature: test for the edit account page
     Then I should see "Time Zone"
     Then I should see "Citizenships"
 
+  Scenario: Authenticated user tests the add interest/skills page
+    Given I am logged in as a user with the "authenticated" role
+    When I go to "/add-interest"
+    Then I should see "Add Interest"
+    When I click "Add"
+    Then I should see "Remove"
+    When I go to "/add-skill"
+    Then I should see "Add Skill"
+    When I click "Add"
+    Then I should see "Remove"
 
 

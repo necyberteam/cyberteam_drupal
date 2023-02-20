@@ -23,3 +23,4 @@ Feature: test individual Affinity Group page
     Then I should see "Events"
     Then I should see "Resources"
     Then I should see "People"
+    Then I click "Join"

@@ -206,9 +206,9 @@ access:
     users: {  }
     permissions: {  }
 handlers:
-  email:
+  email_1:
     id: email
-    handler_id: email
+    handler_id: email_1
     label: Email
     notes: ''
     status: true
@@ -217,21 +217,21 @@ handlers:
     settings:
       states:
         - completed
-      to_mail: nect@wpi.edu
+      to_mail: '[webform_role:cnctci_pm]'
       to_options: {  }
       bcc_mail: ''
       bcc_options: {  }
       cc_mail: ''
       cc_options: {  }
-      from_mail: noreplay@wpi.edu
+      from_mail: _default
       from_options: {  }
       from_name: _default
       reply_to: ''
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: 'New Tag Request: [webform_submission:values:tag_request_name]'
-      body: "<p>Submitted on {{ webform_token('[webform_submission:created]', webform_submission) }}</p>\r\n<p>Submitted by: {{ webform_token('[webform_submission:user]', webform_submission) }}  {{ webform_token('[webform_submission:user:mail]', webform_submission) }}</p>\r\n<p>Submitted values are:</p>\r\n{{ webform_token('[webform_submission:values]', webform_submission) }}\r\n"
+      subject: _default
+      body: _default
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true
@@ -239,7 +239,7 @@ handlers:
       exclude_attachments: false
       html: true
       attachments: false
-      twig: true
+      twig: false
       theme_name: ''
       parameters: {  }
       debug: false

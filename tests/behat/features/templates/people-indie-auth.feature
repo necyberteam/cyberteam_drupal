@@ -22,7 +22,9 @@ Feature: test individual people page
     #Projects is not shown in screenshots or on actual page
     #Then I should see "Projects"
     Then I should not see "HPC Experience"
-    #Then I should not see "Interest"
+    Then I should see "Interest"
+    Then I should see "aws"
+    Then I should see "azure"
     When I click "Contact"
     Then I should be on "/user/100/contact"
 

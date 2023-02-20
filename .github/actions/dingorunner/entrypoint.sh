@@ -9,6 +9,7 @@ storeKey () {
   echo "$SSH_PRIVATE_KEY" > ~/.ssh/private.key
   chmod 0600 ~/.ssh/private.key
   ssh-add ~/.ssh/private.key
+  git config --global --add safe.directory "*"
 }
 
 terminusApi () {
