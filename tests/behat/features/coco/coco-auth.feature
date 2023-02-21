@@ -53,14 +53,12 @@ Feature: test coco domain
     Then I should see "Login To Suggest A New Listing"
     When I click "Join"
     Then I should see "Create new representative account"
-    When I fill in "Email address" with "Test@email"
-    When I fill in "Username" with "Test"
+    When I fill in "Email address" with "test231@example.com"
+    When I fill in "Username" with "Test231"
     When I fill in "First Name" with "Test"
     When I fill in "Last Name" with "Test"
     When I fill in "Institution" with "Test"
     When I fill in "Citizenships" with "Test"
-    #Will not pass due to invalid email address. Is there one that I can use?
     When I press "edit-submit"
-    #Just here to show error
-    #Then I should see "Something"
+    
 
