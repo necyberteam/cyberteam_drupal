@@ -7,8 +7,10 @@ Feature: test coco domain
   Scenario: Authenticated/Unauthenticated user navigates through coco domain
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
+    When I wait for the page to be loaded
     #Logo is not working
-    #Then I should see "logo"
+    Then I should see an image with alt text "CoCo"
+    #Then I should see "Northeast Cyberteam"
     Then I should not see "About Us"
     Then I should not see "Get Help"
     Then I should not see "Projects"
@@ -57,8 +59,8 @@ Feature: test coco domain
     When I fill in "Last Name" with "Test"
     When I fill in "Institution" with "Test"
     When I fill in "Citizenships" with "Test"
-    #Recaptcha does not work
-    #When I check "recaptcha-anchor"
-    #When I press "edit-submit"
+    #Will not pass due to invalid email address. Is there one that I can use?
+    When I press "edit-submit"
+    #Just here to show error
     #Then I should see "Something"
 
