@@ -64,11 +64,6 @@ Feature: verify specific links on homepage
     # And I follow "TRECIS Cyberteam"
     # Then I should be on "https://ask.cyberinfrastructure.org/c/cyberteams/trecis/60"
 
-    # TODO - broken
-    # When I am on the homepage
-    # And I follow "TRECIS Cyberteam"
-    # Then I should be on "https://ask.cyberinfrastructure.org/c/cyberteams/trecis/60"
-
     When I am on the homepage
     And I follow "Campus Champions Region 1"
     Then I should be on "affinity-groups/campus-champions-region-1"
