@@ -27,6 +27,10 @@ Feature: verify specific links on homepage
     And I should see "Affinity Groups"
 
     When I am on the homepage
+    And I follow "ACCESS Support"
+    Then I should be on "https://support.access-ci.org/"
+
+    When I am on the homepage
     And I follow "CAREERS Cyberteam"
     Then I should be on "https://careers-ct.cyberinfrastructure.org/"
 
