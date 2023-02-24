@@ -70,12 +70,6 @@ Feature: verify specific links on homepage
     # Then I should be on "https://ask.cyberinfrastructure.org/c/cyberteams/trecis/60"
 
     When I am on the homepage
-    And I wait for the page to be loaded
-    And I follow "MINES Research Computing"
-    And I wait for the page to be loaded
-    Then I should be on "https://ask.cyberinfrastructure.org/c/locales-data-centers-and-campus-rc/mines-research-computing/36"
-
-    When I am on the homepage
     And I follow "Campus Champions Region 1"
     Then I should be on "affinity-groups/campus-champions-region-1"
 
