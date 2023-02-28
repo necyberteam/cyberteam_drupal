@@ -42,7 +42,12 @@ Feature: test tags page for authenticated user
     When I go to "tags"
     When I follow "Tree View"
     Then I should see "Please select the"
+    Then I should see "ACCESS RPs"
     And I should be on "tags/hierarchal"
+    When I follow "List View"
+    Then I should see "login"
+    Then I should be on "/tags"
+    When I select "Contains all words" from "edit-name-op--2"
     # want to test clicking the down arrow - following isn't right
     # When I follow "#admin-and-support"
     # Then I should see "login"
