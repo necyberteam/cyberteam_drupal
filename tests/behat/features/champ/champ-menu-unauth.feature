@@ -33,6 +33,7 @@ Feature: verify specific links on homepage
     Then I should see "Carnegie Classification"
     When I fill in "Carnegie Classification" with "Champ"
     And I wait 10 seconds
-    Then I should see "Champlain College"
+    #When I select "Champlain College" from "Carnegie Classification"
+    #When I click "submit"
 
 

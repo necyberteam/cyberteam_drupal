@@ -8,7 +8,8 @@ Feature: verify specific links on homepage
     Given I am not logged in
     When I am on the homepage
     When I follow "Contact Us"
-    Then I should be on "contact/campus_champions"
+    #Below code goes to "/" since it is supposted to send an email through mailto:
+    #Then I should be on "contact/campus_champions"
     And I should see "Campus Champions"
     
   Scenario: Verify the main logo goes to home page
@@ -21,7 +22,8 @@ Feature: verify specific links on homepage
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
     When I follow "Contact Us"
-    Then I should be on "contact/campus_champions"
+    #Below code goes to "/" since it is supposted to send an email through mailto:
+    #Then I should be on "contact/campus_champions"
     And I should see "Campus Champions"
     
   Scenario: authenticated Verify the main logo goes to home page
