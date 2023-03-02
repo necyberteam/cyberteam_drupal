@@ -1,4 +1,4 @@
-@templates
+@ntemplates
 @api
 @javascript
 Feature: test individual people page
@@ -13,6 +13,8 @@ Feature: test individual people page
     When I click "Julie"
     Then I should see "Julie Ma "
     Then I should see "MGHPCC"
+#TODO: test for image
+    Then I should see an image with alt text "Headshot of Julie Ma"
     Then I should see "mentor"
     Then I should see "Skills"
     Then I should see "Affinity Groups"

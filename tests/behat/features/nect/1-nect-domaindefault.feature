@@ -17,4 +17,5 @@ Feature: test nect domain
     When I am on the homepage
     Then I should get a "200" HTTP response
     Then I should see "Institutions in Northern New England"
+    #TODO:contact button should not show (manual testing passes)
 
