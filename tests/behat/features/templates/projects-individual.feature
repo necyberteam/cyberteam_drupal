@@ -119,6 +119,7 @@ Feature: test projects page
     And I wait for the page to be loaded
     Then I should see "test-create-project-title"
     And I should see "login"
+    Then I should see "Submitted by:"
     And I should see "At-Large"
     And I should see "Recruiting"
     And I should see "test@email.com"
@@ -136,10 +137,28 @@ Feature: test projects page
   Scenario: Verify auth user can see test project
     Given I am logged in as a user with the "authenticated" role
     When I go to "projects"
-    When I fill in "search" with "BEhat"
+    When I fill in "search" with "BEHAT"
     Then I should see "test-create-project-title-for-behat"
     When I follow "test-create-project-title-for-behat"
     And I wait for the page to be loaded
     Then I should see "test-create-project-title"
     And I should see "login"
-    # not checking everything, since the above test does that
+    Then I should see "Submitted by:"
+    And I should see "At-Large"
+    And I should see "Recruiting"
+    And I should see "test@email.com"
+    And I should see "test Project Institution"
+    And I should see "test Address"
+    And I should see "test Address 2"
+    And I should see "test City/Town"
+    And I should see "Alabama"
+    And I should see "98765"
+    And I should see "test project description"
+    When I click "I'm interested"
+    Then I should see "Interested"
+    #Interested button is not able to be clicked
+    #When I click " interested"
+    #Then I should see "I'm interested"
+    And I should see "http://test.com"
+    And I should see "33"
+
