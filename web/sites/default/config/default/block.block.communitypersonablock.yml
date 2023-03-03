@@ -1,0 +1,25 @@
+uuid: 1ed59efb-4452-4b34-85d1-e843fff8da23
+langcode: en
+status: true
+dependencies:
+  module:
+    - cssn
+    - system
+  theme:
+    - accesstheme
+id: communitypersonablock
+theme: accesstheme
+region: sidebar_first
+weight: -20
+provider: null
+plugin: cssn_block
+settings:
+  id: cssn_block
+  label: 'Community persona block'
+  label_display: '0'
+  provider: cssn
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community-persona
