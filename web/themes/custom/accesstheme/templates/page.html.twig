@@ -74,7 +74,7 @@ set footer_classes = ' ' ~
             {# <img src="/themes/custom/accesstheme/assets/NSF_4-Color_bitmap_Logo.png" alt="NSF logo" width="60" height="60"/> #}
             {{ page.nav_branding }}
           </div>
-          <a href="/outages" class="btn btn-outline-secondary">OUTAGES</a>
+          {{ drupal_block('create_ticket_button') }}
         </div>
     </div>
     <div class="bg-med-teal">
