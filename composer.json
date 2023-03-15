@@ -36,6 +36,10 @@
         "operations_cider": {
             "type": "git",
             "url": "https://github.com/necyberteam/Operations_Drupal_Feed_Cider.git"
+        },
+        "rules": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/rules.git"
         }
     },
     "require": {
@@ -114,7 +118,7 @@
         "drupal/restui": "^1.20",
         "drupal/role_delegation": "^1.1",
         "drupal/rot13": "^1.2",
-        "drupal/rules": "^3.0",
+        "drupal/rules": "dev-3.x",
         "drupal/search404": "^2.0",
         "drupal/search_exclude": "^2.0@beta",
         "drupal/select2": "^1.13",
@@ -181,39 +185,58 @@
         }
     },
     "extra": {
-      "drupal-scaffold": {
-          "locations": {
-              "web-root": "web/"
-          },
-          "file-mapping": {
-              "[web-root]/README.txt": false,
-              "[web-root]/sites/README.txt": false,
-              "[web-root]/example.gitignore": false,
-              "[web-root]/sites/example.settings.local.php": false,
-              "[web-root]/sites/example.sites.php": false,
-              "[web-root]/modules/README.txt": false,
-              "[web-root]/profiles/README.txt": false,
-              "[web-root]/themes/README.txt": false,
-              "[web-root]/INSTALL.txt": false
-          }
-      },
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "web/"
+            },
+            "file-mapping": {
+                "[web-root]/README.txt": false,
+                "[web-root]/sites/README.txt": false,
+                "[web-root]/example.gitignore": false,
+                "[web-root]/sites/example.settings.local.php": false,
+                "[web-root]/sites/example.sites.php": false,
+                "[web-root]/modules/README.txt": false,
+                "[web-root]/profiles/README.txt": false,
+                "[web-root]/themes/README.txt": false,
+                "[web-root]/INSTALL.txt": false
+            }
+        },
         "patches-file": "composer.patches.json",
         "installer-paths": {
-            "web/core": ["type:drupal-core"],
+            "web/core": [
+                "type:drupal-core"
+            ],
             "web/libraries/{$name}": [
                 "type:drupal-library",
                 "type:bower-asset",
                 "type:npm-asset"
             ],
-            "web/modules/contrib/{$name}": ["type:drupal-module"],
-            "web/profiles/contrib/{$name}": ["type:drupal-profile"],
-            "web/themes/contrib/{$name}": ["type:drupal-theme"],
-            "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
-            "web/modules/custom/{$name}": ["type:drupal-custom-module"],
-            "web/themes/custom/{$name}": ["type:drupal-custom-theme"],
-            "web/private/scripts/quicksilver/{$name}/": ["type:quicksilver-script"]
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "web/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "web/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "web/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "web/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ],
+            "web/private/scripts/quicksilver/{$name}/": [
+                "type:quicksilver-script"
+            ]
         },
-        "installer-types": ["bower-asset", "npm-asset"]
+        "installer-types": [
+            "bower-asset",
+            "npm-asset"
+        ]
     },
     "autoload": {
         "psr-4": {
