@@ -13,22 +13,25 @@ config_version: '3'
 expression:
   id: rules_rule
   uuid: 5c2563b7-82dc-40f0-a558-865245bbab7e
+  weight: 0
   conditions:
     id: rules_and
     uuid: b05b8b75-11cf-4a48-a5cb-4008fe61eb83
+    weight: 0
     conditions: {  }
   actions:
     id: rules_action_set
     uuid: a4370a7f-210a-47a4-af9b-b961e1602f70
+    weight: 0
     actions:
       -
         id: rules_action
         uuid: a1817d7f-ab08-4603-aab4-d729ba3a1ca9
+        weight: 0
         action_id: rules_send_email
         context_values:
           to:
             - nect@mghpcc.org
-            - nect@wpi.edu
           subject: '[Cyberteam Portal] New User {{ user.name.value }}'
           message: '{{ user.name.value }} has joined the cyberteam. <br><br><a href="/user/{{ user.uid.value }}">View</a>'
           reply: ''
