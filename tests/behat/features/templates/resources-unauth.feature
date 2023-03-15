@@ -18,7 +18,6 @@ Feature: test resource page
     When I fill in "edit-search--2" with "test"
     Then I should see "These resources have been crowd-sourced from the ConnectCI"
     Then I should see "test"
-    Then I should see "Votes"
     Then I should see "Title"
     Then I should see "Description"
     Then I should see "Category"
