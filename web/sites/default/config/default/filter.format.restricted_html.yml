@@ -1,7 +1,11 @@
 uuid: dfd34e55-23c2-4bfd-9c2f-b3a006cbead5
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - obfuscate_email
+    - rel_to_abs
+    - shortcode
 _core:
   default_config_hash: KUjJ8Ti_ZJSlhGM88E_mhJP-8mmQRNUB6RFof615Kt0
 name: 'Restricted HTML'
@@ -30,3 +34,24 @@ filters:
     weight: 0
     settings:
       filter_url_length: 72
+  obfuscate_email:
+    id: obfuscate_email
+    provider: obfuscate_email
+    status: false
+    weight: 0
+    settings:
+      click: '0'
+      click_label: 'Click here to show mail address'
+  rel_to_abs:
+    id: rel_to_abs
+    provider: rel_to_abs
+    status: true
+    weight: 0
+    settings: {  }
+  shortcode:
+    id: shortcode
+    provider: shortcode
+    status: false
+    weight: 0
+    settings:
+      icon_block: '1'

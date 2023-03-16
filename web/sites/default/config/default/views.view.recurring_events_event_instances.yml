@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.eventinstance.list
+    - core.entity_view_mode.eventinstance.rollup_list
     - recurring_events.eventinstance_type.default
   module:
     - datetime
@@ -1162,7 +1163,13 @@ display:
             view_eventinstance: view_eventinstance
             title_2: title_2
             title_1: title_1
+            type: type
             date__value: date__value
+            uid: uid
+            status: status
+            created: created
+            changed: changed
+            operations: operations
           default: '-1'
           info:
             title:
@@ -2921,5 +2928,274 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - user.permissions
+      tags: {  }
+  rollup_list_view:
+    id: rollup_list_view
+    display_title: Rollup_List_View
+    display_plugin: page
+    position: 1
+    display_options:
+      pager:
+        type: full
+        options:
+          offset: 0
+          items_per_page: 25
+          total_pages: null
+          id: 0
+          tags:
+            next: ››
+            previous: ‹‹
+            first: '« First'
+            last: 'Last »'
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
+          quantity: 9
+      access:
+        type: perm
+        options:
+          perm: 'access eventinstance overview'
+      filters:
+        title:
+          id: title
+          table: eventseries_field_data
+          field: title
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          entity_type: eventseries
+          entity_field: title
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: title_op
+            label: 'Event Name'
+            description: ''
+            use_operator: false
+            operator: title_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: title
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        type:
+          id: type
+          table: eventinstance_field_data
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventinstance
+          entity_field: type
+          plugin_id: bundle
+          operator: in
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: type_op
+            label: Type
+            description: ''
+            use_operator: false
+            operator: type_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: type
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        date__value_2:
+          id: date__value_2
+          table: eventinstance_field_data
+          field: date__value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventinstance
+          entity_field: date
+          plugin_id: datetime
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: ''
+            type: date
+          group: 1
+          exposed: true
+          expose:
+            operator_id: date__value_2_op
+            label: 'Event Date'
+            description: null
+            use_operator: false
+            operator: date__value_2_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: date__value_2
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: null
+            max_placeholder: null
+            placeholder: null
+          is_grouped: true
+          group_info:
+            label: 'Event Date'
+            description: ''
+            identifier: date__value_2
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: '1'
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: Future
+                operator: '>='
+                value:
+                  min: ''
+                  max: ''
+                  value: today
+                  type: offset
+              2:
+                title: Past
+                operator: '<='
+                value:
+                  min: ''
+                  max: ''
+                  value: today
+                  type: offset
+        status:
+          id: status
+          table: eventinstance_field_data
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventinstance
+          entity_field: status
+          plugin_id: boolean
+          operator: '='
+          value: All
+          group: 1
+          exposed: true
+          expose:
+            operator_id: ''
+            label: Published
+            description: ''
+            use_operator: false
+            operator: status_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: status
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+          is_grouped: true
+          group_info:
+            label: Published
+            description: ''
+            identifier: status
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: Published
+                operator: '='
+                value: '1'
+              2:
+                title: Unpublished
+                operator: '='
+                value: '0'
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      style:
+        type: html_list
+        options:
+          row_class: ''
+          default_row_class: false
+          uses_fields: false
+          type: ul
+          wrapper_class: item-list
+          class: ''
+      row:
+        type: 'entity:eventinstance'
+        options:
+          relationship: none
+          view_mode: rollup_list
+      defaults:
+        access: false
+        pager: false
+        style: false
+        row: false
+        filters: false
+        filter_groups: false
+      display_description: 'List of events suitable for email rollup display'
+      exposed_block: false
+      display_extenders: {  }
+      path: admin/content/events/instances/rollup_list
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
         - user.permissions
       tags: {  }

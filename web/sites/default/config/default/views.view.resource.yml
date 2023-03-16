@@ -457,7 +457,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"card my-3 mx-auto card-body\">\r\n<div class=\"row pb-2 mb-2\">\r\n<div class=\"col-lg-1 col-sm-2 align-middle mt-2 my-md-auto\">\r\n{{ count }}\r\n</div>\r\n<div class=\"col-lg-11 col-sm-10 m-auto order-first order-sm-last\">\r\n<h3>{{ webform_submission_value }}</h3>\r\n{{ webform_submission_value_1 }}<br>\r\n{{ webform_submission_value_2 }}\r\n</div>\r\n</div>\r\n<hr>\r\n{{ webform_submission_value_5 }}<br>\r\n{{ webform_submission_value_3 }}\r\n</div>"
+            text: "<div class=\"card my-3 mx-auto card-body\">\r\n<div class=\"row pb-2 mb-2\">\r\n<div class=\"col-lg-1 col-sm-2 align-middle mt-2 my-md-auto d-none\">\r\n{{ count }}\r\n</div>\r\n<div class=\"col-lg-11 col-sm-10 order-first order-sm-last\">\r\n<h3>{{ webform_submission_value }}</h3>\r\n{{ webform_submission_value_1 }}<br>\r\n{{ webform_submission_value_2 }}\r\n</div>\r\n</div>\r\n<hr>\r\n{{ webform_submission_value_5 }}<br>\r\n{{ webform_submission_value_3 }}\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -497,6 +497,7 @@ display:
           webform_element_format: value
           webform_multiple_value: true
           webform_multiple_delta: 0
+          webform_check_access: 1
       pager:
         type: some
         options:

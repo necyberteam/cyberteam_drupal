@@ -1,24 +1,24 @@
-uuid: 64df953d-f0d7-4b0e-86b7-09cac4d75ba0
+uuid: 449dcadd-b544-4a7f-a62d-79a81297ac4a
 langcode: en
-status: false
+status: true
 dependencies:
   content:
-    - 'block_content:basic:f3a9a2d6-045a-4613-a412-3c2b98172f53'
+    - 'block_content:basic:6a4bd189-5529-41f2-81f1-8d2ed4f2ed25'
   module:
     - block_content
     - domain
     - system
   theme:
-    - accesstheme
-id: accesslogingraphic
-theme: accesstheme
+    - nect
+id: careersdencalltoaction
+theme: nect
 region: content
-weight: -3
+weight: 0
 provider: null
-plugin: 'block_content:f3a9a2d6-045a-4613-a412-3c2b98172f53'
+plugin: 'block_content:6a4bd189-5529-41f2-81f1-8d2ed4f2ed25'
 settings:
-  id: 'block_content:f3a9a2d6-045a-4613-a412-3c2b98172f53'
-  label: 'ACCESS Login Graphic'
+  id: 'block_content:6a4bd189-5529-41f2-81f1-8d2ed4f2ed25'
+  label: 'Careers DEN Call to Action'
   label_display: '0'
   provider: block_content
   status: true
@@ -31,8 +31,8 @@ visibility:
     context_mapping:
       domain: '@domain.current_domain_context:domain'
     domains:
-      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
+      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
   request_path:
     id: request_path
     negate: false
-    pages: /user/login
+    pages: '<front>'
