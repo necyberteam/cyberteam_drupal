@@ -1253,7 +1253,7 @@ display:
           entity_field: uid
           plugin_id: standard
           required: false
-      use_more: true
+      use_more: false
       use_more_always: true
       use_more_text: 'All Events'
       link_display: custom_url
@@ -3493,26 +3493,9 @@ display:
     position: 1
     display_options:
       pager:
-        type: full
+        type: none
         options:
           offset: 0
-          items_per_page: 25
-          total_pages: null
-          id: 0
-          tags:
-            next: ››
-            previous: ‹‹
-            first: '« First'
-            last: 'Last »'
-          expose:
-            items_per_page: false
-            items_per_page_label: 'Items per page'
-            items_per_page_options: '5, 10, 25, 50'
-            items_per_page_options_all: false
-            items_per_page_options_all_label: '- All -'
-            offset: false
-            offset_label: Offset
-          quantity: 9
       access:
         type: perm
         options:
@@ -3752,6 +3735,5 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - url.query_args
         - user.permissions
       tags: {  }
