@@ -782,10 +782,9 @@ display:
           hide_alter_empty: true
           destination: false
       pager:
-        type: some
+        type: none
         options:
           offset: 0
-          items_per_page: 4
       exposed_form:
         type: basic
         options:
@@ -3312,6 +3311,11 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+      pager:
+        type: some
+        options:
+          offset: 0
+          items_per_page: 4
       sorts:
         date__value:
           id: date__value
@@ -3460,6 +3464,7 @@ display:
           hide_empty: false
       defaults:
         title: false
+        pager: false
         use_more: false
         use_more_always: false
         use_more_text: false
