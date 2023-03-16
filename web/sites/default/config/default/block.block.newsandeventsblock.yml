@@ -1,29 +1,24 @@
-uuid: 72f82bf8-9623-45bf-971c-59456f2bc5b0
+uuid: 669b61c9-c8fc-4bbb-be2a-bc400d719826
 langcode: en
 status: true
 dependencies:
-  config:
-    - views.view.recurring_events_event_series
   module:
+    - access_news
     - domain
     - system
-    - views
   theme:
     - accesstheme
-id: views_block__recurring_events_event_series_block_1
+id: newsandeventsblock
 theme: accesstheme
-region: sidebar_second
+region: content
 weight: -15
 provider: null
-plugin: 'views_block:recurring_events_event_series-block_1'
+plugin: newsandevents_block
 settings:
-  id: 'views_block:recurring_events_event_series-block_1'
-  label: ''
+  id: newsandevents_block
+  label: 'News and Events'
   label_display: '0'
-  provider: views
-  views_label: ''
-  items_per_page: none
-  exposed: {  }
+  provider: access_news
 visibility:
   domain:
     id: domain
@@ -35,4 +30,4 @@ visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /events
+    pages: '<front>'
