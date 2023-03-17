@@ -26,6 +26,8 @@ jobs:
           echo ${{ github.event_name == 'pull_request' }}
           echo ${{ github.event.inputs.sites }}
           echo ${{ contains(github.event.inputs.sites, 'coco') }}
+          echo ${{ github.event.inputs.sites }}
+          echo ${{ contains(github.event.inputs.sites, 'cci') }}
   cci:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'cci') }} || ${{ github.event_name == 'pull_request' }}
