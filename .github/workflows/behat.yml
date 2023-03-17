@@ -23,14 +23,14 @@ jobs:
       - name: Test
         run: |
           echo ${{ github.event_name }}
-          echo ${{ github.event_name == 'pull_request' }}
+          echo ${{ contains(github.event_name, 'pull_request') }}
           echo ${{ github.event.inputs.sites }}
           echo ${{ contains(github.event.inputs.sites, 'coco') }}
           echo ${{ github.event.inputs.sites }}
           echo ${{ contains(github.event.inputs.sites, 'cci') }}
   cci:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
-    if: ${{ contains(github.event.inputs.sites, 'cci') }} && ${{ github.event_name == 'pull_request' }}
+    if: ${{ contains(github.event.inputs.sites, 'cci') }} && ${{ contains(github.event_name, 'pull_request') }}
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "cci"
@@ -42,7 +42,7 @@ jobs:
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   asp:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
-    if: ${{ contains(github.event.inputs.sites, 'asp') }} && ${{ github.event_name == 'pull_request' }}
+    if: ${{ contains(github.event.inputs.sites, 'asp') }} && ${{ contains(github.event_name, 'pull_request') }}
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "asp"
@@ -54,7 +54,7 @@ jobs:
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   champ:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
-    if: ${{ contains(github.event.inputs.sites, 'champ') }} && ${{ github.event_name == 'pull_request' }}
+    if: ${{ contains(github.event.inputs.sites, 'champ') }} && ${{ contains(github.event_name, 'pull_request') }}
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "champ"
@@ -66,7 +66,7 @@ jobs:
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   coco:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
-    if: ${{ contains(github.event.inputs.sites, 'coco') }} && ${{ github.event_name == 'pull_request' }}
+    if: ${{ contains(github.event.inputs.sites, 'coco') }} && ${{ contains(github.event_name, 'pull_request') }}
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "coco"
@@ -78,7 +78,7 @@ jobs:
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   usrse:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
-    if: ${{ contains(github.event.inputs.sites, 'usrse') }} && ${{ github.event_name == 'pull_request' }}
+    if: ${{ contains(github.event.inputs.sites, 'usrse') }} && ${{ contains(github.event_name, 'pull_request') }}
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "usrse"
@@ -90,7 +90,7 @@ jobs:
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   careers:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
-    if: ${{ contains(github.event.inputs.sites, 'careers') }} && ${{ github.event_name == 'pull_request' }}
+    if: ${{ contains(github.event.inputs.sites, 'careers') }} && ${{ contains(github.event_name, 'pull_request') }}
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "careers"
@@ -102,7 +102,7 @@ jobs:
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   gpc:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
-    if: ${{ contains(github.event.inputs.sites, 'gpc') }} && ${{ github.event_name == 'pull_request' }}
+    if: ${{ contains(github.event.inputs.sites, 'gpc') }} && ${{ contains(github.event_name, 'pull_request') }}
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "gpc"
@@ -114,7 +114,7 @@ jobs:
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   ky:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
-    if: ${{ contains(github.event.inputs.sites, 'ky') }} && ${{ github.event_name == 'pull_request' }}
+    if: ${{ contains(github.event.inputs.sites, 'ky') }} && ${{ contains(github.event_name, 'pull_request') }}
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "ky"
@@ -126,7 +126,7 @@ jobs:
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   nect:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
-    if: ${{ contains(github.event.inputs.sites, 'nect') }} && ${{ github.event_name == 'pull_request' }}
+    if: ${{ contains(github.event.inputs.sites, 'nect') }} && ${{ contains(github.event_name, 'pull_request') }}
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "nect"
