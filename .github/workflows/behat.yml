@@ -42,7 +42,7 @@ jobs:
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   champ:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
-    if: ${{ contains(github.event.inputs.sites, 'champ') }}
+    if: ${{ contains(github.event.inputs.sites, 'champ') }} || github.event_name != 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "champ"
