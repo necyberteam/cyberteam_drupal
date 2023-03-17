@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Test
         run: |
-          echo github.event_name
+          echo ${{ github.event_name }}
   cci:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'cci') }} || ${{ github.event_name == 'pull_request' }}
