@@ -16,6 +16,13 @@ permissions:
   actions: read
   pull-requests: write
 jobs:
+  test:
+    name: Quick test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: |
+          echo $github.event_name
   cci:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@main
     if: ${{ contains(github.event.inputs.sites, 'cci') }} || ${{ github.event_name == 'pull_request' }}
