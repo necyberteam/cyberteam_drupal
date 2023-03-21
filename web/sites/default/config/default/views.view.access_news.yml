@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.alt_teaser
     - field.storage.node.body
+    - field.storage.node.field_affiliation
     - field.storage.node.field_image
     - field.storage.node.field_published_date
     - image.style.landscape__480x220__keep_ratio_
@@ -16,6 +17,7 @@ dependencies:
     - datetime
     - image
     - node
+    - options
     - taxonomy
     - text
     - user
@@ -344,6 +346,68 @@ display:
           text: 'Read more'
           output_url_as_text: false
           absolute: false
+        field_affiliation:
+          id: field_affiliation
+          table: node__field_affiliation
+          field: field_affiliation
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
       pager:
         type: none
         options:
@@ -392,9 +456,60 @@ display:
           plugin_id: bundle
           value:
             access_news: access_news
+          group: 1
           expose:
             operator_limit_selection: false
             operator_list: {  }
+        field_affiliation_value:
+          id: field_affiliation_value
+          table: node__field_affiliation
+          field: field_affiliation_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_affiliation_value_op
+            label: 'Affiliation (field_affiliation)'
+            description: null
+            use_operator: false
+            operator: field_affiliation_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_affiliation_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: true
+          group_info:
+            label: Affiliation
+            description: ''
+            identifier: field_affiliation_value
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: 'ACCESS Collaboration'
+                operator: or
+                value:
+                  'ACCESS Collaboration': 'ACCESS Collaboration'
+              2:
+                title: Community
+                operator: or
+                value:
+                  Community: Community
+          reduce_duplicates: false
         field_affinity_group_target_id:
           id: field_affinity_group_target_id
           table: node__field_affinity_group
@@ -504,6 +619,10 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
       style:
         type: default
         options:
@@ -538,6 +657,7 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.body'
+        - 'config:field.storage.node.field_affiliation'
         - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_published_date'
         - 'config:workflow_list'
@@ -560,6 +680,7 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.body'
+        - 'config:field.storage.node.field_affiliation'
         - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_published_date'
         - 'config:workflow_list'
