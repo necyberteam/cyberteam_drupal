@@ -1,0 +1,31 @@
+uuid: afac5718-5e28-4e8b-aa1d-d53fb3334507
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - options
+    - recurring_events
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: eventseries.field_event_type
+field_name: field_event_type
+entity_type: eventseries
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: Conference
+      label: Conference
+    -
+      value: Training
+      label: Training
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
