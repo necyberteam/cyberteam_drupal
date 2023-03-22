@@ -1,6 +1,6 @@
 _core:
   default_config_hash: r1PkPDtSv8uPbDtiuPH3x0ALdXOUHzuH7zp8mbp3zeA
-enabled: 0
+enabled: false
 required_roles:
   steering_committee: steering_committee
   regional_admin: regional_admin
@@ -49,8 +49,6 @@ validation_plugin_settings:
     recovery_codes_amount: 5
 validation_skip: 3
 encryption: 2fa_encrypt_profile
-trust_cookie_expiration: 2592000
-cookie_name: TFA
 tfa_flood_uid_only: 1
 tfa_flood_window: 300
 tfa_flood_threshold: 6
@@ -62,3 +60,5 @@ mail:
   tfa_disabled_configuration:
     subject: 'Your CyberTeam account no longer has two-factor authentication'
     body: "[user:display-name],\r\n\r\nTwo-factor authentication has been disabled on your CyberTeam account.\r\n\r\nIf you did not take this action, please contact a site administrator immediately.\r\n\r\n--\r\nCyberTeam Admin Team"
+trust_cookie_expiration: 2592000
+cookie_name: TFA
