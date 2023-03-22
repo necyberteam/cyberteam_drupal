@@ -1,22 +1,22 @@
-uuid: 010fb4df-d944-42c7-b133-4b13c24e0826
+uuid: 39268670-7f05-48e0-b766-57cd566fd6a8
 langcode: en
 status: true
 dependencies:
   config:
-    - views.view.access_news
+    - views.view.recurring_events_event_instances
   module:
     - system
     - views
   theme:
     - accesstheme
-id: exposedformaccess_newsblock_1
+id: exposedformrecurring_events_instancesblock_1
 theme: accesstheme
 region: sidebar_second
-weight: -17
+weight: -21
 provider: null
-plugin: 'views_exposed_filter_block:access_news-block_1'
+plugin: 'views_exposed_filter_block:recurring_events_event_instances-block_1'
 settings:
-  id: 'views_exposed_filter_block:access_news-block_1'
+  id: 'views_exposed_filter_block:recurring_events_event_instances-block_1'
   label: ''
   label_display: visible
   provider: views
@@ -25,4 +25,4 @@ visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /news
+    pages: /events
