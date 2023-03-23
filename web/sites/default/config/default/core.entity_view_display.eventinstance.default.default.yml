@@ -7,6 +7,7 @@ dependencies:
   module:
     - datetime_range
     - link
+    - options
     - text
 _core:
   default_config_hash: lFFUFIZPBUZQjrIYYvP6U1hzVLGjKMl0DYK93zPM_80
@@ -21,15 +22,19 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 7
+    weight: 8
     region: content
   contact:
-    type: string
+    type: text_default
     label: above
-    settings:
-      link_to_entity: false
+    settings: {  }
     third_party_settings: {  }
-    weight: 3
+    weight: 4
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
     region: content
   date:
     type: daterange_custom
@@ -39,22 +44,28 @@ content:
       date_format: 'n/j/Y g:i A T'
       separator: '-'
     third_party_settings: {  }
-    weight: 1
+    weight: 2
     region: content
   description:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 2
+    weight: 3
+    region: content
+  event_type:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 9
     region: content
   location:
-    type: string
+    type: text_default
     label: above
-    settings:
-      link_to_entity: false
+    settings: {  }
     third_party_settings: {  }
-    weight: 4
+    weight: 5
     region: content
   registration:
     type: link
@@ -66,7 +77,7 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 5
+    weight: 6
     region: content
   tags:
     type: entity_reference_label
@@ -74,7 +85,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 6
+    weight: 7
     region: content
   title:
     type: string
@@ -82,8 +93,9 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 0
+    weight: 1
     region: content
 hidden:
   affinity_group: true
   body: true
+  event_affiliation: true

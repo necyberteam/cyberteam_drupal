@@ -4,8 +4,10 @@ status: true
 dependencies:
   config:
     - field.field.node.access_news.body
+    - field.field.node.access_news.field_affiliation
     - field.field.node.access_news.field_affinity_group
     - field.field.node.access_news.field_affinity_group_node
+    - field.field.node.access_news.field_broadcast_affinity_groups
     - field.field.node.access_news.field_domain_access
     - field.field.node.access_news.field_domain_all_affiliates
     - field.field.node.access_news.field_domain_source
@@ -16,6 +18,7 @@ dependencies:
   module:
     - datetime
     - image
+    - options
     - text
     - user
 id: node.access_news.default
@@ -29,6 +32,18 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 2
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
+  field_affiliation:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
     region: content
   field_affinity_group_node:
     type: entity_reference_label
@@ -68,6 +83,7 @@ content:
     region: content
 hidden:
   field_affinity_group: true
+  field_broadcast_affinity_groups: true
   field_domain_access: true
   field_domain_all_affiliates: true
   field_domain_source: true

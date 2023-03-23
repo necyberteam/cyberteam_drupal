@@ -63,7 +63,7 @@
         <ul class="navbar-nav ml-auto" style="margin-left: auto !important;">
           {% if domain_name == "campus-champions" %}
             <li class="nav-item">
-              <a href="/user/login?current={{ path("<current>") }}" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in"></i> Log in/Join Portal</a>
+              <a href="/user/login?current={{ path("<current>") }}" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Log in/Join Portal</a>
             </li>
             <li class="nav-item">
               <a href="/form/join-campus-champions" class="nav-link">Join CC</a>
@@ -121,7 +121,7 @@
       </a>
       {% if domain_name != "connect-ci" and domain_name != "coco" and domain_name != "usrse" %}
 			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-			  <i class="fa fa-bars"></i>
+			  <i class="fa fa-bars" aria-hidden="true"></i>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 			{% if page.primary_menu %}
@@ -388,8 +388,7 @@
 	<div class="row">
 	  <div class="col-lg-12 col-md-10 mx-auto">
                 <p class="copyright">Funded in part by the <a href="https://nsf.gov" target="_blank" style="color: #fff;">National Science Foundation</a></p>
-		<p class="copyright">Copyright &copy; {{ 'now'|date('Y') }}, {{ site_name }} &bull; All Rights Reserved &bull; <a href="/regions" style="color: white;">Connect.CI</a> &bull; <a href="/contact/{{domain_name|replace({'-':'_'})}}" style="color: white;">Contact Us</a></p>
-	  </div>
+<p class="copyright">Copyright &copy; {{ 'now'|date('Y') }}, {{ site_name }} &bull; All Rights Reserved &bull; <a href="/regions" style="color: white;">Connect.CI</a> &bull; <a href={% if domain_name == "campus-champions" %}"mailto:info@campuschampions.org"{% else %}"/contact/{{domain_name|replace({'-':'_'})}}" {% endif %} style="color: white;">Contact Us</a></p>	  </div>
 	</div>
   </div>
 </footer>

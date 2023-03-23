@@ -7,8 +7,10 @@ Feature: test coco domain
   Scenario: Authenticated/Unauthenticated user navigates through coco domain
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
+    When I wait for the page to be loaded
     #Logo is not working
-    #Then I should see "logo"
+    Then I should see an image with alt text "CoCo"
+    #Then I should see "Northeast Cyberteam"
     Then I should not see "About Us"
     Then I should not see "Get Help"
     Then I should not see "Projects"
@@ -51,14 +53,12 @@ Feature: test coco domain
     Then I should see "Login To Suggest A New Listing"
     When I click "Join"
     Then I should see "Create new representative account"
-    When I fill in "Email address" with "Test@email"
-    When I fill in "Username" with "Test"
+    When I fill in "Email address" with "test231@example.com"
+    When I fill in "Username" with "Test231"
     When I fill in "First Name" with "Test"
     When I fill in "Last Name" with "Test"
     When I fill in "Institution" with "Test"
     When I fill in "Citizenships" with "Test"
-    #Recaptcha does not work
-    #When I check "recaptcha-anchor"
-    #When I press "edit-submit"
-    #Then I should see "Something"
+    When I press "edit-submit"
+    
 

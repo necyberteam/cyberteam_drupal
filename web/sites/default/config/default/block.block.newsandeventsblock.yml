@@ -1,0 +1,33 @@
+uuid: 669b61c9-c8fc-4bbb-be2a-bc400d719826
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_news
+    - domain
+    - system
+  theme:
+    - accesstheme
+id: newsandeventsblock
+theme: accesstheme
+region: content
+weight: -15
+provider: null
+plugin: newsandevents_block
+settings:
+  id: newsandevents_block
+  label: 'News and Events'
+  label_display: '0'
+  provider: access_news
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

@@ -1932,7 +1932,7 @@ display:
           admin_label: ''
           plugin_id: numeric
           label: Votes
-          exclude: false
+          exclude: true
           alter:
             alter_text: true
             text: "<div class=\"card {{ (flagged|render == 1) ? 'border-success' : 'border-dark' }} card-body p-1 text-lowercase text-center align-center small\">\r\n{{ link_flag }}\r\n{{ count }}\r\nvote{{ (count|render == \"1\") ? '' : 's' }}\r\n</div>"
