@@ -38,6 +38,7 @@ class IsCCAction extends ViewsBulkOperationsActionBase
                     if (count($program) > 0) {
                         return $program[0]->id() == $cc_id;
                     }
+                    return false;
                 }
             )
             ) {
