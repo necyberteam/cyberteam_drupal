@@ -30,7 +30,7 @@ This uses a fairly standard [BLT](https://github.com/acquia/blt) install. See be
 
 ## Codespaces
 
-This repository is setup to run in codespaces. If you are starting from scrtach it'll take a little over 15 minutes to run through the setup script. The script will fully start lando and install the site. You will need to set two codespaces secrets in your personal github settings under codespaces located at: https://github.com/settings/codespaces
+This repository is setup to run in codespaces. If you are starting from scratch it'll take a little over 15 minutes to run through the setup script. The script will fully start lando and install the site. You will need to set two codespaces secrets in your personal github settings under codespaces located at: https://github.com/settings/codespaces
 
 - AMP_GH_TOKEN_REPO
 - AMP_UID
