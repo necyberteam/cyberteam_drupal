@@ -1,30 +1,35 @@
-uuid: 003683fe-c9c8-48f3-9e34-f70ceadc25fd
+uuid: 7208e6cc-cbbe-41ce-b4fe-50d06c4eb2db
 langcode: en
 status: open
 dependencies: {  }
 weight: 0
 open: null
 close: null
-uid: 1986
+uid: 1
 template: false
 archive: false
-id: join_the_cssn_network
-title: 'Join the CSSN Network'
+id: edit_your_cssn_roles
+title: 'Edit your CSSN roles'
 description: ''
 category: ''
 elements: |-
   markup:
     '#type': webform_markup
-    '#markup': '<h3>How would you like to participate in the CSSN?</h3>'
-  i_am_joining_as_a_:
+    '#markup': |-
+      <h3>
+        What roles do you serve in your work?
+      </h3>
+  roles_:
     '#type': checkboxes
-    '#title': 'I am joining as a:'
+    '#title': 'Roles:'
     '#options':
-      'General Member': 'General Member -- Contribute to the research computing community'
-      'MATCHPlus Mentor': 'MATCHPlus Mentor -- Work with students to develop appropriate solutions'
-      Student-Facilitator: |
-        Student-Facilitator -- Work with a MATCHPlus Mentor to implement solutions
-      'Premier Consultant': 'Premier Consultant -- Work as a paid consultant for MATCHPremier engagements'
+      Mentor: 'Mentor -- Provides or is willing to provide guidance, advice, feedback and support to a mentee. '
+      Student: |
+        Student -- A person enrolled in an institution of higher learning
+      'Research Computing Facilitator': 'Research Computing Facilitator -- Assists researchers with accessing data, study design, statistical and analytical methods, and coordinates the use of computing services, software licensing, and associated technical support for new and ongoing research projects and academic endeavors.'
+      'Research Software Engineer': 'Research Software Engineer -- Works with researchers to gain an understanding of the problems they face, and then develops, maintains and extends software to provide the answer'
+      'CI Systems Engineer': 'CI Systems Engineer -- Provides direct centralized support on scientific computing to campus researchers to enhance computational thinking and modern computational methods'
+      'Researcher / Educator': 'Researcher / Educator -- A person doing research or teaching at an institution of higher learning'
 css: ''
 javascript: ''
 settings:
@@ -37,12 +42,12 @@ settings:
   page_submit_path: ''
   page_confirm_path: ''
   page_theme_name: ''
-  form_title: source_entity_webform
+  form_title: both
   form_submit_once: false
   form_open_message: ''
   form_close_message: ''
   form_exception_message: ''
-  form_previous_submissions: false
+  form_previous_submissions: true
   form_confidential: false
   form_confidential_message: ''
   form_disable_remote_addr: false
@@ -61,9 +66,9 @@ settings:
   form_autofocus: false
   form_details_toggle: false
   form_reset: false
-  form_access_denied: login
+  form_access_denied: default
   form_access_denied_title: ''
-  form_access_denied_message: 'Please login to or create an account to join the CSSN Network'
+  form_access_denied_message: ''
   form_access_denied_attributes: {  }
   form_file_limit: ''
   form_attributes: {  }
@@ -109,9 +114,11 @@ settings:
   wizard_track: ''
   wizard_prev_button_label: ''
   wizard_next_button_label: ''
-  wizard_toggle: true
+  wizard_toggle: false
   wizard_toggle_show_label: ''
   wizard_toggle_hide_label: ''
+  wizard_page_type: container
+  wizard_page_title_tag: h2
   preview: 0
   preview_label: ''
   preview_title: ''
@@ -127,10 +134,10 @@ settings:
   draft_loaded_message: ''
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
-  confirmation_type: url_message
-  confirmation_url: /cssn
+  confirmation_type: page
+  confirmation_url: ''
   confirmation_title: ''
-  confirmation_message: 'Thank you for joining the CSSN.'
+  confirmation_message: ''
   confirmation_attributes: {  }
   confirmation_back: true
   confirmation_back_label: ''
@@ -162,6 +169,7 @@ settings:
 access:
   create:
     roles:
+      - anonymous
       - authenticated
     users: {  }
     permissions: {  }
@@ -206,10 +214,10 @@ access:
     users: {  }
     permissions: {  }
 handlers:
-  join_the_network_email:
+  edit_cssn_roles_email:
     id: email
-    handler_id: join_the_network_email
-    label: 'join the network email'
+    handler_id: edit_cssn_roles_email
+    label: 'edit cssn roles email'
     notes: ''
     status: true
     conditions: {  }
@@ -230,7 +238,7 @@ handlers:
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: 'Join the CSSN Submission'
+      subject: 'Edit the CSSN Roles'
       body: _default
       excluded_elements: {  }
       ignore_access: false
