@@ -39,7 +39,7 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase
 
         $cc_id = 572; // Campus Champions Program ID
 
-        $region[] = $user->get('field_region')->referencedEntities();
+        $region = $user->get('field_region')->referencedEntities();
 
         if (count($region) == 0) {
             $user->set('field_region', $cc_id);
@@ -47,13 +47,11 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase
             // Add Campus Champions program if it's not already set
             if (!array_filter(
                 $region,
-                function ($program) {
-                    // got a php error that this was undefined, even though
-                    // it's defined above.  surprising scope issue.
-                    $cc_id = 572; // Campus Champions Program ID
+                function ($program) use ($cc_id) {
                     if (count($program) > 0) {
                         return $program[0]->id() == $cc_id;
                     }
+                    return false;
                 }
             )) {
                 $user->get('field_region')->appendItem(

@@ -27,18 +27,20 @@ class IsCCAction extends ViewsBulkOperationsActionBase
 
         $user->set('field_is_cc', 1);
 
-        $region[] = $user->get('field_region')->referencedEntities();
+        $region = $user->get('field_region')->referencedEntities();
         if (count($region) == 0) {
             $user->set('field_region', $cc_id);
         } else {
             // Add Campus Champions program if it's not already set
             if (!array_filter(
-                $region, function ($program) {
+                $region,
+                function ($program) use ($cc_id) {
                     if (count($program) > 0) {
-                        return $program[0]->id() == $cc_id; 
+                        return $program[0]->id() == $cc_id;
                     }
+                    return false;
                 }
-            ) 
+            )
             ) {
                 $user->get('field_region')->appendItem(
                     [
