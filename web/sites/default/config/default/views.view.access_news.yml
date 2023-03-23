@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.alt_teaser
     - field.storage.node.body
+    - field.storage.node.field_affiliation
     - field.storage.node.field_image
     - field.storage.node.field_published_date
     - image.style.landscape__480x220__keep_ratio_
@@ -16,6 +17,7 @@ dependencies:
     - datetime
     - image
     - node
+    - options
     - taxonomy
     - text
     - user
@@ -344,6 +346,68 @@ display:
           text: 'Read more'
           output_url_as_text: false
           absolute: false
+        field_affiliation:
+          id: field_affiliation
+          table: node__field_affiliation
+          field: field_affiliation
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
       pager:
         type: none
         options:
@@ -392,9 +456,60 @@ display:
           plugin_id: bundle
           value:
             access_news: access_news
+          group: 1
           expose:
             operator_limit_selection: false
             operator_list: {  }
+        field_affiliation_value:
+          id: field_affiliation_value
+          table: node__field_affiliation
+          field: field_affiliation_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_affiliation_value_op
+            label: 'Affiliation (field_affiliation)'
+            description: null
+            use_operator: false
+            operator: field_affiliation_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_affiliation_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: true
+          group_info:
+            label: Affiliation
+            description: ''
+            identifier: field_affiliation_value
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: 'ACCESS Collaboration'
+                operator: or
+                value:
+                  'ACCESS Collaboration': 'ACCESS Collaboration'
+              2:
+                title: Community
+                operator: or
+                value:
+                  Community: Community
+          reduce_duplicates: false
         field_affinity_group_target_id:
           id: field_affinity_group_target_id
           table: node__field_affinity_group
@@ -409,7 +524,7 @@ display:
           exposed: true
           expose:
             operator_id: field_affinity_group_target_id_op
-            label: 'Filter by Affinity Group'
+            label: 'Affinity&nbsp;Group'
             description: ''
             use_operator: false
             operator: field_affinity_group_target_id_op
@@ -444,6 +559,14 @@ display:
               cssn: '0'
               affinity_group_leader: '0'
               match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
+              coco_pm: '0'
+              cnctci_pm: '0'
+              news_pm: '0'
+              kb_pm: '0'
+              careers_sc: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -504,6 +627,10 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
       style:
         type: default
         options:
@@ -522,6 +649,8 @@ display:
           query_tags: {  }
           contextual_filters_or: false
       relationships: {  }
+      link_display: custom_url
+      link_url: /news
       header: {  }
       footer: {  }
       display_extenders: {  }
@@ -536,6 +665,7 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.body'
+        - 'config:field.storage.node.field_affiliation'
         - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_published_date'
         - 'config:workflow_list'
@@ -558,6 +688,7 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.body'
+        - 'config:field.storage.node.field_affiliation'
         - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_published_date'
         - 'config:workflow_list'
@@ -1169,6 +1300,181 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.field_published_date'
+  latest_news_block:
+    id: latest_news_block
+    display_title: 'Latest News'
+    display_plugin: block
+    position: 5
+    display_options:
+      title: News
+      fields:
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: h4
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+      pager:
+        type: some
+        options:
+          offset: 0
+          items_per_page: 5
+      access:
+        type: none
+        options: {  }
+      cache:
+        type: tag
+        options: {  }
+      filters:
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          value:
+            access_news: access_news
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        moderation_state:
+          id: moderation_state
+          table: node_field_data
+          field: moderation_state
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: moderation_state_filter
+          operator: in
+          value:
+            editorial-published: editorial-published
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      style:
+        type: default
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
+      row:
+        type: fields
+        options: {  }
+      defaults:
+        access: false
+        cache: false
+        title: false
+        pager: false
+        use_more: false
+        use_more_always: false
+        use_more_text: false
+        style: false
+        row: false
+        fields: false
+        filters: false
+        filter_groups: false
+      display_description: ''
+      use_more: false
+      use_more_always: true
+      use_more_text: 'All News'
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - 'user.node_grants:view'
+      tags:
+        - 'config:workflow_list'
   mrollup_list_block:
     id: mrollup_list_block
     display_title: mrollup_list_view

@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.eventseries.list
+    - field.storage.eventseries.field_affiliation
+    - field.storage.eventseries.field_event_type
   module:
     - content_moderation
     - options
@@ -148,6 +150,130 @@ display:
           settings:
             link: false
           group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_event_type:
+          id: field_event_type
+          table: eventseries__field_event_type
+          field: field_event_type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'Event Type'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_affiliation:
+          id: field_affiliation
+          table: eventseries__field_affiliation
+          field: field_affiliation
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: Affiliation
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -1171,7 +1297,9 @@ display:
         - url
         - url.query_args
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:field.storage.eventseries.field_affiliation'
+        - 'config:field.storage.eventseries.field_event_type'
   admin_page:
     id: admin_page
     display_title: Page
@@ -1290,6 +1418,174 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        field_event_type_value:
+          id: field_event_type_value
+          table: eventseries__field_event_type
+          field: field_event_type_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            all: all
+            Conference: Conference
+            Training: Training
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_event_type_value_op
+            label: 'Event Type'
+            description: ''
+            use_operator: false
+            operator: field_event_type_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_event_type_value
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              student: '0'
+              mentor: '0'
+              professional_mentor: '0'
+              researcher: '0'
+              steering_committee: '0'
+              regional_admin: '0'
+              leadership: '0'
+              representative: '0'
+              administrator: '0'
+              masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+              cssn: '0'
+              affinity_group_leader: '0'
+              match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
+              coco_pm: '0'
+              cnctci_pm: '0'
+              news_pm: '0'
+              kb_pm: '0'
+              careers_sc: '0'
+            reduce: true
+          is_grouped: true
+          group_info:
+            label: 'Event Type'
+            description: ''
+            identifier: field_event_type_value
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: '1'
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: Conference
+                operator: or
+                value:
+                  Conference: Conference
+              2:
+                title: Training
+                operator: or
+                value:
+                  Training: Training
+          reduce_duplicates: false
+        field_affiliation_value:
+          id: field_affiliation_value
+          table: eventseries__field_affiliation
+          field: field_affiliation_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            all: all
+            'ACCESS Collaboration': 'ACCESS Collaboration'
+            Community: Community
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_affiliation_value_op
+            label: Affiliation
+            description: ''
+            use_operator: false
+            operator: field_affiliation_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_affiliation_value
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              student: '0'
+              mentor: '0'
+              professional_mentor: '0'
+              researcher: '0'
+              steering_committee: '0'
+              regional_admin: '0'
+              leadership: '0'
+              representative: '0'
+              administrator: '0'
+              masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+              cssn: '0'
+              affinity_group_leader: '0'
+              match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
+              coco_pm: '0'
+              cnctci_pm: '0'
+              news_pm: '0'
+              kb_pm: '0'
+              careers_sc: '0'
+            reduce: true
+          is_grouped: true
+          group_info:
+            label: Affiliation
+            description: ''
+            identifier: field_affiliation_value
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: 'ACCESS Collaboration'
+                operator: or
+                value:
+                  'ACCESS Collaboration': 'ACCESS Collaboration'
+              2:
+                title: Community
+                operator: or
+                value:
+                  Community: Community
+          reduce_duplicates: false
         recur_type:
           id: recur_type
           table: eventseries_field_data
@@ -1422,7 +1718,9 @@ display:
         - url
         - url.query_args
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:field.storage.eventseries.field_affiliation'
+        - 'config:field.storage.eventseries.field_event_type'
   block_1:
     id: block_1
     display_title: 'My Events'
@@ -1826,4 +2124,6 @@ display:
         - url
         - url.query_args
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:field.storage.eventseries.field_affiliation'
+        - 'config:field.storage.eventseries.field_event_type'

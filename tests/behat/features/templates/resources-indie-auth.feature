@@ -11,7 +11,6 @@ Feature: test resources page as a authenticated user
     Then I should see "Test"
     When I click "TEST"
     Then I should see "TEST"
-    Then I should see "votes"
     Then I should see "login"
     Then I should see "Beginner"
     Then I should see "Test"

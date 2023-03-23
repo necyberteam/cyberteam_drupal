@@ -47,12 +47,12 @@
         <li{{ item.attributes.addClass(item_classes) }}>
 			{% if item.title == "Log in" %}
 				{% set title %}
-				  <i class="fa fa-sign-in"></i> {{ item.title }}
+				  <i class="fa fa-sign-in" aria-hidden="true"></i> {{ item.title }}
 				{% endset %}
 				{{ link(title, item.url, { 'class':['nav-link', item.is_expanded ? 'dropdown-toggle', 'btn btn-outline-dark my-1 my-lg-0 my-sm-1 ml-lg-2 ml-3'] }) }}
         {% elseif item.title == "My account" %}
   				{% set title %}
-  				  <i class="fa fa-user"></i> My profile
+  				  <i class="fa fa-user" aria-hidden="true"></i> My profile
   				{% endset %}
   				{{ link(title, item.url, { 'class':['nav-link', item.is_expanded ? 'dropdown-toggle'] }) }}
       {% else %}
