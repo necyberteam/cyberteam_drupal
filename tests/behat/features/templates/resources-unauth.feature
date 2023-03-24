@@ -25,10 +25,10 @@ Feature: test resource page
     Then I should see "Skill Level"
     Then I should see "Affinity Group"
     # edit-skill-level-304--2 is the Beginner radio button
-    When I check "edit-skill-level-304--2"
+    When I check "edit-skill-level-305--2"
     And I wait 4 seconds
     Then I should see "There are no resources at this time. Please check back often as resources are added regularly."
-    When I uncheck "edit-skill-level-304--2"
+    When I uncheck "edit-skill-level-305--2"
     And I wait 4 seconds
     When I fill in "edit-search--2" with "somthing545"
     And I wait 4 seconds

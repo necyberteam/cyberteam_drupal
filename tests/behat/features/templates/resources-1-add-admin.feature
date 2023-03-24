@@ -56,4 +56,15 @@ Feature: test resource form
     #And I should see "Is draft"
     #And I should see "Webform"
     #And I should see "Delete submission"
-    When I click "Edit"
+    # When I click "Edit"
+
+    Given I am logged in as a user with the "administrator" role
+    When I go to "resources"
+    When I follow "Add new resource"
+    Then I should see "Add"
+    When I fill in "title" with "test-login-resource"
+    When I select "learning" from "category"
+    When I check "Approved"
+    When I check "login"
+    When I press "Submit"
+    Then I should see "test-login-resource"
