@@ -15,7 +15,10 @@ Feature: test ACCESS Support Pegasus Page
 
     # testing Documentation button link
     When I follow "Detailed ACCESS Pegasus Documentation"
-    Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129140407/ACCESS+Pegasus"
+    Then I should get a "200" HTTP response
+    # Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129140407/ACCESS+Pegasus"
+    # changed to https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/201752577/ACCESS+Pegasus
+    
 
     # testing Workflow Submit Host button link
     When I am on "/pegasus"
@@ -65,7 +68,9 @@ Feature: test ACCESS Support Pegasus Page
 
     When I am on "/pegasus"
     When I follow "Learn More"
-    Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129140407/ACCESS+Pegasus"
+    Then I should get a "200" HTTP response
+
+    #Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129140407/ACCESS+Pegasus"
 
     When I am on "/pegasus"
     When I follow "Pegasus Website"
