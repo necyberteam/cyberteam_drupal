@@ -3,10 +3,12 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.eventseries.default.field_affiliation
     - field.field.eventseries.default.field_affinity_group
     - field.field.eventseries.default.field_affinity_group_node
     - field.field.eventseries.default.field_broadcast_affinity_groups
     - field.field.eventseries.default.field_contact
+    - field.field.eventseries.default.field_event_type
     - field.field.eventseries.default.field_location
     - field.field.eventseries.default.field_registration
     - field.field.eventseries.default.field_tags
@@ -57,6 +59,12 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_affiliation:
+    type: options_select
+    weight: 28
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_affinity_group_node:
     type: entity_reference_autocomplete
     weight: 13
@@ -81,6 +89,12 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_event_type:
+    type: options_select
+    weight: 27
+    region: content
+    settings: {  }
     third_party_settings: {  }
   field_location:
     type: text_textfield

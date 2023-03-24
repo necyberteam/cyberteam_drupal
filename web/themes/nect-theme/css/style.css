@@ -30,6 +30,10 @@
   --navbar-toggler: var(--navbar-link);
   --navbar-dropdown: var(--text);
   --navbar-dropdown-hover: var(--navbar-link);
+
+  --ccmnet-navy: #04376F;
+  --ccmnet-lightblue: #06A9E5;
+  --ccmnet-hero: #283F72CC;
 }
 
 body.campus-champions{
@@ -156,7 +160,7 @@ body.trecis-cyberteam{
 .trecis-cyberteam .hide-trecis { display: none !important; }
 .coco .hide-coco { display: none !important; }
 .usrse .hide-usrse { display: none !important; }
-.coco #mainNav #navbarResponsive, .usrse #mainNav #navbarResponsive, .coco #mainNav .navbar-toggler, .usrse #mainNav .navbar-toggler { display: none !important; }  
+.coco #mainNav #navbarResponsive, .usrse #mainNav #navbarResponsive, .coco #mainNav .navbar-toggler, .usrse #mainNav .navbar-toggler { display: none !important; }
 
 body:not(.logged_in) .authenticated-only { display: none !important; }
 body.logged_in .anon-only { display: none !important; }
@@ -423,7 +427,7 @@ li.dropdown-item a.nav-link:active {
   margin-right: -1px;
 }
 .dropdown:hover .dropdown-menu {
-  max-height: fit-content; 
+  max-height: fit-content;
   opacity: 1;
   display: block !important;
 }
@@ -458,7 +462,7 @@ li.dropdown-item a.nav-link:active {
 
   #block-views-block-peoplebuttonblocks-region-select-card .show {
     display: block !important;
-  } 
+  }
 }
 
 /* secondaryNav */
@@ -574,7 +578,7 @@ li.dropdown-item a.nav-link:active {
   display: none;
 }
 #secondaryNavbarResponsive #search-block-form .form-search {
-  font-size: 0.8rem; 
+  font-size: 0.8rem;
 }
 #search {
   width: initial;
@@ -1113,7 +1117,7 @@ table.sticky-header th {
 }
 /* card view styles */
 .card-image > img {
-  object-fit: contain; 
+  object-fit: contain;
   max-width: 100%;
   height: 100px;
 }
@@ -1239,4 +1243,122 @@ table.sticky-header th {
 .affinity-group-flag.btn-outline-secondary {
   border: 0;
   padding: 0;
+}
+.ccmnet .bg-ccmnet-navy {
+  background-color: var(--ccmnet-navy);
+}
+.ccmnet .bg-ccmnet-lightblue {
+  background-color: var(--ccmnet-lightblue);
+}
+.ccmnet #ccmnet-logo {
+  width: 320px;
+}
+.ccmnet .bg-ccmnet-hero-heading {
+  padding: 50px;
+  max-width: 680px;
+  background-color: var(--ccmnet-hero);
+}
+.ccmnet .bg-ccmnet-hero-heading h1 {
+  font-size: 2rem;
+  line-height: 1.4;
+  color: #ffffff;
+}
+.ccmnet .ccmnet-hero {
+  background-color: var(--ccmnet-lightblue);
+  padding: 75px 30px;
+  background-image: url('../img/people-bg.jpg');
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+.ccmnet .footer .ccmnet-footer-copy {
+  text-transform: none;
+}
+.ccmnet .footer .modal {
+  text-transform: none;
+  color: #000000;
+}
+.ccmnet .btn-rounded {
+  border-radius: 30px;
+}
+.ccmnet .bg-ccmnet-lightblue #emailListModal .webform-button--submit,
+.ccmnet #webform-submission-ccmnet-mentors-contact-node-434-add-form .webform-button--submit,
+.ccmnet .bg-ccmnet-lightblue #contactUsModal .webform-button--submit {
+  background: var(--ccmnet-lightblue);
+  border-radius: 30px;
+}
+
+.ccmnet .bg-ccmnet-lightblue #emailListModal .webform-button--submit:hover,
+.ccmnet #webform-submission-ccmnet-mentors-contact-node-434-add-form .webform-button--submit:hover,
+.ccmnet .bg-ccmnet-lightblue #contactUsModal .webform-button--submit:hover {
+  background-color: var(--ccmnet-navy) !important;
+}
+.ccmnet img {
+  max-width: 100%;
+}
+@media only screen and (max-width: 480px) {
+  .ccmnet .bg-ccmnet-hero-heading {
+    padding: 20px;
+  }
+  .ccmnet .bg-ccmnet-hero-heading h1 {
+    font-size: 28px;
+  }
+}
+.ccmnet .faq .icons {
+  margin-left: auto;
+  margin-right: 10%;
+  padding-left: 15px;
+}
+
+@media only screen and (max-width: 767px) {
+  .ccmnet .faq .icons {
+    margin-right: 0;
+  }
+}
+
+.ccmnet .faq .svg-inline--fa {
+  width: 18px;
+  font-size: 16px;
+  border-radius: 50%;
+  padding: 6px;
+  color: var(--ccmnet-navy);
+  border: 2px solid var(--ccmnet-navy);
+  transition: 0.25s;
+}
+
+.ccmnet .faq .icons {
+  margin-right: 10px;
+}
+
+@media only screen and (max-width: 767px) {
+  .ccmnet .faq .icons {
+    margin-right: 0px;
+  }
+}
+
+.ccmnet .q:hover .svg-inline--fa {
+  color: #ffffff;
+  background-color: var(--ccmnet-navy);
+}
+
+.ccmnet .q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  border-top: 1px solid var(--ccmnet-lightblue);
+  padding-top: 12px;
+  margin-bottom: 12px;
+}
+
+.ccmnet .q:first-of-type {
+  border-width: 0;
+}
+
+.ccmnet .q.collapsed .svg-inline--fa {
+  transform: rotate(180deg);
+}
+
+.ccmnet a:hover {
+  color: var(--link);
+  text-decoration: underline;
 }

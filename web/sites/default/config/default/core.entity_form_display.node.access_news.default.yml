@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.access_news.body
+    - field.field.node.access_news.field_affiliation
     - field.field.node.access_news.field_affinity_group
     - field.field.node.access_news.field_affinity_group_node
     - field.field.node.access_news.field_broadcast_affinity_groups
@@ -15,7 +16,9 @@ dependencies:
     - field.field.node.access_news.field_tags
     - image.style.thumbnail
     - node.type.access_news
+    - workflows.workflow.editorial
   module:
+    - content_moderation
     - datetime
     - image
     - path
@@ -38,6 +41,12 @@ content:
   created:
     type: datetime_timestamp
     weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_affiliation:
+    type: options_select
+    weight: 101
     region: content
     settings: {  }
     third_party_settings: {  }
