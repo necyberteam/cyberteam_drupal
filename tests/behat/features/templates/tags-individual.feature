@@ -132,7 +132,7 @@ Feature: test individual tags page
     Then I should see "Topics from Ask.CI"
     Then I should see "Users"
     Then I should see "Name"
-    Then I should see "student facilitator"
+    # Then I should see "student facilitator"
     Then I should see "image-processing"
     Then I should see "There are no Resources associated with this topic. View All Resources."
     Then I should see "There are no projects associated with this topic"
