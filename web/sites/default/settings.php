@@ -16,6 +16,7 @@ $settings['file_private_path'] = 'sites/default/files/private';
 
 $settings['container_yamls'][] = __DIR__ . '/services.yml';
 $config['config_split.config_split.local']['status'] = false;
+$config['config_split.config_split.live']['status'] = FALSE;
 
 $settings['file_scan_ignore_directories'] = [
   'node_modules',
@@ -56,6 +57,10 @@ if (isset($env) ) {
       $config['system.performance']['css']['preprocess'] = false;
       $config['system.performance']['js']['preprocess'] = false;
       $settings['container_yamls'][] = __DIR__ . '/../development.services.yml';
+      break;
+
+    case 'live':
+      $config['config_split.config_split.live']['status'] = TRUE;
       break;
   }
 }
