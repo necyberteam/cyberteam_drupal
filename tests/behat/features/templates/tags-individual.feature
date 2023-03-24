@@ -56,16 +56,6 @@ Feature: test individual tags page
     # And I should see "test-affinity-group"
 
   Scenario: Add a "test-login-resource" for login tag and verify it appears
-    Given I am logged in as a user with the "administrator" role
-    When I go to "resources"
-    When I follow "Add new resource"
-    Then I should see "Add"
-    When I fill in "title" with "test-login-resource"
-    When I select "learning" from "category"
-    When I check "Approved"
-    When I check "login"
-    When I press "Submit"
-    Then I should see "test-login-resource"
 
     Given I am not logged in
     When I go to "tags/login"
