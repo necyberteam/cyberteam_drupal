@@ -1,4 +1,4 @@
-uuid: 18e98fb3-49c8-422f-8dcb-31f812361d6a
+uuid: 3ac80f01-1495-4230-a4af-4cb09e0df4b3
 langcode: en
 status: open
 dependencies: {  }
@@ -8,47 +8,53 @@ close: null
 uid: 1
 template: false
 archive: false
-id: get_updates_about_ccmnet
-title: 'Get Updates about CCMNET'
+id: join_ccmnet
+title: 'Join CCMNet'
 description: ''
 category: ''
 elements: |-
-  markup:
-    '#type': webform_markup
-    '#markup': '<span style="-webkit-text-stroke-width:0px; background-color:#f8f8f8; color:#1d1c1d; display:inline !important; float:none; font-family:Slack-Lato,Slack-Fractions,appleLogo,sans-serif; font-size:15px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:common-ligatures; font-weight:400; letter-spacing:normal; orphans:2; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-indent:0px; text-transform:none; white-space:normal; widows:2; word-spacing:0px">Join the CCMNET Mailing list to receive periodic updates.</span>'
   name:
     '#type': webform_name
     '#title': Name
     '#title__access': false
     '#first__title': 'First Name'
+    '#first__placeholder': 'First Name'
+    '#first__title_display': invisible
+    '#first__required': true
     '#middle__access': false
     '#last__title': 'Last Name'
+    '#last__placeholder': 'Last Name'
+    '#last__title_display': invisible
+    '#last__required': true
     '#suffix__access': false
     '#degree__access': false
-    '#select2': true
   email:
     '#type': email
     '#title': Email
-    '#required': true
-    '#required_error': 'Email is required'
+  roles:
+    '#type': checkboxes
+    '#title': Roles
+    '#options':
+      Mentor: Mentor
+      Mentee: Mentee
 css: ''
 javascript: ''
 settings:
-  ajax: true
+  ajax: false
   ajax_scroll_top: form
-  ajax_progress_type: throbber
-  ajax_effect: fade
-  ajax_speed: 500
+  ajax_progress_type: ''
+  ajax_effect: ''
+  ajax_speed: null
   page: true
   page_submit_path: ''
   page_confirm_path: ''
   page_theme_name: ''
-  form_title: source_entity_webform
+  form_title: both
   form_submit_once: false
   form_open_message: ''
   form_close_message: ''
   form_exception_message: ''
-  form_previous_submissions: false
+  form_previous_submissions: true
   form_confidential: false
   form_confidential_message: ''
   form_disable_remote_addr: false
@@ -97,7 +103,7 @@ settings:
   submission_access_denied_attributes: {  }
   previous_submission_message: ''
   previous_submissions_message: ''
-  autofill: false
+  autofill: true
   autofill_message: ''
   autofill_excluded_elements: {  }
   wizard_progress_bar: true
@@ -115,7 +121,7 @@ settings:
   wizard_track: ''
   wizard_prev_button_label: ''
   wizard_next_button_label: ''
-  wizard_toggle: true
+  wizard_toggle: false
   wizard_toggle_show_label: ''
   wizard_toggle_hide_label: ''
   wizard_page_type: container
@@ -135,10 +141,10 @@ settings:
   draft_loaded_message: ''
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
-  confirmation_type: message
+  confirmation_type: page
   confirmation_url: ''
   confirmation_title: ''
-  confirmation_message: 'Thanks for joining the AMP email list. Look for updates soon.'
+  confirmation_message: ''
   confirmation_attributes: {  }
   confirmation_back: true
   confirmation_back_label: ''
@@ -215,43 +221,6 @@ access:
     users: {  }
     permissions: {  }
 handlers:
-  email_confirmation:
-    id: email
-    handler_id: email_confirmation
-    label: 'Email Confirmation'
-    notes: 'Send a confirmation email message'
-    status: true
-    conditions: {  }
-    weight: 0
-    settings:
-      states:
-        - completed
-      to_mail: '[webform_submission:values:email:raw]'
-      to_options: {  }
-      bcc_mail: '[webform:author:mail]'
-      bcc_options: {  }
-      cc_mail: ''
-      cc_options: {  }
-      from_mail: _default
-      from_options: {  }
-      from_name: _default
-      reply_to: ''
-      return_path: ''
-      sender_mail: ''
-      sender_name: ''
-      subject: 'Subscribed to CCMNet updates'
-      body: 'Thanks for subscribing to the CCMNet email list. Look for updates soon!'
-      excluded_elements: {  }
-      ignore_access: false
-      exclude_empty: true
-      exclude_empty_checkbox: false
-      exclude_attachments: false
-      html: true
-      attachments: false
-      twig: false
-      theme_name: ''
-      parameters: {  }
-      debug: false
   email:
     id: email
     handler_id: email
@@ -267,16 +236,16 @@ handlers:
       to_options: {  }
       bcc_mail: ''
       bcc_options: {  }
-      cc_mail: info@ccmnet.org
+      cc_mail: ''
       cc_options: {  }
-      from_mail: _default
+      from_mail: info@ccmnet.org
       from_options: {  }
       from_name: _default
-      reply_to: ''
+      reply_to: info@ccmnet.org
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: _default
+      subject: 'Join the CCMNet Submission'
       body: _default
       excluded_elements: {  }
       ignore_access: false
