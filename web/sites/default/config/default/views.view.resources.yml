@@ -108,7 +108,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/resource/{{ sid }}">{{ webform_submission_value_5 }}</a>'
+            text: '<a href="/ci-link/{{ sid }}">{{ webform_submission_value_5 }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -148,6 +148,7 @@ display:
           webform_element_format: value
           webform_multiple_value: true
           webform_multiple_delta: 0
+          webform_check_access: 1
         webform_submission_value:
           id: webform_submission_value
           table: webform_submission_field_resource_category
@@ -318,7 +319,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: '<a href="/resource/{{ sid_1 }}">view</a>'
+            text: '<a href="/ci-link/{{ sid_1 }}">view</a>'
             make_link: false
             path: ''
             absolute: false
@@ -840,7 +841,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning">There are no Resources associated with this topic. View <a href="/resources">All Resources</a>.</div>'
+            value: '<div class="alert alert-warning">There are no CI Links associated with this topic. View <a href="/ci-links">All CI Links</a>.</div>'
             format: full_html
           tokenize: false
       arguments:
@@ -1063,7 +1064,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/resource/{{ sid }}">{{ webform_submission_value_5 }}</a>'
+            text: '<a href="/ci-link/{{ sid }}">{{ webform_submission_value_5 }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -1103,6 +1104,7 @@ display:
           webform_element_format: value
           webform_multiple_value: true
           webform_multiple_delta: 0
+          webform_check_access: 1
         webform_submission_value:
           id: webform_submission_value
           table: webform_submission_field_resource_category
@@ -1438,7 +1440,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning">There are no CI Links associated with this topic. Please check back often as more CI Links are added regularly, or view <a href="/ci_links">CI Links</a>.</div>'
+            value: '<div class="alert alert-warning">There are no CI Links associated with this topic. Please check back often as more CI Links are added regularly, or view <a href="/ci-links">CI Links</a>.</div>'
             format: full_html
           tokenize: false
       sorts: {  }
@@ -1609,7 +1611,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning">There are no Resources associated with this topic. View <a href="/resources">All Resources</a>.</div>'
+            value: '<div class="alert alert-warning">There are no CI Links associated with this topic. View <a href="/ci-links">All CI Links</a>.</div>'
             format: full_html
           tokenize: false
       arguments:
@@ -1992,7 +1994,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/resource/{{ sid }}">{{ webform_submission_value_5 }}</a>'
+            text: '<a href="/ci-link/{{ sid }}">{{ webform_submission_value_5 }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -3075,7 +3077,7 @@ display:
             alter_text: false
             text: ''
             make_link: true
-            path: '/resource/{{ sid }}'
+            path: '/ci-link/{{ sid }}'
             absolute: false
             external: false
             replace_spaces: false
@@ -3341,7 +3343,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning">There are no resources associated with this topic. Please check back often as more resources are added regularly, or view <a href="/resources">All Resources</a>.</div>'
+            value: '<div class="alert alert-warning">There are no CI Links associated with this topic. Please check back often as more CI Links are added regularly, or view <a href="/ci-links">All CI Links</a>.</div>'
             format: full_html
           tokenize: false
       arguments:
@@ -3456,7 +3458,7 @@ display:
       header: {  }
       display_extenders:
         simple_sitemap_display_extender: {  }
-      path: term/%/resources
+      path: term/%/ci-links
     cache_metadata:
       max-age: -1
       contexts:
@@ -4314,7 +4316,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning mx-3">There are no resources at this time. Please check back often as resources are added regularly.</div>'
+            value: '<div class="alert alert-warning mx-3">There are no CI Links at this time. Please check back often as CI Links are added regularly.</div>'
             format: full_no_editor
           tokenize: false
       sorts:
