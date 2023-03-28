@@ -28,13 +28,25 @@ elements: |-
     '#last__required': true
     '#suffix__access': false
     '#degree__access': false
+    '#required': true
   email:
     '#type': email
     '#title': Email
+    '#title_display': invisible
+    '#placeholder': Email
+    '#required': true
+  institution:
+    '#type': textfield
+    '#title': Institution
+    '#title_display': invisible
+    '#placeholder': Institution
+    '#required': true
   roles:
     '#type': checkboxes
     '#title': Roles
+    '#description': 'Choose as many as apply.'
     '#options':
+      'General Member': 'General Member'
       Mentor: Mentor
       Mentee: Mentee
 css: ''
