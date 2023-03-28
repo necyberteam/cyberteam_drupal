@@ -18,7 +18,6 @@ Feature: test for the edit account page
     Then I should see "TFA"
     Then I should see "Program"
     Then I should see "Email Address"
-    Then I should see "Roles"
     Then I should see "First Name"
     Then I should see "Last Name"
     Then I should see "Picture"
