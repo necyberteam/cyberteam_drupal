@@ -25,21 +25,27 @@ elements: |-
       '#file_preview': 'thumbnail:image'
       '#max_filesize': '2'
       '#file_extensions': 'gif jpg png svg jpeg'
-  coordinators:
-    '#type': webform_entity_select
-    '#title': Coordinators
-    '#multiple': true
-    '#description': 'Type a few letters in the name and then select from the list of names presented.'
-    '#description_display': before
-    '#select2': true
-    '#target_type': user
-    '#selection_handler': 'default:user'
-    '#selection_settings':
-      include_anonymous: false
-      filter:
-        type: _none
   flexbox:
     '#type': webform_flexbox
+    coordinators:
+      '#type': entity_autocomplete
+      '#title': Coordinators
+      '#multiple': true
+      '#multiple__sorting': false
+      '#multiple__add_more_input': false
+      '#target_type': user
+      '#selection_handler': 'default:user'
+      '#selection_settings':
+        include_anonymous: false
+        filter:
+          type: _none
+    tags:
+      '#type': webform_term_select
+      '#title': Tags
+      '#multiple': true
+      '#select2': true
+      '#vocabulary': tags
+      '#breadcrumb_delimiter': ''
     cider:
       '#type': webform_entity_select
       '#title': 'Select one (or more) related CiDeR resources '
@@ -53,15 +59,15 @@ elements: |-
         sort:
           field: title
           direction: ASC
-    tags:
-      '#type': webform_term_select
-      '#title': Tags
-      '#multiple': true
-      '#select2': true
-      '#vocabulary': tags
-      '#breadcrumb_delimiter': ''
   flexbox_02:
     '#type': webform_flexbox
+    project_description:
+      '#type': textarea
+      '#title': Description
+      '#description': 'Provide a description that will be displayed on this Affinity Group. It can be the same as the short description above if there is no additional information needed.'
+      '#description_display': before
+      '#required': true
+      '#format_items': comma
     short_description:
       '#type': textarea
       '#title': 'Short Description'
@@ -73,22 +79,8 @@ elements: |-
       '#counter_maximum': 300
       '#counter_maximum_message': 'Maximum 300 Characters Allowed'
       '#format_items': comma
-    project_description:
-      '#type': textarea
-      '#title': Description
-      '#description': 'Provide a description that will be displayed on this Affinity Group. It can be the same as the short description above if there is no additional information needed.'
-      '#description_display': before
-      '#required': true
-      '#format_items': comma
   flexbox_01:
     '#type': webform_flexbox
-    slack_link:
-      '#type': webform_link
-      '#title': Slack
-      '#description_display': before
-      '#title__access': false
-      '#url__title': Slack
-      '#url__description': 'Provide a link to the Slack group if applicable.'
     ask_ci_locale:
       '#type': webform_link
       '#title': 'Q&A Platform'
@@ -96,6 +88,13 @@ elements: |-
       '#url__title': 'Q&A Platform'
       '#url__description': 'Provide a link to Ask.CI, StackExchange, or other Q&A platform specific to the Affinity Group.'
       '#flexbox': '1'
+    slack_link:
+      '#type': webform_link
+      '#title': Slack
+      '#description_display': before
+      '#title__access': false
+      '#url__title': Slack
+      '#url__description': 'Provide a link to the Slack group if applicable.'
     github_organization:
       '#type': webform_link
       '#title': 'GitHub Organization'
