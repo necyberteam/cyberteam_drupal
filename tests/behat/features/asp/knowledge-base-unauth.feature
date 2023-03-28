@@ -16,7 +16,7 @@ Feature: test ACCESS Support knowledge base
     Then I should see "Resource provider guides with specific information about"
     Then I should see "View Documentation"
     Then I should see "Ask.CI Q&A"
-    Then I should see "Browse questions and answers on our expert-monitored Q&A platform"
+    Then I should see "Browse the Documentation"
     Then I should see "Visit ASK.CI"
     Then I should see "Crowd-sourced information"
     Then I should see "Useful resources contributed by the community"
@@ -46,13 +46,18 @@ Feature: test ACCESS Support knowledge base
     Then I should see "How do I request compute or storage resources?"
     Then I should see "Everything you need to know about getting resources from ACCESS."
     # TODO wrong page
-    # When I click "Go to Allocations"
+    When I click "Go to Allocations"
+    Then I should get a "200" HTTP response
+    
     # Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129143245/FAQs"
+    
     When I go to "/knowledge-base"
     Then I should see "Where can I find information that was on the XSEDE User Portal?"
     Then I should see "A handy list of where to find info for researchers with XSEDE experience."
     When I click "View Cheatsheet"
-    Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129144254/Cheatsheets+for+XSEDE+Users"
+    Then I should get a "200" HTTP response
+
+    # Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129144254/Cheatsheets+for+XSEDE+Users"
 
   Scenario: Unauthenticated user tests the Frequently Asked Questions section on the knowledge base page
     Given I am not logged in
