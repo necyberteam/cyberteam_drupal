@@ -531,7 +531,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning mx-3">There are no resources at this time. Please check back often as resources are added regularly.</div>'
+            value: '<div class="alert alert-warning mx-3">There are no CI Links at this time. Please check back often as CI Links are added regularly.</div>'
             format: full_no_editor
           tokenize: false
       sorts:
@@ -790,7 +790,7 @@ display:
       group_by: false
       use_more: false
       use_more_always: false
-      use_more_text: 'View all Resources with this tag'
+      use_more_text: 'View all CI Links with this tag'
       link_display: page_2
       link_url: /
       header:
@@ -804,7 +804,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: '{% if not link_flag %}Log in to vote on resources.{% endif %}'
+            value: '{% if not link_flag %}Log in to vote on CI Links.{% endif %}'
             format: basic_html
           tokenize: true
       footer: {  }
@@ -820,7 +820,7 @@ display:
       tags: {  }
   block_1:
     id: block_1
-    display_title: 'Resources by Tag'
+    display_title: 'CI Links by Tag'
     display_plugin: block
     position: 2
     display_options:
@@ -1271,11 +1271,11 @@ display:
           entity_type: webform_submission
           entity_field: sid
           plugin_id: field
-          label: 'View Resource'
+          label: 'View CI Link'
           exclude: true
           alter:
             alter_text: true
-            text: '<a href="/resource/{{ sid_1 }}">view</a>'
+            text: '<a href="/ci-link/{{ sid_1 }}">view</a>'
             make_link: false
             path: ''
             absolute: false
@@ -1591,7 +1591,7 @@ display:
       tags: {  }
   block_3:
     id: block_3
-    display_title: 'Resources by Tag'
+    display_title: 'CI Links by Tag'
     display_plugin: block
     position: 2
     display_options:
@@ -1722,7 +1722,7 @@ display:
       display_description: 'All Resources'
       use_more: true
       use_more_always: false
-      use_more_text: 'All Resources with this tag'
+      use_more_text: 'All CI Links with this tag'
       header:
         area:
           id: area
