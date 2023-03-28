@@ -7,7 +7,7 @@ Feature: test nect domain
   As a user of the admin role
   I need to switch nect to the default domain
 
-  Scenario: Admin user sets ky domain to the default
+  Scenario: Admin user sets nect domain to the default
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/domain/edit/nectd8_wpi_edu"
     When I check "Default domain"

@@ -1,80 +1,35 @@
-uuid: 53aec9c2-5dfd-40b5-b066-905d29a0c2f4
+uuid: 7208e6cc-cbbe-41ce-b4fe-50d06c4eb2db
 langcode: en
 status: open
 dependencies: {  }
 weight: 0
 open: null
 close: null
-uid: 138
+uid: 1
 template: false
 archive: false
-id: resource
-title: Resource
+id: edit_your_cssn_roles
+title: 'Edit your CSSN roles'
 description: ''
 category: ''
 elements: |-
-  approved:
-    '#type': checkbox
-    '#title': Approved
-    '#access_create_roles':
-      - administrator
-      - affinity_group_leader
-      - match_pm
-      - sc
-      - lt
-      - ra
-    '#access_update_roles':
-      - administrator
-      - match_pm
-      - sc
-      - lt
-      - ra
-  title:
-    '#type': textfield
-    '#title': Title
-    '#required': true
-  category:
-    '#type': select
-    '#title': Category
-    '#options':
-      learning: Learning
-      tool: Tool
-      mailing_list: 'Mailing List'
-      website: Website
-      documentation: Documentation
-      video_link: 'Video Link'
-      presentation: Presentation
-    '#required': true
-  tags:
-    '#type': webform_term_checkboxes
-    '#title': Tags
-    '#vocabulary': tags
-    '#breadcrumb_delimiter': ''
-    '#tree_delimiter': '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-  tags_helper:
+  markup:
     '#type': webform_markup
-    '#markup': '<small class="text-muted"><span style="-webkit-text-stroke-width:0px; background-color:#f8f8f8; color:#1d1c1d; display:inline !important; float:none; font-family:Slack-Lato,appleLogo,sans-serif; font-size:13px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:common-ligatures; font-weight:400; letter-spacing:normal; orphans:2; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-indent:0px; text-transform:none; white-space:normal; widows:2; word-spacing:0px">Select one (or more) tags that apply.</span></small>'
-  skill_level:
-    '#type': webform_term_checkboxes
-    '#title': 'Skill Level'
-    '#vocabulary': skill_level
-    '#breadcrumb_delimiter': ''
-    '#scroll': false
-  description:
-    '#type': textarea
-    '#title': Description
-  link_to_resource:
-    '#type': webform_link
-    '#title': 'Link to Resource'
-    '#multiple': true
-  terms:
-    '#type': textfield
-    '#title': terms
-    '#disabled': true
-    '#readonly': true
-    '#access_create_roles': {  }
-    '#access_update_roles': {  }
-    '#access_view_roles': {  }
+    '#markup': |-
+      <h3>
+        What roles do you serve in your work?
+      </h3>
+  roles_:
+    '#type': checkboxes
+    '#title': 'Roles:'
+    '#options':
+      Mentor: 'Mentor -- Provides or is willing to provide guidance, advice, feedback and support to a mentee. '
+      Student: |
+        Student -- A person enrolled in an institution of higher learning
+      'Research Computing Facilitator': 'Research Computing Facilitator -- Assists researchers with accessing data, study design, statistical and analytical methods, and coordinates the use of computing services, software licensing, and associated technical support for new and ongoing research projects and academic endeavors.'
+      'Research Software Engineer': 'Research Software Engineer -- Works with researchers to gain an understanding of the problems they face, and then develops, maintains and extends software to provide the answer'
+      'CI Systems Engineer': 'CI Systems Engineer -- Provides direct centralized support on scientific computing to campus researchers to enhance computational thinking and modern computational methods'
+      'Researcher / Educator': 'Researcher / Educator -- A person doing research or teaching at an institution of higher learning'
 css: ''
 javascript: ''
 settings:
@@ -87,12 +42,12 @@ settings:
   page_submit_path: ''
   page_confirm_path: ''
   page_theme_name: ''
-  form_title: source_entity_webform
+  form_title: both
   form_submit_once: false
   form_open_message: ''
   form_close_message: ''
   form_exception_message: ''
-  form_previous_submissions: false
+  form_previous_submissions: true
   form_confidential: false
   form_confidential_message: ''
   form_disable_remote_addr: false
@@ -111,9 +66,9 @@ settings:
   form_autofocus: false
   form_details_toggle: false
   form_reset: false
-  form_access_denied: login
+  form_access_denied: default
   form_access_denied_title: ''
-  form_access_denied_message: 'You must be logged in to add a resource. Please <a href="/user/login">Log in</a> or <a href="/user/register">Join the Team</a>.'
+  form_access_denied_message: ''
   form_access_denied_attributes: {  }
   form_file_limit: ''
   form_attributes: {  }
@@ -124,7 +79,7 @@ settings:
   share_theme_name: ''
   share_title: true
   share_page_body_attributes: {  }
-  submission_label: '[webform_submission:values:title]'
+  submission_label: ''
   submission_exception_message: ''
   submission_locked_message: ''
   submission_log: false
@@ -141,7 +96,7 @@ settings:
   submission_access_denied_attributes: {  }
   previous_submission_message: ''
   previous_submissions_message: ''
-  autofill: false
+  autofill: true
   autofill_message: ''
   autofill_excluded_elements: {  }
   wizard_progress_bar: true
@@ -159,9 +114,11 @@ settings:
   wizard_track: ''
   wizard_prev_button_label: ''
   wizard_next_button_label: ''
-  wizard_toggle: true
+  wizard_toggle: false
   wizard_toggle_show_label: ''
   wizard_toggle_hide_label: ''
+  wizard_page_type: container
+  wizard_page_title_tag: h2
   preview: 0
   preview_label: ''
   preview_title: ''
@@ -177,10 +134,10 @@ settings:
   draft_loaded_message: ''
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
-  confirmation_type: url
-  confirmation_url: 'webform/resource/submissions/[webform_submission:sid]'
+  confirmation_type: page
+  confirmation_url: ''
   confirmation_title: ''
-  confirmation_message: ''
+  confirmation_message: 'Thank you for updating your roles.'
   confirmation_attributes: {  }
   confirmation_back: true
   confirmation_back_label: ''
@@ -195,7 +152,7 @@ settings:
   limit_user: null
   limit_user_interval: null
   limit_user_message: ''
-  limit_user_unique: false
+  limit_user_unique: true
   entity_limit_total: null
   entity_limit_total_interval: null
   entity_limit_user: null
@@ -212,33 +169,20 @@ settings:
 access:
   create:
     roles:
-      - authenticated
-    users: {  }
-    permissions: {  }
-  view_any:
-    roles:
       - anonymous
       - authenticated
     users: {  }
     permissions: {  }
+  view_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
   update_any:
-    roles:
-      - administrator
-      - match_pm
-      - sc
-      - lt
-      - ra
-      - kb_pm
+    roles: {  }
     users: {  }
     permissions: {  }
   delete_any:
-    roles:
-      - administrator
-      - match_pm
-      - sc
-      - lt
-      - ra
-      - kb_pm
+    roles: {  }
     users: {  }
     permissions: {  }
   purge_any:
@@ -247,7 +191,6 @@ access:
     permissions: {  }
   view_own:
     roles:
-      - anonymous
       - authenticated
     users: {  }
     permissions: {  }
@@ -257,8 +200,7 @@ access:
     users: {  }
     permissions: {  }
   delete_own:
-    roles:
-      - administrator
+    roles: {  }
     users: {  }
     permissions: {  }
   administer:
@@ -274,29 +216,10 @@ access:
     users: {  }
     permissions: {  }
 handlers:
-  action:
-    id: action
-    handler_id: action
-    label: Action
-    notes: ''
-    status: true
-    conditions: {  }
-    weight: 0
-    settings:
-      states:
-        - completed
-        - updated
-      notes: ''
-      sticky: null
-      locked: null
-      data: 'terms: ''[webform_submission:values:tags]'''
-      message: ''
-      message_type: status
-      debug: false
-  email:
+  edit_cssn_roles_email:
     id: email
-    handler_id: email
-    label: Email
+    handler_id: edit_cssn_roles_email
+    label: 'edit cssn roles email'
     notes: ''
     status: true
     conditions: {  }
@@ -304,7 +227,7 @@ handlers:
     settings:
       states:
         - completed
-      to_mail: '[webform_role:kb_pm]'
+      to_mail: '[webform_role:match_pm]'
       to_options: {  }
       bcc_mail: ''
       bcc_options: {  }
@@ -317,7 +240,7 @@ handlers:
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: _default
+      subject: 'Edit the CSSN Roles'
       body: _default
       excluded_elements: {  }
       ignore_access: false
