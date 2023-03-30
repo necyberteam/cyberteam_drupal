@@ -560,7 +560,7 @@ function campuschampions_update_9001() {
   if ($schema->tableExists($table)) {
     if (!$schema->fieldExists($table, 'LAT')) {
       $schema->addField($table, 'LAT', array(
-        'type' => 'decimal',
+        'type' => 'numeric',
         'description' => 'Latitude',
         'precision' => 9,
         'scale' => 6,
