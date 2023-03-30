@@ -233,7 +233,7 @@ function campuschampions_node_access(NodeInterface $node, $op, $account) {
 }
 
 /**
- *
+ * Redirect to the profile page after submission
  */
 function campuschampions_redirect_to_profile_page_form_submit($form, &$form_state) {
   $form_state->setRedirect('user.page');
@@ -241,18 +241,149 @@ function campuschampions_redirect_to_profile_page_form_submit($form, &$form_stat
 
 /**
  * Implements HOOK_views_data_export_row_alter().
+ *
+ * Fill out data about the associated intstitution (Carnegie code).
  */
 function campuschampions_views_data_export_row_alter(&$row, \Drupal\views\ResultRow $result, \Drupal\views\ViewExecutable $view) {
   if ($view->id() == 'campus_champions_user_export' && $view->current_display == 'ccusers_data_export') {
-    $cc = $row['field_carnegie_code'];
+    // Get data based on carnegie code
+    $cc = (string)$row['field_carnegie_code'];
+
     $db = new CarnegieCodesLookup;
-    $results = $db->lookupByUnitId($cc, ['CITY', 'STABBR', 'BASIC2021']);
-    if ($results === FALSE) {
-      $row['field_carnegie_code'] = t('Users Carnegie Code is not valid.');
-      $row['field_carnegie_code_1'] = t('Users Carnegie Code is not valid.');
-    } else {
-      $row['field_carnegie_code'] = $results['CITY'] . ', ' . $results['STABBR'];
-      $row['field_carnegie_code_1'] = $results['BASIC2021'];
+    $results = $db->lookupByUnitId($cc, [
+      'NAME',
+      'CITY',
+      'STABBR',
+      'BASIC2021',
+      'MSI',
+      'LAT',
+      'LON',
+    ]);
+
+    $row['field_carnegie_code'] = t('Users Carnegie Code is not valid.');
+    $row['field_carnegie_code_location'] = '';
+    $row['field_carnegie_code_classification'] = '';
+    $row['field_carnegie_code_msi'] = '';
+    $row['field_carnegie_code_site'] = '';
+    $row['field_carnegie_code_eps_lookup'] = '';
+    $row['field_carnegie_code_type_id'] = '';
+    $row['field_carnegie_code_type'] = '';
+    $row['field_carnegie_code_region'] = '';
+    $row['field_carnegie_code_lat'] = '';
+    $row['field_carnegie_code_lon'] = '';
+
+    if ($results !== FALSE) {
+      $row['field_carnegie_code'] = $cc;
+      $row['field_carnegie_code_location'] = $results['CITY'] . ', ' . $results['STABBR'];
+      $row['field_carnegie_code_classification'] = $results['BASIC2021'];
+      $row['field_carnegie_code_msi'] = $results['MSI'];
+      $row['field_carnegie_code_site'] = $results['NAME'];
+      $row['field_carnegie_code_eps_lookup'] = 0;
+
+      $epscor = array(
+        'AK', 'AL', 'AR', 'DE', 'GU', 'HI', 'ID',
+        'KS', 'KY', 'LA', 'ME', 'MS', 'MT', 'ND',
+        'NE', 'NH', 'NM', 'NV', 'OK', 'PR', 'RI',
+        'SC', 'SD', 'VI', 'VT', 'WV', 'WY',
+      );
+      if (in_array($results['STABBR'], $epscor)) {
+        $row['field_carnegie_code_eps_lookup'] = 1;
+      }
+
+      // type_id = MSI + 10 * EPS_lookup + 100 * non-academy
+      $nonacademy = 0;
+      if (is_numeric($cc)) {
+        $nonacademy = $cc > 9999 ? 0 : 1;
+      }
+      $row['field_carnegie_code_type_id'] = ($row['field_carnegie_code_msi'] + 10) * $row['field_carnegie_code_eps_lookup'] + (100 * $nonacademy);
+
+      switch ($row['field_carnegie_code_type_id'])
+      {
+        case 110:
+        case 100: $row['field_carnegie_code_type'] = 'other not-for-profit organization'; break;
+        case 11:  $row['field_carnegie_code_type'] = 'MSI in EPSCoR jurisdiction';        break;
+        case 10:  $row['field_carnegie_code_type'] = 'EPSCoR';                            break;
+        case 1:   $row['field_carnegie_code_type'] = 'Minority Serving Institution';      break;
+        case 0:
+        default:  $row['field_carnegie_code_type'] = 'Academic institution';
+      }
+
+      $regions = array(
+        'AK' => 1, 'AL' => 5, 'AR' => 4, 'AZ' => 2,
+        'CA' => 2, 'CO' => 8, 'CT' => 7, 'DC' => 6,
+        'DE' => 6, 'FL' => 5, 'GA' => 5, 'HI' => 2,
+        'IA' => 3, 'ID' => 1, 'IL' => 3, 'IN' => 6,
+        'KS' => 4, 'KY' => 6, 'LA' => 4, 'MA' => 7,
+        'MD' => 6, 'ME' => 7, 'MI' => 6, 'MN' => 3,
+        'MO' => 4, 'MS' => 5, 'MT' => 1, 'NC' => 5,
+        'ND' => 3, 'NE' => 4, 'NH' => 7, 'NJ' => 6,
+        'NM' => 8, 'NV' => 2, 'NY' => 7, 'OH' => 6,
+        'OK' => 4, 'OR' => 1, 'PA' => 6, 'PR' => 5,
+        'RI' => 7, 'SC' => 5, 'SD' => 3, 'TN' => 5,
+        'TX' => 4, 'UT' => 8, 'VA' => 6, 'VI' => 5,
+        'VT' => 7, 'WA' => 1, 'WI' => 3, 'WV' => 6,
+        'WY' => 8, 'GU' => 2,
+      );
+      if (isset($regions[$results['STABBR']])) {
+        $row['field_carnegie_code_region'] = $regions[$results['STABBR']];
+      }
+
+      if (is_null($results['LAT'])) {
+        // In a number of cases, the name is suffixed with "-city".
+        // Ex: Ottawa University-Phoenix. For searches to work better,
+        // we need to strip the suffix.
+        if (substr($results['NAME'], -(strlen($results['CITY']) + 1)) == '-' . $results['CITY']) {
+          $results['NAME'] = substr($results['NAME'], 0, -(strlen($results['CITY']) + 1));
+        }
+        // We have a handful of cases where the name is suffixed with
+        // "-Main Campus", which can cause searches to fail.
+        $results['NAME'] = str_replace('-Main Campus', '', $results['NAME']);
+
+        // Name+State seems to work better than Name+City or Name+City+State
+        $address = $results['NAME'] . ' ' . $results['STABBR'];
+
+        // Call the geocoder service
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => 'https://geocode.maps.co/search?q=' . urlencode($address),
+        ));
+
+        $response = curl_exec($curl);
+
+        if (curl_errno($curl)) {
+          $error_msg = curl_error($curl);
+        }
+
+        curl_close($curl);
+
+        if (!isset($error_msg)) {
+          $geocoded = json_decode($response, true);
+
+          if (!empty($geocoded)) {
+            $results['LAT'] = $geocoded[0]['lat'];
+            $results['LON'] = $geocoded[0]['lon'];
+
+            // Update the database entry
+            \Drupal::database()
+              ->update('carnegie_codes')
+              ->fields([
+                'LAT' => $results['LAT'],
+                'LON' => $results['LON'],
+              ])
+              ->condition('UNITID', $cc, '=')
+              ->execute();
+          }
+        }
+      }
+      $row['field_carnegie_code_lat'] = $results['LAT'] ? $results['LAT'] : '';
+      $row['field_carnegie_code_lon'] = $results['LON'] ? $results['LON'] : '';
+    }
+
+    // Designation
+    if (!isset($row['webform_submission_value']) || !$row['webform_submission_value']) {
+      $row['webform_submission_value'] = 'Champion';
     }
   }
 }

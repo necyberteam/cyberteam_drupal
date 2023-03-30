@@ -549,3 +549,32 @@ function campuschampions_update_9000() {
     ]
   ]);
 }
+
+/**
+ * Add LAT and LON fields to carnegie_codes table
+ */
+function campuschampions_update_9001() {
+  $table = 'carnegie_codes';
+  $schema = \Drupal::database()->schema();
+
+  if ($schema->tableExists($table)) {
+    if (!$schema->fieldExists($table, 'LAT')) {
+      $schema->addField($table, 'LAT', array(
+        'type' => 'decimal',
+        'description' => 'Latitude',
+        'precision' => 9,
+        'scale' => 6,
+        'not null' => FALSE,
+      ));
+    }
+    if (!$schema->fieldExists($table, 'LON')) {
+      $schema->addField($table, 'LON', array(
+        'type' => 'decimal',
+        'description' => 'Longitude',
+        'precision' => 9,
+        'scale' => 6,
+        'not null' => FALSE,
+      ));
+    }
+  }
+}
