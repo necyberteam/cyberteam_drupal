@@ -1031,7 +1031,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: "<style>\r\n.view-content ul ul li { display: inline-flex; }\r\n.view-content .item-list li { margin: 0; list-style: none; }\r\n.region-content .view { margin-top: 0; }\r\n</style>"
+            value: "<style>\r\n.view-content ul ul li { display: inline-flex; }\r\n.view-content .item-list li { margin: 0; list-style: none; }\r\n.region-content .view { margin-top: 0; }\r\n.flag-element-name { cursor: pointer; }\r\n</style>\r\n\r\n<script>\r\nsetTimeout(()=> {\r\n  let flags = document.querySelectorAll('.flag-tag');\r\n  flags.forEach( flag => {\r\n      flag.addEventListener('click', e => {\r\n        // simulate click\r\n        const target = e.currentTarget;\r\n        if (target.classList.value.includes('bg-secondary')) {\r\n          target.classList.remove('bg-secondary', 'text-white');\r\n          target.classList.add('bg-white');\r\n        } else {\r\n          target.classList.add('bg-secondary', 'text-white');\r\n          target.classList.remove('bg-white');\r\n        }\r\n        target.querySelector('.flag > a').click();\r\n        target.classList.toggle('flagged')\r\n      })\r\n  })\r\n} ,1000);\r\n</script>"
             format: full_no_editor
           tokenize: false
       display_extenders:
@@ -1174,7 +1174,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"d-inline-flex flag-tag {{ flagged }} border border-black m-1 p-1\">\r\n<div class=\"me-3\">{{ name }}</div>\r\n<div>{{ link_flag }}</div>\r\n</div>"
+            text: "<div class=\"d-inline-flex flag-tag {{ flagged }} border border-black m-1 p-1\">\r\n<div class=\"flag-element-name\">{{ name }}</div>\r\n<div class=\"d-none\">{{ link_flag }}</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
