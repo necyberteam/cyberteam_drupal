@@ -565,20 +565,7 @@ display:
           flag: interest
           user_scope: current
       use_ajax: true
-      header:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: "<style>\r\n.view-content ul ul li { display: inline-flex; }\r\n.view-content .item-list li { margin: 0; list-style: none; }\r\n.region-content .view { margin-top: 0; }\r\n</style>"
-            format: full_html
-          tokenize: false
+      header: {  }
       footer: {  }
       display_extenders: {  }
     cache_metadata:
@@ -1031,7 +1018,22 @@ display:
         fields: false
         filters: false
         filter_groups: false
+        header: false
       display_description: ''
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: "<style>\r\n.view-content ul ul li { display: inline-flex; }\r\n.view-content .item-list li { margin: 0; list-style: none; }\r\n.region-content .view { margin-top: 0; }\r\n</style>"
+            format: full_no_editor
+          tokenize: false
       display_extenders:
         simple_sitemap_display_extender:
           index: 0
@@ -1172,7 +1174,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"d-inline-flex {{ flagged }} border border-black m-1 p-1\">\r\n<span>{{ name }} &nbsp; &nbsp;</span>\r\n<span>{{ link_flag }}</span>\r\n</div>"
+            text: "<div class=\"d-inline-flex flag-tag {{ flagged }} border border-black m-1 p-1\">\r\n<div class=\"flag-item-name\">{{ name }}</div>\r\n<div class=\"flag-link ms-3\">{{ link_flag }}</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -3039,7 +3041,7 @@ display:
           value:
             min: ''
             max: ''
-            value: '5'
+            va[Olue: '5'
           group: 1
           exposed: false
           expose:
