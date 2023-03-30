@@ -1,19 +1,18 @@
-uuid: 578bdbd3-a8ac-4987-982a-75ee2c6c8801
+uuid: f738badc-d43b-47fe-b78c-3c34c5fb1172
 langcode: en
 status: true
 dependencies:
   config:
-    - flag.flag.interest
+    - flag.flag.skill
     - taxonomy.vocabulary.tags
     - user.role.authenticated
   module:
-    - better_exposed_filters
     - flag
     - taxonomy
     - user
     - views_field_view
-id: add_interest
-label: 'Add Interest'
+id: add_skill
+label: 'Add Skill'
 module: views
 description: ''
 tag: ''
@@ -26,7 +25,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Add Interests'
+      title: 'Add Skill'
       fields:
         link_flag:
           id: link_flag
@@ -391,7 +390,7 @@ display:
           offset: 0
           items_per_page: 0
       exposed_form:
-        type: bef
+        type: basic
         options:
           submit_button: Apply
           reset_button: false
@@ -400,41 +399,14 @@ display:
           expose_sort_order: true
           sort_asc_label: Asc
           sort_desc_label: Desc
-          input_required: false
-          text_input_required: 'Select any filter and click on Apply to see results'
-          text_input_required_format: basic_html
-          bef:
-            general:
-              autosubmit: false
-              autosubmit_exclude_textfield: false
-              autosubmit_hide: false
-              input_required: false
-              allow_secondary: false
-              secondary_label: 'Advanced options'
-              text_input_required: 'Select any filter and click on Apply to see results'
-              text_input_required_format: basic_html
-            filter:
-              name:
-                plugin_id: default
-                advanced:
-                  sort_options: false
-                  placeholder_text: ''
-                  rewrite:
-                    filter_rewrite_values: ''
-                  collapsible: false
-                  is_secondary: false
       access:
         type: role
         options:
           role:
             authenticated: authenticated
       cache:
-        type: time
-        options:
-          results_lifespan: 21600
-          results_lifespan_custom: 0
-          output_lifespan: 3600
-          output_lifespan_custom: 0
+        type: none
+        options: {  }
       empty: {  }
       sorts:
         name:
@@ -562,9 +534,8 @@ display:
           entity_type: taxonomy_term
           plugin_id: flag_relationship
           required: false
-          flag: interest
+          flag: skill
           user_scope: current
-      use_ajax: true
       header: {  }
       footer: {  }
       display_extenders: {  }
@@ -936,7 +907,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: add_interest
+          view: add_skill
           display: page_2
           arguments: '{{ raw_fields.tid }}'
       filters:
@@ -1010,6 +981,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          use_tokens: 0
       filter_groups:
         operator: AND
         groups:
@@ -1041,7 +1013,7 @@ display:
           changefreq: ''
           arguments: {  }
           max_links: 100
-      path: add-interest
+      path: add-skill
     cache_metadata:
       max-age: -1
       contexts:
@@ -1464,7 +1436,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: add_interest
+          view: add_skill
           display: page_3
           arguments: '{{ raw_fields.tid}}'
       arguments:
@@ -1963,7 +1935,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: add_interest
+          view: add_skill
           display: page_4
           arguments: '{{ raw_fields.tid}}'
       arguments:
@@ -2462,7 +2434,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: add_interest
+          view: add_skill
           display: page_5
           arguments: '{{ raw_fields.tid }}'
       arguments:
@@ -2961,9 +2933,9 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: add_interest
+          view: add_skill
           display: page_6
-          arguments: '{{ raw_fields.tid}}'
+          arguments: '{{ raw_fields.tid }}'
       arguments:
         parent_target_id:
           id: parent_target_id
@@ -3460,7 +3432,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: add_interest
+          view: add_skill
           display: page_7
           arguments: '{{ raw_fields.tid }}'
       arguments:
@@ -3959,7 +3931,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: add_interest
+          view: add_skill
           display: page_8
           arguments: '{{ raw_fields.tid }}'
       arguments:
@@ -4458,7 +4430,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: add_interest
+          view: add_skill
           display: page_9
           arguments: '{{ raw_fields.tid }}'
       arguments:
