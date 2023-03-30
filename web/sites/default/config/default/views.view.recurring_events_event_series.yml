@@ -1807,7 +1807,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '{{ eventseries_start_date|date(''n/d/Y g:i A T'') }}'
+            text: "{% if eventseries_start_date != 'N/A' %}\r\n   {{ eventseries_start_date|date('n/d/Y g:i A T') }}\r\n{% endif %}"
             make_link: false
             path: ''
             absolute: false

@@ -11,6 +11,19 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 class GhCommands extends BltTasks {
 
   /**
+   * Command to run to keep codespaces alive.
+   *
+   * @command gh:keepalive
+   * @description Continuous loop that says bing.
+   */
+  public function keepAlive() {
+    while (1){
+      $this->say("🔁 Bing");
+      $this->_exec("sleep 120");
+    }
+  }
+
+  /**
    * Pull latest Database from artifacts.
    *
    * @command gh:pulldb
