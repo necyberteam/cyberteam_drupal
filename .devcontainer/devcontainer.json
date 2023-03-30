@@ -55,6 +55,13 @@
 
     "phpcs.enable": true,
     "phpcs.standard": "Drupal,DrupalPractice",
+    "phpcs.executablePath": "/workspaces/cyberteam_drupal/vendor/bin/phpcs"
+
+    "phpcbf.enable": true,
+    "phpcbf.executablePath": "/workspaces/cyberteam_drupal/vendor/bin/phpcbf",
+    "phpcbf.documentFormattingProvider": true,
+    "phpcbf.onsave": true,
+    "phpcbf.standard": "Drupal,DrupalPractice"
 
     "php.validate.enable": true,
     "php.validate.executablePath": "/usr/bin/php",
@@ -74,7 +81,6 @@
     "emmet.includeLanguages": {
       "twig": "html"
     },
-    "phpcs.executablePath": "/workspaces/cyberteam_drupal/vendor/bin/phpcs"
   },
 
   // Add the IDs of extensions you want installed when the container is created.
@@ -87,7 +93,6 @@
     "ms-azuretools.vscode-docker",
     "DmitryDorofeev.empty-indent",
     "Tyriar.lorem-ipsum",
-    "eg2.vscode-npm-script",
     "xdebug.php-debug",
     "neilbrayfield.php-docblocker",
     "bmewburn.vscode-intelephense-client",
