@@ -15,7 +15,6 @@ dependencies:
     - recurring_events.eventseries_type.default
   module:
     - link
-    - options
     - recurring_events
     - text
 _core:
@@ -30,16 +29,16 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 1
+    weight: 2
     region: content
   content_moderation_control:
     settings: {  }
     third_party_settings: {  }
-    weight: -20
+    weight: 0
     region: content
   event_instances:
     type: recurring_events_eventinstance_date
-    label: above
+    label: hidden
     settings:
       link: '1'
       date_format: 'F jS, Y h:iA'
@@ -47,16 +46,9 @@ content:
     third_party_settings: {  }
     weight: 3
     region: content
-  field_affiliation:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 10
-    region: content
   field_affinity_group_node:
     type: entity_reference_label
-    label: above
+    label: inline
     settings:
       link: true
     third_party_settings: {  }
@@ -68,13 +60,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 6
-    region: content
-  field_event_type:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 9
     region: content
   field_location:
     type: text_default
@@ -103,27 +88,23 @@ content:
     third_party_settings: {  }
     weight: 8
     region: content
-  recur_type:
-    type: list_default
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    weight: 2
-    region: content
   title:
     type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 0
+    weight: 1
     region: content
 hidden:
   consecutive_recurring_date: true
   custom_date: true
   daily_recurring_date: true
   event_registration: true
+  field_affiliation: true
   field_affinity_group: true
   field_broadcast_affinity_groups: true
+  field_event_type: true
   monthly_recurring_date: true
+  recur_type: true
   weekly_recurring_date: true
