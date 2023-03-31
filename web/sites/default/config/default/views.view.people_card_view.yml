@@ -8,7 +8,6 @@ dependencies:
     - field.storage.user.field_user_first_name
     - field.storage.user.field_user_last_name
     - field.storage.user.user_picture
-    - image.style.three_by_four
     - taxonomy.vocabulary.region
     - user.role.ci_systems_engineer
     - user.role.domain_champion
@@ -21,6 +20,7 @@ dependencies:
     - user.role.research_computing_facilitator
     - user.role.research_software_engineer
     - user.role.researcher
+    - user.role.sc
     - user.role.steering_committee
     - user.role.student
     - user.role.student_champion
@@ -1049,10 +1049,10 @@ display:
             mentor: mentor
             professional_mentor: professional_mentor
             researcher: researcher
-            steering_committee: steering_committee
             research_computing_facilitator: research_computing_facilitator
             research_software_engineer: research_software_engineer
             ci_systems_engineer: ci_systems_engineer
+            sc: sc
           group: 1
           exposed: true
           expose:
@@ -1087,7 +1087,21 @@ display:
               research_software_engineer: '0'
               ci_systems_engineer: '0'
               mentee: '0'
+              student_champion: '0'
               domain_champion: '0'
+              cssn: '0'
+              affinity_group_leader: '0'
+              match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
+              coco_pm: '0'
+              cnctci_pm: '0'
+              news_pm: '0'
+              kb_pm: '0'
+              careers_sc: '0'
+              ccmnet_pm: '0'
+              match_sc: '0'
             reduce: true
           is_grouped: false
           group_info:
