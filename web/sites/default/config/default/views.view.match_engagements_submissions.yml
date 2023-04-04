@@ -230,11 +230,11 @@ display:
           label: Researcher(s)
           exclude: true
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '<a href="/community-persona/{{ field_researcher__target_id }}">{{ field_researcher }}</a>'
             make_link: false
-            path: ''
-            absolute: false
+            path: '/community-persona/{{ field_researcher__target_id }}'
+            absolute: true
             external: false
             replace_spaces: false
             path_case: none
@@ -271,7 +271,7 @@ display:
           click_sort_column: target_id
           type: entity_reference_label
           settings:
-            link: true
+            link: false
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -293,8 +293,8 @@ display:
           label: Mentor(s)
           exclude: true
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '<a href="/community-persona/{{ field_mentor__target_id }}">{{ field_mentor }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -334,7 +334,7 @@ display:
           click_sort_column: target_id
           type: entity_reference_label
           settings:
-            link: true
+            link: false
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -356,8 +356,8 @@ display:
           label: Consultant
           exclude: true
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '<a href="/community-persona/{{ field_consultant__target_id }}">{{ field_consultant }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -397,7 +397,7 @@ display:
           click_sort_column: target_id
           type: entity_reference_label
           settings:
-            link: true
+            link: false
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -420,7 +420,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: ''
+            text: '<a href="/community-persona/{{ field_students__target_id }}">{{ field_students }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -460,7 +460,7 @@ display:
           click_sort_column: target_id
           type: entity_reference_label
           settings:
-            link: true
+            link: false
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -601,7 +601,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<strong>Approved:</strong><br />\r\n{{ promote }}\r\n<strong>Published:</strong><br />\r\n{{ status }}"
+            text: "<strong>Approved:</strong><br />\r\n{{ promote }}\r\n<br />\r\n<strong>Published:</strong><br />\r\n{{ status }}"
             make_link: false
             path: ''
             absolute: false
@@ -666,7 +666,7 @@ display:
           exclude: true
           alter:
             alter_text: false
-            text: ''
+            text: '{{ field_launch_presentation__target_id }}'
             make_link: false
             path: ''
             absolute: false
@@ -704,9 +704,8 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: file_default
-          settings:
-            use_description_as_link_text: true
+          type: file_url_plain
+          settings: {  }
           group_column: ''
           group_columns: {  }
           group_rows: true
@@ -729,7 +728,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<strong>Presentation:</strong><br />\r\n{{ field_launch_presentation }}\r\n<strong>Presentation Date:</strong><br />\r\n{{ field_launch_presentation_date }}"
+            text: "{% if field_launch_presentation %}\r\n<strong><a href=\"{{ field_launch_presentation }}\">Presentation</a></strong><br /><br />\r\n{% endif %}\r\n<strong>Presentation Date:</strong><br />\r\n{{ field_launch_presentation_date }}"
             make_link: false
             path: ''
             absolute: false
@@ -831,9 +830,8 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: file_default
-          settings:
-            use_description_as_link_text: true
+          type: file_url_plain
+          settings: {  }
           group_column: ''
           group_columns: {  }
           group_rows: true
@@ -856,7 +854,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<strong>Presentation:</strong><br />\r\n{{ field_wrap_presentation }} \r\n<strong>Presentation Date</strong><br />\r\n{{ field_wrap_presentation_date }}"
+            text: "{% if field_wrap_presentation %}\r\n<strong><a href=\"{{ field_wrap_presentation }}\">Presentation</a></strong><br /><br />\r\n {% endif %}\r\n<strong>Presentation Date</strong><br />\r\n{{ field_wrap_presentation_date }}"
             make_link: false
             path: ''
             absolute: false
