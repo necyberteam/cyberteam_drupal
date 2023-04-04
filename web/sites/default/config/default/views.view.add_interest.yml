@@ -429,12 +429,8 @@ display:
           role:
             authenticated: authenticated
       cache:
-        type: time
-        options:
-          results_lifespan: 21600
-          results_lifespan_custom: 0
-          output_lifespan: 3600
-          output_lifespan_custom: 0
+        type: tag
+        options: {  }
       empty: {  }
       sorts:
         name:
@@ -1019,8 +1015,10 @@ display:
         filters: false
         filter_groups: false
         header: false
+        footer: false
       display_description: ''
-      header:
+      header: {  }
+      footer:
         area:
           id: area
           table: views
@@ -1031,7 +1029,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: "<style>\r\n.view-content ul ul li { display: inline-flex; }\r\n.view-content .item-list li { margin: 0; list-style: none; }\r\n.region-content .view { margin-top: 0; }\r\n.flag-element-name { cursor: pointer; }\r\n</style>\r\n\r\n<script>\r\nsetTimeout(()=> {\r\n  let flags = document.querySelectorAll('.flag-tag');\r\n  flags.forEach( flag => {\r\n      flag.addEventListener('click', e => {\r\n        // simulate click\r\n        const target = e.currentTarget;\r\n        if (target.classList.value.includes('bg-secondary')) {\r\n          target.classList.remove('bg-secondary', 'text-white');\r\n          target.classList.add('bg-white');\r\n        } else {\r\n          target.classList.add('bg-secondary', 'text-white');\r\n          target.classList.remove('bg-white');\r\n        }\r\n        target.querySelector('.flag > a').click();\r\n        target.classList.toggle('flagged')\r\n      })\r\n  })\r\n} ,1000);\r\n</script>"
+            value: "<style>\r\n.view-content ul ul li { display: inline-flex; }\r\n.view-content .item-list li { margin: 0; list-style: none; }\r\n.region-content .view { margin-top: 0; }\r\n.flag-element-name { cursor: pointer; }\r\n</style>\r\n\r\n<script>\r\nlet flags = document.querySelectorAll('.flag-tag');\r\nflags.forEach( flag => {\r\n    flag.addEventListener('click', e => {\r\n      // simulate click\r\n      const target = e.currentTarget;\r\n      if (target.classList.value.includes('bg-secondary')) {\r\n        target.classList.remove('bg-secondary', 'text-white');\r\n        target.classList.add('bg-white');\r\n      } else {\r\n        target.classList.add('bg-secondary', 'text-white');\r\n        target.classList.remove('bg-white');\r\n      }\r\n      target.querySelector('.flag > a').click();\r\n      target.classList.toggle('flagged')\r\n    })\r\n})\r\n</script>"
             format: full_no_editor
           tokenize: false
       display_extenders:
@@ -1609,6 +1607,60 @@ display:
     position: 1
     display_options:
       fields:
+        flagged:
+          id: flagged
+          table: flagging
+          field: flagged
+          relationship: flag_relationship
+          group_type: group
+          admin_label: ''
+          entity_type: flagging
+          plugin_id: flag_flagged
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          type: custom
+          type_custom_true: 'bg-secondary text-white'
+          type_custom_false: bg-white
+          not: 0
         link_flag:
           id: link_flag
           table: flagging
@@ -1673,7 +1725,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"d-inline-flex\">\r\n<span>{{ name }} &nbsp; &nbsp;</span>\r\n<span>{{ link_flag }}</span>\r\n</div>"
+            text: "<div class=\"d-inline-flex flag-tag {{ flagged }} border border-black m-1 p-1\">\r\n<div class=\"flag-element-name\">{{ name }}</div>\r\n<div class=\"d-none\">{{ link_flag }}</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -1923,7 +1975,7 @@ display:
           admin_label: ''
           plugin_id: view
           label: ''
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -2107,6 +2159,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      enabled: false
       fields:
         link_flag:
           id: link_flag
@@ -2606,6 +2659,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      enabled: false
       fields:
         link_flag:
           id: link_flag
@@ -3105,6 +3159,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      enabled: false
       fields:
         link_flag:
           id: link_flag
@@ -3604,6 +3659,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      enabled: false
       fields:
         link_flag:
           id: link_flag
@@ -4103,6 +4159,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      enabled: false
       fields:
         link_flag:
           id: link_flag
@@ -4602,6 +4659,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      enabled: false
       fields:
         link_flag:
           id: link_flag
