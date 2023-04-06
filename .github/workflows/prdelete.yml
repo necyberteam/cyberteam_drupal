@@ -6,7 +6,7 @@ jobs:
   delete-pr:
     name: Deploy site
     runs-on: ubuntu-latest
-    if: contains('md-', github.head_ref)
+    if: contains(github.head_ref, 'md-')
     steps:
       - uses: actions/checkout@v1
       - uses: ./.github/actions/dingorunner
