@@ -83,7 +83,7 @@ fi
 
 if [ "$runner" = deletepr ];
 then
-  branch=${{ github.head_ref }}
+  branch=${github.head_ref}
   echo $branch
   storeKey
   terminusApi
