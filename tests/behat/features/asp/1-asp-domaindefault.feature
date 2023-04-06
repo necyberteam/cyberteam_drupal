@@ -7,7 +7,7 @@ Feature: test ACCESS Support domain
   In order to test the ACCESS Support domain
   As a user of the admin role
   I need to switch ACCESS Support to the default domain
-  
+
   Scenario: Admin user sets ACCESS Support domain to the default
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/domain/edit/amp_cyberinfrastructure_org"
