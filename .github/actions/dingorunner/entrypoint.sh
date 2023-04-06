@@ -83,8 +83,9 @@ fi
 
 if [ "$runner" = deletepr ];
 then
+  branch=${{ github.head_ref }}
+  echo $branch
   storeKey
   terminusApi
-  branch="${GITHUB_REF#refs/heads/}"
   terminus multidev:delete --delete-branch --yes -- accessmatch.$branch
 fi
