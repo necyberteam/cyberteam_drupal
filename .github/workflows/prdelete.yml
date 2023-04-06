@@ -6,10 +6,9 @@ jobs:
   delete-pr:
     name: Deploy site
     runs-on: ubuntu-latest
+    if: contains('md-', github.head_ref)
     steps:
       - uses: actions/checkout@v1
-      - name: Install Lando
-        run: |
-          echo ${{ github.head_ref }}
-          echo ${{ github.base_ref }}
-          echo ${{ github.event.number }}
+      - uses: ./.github/actions/dingorunner
+        env:
+          runner: deletepr
