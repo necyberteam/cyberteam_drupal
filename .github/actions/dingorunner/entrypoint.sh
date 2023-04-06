@@ -80,3 +80,11 @@ then
   $blt amp:ciupdate "$drupal_update" --no-interaction --verbose
   git push origin $drupal_update
 fi
+
+if [ "$runner" = deletepr ];
+then
+  storeKey
+  terminusApi
+  branch="${GITHUB_REF#refs/heads/}"
+  terminus multidev:delete --delete-branch --yes -- accessmatch.$branch
+fi
