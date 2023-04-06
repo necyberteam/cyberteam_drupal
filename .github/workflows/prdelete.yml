@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Set env GITHUB_REF_MD
-        run: echo "GITHUB_REF_MD=$(git rev-parse --abbrev-ref HEAD | cut -c 1-3)" >> $GITHUB_ENV
+        run: echo "GITHUB_REF_MD=$(echo ${github.head_ref} | cut -c 1-3)" >> $GITHUB_ENV
       - name: Test Variable
         run: |
           echo $GITHUB_REF_MD
