@@ -2,14 +2,12 @@ name: (A) Delete Multidev site on PR close
 on:
   pull_request_target:
     types: [closed]
-    branches:
-      - 'md-*'
 jobs:
   delete-pr:
     name: Deploy site
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: ./.github/actions/dingorunner
-        env:
-          runner: deletepr
+      - name: Install Lando
+        run: |
+          echo $(github.ref)
