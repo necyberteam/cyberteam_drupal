@@ -1,6 +1,5 @@
 # cyberteam_drupal
 
-
 ## BLT
 
 This uses a fairly standard [BLT](https://github.com/acquia/blt) install. See below for the custom commands.
