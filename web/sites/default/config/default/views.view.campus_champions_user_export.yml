@@ -43,7 +43,7 @@ display:
           entity_type: user
           entity_field: name
           plugin_id: field
-          label: 'Name'
+          label: Name
           exclude: false
           alter:
             alter_text: false
@@ -269,9 +269,9 @@ display:
           field: field_carnegie_code
           relationship: none
           group_type: group
-          admin_label: 'Site'
+          admin_label: Site
           plugin_id: field
-          label: 'Site'
+          label: Site
           exclude: false
           alter:
             alter_text: false
@@ -521,9 +521,9 @@ display:
           field: field_carnegie_code
           relationship: none
           group_type: group
-          admin_label: 'MSI'
+          admin_label: MSI
           plugin_id: field
-          label: 'MSI'
+          label: MSI
           exclude: false
           alter:
             alter_text: false
@@ -710,9 +710,9 @@ display:
           field: field_carnegie_code
           relationship: none
           group_type: group
-          admin_label: 'Type'
+          admin_label: Type
           plugin_id: field
-          label: 'Type'
+          label: Type
           exclude: false
           alter:
             alter_text: false
@@ -773,9 +773,9 @@ display:
           field: field_carnegie_code
           relationship: none
           group_type: group
-          admin_label: 'Region'
+          admin_label: Region
           plugin_id: field
-          label: 'Region'
+          label: Region
           exclude: false
           alter:
             alter_text: false
@@ -836,9 +836,9 @@ display:
           field: field_carnegie_code
           relationship: none
           group_type: group
-          admin_label: 'Latitude'
+          admin_label: Latitude
           plugin_id: field
-          label: 'Latitude'
+          label: Latitude
           exclude: false
           alter:
             alter_text: false
@@ -899,9 +899,9 @@ display:
           field: field_carnegie_code
           relationship: none
           group_type: group
-          admin_label: 'Longitude'
+          admin_label: Longitude
           plugin_id: field
-          label: 'Longitude'
+          label: Longitude
           exclude: false
           alter:
             alter_text: false
@@ -1079,6 +1079,7 @@ display:
           entity_type: user
           plugin_id: standard
           required: false
+      group_by: true
       header: {  }
       footer: {  }
       display_extenders: {  }
@@ -1126,25 +1127,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - request_format
-        - user
-        - user.roles
-      tags:
-        - 'config:field.storage.user.field_carnegie_code'
-  page_cc_users:
-    id: page_cc_users
-    display_title: Page
-    display_plugin: page
-    position: 1
-    display_options:
-      enabled: true
-      display_extenders: {  }
-      path: cc-users
-    cache_metadata:
-      max-age: -1
-      contexts:
-        - 'languages:language_content'
-        - 'languages:language_interface'
-        - url.query_args
         - user
         - user.roles
       tags:
