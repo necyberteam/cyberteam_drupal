@@ -21,3 +21,5 @@ jobs:
         env:
           runner: deletepr
           PR_BRANCH: ${{ env.PR_BRANCH }}
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+          terminus_api: ${{ secrets.TERMINUS_API }}
