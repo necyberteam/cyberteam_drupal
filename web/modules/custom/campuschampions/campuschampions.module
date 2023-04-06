@@ -245,20 +245,10 @@ function campuschampions_redirect_to_profile_page_form_submit($form, &$form_stat
  * Fill out data about the associated intstitution (Carnegie code).
  */
 function campuschampions_views_data_export_row_alter(&$row, \Drupal\views\ResultRow $result, \Drupal\views\ViewExecutable $view) {
-  if ($view->id() == 'campus_champions_user_export' && $view->current_display == 'ccusers_data_export') {
-    // Get data based on carnegie code
-    $cc = (string)$row['field_carnegie_code'];
 
-    $db = new CarnegieCodesLookup;
-    $results = $db->lookupByUnitId($cc, [
-      'NAME',
-      'CITY',
-      'STABBR',
-      'BASIC2021',
-      'MSI',
-      'LAT',
-      'LON',
-    ]);
+  if ($view->id() == 'campus_champions_user_export' && $view->current_display == 'ccusers_data_export') {
+
+    $cc = (string)$row['field_carnegie_code'];
 
     $row['field_carnegie_code'] = t('Users Carnegie Code is not valid.');
     $row['field_carnegie_code_location'] = '';
@@ -271,6 +261,50 @@ function campuschampions_views_data_export_row_alter(&$row, \Drupal\views\Result
     $row['field_carnegie_code_region'] = '';
     $row['field_carnegie_code_lat'] = '';
     $row['field_carnegie_code_lon'] = '';
+
+    // If no Carnegie Code set, try to look it up based on the user's institution
+    if (empty($cc)) {
+      $mail = strip_tags((string)$row['mail']);
+      $user = user_load_by_mail($mail);
+
+      $institution = $user->get('field_institution')->getValue();
+
+      if (empty($institution)) {
+        return;
+      }
+
+      // Try to find by institution name
+      $query = \Drupal::database()
+        ->select('carnegie_codes', 'cc')
+        ->fields('cc', ['UNITID']);
+      $query->condition($query->orConditionGroup()
+          ->condition('NAME', $institution[0]['value'], '=')
+          ->condition('NAME', $institution[0]['value'] . '%', 'LIKE')
+      );
+      $carnegie_code = $query->execute()
+        ->fetchField();
+
+      if (!$carnegie_code) {
+        return;
+      }
+
+      $user->set('field_carnegie_code', $carnegie_code);
+      $user->save();
+
+      $cc = $carnegie_code;
+    }
+
+    // Get data based on carnegie code
+    $db = new CarnegieCodesLookup;
+    $results = $db->lookupByUnitId($cc, [
+      'NAME',
+      'CITY',
+      'STABBR',
+      'BASIC2021',
+      'MSI',
+      'LAT',
+      'LON',
+    ]);
 
     if ($results !== FALSE) {
       $row['field_carnegie_code'] = $cc;
