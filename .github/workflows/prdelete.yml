@@ -14,6 +14,6 @@ jobs:
         run: |
           echo $GITHUB_REF_MD
       - uses: ./.github/actions/dingorunner
-        if: $GITHUB_REF_MD == 'md-'
+        if: ${{ GITHUB_REF_MD }} == 'md-'
         env:
           runner: deletepr
