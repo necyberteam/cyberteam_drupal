@@ -60,25 +60,6 @@ filters:
     settings:
       click: '0'
       click_label: 'Click here to show mail address'
-  rel_to_abs:
-    id: rel_to_abs
-    provider: rel_to_abs
-    status: true
-    weight: -44
-    settings: {  }
-  shortcode:
-    id: shortcode
-    provider: shortcode
-    status: false
-    weight: -39
-    settings:
-      icon_block: '1'
-  filter_html_escape:
-    id: filter_html_escape
-    provider: filter
-    status: false
-    weight: -43
-    settings: {  }
   filter_autop:
     id: filter_autop
     provider: filter
@@ -92,9 +73,28 @@ filters:
     weight: -41
     settings:
       filter_url_length: 72
+  filter_html_escape:
+    id: filter_html_escape
+    provider: filter
+    status: false
+    weight: -43
+    settings: {  }
+  rel_to_abs:
+    id: rel_to_abs
+    provider: rel_to_abs
+    status: true
+    weight: -44
+    settings: {  }
   shortcode_corrector:
     id: shortcode_corrector
     provider: shortcode
     status: false
     weight: -38
     settings: {  }
+  shortcode:
+    id: shortcode
+    provider: shortcode
+    status: false
+    weight: -39
+    settings:
+      icon_block: '1'
