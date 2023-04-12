@@ -29,14 +29,10 @@ Feature: test for the edit account page
   Scenario: Authenticated user tests the add interest/skills page
     Given I am logged in as a user with the "authenticated" role
     When I go to "/add-interest"
-    Then I should see "Add Interests"
-    # TODO buttons removed?
-    #When I click "Add"
-    #Then I should see "Remove"
+    Then I should see "Add Interest"
+    Then I should see "access-acount"
     When I go to "/add-skill"
-    Then I should see "Add Expertise"
-    # TODO buttons removed?
-    #When I click "Add"
-    #Then I should see "Remove"
+    Then I should see "Add Skill"
+    Then I should see "access-acount"
 
 
