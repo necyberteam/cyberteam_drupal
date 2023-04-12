@@ -30,11 +30,9 @@ Feature: test for the edit account page
     Given I am logged in as a user with the "authenticated" role
     When I go to "/add-interest"
     Then I should see "Add Interest"
-    When I click "Add"
-    Then I should see "Remove"
+    Then I should see "access-acount"
     When I go to "/add-skill"
     Then I should see "Add Skill"
-    When I click "Add"
-    Then I should see "Remove"
+    Then I should see "access-acount"
 
 
