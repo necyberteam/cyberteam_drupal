@@ -17,7 +17,8 @@ Feature: test ACCESS Support OnDemand Page
     Then I should see "DELTA"
     Then I should see "Expanse"
     Then I should see "Running OnDemand and don't see your resource listed?"
-    Then I should see "Limited Scope Pilot"
+    # TODO removed?
+    # Then I should see "Limited Scope Pilot"
     Then I should see "For Researchers"
     Then I should see "Use OnDemand on these ACCESS allocated resources"
     #TODO Test Images
