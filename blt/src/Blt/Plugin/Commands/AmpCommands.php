@@ -200,6 +200,9 @@ GITHUB_TOKEN=$token'>.env");
       } else {
         $this->say("    running: $shell_cmd");
         $behat = shell_exec($shell_cmd);
+        $this->say("------------------ start of $domain test results ------------------");
+        $this->say($behat);
+        $this->say("------------------ end of $domain test results ------------------");
       }
 
       if (!$no_drush_cmds) {
