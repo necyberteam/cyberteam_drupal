@@ -1,0 +1,38 @@
+uuid: 240dc47f-2f3f-4294-853d-b527bfd9df0d
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:d3a87e88-3316-4810-9b20-7fd77925e568'
+  module:
+    - block_content
+    - domain
+    - system
+  theme:
+    - accesstheme
+id: linktopastevents
+theme: accesstheme
+region: sidebar_second
+weight: -22
+provider: null
+plugin: 'block_content:d3a87e88-3316-4810-9b20-7fd77925e568'
+settings:
+  id: 'block_content:d3a87e88-3316-4810-9b20-7fd77925e568'
+  label: 'Link to past events'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events
