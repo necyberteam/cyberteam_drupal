@@ -7,6 +7,7 @@ dependencies:
     - field.storage.node.field_consultant
     - field.storage.node.field_launch_presentation
     - field.storage.node.field_launch_presentation_date
+    - field.storage.node.field_match_steering_committee_m
     - field.storage.node.field_mentor
     - field.storage.node.field_researcher
     - field.storage.node.field_status
@@ -471,6 +472,69 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        field_match_steering_committee_m:
+          id: field_match_steering_committee_m
+          table: node__field_match_steering_committee_m
+          field: field_match_steering_committee_m
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'MATCH Steering Committee member'
+          exclude: true
+          alter:
+            alter_text: true
+            text: '<a href="/community-persona/{{ field_match_steering_committee_m__target_id }}">{{ field_match_steering_committee_m }}</a>'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         nothing:
           id: nothing
           table: views
@@ -483,7 +547,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{% if field_researcher %}\r\n<strong>Researcher:</strong> {{ field_researcher }} <br />\r\n{% endif %}\r\n{% if field_mentor %}\r\n<strong>Mentor:</strong> {{ field_mentor }} <br />\r\n{% endif %}\r\n{% if field_consultant %}\r\n<strong>Consultant:</strong> {{ field_consultant }} <br />\r\n{% endif %}\r\n{% if field_students %}\r\n<strong>Students:</strong> {{ field_students }} <br />\r\n{% endif %}"
+            text: "{% if field_researcher %}\r\n<strong>Researcher:</strong> {{ field_researcher }} <br />\r\n{% endif %}\r\n{% if field_mentor %}\r\n<strong>Mentor:</strong> {{ field_mentor }} <br />\r\n{% endif %}\r\n{% if field_consultant %}\r\n<strong>Consultant:</strong> {{ field_consultant }} <br />\r\n{% endif %}\r\n{% if field_students %}\r\n<strong>Students:</strong> {{ field_students }} <br />\r\n{% endif %}\r\n{% if field_match_steering_committee_m %}\r\n<strong> Steering Committee:</strong> {{ field_match_steering_committee_m }} <br />\r\n{% endif %}\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -1194,6 +1258,7 @@ display:
         - 'config:field.storage.node.field_consultant'
         - 'config:field.storage.node.field_launch_presentation'
         - 'config:field.storage.node.field_launch_presentation_date'
+        - 'config:field.storage.node.field_match_steering_committee_m'
         - 'config:field.storage.node.field_mentor'
         - 'config:field.storage.node.field_researcher'
         - 'config:field.storage.node.field_status'
@@ -1221,6 +1286,7 @@ display:
         - 'config:field.storage.node.field_consultant'
         - 'config:field.storage.node.field_launch_presentation'
         - 'config:field.storage.node.field_launch_presentation_date'
+        - 'config:field.storage.node.field_match_steering_committee_m'
         - 'config:field.storage.node.field_mentor'
         - 'config:field.storage.node.field_researcher'
         - 'config:field.storage.node.field_status'
