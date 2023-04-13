@@ -1,4 +1,4 @@
-@asp
+@wip
 @api
 @javascript
 
@@ -22,6 +22,7 @@ Feature: test ACCESS Support Events Page and Individual Events Page
     Then I should see "Add an Event"
     Then I should see "Apply"
     Then I should see "View Past Events"
+    Then I should see "View Past Events BROKEN"
 
     # TODO not always shown
     # When I click "Cybersecurity and Coding for Middle and High School Students"
