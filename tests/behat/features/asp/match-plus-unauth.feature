@@ -52,9 +52,15 @@ Feature: test ACCESS Support Match Plus Page
     Then I should be on "/user/login?destination=/form/join-the-cssn-network"
     When I go to "/matchplus"
     Then I should see "Fill out our online form"
-    
+
   Scenario: Unauthenticated user tests the Match Plus Page Sample Engagement Section
+    Given I am not logged in
+    When I go to "/matchplus"
     Then I should see "Sample Engagements from the Northeast and CAREERS Cyberteams"
+    #When I click "+ More"
+    When I click "See All"
+    Then I should be on "/engagements"
+    #MATCH ENGAGEMENT TEST
     Then I should see "Transient cooling of composite"
     Then I should see "Western New England University"
     Then I should see "Using station data and downscaled"
@@ -62,10 +68,6 @@ Feature: test ACCESS Support Match Plus Page
     Then I should see "Parallel computing for interactions between"
     Then I should see "University of Maine, Augusta"
     ##TODO Need alt text to test More section
-    #When I click "+ More"
-    When I click "See All"
-    #MATCH ENGAGEMENT TEST
-    Then I should be on "/engagements"
     Then I should see "MATCH Engagements"
     Then I should see "MATCHPlus Engagements"
     Then I should see "Transient cooling of composite spherical moving droplet"
