@@ -34,7 +34,7 @@ Feature: test for the edit account page
     #When I click "Add"
     #Then I should see "Remove"
     When I go to "/add-skill"
-    Then I should see "Add Skill"
+    Then I should see "Add Expertise"
     # TODO buttons removed?
     #When I click "Add"
     #Then I should see "Remove"
