@@ -1,148 +1,347 @@
-_core:
-  default_config_hash: Zno4MMkbreZeJZgnY0DXCPksXkuYye3MyIFlVuh-xLc
 grants:
   view: 1
   edit: 1
   delete: 1
 priority: 0
 preserve: 1
-access_active_resources_from_cid:
-  anonymous:
-    grant_view: 1
-    grant_update: 0
-    grant_delete: 0
-  authenticated:
-    grant_view: 1
-    grant_update: 0
-    grant_delete: 0
-  author:
-    grant_view: 0
-    grant_update: 0
-    grant_delete: 0
-access_news:
-  anonymous:
-    grant_view: 1
-    grant_update: 0
-    grant_delete: 0
-  authenticated:
-    grant_view: 1
-    grant_update: 0
-    grant_delete: 0
-  author:
-    grant_view: 0
-    grant_update: 0
-    grant_delete: 0
+_core:
+  default_config_hash: Zno4MMkbreZeJZgnY0DXCPksXkuYye3MyIFlVuh-xLc
 affinity_group:
   anonymous:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
   authenticated:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
+  steering_committee:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  regional_admin:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
   author:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  student:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  professional_mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  researcher:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  representative:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  administrator:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  masquerade:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_expert:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  campuschampionsadmin:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
 article:
   anonymous:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
   authenticated:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
+  steering_committee:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  regional_admin:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
   author:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  student:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  professional_mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  researcher:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  representative:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  administrator:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  masquerade:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_expert:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  campuschampionsadmin:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
 blog_post:
   anonymous:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
   authenticated:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
+  steering_committee:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  regional_admin:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
   author:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  student:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
-blog_post_region_:
-  anonymous:
-    grant_view: 1
+  mentor:
+    grant_view: 0
     grant_update: 0
     grant_delete: 0
-  authenticated:
-    grant_view: 1
+  professional_mentor:
+    grant_view: 0
     grant_update: 0
     grant_delete: 0
-  author:
+  researcher:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  representative:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  administrator:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  masquerade:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_expert:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  campuschampionsadmin:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
 community_events:
   anonymous:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
   authenticated:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
+  steering_committee:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  regional_admin:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
   author:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  student:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
-match_engagement:
-  anonymous:
-    grant_view: 1
-    grant_update: 0
-    grant_delete: 0
-  authenticated:
-    grant_view: 1
-    grant_update: 0
-    grant_delete: 0
-  author:
+  mentor:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
-organization:
-  anonymous:
-    grant_view: 1
+  professional_mentor:
+    grant_view: 0
     grant_update: 0
     grant_delete: 0
-  authenticated:
-    grant_view: 1
+  researcher:
+    grant_view: 0
     grant_update: 0
     grant_delete: 0
-  author:
+  representative:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  administrator:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  masquerade:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_expert:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  campuschampionsadmin:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
 page:
   anonymous:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
   authenticated:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
+  steering_committee:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  regional_admin:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
   author:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  student:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  professional_mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  researcher:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  representative:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  administrator:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  masquerade:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_expert:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  campuschampionsadmin:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
 peoplecardview:
   anonymous:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
   authenticated:
-    grant_view: 1
+    grant_view: '1'
+    grant_update: 0
+    grant_delete: 0
+  student:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  professional_mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  researcher:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  steering_committee:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_admin:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  representative:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  administrator:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  masquerade:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_expert:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  campuschampionsadmin:
+    grant_view: 0
     grant_update: 0
     grant_delete: 0
   author:
@@ -151,11 +350,55 @@ peoplecardview:
     grant_delete: 0
 peoplelistview:
   anonymous:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
   authenticated:
-    grant_view: 1
+    grant_view: '1'
+    grant_update: 0
+    grant_delete: 0
+  student:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  professional_mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  researcher:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  steering_committee:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_admin:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  representative:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  administrator:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  masquerade:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_expert:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  campuschampionsadmin:
+    grant_view: 0
     grant_update: 0
     grant_delete: 0
   author:
@@ -164,50 +407,226 @@ peoplelistview:
     grant_delete: 0
 press_release:
   anonymous:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
   authenticated:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
+  steering_committee:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  regional_admin:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
   author:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  student:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  professional_mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  researcher:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  representative:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  administrator:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  masquerade:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_expert:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  campuschampionsadmin:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
 published_articles:
   anonymous:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
   authenticated:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
+  steering_committee:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  regional_admin:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
   author:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  student:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  professional_mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  researcher:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  representative:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  administrator:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  masquerade:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_expert:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  campuschampionsadmin:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
 regional_about:
   anonymous:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
   authenticated:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
+  steering_committee:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  regional_admin:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
   author:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  student:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  professional_mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  researcher:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  representative:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  administrator:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  masquerade:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_expert:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  campuschampionsadmin:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
 webform:
   anonymous:
-    grant_view: 1
+    grant_view: '1'
     grant_update: 0
     grant_delete: 0
   authenticated:
-    grant_view: 1
+    grant_view: '1'
+    grant_update: 0
+    grant_delete: 0
+  student:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  professional_mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  researcher:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  steering_committee:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_admin:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  representative:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  administrator:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  masquerade:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_expert:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  campuschampionsadmin:
+    grant_view: 0
     grant_update: 0
     grant_delete: 0
   author:
@@ -216,75 +635,70 @@ webform:
     grant_delete: 0
 role_alias:
   anonymous:
+    allow: '1'
     alias: 'anonymous user'
+    weight: '0'
     name: 'anonymous user'
-    weight: 0
-    allow: 0
   student:
+    allow: '1'
     alias: student-facilitator
+    weight: '0'
     name: student-facilitator
-    weight: 0
-    allow: 0
   mentor:
+    allow: '1'
     alias: mentor
+    weight: '0'
     name: mentor
-    weight: 0
-    allow: 0
   professional_mentor:
+    allow: '1'
     alias: 'regional facilitator'
+    weight: '0'
     name: 'regional facilitator'
-    weight: 0
-    allow: 0
   researcher:
+    allow: '1'
     alias: researcher/educator
+    weight: '0'
     name: researcher/educator
-    weight: 0
-    allow: 0
   authenticated:
     alias: 'authenticated user'
     name: 'authenticated user'
     weight: 0
     allow: 0
   steering_committee:
+    allow: '1'
     alias: 'steering committee'
+    weight: '0'
     name: 'steering committee'
-    weight: 0
-    allow: 0
   regional_admin:
+    allow: '1'
     alias: 'regional admin'
+    weight: '0'
     name: 'regional admin'
-    weight: 0
-    allow: 0
-  leadership:
-    alias: leadership
-    name: leadership
-    weight: 0
-    allow: 0
   representative:
     alias: representative
+    weight: '0'
     name: representative
-    weight: 0
     allow: 0
   administrator:
+    allow: '1'
     alias: administrator
+    weight: '0'
     name: administrator
-    weight: 0
-    allow: 0
   masquerade:
     alias: Masquerade
+    weight: '0'
     name: Masquerade
-    weight: 0
     allow: 0
   regional_expert:
+    allow: '1'
     alias: 'regional expert'
+    weight: '0'
     name: 'regional expert'
-    weight: 0
-    allow: 0
   campuschampionsadmin:
+    allow: '1'
     alias: CampusChampionsAdmin
+    weight: '0'
     name: CampusChampionsAdmin
-    weight: 0
-    allow: 0
   exportpeople:
     alias: ExportPeople
     name: ExportPeople
@@ -310,14 +724,19 @@ role_alias:
     name: mentee
     weight: 0
     allow: 0
-  student_champion:
-    alias: 'student champion'
-    name: 'student champion'
+  leadership:
+    alias: leadership
+    name: leadership
     weight: 0
     allow: 0
   domain_champion:
     alias: 'domain champion'
     name: 'domain champion'
+    weight: 0
+    allow: 0
+  student_champion:
+    alias: 'student champion'
+    name: 'student champion'
     weight: 0
     allow: 0
   cssn:
@@ -350,26 +769,6 @@ role_alias:
     name: 'regional admin'
     weight: 0
     allow: 0
-  coco_pm:
-    alias: 'Coco PM'
-    name: 'Coco PM'
-    weight: 0
-    allow: 0
-  cnctci_pm:
-    alias: 'ConnectCi PM'
-    name: 'ConnectCi PM'
-    weight: 0
-    allow: 0
-  news_pm:
-    alias: 'News PM'
-    name: 'News PM'
-    weight: 0
-    allow: 0
-  kb_pm:
-    alias: 'KB PM'
-    name: 'KB PM'
-    weight: 0
-    allow: 0
   careers_sc:
     alias: 'Careers SC'
     name: 'Careers SC'
@@ -380,19 +779,9 @@ role_alias:
     name: 'CCMNet PM'
     weight: 0
     allow: 0
-  consultant:
-    alias: Consultant
-    name: Consultant
-    weight: 0
-    allow: 0
   match_sc:
-    alias: 'Match SC'
-    name: 'Match SC'
-    weight: 0
-    allow: 0
-  cip:
-    alias: CIP
-    name: CIP
+    alias: 'MATCH SC'
+    name: 'MATCH SC'
     weight: 0
     allow: 0
 role_map:
@@ -432,3 +821,129 @@ role_map:
   consultant: 34
   match_sc: 35
   cip: 36
+allowed_types:
+  affinity_group: 0
+  article: 0
+  blog_post: 0
+  blog_post_region_: 0
+  community_events: 0
+  page: 1
+  peoplecardview: 0
+  peoplelistview: 0
+  press_release: 0
+  published_articles: 0
+  regional_about: 0
+  webform: 0
+  organization: 0
+  match_engagement: 0
+  access_news: 0
+  access_active_resources_from_cid: 0
+blog_post_region_:
+  anonymous:
+    grant_view: '1'
+    grant_update: 0
+    grant_delete: 0
+  authenticated:
+    grant_view: '1'
+    grant_update: 0
+    grant_delete: 0
+  student:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  professional_mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  researcher:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  steering_committee:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_admin:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  representative:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  administrator:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  masquerade:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_expert:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  campuschampionsadmin:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  author:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+organization:
+  anonymous:
+    grant_view: 1
+    grant_update: 0
+    grant_delete: 0
+  authenticated:
+    grant_view: 1
+    grant_update: 0
+    grant_delete: 0
+  author:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+match_engagement:
+  anonymous:
+    grant_view: 1
+    grant_update: 0
+    grant_delete: 0
+  authenticated:
+    grant_view: 1
+    grant_update: 0
+    grant_delete: 0
+  author:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+access_news:
+  anonymous:
+    grant_view: 1
+    grant_update: 0
+    grant_delete: 0
+  authenticated:
+    grant_view: 1
+    grant_update: 0
+    grant_delete: 0
+  author:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+access_active_resources_from_cid:
+  anonymous:
+    grant_view: 1
+    grant_update: 0
+    grant_delete: 0
+  authenticated:
+    grant_view: 1
+    grant_update: 0
+    grant_delete: 0
+  author:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
