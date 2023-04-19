@@ -48,6 +48,7 @@ Feature: test ACCESS Support OnDemand Page
     When I click "Rockfish"
     Then I should be on "/OpenOnDemand.html"
     When I go to "/ondemand"
+    Then I should see "Running OnDemand and don't see your resource listed?"
     Then I should see "For Researchers"
     Then I should see "Use OnDemand on these ACCESS allocated resources"
     Then I should see "Learn more about OnDemand"
@@ -67,3 +68,4 @@ Feature: test ACCESS Support OnDemand Page
     Then I should see "Join Us"
     When I click "Join Us"
     Then I should be on "https://discourse.openondemand.org/"
+

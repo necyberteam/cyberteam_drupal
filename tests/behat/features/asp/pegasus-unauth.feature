@@ -7,8 +7,8 @@ Feature: test ACCESS Support Pegasus Page
   Scenario: Unauthenticated user tests the Pegasus Page
     Given I am not logged in
     When I go to "/pegasus"
-    Then I should see "Automate your workflow"
-    Then I should see "ACCESS Pegasus"
+    Then I should see "Run Jobs and Workflows on ACCESS Resources from a Single Entry Point"
+    Then I should see "About ACCESS Pegasus"
 
     # testing Pegasus logo
     Then I should see an image with alt text "Pegasus logo"
