@@ -25,7 +25,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Add Skill'
+      title: 'Add Expertise'
       fields:
         link_flag:
           id: link_flag
@@ -503,7 +503,7 @@ display:
           row_class: ''
           default_row_class: false
           type: ul
-          wrapper_class: item-list
+          wrapper_class: add-skill-list
           class: ''
       row:
         type: fields
@@ -1005,7 +1005,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: "<style>\r\n.view-content ul ul li { display: inline-flex; }\r\n.view-content .item-list li { margin: 0; list-style: none; }\r\n.region-content .view { margin-top: 0; }\r\n.flag-element-name { cursor: pointer; }\r\n</style>\r\n\r\n<script>\r\nlet flags = document.querySelectorAll('.flag-tag');\r\nflags.forEach( flag => {\r\n    flag.addEventListener('click', e => {\r\n      // simulate click\r\n      const target = e.currentTarget;\r\n      if (target.classList.value.includes('bg-secondary')) {\r\n        target.classList.remove('bg-secondary', 'text-white');\r\n        target.classList.add('bg-white');\r\n      } else {\r\n        target.classList.add('bg-secondary', 'text-white');\r\n        target.classList.remove('bg-white');\r\n      }\r\n      target.querySelector('.flag > a').click();\r\n      target.classList.toggle('flagged')\r\n    })\r\n})\r\n</script>"
+            value: "<script>\r\nlet flags = document.querySelectorAll('.flag-tag');\r\nflags.forEach( flag => {\r\n    flag.addEventListener('click', e => {\r\n      // simulate click\r\n      const target = e.currentTarget;\r\n      if (target.classList.value.includes('bg-secondary')) {\r\n        target.classList.remove('bg-secondary', 'text-white');\r\n        target.classList.add('bg-white');\r\n      } else {\r\n        target.classList.add('bg-secondary', 'text-white');\r\n        target.classList.remove('bg-white');\r\n      }\r\n      target.querySelector('.flag > a').click();\r\n      target.classList.toggle('flagged')\r\n    })\r\n})\r\n</script>"
             format: full_no_editor
           tokenize: false
       display_extenders:

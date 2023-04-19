@@ -2,14 +2,24 @@ name: (A) Delete Multidev site on PR close
 on:
   pull_request_target:
     types: [closed]
-    branches:
-      - 'md-*'
 jobs:
   delete-pr:
-    name: Deploy site
+    name: Delete Multidev site on PR close
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Set env GITHUB_REF_MD
+        run: echo "GITHUB_REF_MD=$(echo ${{ github.head_ref }} | cut -c 1-3)" >> $GITHUB_ENV
+      - name: Set env PR_BRANCH
+        run: echo "PR_BRANCH=$(echo ${{ github.head_ref }})" >> $GITHUB_ENV
+      - name: Test Variable
+        run: |
+          echo $GITHUB_REF_MD
+          echo $PR_BRANCH
       - uses: ./.github/actions/dingorunner
+        if: env.GITHUB_REF_MD == 'md-'
         env:
           runner: deletepr
+          PR_BRANCH: ${{ env.PR_BRANCH }}
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+          terminus_api: ${{ secrets.TERMINUS_API }}
