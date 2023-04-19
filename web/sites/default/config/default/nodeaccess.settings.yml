@@ -147,6 +147,10 @@ access_active_resources_from_cid:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
+  cip:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
   author:
     grant_view: 0
     grant_update: 0
@@ -289,6 +293,10 @@ access_news:
     grant_update: 0
     grant_delete: 0
   match_sc:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  cip:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
@@ -441,6 +449,10 @@ affinity_group:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
+  cip:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
 article:
   anonymous:
     grant_view: '1'
@@ -583,6 +595,10 @@ article:
     grant_update: 0
     grant_delete: 0
   match_sc:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  cip:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
@@ -731,6 +747,10 @@ blog_post:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
+  cip:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
 blog_post_region_:
   anonymous:
     grant_view: '1'
@@ -872,6 +892,10 @@ blog_post_region_:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
+  cip:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
   author:
     grant_view: 0
     grant_update: 0
@@ -890,6 +914,10 @@ community_events:
     grant_delete: '1'
     grant_view: 0
   regional_admin:
+    grant_update: '1'
+    grant_delete: '1'
+    grant_view: 0
+  author:
     grant_update: '1'
     grant_delete: '1'
     grant_view: 0
@@ -1017,7 +1045,7 @@ community_events:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
-  author:
+  cip:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
@@ -1159,6 +1187,10 @@ match_engagement:
     grant_update: 0
     grant_delete: 0
   match_sc:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  cip:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
@@ -1304,6 +1336,10 @@ organization:
     grant_update: 0
     grant_delete: 0
   match_sc:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  cip:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
@@ -1456,6 +1492,10 @@ page:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
+  cip:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
 peoplecardview:
   anonymous:
     grant_view: '1'
@@ -1594,6 +1634,10 @@ peoplecardview:
     grant_update: 0
     grant_delete: 0
   match_sc:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  cip:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
@@ -1739,6 +1783,10 @@ peoplelistview:
     grant_update: 0
     grant_delete: 0
   match_sc:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  cip:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
@@ -1891,6 +1939,10 @@ press_release:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
+  cip:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
 published_articles:
   anonymous:
     grant_view: '1'
@@ -2033,6 +2085,10 @@ published_articles:
     grant_update: 0
     grant_delete: 0
   match_sc:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  cip:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
@@ -2181,6 +2237,10 @@ regional_about:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
+  cip:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
 webform:
   anonymous:
     grant_view: '1'
@@ -2322,6 +2382,10 @@ webform:
     grant_view: 0
     grant_update: 0
     grant_delete: 0
+  cip:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
   author:
     grant_view: 0
     grant_update: 0
@@ -2353,10 +2417,10 @@ role_alias:
     weight: '0'
     name: researcher/educator
   authenticated:
+    allow: '1'
     alias: 'authenticated user'
     weight: '0'
     name: 'authenticated user'
-    allow: 0
   steering_committee:
     allow: '1'
     alias: 'steering committee'
@@ -2548,7 +2612,7 @@ allowed_types:
   community_events: 0
   match_engagement: 0
   organization: 0
-  page: 0
+  page: 1
   peoplecardview: 0
   peoplelistview: 0
   press_release: 0
