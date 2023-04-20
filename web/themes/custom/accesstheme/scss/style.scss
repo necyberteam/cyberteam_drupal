@@ -222,11 +222,22 @@ ul.sf-menu {
       color: #ffffff;
     }
   }
+        // a {
+        //     color: var(--bs-dark);
+        // }
+        ul li:hover a {
+            color: var(--light-green);
+        }
+    }
 
   a:hover,
   .menuparent:hover {
     color: var(--teal);
   }
+    a:hover,
+    .menuparent:hover {
+        color: #ffffff;
+    }
 
   span.nolink {
     font-weight: 600;
@@ -239,11 +250,23 @@ ul.sf-menu {
     a {
       color: var(--bs-dark);
     }
+    ul {
+        padding: 10px !important;
+
+        a {
+            color: #ffffff;
+            font-weight: 600;
+        }
 
     a:hover,
     li:hover a {
       color: #ffffff;
     }
+        a:hover,
+        li:hover a {
+            color: var(--light-green);
+            text-decoration: underline;
+        }
 
     li a.is-active {
       background-color: var(--bs-secondary) !important;
