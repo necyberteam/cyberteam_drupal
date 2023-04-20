@@ -30,6 +30,7 @@ dependencies:
     - field.field.node.match_engagement.field_launch_presentation_date
     - field.field.node.match_engagement.field_lessons_learned
     - field.field.node.match_engagement.field_match_interested_users
+    - field.field.node.match_engagement.field_match_steering_committee_m
     - field.field.node.match_engagement.field_mentor
     - field.field.node.match_engagement.field_milestone_actual_date
     - field.field.node.match_engagement.field_milestone_completion_date
@@ -337,7 +338,7 @@ content:
     third_party_settings: {  }
   field_email_user:
     type: boolean_checkbox
-    weight: 34
+    weight: 35
     region: content
     settings:
       display_label: true
@@ -430,6 +431,16 @@ content:
   field_match_interested_users:
     type: entity_reference_autocomplete
     weight: 32
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_match_steering_committee_m:
+    type: entity_reference_autocomplete
+    weight: 33
     region: content
     settings:
       match_operator: CONTAINS
@@ -674,7 +685,7 @@ content:
     third_party_settings: {  }
   promote:
     type: boolean_checkbox
-    weight: 33
+    weight: 34
     region: content
     settings:
       display_label: true

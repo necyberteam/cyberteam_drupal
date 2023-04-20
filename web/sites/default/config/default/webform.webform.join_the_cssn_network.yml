@@ -25,7 +25,8 @@ elements: |-
       Student-Facilitator: |
         Student-Facilitator -- Work with a MATCHPlus Mentor to implement solutions
       'Premier Consultant': 'Premier Consultant -- Work as a paid consultant for MATCHPremier engagements'
-css: ''
+      'NSF-funded CIP': 'NSF-funded CIP -- I’m participating as a person funded through the NSF Cybertraining: CIP or SCIPE'
+css: ".form-item-i-am-joining-as-a--nsf-funded-cip {\r\n  border-top: 2px solid #dee2e6;\r\n  padding-top: .5em;\r\n}"
 javascript: ''
 settings:
   ajax: false
@@ -91,7 +92,7 @@ settings:
   submission_access_denied_attributes: {  }
   previous_submission_message: ''
   previous_submissions_message: ''
-  autofill: false
+  autofill: true
   autofill_message: ''
   autofill_excluded_elements: {  }
   wizard_progress_bar: true
@@ -112,6 +113,8 @@ settings:
   wizard_toggle: true
   wizard_toggle_show_label: ''
   wizard_toggle_hide_label: ''
+  wizard_page_type: container
+  wizard_page_title_tag: h2
   preview: 0
   preview_label: ''
   preview_title: ''
@@ -145,7 +148,7 @@ settings:
   limit_user: null
   limit_user_interval: null
   limit_user_message: ''
-  limit_user_unique: false
+  limit_user_unique: true
   entity_limit_total: null
   entity_limit_total_interval: null
   entity_limit_user: null
