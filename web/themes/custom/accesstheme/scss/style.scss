@@ -219,13 +219,13 @@ ul.sf-menu {
         //     color: var(--bs-dark);
         // }
         ul li:hover a {
-            color: #ffffff;
+            color: var(--light-green);
         }
     }
 
     a:hover,
     .menuparent:hover {
-        color: var(--teal);
+        color: #ffffff;
     }
 
     span.nolink {
@@ -236,13 +236,17 @@ ul.sf-menu {
     }
 
     ul {
+        padding: 10px !important;
+
         a {
-            color: var(--bs-dark);
+            color: #ffffff;
+            font-weight: 600;
         }
 
         a:hover,
         li:hover a {
-            color: #ffffff;
+            color: var(--light-green);
+            text-decoration: underline;
         }
 
         li a.is-active {
@@ -277,20 +281,23 @@ ul.sf-menu {
 
     li:hover,
     li.active-trail:hover {
-        // background-color: #ffffff;
-        // color: var(--bs-dark);
-        color: var(--teal);
+        background-color: var(--bs-secondary);
+        color: #ffffff;
+        // color: var(--teal);
     }
 
     // a.is-active {
     //     color: var(--bs-dark);
     // }
     ul {
-        background-color: #ffffff;
-        top: 3em;
+        background-color: var(--bs-secondary);
+        top: 48px;
 
+        li a {
+            padding: 2px 5px;
+        }
         li:hover {
-            background-color: var(--bs-dark);
+            background-color: var(--bs-secondary);
             color: #ffffff;
         }
     }
