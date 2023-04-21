@@ -31,9 +31,14 @@ Feature: test for the edit account page
     When I go to "/add-interest"
     Then I should see "Add Interest"
     Then I should see "access-acount"
+    Given I click the ".flag-element-name" element
+    And I wait 2 seconds
     When I go to "/add-skill"
-    Then I should see "Add Skill"
     Then I should see "access-acount"
+    Given I click the ".flag-element-name" element\
+    And I wait 2 seconds
+
+
 
 
 

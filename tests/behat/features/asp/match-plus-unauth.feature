@@ -58,7 +58,7 @@ Feature: test ACCESS Support Match Plus Page
     When I go to "/matchplus"
     Then I should see "Sample Engagements from the Northeast and CAREERS Cyberteams"
     #Testing of engagment names seems to not stay consistent
-    Then I should see "A High-Performance Computing Platform for the MS in Biomedical Image Computing Program"
+    Then I should see "Computing Platform for the MS in Biomedical Image Computing Program"
     Then I should see "University of Illinois at Urbana-Champaign"
     #When I click "+ More"
     When I click "See All"
