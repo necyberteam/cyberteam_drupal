@@ -30,7 +30,7 @@ Feature: test ACCESS Support knowledge base
     Then I should see "Go To Allocations"
     Then I should see "View Cheatsheet"
     When I click "Visit CI Links"
-    Then I should be on "/resources"
+    Then I should be on "/ci-links"
     When I go to "/knowledge-base"
     Then I should see "Explore Groups"
     When I click "Explore Groups"
