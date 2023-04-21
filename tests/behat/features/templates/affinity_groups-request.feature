@@ -33,6 +33,7 @@ Feature: test affinity group request form
     When I fill in "affinity_group_name" with "TEST"
     When I fill in "short_description" with "TEST"
     When I fill in "project_description" with "TEST"
-    When I click "edit-submit"
+    # op is the submit button
+    When I click "op"
     And I wait for the page to be loaded
     Then I should see "Thank you for your submission. We will contact you when your affinity group has been created."

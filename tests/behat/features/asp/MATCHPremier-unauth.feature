@@ -57,10 +57,10 @@ Feature: test ACCESS Support MATCHPremier Page
 
     # testing Titles link to Engagements
     When I am on "/matchpremier"
-    When I follow "High Performance Computing vs Quantum"
+    When I follow "High Performance Computing vs Quantum Computing for Neural Networks supporting Artificial Intelligence"
     Then I should be on "/node/329"
     When I am on "/matchpremier"
-    When I follow "Developing Computational Labs for Upper Level"
+    When I follow "Developing Computational Labs for Upper LevelDeveloping Computational Labs for Upper Level Physical Chemistry II Course"
     Then I should be on "/node/330"
     When I am on "/matchpremier"
     When I follow "UVM Art and AI Initiative"
