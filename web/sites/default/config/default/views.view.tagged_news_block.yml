@@ -303,7 +303,20 @@ display:
       cache:
         type: tag
         options: {  }
-      empty: {  }
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: '<div class="alert alert-warning">There are no news articles with this tag. View <a href="/news">All News</a>.</div>'
+            format: full_no_editor
+          tokenize: false
       sorts:
         field_published_date_value:
           id: field_published_date_value

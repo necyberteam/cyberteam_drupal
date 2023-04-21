@@ -1,24 +1,21 @@
-uuid: c96dedf4-84e0-4728-a411-5cffe87f6159
+uuid: 9d73c641-e88e-4501-ba3f-ec5085902aa6
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_affinity_group_node
-    - field.storage.node.field_published_date
-    - field.storage.node.field_tags
-    - node.type.access_news
+    - field.storage.eventseries.field_affinity_group_node
+    - field.storage.eventseries.field_tags
   module:
-    - datetime
-    - node
+    - datetime_range
+    - recurring_events
     - taxonomy
-    - user
 id: tagged_events_block
 label: 'Tagged Events Block'
 module: views
 description: ''
 tag: ''
-base_table: node_field_data
-base_field: nid
+base_table: eventseries_field_data
+base_field: id
 display:
   default:
     id: default
@@ -26,17 +23,84 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: News
+      title: Events
       fields:
         title:
           id: title
-          table: node_field_data
+          table: eventseries_field_data
           field: title
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: null
+          entity_field: title
           plugin_id: field
           label: Title
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        custom_date_value:
+          id: custom_date_value
+          table: eventseries__custom_date
+          field: custom_date_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventseries
+          entity_field: custom_date
+          plugin_id: field
+          label: Date
           exclude: false
           alter:
             alter_text: false
@@ -78,73 +142,11 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        field_published_date:
-          id: field_published_date
-          table: node__field_published_date
-          field: field_published_date
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: Date
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: datetime_custom
+          type: daterange_custom
           settings:
             timezone_override: ''
-            date_format: m/d/Y
+            date_format: 'm-d-Y h:i'
+            separator: '-'
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -157,7 +159,7 @@ display:
           field_api_classes: false
         field_tags:
           id: field_tags
-          table: node__field_tags
+          table: eventseries__field_tags
           field: field_tags
           relationship: none
           group_type: group
@@ -196,7 +198,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: false
+          element_label_colon: true
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -220,7 +222,7 @@ display:
           field_api_classes: false
         field_affinity_group_node:
           id: field_affinity_group_node
-          table: node__field_affinity_group_node
+          table: eventseries__field_affinity_group_node
           field: field_affinity_group_node
           relationship: none
           group_type: group
@@ -259,7 +261,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: false
+          element_label_colon: true
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -297,37 +299,67 @@ display:
           sort_asc_label: Asc
           sort_desc_label: Desc
       access:
-        type: perm
-        options:
-          perm: 'access content'
+        type: none
+        options: {  }
       cache:
         type: tag
         options: {  }
-      empty: {  }
-      sorts:
-        field_published_date_value:
-          id: field_published_date_value
-          table: node__field_published_date
-          field: field_published_date_value
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: datetime
-          order: DESC
+          plugin_id: text
+          empty: true
+          content:
+            value: '<div class="alert alert-warning">There are no events with this tag.View <a href="/events">All Events</a>.</div>'
+            format: full_no_editor
+          tokenize: false
+      sorts:
+        custom_date_value:
+          id: custom_date_value
+          table: eventseries__custom_date
+          field: custom_date_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventseries
+          entity_field: custom_date
+          plugin_id: standard
+          order: ASC
           expose:
             label: ''
             field_identifier: ''
           exposed: false
-          granularity: second
-      arguments:
-        tid:
-          id: tid
-          table: taxonomy_index
-          field: tid
+        title:
+          id: title
+          table: eventseries_field_data
+          field: title
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: taxonomy_index_tid
+          entity_type: eventseries
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
+      arguments:
+        tid:
+          id: tid
+          table: taxonomy_term_field_data
+          field: tid
+          relationship: field_tags
+          group_type: group
+          admin_label: ''
+          entity_type: taxonomy_term
+          entity_field: tid
+          plugin_id: taxonomy
           default_action: default
           exception:
             value: all
@@ -355,33 +387,19 @@ display:
             fail: 'not found'
           validate_options: {  }
           break_phrase: false
-          add_table: false
-          require_value: false
-          reduce_duplicates: false
+          not: false
       filters:
         status:
           id: status
-          table: node_field_data
+          table: eventseries_field_data
           field: status
-          entity_type: node
+          entity_type: eventseries
           entity_field: status
           plugin_id: boolean
           value: '1'
           group: 1
           expose:
             operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-        type:
-          id: type
-          table: node_field_data
-          field: type
-          entity_type: node
-          entity_field: type
-          plugin_id: bundle
-          value:
-            access_news: access_news
-          expose:
             operator_limit_selection: false
             operator_list: {  }
       style:
@@ -392,31 +410,11 @@ display:
           default_row_class: true
           columns:
             title: title
-            field_published_date: field_published_date
-            field_tags: field_tags
-            field_affinity_group_node: field_affinity_group_node
           default: '-1'
           info:
             title:
               sortable: false
               default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_published_date:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_tags:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_affinity_group_node:
               align: ''
               separator: ''
               empty_column: false
@@ -429,6 +427,11 @@ display:
           description: ''
       row:
         type: fields
+        options:
+          default_field_elements: true
+          inline: {  }
+          separator: ''
+          hide_empty: false
       query:
         type: views_query
         options:
@@ -438,13 +441,22 @@ display:
           replica: false
           query_tags: {  }
           contextual_filters_or: false
-      relationships: {  }
+      relationships:
+        field_tags:
+          id: field_tags
+          table: eventseries__field_tags
+          field: field_tags
+          relationship: none
+          group_type: group
+          admin_label: 'field_tags: Taxonomy term'
+          plugin_id: standard
+          required: false
       css_class: my-3
       use_more: true
       use_more_always: false
       use_more_text: more
       link_display: custom_url
-      link_url: '/news?tid={{ raw_arguments.tid }}'
+      link_url: '/events?tid={{ raw_arguments.tid }}'
       header: {  }
       footer: {  }
       display_extenders: {  }
@@ -454,12 +466,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - 'user.node_grants:view'
-        - user.permissions
       tags:
-        - 'config:field.storage.node.field_affinity_group_node'
-        - 'config:field.storage.node.field_published_date'
-        - 'config:field.storage.node.field_tags'
+        - 'config:field.storage.eventseries.field_affinity_group_node'
+        - 'config:field.storage.eventseries.field_tags'
   block_1:
     id: block_1
     display_title: Block
@@ -473,9 +482,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - 'user.node_grants:view'
-        - user.permissions
       tags:
-        - 'config:field.storage.node.field_affinity_group_node'
-        - 'config:field.storage.node.field_published_date'
-        - 'config:field.storage.node.field_tags'
+        - 'config:field.storage.eventseries.field_affinity_group_node'
+        - 'config:field.storage.eventseries.field_tags'

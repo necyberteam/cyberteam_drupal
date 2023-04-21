@@ -9,6 +9,7 @@ dependencies:
     - field.storage.eventseries.field_event_type
     - recurring_events.eventinstance_type.default
     - taxonomy.vocabulary.affinity_groups
+    - taxonomy.vocabulary.tags
   module:
     - datetime
     - datetime_range
@@ -1258,6 +1259,15 @@ display:
           entity_field: uid
           plugin_id: standard
           required: false
+        field_tags:
+          id: field_tags
+          table: eventseries__field_tags
+          field: field_tags
+          relationship: eventseries_id
+          group_type: group
+          admin_label: 'field_tags: Taxonomy term'
+          plugin_id: standard
+          required: false
       use_more: false
       use_more_always: true
       use_more_text: 'All Events'
@@ -2459,6 +2469,88 @@ display:
             group_items: {  }
           reduce_duplicates: false
           vid: affinity_groups
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+        tid:
+          id: tid
+          table: taxonomy_term_field_data
+          field: tid
+          relationship: field_tags
+          group_type: group
+          admin_label: ''
+          entity_type: taxonomy_term
+          entity_field: tid
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: tid_op
+            label: Term
+            description: ''
+            use_operator: false
+            operator: tid_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: tid
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              student: '0'
+              mentor: '0'
+              professional_mentor: '0'
+              researcher: '0'
+              steering_committee: '0'
+              regional_admin: '0'
+              leadership: '0'
+              representative: '0'
+              administrator: '0'
+              masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+              cssn: '0'
+              affinity_group_leader: '0'
+              match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
+              coco_pm: '0'
+              cnctci_pm: '0'
+              news_pm: '0'
+              kb_pm: '0'
+              careers_sc: '0'
+              ccmnet_pm: '0'
+              consultant: '0'
+              match_sc: '0'
+              cip: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: tags
           type: select
           hierarchy: false
           limit: true
