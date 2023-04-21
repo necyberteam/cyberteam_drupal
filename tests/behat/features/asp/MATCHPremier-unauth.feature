@@ -71,10 +71,14 @@ Feature: test ACCESS Support MATCHPremier Page
 
     # testing tags in box and tag link
     When I am on "/matchpremier"
-    Then I should see "gravitational-waves"
+    When I click "+ More"
+    Then I should see "big-data"
+    Then I should be on "/tags/big-data"
     When I am on "/matchpremier"
-    When I follow "gravitational-waves"
-    Then I should be on "https://support.access-ci.org/tags/gravitational-waves"
+    When I click "+ More"
+    Then I should see "big-data"
+    When I click "- Less"
+
 
 #TODO: test -Less link collapse box
 

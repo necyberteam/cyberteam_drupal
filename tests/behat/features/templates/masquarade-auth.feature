@@ -25,7 +25,7 @@ Feature: test for the admin user to test the domain
     Then I should see "Received"
     Then I should see "Accept and Publish"
     When I go to "/ci-links"
-    Then I should see "Add New Resource"
+    Then I should see "Add new resource"
     When I click "Add new resource"
     Then I should see "Approved"
     When I go to "/blog"
