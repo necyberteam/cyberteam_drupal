@@ -24,7 +24,7 @@ Feature: test for the admin user to test the domain
     When I click "Submit New Project"
     Then I should see "Received"
     Then I should see "Accept and Publish"
-    When I go to "/resources"
+    When I go to "/ci-links"
     Then I should see "Add New Resource"
     When I click "Add new resource"
     Then I should see "Approved"
