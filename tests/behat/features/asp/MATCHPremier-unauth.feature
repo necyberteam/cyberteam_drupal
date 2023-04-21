@@ -59,10 +59,12 @@ Feature: test ACCESS Support MATCHPremier Page
     When I am on "/matchpremier"
     When I follow "High Performance Computing vs Quantum Computing for Neural Networks supporting Artificial Intelligence"
     Then I should be on "/node/329"
-    # TODO gone
-    # When I am on "/matchpremier"
-    # When I follow "Statistical Analysis of criminal cases in the United States District Court of Puerto Rico"
-    # Then I should be on "/node/335"
+    When I am on "/matchpremier"
+    When I follow "Developing Computational Labs for Upper LevelDeveloping Computational Labs for Upper Level Physical Chemistry II Course"
+    Then I should be on "/node/330"
+    When I am on "/matchpremier"
+    When I follow "UVM Art and AI Initiative"
+    Then I should be on "/node/331"
 
 
 #TODO: test More buttons expand box to reveal whole excerpt and "- Less" link
