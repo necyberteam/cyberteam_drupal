@@ -29,7 +29,7 @@ Feature: test ACCESS Support knowledge base
     Then I should see "View this Documentation"
     Then I should see "Go To Allocations"
     Then I should see "View Cheatsheet"
-    When I click "Visit Resources"
+    When I click "Visit CI Links"
     Then I should be on "/resources"
     When I go to "/knowledge-base"
     Then I should see "Explore Groups"
