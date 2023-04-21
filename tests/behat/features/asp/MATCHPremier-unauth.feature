@@ -57,11 +57,11 @@ Feature: test ACCESS Support MATCHPremier Page
 
     # testing Titles link to Engagements
     When I am on "/matchpremier"
-    When I follow "Optimization and Parallelization of A Numerical Gravitational-Wave Model"
-    Then I should be on "/node/336"
+    When I follow "High Performance Computing vs Quantum"
+    Then I should be on "/node/329"
     When I am on "/matchpremier"
-    When I follow "Statistical Analysis of criminal cases in the United States District Court of Puerto Rico"
-    Then I should be on "/node/335"
+    When I follow "Developing Computational Labs for Upper Level"
+    Then I should be on "/node/330"
     When I am on "/matchpremier"
     When I follow "UVM Art and AI Initiative"
     Then I should be on "/node/331"
