@@ -1,7 +1,7 @@
 @templates
 @api
 @javascript
-Feature: test get help page 
+Feature: test get help page
   In order to test the Get Help page
 
   Scenario: Authenticated user Test the Get Help Page
@@ -20,5 +20,4 @@ Feature: test get help page
     Then I click "Join the Regional Slack Discussion"
     Then I click "Ask a Question of the Community"
     When I click "Find Learning Resources"
-    Then I should see "Resources"
-    
+    Then I should be on "/resources"
