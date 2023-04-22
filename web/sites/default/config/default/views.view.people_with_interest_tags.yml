@@ -401,7 +401,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"d-flex\">\r\n  <div>\r\n  <p>{{ realname }}</p>\r\n  <p class=\"text-truncate mwpx-200\">{{ field_institution }}</p>\r\n  {% if field_region %}\r\n    <h3>Programs</h3>\r\n    <p>{{ field_region }}</p>\r\n  {% endif %}\r\n  {% if roles_target_id %}\r\n    <h3>Roles</h3>\r\n    <p>{{ roles_target_id }}</p>\r\n  {% endif %}\r\n  </div>\r\n  <div class=\"ms-auto\">\r\n  {{ user_picture }}\r\n</div>\r\n</div>"
+            text: "<div class=\"d-flex\">\r\n  <div class=\"mwpx-200\">\r\n  <p>{{ realname }}</p>\r\n  <p class=\"text-truncate mwpx-200\">{{ field_institution }}</p>\r\n  {% if field_region %}\r\n    <strong>Programs</strong>\r\n    <p>{{ field_region }}</p>\r\n  {% endif %}\r\n  {% if roles_target_id %}\r\n    <strong>Roles</strong>\r\n    <p>{{ roles_target_id }}</p>\r\n  {% endif %}\r\n  </div>\r\n  <div class=\"ms-auto mwpx-200\">\r\n  {{ user_picture }}\r\n</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -567,16 +567,11 @@ display:
             operator_limit_selection: false
             operator_list: {  }
       style:
-        type: grid
+        type: default
         options:
           grouping: {  }
-          columns: 3
-          automatic_width: true
-          alignment: horizontal
-          row_class_custom: ''
-          row_class_default: true
-          col_class_custom: 'border hpx-305 p-3 my-3'
-          col_class_default: true
+          row_class: 'border hpx-305 p-3 my-3'
+          default_row_class: true
       row:
         type: fields
       query:
