@@ -11,7 +11,6 @@ Feature: test resource form
     When I go to "/ci-links"
     When I follow "Add new CI link"
     Then I should be on "form/ci-link"
-    Then I should be on "form/resource"
     And I should see "Title"
     And I should see "Category"
     And I should see "Tags"
