@@ -1,4 +1,4 @@
-@wip
+@asp
 @api
 @javascript
 
@@ -8,13 +8,13 @@ Feature: test Navigation Bar footer links
     Given I am not logged in
     When I am on the homepage
     When I follow "OnDemand"
-    Then I should be on /ondemand"
+    Then I should be on "/ondemand"
 
   Scenario: test Pegasus link
     Given I am not logged in
     When I am on the homepage
     When I follow "Pegasus"
-    Then I should be on /pegasus"
+    Then I should be on "/pegasus"
 
   Scenario: test Science Gateways link
     Given I am not logged in
@@ -26,13 +26,13 @@ Feature: test Navigation Bar footer links
     Given I am not logged in
     When I am on the homepage
     When I follow "XDMoD"
-    Then I should be on /xdmod"
+    Then I should be on "/xdmod"
 
   Scenario: test Knowledge Base link
     Given I am not logged in
     When I am on the homepage
     When I follow "Knowledge Base"
-    Then I should be on /knowledge-base"
+    Then I should be on "/knowledge-base"
 
   Scenario: test Documentation link
     Given I am not logged in
@@ -87,25 +87,25 @@ Feature: test Navigation Bar footer links
     Given I am not logged in
     When I am on the homepage
     When I follow "Events"
-    Then I should be on /events"
+    Then I should be on "/events"
 
   Scenario: test News link
     Given I am not logged in
     When I am on the homepage
     When I follow "News"
-    Then I should be on /news"
+    Then I should be on "/news"
 
   Scenario: test Outages link
     Given I am not logged in
     When I am on the homepage
     When I follow "Outages"
-    Then I should be on /outages"
+    Then I should be on "/outages"
 
   Scenario: test My Engagements link
     Given I am not logged in
     When I am on the homepage
     When I follow "My Engagements"
-    Then I should be on /my-engagements"
+    Then I should be on "/my-engagements"
 
 
 
