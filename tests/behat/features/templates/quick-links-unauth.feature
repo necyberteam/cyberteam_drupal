@@ -13,7 +13,7 @@ Feature: test quick links on home page
     When I click "Ask the Community"
     Then I should be on "https://ask.cyberinfrastructure.org/"
     When I am on the homepage
-    When I click "Find CI Links""
+    When I click "Find CI Links"
     Then I should be on "resources"
     When I am on the homepage
     Then I should see the link "Join as Student"
