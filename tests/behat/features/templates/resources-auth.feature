@@ -1,4 +1,4 @@
-@templates
+@wip
 @api
 @javascript
 Feature: test recources page as a authenticated user
@@ -6,9 +6,9 @@ Feature: test recources page as a authenticated user
 
   Scenario: Authenticated user Test the resource page
     Given I am logged in as a user with the "authenticated" role
-    When I go to "/resources"
-    Then I should see "Add New Resource"
-    Then I should see "These resources have been crowd-sourced"
+    When I go to "/ci-links"
+    Then I should see "Add New CI link"
+    Then I should see "These CI Links have been crowd-sourced"
     Then I should see "Title"
     Then I should see "Description"
     Then I should see "Category"

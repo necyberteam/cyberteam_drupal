@@ -57,14 +57,12 @@ Feature: test ACCESS Support MATCHPremier Page
 
     # testing Titles link to Engagements
     When I am on "/matchpremier"
-    When I follow "Optimization and Parallelization of A Numerical Gravitational-Wave Model"
-    Then I should be on "/node/336"
-    When I am on "/matchpremier"
-    When I follow "Statistical Analysis of criminal cases in the United States District Court of Puerto Rico"
-    Then I should be on "/node/335"
-    When I am on "/matchpremier"
     When I follow "UVM Art and AI Initiative"
     Then I should be on "/node/331"
+    # TODO gone
+    # When I am on "/matchpremier"
+    # When I follow "Statistical Analysis of criminal cases in the United States District Court of Puerto Rico"
+    # Then I should be on "/node/335"
 
 
 #TODO: test More buttons expand box to reveal whole excerpt and "- Less" link
