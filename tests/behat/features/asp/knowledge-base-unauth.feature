@@ -82,7 +82,7 @@ Feature: test ACCESS Support knowledge base
     #TODO Button is not working ?
     #When I click "See all forums"
 
-  Scenario: Unauthenticated user tests the Community Contributed Resources section on the knowledge base page
+  Scenario: Unauthenticated user tests the Community Contributed CI Links section on the knowledge base page
     Given I am not logged in
     When I go to "/knowledge-base"
     Then I should see "Community Contributed CI Links"
