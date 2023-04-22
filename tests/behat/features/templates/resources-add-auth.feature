@@ -8,8 +8,9 @@ Feature: test resource form
 
   Scenario: Authenticated user fills out the resource form
     Given I am logged in as a user with the "authenticated" role
-    When I go to "resources"
-    When I follow "Add new resource"
+    When I go to "/ci-links"
+    When I follow "Add new CI link"
+    Then I should be on "form/ci-link"
     Then I should be on "form/resource"
     And I should see "Title"
     And I should see "Category"
@@ -55,4 +56,3 @@ Feature: test resource form
     #And I should see "Webform"
     #And I should see "Delete submission"
     When I click "Edit"
-  
