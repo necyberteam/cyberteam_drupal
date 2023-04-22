@@ -34,7 +34,7 @@ Feature: test ACCESS Support MATCHPremier Page
     Then I should see "Leverage your subject matter expertise"
     When I am on "/matchpremier"
     When I follow "Request a Pilot Engagement"
-    Then I should be on "https://support.access-ci.org/user/login?destination=/node/add/match_engagement%3Ftype%3Dpremier"
+    Then I should be on "/user/login?destination=/node/add/match_engagement%3Ftype%3Dpremier"
 
     When I am on "/matchpremier"
     When I follow "Get Proposal Support"
@@ -44,7 +44,7 @@ Feature: test ACCESS Support MATCHPremier Page
     When I follow "Become a Consultant"
 
     Then I should be on "/user/login?destination=/form/join-the-cssn-network"
-    When I am on "https://support.access-ci.org/matchpremier"
+    When I am on "/matchpremier"
     Then I should see "Sample Engagements from the Northeast and CAREERS Cyberteams"
 
     # testing Three Sample Engagements appear at the bottom of the page
@@ -73,7 +73,7 @@ Feature: test ACCESS Support MATCHPremier Page
     # Then I should see "gravitational-waves"
     # When I am on "/matchpremier"
     # When I follow "gravitational-waves"
-    # Then I should be on "https://support.access-ci.org/tags/gravitational-waves"
+    # Then I should be on "/tags/gravitational-waves"
 
 #TODO: test -Less link collapse box
 
