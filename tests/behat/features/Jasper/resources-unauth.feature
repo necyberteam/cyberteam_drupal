@@ -2,13 +2,13 @@
 @api
 @javascript
 
-Feature: test resources page 
+Feature: test resources page
   In order to test the resources page
 
   Scenario: Unauthenticated user Test the resource page
     Given I am not logged in
-    When I go to "/resources"
-    Then I should see "Add New Resource"
+    When I go to "/ci-links"
+    Then I should see "Add New CI link"
     Then I should see "These resources have been crowd-sourced"
     # TODO - votes not found on careers page
     Then I should see "Votes"
