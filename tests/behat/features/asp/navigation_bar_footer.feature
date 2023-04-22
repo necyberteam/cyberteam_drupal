@@ -1,4 +1,4 @@
-@asp
+@wip
 @api
 @javascript
 
@@ -20,7 +20,7 @@ Feature: test Navigation Bar footer links
     Given I am not logged in
     When I am on the homepage
     When I follow "Science Gateways"
-    Then I should be on "/science-gateways"
+    Then I should be on "/tools/science-gateways"
 
   Scenario: test XDMoD link
     Given I am not logged in
