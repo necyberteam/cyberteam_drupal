@@ -68,11 +68,12 @@ Feature: test ACCESS Support MATCHPremier Page
 #TODO: test More buttons expand box to reveal whole excerpt and "- Less" link
 
     # testing tags in box and tag link
-    When I am on "/matchpremier"
-    Then I should see "gravitational-waves"
-    When I am on "/matchpremier"
-    When I follow "gravitational-waves"
-    Then I should be on "https://support.access-ci.org/tags/gravitational-waves"
+    # TODO gone
+    # When I am on "/matchpremier"
+    # Then I should see "gravitational-waves"
+    # When I am on "/matchpremier"
+    # When I follow "gravitational-waves"
+    # Then I should be on "https://support.access-ci.org/tags/gravitational-waves"
 
 #TODO: test -Less link collapse box
 
