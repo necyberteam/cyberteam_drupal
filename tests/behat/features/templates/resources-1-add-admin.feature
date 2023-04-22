@@ -1,4 +1,4 @@
-@templates
+@wip
 @api
 @javascript
 
@@ -8,9 +8,9 @@ Feature: test resource form
 
   Scenario: Administrator user fills out the resource form
     Given I am logged in as a user with the "administrator" role
-    When I go to "resources"
-    When I follow "Add new resource"
-    Then I should be on "form/resource"
+    When I go to "/ci-links"
+    When I follow "Add new CI link"
+    Then I should be on "form/ci-link"
     And I should see "Title"
     And I should see "Category"
     And I should see "Tags"
