@@ -34,7 +34,7 @@ Feature: test ACCESS Support MATCHPremier Page
     Then I should see "Leverage your subject matter expertise"
     When I am on "/matchpremier"
     When I follow "Request a Pilot Engagement"
-    Then I should be on "https://support.access-ci.org/user/login?destination=/node/add/match_engagement%3Ftype%3Dpremier"
+    Then I should be on "/user/login?destination=/node/add/match_engagement%3Ftype%3Dpremier"
 
     When I am on "/matchpremier"
     When I follow "Get Proposal Support"
@@ -44,7 +44,7 @@ Feature: test ACCESS Support MATCHPremier Page
     When I follow "Become a Consultant"
 
     Then I should be on "/user/login?destination=/form/join-the-cssn-network"
-    When I am on "https://support.access-ci.org/matchpremier"
+    When I am on "/matchpremier"
     Then I should see "Sample Engagements from the Northeast and CAREERS Cyberteams"
 
     # testing Three Sample Engagements appear at the bottom of the page
@@ -59,26 +59,23 @@ Feature: test ACCESS Support MATCHPremier Page
     When I am on "/matchpremier"
     When I follow "High Performance Computing vs Quantum Computing for Neural Networks supporting Artificial Intelligence"
     Then I should be on "/node/329"
-    When I am on "/matchpremier"
-    When I follow "Developing Computational Labs for Upper Level Physical Chemistry II Course"
-    Then I should be on "/node/330"
-    When I am on "/matchpremier"
-    When I follow "UVM Art and AI Initiative"
-    Then I should be on "/node/331"
+    # TODO gone
+    # When I am on "/matchpremier"
+    # When I follow "Statistical Analysis of criminal cases in the United States District Court of Puerto Rico"
+    # Then I should be on "/node/335"
 
 
 #TODO: test More buttons expand box to reveal whole excerpt and "- Less" link
 
     # testing tags in box and tag link
     When I am on "/matchpremier"
-    When I click "+ More"
+    Given I click the ".view-match-engagement-view .view-content .col:first-of-type .more-match" element
     Then I should see "big-data"
     Then I should be on "/tags/big-data"
     When I am on "/matchpremier"
-    When I click "+ More"
+    Given I click the ".view-match-engagement-view .view-content .col:first-of-type .more-match" element
     Then I should see "big-data"
     When I click "- Less"
-
 
 #TODO: test -Less link collapse box
 
