@@ -22,5 +22,5 @@ Feature: test get help page
     Then I click "Join the Regional Slack Discussion"
     Then I click "Ask a Question of the Community"
     When I click "Find Learning Resources"
-    And I wait for the page to be loaded
-    Then I should see "Resources"
+    And I wait 2 seconds
+    Then I should see "CI Links"

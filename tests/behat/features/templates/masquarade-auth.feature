@@ -25,8 +25,7 @@ Feature: test for the admin user to test the domain
     Then I should see "Received"
     Then I should see "Accept and Publish"
     When I go to "/ci-links"
-    Then I should see "Add new resource"
-    When I click "Add new resource"
+    When I click "Add new CI link"
     Then I should see "Approved"
     When I go to "/blog"
     And I wait 4 seconds
@@ -60,6 +59,3 @@ Feature: test for the admin user to test the domain
     Then I should see "At-Large"
     Then I should see "All Regions"
     Then I should see "There are currently no open tickets"
-
-
-

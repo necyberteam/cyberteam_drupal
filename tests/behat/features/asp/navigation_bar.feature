@@ -8,11 +8,10 @@ Feature: test Navigation Bar
     Given I am not logged in
     When I am on the homepage
     When I follow "MATCHPlus"
-    Then I should be on "https://support.access-ci.org/matchplus"
+    Then I should be on "/matchplus"
 
   Scenario: test MATCHPremier link
     Given I am not logged in
     When I am on the homepage
     When I follow "MATCHPremier"
-    Then I should be on "https://support.access-ci.org/matchpremier"
-
+    Then I should be on "/matchpremier"

@@ -20,7 +20,7 @@ Feature: test individual tags page
     # And I should see "researcher/educator"
     # TODO - doesn't pass on nect
     # And I should see "Jetstream-2"
-    And I should see "There are no resources associated with this topic"
+    And I should see "There are no CI Links associated with this topic"
     And I should see "There are no projects associated with this topic"
     And I should see "There are no Blog Entries associated with this topic."
     And I should not see "Export Mailing List"
@@ -118,7 +118,7 @@ Feature: test individual tags page
     Given I am not logged in
     When I go to "tags/big-data"
     Then I should see "big-data"
-    Then I should see "Resources"
+    Then I should see "CI Links"
     Then I should see "Mentors and Regional Facilitators"
     Then I should see "Tony Elam"
     Then I should see "Kentucky"
@@ -134,6 +134,6 @@ Feature: test individual tags page
     Then I should see "Name"
     # Then I should see "student facilitator"
     Then I should see "image-processing"
-    Then I should see "There are no Resources associated with this topic. View All Resources."
+    Then I should see "There are no CI Links associated with this topic. View All CI Links."
     Then I should see "There are no projects associated with this topic"
     Then I should see "There are no Blog Entries associated with this topic."

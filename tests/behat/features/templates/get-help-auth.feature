@@ -20,4 +20,4 @@ Feature: test get help page
     Then I click "Join the Regional Slack Discussion"
     Then I click "Ask a Question of the Community"
     When I click "Find Learning Resources"
-    Then I should be on "/ci-links"
+    Then I should see "CI Links"
