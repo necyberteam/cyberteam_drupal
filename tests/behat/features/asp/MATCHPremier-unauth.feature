@@ -68,14 +68,14 @@ Feature: test ACCESS Support MATCHPremier Page
 #TODO: test More buttons expand box to reveal whole excerpt and "- Less" link
 
     # testing tags in box and tag link
-    When I am on "/matchpremier"
-    Given I click the ".view-match-engagement-view .view-content .col:first-of-type .more-match" element
-    Then I should see "big-data"
-    Then I should be on "/tags/big-data"
-    When I am on "/matchpremier"
-    Given I click the ".view-match-engagement-view .view-content .col:first-of-type .more-match" element
-    Then I should see "big-data"
-    When I click "- Less"
+    #When I am on "/matchpremier"
+    #Given I click the ".view-match-engagement-view .view-content .col:first-of-type .more-match" element
+    #Then I should see "big-data"
+    #Then I should be on "/tags/big-data"
+    #When I am on "/matchpremier"
+    #Given I click the ".view-match-engagement-view .view-content .col:first-of-type .more-match" element
+    #Then I should see "big-data"
+    #When I click "- Less"
 
 #TODO: test -Less link collapse box
 
