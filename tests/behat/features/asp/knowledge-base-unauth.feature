@@ -16,7 +16,7 @@ Feature: test ACCESS Support knowledge base
     Then I should see "Resource provider guides with specific information about"
     Then I should see "View Documentation"
     Then I should see "Ask.CI Q&A"
-    Then I should see "Our expert-monitored Q&A"
+    Then I should see "Browse the Documentation"
     Then I should see "Visit ASK.CI"
     Then I should see "Crowd-sourced information"
     Then I should see "Useful CI Links contributed by the community"
