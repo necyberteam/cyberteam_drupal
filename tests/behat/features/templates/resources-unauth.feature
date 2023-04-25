@@ -1,4 +1,4 @@
-@templates
+@wip
 @api
 @javascript
 
@@ -38,7 +38,8 @@ Feature: test resource page
     Then I should see "test-login-resource"
     Then I should see "Learning"
     Then I should see "login"
-    # When I fill in "edit-search--2" with "test"
-    # And I wait 4 seconds
-    # When I click "test-login-resource"
-    # Then I should get a "200" HTTP response
+    When I click "List View"
+    And I fill in "edit-search--2" with "test"
+    And I wait 4 seconds
+    When I click "test-login-resource"
+    Then I should get a "200" HTTP response
