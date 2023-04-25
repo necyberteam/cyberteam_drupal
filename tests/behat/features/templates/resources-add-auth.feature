@@ -8,16 +8,16 @@ Feature: test resource form
 
   Scenario: Authenticated user fills out the resource form
     Given I am logged in as a user with the "authenticated" role
-    When I go to "resources"
-    When I follow "Add new resource"
-    Then I should be on "form/resource"
+    When I go to "/ci-links"
+    When I follow "Add new CI link"
+    Then I should be on "form/ci-link"
     And I should see "Title"
     And I should see "Category"
     And I should see "Tags"
     And I should see "Select one (or more) tags that apply."
     And I should see "Skill Level"
     And I should see "Description"
-    And I should see "Link to Resource"
+    And I should see "Link to CI Link"
     And I should see "Link Title"
     And I should see "Link URL"
     And I should see "Add"
@@ -38,7 +38,7 @@ Feature: test resource form
     And I should see "Tags"
     And I should see "Skill Level"
     And I should see "Description"
-    And I should see "Link to Resource"
+    And I should see "Link to CI Link"
     #TODO: Doesnt always work, investigate
     #When I press "Submission information"
     #Then I should see "Submission Number"
@@ -55,4 +55,3 @@ Feature: test resource form
     #And I should see "Webform"
     #And I should see "Delete submission"
     When I click "Edit"
-  

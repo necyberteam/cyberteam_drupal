@@ -98,6 +98,6 @@ Feature: test ACCESS Support Pegasus Page
     # When I follow "Application Showcase"
     # Then I should be on "https://pegasus.isi.edu/application-showcase/"
 
-    #When I am on "https://support.access-ci.org/pegasus"
+    #When I am on "/pegasus"
     #When I follow "Learn More"
     #Then I should be on "https://pegasus.isi.edu/documentation/"

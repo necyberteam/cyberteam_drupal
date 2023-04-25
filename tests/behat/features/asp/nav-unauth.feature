@@ -56,10 +56,7 @@ Scenario: Unauthenticated user tests the NSF Section
     Then I should see "University of Colorado Boulder"
     Then I should see "University of Illinois at Urbana-Champaign"
     Then I should see "State University of New York at Buffalo"
-    
+
+    # TODO?
     #Test for social links
     #Then I should see "social-link"
-
-    
-
-    
