@@ -8,8 +8,7 @@ Feature: test ACCESS Support Events Page and Individual Events Page
   Scenario: Unauthenticated user tests the Events Page and Individual Events Page
     Given I am not logged in
     When I go to "/Events"
-    Then I should see "Upcoming Events and Training"
-    Then I should see "Upcoming Events and Training"
+    Then I should see "Events and Training"
     Then I should see "Title"
     Then I should see "Date"
     Then I should see "Time"
@@ -18,7 +17,8 @@ Feature: test ACCESS Support Events Page and Individual Events Page
     Then I should see "Event Type"
     Then I should see "Affiliation"
     Then I should see "Affinity Group"
-    #Then I should see "Apply"
+    # TODO there's an apply button, not sure how to select it
+    # Then I should see "Apply"
     Then I should see "Posting Events"
     Then I should see "Do you have events or trainings you would like to"
     Then I should see "Add an Event"
@@ -33,7 +33,6 @@ Feature: test ACCESS Support Events Page and Individual Events Page
 
     When I go to "/events/17"
     Then I should see "Cybersecurity and Coding for Middle and High School Students"
-    #TODO Title label?
     #TODO Title label?
     When I click "< Back to events"
     Then I should be on "/events"
