@@ -68,6 +68,7 @@ Feature: test ACCESS Support MATCHPremier Page
 #TODO: test More buttons expand box to reveal whole excerpt and "- Less" link
 
     # testing tags in box and tag link
+
     #When I am on "/matchpremier"
     #Given I click the ".view-match-engagement-view .view-content .col:first-of-type .more-match" element
     #Then I should see "big-data"
@@ -76,6 +77,14 @@ Feature: test ACCESS Support MATCHPremier Page
     #Given I click the ".view-match-engagement-view .view-content .col:first-of-type .more-match" element
     #Then I should see "big-data"
     #When I click "- Less"
+
+    # TODO gone
+    # When I am on "/matchpremier"
+    # Then I should see "gravitational-waves"
+    # When I am on "/matchpremier"
+    # When I follow "gravitational-waves"
+    # Then I should be on "/tags/gravitational-waves"
+
 
 #TODO: test -Less link collapse box
 

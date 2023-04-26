@@ -13,8 +13,11 @@ module:
   maillog: 0
 theme: {  }
 blacklist:
+  - block.block.showuserlogin
+  - block.block.userlogin
   - system.logging
 graylist:
+  - block.block.userlogin
   - system.performance
 graylist_dependents: true
 graylist_skip_equal: true

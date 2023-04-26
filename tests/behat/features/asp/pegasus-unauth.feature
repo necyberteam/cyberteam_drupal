@@ -148,3 +148,7 @@ Feature: test ACCESS Support Pegasus Page
     Then I should see "The hub for the ACCESS Pegasus"
     When I click "Join us"
     Then I should be on "/affinity-groups/pegasus?_gl=1*1an03zt*_ga*MTMxODc3MDQ5OC4xNjgwMDMwNDUw*_ga_CNLGPXPT91*MTY4MDgxMzMxOC43LjEuMTY4MDgxNTM5Ni4wLjAuMA.."
+
+    #When I am on "/pegasus"
+    #When I follow "Learn More"
+    #Then I should be on "https://pegasus.isi.edu/documentation/"

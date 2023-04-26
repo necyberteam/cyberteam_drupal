@@ -1,29 +1,24 @@
-uuid: ce7c1aac-b6b4-4faf-b8ba-b18ab1e5c5df
+uuid: 79c86f21-0398-4da0-96e8-6be5bb816445
 langcode: en
 status: true
 dependencies:
-  content:
-    - 'block_content:basic:65611105-4a26-446c-b4ef-94a6c2093ccc'
   module:
-    - block_content
     - domain
     - system
+    - user
   theme:
     - accesstheme
-id: accessresourcespageintro
+id: userlogin
 theme: accesstheme
 region: content
-weight: -17
+weight: 0
 provider: null
-plugin: 'block_content:65611105-4a26-446c-b4ef-94a6c2093ccc'
+plugin: user_login_block
 settings:
-  id: 'block_content:65611105-4a26-446c-b4ef-94a6c2093ccc'
-  label: 'ACCESS Resources Page intro'
+  id: user_login_block
+  label: 'User login'
   label_display: '0'
-  provider: block_content
-  status: true
-  info: ''
-  view_mode: full
+  provider: user
 visibility:
   domain:
     id: domain
@@ -35,4 +30,4 @@ visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /ci-links
+    pages: /user/login
