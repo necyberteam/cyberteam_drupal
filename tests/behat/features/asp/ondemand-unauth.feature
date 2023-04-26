@@ -68,4 +68,4 @@ Feature: test ACCESS Support OnDemand Page
     Then I should see "Join Us"
     When I click "Join Us"
     Then I should be on "https://discourse.openondemand.org/"
-
+## Adding this just to run test. WIll delete after
