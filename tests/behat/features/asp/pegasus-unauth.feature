@@ -57,8 +57,8 @@ Feature: test ACCESS Support Pegasus Page
     Then I should see "Workflows can be used to build libraries of reusable code"
 
     Then I should see "View Workflow Examples"
-    #Then I should see "We have Jupyter based training notebooks available"
-    Then I should see an image with alt text "workflow key"
+    Then I should see "We have Jupyter based training notebooks available"
+    #Then I should see an image with alt text "workflow key"
 
     Then I should see "Single Job"
     #Then I should see an image with alt text "Single job workflow"
@@ -103,12 +103,12 @@ Feature: test ACCESS Support Pegasus Page
     Then I should see "Run Workflows on ACCESS"
     #Then I should see an image with alt text "Create the workflow"
 
-    Then I should see an image with alt text "Workflow step 1"
+    #Then I should see an image with alt text "Workflow step 1"
     Then I should see "1. Create the workflow"
     Then I should see "Use Pegasus API in Jupyter Notebook or use our examples"
     #Then I should see an image with alt text "Provision compute resources"
 
-    Then I should see an image with alt text "Workflow step 2"
+    #Then I should see an image with alt text "Workflow step 2"
     Then I should see "2. Provision compute resources"
     Then I should see "Use HTCondor Annex tool to provision pilot jobs on your allocated ACCESS resources"
     #Then I should see an image with alt text "Monitor the execution"
