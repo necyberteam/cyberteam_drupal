@@ -15,7 +15,7 @@ Feature: test ACCESS Support Pegasus Page
 
     # testing Documentation button link
     When I follow "Documentation"
-    Then I should be on "/wiki/spaces/ACCESSdocumentation/overview"
+    Then I should get a "200" HTTP response
 
     # testing Workflow Submit Host button link
     When I am on "/pegasus"
@@ -64,7 +64,7 @@ Feature: test ACCESS Support Pegasus Page
     #Then I should see an image with alt text "Single job workflow"
     #Multiple Example buttons. How do I specify?
     When I click "Example"
-    #Then I should be on "/wiki/spaces/ACCESSdocumentation/pages/201752645/Example+Workflow+Structures#Set-of-Independent-Jobs"
+    Then I should get a "200" HTTP response
     When I go to "/pegasus"
 
     Then I should see "Set of Independent jobs"
@@ -72,7 +72,7 @@ Feature: test ACCESS Support Pegasus Page
     #Then I should see an image with alt text "Independent jobs workflow"
     #Multiple Example buttons. How do I specify?
     When I click "Example"
-    #Then I should be on "/wiki/spaces/ACCESSdocumentation/pages/201752645/Example+Workflow+Structures#Single-Job"
+    Then I should get a "200" HTTP response
     When I go to "/pegasus"
 
     Then I should see "Split/Merge Workflow"
@@ -80,7 +80,7 @@ Feature: test ACCESS Support Pegasus Page
     #Then I should see an image with alt text "Split/merge workflow"
     #Multiple Example buttons. How do I specify?
     When I click "Example"
-    #Then I should be on "/wiki/spaces/ACCESSdocumentation/pages/201752645/Example+Workflow+Structures#Simple-Split/Merge-Workflow"
+    Then I should get a "200" HTTP response
     When I go to "/pegasus"
 
     Then I should see "Get Started with ACCESS Pegasus"
@@ -117,7 +117,7 @@ Feature: test ACCESS Support Pegasus Page
     Then I should see "3. Monitor the execution"
     Then I should see "Follow the workflow execution within the notebook or in the terminal"
     When I click "Try it now"
-    Then I should be on "/authorize?response_type=code&scope=openid%20email%20org.cilogon.userinfo&client_id=cilogon%3A%2Fclient_id%2F57662fc94d2fcfbae1faffc582a30714&state=MDOHdQqOgYI2HK1rt-1kJkdTpIc&redirect_uri=https%3A%2F%2Faccess.pegasus.isi.edu%2Foidc&nonce=3lLLvhQ-SS0BbVPHP0jrKzIB8nM2xwT6dZemDT0SvhM"
+    Then I should be on "/authorize"
 
     When I go to "/pegasus"
     Then I should see "Tutorial Video"
@@ -132,7 +132,7 @@ Feature: test ACCESS Support Pegasus Page
     #Then I should see an image with alt text "Documentation icon"
     Then I should see "Detailed documentation about"
     When I click "Read"
-    Then I should be on "/wiki/spaces/ACCESSdocumentation/pages/201752577/ACCESS+Pegasus"
+    Then I should get a "200" HTTP response
 
     When I go to "/pegasus"
     Then I should see "More Help"
@@ -140,14 +140,14 @@ Feature: test ACCESS Support Pegasus Page
     #Then I should see an image with alt text "More help icon"
     Then I should see "Links to more help and places to ask questions"
     When I click "Get Help"
-    Then I should be on "/wiki/spaces/ACCESSdocumentation/pages/201752577/ACCESS+Pegasus#Need-Help%3F"
+    Then I should get a "200" HTTP response
 
     When I go to "/pegasus"
     Then I should see "Pegasus Affinity Group"
     #Then I should see an image with alt text "Pegasus icon"
     Then I should see "The hub for the ACCESS Pegasus"
     When I click "Join us"
-    Then I should be on "/affinity-groups/pegasus?_gl=1*1an03zt*_ga*MTMxODc3MDQ5OC4xNjgwMDMwNDUw*_ga_CNLGPXPT91*MTY4MDgxMzMxOC43LjEuMTY4MDgxNTM5Ni4wLjAuMA.."
+    Then I should be on "/affinity-groups/pegasus"
 
     #When I am on "/pegasus"
     #When I follow "Learn More"

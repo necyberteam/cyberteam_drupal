@@ -35,7 +35,7 @@ Feature: test for the edit account page
     And I wait 2 seconds
     When I go to "/add-skill"
     Then I should see "access-acount"
-    Given I click the ".flag-element-name" element\
+    Given I click the ".flag-element-name" element
     And I wait 2 seconds
 
 
