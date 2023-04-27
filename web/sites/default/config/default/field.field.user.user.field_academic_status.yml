@@ -1,0 +1,46 @@
+uuid: 725e2927-f921-4da6-8701-0093d7c70bc5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_academic_status
+  module:
+    - multiple_registration
+    - options
+    - user
+third_party_settings:
+  multiple_registration:
+    user_additional_register_form:
+      authenticated: 0
+      student: 0
+      mentor: 0
+      researcher: 0
+      representative: 0
+      research_computing_facilitator: 0
+      research_software_engineer: 0
+      ci_systems_engineer: 0
+      student_champion: 0
+      domain_champion: 0
+    user_additional_register_form_required:
+      authenticated: 0
+      student: 0
+      mentor: 0
+      researcher: 0
+      representative: 0
+      research_computing_facilitator: 0
+      research_software_engineer: 0
+      ci_systems_engineer: 0
+      student_champion: 0
+      domain_champion: 0
+id: user.user.field_academic_status
+field_name: field_academic_status
+entity_type: user
+bundle: user
+label: 'Academic Status'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

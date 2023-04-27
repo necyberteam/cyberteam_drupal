@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.user.user.field_academic_status
     - field.field.user.user.field_blocked_ag_tax
     - field.field.user.user.field_carnegie_code
     - field.field.user.user.field_cider_resources
@@ -50,6 +51,12 @@ content:
     third_party_settings: {  }
   account:
     weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_academic_status:
+    type: options_select
+    weight: 20
     region: content
     settings: {  }
     third_party_settings: {  }
