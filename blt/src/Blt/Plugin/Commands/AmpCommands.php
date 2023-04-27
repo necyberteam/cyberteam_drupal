@@ -81,6 +81,8 @@ GITHUB_TOKEN=$token'>.env");
    * @description Run behat.
    */
   public function behat(array $args) {
+    // Set php max_execution_time to 1 hour.
+    ini_set('max_execution_time', 3600);
 
     $this->say("------------------ BEHAT TESTING ------------------------");
 
@@ -199,8 +201,34 @@ GITHUB_TOKEN=$token'>.env");
         $behat = '';
       } else {
         $this->say("    running: $shell_cmd");
-        $behat = shell_exec($shell_cmd);
         $this->say("------------------ start of $domain test results ------------------");
+        // Open a pipe to the command and capture its output
+        $descriptorspec = array(
+          0 => array("pipe", "r"), // stdin
+          1 => array("pipe", "w"), // stdout
+          2 => array("pipe", "w"), // stderr
+        );
+        $process = proc_open($shell_cmd, $descriptorspec, $pipes);
+
+        // Read the output from the command in real-time
+        while ($line = fgets($pipes[1])) {
+          echo $line;
+          $pattern = "/Failed scenarios/i";
+          if (preg_match($pattern, $line)) {
+            // Close the pipes and the process
+            fclose($pipes[0]);
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+            proc_close($process);
+            throw new \Exception('Failed behat tests.');
+          }
+        }
+
+        // Close the pipes and the process
+        fclose($pipes[0]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        $return_value = proc_close($process);
         $this->say($behat);
         $this->say("------------------ end of $domain test results ------------------");
       }
@@ -212,9 +240,7 @@ GITHUB_TOKEN=$token'>.env");
 
       if (!$dry_run) $this->_exec('git clean -f tests/behat/features/');
 
-      # Todo: need to figure out a better way of getting this output.
-      $pattern = "/Failed scenarios/i";
-      if (preg_match($pattern, $behat)) {
+      if ($return_value !== 0) {
         throw new \Exception('Failed behat tests.');
       }
     }
