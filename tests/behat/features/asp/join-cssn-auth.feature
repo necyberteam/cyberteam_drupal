@@ -17,4 +17,4 @@ Feature: test join-the-cssn-network webform
     When I check "MATCHPlus Mentor"
     When I press "Submit"
     And I wait 2 seconds
-    Then I should see "Thank you for joining the CSSN."
+    Then I should see "Submission updated in Join the CSSN Network."
