@@ -24,7 +24,6 @@ dependencies:
     - field.field.user.user.field_user_last_name
     - field.field.user.user.user_picture
   module:
-    - options
     - user
 _core:
   default_config_hash: V51QPCKkgNREKtSmB9Iu2wmAMEpktVpnzklWaZV8UYo
@@ -33,13 +32,6 @@ targetEntityType: user
 bundle: user
 mode: default
 content:
-  field_academic_status:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 2
-    region: content
   field_cider_resources:
     type: entity_reference_label
     label: above
@@ -57,6 +49,7 @@ content:
     weight: 0
     region: content
 hidden:
+  field_academic_status: true
   field_blocked_ag_tax: true
   field_carnegie_code: true
   field_constant_contact_id: true

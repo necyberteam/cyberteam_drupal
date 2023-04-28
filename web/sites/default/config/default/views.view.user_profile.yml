@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.user.field_academic_status
     - field.storage.user.field_current_degree_program
     - field.storage.user.field_current_occupation
     - field.storage.user.field_cv_resume
@@ -16,6 +17,7 @@ dependencies:
   module:
     - file
     - image
+    - options
     - user
     - views_field_view
 id: user_profile
@@ -1418,10 +1420,10 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_user_first_name:
-          id: field_user_first_name
-          table: user__field_user_first_name
-          field: field_user_first_name
+        field_institution:
+          id: field_institution
+          table: user__field_institution
+          field: field_institution
           relationship: none
           group_type: group
           admin_label: ''
@@ -1471,6 +1473,68 @@ display:
           type: string
           settings:
             link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_academic_status:
+          id: field_academic_status
+          table: user__field_academic_status
+          field: field_academic_status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -1543,10 +1607,10 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_institution:
-          id: field_institution
-          table: user__field_institution
-          field: field_institution
+        field_user_first_name:
+          id: field_user_first_name
+          table: user__field_user_first_name
+          field: field_user_first_name
           relationship: none
           group_type: group
           admin_label: ''
@@ -2213,71 +2277,6 @@ display:
           view: affinity_group
           display: block_2
           arguments: '{{ raw_fields.uid }}'
-        name:
-          id: name
-          table: users_field_data
-          field: name
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: user
-          entity_field: name
-          plugin_id: field
-          label: ''
-          exclude: false
-          alter:
-            alter_text: true
-            text: "<div class=\"row\">\r\n\t<div class=\"col-md-3 col-12 mx-auto mb-3\">\r\n\t\t{% if user_picture %}<img src=\"{{ user_picture }}\" alt=\"Headshot of {{ field_user_first_name }} {{ field_user_last_name }}\" class=\"img-fluid img-thumbnail w-100\">{% else %}<img src=\"/themes/nect-theme/img/default-user.png\" alt=\"Placeholder headshot\" class=\"img-fluid img-thumbnail w-100\">{% endif %}\r\n\t\t{% if field_cv_resume %}<a class=\"btn btn-primary btn-block mt-2 d-none\" href=\"{{ field_cv_resume }}\" target=\"_blank\" id=\"cv_resume\"><i class=\"fa fa-download\"></i> CV / Resume</a>{% endif %}\r\n                {% if view_4 %}{{ view_4 }}{% else %}<a class=\"btn btn-primary btn-block mt-2 d-none\" href=\"/user/{{ uid }}/contact\" id=\"contact_user\">Contact</a>{% endif %}\r\n\t</div>\r\n\t<div class=\"col-md-9 col-12 mx-auto\">\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h1 class=\"card-title\">{{ name }}</h1>\r\n\t\t\t\t<h5 class=\"card-subtitle\">{{ field_institution }}</h5>\r\n\t\t\t\t<span class=\"text-muted text-lowercase\">\r\n{% if ('student' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">student facilitator</span>{% endif %}\r\n{% if ('mentor' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">mentor</span>{% endif %}\r\n{% if ('Regional Facilitator' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">regional facilitator</span>{% endif %}\r\n{% if ('regional facilitator' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">regional facilitator</span>{% endif %}\r\n{% if ('researcher/educator' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">researcher/educator</span>{% endif %}\r\n{% if ('Steering Committee' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">steering committee</span>{% endif %}\r\n{% if ('steering committee' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">steering committee</span>{% endif %}\r\n{% if ('domain champion' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">domain champion</span>{% endif %}\r\n{% if ('CI systems engineer' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"CI Systems Engineer\">cise</span></span>{% endif %}\r\n{% if ('ci systems engineer' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"CI Systems Engineer\">cise</span></span>{% endif %}\r\n{% if ('research software engineer' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"Research Software Engineer\">rse</span></span>{% endif %}\r\n{% if ('research computing facilitator' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"Research Computing Facilitator\">rcf</span></span>{% endif %}\r\n</span>\r\n\t\t\t\t<p class=\"card-text\">\r\n\t\t\t\t\t{% if field_current_degree_program %}<strong>Current Degree Program: </strong> {{ field_current_degree_program }}<br>{% endif %}\r\n\t\t\t\t\t{% if field_degree %}<strong>Degree: </strong> {{ field_degree }}<br>{% endif %}\r\n\t\t\t\t\t{% if field_current_occupation %}<strong>Current Occupation: </strong> {{ field_current_occupation }}<br>{% endif %}\r\n\t\t\t\t</p>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% if field_hpc_experience %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">HPC Experience</h4>\r\n\t\t\t\t<p class=\"card-text\">\r\n\t\t\t\t\t{{ field_hpc_experience }}\r\n\t\t\t\t</p>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t\t\r\n\t\t{% if view %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Interests</h4>\r\n\t\t\t\t{{ view }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t\t\r\n\t\t{% if view_1 %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Skills</h4>\r\n\t\t\t\t{{ view_1 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n                {% elseif view_5 %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Skills</h4>\r\n\t\t\t\t{{ view_5 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t\t{% if view_2 or view_3 %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Projects</h4>\r\n\t\t\t\t{{ view_2 }}\r\n\t\t\t\t{{ view_3 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t\t{% if view_6 %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Affinity Groups</h4>\r\n\t\t\t\t{{ view_6 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t</div>\r\n</div>"
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: false
-            ellipsis: false
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: false
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: user_name
-          settings:
-            link_to_entity: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
         field_region:
           id: field_region
           table: user__field_region
@@ -2341,6 +2340,71 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        name:
+          id: name
+          table: users_field_data
+          field: name
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: user
+          entity_field: name
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: true
+            text: "<div class=\"row\">\r\n\t<div class=\"col-md-3 col-12 mx-auto mb-3\">\r\n\t\t{% if user_picture %}<img src=\"{{ user_picture }}\" alt=\"Headshot of {{ field_user_first_name }} {{ field_user_last_name }}\" class=\"img-fluid img-thumbnail w-100\">{% else %}<img src=\"/themes/nect-theme/img/default-user.png\" alt=\"Placeholder headshot\" class=\"img-fluid img-thumbnail w-100\">{% endif %}\r\n\t\t{% if field_cv_resume %}<a class=\"btn btn-primary btn-block mt-2 d-none\" href=\"{{ field_cv_resume }}\" target=\"_blank\" id=\"cv_resume\"><i class=\"fa fa-download\"></i> CV / Resume</a>{% endif %}\r\n                {% if view_4 %}{{ view_4 }}{% else %}<a class=\"btn btn-primary btn-block mt-2 d-none\" href=\"/user/{{ uid }}/contact\" id=\"contact_user\">Contact</a>{% endif %}\r\n\t</div>\r\n\t<div class=\"col-md-9 col-12 mx-auto\">\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h1 class=\"card-title\">{{ name }}</h1>\r\n\t\t\t\t<h5 class=\"card-subtitle\">{{ field_institution }}</h5>\r\n\t\t\t\t<span class=\"text-muted text-lowercase\">\r\n{% if ('student' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">student facilitator</span>{% endif %}\r\n{% if ('mentor' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">mentor</span>{% endif %}\r\n{% if ('Regional Facilitator' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">regional facilitator</span>{% endif %}\r\n{% if ('regional facilitator' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">regional facilitator</span>{% endif %}\r\n{% if ('researcher/educator' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">researcher/educator</span>{% endif %}\r\n{% if ('Steering Committee' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">steering committee</span>{% endif %}\r\n{% if ('steering committee' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">steering committee</span>{% endif %}\r\n{% if ('domain champion' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\">domain champion</span>{% endif %}\r\n{% if ('CI systems engineer' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"CI Systems Engineer\">cise</span></span>{% endif %}\r\n{% if ('ci systems engineer' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"CI Systems Engineer\">cise</span></span>{% endif %}\r\n{% if ('research software engineer' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"Research Software Engineer\">rse</span></span>{% endif %}\r\n{% if ('research computing facilitator' in roles_target_id|render) %}<span class=\"badge pl-0 font-weight-normal\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"Research Computing Facilitator\">rcf</span></span>{% endif %}\r\n</span>\r\n\t\t\t\t<p class=\"card-text\">\r\n                                        {% if ('student' in roles_target_id|render) %}<strong> Academic Status: </strong> {{ field_academic_status}}<br>{% endif %}\r\n\t\t\t\t\t{% if field_current_degree_program %}<strong>Current Degree Program: </strong> {{ field_current_degree_program }}<br>{% endif %}\r\n\t\t\t\t\t{% if field_degree %}<strong>Degree: </strong> {{ field_degree }}<br>{% endif %}\r\n\t\t\t\t\t{% if field_current_occupation %}<strong>Current Occupation: </strong> {{ field_current_occupation }}<br>{% endif %}\r\n\t\t\t\t</p>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% if field_hpc_experience %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">HPC Experience</h4>\r\n\t\t\t\t<p class=\"card-text\">\r\n\t\t\t\t\t{{ field_hpc_experience }}\r\n\t\t\t\t</p>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t\t\r\n\t\t{% if view %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Interests</h4>\r\n\t\t\t\t{{ view }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t\t\r\n\t\t{% if view_1 %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Skills</h4>\r\n\t\t\t\t{{ view_1 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n                {% elseif view_5 %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Skills</h4>\r\n\t\t\t\t{{ view_5 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t\t{% if view_2 or view_3 %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Projects</h4>\r\n\t\t\t\t{{ view_2 }}\r\n\t\t\t\t{{ view_3 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t\t{% if view_6 %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Affinity Groups</h4>\r\n\t\t\t\t{{ view_6 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t</div>\r\n</div>"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: false
+            ellipsis: false
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: false
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: user_name
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
       defaults:
         fields: false
       display_description: ''
@@ -2354,6 +2418,7 @@ display:
         - url
         - user.permissions
       tags:
+        - 'config:field.storage.user.field_academic_status'
         - 'config:field.storage.user.field_current_degree_program'
         - 'config:field.storage.user.field_current_occupation'
         - 'config:field.storage.user.field_cv_resume'
