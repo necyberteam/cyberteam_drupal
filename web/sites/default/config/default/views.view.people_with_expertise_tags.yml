@@ -15,6 +15,7 @@ dependencies:
     - realname
     - taxonomy
     - user
+    - views_field_view
 id: people_with_expertise_tags
 label: 'People with expertise tags'
 module: views
@@ -389,19 +390,19 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        nothing:
-          id: nothing
+        view:
+          id: view
           table: views
-          field: nothing
+          field: view
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: custom
+          plugin_id: view
           label: ''
-          exclude: false
+          exclude: true
           alter:
-            alter_text: true
-            text: "<div class=\"d-flex\">\r\n  <div class=\"me-3 w-60\">\r\n  <h4>{{ realname }}</h4>\r\n  <p class=\"text-break\">{{ field_institution }}</p>\r\n  {% if field_region %}\r\n    <strong>Programs</strong>\r\n    <p>{{ field_region }}</p>\r\n  {% endif %}\r\n  {% if roles_target_id %}\r\n    <strong>Roles</strong>\r\n    <p>{{ roles_target_id }}</p>\r\n  {% endif %}\r\n  </div>\r\n  <div class=\"ms-auto minw-35\">\r\n  {{ user_picture }}\r\n</div>\r\n</div>"
+            alter_text: false
+            text: ''
             make_link: false
             path: ''
             absolute: false
@@ -433,6 +434,58 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
+          element_default_classes: false
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          view: added_skills
+          display: block_3
+          arguments: '{{ raw_fields.uid }} '
+        nothing:
+          id: nothing
+          table: views
+          field: nothing
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: custom
+          label: ''
+          exclude: false
+          alter:
+            alter_text: true
+            text: "<div class=\"d-flex\">\r\n  <div class=\"me-3 w-60\">\r\n  <h4>{{ realname }}</h4>\r\n  <p class=\"text-break\">{{ field_institution }}</p>\r\n  {% if field_region %}\r\n    <strong>Programs</strong>\r\n    <p>{{ field_region }}</p>\r\n  {% endif %}\r\n  {% if roles_target_id %}\r\n    <strong>Roles</strong>\r\n    <p>{{ roles_target_id }}</p>\r\n  {% endif %}\r\n  </div>\r\n  <div class=\"ms-auto minw-35\">\r\n  {{ user_picture }}\r\n</div>\r\n</div>\r\n<strong>Expertise</strong>\r\n{{ view }}"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: 'border h-100 p-3'
           element_default_classes: true
           empty: ''
           hide_empty: false
@@ -583,7 +636,7 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: 'border p-3 my-3 col-md-4'
+          row_class: 'col-md-4 col-12 my-3'
           default_row_class: true
       row:
         type: fields
@@ -676,7 +729,7 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: 'border hpx-305 p-3 my-3 col-12 col-md-4'
+          row_class: 'col-md-4 col-12 my-3'
           default_row_class: true
       row:
         type: fields
