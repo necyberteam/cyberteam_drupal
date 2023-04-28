@@ -26,34 +26,32 @@ elements: |-
         Student-Facilitator -- Work with a MATCHPlus Mentor to implement solutions
       'Premier Consultant': 'Premier Consultant -- Work as a paid consultant for MATCHPremier engagements'
       'NSF-funded CIP': 'NSF-funded CIP -- I’m participating as a person funded through the NSF Cybertraining: CIP or SCIPE'
-  flexbox:
-    '#type': webform_flexbox
+  academic_status_markup:
+    '#type': webform_markup
     '#states':
       visible:
         ':input[name="i_am_joining_as_a_[Student-Facilitator]"]':
           checked: true
-    academic_status_markup:
-      '#type': webform_markup
-      '#markup': '<h4>Academic Status</h4>'
-    academic_status:
-      '#type': radios
-      '#title': 'Academic Status'
-      '#title_display': none
-      '#options':
-        first: 'Undergraduate student - first year '
-        second: 'Undergraduate student - second year'
-        third: 'Undergraduate student - third year '
-        fourth: 'Undergraduate student - fourth year '
-        master: 'Graduate student - masters program'
-        phd: 'Graduate student - PhD program'
-        postdoc: 'Postdoctoral student'
-        fellow: Fellow
-        none: 'I am not in an academic program but interested in shifting focus to research computing facilitation '
-      '#required': true
-      '#states':
-        visible:
-          ':input[name="i_am_joining_as_a_[Student-Facilitator]"]':
-            checked: true
+    '#markup': '<h4>Academic Status</h4>'
+  academic_status:
+    '#type': radios
+    '#title': 'Academic Status'
+    '#title_display': none
+    '#options':
+      first: 'Undergraduate student - first year '
+      second: 'Undergraduate student - second year'
+      third: 'Undergraduate student - third year '
+      fourth: 'Undergraduate student - fourth year '
+      master: 'Graduate student - masters program'
+      phd: 'Graduate student - PhD program'
+      postdoc: 'Postdoctoral student'
+      fellow: Fellow
+      other: 'I am not in an academic program but interested in shifting focus to research computing facilitation '
+    '#required': true
+    '#states':
+      visible:
+        ':input[name="i_am_joining_as_a_[Student-Facilitator]"]':
+          checked: true
 css: ".form-item-i-am-joining-as-a--nsf-funded-cip {\r\n  border-top: 2px solid #dee2e6;\r\n  padding-top: .5em;\r\n}"
 javascript: ''
 settings:

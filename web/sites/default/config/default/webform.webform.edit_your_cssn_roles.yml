@@ -23,13 +23,39 @@ elements: |-
     '#type': checkboxes
     '#title': 'Roles:'
     '#options':
-      mentor: 'mentor -- Provides or is willing to provide guidance, advice, feedback and support to a mentee. '
+      mentor: 'Mentor -- Provides or is willing to provide guidance, advice, feedback and support to a mentee. '
       student: |
-        student-facilitator -- A person enrolled in an institution of higher learning
-      research_computing_facilitator: 'research computing facilitator -- Assists researchers with accessing data, study design, statistical and analytical methods, and coordinates the use of computing services, software licensing, and associated technical support for new and ongoing research projects and academic endeavors.'
-      research_software_engineer: 'research software engineer -- Works with researchers to gain an understanding of the problems they face, and then develops, maintains and extends software to provide the answer'
-      ci_systems_engineer: 'ci systems engineer -- Provides direct centralized support on scientific computing to campus researchers to enhance computational thinking and modern computational methods'
-      researcher: 'researcher/educator -- A person doing research or teaching at an institution of higher learning'
+        Student  -- A person enrolled in an institution of higher learning
+      research_computing_facilitator: 'Research Computing Facilitator -- Assists researchers with accessing data, study design, statistical and analytical methods, and coordinates the use of computing services, software licensing, and associated technical support for new and ongoing research projects and academic endeavors.'
+      research_software_engineer: 'Research Software Engineer -- Works with researchers to gain an understanding of the problems they face, and then develops, maintains and extends software to provide the answer'
+      ci_systems_engineer: 'CI Systems Engineer -- Provides direct centralized support on scientific computing to campus researchers to enhance computational thinking and modern computational methods'
+      researcher: 'Researcher / Educator -- A person doing research or teaching at an institution of higher learning'
+  academic_status_markup:
+    '#type': webform_markup
+    '#states':
+      visible:
+        ':input[name="roles_[student]"]':
+          checked: true
+    '#markup': '<h4>Academic Status</h4>'
+  academic_status:
+    '#type': radios
+    '#title': 'Academic Status'
+    '#title_display': none
+    '#options':
+      first: 'Undergraduate student - first year'
+      second: 'Undergraduate student - second year'
+      third: 'Undergraduate student - third year'
+      fourth: 'Undergraduate student - fourth year'
+      masters: 'Graduate student - masters program'
+      phd: 'Graduate student - PhD program'
+      postdoc: 'Postdoctoral student'
+      fellow: Fellow
+      other: 'I am not in an academic program but interested in shifting focus to research computing facilitation'
+    '#required': true
+    '#states':
+      visible:
+        ':input[name="roles_[student]"]':
+          checked: true
 css: ''
 javascript: ''
 settings:
@@ -96,7 +122,7 @@ settings:
   submission_access_denied_attributes: {  }
   previous_submission_message: ''
   previous_submissions_message: ''
-  autofill: false
+  autofill: true
   autofill_message: ''
   autofill_excluded_elements: {  }
   wizard_progress_bar: true
