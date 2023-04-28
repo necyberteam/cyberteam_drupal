@@ -13,9 +13,8 @@ Feature: test quick links on home page
     When I click "Ask the Community"
     Then I should be on "https://ask.cyberinfrastructure.org/"
     When I am on the homepage
-    Then I should see the link "Find Learning Resources"
-    When I click "Find Learning Resources"
-    Then I should be on "resources"
+    When I click "Find CI Links"
+    Then I should be on "/ci-links"
     When I am on the homepage
     Then I should see the link "Project Submission Form"
     When I click "Project Submission Form"
@@ -31,4 +30,3 @@ Feature: test quick links on home page
     When I am on the homepage
     Then I should not see "Join the team"
     Then I should see "Featured Projects"
-    

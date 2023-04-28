@@ -34,7 +34,7 @@ Feature: test ACCESS Support MATCHPremier Page
     Then I should see "Leverage your subject matter expertise"
     When I am on "/matchpremier"
     When I follow "Request a Pilot Engagement"
-    Then I should be on "https://support.access-ci.org/user/login?destination=/node/add/match_engagement%3Ftype%3Dpremier"
+    Then I should be on "/user/login?destination=/node/add/match_engagement%3Ftype%3Dpremier"
 
     When I am on "/matchpremier"
     When I follow "Get Proposal Support"
@@ -44,7 +44,7 @@ Feature: test ACCESS Support MATCHPremier Page
     When I follow "Become a Consultant"
 
     Then I should be on "/user/login?destination=/form/join-the-cssn-network"
-    When I am on "https://support.access-ci.org/matchpremier"
+    When I am on "/matchpremier"
     Then I should see "Sample Engagements from the Northeast and CAREERS Cyberteams"
 
     # testing Three Sample Engagements appear at the bottom of the page
@@ -57,24 +57,34 @@ Feature: test ACCESS Support MATCHPremier Page
 
     # testing Titles link to Engagements
     When I am on "/matchpremier"
-    When I follow "Optimization and Parallelization of A Numerical Gravitational-Wave Model"
-    Then I should be on "/node/336"
-    When I am on "/matchpremier"
-    When I follow "Statistical Analysis of criminal cases in the United States District Court of Puerto Rico"
-    Then I should be on "/node/335"
-    When I am on "/matchpremier"
-    When I follow "UVM Art and AI Initiative"
-    Then I should be on "/node/331"
+    When I follow "High Performance Computing vs Quantum Computing for Neural Networks supporting Artificial Intelligence"
+    Then I should be on "/node/329"
+    # TODO gone
+    # When I am on "/matchpremier"
+    # When I follow "Statistical Analysis of criminal cases in the United States District Court of Puerto Rico"
+    # Then I should be on "/node/335"
 
 
 #TODO: test More buttons expand box to reveal whole excerpt and "- Less" link
 
     # testing tags in box and tag link
-    When I am on "/matchpremier"
-    Then I should see "gravitational-waves"
-    When I am on "/matchpremier"
-    When I follow "gravitational-waves"
-    Then I should be on "https://support.access-ci.org/tags/gravitational-waves"
+
+    #When I am on "/matchpremier"
+    #Given I click the ".view-match-engagement-view .view-content .col:first-of-type .more-match" element
+    #Then I should see "big-data"
+    #Then I should be on "/tags/big-data"
+    #When I am on "/matchpremier"
+    #Given I click the ".view-match-engagement-view .view-content .col:first-of-type .more-match" element
+    #Then I should see "big-data"
+    #When I click "- Less"
+
+    # TODO gone
+    # When I am on "/matchpremier"
+    # Then I should see "gravitational-waves"
+    # When I am on "/matchpremier"
+    # When I follow "gravitational-waves"
+    # Then I should be on "/tags/gravitational-waves"
+
 
 #TODO: test -Less link collapse box
 

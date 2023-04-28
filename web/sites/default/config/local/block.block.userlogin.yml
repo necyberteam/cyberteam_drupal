@@ -1,24 +1,24 @@
-uuid: 1aa16133-7d35-4c2d-ad15-4f0c0ebfb937
+uuid: 79c86f21-0398-4da0-96e8-6be5bb816445
 langcode: en
 status: true
 dependencies:
   module:
-    - access_news
     - domain
     - system
+    - user
   theme:
     - accesstheme
-id: requestanewspostblock
+id: userlogin
 theme: accesstheme
-region: sidebar_second
-weight: -15
+region: content
+weight: 0
 provider: null
-plugin: requestnews_block
+plugin: user_login_block
 settings:
-  id: requestnews_block
-  label: 'Request a News Post block'
+  id: user_login_block
+  label: 'User login'
   label_display: '0'
-  provider: access_news
+  provider: user
 visibility:
   domain:
     id: domain
@@ -26,9 +26,8 @@ visibility:
     context_mapping:
       domain: '@domain.current_domain_context:domain'
     domains:
-      nectd8_wpi_edu: nectd8_wpi_edu
       amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
   request_path:
     id: request_path
     negate: false
-    pages: /news
+    pages: /user/login
