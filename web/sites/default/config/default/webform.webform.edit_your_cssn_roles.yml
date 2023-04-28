@@ -37,8 +37,8 @@ elements: |-
         ':input[name="roles_[student]"]':
           checked: true
     '#markup': '<h4>Academic Status</h4>'
-  academic_status:
-    '#type': radios
+  academic_status_select2:
+    '#type': select
     '#title': 'Academic Status'
     '#title_display': none
     '#options':
@@ -51,11 +51,14 @@ elements: |-
       postdoc: 'Postdoctoral student'
       fellow: Fellow
       other: 'I am not in an academic program but interested in shifting focus to research computing facilitation'
+    '#select2': true
     '#required': true
+    '#required_error': 'Please select an academic status'
     '#states':
       visible:
         ':input[name="roles_[student]"]':
           checked: true
+    '#states_clear': false
 css: ''
 javascript: ''
 settings:

@@ -33,25 +33,28 @@ elements: |-
         ':input[name="i_am_joining_as_a_[Student-Facilitator]"]':
           checked: true
     '#markup': '<h4>Academic Status</h4>'
-  academic_status:
-    '#type': radios
-    '#title': 'Academic Status'
+  academic_status_select2:
+    '#type': select
+    '#title': academic_status_select2
     '#title_display': none
     '#options':
-      first: 'Undergraduate student - first year '
+      first: 'Undergraduate student - first year'
       second: 'Undergraduate student - second year'
-      third: 'Undergraduate student - third year '
-      fourth: 'Undergraduate student - fourth year '
-      master: 'Graduate student - masters program'
+      third: 'Undergraduate student - third year'
+      fourth: 'Undergraduate student - fourth year'
+      masters: 'Graduate student - masters program'
       phd: 'Graduate student - PhD program'
       postdoc: 'Postdoctoral student'
       fellow: Fellow
-      other: 'I am not in an academic program but interested in shifting focus to research computing facilitation '
+      other: 'I am not in an academic program but interested in shifting focus to research computing facilitation'
+    '#select2': true
     '#required': true
+    '#required_error': 'Please select your academic status'
     '#states':
       visible:
         ':input[name="i_am_joining_as_a_[Student-Facilitator]"]':
           checked: true
+    '#states_clear': false
 css: ".form-item-i-am-joining-as-a--nsf-funded-cip {\r\n  border-top: 2px solid #dee2e6;\r\n  padding-top: .5em;\r\n}"
 javascript: ''
 settings:
