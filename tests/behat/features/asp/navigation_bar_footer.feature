@@ -106,9 +106,3 @@ Feature: test Navigation Bar footer links
     When I am on the homepage
     When I follow "My Engagements"
     Then I should be on "/my-engagements"
-
-
-
-
-
-

@@ -15,4 +15,3 @@ Feature: test Navigation Bar
     When I am on the homepage
     When I follow "MATCHPremier"
     Then I should be on "/matchpremier"
-
