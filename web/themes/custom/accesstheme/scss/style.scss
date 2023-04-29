@@ -222,11 +222,22 @@ ul.sf-menu {
       color: #ffffff;
     }
   }
+        // a {
+        //     color: var(--bs-dark);
+        // }
+        ul li:hover a {
+            color: var(--light-green);
+        }
+    }
 
   a:hover,
   .menuparent:hover {
     color: var(--teal);
   }
+    a:hover,
+    .menuparent:hover {
+        color: #ffffff;
+    }
 
   span.nolink {
     font-weight: 600;
@@ -239,11 +250,23 @@ ul.sf-menu {
     a {
       color: var(--bs-dark);
     }
+    ul {
+        padding: 10px !important;
+
+        a {
+            color: #ffffff;
+            font-weight: 600;
+        }
 
     a:hover,
     li:hover a {
       color: #ffffff;
     }
+        a:hover,
+        li:hover a {
+            color: var(--light-green);
+            text-decoration: underline;
+        }
 
     li a.is-active {
       background-color: var(--bs-secondary) !important;
@@ -267,9 +290,63 @@ ul.sf-menu {
     background-color: var(--bs-dark);
   }
 }
+ul.sf-menu .sf-sub-indicator::after {
+    display: none;
+}
+@media only screen and (max-width: 768px) {
+    #superfish-access-universal-nav-menu-accordion {
+        margin-top: 10px;
+    }
+    #superfish-access-universal-nav-menu-toggle {
+        margin-left: 24px;
+    }
+    ul.sf-menu .sf-sub-indicator::after {
+        display: block;
+    }
+    ul.sf-menu ul {
+        padding: 0 !important;
+        li a, li .menuparent {
+            padding: 0;
+        }
+    }
+    ul.sf-menu.sf-accordion li a {
+        padding: 10px 28px;
+        line-height: 20px;
+    }
+    #superfish-access-additional-universal-menu-accordion-clone {
+        margin-top: 14px;
+        li {
+            border-top: 1px solid var(--menu-border-color);
+        }
+        > .menuparent span{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        li > a, li > .menuparent {
+          padding: 11px 28px;
+        }
+        li.sf-depth-2 {
+            margin-left: 0px;
+            list-style: none;
+            background-color: #fff;
+            a {
+                // padding-left: 28px;
+                color: var(--bs-dark);
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+        }
+    }
 
-#superfish-access-universal-nav-menu li a {
-  text-transform: uppercase;
+}
+#superfish-access-universal-nav-menu li a, #superfish-access-universal-nav-menu-accordion-clone > li > a {
+    text-transform: uppercase;
+}
+#superfish-access-universal-nav-menu-accordion > li > a:hover {
+    text-decoration: underline;
 }
 
 #superfish-access-universal-nav-menu,
@@ -289,11 +366,14 @@ ul.sf-menu {
     background-color: #ffffff;
     top: 3em;
 
-    li:hover {
-      background-color: var(--bs-dark);
-      color: #ffffff;
+        li a {
+            padding: 4px 10px;
+        }
+        li:hover {
+            background-color: var(--bs-secondary);
+            color: #ffffff;
+        }
     }
-  }
 
   li a {
     font-size: 14px;
