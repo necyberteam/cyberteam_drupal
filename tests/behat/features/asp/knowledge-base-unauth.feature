@@ -111,4 +111,3 @@ Feature: test ACCESS Support knowledge base
     # And all images with selector ".view-affinity-group img" should load
     When I click "All Affinity Groups"
     Then I should be on "/affinity_groups"
-

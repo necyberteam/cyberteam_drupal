@@ -59,6 +59,3 @@ Feature: test for the admin user to test the domain
     Then I should see "At-Large"
     Then I should see "All Regions"
     Then I should see "There are currently no open tickets"
-
-
-
