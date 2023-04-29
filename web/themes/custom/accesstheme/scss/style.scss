@@ -654,6 +654,26 @@ a.button {
   }
 }
 
+// Max-width measured in pixels
+.mwpx-200 {
+  max-width: 200px;
+}
+.mwpx-180 {
+  max-width: 180px;
+}
+.hpx-305 {
+  height: 305px;
+}
+.w-60 {
+  width: 60%;
+}
+.w-40 {
+  width: 40%;
+}
+.minw-35 {
+  min-width: 35%;
+}
+
 /* Affinity Groups */
 .fixed-width-150 {
   min-width: 150px !important;
@@ -1134,6 +1154,28 @@ footer {
 .add-interest-list .view,
 .add-skill-list .view {
   margin-top: 0;
+}
+
+.view-people-with-expertise-tags > .view-content, .view-people-with-interest-tags > .view-content {
+  display: flex;
+  flex-wrap: wrap;
+  .views-field-nothing > .field-content {
+    display: block;
+    border: 1px solid #1A5B6C2E;
+    padding: 1rem;
+    height: inherit;
+  }
+}
+
+.view-added-skills a, .view-added-interests a {
+  padding: 2px 8px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.view-added-skills a:hover, .view-added-interests a:hover {
+  text-decoration: underline;
 }
 
 .flag-element-name {
