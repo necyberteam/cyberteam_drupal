@@ -17,9 +17,6 @@ const checkElement = async selector => {
 // function to detect display width change
 async function handleMobileMenu() {
     if (window.innerWidth < 768) {
-
-
-
         checkElement('#superfish-access-universal-nav-menu-accordion').then((selector) => {
             if (!selector.querySelector('#superfish-access-additional-universal-menu-accordion-clone')) {
                 secondary_menu = document.getElementById('superfish-access-additional-universal-menu-accordion').cloneNode(true);
