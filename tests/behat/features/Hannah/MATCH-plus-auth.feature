@@ -18,6 +18,6 @@ Feature: test ACCESS Support MATCHPlus page
     When I click "Become a Mentor"
     Then I should be on "/form/join-the-cssn-network"
     When I go to "/matchplus"
-    Then I should see "Be a Student-Facilitator"  
+    Then I should see "Be a Student-Facilitator"
     When I click "Join MATCHPlus"
     Then I should be on "/form/join-the-cssn-network"

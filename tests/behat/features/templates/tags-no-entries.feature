@@ -13,8 +13,8 @@ Feature: for a new tag, verify all blocks display a no entries message
     When I fill in "Name" with "behat_test_tag"
     When I check "Generate automatic URL alias"
     When I check "Published"
-    When I press "Save" 
-    Then I should see "Created new term" 
+    When I press "Save"
+    Then I should see "Created new term"
 
     Given I am not logged in
     When I go to "tags/behattesttag"
@@ -24,7 +24,6 @@ Feature: for a new tag, verify all blocks display a no entries message
     # Then I should see "There are no Ask.CI entries associated with this topic."
     Then I should see "There are no Affinity Groups associated with this topic."
     Then I should see "There are no Users associated with this topic."
-    Then I should see "There are no resources associated with this topic."
+    Then I should see "There are no CI Links associated with this topic."
     Then I should see "There are no projects associated with this topic."
     Then I should see "There are no Blog Entries associated with this topic."
-    
