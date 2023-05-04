@@ -25,7 +25,37 @@ elements: |-
       Student-Facilitator: |
         Student-Facilitator -- Work with a MATCHPlus Mentor to implement solutions
       'Premier Consultant': 'Premier Consultant -- Work as a paid consultant for MATCHPremier engagements'
-css: ''
+      'NSF-funded CIP': 'NSF-funded CIP -- I’m participating as a person funded through the NSF Cybertraining: CIP or SCIPE'
+  academic_status_markup:
+    '#type': webform_markup
+    '#states':
+      visible:
+        ':input[name="i_am_joining_as_a_[Student-Facilitator]"]':
+          checked: true
+    '#markup': '<h4>Academic Status</h4>'
+  academic_status_select2:
+    '#type': select
+    '#title': academic_status_select2
+    '#title_display': none
+    '#options':
+      first: '1st year undergraduate'
+      second: ' 2nd year undergraduate'
+      third: ' 3rd year undergraduate'
+      fourth: ' 4th year undergraduate'
+      masters: ' Masters student'
+      phd: ' PhD student'
+      postdoc: 'Postdoctoral student'
+      fellow: Fellow
+      other: 'I am not in an academic program but interested in shifting focus to research computing facilitation'
+    '#select2': true
+    '#required': true
+    '#required_error': 'Please select your academic status'
+    '#states':
+      visible:
+        ':input[name="i_am_joining_as_a_[Student-Facilitator]"]':
+          checked: true
+    '#states_clear': false
+css: ".form-item-i-am-joining-as-a--nsf-funded-cip {\r\n  border-top: 2px solid #dee2e6;\r\n  padding-top: .5em;\r\n}"
 javascript: ''
 settings:
   ajax: false
@@ -112,6 +142,8 @@ settings:
   wizard_toggle: true
   wizard_toggle_show_label: ''
   wizard_toggle_hide_label: ''
+  wizard_page_type: container
+  wizard_page_title_tag: h2
   preview: 0
   preview_label: ''
   preview_title: ''
@@ -145,7 +177,7 @@ settings:
   limit_user: null
   limit_user_interval: null
   limit_user_message: ''
-  limit_user_unique: false
+  limit_user_unique: true
   entity_limit_total: null
   entity_limit_total_interval: null
   entity_limit_user: null

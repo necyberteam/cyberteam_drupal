@@ -1,0 +1,33 @@
+uuid: 79c86f21-0398-4da0-96e8-6be5bb816445
+langcode: en
+status: true
+dependencies:
+  module:
+    - domain
+    - system
+    - user
+  theme:
+    - accesstheme
+id: userlogin
+theme: accesstheme
+region: content
+weight: 0
+provider: null
+plugin: user_login_block
+settings:
+  id: user_login_block
+  label: 'User login'
+  label_display: '0'
+  provider: user
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: /user/login

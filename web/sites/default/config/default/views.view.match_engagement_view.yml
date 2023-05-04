@@ -19,6 +19,7 @@ dependencies:
     - taxonomy
     - text
     - user
+    - views_sort_options_weight
 id: match_engagement_view
 label: 'match engagement view'
 module: views
@@ -568,38 +569,26 @@ display:
         options: {  }
       empty: {  }
       sorts:
-        created_1:
-          id: created_1
-          table: node_field_data
-          field: created
+        field_status_value__sort_options_weight:
+          id: field_status_value__sort_options_weight
+          table: node__field_status
+          field: field_status_value__sort_options_weight
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          entity_field: created
-          plugin_id: date
+          plugin_id: extended_sort_by_options_weight
           order: ASC
           expose:
             label: ''
             field_identifier: ''
           exposed: false
-          granularity: second
-        created:
-          id: created
-          table: node_field_data
-          field: created
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          entity_field: created
-          plugin_id: date
-          order: DESC
-          expose:
-            label: ''
-            field_identifier: ''
-          exposed: false
-          granularity: second
+          Recruiting: '1'
+          'Reviewing Applicants': '2'
+          'In Progress': '3'
+          'Finishing Up': '4'
+          Complete: '5'
+          'On Hold': '6'
+          Halted: '7'
       arguments: {  }
       filters:
         status:
@@ -1326,46 +1315,6 @@ display:
           expose:
             operator_limit_selection: false
             operator_list: {  }
-        sticky:
-          id: sticky
-          table: node_field_data
-          field: sticky
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          entity_field: sticky
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
         field_node_type_value:
           id: field_node_type_value
           table: node__field_node_type

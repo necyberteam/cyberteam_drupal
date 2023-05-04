@@ -787,9 +787,23 @@ display:
           hide_alter_empty: true
           destination: false
       pager:
-        type: none
+        type: mini
         options:
           offset: 0
+          items_per_page: 20
+          total_pages: null
+          id: 0
+          tags:
+            next: ››
+            previous: ‹‹
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All Past Events-'
+            offset: false
+            offset_label: Offset
       exposed_form:
         type: basic
         options:
@@ -976,9 +990,6 @@ display:
               mentor: '0'
               professional_mentor: '0'
               researcher: '0'
-              steering_committee: '0'
-              regional_admin: '0'
-              leadership: '0'
               representative: '0'
               administrator: '0'
               masquerade: '0'
@@ -1259,7 +1270,7 @@ display:
           plugin_id: standard
           required: false
       use_more: false
-      use_more_always: true
+      use_more_always: false
       use_more_text: 'All Events'
       link_display: custom_url
       link_url: /events
@@ -1282,6 +1293,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url.query_args
         - user.permissions
       tags: {  }
   admin_page:
@@ -2167,6 +2179,24 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+      pager:
+        type: mini
+        options:
+          offset: 0
+          items_per_page: 20
+          total_pages: null
+          id: 0
+          tags:
+            next: 'Next ›'
+            previous: '‹ Previous'
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
       sorts:
         date__value:
           id: date__value
@@ -2418,9 +2448,6 @@ display:
               mentor: '0'
               professional_mentor: '0'
               researcher: '0'
-              steering_committee: '0'
-              regional_admin: '0'
-              leadership: '0'
               representative: '0'
               administrator: '0'
               masquerade: '0'
@@ -2538,6 +2565,9 @@ display:
       defaults:
         title: false
         css_class: false
+        pager: false
+        link_display: false
+        link_url: false
         style: false
         row: false
         fields: false
@@ -2546,6 +2576,8 @@ display:
         filter_groups: false
       css_class: ''
       display_description: ''
+      link_display: '0'
+      link_url: /events
       exposed_block: true
       display_extenders: {  }
     cache_metadata:
@@ -2554,6 +2586,7 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - url.query_args
         - user
         - user.permissions
       tags:
@@ -3157,6 +3190,184 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           use_tokens: false
+        field_event_type_value:
+          id: field_event_type_value
+          table: eventseries__field_event_type
+          field: field_event_type_value
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_event_type_value_op
+            label: 'Event Type (field_event_type)'
+            description: null
+            use_operator: false
+            operator: field_event_type_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_event_type_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: true
+          group_info:
+            label: 'Event&nbsp;Type'
+            description: ''
+            identifier: field_event_type_value
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: Conference
+                operator: or
+                value:
+                  Conference: Conference
+              2:
+                title: Training
+                operator: or
+                value:
+                  Training: Training
+          reduce_duplicates: false
+        field_affiliation_value:
+          id: field_affiliation_value
+          table: eventseries__field_affiliation
+          field: field_affiliation_value
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_affiliation_value_op
+            label: 'Affiliation (field_affiliation)'
+            description: null
+            use_operator: false
+            operator: field_affiliation_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_affiliation_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: true
+          group_info:
+            label: Affiliation
+            description: ''
+            identifier: field_affiliation_value
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: 'ACCESS Collaboration'
+                operator: or
+                value:
+                  'ACCESS Collaboration': 'ACCESS Collaboration'
+              2:
+                title: Community
+                operator: or
+                value:
+                  Community: Community
+          reduce_duplicates: false
+        field_affinity_group_target_id:
+          id: field_affinity_group_target_id
+          table: eventseries__field_affinity_group
+          field: field_affinity_group_target_id
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_affinity_group_target_id_op
+            label: 'Affinity&nbsp;Group'
+            description: ''
+            use_operator: false
+            operator: field_affinity_group_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_affinity_group_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              student: '0'
+              mentor: '0'
+              professional_mentor: '0'
+              researcher: '0'
+              steering_committee: '0'
+              regional_admin: '0'
+              leadership: '0'
+              representative: '0'
+              administrator: '0'
+              masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+              cssn: '0'
+              affinity_group_leader: '0'
+              match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
+              coco_pm: '0'
+              cnctci_pm: '0'
+              news_pm: '0'
+              kb_pm: '0'
+              careers_sc: '0'
+              ccmnet_pm: '0'
+              match_sc: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: affinity_groups
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
       filter_groups:
         operator: AND
         groups:
@@ -3237,12 +3448,16 @@ display:
         filters: false
         filter_groups: false
       display_description: ''
+      exposed_block: true
       display_extenders: {  }
     cache_metadata:
       max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user
         - user.permissions
       tags: {  }
   latest_events_block:
