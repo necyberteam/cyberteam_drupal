@@ -549,9 +549,11 @@ display:
             utf8_bom: '0'
             use_serializer_encode_only: false
       display_extenders: {  }
-      path: affinity-groups/%taxonomy_term/users/csv
-      filename: affinity-group-users.csv
+      path: affinity-groups/%taxonomy_term/users/%title/csv
+      filename: 'affinity-group-users-[view:title].csv'
       automatic_download: true
+      export_method: batch
+      export_batch_size: 250
       store_in_public_file_directory: false
       custom_redirect_path: false
       redirect_to_display: none
@@ -626,7 +628,7 @@ display:
         style: false
         row: false
       display_extenders: {  }
-      path: affinity-groups/%taxonomy_term/users
+      path: affinity-groups/%taxonomy_term/users/%
     cache_metadata:
       max-age: -1
       contexts:
