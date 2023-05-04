@@ -1,4 +1,4 @@
-uuid: 48bdca77-a5a6-4a24-8dd9-43c1a4b7af4c
+iuuid: 48bdca77-a5a6-4a24-8dd9-43c1a4b7af4c
 langcode: en
 status: true
 dependencies:
@@ -1249,6 +1249,7 @@ display:
           distinct: false
           replica: false
           query_tags: {  }
+          contextual_filters_or: false
       relationships:
         eventseries_id:
           id: eventseries_id
@@ -2059,7 +2060,9 @@ display:
           settings:
             trim_length: 600
           group_column: value
-          group_columns: {  }
+          group_columns:
+            value: value
+            format: format
           group_rows: true
           delta_limit: 0
           delta_offset: 0
