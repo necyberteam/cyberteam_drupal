@@ -5,8 +5,7 @@ dependencies:
   config:
     - flag.flag.affinity_group
     - taxonomy.vocabulary.affinity_groups
-    - user.role.administrator
-    - user.role.affinity_group_leader
+    - user.role.authenticated
   module:
     - csv_serialization
     - flag
@@ -294,8 +293,7 @@ display:
         type: role
         options:
           role:
-            administrator: administrator
-            affinity_group_leader: affinity_group_leader
+            authenticated: authenticated
       cache:
         type: tag
         options: {  }
