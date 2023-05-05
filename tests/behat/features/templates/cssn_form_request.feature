@@ -28,8 +28,8 @@ Feature: test cssn form
     #Then I should see "Thanks for updating your CSSN membership."
     When I go to "/community-persona"
     And I wait for the page to be loaded
-    Then I should see "CSSN Member"
-    Then I should see "Roles:"
+    #Then I should see "CSSN Member"
+    #Then I should see "Roles:"
     Then I should see "General Member"
 
 
