@@ -408,10 +408,9 @@ display:
           sort_asc_label: Asc
           sort_desc_label: Desc
       access:
-        type: role
+        type: perm
         options:
-          role:
-            authenticated: authenticated
+          perm: 'access content'
       cache:
         type: tag
         options: {  }
@@ -519,7 +518,7 @@ display:
         - 'languages:language_interface'
         - url.query_args
         - 'user.node_grants:view'
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
@@ -1841,7 +1840,7 @@ display:
         - url.query_args
         - user
         - 'user.node_grants:view'
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_affinity_group'
@@ -2077,7 +2076,7 @@ display:
         - 'languages:language_interface'
         - url
         - 'user.node_grants:view'
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.node.field_affinity_group'
   block_3:
@@ -2311,7 +2310,7 @@ display:
         - 'languages:language_interface'
         - url
         - 'user.node_grants:view'
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.node.field_affinity_group'
   block_4:
@@ -2563,7 +2562,7 @@ display:
         - 'languages:language_interface'
         - url.query_args
         - 'user.node_grants:view'
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
@@ -2798,7 +2797,7 @@ display:
         - 'languages:language_interface'
         - url
         - 'user.node_grants:view'
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.node.field_affinity_group'
   block_6:
@@ -3050,7 +3049,7 @@ display:
         - 'languages:language_interface'
         - url.query_args
         - 'user.node_grants:view'
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
@@ -3196,6 +3195,11 @@ display:
         type: none
         options:
           offset: 0
+      access:
+        type: role
+        options:
+          role:
+            authenticated: authenticated
       arguments:
         nid:
           id: nid
@@ -3247,6 +3251,7 @@ display:
           separator: ''
           hide_empty: true
       defaults:
+        access: false
         use_ajax: false
         pager: false
         use_more: false
@@ -5737,7 +5742,7 @@ display:
         - url
         - url.query_args
         - 'user.node_grants:view'
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_affinity_group'
@@ -7061,7 +7066,7 @@ display:
         - url
         - url.query_args
         - 'user.node_grants:view'
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.user.field_institution'
         - 'config:field.storage.user.field_region'
