@@ -229,7 +229,6 @@ GITHUB_TOKEN=$token'>.env");
         fclose($pipes[1]);
         fclose($pipes[2]);
         $return_value = proc_close($process);
-        $this->say($behat);
         $this->say("------------------ end of $domain test results ------------------");
       }
 
