@@ -93,7 +93,7 @@ Feature: test Navigation Bar footer links
     Given I am not logged in
     When I am on the homepage
     When I follow "News"
-    Then I should be on "/news"
+    Then I should be on "/news/"
 
   Scenario: test Outages link
     Given I am not logged in
