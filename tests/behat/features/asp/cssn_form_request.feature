@@ -22,7 +22,7 @@ Feature: test cssn form
     When I check "i_am_joining_as_a_[NSF-funded CIP]"
     #academic_status_select2 is the Academic Status
     When I select "1st year undergraduate" from "academic_status_select2"
-    When I click "op"
+    When I press "Submit"
     And I wait 5 seconds
     #Then I should see "Submission updated in Join the CSSN Network."
     #Then I should see "Thanks for updating your CSSN membership."
@@ -30,8 +30,8 @@ Feature: test cssn form
     And I wait for the page to be loaded
     Then I should see "CSSN Member"
     Then I should see "Roles:"
-    #Then I should see "mentor"
-    #Then I should see "student-facilitator"
-    #Then I should see "Consultant"
-    #Then I should see "CIP"
+    Then I should see "mentor"
+    Then I should see "student-facilitator"
+    Then I should see "Consultant"
+    Then I should see "CIP"
     Then I should see "CSSN"
