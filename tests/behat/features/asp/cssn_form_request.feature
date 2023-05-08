@@ -30,6 +30,8 @@ Feature: test cssn form
     And I wait for the page to be loaded
     Then I should see "CSSN Member"
     Then I should see "Roles:"
-    Then I should see "General Member"
-
-
+    Then I should see "mentor"
+    Then I should see "student-facilitator"
+    Then I should see "Consultant"
+    Then I should see "CIP"
+    Then I should see "CSSN"
