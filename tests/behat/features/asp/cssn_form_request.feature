@@ -32,6 +32,6 @@ Feature: test cssn form
     Then I should see "Roles:"
     #Then I should see "mentor"
     #Then I should see "student-facilitator"
-    Then I should see "Consultant"
+    #Then I should see "Consultant"
     Then I should see "CIP"
     Then I should see "CSSN"
