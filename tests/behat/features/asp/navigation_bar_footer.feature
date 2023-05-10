@@ -92,7 +92,7 @@ Feature: test Navigation Bar footer links
   Scenario: test News link
     Given I am not logged in
     When I am on the homepage
-    When I click the "nav-link" element
+    When I click the "a.nav-link" element
     #When I follow "nav-link"
     Then I should be on "/news"
 
