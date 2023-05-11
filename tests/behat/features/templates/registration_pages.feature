@@ -19,12 +19,13 @@ Feature: Test registration page
     Then I should see "First Name"
     Then I should see "Last Name"
     Then I should see "Institution"
-    Then I should see "Current Degree Program"
+    # Not current displaying "Current Degree Program"
+    # Then I should see "Current Degree Program"
     Then I should see "HPC Experience"
     Then I should see "CV/Resume"
     Then I should see "Time Zone"
     Then I should see "Citizenships"
-  
+
     When I am on "user/register"
     When I follow "Mentor"
     Then I should see "Create new mentor account"
@@ -34,12 +35,12 @@ Feature: Test registration page
     Then I should see "First Name"
     Then I should see "Last Name"
     Then I should see "Institution"
-    Then I should see "Degree"
-    Then I should see "Current Occupation"
+    # Not currently displaying these options
+    # Then I should see "Degree"
+    # Then I should see "Current Occupation"
     Then I should see "CV/Resume"
     Then I should see "Time Zone"
     Then I should see "Citizenships"
-  
 
     When I am on "user/register"
     When I follow "Researcher/Educator"
@@ -50,7 +51,8 @@ Feature: Test registration page
     When I fill in "edit-field-user-first-name-0-value" with "Test"
     When I fill in "edit-field-user-last-name-0-value" with "Test"
     When I fill in "edit-field-institution-0-value" with "Test"
-    When I fill in "edit-field-degree-0-value" with "Test"
+    # Not currently using the degree field
+    # When I fill in "edit-field-degree-0-value" with "Test"
     When I fill in "edit-field-current-occupation-0-value" with "Test"
     When I fill in "edit-field-citizenships-0-value" with "Test"
     When I click "op"

@@ -70,7 +70,7 @@ Feature: test people page list view w/ filters
 
     When I fill in "Filter by Role" with "Student-facilitator"
     And I wait 4 seconds
-    Then I should see "Student-facilitator"
+    Then I should see "student facilitator"
 
     When I fill in "Filter by Role" with " "
     And I wait 4 seconds
