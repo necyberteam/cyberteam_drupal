@@ -1,0 +1,33 @@
+uuid: 86610c74-dc4e-44d4-9738-f209be0ed64b
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.recurring_events_event_instances
+  module:
+    - taxonomy
+    - views
+  theme:
+    - accesstheme
+id: views_block__recurring_events_event_instances_block_3
+theme: accesstheme
+region: content
+weight: 2
+provider: null
+plugin: 'views_block:recurring_events_event_instances-block_3'
+settings:
+  id: 'views_block:recurring_events_event_instances-block_3'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles:
+      tags: tags
