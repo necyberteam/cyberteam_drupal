@@ -1,0 +1,162 @@
+uuid: 9aee6fec-7d52-4cea-bfd2-359cc9bd0b13
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.match_engagement
+  module:
+    - content_moderation
+id: match_engagement
+label: 'MATCH Engagement'
+type: content_moderation
+type_settings:
+  states:
+    accepted:
+      label: Accepted
+      weight: -2
+      published: true
+      default_revision: true
+    complete:
+      label: Complete
+      weight: 3
+      published: true
+      default_revision: true
+    draft:
+      label: Draft
+      weight: -6
+      published: false
+      default_revision: false
+    finishing_up:
+      label: 'Finishing Up'
+      weight: 2
+      published: true
+      default_revision: true
+    halted:
+      label: Halted
+      weight: 5
+      published: true
+      default_revision: true
+    in_progress:
+      label: 'In Progress'
+      weight: 1
+      published: true
+      default_revision: true
+    in_review:
+      label: 'In Review'
+      weight: -4
+      published: true
+      default_revision: true
+    on_hold:
+      label: 'On Hold'
+      weight: 4
+      published: true
+      default_revision: true
+    published:
+      label: Published
+      weight: -5
+      published: true
+      default_revision: true
+    recruiting:
+      label: Recruiting
+      weight: -1
+      published: true
+      default_revision: true
+    reviewing_applicants:
+      label: 'Reviewing Applicants'
+      weight: 0
+      published: true
+      default_revision: true
+  transitions:
+    accept_engagement:
+      label: 'Accept Engagement'
+      from:
+        - in_review
+        - on_hold
+      to: accepted
+      weight: -3
+    complete_engagement:
+      label: 'Complete Engagement'
+      from:
+        - complete
+        - finishing_up
+      to: complete
+      weight: 2
+    create_new_draft:
+      label: 'Create New Draft'
+      from:
+        - draft
+        - published
+      to: draft
+      weight: -6
+    finishing_up:
+      label: 'Finishing Up'
+      from:
+        - finishing_up
+        - in_progress
+      to: finishing_up
+      weight: 1
+    halt_engagement:
+      label: 'Halt Engagement'
+      from:
+        - halted
+        - on_hold
+      to: halted
+      weight: 4
+    hold_engagement:
+      label: 'Hold Engagement'
+      from:
+        - accepted
+        - draft
+        - finishing_up
+        - in_progress
+        - in_review
+        - on_hold
+        - recruiting
+        - reviewing_applicants
+      to: on_hold
+      weight: 3
+    ready_to_recruit:
+      label: 'Ready to recruit'
+      from:
+        - accepted
+        - recruiting
+      to: recruiting
+      weight: -2
+    request_review:
+      label: 'Request Review'
+      from:
+        - draft
+        - in_review
+      to: in_review
+      weight: -5
+    request_revisions:
+      label: 'Request Revisions'
+      from:
+        - halted
+        - in_review
+      to: draft
+      weight: -4
+    reviewing_applicants:
+      label: 'Reviewing Applicants'
+      from:
+        - recruiting
+        - reviewing_applicants
+      to: reviewing_applicants
+      weight: -1
+    save_accepted:
+      label: 'Save accepted'
+      from:
+        - accepted
+      to: accepted
+      weight: 5
+    start_engagement:
+      label: 'Start engagement'
+      from:
+        - in_progress
+        - reviewing_applicants
+      to: in_progress
+      weight: 0
+  entity_types:
+    node:
+      - match_engagement
+  default_moderation_state: draft
