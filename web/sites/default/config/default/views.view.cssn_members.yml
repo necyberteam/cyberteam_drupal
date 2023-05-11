@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.user.field_academic_status
     - field.storage.user.field_institution
+    - user.role.match_pm
     - webform.webform.join_the_cssn_network
   module:
     - csv_serialization
@@ -412,8 +413,10 @@ display:
           sort_asc_label: Asc
           sort_desc_label: Desc
       access:
-        type: none
-        options: {  }
+        type: role
+        options:
+          role:
+            match_pm: match_pm
       cache:
         type: tag
         options: {  }
@@ -469,6 +472,7 @@ display:
         - 'languages:language_interface'
         - url.query_args
         - user
+        - user.roles
       tags:
         - 'config:field.storage.user.field_institution'
   data_export_1:
@@ -922,6 +926,7 @@ display:
         - 'languages:language_interface'
         - request_format
         - user
+        - user.roles
       tags:
         - 'config:field.storage.user.field_academic_status'
         - 'config:field.storage.user.field_institution'
@@ -940,5 +945,6 @@ display:
         - 'languages:language_interface'
         - url.query_args
         - user
+        - user.roles
       tags:
         - 'config:field.storage.user.field_institution'
