@@ -17,6 +17,14 @@ elements: |-
     '#type': hidden
     '#title': 'Affinity Group'
     '#prepopulate': true
+  nid:
+    '#type': hidden
+    '#title': nid
+    '#prepopulate': true
+  cc_list_id:
+    '#type': hidden
+    '#title': 'CC list id'
+    '#prepopulate': true
   name:
     '#type': textfield
     '#title': Name
@@ -24,6 +32,8 @@ elements: |-
   message:
     '#type': text_format
     '#title': Message
+    '#required': true
+    '#required_error': 'Please add a message to be sent.'
     '#allowed_formats':
       basic_html: basic_html
 css: ''
