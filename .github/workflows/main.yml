@@ -34,3 +34,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
           drupal_update: ${{ github.event.inputs.drupal_update }}
+  md:
+    name: Spin up Multidev environment
+    runs-on: ubuntu-latest
+    if: ${{ contains(github.ref, 'md-') }}
+    needs: deploy
+    steps:
+      - uses: actions/checkout@v1
+      - name: Check if md exists
+        run: echo "md=$(vendor/bin/blt pmd:check)" >> $GITHUB_ENV
+      - name: test
+        run: |
+          echo $md
