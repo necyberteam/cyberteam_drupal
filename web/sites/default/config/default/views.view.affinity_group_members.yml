@@ -5,8 +5,8 @@ dependencies:
   config:
     - flag.flag.affinity_group
     - taxonomy.vocabulary.affinity_groups
-    - user.role.authenticated
   module:
+    - access_affinitygroup
     - csv_serialization
     - flag
     - realname
@@ -290,10 +290,8 @@ display:
           sort_asc_label: Asc
           sort_desc_label: Desc
       access:
-        type: role
-        options:
-          role:
-            authenticated: authenticated
+        type: ViewsCustomAccess
+        options: {  }
       cache:
         type: tag
         options: {  }
@@ -501,7 +499,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user.roles
       tags: {  }
   block_1:
     id: block_1
@@ -524,7 +521,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user.roles
       tags: {  }
   data_export_1:
     id: data_export_1
@@ -563,7 +559,6 @@ display:
         - 'languages:language_interface'
         - request_format
         - url
-        - user.roles
       tags: {  }
   page_1:
     id: page_1
@@ -634,5 +629,4 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user.roles
       tags: {  }
