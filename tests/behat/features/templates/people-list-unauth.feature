@@ -1,7 +1,7 @@
 @templates
 @api
 @javascript
-Feature: test people page list view w/ filters 
+Feature: test people page list view w/ filters
   In order to test the people page from List View
 
   Scenario: Unauthenticated user tests the people page
@@ -42,7 +42,7 @@ Feature: test people page list view w/ filters
 
     When I fill in "Filter by Role" with "Student-facilitator"
     And I wait 4 seconds
-    Then I should see "Student-facilitator"
+    Then I should see "student facilitator"
 
     When I fill in "Filter by Role" with "Mentor"
     And I wait 4 seconds
@@ -62,7 +62,6 @@ Feature: test people page list view w/ filters
 
     When I fill in "Filter by Role" with "Student-facilitator"
     And I wait 4 seconds
-    Then I should see "Student-facilitator" 
+    Then I should see "Student-facilitator"
     Then I should see "rcf"
-  
-     
+
