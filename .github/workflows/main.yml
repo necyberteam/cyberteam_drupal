@@ -41,12 +41,13 @@ jobs:
     needs: deploy
     steps:
       - uses: actions/checkout@v1
+      - name: Composer install
+        run: |
+          composer install
       - name: Check if md exists
         run: echo "md=$(vendor/bin/blt pmd:check)" >> $GITHUB_ENV
       - name: test
         run: |
           echo $md
-          pwd
-          ls -la
           vendor/bin/blt pmd:check
 
