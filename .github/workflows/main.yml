@@ -46,3 +46,7 @@ jobs:
       - name: test
         run: |
           echo $md
+          pwd
+          ls -la
+          vendor/bin/blt pmd:check
+
