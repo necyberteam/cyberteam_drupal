@@ -94,6 +94,7 @@ if [ "$runner" = md_check ];
 then
   storeKey
   terminusApi
-  echo "md=$(vendor/bin/blt pmd:check)" >> $GITHUB_ENV
-  echo $md
+  touch md_check.txt
+  vendor/bin/blt pmd:check >> md_check.txt
+  echo "md_check.txt"
 fi

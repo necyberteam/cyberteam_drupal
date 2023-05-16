@@ -49,6 +49,8 @@ jobs:
           runner: md_check
           terminus_api: ${{ secrets.TERMINUS_API }}
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+      - name: Check if md exists
+        run: echo "md=$(cat md_check.txt)" >> $GITHUB_ENV
       - name: test
         run: |
           echo $md
