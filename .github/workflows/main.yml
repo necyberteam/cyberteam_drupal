@@ -44,7 +44,8 @@ jobs:
       - name: Composer install
         run: |
           composer install
-      - uses: ./.github/actions/dingorunner
+      - name: Check if multidev environment exists
+        uses: ./.github/actions/dingorunner
         env:
           runner: md_check
           terminus_api: ${{ secrets.TERMINUS_API }}
@@ -54,7 +55,8 @@ jobs:
           MD_STATUS=$(cat md_check.txt)
           echo $MD_STATUS
           echo "md=$(echo $MD_STATUS)" >> $GITHUB_ENV
-      - uses: ./.github/actions/dingorunner
+      - name: Create multidev environment
+        uses: ./.github/actions/dingorunner
         if: ${{ env.md == 'false' }}
         env:
           runner: md_create
