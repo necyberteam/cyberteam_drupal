@@ -26,7 +26,7 @@ Feature: test for the affinity groups page
     Then I should see "Email"
     Then I should see "Events"
     Then I should see "CI Links"
-    Then I should see "News"
+    Then I should see "Announcements"
     Then I should see "People"
 
 
