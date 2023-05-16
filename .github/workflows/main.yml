@@ -54,6 +54,9 @@ jobs:
           MD_STATUS=$(cat md_check.txt)
           echo $MD_STATUS
           echo "md=$(echo $MD_STATUS)" >> $GITHUB_ENV
-      - name: test
-        run: |
-          echo $md
+      - uses: ./.github/actions/dingorunner
+        if: ${{ $md == 'FALSE' }}
+        env:
+          runner: md_create
+          terminus_api: ${{ secrets.TERMINUS_API }}
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
