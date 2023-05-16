@@ -17,7 +17,7 @@ class GhCommands extends BltTasks {
    * @description Continuous loop that says bing.
    */
   public function keepAlive() {
-    while (1){
+    while (1) {
       $this->say("🔁 Bing");
       $this->_exec("sleep 120");
     }
@@ -49,6 +49,13 @@ class GhCommands extends BltTasks {
   public function pullfiles() {
     $location_url = $this->grabLocation('amp-file-backup');
     $this->_exec("wget -O gh_files.zip '$location_url'");
+
+    $this->_exec("echo location_url = $location_url");
+    $this->_exec("ls -l gh_files.zip");
+    $this->_exec("stat gh_files.zip");
+
+    return;
+
     $this->_exec("mkdir files && unzip gh_files.zip -d files && rm gh_files.zip");
     $prev_files = 'web/sites/default/files';
     if (file_exists($prev_files)) {
@@ -98,4 +105,3 @@ class GhCommands extends BltTasks {
     return $result;
   }
 }
-
