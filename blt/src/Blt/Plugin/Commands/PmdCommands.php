@@ -36,13 +36,13 @@ class PmdCommands extends BltTasks {
    */
   public function create(array $args) {
     $md_exists = shell_exec("vendor/bin/blt pmd:check $args[0]");
-    print_r($md_exists);
     if ($md_exists === TRUE) {
       $this->say("This multidev environment already exists.");
     }
     else {
       $this->_exec("terminus multidev:create -- accessmatch.test $args[0]");
       $this->_exec("terminus remote:drush accessmatch.$args[0] -- deploy");
+      $this->say("This multidev environment has been created and deployed.");
     }
   }
 }
