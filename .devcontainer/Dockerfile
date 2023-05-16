@@ -21,5 +21,5 @@ RUN chmod +x terminus
 RUN ./terminus self:update
 RUN mv terminus /usr/local/bin/terminus && chmod 755 /usr/local/bin/terminus
 # Install Lando maybe
-RUN curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-v3.11.0" && \
+RUN curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-v3.17.1" && \
     chmod +x /usr/local/bin/lando
