@@ -53,7 +53,7 @@ jobs:
         run: |
           MD_STATUS=$(cat md_check.txt)
           echo $MD_STATUS
-          echo "md=$($MD_STATUS)" >> $GITHUB_ENV
+          echo "md=$(echo $MD_STATUS)" >> $GITHUB_ENV
       - name: test
         run: |
           echo $md
