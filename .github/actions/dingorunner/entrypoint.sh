@@ -94,7 +94,8 @@ if [ "$runner" = md_check ];
 then
   storeKey
   terminusApi
+  branch="${GITHUB_REF#refs/heads/}"
   touch md_check.txt
-  vendor/bin/blt pmd:check >> md_check.txt
-  echo "md_check.txt"
+  vendor/bin/blt pmd:check $branch >> md_check.txt
+  cat md_check.txt
 fi
