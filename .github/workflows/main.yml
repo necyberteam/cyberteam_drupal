@@ -55,7 +55,7 @@ jobs:
           echo $MD_STATUS
           echo "md=$(echo $MD_STATUS)" >> $GITHUB_ENV
       - uses: ./.github/actions/dingorunner
-        if: ${{ $md == 'FALSE' }}
+        if: ${{ env.md == 'false' }}
         env:
           runner: md_create
           terminus_api: ${{ secrets.TERMINUS_API }}
