@@ -6,7 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 
 /**
- * Defines commands in the "oit" namespace.
+ * Defines commands in the "gh" namespace.
  */
 class GhCommands extends BltTasks {
 

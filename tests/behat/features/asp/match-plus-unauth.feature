@@ -56,7 +56,7 @@ Feature: test ACCESS Support Match Plus Page
   Scenario: Unauthenticated user tests the Match Plus Page Sample Engagement Section
     Given I am not logged in
     When I go to "/matchplus"
-    Then I should see "Sample Engagements from the Northeast and CAREERS Cyberteams"
+    Then I should see "Featured MATCHPlus Engagements"
     #Testing of engagment names seems to not stay consistent
     Then I should see "Medical Diagnostics of Chest X-Ray"
     Then I should see "Kean University"
