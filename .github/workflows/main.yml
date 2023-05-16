@@ -44,10 +44,11 @@ jobs:
       - name: Composer install
         run: |
           composer install
-      - name: Check if md exists
-        run: echo "md=$(vendor/bin/blt pmd:check)" >> $GITHUB_ENV
+      - uses: ./.github/actions/dingorunner
+        env:
+          runner: md_check
+          terminus_api: ${{ secrets.TERMINUS_API }}
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
       - name: test
         run: |
           echo $md
-          vendor/bin/blt pmd:check
-
