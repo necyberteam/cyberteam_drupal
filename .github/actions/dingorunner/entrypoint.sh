@@ -89,3 +89,11 @@ then
   terminusApi
   terminus multidev:delete --delete-branch --yes -- accessmatch.$branch
 fi
+
+if [ "$runner" = md_check ];
+then
+  storeKey
+  terminusApi
+  echo "md=$(vendor/bin/blt pmd:check)" >> $GITHUB_ENV
+  echo $md
+fi
