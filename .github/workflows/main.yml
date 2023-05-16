@@ -50,7 +50,7 @@ jobs:
           runner: md_check
           terminus_api: ${{ secrets.TERMINUS_API }}
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
-      - name: Check if md exists
+      - name: Store md status into env variable
         run: |
           MD_STATUS=$(cat md_check.txt)
           echo $MD_STATUS
