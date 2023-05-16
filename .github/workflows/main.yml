@@ -34,3 +34,31 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
           drupal_update: ${{ github.event.inputs.drupal_update }}
+  md:
+    name: Spin up Multidev environment
+    runs-on: ubuntu-latest
+    if: ${{ contains(github.ref, 'md-') }}
+    needs: deploy
+    steps:
+      - uses: actions/checkout@v1
+      - name: Composer install
+        run: |
+          composer install
+      - name: Check if multidev environment exists
+        uses: ./.github/actions/dingorunner
+        env:
+          runner: md_check
+          terminus_api: ${{ secrets.TERMINUS_API }}
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+      - name: Store md status into env variable
+        run: |
+          MD_STATUS=$(cat md_check.txt)
+          echo $MD_STATUS
+          echo "md=$(echo $MD_STATUS)" >> $GITHUB_ENV
+      - name: Create multidev environment
+        uses: ./.github/actions/dingorunner
+        if: ${{ env.md == 'false' }}
+        env:
+          runner: md_create
+          terminus_api: ${{ secrets.TERMINUS_API }}
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
