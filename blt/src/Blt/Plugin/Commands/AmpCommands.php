@@ -261,7 +261,7 @@ GITHUB_TOKEN=$token'>.env");
    * Command prefix.
    */
   private function lando() {
-    $lando = "lando ";
+    $lando = "lando --channel none ";
     if (getcwd() == '/app') {
       $lando = "";
     }
