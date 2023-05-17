@@ -68,6 +68,7 @@ class GhCommands extends BltTasks {
    * Pull latest Database from artifacts.
    */
   private function grabLocation($name) {
+    $this->say("------ debugging grapLocation --- Grabbing github artifact location with name '$name' ");
     $artifact_call = $this->ghApiCall("https://api.github.com/repos/necyberteam/cyberteam_drupal/actions/artifacts");
     $result = json_decode($artifact_call);
     foreach ($result->artifacts as $artifact) {
@@ -87,6 +88,7 @@ class GhCommands extends BltTasks {
    * Github api call function.
    */
   private function ghApiCall($api_url, $header = 0) {
+    $this->say("------ debugging ghApiCall  ----- api_url = '$api_url' ");
     $api_token = getenv('GITHUB_TOKEN');
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_USERPWD, $api_token);
