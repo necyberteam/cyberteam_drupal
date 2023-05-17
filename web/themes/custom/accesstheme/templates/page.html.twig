@@ -108,15 +108,15 @@ set footer_classes = ' ' ~
     {{ page.title_banner }}
     <div class="row g-0">
       {% if page.sidebar_first %}
-        <div class="order-2 order-lg-1 {{ sidebar_first_classes }}">
+        <div class="order-1 order-lg-1 {{ sidebar_first_classes }}">
           {{ page.sidebar_first }}
         </div>
       {% endif %}
-      <div class="order-1 order-lg-2 {{ content_classes }}">
+      <div class="order-3 order-lg-2 {{ content_classes }}">
         {{ page.content }}
       </div>
       {% if page.sidebar_second %}
-        <div class="order-3 {{ sidebar_second_classes }}">
+        <div class="order-2 {{ sidebar_second_classes }}">
           {{ page.sidebar_second }}
         </div>
       {% endif %}
