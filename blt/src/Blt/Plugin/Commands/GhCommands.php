@@ -47,14 +47,17 @@ class GhCommands extends BltTasks {
    * @description Pulls latest database artifact from Github.
    */
   public function pullfiles() {
+    $this->say("-------------- start debugging pullfiles ----------------");
     $location_url = $this->grabLocation('amp-file-backup');
+    $this->say("location_url = $location_url");
+    $this->say("doing first wget");
+    $this->_exec("wget -O gh_files.zip '$location_url'");
+    $this->say("doing second wget");
     $this->_exec("wget -O gh_files.zip '$location_url'");
 
-    $this->say("echo -------------- debugging pullfiles ----------------");
     $this->say("location_url = $location_url");
     $this->_exec("ls -l gh_files.zip");
     $this->_exec("stat gh_files.zip");
-    $this->say("echo -------------- debugging pullfiles ----------------");
 
     $this->_exec("mkdir files && unzip gh_files.zip -d files && rm gh_files.zip");
     $prev_files = 'web/sites/default/files';
@@ -62,6 +65,7 @@ class GhCommands extends BltTasks {
       $this->_exec("rm -fR $prev_files");
     }
     $this->_exec("mv files $prev_files");
+    $this->say(" -------------- end debugging pullfiles ----------------");
   }
 
   /**
