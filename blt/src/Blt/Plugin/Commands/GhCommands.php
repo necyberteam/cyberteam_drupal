@@ -49,14 +49,8 @@ class GhCommands extends BltTasks {
   public function pullfiles() {
     $this->say("-------------- start debugging pullfiles ----------------");
     $location_url = $this->grabLocation('amp-file-backup');
-    $this->say("------ 1 location_url = $location_url");
-    $location_url = $this->grabLocation('amp-file-backup');
-    $this->say("------ 2 location_url = $location_url");
+    $this->say("------ location_url = $location_url");
     $this->_exec("wget -O gh_files.zip '$location_url'");
-
-    $this->say("------ 3 location_url = $location_url");
-    return;
-
     $this->_exec("mkdir files && unzip gh_files.zip -d files && rm gh_files.zip");
     $prev_files = 'web/sites/default/files';
     if (file_exists($prev_files)) {
@@ -95,6 +89,8 @@ class GhCommands extends BltTasks {
   private function ghApiCall($api_url, $header = 0) {
     $this->say("------ debugging ghApiCall  ----- api_url = '$api_url' ");
     $api_token = getenv('GITHUB_TOKEN');
+    $this->say("------ debugging first 20 chars of GITHUB_TOKEN: " . substr($api_token, 0, 20));
+
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_USERPWD, $api_token);
     // Set url to post to.
