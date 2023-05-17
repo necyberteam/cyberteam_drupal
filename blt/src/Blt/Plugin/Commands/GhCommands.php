@@ -55,6 +55,7 @@ class GhCommands extends BltTasks {
     $this->_exec("wget -O gh_files.zip '$location_url'");
 
     $this->say("------ 3 location_url = $location_url");
+    return;
 
     $this->_exec("mkdir files && unzip gh_files.zip -d files && rm gh_files.zip");
     $prev_files = 'web/sites/default/files';
@@ -81,7 +82,10 @@ class GhCommands extends BltTasks {
     $artifact_zip = $this->ghApiCall("https://api.github.com/repos/necyberteam/cyberteam_drupal/actions/artifacts/$artifact_id/zip", 1);
     $regex = '/https:\/\/.*/m';
     $location_url_search = preg_match_all($regex, $artifact_zip, $matches);
+    $this->say("----- location_url_search = " . print_r($location_url_search, TRUE));
     $location_url = $matches[0][0];
+    $this->say("------ grabLocation location_url = $location_url");
+
     return $location_url;
   }
 
@@ -105,6 +109,8 @@ class GhCommands extends BltTasks {
     ]);
     // Run the whole process.
     $result = curl_exec($ch);
+    $this->say("------ grabLocation result = " . print_r($result, TRUE));
+
     return $result;
   }
 }
