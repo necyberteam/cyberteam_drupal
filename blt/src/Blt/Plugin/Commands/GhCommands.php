@@ -49,15 +49,12 @@ class GhCommands extends BltTasks {
   public function pullfiles() {
     $this->say("-------------- start debugging pullfiles ----------------");
     $location_url = $this->grabLocation('amp-file-backup');
-    $this->say("location_url = $location_url");
-    $this->say("doing first wget");
-    $this->_exec("wget -O gh_files.zip '$location_url'");
-    $this->say("doing second wget");
+    $this->say("------ 1 location_url = $location_url");
+    $location_url = $this->grabLocation('amp-file-backup');
+    $this->say("------ 2 location_url = $location_url");
     $this->_exec("wget -O gh_files.zip '$location_url'");
 
-    $this->say("location_url = $location_url");
-    $this->_exec("ls -l gh_files.zip");
-    $this->_exec("stat gh_files.zip");
+    $this->say("------ 3 location_url = $location_url");
 
     $this->_exec("mkdir files && unzip gh_files.zip -d files && rm gh_files.zip");
     $prev_files = 'web/sites/default/files';
