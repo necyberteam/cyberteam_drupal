@@ -194,7 +194,7 @@ GITHUB_TOKEN=$token'>.env");
         if ($dry_run) $this->say('    dry-run: ' . $cmd);
         else $behat = shell_exec($cmd);
       }
-      $shell_cmd = $lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 --window-size=1440,1080 &) | behat -v -vv --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v 2>&1' . $lando_end;
+      $shell_cmd = $lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 --window-size=1440,1080 &) | behat --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v 2>&1' . $lando_end;
 
       if ($dry_run) {
         $this->say("    dry-run: $shell_cmd");
