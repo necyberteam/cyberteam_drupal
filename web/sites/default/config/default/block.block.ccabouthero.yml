@@ -1,0 +1,37 @@
+uuid: 0c53d1f3-f450-4326-9633-a60e8e3dfd12
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:3f7cf9ac-e4bf-498d-a37c-09ec1af51735'
+  module:
+    - block_content
+    - system
+  theme:
+    - champions
+id: ccabouthero
+theme: champions
+region: title_area
+weight: 0
+provider: null
+plugin: 'block_content:3f7cf9ac-e4bf-498d-a37c-09ec1af51735'
+settings:
+  id: 'block_content:3f7cf9ac-e4bf-498d-a37c-09ec1af51735'
+  label: 'CC - About - Hero'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /about
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org

@@ -1,0 +1,33 @@
+uuid: ea987774-8a4a-42ca-9cb6-62e61459364e
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:eb7bb75b-8267-40f7-bc81-a23244496848'
+  module:
+    - block_content
+    - domain
+  theme:
+    - champions
+id: ccpromotionalmessage
+theme: champions
+region: promotional_message
+weight: 0
+provider: null
+plugin: 'block_content:eb7bb75b-8267-40f7-bc81-a23244496848'
+settings:
+  id: 'block_content:eb7bb75b-8267-40f7-bc81-a23244496848'
+  label: 'CC - Promotional message'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org

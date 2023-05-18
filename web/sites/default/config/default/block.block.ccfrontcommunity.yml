@@ -1,0 +1,33 @@
+uuid: 8ea8c52d-2fe5-4a27-beca-6489fb4d6b99
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:c156c607-8c30-4979-9737-7e01a6fee9de'
+  module:
+    - block_content
+    - domain
+  theme:
+    - champions
+id: ccfrontcommunity
+theme: champions
+region: campus_champions_front_sections
+weight: 3
+provider: null
+plugin: 'block_content:c156c607-8c30-4979-9737-7e01a6fee9de'
+settings:
+  id: 'block_content:c156c607-8c30-4979-9737-7e01a6fee9de'
+  label: 'CC - Front - Community'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org

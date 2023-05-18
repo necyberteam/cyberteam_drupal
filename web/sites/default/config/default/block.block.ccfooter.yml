@@ -1,0 +1,33 @@
+uuid: befeef45-de4c-4fa2-a87e-52f65846428a
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:0b1c2082-5107-46b5-a60c-10d681bb9c72'
+  module:
+    - block_content
+    - domain
+  theme:
+    - champions
+id: ccfooter
+theme: champions
+region: first_footer
+weight: 0
+provider: null
+plugin: 'block_content:0b1c2082-5107-46b5-a60c-10d681bb9c72'
+settings:
+  id: 'block_content:0b1c2082-5107-46b5-a60c-10d681bb9c72'
+  label: 'CC - Footer'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
