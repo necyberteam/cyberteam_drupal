@@ -220,7 +220,8 @@ GITHUB_TOKEN=$token'>.env");
             fclose($pipes[1]);
             fclose($pipes[2]);
             proc_close($process);
-            throw new \Exception('Failed behat tests with this line: ' . $line);
+            $this->_exec('git clean -f tests/behat/features/');
+            throw new \Exception('Failed behat tests');
           }
         }
 
