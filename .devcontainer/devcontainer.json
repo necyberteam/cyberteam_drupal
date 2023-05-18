@@ -55,6 +55,13 @@
 
     "phpcs.enable": true,
     "phpcs.standard": "Drupal,DrupalPractice",
+    "phpcs.executablePath": "/workspaces/cyberteam_drupal/vendor/bin/phpcs",
+
+    "phpcbf.enable": true,
+    "phpcbf.executablePath": "/workspaces/cyberteam_drupal/vendor/bin/phpcbf",
+    "phpcbf.documentFormattingProvider": true,
+    "phpcbf.onsave": true,
+    "phpcbf.standard": "Drupal,DrupalPractice",
 
     "php.validate.enable": true,
     "php.validate.executablePath": "/usr/bin/php",
@@ -64,6 +71,7 @@
 
     // Intelephense and Drupal >8 only. This should be set to the path to core/index.php.
     "intelephense.environment.documentRoot": "web",
+    "intelephense.format.braces": "k&r",
 
     "php-docblocker.gap": true,
     "php-docblocker.useShortNames": true,
@@ -74,28 +82,28 @@
     "emmet.includeLanguages": {
       "twig": "html"
     },
-    "phpcs.executablePath": "/workspaces/cyberteam_drupal/vendor/bin/phpcs"
   },
 
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-    "tsega.drupal-8-javascript-snippets",
-    "dssiqueira.drupal-8-snippets",
-    "tsega.drupal-8-twig-snippets",
-    "johnpapa.winteriscoming",
-    "ikappas.composer",
-    "ms-azuretools.vscode-docker",
     "DmitryDorofeev.empty-indent",
+    "GitHub.copilot-labs",
+    "GitHub.copilot-nightly",
     "Tyriar.lorem-ipsum",
-    "eg2.vscode-npm-script",
-    "xdebug.php-debug",
-    "neilbrayfield.php-docblocker",
     "bmewburn.vscode-intelephense-client",
+    "dssiqueira.drupal-8-snippets",
+    "eamodio.gitlens",
+    "ikappas.composer",
+    "johnpapa.winteriscoming",
+    "mblode.twig-language-2",
+    "mechatroner.rainbow-csv",
+    "ms-azuretools.vscode-docker",
+    "neilbrayfield.php-docblocker",
     "persoderlind.vscode-phpcbf",
     "shevaua.phpcs",
-    "mechatroner.rainbow-csv",
-    "mblode.twig-language-2",
-    "eamodio.gitlens"
+    "tsega.drupal-8-javascript-snippets",
+    "tsega.drupal-8-twig-snippets",
+    "xdebug.php-debug"
   ],
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.

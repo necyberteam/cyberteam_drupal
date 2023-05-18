@@ -25,3 +25,6 @@ workflows:
       - type: webphp
         description: Turn off non-prod site functions
         script: private/scripts/no_prod.php
+      - type: webphp
+        description: Import configuration
+        script: private/scripts/drush_deploy/drush_deploy.php

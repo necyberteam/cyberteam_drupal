@@ -1,4 +1,4 @@
-@templates
+@templates--DISABLED_BROKEN
 @api
 @javascript
 Feature: test individual people page

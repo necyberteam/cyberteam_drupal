@@ -1,0 +1,34 @@
+uuid: 758185f1-d906-4d05-a6fb-84235a82ef28
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_with_interest_tags
+  module:
+    - taxonomy
+    - views
+  theme:
+    - accesstheme
+id: views_block__people_with_interest_tags_block_1
+theme: accesstheme
+region: content
+weight: 5
+provider: null
+plugin: 'views_block:people_with_interest_tags-block_1'
+settings:
+  id: 'views_block:people_with_interest_tags-block_1'
+  label: ''
+  label_display: visible
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles:
+      tags: tags

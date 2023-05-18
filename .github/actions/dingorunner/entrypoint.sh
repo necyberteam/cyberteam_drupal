@@ -80,3 +80,29 @@ then
   $blt amp:ciupdate "$drupal_update" --no-interaction --verbose
   git push origin $drupal_update
 fi
+
+if [ "$runner" = deletepr ];
+then
+  branch=$PR_BRANCH
+  echo $branch
+  storeKey
+  terminusApi
+  terminus multidev:delete --delete-branch --yes -- accessmatch.$branch
+fi
+
+if [ "$runner" = md_check ];
+then
+  storeKey
+  terminusApi
+  branch="${GITHUB_REF#refs/heads/}"
+  touch md_check.txt
+  vendor/bin/blt pmd:check $branch --no-interaction >> md_check.txt
+fi
+
+if [ "$runner" = md_create ];
+then
+  storeKey
+  terminusApi
+  branch="${GITHUB_REF#refs/heads/}"
+  vendor/bin/blt pmd:create $branch --no-interaction
+fi

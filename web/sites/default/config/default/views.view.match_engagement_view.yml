@@ -19,6 +19,7 @@ dependencies:
     - taxonomy
     - text
     - user
+    - views_sort_options_weight
 id: match_engagement_view
 label: 'match engagement view'
 module: views
@@ -568,38 +569,36 @@ display:
         options: {  }
       empty: {  }
       sorts:
-        created_1:
-          id: created_1
-          table: node_field_data
-          field: created
+        field_status_value__sort_options_weight:
+          id: field_status_value__sort_options_weight
+          table: node__field_status
+          field: field_status_value__sort_options_weight
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          entity_field: created
-          plugin_id: date
+          plugin_id: extended_sort_by_options_weight
           order: ASC
           expose:
             label: ''
             field_identifier: ''
           exposed: false
-          granularity: second
-        created:
-          id: created
-          table: node_field_data
-          field: created
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          entity_field: created
-          plugin_id: date
-          order: DESC
-          expose:
-            label: ''
-            field_identifier: ''
-          exposed: false
-          granularity: second
+          draft: '1'
+          in_review: '2'
+          accepted: '3'
+          recruiting: '4'
+          reviewing_applicants: '5'
+          in_progress: '6'
+          finishing_up: '7'
+          complete: '8'
+          on_hold: '9'
+          halted: '10'
+          Recruiting: '1'
+          'Reviewing Applicants': '2'
+          'In Progress': '3'
+          'Finishing Up': '4'
+          Complete: '5'
+          'On Hold': '6'
+          Halted: '7'
       arguments: {  }
       filters:
         status:
@@ -684,7 +683,7 @@ display:
     display_plugin: block
     position: 2
     display_options:
-      title: 'Sample Engagements from the Northeast and CAREERS Cyberteams'
+      title: 'Featured MATCHPlus Engagements'
       pager:
         type: some
         options:
@@ -716,46 +715,6 @@ display:
           expose:
             operator_limit_selection: false
             operator_list: {  }
-        sticky:
-          id: sticky
-          table: node_field_data
-          field: sticky
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          entity_field: sticky
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
         field_node_type_value:
           id: field_node_type_value
           table: node__field_node_type
@@ -807,11 +766,11 @@ display:
           plugin_id: list_field
           operator: or
           value:
-            Recruiting: Recruiting
-            'Reviewing Applicants': 'Reviewing Applicants'
-            'In Progress': 'In Progress'
-            'Finishing Up': 'Finishing Up'
-            Complete: Complete
+            recruiting: recruiting
+            reviewing_applicants: reviewing_applicants
+            in_progress: in_progress
+            finishing_up: finishing_up
+            complete: complete
           group: 1
           exposed: false
           expose:
@@ -842,6 +801,46 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        promote:
+          id: promote
+          table: node_field_data
+          field: promote
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: promote
+          plugin_id: boolean
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -983,46 +982,6 @@ display:
           expose:
             operator_limit_selection: false
             operator_list: {  }
-        sticky:
-          id: sticky
-          table: node_field_data
-          field: sticky
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          entity_field: sticky
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
         field_node_type_value:
           id: field_node_type_value
           table: node__field_node_type
@@ -1074,11 +1033,11 @@ display:
           plugin_id: list_field
           operator: or
           value:
-            Recruiting: Recruiting
-            'Reviewing Applicants': 'Reviewing Applicants'
-            'In Progress': 'In Progress'
-            'Finishing Up': 'Finishing Up'
-            Complete: Complete
+            recruiting: recruiting
+            reviewing_applicants: reviewing_applicants
+            in_progress: in_progress
+            finishing_up: finishing_up
+            complete: complete
           group: 1
           exposed: false
           expose:
@@ -1109,6 +1068,46 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        promote:
+          id: promote
+          table: node_field_data
+          field: promote
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: promote
+          plugin_id: boolean
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -1177,18 +1176,17 @@ display:
           expose:
             operator_limit_selection: false
             operator_list: {  }
-        sticky:
-          id: sticky
-          table: node_field_data
-          field: sticky
+        field_node_type_value:
+          id: field_node_type_value
+          table: node__field_node_type
+          field: field_node_type_value
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          entity_field: sticky
-          plugin_id: boolean
-          operator: '='
-          value: '1'
+          plugin_id: list_field
+          operator: or
+          value:
+            premier: premier
           group: 1
           exposed: false
           expose:
@@ -1205,6 +1203,7 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
+            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -1217,17 +1216,22 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_node_type_value:
-          id: field_node_type_value
-          table: node__field_node_type
-          field: field_node_type_value
+          reduce_duplicates: false
+        field_status_value:
+          id: field_status_value
+          table: node__field_status
+          field: field_status_value
           relationship: none
           group_type: group
           admin_label: ''
           plugin_id: list_field
           operator: or
           value:
-            premier: premier
+            recruiting: recruiting
+            reviewing_applicants: reviewing_applicants
+            in_progress: in_progress
+            finishing_up: finishing_up
+            complete: complete
           group: 1
           exposed: false
           expose:
@@ -1326,46 +1330,6 @@ display:
           expose:
             operator_limit_selection: false
             operator_list: {  }
-        sticky:
-          id: sticky
-          table: node_field_data
-          field: sticky
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          entity_field: sticky
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
         field_node_type_value:
           id: field_node_type_value
           table: node__field_node_type
@@ -1417,11 +1381,11 @@ display:
           plugin_id: list_field
           operator: or
           value:
-            Recruiting: Recruiting
-            'Reviewing Applicants': 'Reviewing Applicants'
-            'In Progress': 'In Progress'
-            'Finishing Up': 'Finishing Up'
-            Complete: Complete
+            recruiting: recruiting
+            reviewing_applicants: reviewing_applicants
+            in_progress: in_progress
+            finishing_up: finishing_up
+            complete: complete
           group: 1
           exposed: false
           expose:
@@ -1626,11 +1590,12 @@ display:
           plugin_id: list_field
           operator: or
           value:
-            Recruiting: Recruiting
-            'Reviewing Applicants': 'Reviewing Applicants'
-            'In Progress': 'In Progress'
-            'Finishing Up': 'Finishing Up'
-            Complete: Complete
+            accepted: accepted
+            recruiting: recruiting
+            reviewing_applicants: reviewing_applicants
+            in_progress: in_progress
+            finishing_up: finishing_up
+            complete: complete
           group: 1
           exposed: false
           expose:

@@ -1,0 +1,33 @@
+uuid: 70a39d38-6c41-4f2a-b4a3-af0074ced6a9
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.tagged_news_block
+  module:
+    - taxonomy
+    - views
+  theme:
+    - accesstheme
+id: views_block__tagged_news_block_block_1
+theme: accesstheme
+region: content
+weight: 1
+provider: null
+plugin: 'views_block:tagged_news_block-block_1'
+settings:
+  id: 'views_block:tagged_news_block-block_1'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles:
+      tags: tags

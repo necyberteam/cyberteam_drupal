@@ -19,8 +19,8 @@ Feature: test ACCESS Support knowledge base
     Then I should see "Browse the Documentation"
     Then I should see "Visit ASK.CI"
     Then I should see "Crowd-sourced information"
-    Then I should see "Useful resources contributed by the community"
-    Then I should see "Visit Resources"
+    Then I should see "Useful CI Links contributed by the community"
+    Then I should see "Visit CI Links"
     Then I should see "Community Affinity Groups"
     Then I should see "Engage in direct connections with community experts and other researchers through, Slack, email and Q&A forums."
     Then I should see "Explore Groups"
@@ -29,8 +29,8 @@ Feature: test ACCESS Support knowledge base
     Then I should see "View this Documentation"
     Then I should see "Go To Allocations"
     Then I should see "View Cheatsheet"
-    When I click "Visit Resources"
-    Then I should be on "/resources"
+    When I click "Visit CI Links"
+    Then I should be on "/ci-links"
     When I go to "/knowledge-base"
     Then I should see "Explore Groups"
     When I click "Explore Groups"
@@ -48,9 +48,9 @@ Feature: test ACCESS Support knowledge base
     # TODO wrong page
     When I click "Go to Allocations"
     Then I should get a "200" HTTP response
-    
+
     # Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129143245/FAQs"
-    
+
     When I go to "/knowledge-base"
     Then I should see "Where can I find information that was on the XSEDE User Portal?"
     Then I should see "A handy list of where to find info for researchers with XSEDE experience."
@@ -82,10 +82,10 @@ Feature: test ACCESS Support knowledge base
     #TODO Button is not working ?
     #When I click "See all forums"
 
-  Scenario: Unauthenticated user tests the Community Contributed Resources section on the knowledge base page
+  Scenario: Unauthenticated user tests the Community Contributed CI Links section on the knowledge base page
     Given I am not logged in
     When I go to "/knowledge-base"
-    Then I should see "Community Contributed Resources"
+    Then I should see "Community Contributed CI Links"
     Then I should see "ACCESS Support encourages contributions of useful websites, documentation,"
     Then I should see "The Carpentries"
     Then I should see "The Carpentries teach foundational coding"
@@ -99,16 +99,15 @@ Feature: test ACCESS Support knowledge base
     Then I should see "This slack channel is an excellent resource for conversing about CUI."
     Then I should see "Version control with Git"
     Then I should see "Understand the benefits of an automated version control system"
-    Then I should see "See all Resources"
+    Then I should see "See all CI Links"
 
   Scenario: Unauthenticated user tests the Affinity Groups section on knowledge base page
     Given I am not logged in
     When I go to "/knowledge-base"
     Then I should see "Affinity Groups"
     And I should see "Joining ACCESS Resource Provider Affinity Groups (AGs) will add"
-    # TODO -- maybe update to "should have alt text" after hannah reviews images.  
+    # TODO -- maybe update to "should have alt text" after hannah reviews images.
     #    And not currently passing because not all files are getting copied, awaiting Miles' work
-    # And all images with selector ".view-affinity-group img" should load    
+    # And all images with selector ".view-affinity-group img" should load
     When I click "All Affinity Groups"
     Then I should be on "/affinity_groups"
-    

@@ -81,6 +81,8 @@ GITHUB_TOKEN=$token'>.env");
    * @description Run behat.
    */
   public function behat(array $args) {
+    // Set php max_execution_time to 1 hour.
+    ini_set('max_execution_time', 3600);
 
     $this->say("------------------ BEHAT TESTING ------------------------");
 
@@ -163,8 +165,8 @@ GITHUB_TOKEN=$token'>.env");
 
     $copy_from = $wip_template ? "wip_template" : "templates";
 
-    $lando = $this->lando() == 'lando '? "lando ssh -c \"(":"(";
-    $lando_end = $this->lando() == 'lando '?"\"":"";
+    $lando = $this->lando() == 'lando ' ? "lando ssh -c \"(" : "(";
+    $lando_end = $this->lando() == 'lando ' ? "\"" : "";
 
     foreach ($domains as $domain) {
       // git add current features - this is due to the copy of the tests that
@@ -198,20 +200,46 @@ GITHUB_TOKEN=$token'>.env");
         $this->say("    dry-run: $shell_cmd");
         $behat = '';
       } else {
-        $behat = shell_exec($shell_cmd);
-        $this->say($behat);
+        $this->say("    running: $shell_cmd");
+        $this->say("------------------ start of $domain test results ------------------");
+        // Open a pipe to the command and capture its output
+        $descriptorspec = array(
+          0 => array("pipe", "r"), // stdin
+          1 => array("pipe", "w"), // stdout
+          2 => array("pipe", "w"), // stderr
+        );
+        $process = proc_open($shell_cmd, $descriptorspec, $pipes);
+
+        // Read the output from the command in real-time
+        while ($line = fgets($pipes[1])) {
+          echo $line;
+          $pattern = "/Failed scenarios/i";
+          if (preg_match($pattern, $line)) {
+            // Close the pipes and the process
+            fclose($pipes[0]);
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+            proc_close($process);
+            throw new \Exception('Failed behat tests.');
+          }
+        }
+
+        // Close the pipes and the process
+        fclose($pipes[0]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        $return_value = proc_close($process);
+        $this->say("------------------ end of $domain test results ------------------");
       }
 
       if (!$no_drush_cmds) {
-        $this->_exec( $this->lando() . 'drush cim -y');
-        $this->_exec( $this->lando() . 'drush cr');
+        $this->_exec($this->lando() . 'drush cim -y');
+        $this->_exec($this->lando() . 'drush cr');
       }
 
-      if (!$dry_run) $this->_exec( 'git clean -f tests/behat/features/');
+      if (!$dry_run) $this->_exec('git clean -f tests/behat/features/');
 
-      # Todo: need to figure out a better way of getting this output.
-      $pattern = "/Failed scenarios/i";
-      if (preg_match($pattern, $behat)) {
+      if ($return_value !== 0) {
         throw new \Exception('Failed behat tests.');
       }
     }
@@ -224,8 +252,8 @@ GITHUB_TOKEN=$token'>.env");
    * @description Run behat.
    */
   public function behat_dl() {
-    $lando = $this->lando() == 'lando '?"lando ssh -c \"(":"(";
-    $lando_end = $this->lando() == 'lando '?"\"":"";
+    $lando = $this->lando() == 'lando ' ? "lando ssh -c \"(" : "(";
+    $lando_end = $this->lando() == 'lando ' ? "\"" : "";
     $this->_exec($lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 &) | behat -dl  /app/tests/behat --config /app/tests/behat/local.yml --profile local' . $lando_end);
   }
 
@@ -277,7 +305,7 @@ GITHUB_TOKEN=$token'>.env");
     $this->_exec($this->lando() . "blt amp:uli");
   }
 
-    /**
+  /**
    * Update ran in github actions.
    *
    * @command amp:ciupdate
@@ -303,12 +331,12 @@ GITHUB_TOKEN=$token'>.env");
     $this->say("-=-=-=-=-Log Message=-=-===-\n$log");
     $update_list = '';
     foreach ($update_matches[1] as $key => $update_match) {
-      $seperator = $key > 0 ? ' — ': '';
+      $seperator = $key > 0 ? ' — ' : '';
       $version = $update_matches[2][$key];
       $update_list .= "$seperator$update_match: $version";
     }
-      #$this->_exec("lando drush updatedb -y");
-      #$this->_exec("lando drush cr");
+    #$this->_exec("lando drush updatedb -y");
+    #$this->_exec("lando drush cr");
     if ($log > 0) {
       $this->say("\n The following updated:
 $update_list");
@@ -317,5 +345,4 @@ $update_list");
       $this->_exec("rm log.txt");
     }
   }
-
 }

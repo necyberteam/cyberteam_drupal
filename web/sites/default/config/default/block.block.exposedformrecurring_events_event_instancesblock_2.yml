@@ -1,0 +1,28 @@
+uuid: b56fc63b-0936-4e08-a622-11f70a4873a0
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.recurring_events_event_instances
+  module:
+    - system
+    - views
+  theme:
+    - accesstheme
+id: exposedformrecurring_events_event_instancesblock_2
+theme: accesstheme
+region: sidebar_second
+weight: -20
+provider: null
+plugin: 'views_exposed_filter_block:recurring_events_event_instances-block_2'
+settings:
+  id: 'views_exposed_filter_block:recurring_events_event_instances-block_2'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: 'Filter by'
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /past-events

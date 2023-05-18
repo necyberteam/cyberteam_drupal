@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.user.user.field_academic_status
     - field.field.user.user.field_blocked_ag_tax
     - field.field.user.user.field_carnegie_code
     - field.field.user.user.field_cider_resources
@@ -53,9 +54,15 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_academic_status:
+    type: options_select
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_blocked_ag_tax:
     type: entity_reference_autocomplete
-    weight: 18
+    weight: 16
     region: content
     settings:
       match_operator: CONTAINS
@@ -65,7 +72,7 @@ content:
     third_party_settings: {  }
   field_carnegie_code:
     type: string_textfield
-    weight: 19
+    weight: 17
     region: content
     settings:
       size: 60
@@ -73,7 +80,7 @@ content:
     third_party_settings: {  }
   field_cider_resources:
     type: entity_reference_autocomplete
-    weight: 17
+    weight: 15
     region: content
     settings:
       match_operator: CONTAINS
@@ -83,7 +90,7 @@ content:
     third_party_settings: {  }
   field_citizenships:
     type: string_textfield
-    weight: 15
+    weight: 13
     region: content
     settings:
       size: 60
@@ -91,23 +98,7 @@ content:
     third_party_settings: {  }
   field_constant_contact_id:
     type: string_textfield
-    weight: 16
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_current_degree_program:
-    type: string_textfield
-    weight: 7
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_current_occupation:
-    type: string_textfield
-    weight: 10
+    weight: 14
     region: content
     settings:
       size: 60
@@ -115,18 +106,10 @@ content:
     third_party_settings: {  }
   field_cv_resume:
     type: file_generic
-    weight: 11
-    region: content
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
-  field_degree:
-    type: string_textfield
     weight: 9
     region: content
     settings:
-      size: 60
-      placeholder: ''
+      progress_indicator: throbber
     third_party_settings: {  }
   field_hpc_experience:
     type: string_textarea
@@ -174,18 +157,18 @@ content:
       placeholder: ''
     third_party_settings: {  }
   language:
-    weight: 13
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }
   path:
     type: path
-    weight: 14
+    weight: 12
     region: content
     settings: {  }
     third_party_settings: {  }
   timezone:
-    weight: 12
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -199,6 +182,9 @@ content:
     third_party_settings: {  }
 hidden:
   contact: true
+  field_current_degree_program: true
+  field_current_occupation: true
+  field_degree: true
   field_domain_access: true
   field_domain_admin: true
   field_domain_all_affiliates: true

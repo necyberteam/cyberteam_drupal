@@ -4,7 +4,9 @@ status: true
 dependencies:
   config:
     - node.type.match_engagement
+    - workflows.workflow.match_engagement
   module:
+    - content_moderation
     - node
 id: match_pm
 label: 'MATCH PM'
@@ -16,4 +18,16 @@ permissions:
   - 'delete own match_engagement content'
   - 'edit any match_engagement content'
   - 'edit own match_engagement content'
+  - 'use match_engagement transition accept_engagement'
+  - 'use match_engagement transition complete_engagement'
+  - 'use match_engagement transition create_new_draft'
+  - 'use match_engagement transition finishing_up'
+  - 'use match_engagement transition halt_engagement'
+  - 'use match_engagement transition hold_engagement'
+  - 'use match_engagement transition ready_to_recruit'
+  - 'use match_engagement transition request_review'
+  - 'use match_engagement transition request_revisions'
+  - 'use match_engagement transition reviewing_applicants'
+  - 'use match_engagement transition save_accepted'
+  - 'use match_engagement transition start_engagement'
   - 'view match_engagement revisions'
