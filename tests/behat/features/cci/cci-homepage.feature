@@ -56,7 +56,7 @@ Feature: verify specific links on homepage
     # Then I should be on "https://ask.cyberinfrastructure.org/c/communities/rmacc/65"
 
     When I am on the homepage
-    And I wait for the page to be loaded
+    And I wait 2 seconds
     And I follow "SWEETER Cyberteam"
     # TODO 404
     # And I wait for the page to be loaded
