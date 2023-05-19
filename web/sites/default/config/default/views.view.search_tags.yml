@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - taxonomy.vocabulary.tags
+    - user.role.anonymous
     - user.role.authenticated
   module:
     - taxonomy
@@ -110,6 +111,7 @@ display:
         type: role
         options:
           role:
+            anonymous: anonymous
             authenticated: authenticated
       cache:
         type: tag
@@ -751,4 +753,3 @@ display:
         - url
         - user.roles
       tags: {  }
-
