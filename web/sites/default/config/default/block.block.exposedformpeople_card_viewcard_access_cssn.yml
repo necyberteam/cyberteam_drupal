@@ -1,0 +1,28 @@
+uuid: ea1900aa-2d14-4c0d-8a23-3744a8a6fcd7
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - nect
+id: exposedformpeople_card_viewcard_access_cssn
+theme: nect
+region: exposed_filters
+weight: 15
+provider: null
+plugin: 'views_exposed_filter_block:people_card_view-card_access_cssn'
+settings:
+  id: 'views_exposed_filter_block:people_card_view-card_access_cssn'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/people/card/access-cssn\r\n/people_card_access-cssn"
