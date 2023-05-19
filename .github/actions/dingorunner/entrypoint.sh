@@ -106,3 +106,12 @@ then
   branch="${GITHUB_REF#refs/heads/}"
   vendor/bin/blt pmd:create $branch --no-interaction
 fi
+
+if [ "$runner" = md_file_commands ];
+then
+  storeKey
+  terminusApi
+  branch="${GITHUB_REF#refs/heads/}"
+  commands=$(cat blt/md/$branch)
+  echo $commands
+fi

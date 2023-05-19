@@ -2,8 +2,8 @@
 
 namespace Example\Blt\Plugin\Commands;
 
+use Drupal\Component\Utility\Crypt;
 use Acquia\Blt\Robo\BltTasks;
-use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Drupal\Component\Utility\Xss;
 
 /**
@@ -21,17 +21,18 @@ class AmpCommands extends BltTasks {
     if ($args) {
       $token = $args[0];
       $uid = $args[1];
-    } else {
+    }
+    else {
       $token = $this->ask("What is your GitHub token: ");
       $uid = $this->ask("What is your drupal user id: ");
     }
-    # Not to self: Can't place composer install in here because
-    # it needs to run before you can run this command.
+    // Not to self: Can't place composer install in here because
+    // it needs to run before you can run this command.
     $this->_exec("ln -s web docroot && mkdir backups");
     $this->_exec("mkdir -p web/sites/default/settings");
     $this->_exec("cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php");
     $this->_exec($this->lando() . "composer install --ignore-platform-reqs -n");
-    $hash = \Drupal\Component\Utility\Crypt::randomBytesBase64(55);
+    $hash = Crypt::randomBytesBase64(55);
     $this->_exec("echo 'PANTHEON_ENVIRONMENT=local
 DRUPAL_HASH_SALT=$hash
 AMP_UID=$uid
@@ -69,7 +70,8 @@ GITHUB_TOKEN=$token'>.env");
       $this->say("❗️ Setting GITHUB_TOKEN token. ❗️");
       $this->_exec("composer config -g github-oauth.github.com $(printenv GITHUB_TOKEN)");
       $this->_exec($this->lando() . " composer config -g github-oauth.github.com $(printenv GITHUB_TOKEN)");
-    } else {
+    }
+    else {
       $this->say("❗️ GITHUB_TOKEN not set. ❗️");
     }
   }
@@ -86,61 +88,60 @@ GITHUB_TOKEN=$token'>.env");
 
     $this->say("------------------ BEHAT TESTING ------------------------");
 
-    // to make testing faster, skip the drush commands (useful during development)
+    // To make testing faster, skip the drush commands (useful during development)
     // to enable this, in the shell, do "export BEHAT_NO_DRUSH=true"
     // to disable this, in the shell, do "export BEHAT_NO_DRUSH=false"
     // or put "no-drush" as an argument on commandline.
     $no_drush_cmds = array_search("no-drush", $args);
-    if ($no_drush_cmds !== false) {
-      // remove this argument from the args array because $args is used
+    if ($no_drush_cmds !== FALSE) {
+      // Remove this argument from the args array because $args is used
       // below to contain a list of domains to test, or to test all
-      // domains if args is empty
+      // domains if args is empty.
       array_splice($args, $no_drush_cmds, 1);
-      $no_drush_cmds = true;
+      $no_drush_cmds = TRUE;
     }
     $no_drush_cmds |= strcasecmp(getenv("BEHAT_NO_DRUSH"), 'TRUE') == 0;
     if ($no_drush_cmds) {
       $this->say("NOTE: drush commands being skipped.");
     }
 
-    // set following to true to see a dry-run of this script,
+    // Set following to true to see a dry-run of this script,
     // with no actual copying or running of tests
     // or put "dry-run" as an argument on commandline.
     $dry_run = array_search("dry-run", $args);
-    if ($dry_run !== false) {
-      // remove this argument from the args array because $args is used
+    if ($dry_run !== FALSE) {
+      // Remove this argument from the args array because $args is used
       // below to contain a list of domains to test, or to test all
-      // domains if args is empty
+      // domains if args is empty.
       array_splice($args, $dry_run, 1);
-      $dry_run = true;
+      $dry_run = TRUE;
     }
     if ($dry_run) {
       $this->say("NOTE: dry-run -- nothing actually being executed.");
     }
 
-
-    // special handling for the 'wip_template' directory -- we want to run
+    // Special handling for the 'wip_template' directory -- we want to run
     // all the tests in this directory on all the domains but save time by
-    // not copying & running all the tests in the templates directory
-    $wip_template = false;
+    // not copying & running all the tests in the templates directory.
+    $wip_template = FALSE;
 
     if ($args) {
       $domains = $args;
-      $wip_template = array_search('wip_template', $args) !== false;
+      $wip_template = array_search('wip_template', $args) !== FALSE;
     }
 
     if (!$args || $wip_template) {
-      // make copies of the tests to these domains:  ky, gp, careers, nect
+      // Make copies of the tests to these domains:  ky, gp, careers, nect.
       $domains = [
-        // these domains are sufficiently different that the template tests
-        // should *not* be copied to them
+        // These domains are sufficiently different that the template tests
+        // should *not* be copied to them.
         'cci',
         'asp',
         'champ',
         'coco',
         // 'rmacc',  // no such testing folder
         'usrse',
-        // these domains get all the templated tests copied to them
+        // These domains get all the templated tests copied to them.
         'careers',
         'gpc',
         'ky',
@@ -148,8 +149,8 @@ GITHUB_TOKEN=$token'>.env");
       ];
     }
 
-    // if domain is one of the following, don't copy the templates
-    $exceptions_to_template_copies = array(
+    // If domain is one of the following, don't copy the templates.
+    $exceptions_to_template_copies = [
       'templates',
       'wip',
       'Jasper',
@@ -161,7 +162,7 @@ GITHUB_TOKEN=$token'>.env");
       'coco',
       // 'rmacc',  // no such testing folder
       'usrse',
-    );
+    ];
 
     $copy_from = $wip_template ? "wip_template" : "templates";
 
@@ -169,21 +170,22 @@ GITHUB_TOKEN=$token'>.env");
     $lando_end = $this->lando() == 'lando ' ? "\"" : "";
 
     foreach ($domains as $domain) {
-      // git add current features - this is due to the copy of the tests that
-      // happens below.  the copies are removed by the subsequent 'git clean'
-      if (!$dry_run) $this->_exec('git add tests/behat/features/');
+      // Git add current features - this is due to the copy of the tests that
+      // happens below.  the copies are removed by the subsequent 'git clean'.
+      if (!$dry_run) {
+        $this->_exec('git add tests/behat/features/');
+      }
 
-      // copy all tests in templates to each domain
+      // Copy all tests in templates to each domain
       // also use sed to replace the @templates tag with @<domain>
       // OR, if $wip_template is true, copy from the wip_template directory instead of the templates directory
-      // but don't copy template tests to domains on the exceptions list
+      // but don't copy template tests to domains on the exceptions list.
       $copy_templates = !in_array($domain, $exceptions_to_template_copies);
 
-      // it is sometimes useful to turn the following off, to
+      // It is sometimes useful to turn the following off, to
       // allow much more rapid testing of specific tests
       //
-      // $copy_templates = false;
-
+      // $copy_templates = false;.
       $this->say("  Testing domain $domain");
       $this->say($copy_templates
         ? "  copying templates from directory $copy_from"
@@ -191,31 +193,39 @@ GITHUB_TOKEN=$token'>.env");
 
       if ($copy_templates) {
         $cmd = "cp tests/behat/features/$copy_from/*.feature tests/behat/features/$domain/ && sed -i '1 s/@templates/@$domain/g' tests/behat/features/$domain/*.feature";
-        if ($dry_run) $this->say('    dry-run: ' . $cmd);
-        else $behat = shell_exec($cmd);
+        if ($dry_run) {
+          $this->say('    dry-run: ' . $cmd);
+        }
+        else {
+          $behat = shell_exec($cmd);
+        }
       }
       $shell_cmd = $lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 --window-size=1440,1080 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end;
 
       if ($dry_run) {
         $this->say("    dry-run: $shell_cmd");
         $behat = '';
-      } else {
+      }
+      else {
         $this->say("    running: $shell_cmd");
         $this->say("------------------ start of $domain test results ------------------");
-        // Open a pipe to the command and capture its output
-        $descriptorspec = array(
-          0 => array("pipe", "r"), // stdin
-          1 => array("pipe", "w"), // stdout
-          2 => array("pipe", "w"), // stderr
-        );
+        // Open a pipe to the command and capture its output.
+        $descriptorspec = [
+        // Stdin.
+          0 => ["pipe", "r"],
+        // Stdout.
+          1 => ["pipe", "w"],
+        // Stderr.
+          2 => ["pipe", "w"],
+        ];
         $process = proc_open($shell_cmd, $descriptorspec, $pipes);
 
-        // Read the output from the command in real-time
+        // Read the output from the command in real-time.
         while ($line = fgets($pipes[1])) {
           echo $line;
           $pattern = "/Failed scenarios/i";
           if (preg_match($pattern, $line)) {
-            // Close the pipes and the process
+            // Close the pipes and the process.
             fclose($pipes[0]);
             fclose($pipes[1]);
             fclose($pipes[2]);
@@ -224,7 +234,7 @@ GITHUB_TOKEN=$token'>.env");
           }
         }
 
-        // Close the pipes and the process
+        // Close the pipes and the process.
         fclose($pipes[0]);
         fclose($pipes[1]);
         fclose($pipes[2]);
@@ -237,7 +247,9 @@ GITHUB_TOKEN=$token'>.env");
         $this->_exec($this->lando() . 'drush cr');
       }
 
-      if (!$dry_run) $this->_exec('git clean -f tests/behat/features/');
+      if (!$dry_run) {
+        $this->_exec('git clean -f tests/behat/features/');
+      }
 
       if ($return_value !== 0) {
         throw new \Exception('Failed behat tests.');
@@ -288,10 +300,15 @@ GITHUB_TOKEN=$token'>.env");
    * @command amp:did
    * @description pull in production database.
    */
-  public function did() {
+  public function did(array $args) {
+    $domain_id = implode($args);
+    if (!is_numeric($domain_id)) {
+      $domain_id = '';
+    }
     if ($this->lando() == 'lando ') {
       $this->_exec("lando db-import backups/site.sql.gz");
-    } else {
+    }
+    else {
       $this->_exec("drush sql-drop -y &&
         cp backups/site.sql.gz lando-import.sql.gz &&
         gunzip lando-import.sql.gz
@@ -299,10 +316,17 @@ GITHUB_TOKEN=$token'>.env");
         rm -fR lando-import.sql
       ");
     }
+    $this->_exec("sleep 2");
     $this->_exec($this->lando() . "drush deploy -y");
+    $this->_exec("sleep 2");
     $this->_exec($this->lando() . "drush cim -y");
-    $this->_exec($this->lando() . "drush cr");
+    $this->_exec("sleep 2");
+    if (!empty($domain_id)) {
+      $this->_exec($this->lando() . "blt amp:ds $domain_id");
+    }
     $this->_exec($this->lando() . "blt amp:uli");
+    $this->_exec("sleep 2");
+    $this->_exec($this->lando() . "drush cr");
   }
 
   /**
@@ -318,13 +342,17 @@ GITHUB_TOKEN=$token'>.env");
     if ($arrrrgs == 'drupal/core') {
       $this->_exec("composer update drupal/core drupal/core-composer-scaffold drupal/core-dev drupal/core-recommended drupal/core-project-message -W --ignore-platform-req=ext-gd >log.txt 2>&1");
       $this->composer_updates('/Upgrading (drupal)\/core \((.* \=\> .*)\)$/mU');
-    } elseif (!empty($arrrrgs)) {
+    }
+    elseif (!empty($arrrrgs)) {
       $this->_exec("composer update $arrrrgs --no-scripts --ignore-platform-req=ext-gd >log.txt 2>&1");
       $this->_exec("cat log.txt");
       $this->composer_updates('/Upgrading .*\/(.*)\((.* \=\> .*)\)$/m');
     }
   }
 
+  /**
+   *
+   */
   private function composer_updates($regex) {
     $log = file_get_contents("log.txt");
     $log = preg_match_all($regex, $log, $update_matches);
@@ -335,8 +363,8 @@ GITHUB_TOKEN=$token'>.env");
       $version = $update_matches[2][$key];
       $update_list .= "$seperator$update_match: $version";
     }
-    #$this->_exec("lando drush updatedb -y");
-    #$this->_exec("lando drush cr");
+    // $this->_exec("lando drush updatedb -y");
+    // $this->_exec("lando drush cr");
     if ($log > 0) {
       $this->say("\n The following updated:
 $update_list");
@@ -345,4 +373,64 @@ $update_list");
       $this->_exec("rm log.txt");
     }
   }
+
+  /**
+   * Drush Deploy.
+   *
+   * @command amp:deploy
+   * @description Drush deploy and then set domain.
+   */
+  public function deploy(array $args) {
+    $domain_id = implode($args);
+    if (!is_numeric($domain_id)) {
+      $domain_id = '';
+    }
+    $this->_exec($this->lando() . "drush deploy -y");
+    $this->_exec("blt amp:ds $domain_id");
+  }
+
+  /**
+   * Set Domain.
+   *
+   * @command amp:ds
+   * @description Set domain for site.
+   */
+  public function ds(array $args) {
+    $domain_id = implode($args);
+    if (!is_numeric($domain_id)) {
+      $domain_id = '';
+    }
+    $lando = $this->lando();
+    $domain_get = shell_exec("$lando drush domain:list --format=json");
+    $domains = json_decode($domain_get, TRUE);
+    if (empty($domain_id)) {
+      foreach ($domains as $key => $domain) {
+        $this->say("$key - " . $domain['id']);
+      }
+      $domain_id = $this->ask("Enter domain id to set as default");
+    }
+    $default_domain = $domains[$domain_id]['id'];
+    $this->_exec("$lando drush domain:default $default_domain");
+    $this->say("Setting $default_domain as default");
+  }
+
+  /**
+   * MD Commands.
+   *
+   * @command amp:mds
+   * @description Setup commands for md branch.
+   */
+  public function mds() {
+    $branch = shell_exec("git rev-parse --abbrev-ref HEAD");
+    $domain_get = shell_exec($this->lando() . " drush domain:list --format=json");
+    $domains = json_decode($domain_get, TRUE);
+    foreach ($domains as $key => $domain) {
+      $this->say("$key - " . $domain['id']);
+    }
+    $domain_id = $this->ask("Which domain should be the default?");
+    $default_domain = $domains[$domain_id]['id'];
+    $this->_exec("touch blt/md/$branch");
+    $this->_exec("echo 'domain:default $default_domain'>>blt/md/$branch");
+  }
+
 }
