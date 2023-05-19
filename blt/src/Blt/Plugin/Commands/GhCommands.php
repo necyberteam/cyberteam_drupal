@@ -17,7 +17,7 @@ class GhCommands extends BltTasks {
    * @description Continuous loop that says bing.
    */
   public function keepAlive() {
-    while (1){
+    while (1) {
       $this->say("🔁 Bing");
       $this->_exec("sleep 120");
     }
@@ -98,4 +98,3 @@ class GhCommands extends BltTasks {
     return $result;
   }
 }
-
