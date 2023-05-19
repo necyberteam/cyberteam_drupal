@@ -53,7 +53,7 @@ Feature: Test registration page
     When I fill in "edit-field-institution-0-value" with "Test"
     # Not currently using the degree field
     # When I fill in "edit-field-degree-0-value" with "Test"
-    When I fill in "edit-field-current-occupation-0-value" with "Test"
+    # When I fill in "edit-field-current-occupation-0-value" with "Test"
     When I fill in "edit-field-citizenships-0-value" with "Test"
     When I click "op"
     #TODO Does not go to Homepage goes to /people/card

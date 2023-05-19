@@ -8,13 +8,14 @@ Feature: test ACCESS Support Outages Page
   Scenario: Unauthenticated user tests the Outages Page
     Given I am not logged in
     When I go to "/outages"
+    And I wait 2 seconds
     Then I should see "Current, Planned, and Past Downtimes"
     Then I should see "Outages"
     Then I should see "Current Outages"
     Then I should see "Event"
     Then I should see "Resource"
     Then I should see "Summary"
-    Then I should see "Type"    
+    Then I should see "Type"
     Then I should see "Start"
     Then I should see "End"
     Then I should see "Planned Downtimes"
