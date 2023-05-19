@@ -362,57 +362,21 @@ function campuschampions_views_data_export_row_alter(&$row, \Drupal\views\Result
         $row['field_carnegie_code_region'] = $regions[$results['STABBR']];
       }
 
-      if (is_null($results['LAT'])) {
-        // In a number of cases, the name is suffixed with "-city".
-        // Ex: Ottawa University-Phoenix. For searches to work better,
-        // we need to strip the suffix.
-        if (substr($results['NAME'], -(strlen($results['CITY']) + 1)) == '-' . $results['CITY']) {
-          $results['NAME'] = substr($results['NAME'], 0, -(strlen($results['CITY']) + 1));
-        }
-        // We have a handful of cases where the name is suffixed with
-        // "-Main Campus", which can cause searches to fail.
-        $results['NAME'] = str_replace('-Main Campus', '', $results['NAME']);
+      // Try to retrieve the LAT and LON from the ACCESS organization
+      $nids = \Drupal::entityQuery('node')
+          ->condition('type', 'access_organization')
+          ->condition('field_carnegie_code', $cc, '=')
+          ->range(0, 1)
+          ->execute();
 
-        // Name+State seems to work better than Name+City or Name+City+State
-        $address = $results['NAME'] . ' ' . $results['STABBR'];
+      if (!empty($nids)) {
+        $rows = \Drupal\node\Entity\Node::loadMultiple($nids);
 
-        // Call the geocoder service
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => 'https://geocode.maps.co/search?q=' . urlencode($address),
-        ));
-
-        $response = curl_exec($curl);
-
-        if (curl_errno($curl)) {
-          $error_msg = curl_error($curl);
-        }
-
-        curl_close($curl);
-
-        if (!isset($error_msg)) {
-          $geocoded = json_decode($response, true);
-
-          if (!empty($geocoded)) {
-            $results['LAT'] = $geocoded[0]['lat'];
-            $results['LON'] = $geocoded[0]['lon'];
-
-            // Update the database entry
-            \Drupal::database()
-              ->update('carnegie_codes')
-              ->fields([
-                'LAT' => $results['LAT'],
-                'LON' => $results['LON'],
-              ])
-              ->condition('UNITID', $cc, '=')
-              ->execute();
-          }
+        foreach ($rows as $org) {
+          $row['field_carnegie_code_lat'] = $org->field_latitude ? $org->field_latitude->value : null;
+          $row['field_carnegie_code_lon'] = $org->field_longitude ? $org->field_longitude->value : null;
         }
       }
-      $row['field_carnegie_code_lat'] = $results['LAT'] ? $results['LAT'] : '';
-      $row['field_carnegie_code_lon'] = $results['LON'] ? $results['LON'] : '';
     }
 
     // Designation
