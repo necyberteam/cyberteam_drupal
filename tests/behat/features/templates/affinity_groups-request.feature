@@ -34,7 +34,7 @@ Feature: test affinity group request form
     When I fill in "short_description" with "TEST"
     When I fill in "project_description" with "TEST"
     # op is the submit button
-    When I click "op"
+    When I press "Submit"
     And I wait for the page to be loaded
     #Submission confirmation is not passing
-    #Then I should see "Thank you for your submission. We will contact you when your affinity group has been created."
+    Then I should see "Thank you for your submission. We will contact you when your affinity group has been created."
