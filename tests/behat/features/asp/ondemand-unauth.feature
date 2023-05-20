@@ -26,7 +26,7 @@ Feature: test ACCESS Support OnDemand Page
     Then I should see "DELTA"
     Then I should see an image with alt text "I NCSA Logo"
     When I click "DELTA"
-    Then I should be on "/"
+    Then I should be on "/display/DSC/Delta+User+Guide#DeltaUserGuide-DeltaScienceGatewayandOpenOnDemand"
     When I go to "/ondemand"
     Then I should see "Expanse"
     Then I should see an image with alt text "SDSC logo"
