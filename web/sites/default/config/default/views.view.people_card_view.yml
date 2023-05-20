@@ -27,6 +27,7 @@ dependencies:
     - 'taxonomy_term:region:23abe5b9-fa92-4ba6-8b69-cf01f50a7ad9'
     - 'taxonomy_term:region:48875fb1-4788-4512-89b7-c04a3696d2ca'
     - 'taxonomy_term:region:5062eb27-a5d3-4e29-af87-72ebfceaffb7'
+    - 'taxonomy_term:region:6136e7e2-0052-4dc7-8c42-50f162d0a5a1'
     - 'taxonomy_term:region:7bdad40f-9ac1-4e62-92dc-d8f7a7eabf25'
     - 'taxonomy_term:region:7ff23e82-43c2-4c63-b02d-45b398861be9'
     - 'taxonomy_term:region:9551e6b0-0c26-41f1-b028-6aa4c1422242'
@@ -1118,6 +1119,7 @@ display:
           plugin_id: taxonomy_index_tid
           operator: or
           value:
+            780: 780
             572: 572
             323: 323
             311: 311
@@ -1130,14 +1132,14 @@ display:
           group: 1
           exposed: false
           expose:
-            operator_id: ''
-            label: ''
-            description: ''
+            operator_id: field_region_target_id_op
+            label: 'Program (field_region)'
+            description: null
             use_operator: false
-            operator: ''
+            operator: field_region_target_id_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: ''
+            identifier: field_region_target_id
             required: false
             remember: false
             multiple: false
@@ -1201,6 +1203,331 @@ display:
       footer: {  }
       display_extenders:
         simple_sitemap_display_extender: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user
+        - user.permissions
+      tags:
+        - 'config:field.storage.user.field_institution'
+        - 'config:field.storage.user.field_region'
+        - 'config:field.storage.user.field_user_first_name'
+        - 'config:field.storage.user.field_user_last_name'
+        - 'config:field.storage.user.user_picture'
+  card_access_cssn:
+    id: card_access_cssn
+    display_title: 'People Card View (ACCESS CSSN)'
+    display_plugin: block
+    position: 1
+    display_options:
+      title: People
+      filters:
+        status:
+          id: status
+          table: users_field_data
+          field: status
+          entity_type: user
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        uuid:
+          id: uuid
+          table: users
+          field: uuid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: user
+          entity_field: uuid
+          plugin_id: string
+          operator: '!='
+          value: '0'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          use_tokens: 0
+        combine:
+          id: combine
+          table: views
+          field: combine
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: combine
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: combine_op
+            label: 'Search the people database'
+            description: ''
+            use_operator: false
+            operator: combine_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: combine
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              student: '0'
+              mentor: '0'
+              professional_mentor: '0'
+              researcher: '0'
+              sc: '0'
+              ra: '0'
+              lt: '0'
+              representative: '0'
+              administrator: '0'
+              masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+            placeholder: Search...
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          fields:
+            field_user_first_name: field_user_first_name
+            field_institution: field_institution
+            field_user_last_name: field_user_last_name
+            name: name
+            realname: realname
+        roles_target_id_1:
+          id: roles_target_id_1
+          table: user__roles
+          field: roles_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: user
+          entity_field: roles
+          plugin_id: user_roles
+          operator: or
+          value:
+            student: student
+            mentor: mentor
+            professional_mentor: professional_mentor
+            researcher: researcher
+            sc: sc
+            research_computing_facilitator: research_computing_facilitator
+            research_software_engineer: research_software_engineer
+            ci_systems_engineer: ci_systems_engineer
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: true
+        roles_target_id:
+          id: roles_target_id
+          table: user__roles
+          field: roles_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: user
+          entity_field: roles
+          plugin_id: user_roles
+          operator: or
+          value:
+            student: student
+            mentor: mentor
+            professional_mentor: professional_mentor
+            researcher: researcher
+            sc: sc
+            research_computing_facilitator: research_computing_facilitator
+            research_software_engineer: research_software_engineer
+            ci_systems_engineer: ci_systems_engineer
+          group: 1
+          exposed: true
+          expose:
+            operator_id: roles_target_id_op
+            label: 'Filter by Role'
+            description: ''
+            use_operator: false
+            operator: roles_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: roles_target_id
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              student: '0'
+              mentor: '0'
+              professional_mentor: '0'
+              researcher: '0'
+              sc: '0'
+              ra: '0'
+              lt: '0'
+              representative: '0'
+              administrator: '0'
+              masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+            reduce: true
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: true
+        field_region_target_id:
+          id: field_region_target_id
+          table: user__field_region
+          field: field_region_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            780: 780
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: region
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: ''
+      exposed_block: true
+      display_extenders:
+        simple_sitemap_display_extender: {  }
+      block_description: 'PeopleCardView - ACCESS CSSN'
+      block_category: PeopleCardView
+      allow:
+        items_per_page: false
     cache_metadata:
       max-age: -1
       contexts:
