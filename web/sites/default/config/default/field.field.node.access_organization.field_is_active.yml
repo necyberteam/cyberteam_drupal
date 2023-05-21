@@ -1,0 +1,23 @@
+uuid: 9a30824b-97e3-4a4e-9b01-e1d4b835f061
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_is_active
+    - node.type.access_organization
+id: node.access_organization.field_is_active
+field_name: field_is_active
+entity_type: node
+bundle: access_organization
+label: 'Is Active'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
