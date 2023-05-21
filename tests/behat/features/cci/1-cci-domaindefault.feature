@@ -19,3 +19,4 @@ Feature: test cci domain
     And I wait 3 seconds
     Then I should see "Connect.Cybinfrastructure is a family of portals"
 
+#This is going to the campus champion domain instead of the cci.
