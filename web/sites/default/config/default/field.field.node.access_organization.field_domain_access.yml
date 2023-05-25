@@ -1,0 +1,29 @@
+uuid: 17e69233-ce41-4f0a-91d0-bc38344e0fe1
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.amp_cyberinfrastructure_org
+    - field.storage.node.field_domain_access
+    - node.type.access_organization
+id: node.access_organization.field_domain_access
+field_name: field_domain_access
+entity_type: node
+bundle: access_organization
+label: 'Domain Access'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    target_uuid: d4f48099-0a21-4f65-a79f-59abf91d1eb5
+default_value_callback: ''
+settings:
+  handler: 'default:domain'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: weight
+      direction: ASC
+    auto_create: false
+field_type: entity_reference
