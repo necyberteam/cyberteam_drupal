@@ -80,6 +80,7 @@ type_settings:
     accept_engagement:
       label: 'Accept Engagement'
       from:
+        - declined
         - on_hold
         - received
       to: accepted
@@ -102,7 +103,7 @@ type_settings:
         - draft
         - published
       to: draft
-      weight: -6
+      weight: -7
     decline:
       label: Decline
       from:
@@ -118,7 +119,7 @@ type_settings:
         - recruiting
         - reviewing_applicants
       to: declined
-      weight: 7
+      weight: 6
     finishing_up:
       label: 'Finishing Up'
       from:
@@ -142,10 +143,8 @@ type_settings:
       label: 'Hold Engagement'
       from:
         - accepted
-        - draft
         - finishing_up
         - in_progress
-        - in_review
         - on_hold
         - recruiting
         - reviewing_applicants
@@ -166,17 +165,17 @@ type_settings:
     receive:
       label: Receive
       from:
+        - declined
         - in_review
-        - received
       to: received
-      weight: 6
+      weight: -5
     request_review:
       label: 'Submit for Review'
       from:
         - draft
         - in_review
       to: in_review
-      weight: -5
+      weight: -6
     request_revisions:
       label: 'Request Revisions'
       from:
@@ -210,6 +209,12 @@ type_settings:
         - accepted
       to: accepted
       weight: 5
+    save_as_received:
+      label: 'Save as Received'
+      from:
+        - received
+      to: received
+      weight: 7
     start_engagement:
       label: 'Start engagement'
       from:
