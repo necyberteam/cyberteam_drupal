@@ -14,6 +14,6 @@ site_mail: false
 emails: ''
 subject: 'MATCH Engagement submitted for review'
 body:
-  value: "<p><a href=\"void(0);\">[node:canonical-source-domain-url]</a></p>\r\n"
-  format: basic_html
-label: 'Engagement Submitted'
+  value: "<p>Click on <a href=\"[node:url:unaliased:relative]/edit\">this link</a> to review the engagement submission \"[node:title]\".</p>\r\n"
+  format: full_html
+label: 'Review Requested'
