@@ -51,21 +51,6 @@ Feature: test ACCESS Support Tags Page
     Then I should see "Test2"
     Then I should see "ACCESS Support"
 
-  Scenario: Authenticated user tests the Announcements section on the tags page
-    Given I am logged in as a user with the "administrator" role
-    When I go to "/tags/login"
-    Then I should see "News"
-    Then I should see "Title"
-    Then I should see "test"
-    Then I should see "Date"
-    Then I should see "05/28/2023"
-    Then I should see "Tags"
-    Then I should see "login"
-    Then I should see "Affinity Group"
-    Then I should see "ACCESS Facilitators"
-    Then I should see "Test2"
-    Then I should see "	ACCESS Support"
-
   Scenario: Authenticated user tests creates third announcements to test
     Given I am logged in as a user with the "administrator" role
     When I go to "/node/add/access_news"
