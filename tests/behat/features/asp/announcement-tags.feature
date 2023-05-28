@@ -49,7 +49,7 @@ Feature: test ACCESS Support Tags Page
     Then I should see "Affinity Group"
     Then I should see "ACCESS Facilitators"
     Then I should see "Test2"
-    Then I should see "	ACCESS Support"
+    Then I should see "ACCESS Support"
 
   Scenario: Authenticated user tests the Announcements section on the tags page
     Given I am logged in as a user with the "administrator" role
