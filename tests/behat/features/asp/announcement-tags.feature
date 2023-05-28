@@ -33,7 +33,7 @@ Feature: test ACCESS Support Tags Page
     When I go to "/node/add/access_news"
     When I fill in "Title" with "Test2"
     #When I fill in "Body" with "Test2"
-    When I fill in "Affinity Group" with "ACCESS Support (327)"
+    When I fill in "Affinity Group" with "ACCESS Facilitators (188)"
     When I fill in "Tag" with "login (682)"
     When I select "Published" from "Save as"
     When I press "Save"
