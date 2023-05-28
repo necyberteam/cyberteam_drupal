@@ -21,7 +21,7 @@ Feature: test ACCESS Support Tags Page
     Then I should see "10/30/2023"
     Then I should see "1:00 PM EDT - 4:00 PM EDT"
 
-  Scenario: Authenticated user tests creates announcements to test
+  Scenario: Authenticated user tests creates second announcements to test
     Given I am logged in as a user with the "administrator" role
     When I go to "/node/add/access_news"
     When I fill in "Title" with "Test"
@@ -30,9 +30,6 @@ Feature: test ACCESS Support Tags Page
     When I fill in "Tag" with "login (682)"
     When I select "Published" from "Save as"
     When I press "Save"
-
-  Scenario: Authenticated user tests creates second announcements to test
-    Given I am logged in as a user with the "administrator" role
     When I go to "/node/add/access_news"
     When I fill in "Title" with "Test2"
     #When I fill in "Body" with "Test2"
