@@ -24,7 +24,7 @@ Feature: test ACCESS Support Tags Page
     When I go to "/events/add"
     When I fill in "Title" with "Test"
     #When I fill in "Body" with "Test"
-    #When I check "Monthly Event"
+    #When I select "monthly_recurring_date" from "Recur Type"
     #When I fill in "Create Events Between" with "01/23/2052"
     When I fill in "Location" with "TestCity"
     When I fill in "Contact" with "Test"
