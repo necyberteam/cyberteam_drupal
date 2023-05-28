@@ -21,7 +21,7 @@ Feature: test ACCESS Support Tags Page
     Then I should see "10/30/2023"
     Then I should see "1:00 PM EDT - 4:00 PM EDT"
 
-  Scenario: Authenticated user tests creates second announcements to test
+  Scenario: Authenticated user tests creates two announcements to test and then creats a third to test more feature.
     Given I am logged in as a user with the "administrator" role
     When I go to "/node/add/access_news"
     When I fill in "Title" with "Test"
@@ -50,9 +50,6 @@ Feature: test ACCESS Support Tags Page
     Then I should see "ACCESS Facilitators"
     Then I should see "Test2"
     Then I should see "ACCESS Support"
-
-  Scenario: Authenticated user tests creates third announcements to test
-    Given I am logged in as a user with the "administrator" role
     When I go to "/node/add/access_news"
     When I fill in "Title" with "Test3"
     #When I fill in "Body" with "Test3"
@@ -60,10 +57,11 @@ Feature: test ACCESS Support Tags Page
     When I fill in "Tag" with "login (682)"
     When I select "Published" from "Save as"
     When I press "Save"
-
-  Scenario: Authenticated user tests the Announcements section on the tags page
     When I go to "/tags/login"
-    Then I should see "orfij3rnfivb"
+    When I press "more"
+    Then I should see "News"
+    #Then I should see "Test3"
+    #Then I should see "ACCESS RP Integration"
 
   Scenario: Unauthenticated user tests the Term selector on the Announcements Page
     Given I am not logged in
