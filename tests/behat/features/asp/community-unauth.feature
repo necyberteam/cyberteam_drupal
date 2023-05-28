@@ -27,7 +27,7 @@ Feature: test ACCESS Support Community Page
     Then I should see "The CSSN Community Engagement Program (CCEP) is accepting"
     When I click "Join the CSSN"
     And I wait 4 seconds
-    Then I should be on "/cssn"
+    Then I should be on "/user/login"
 
     When I go to "/cssn"
     And I click "FIND OUT MORE"
