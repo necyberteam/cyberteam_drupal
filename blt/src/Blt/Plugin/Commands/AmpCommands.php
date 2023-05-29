@@ -391,7 +391,7 @@ $update_list");
   }
 
   /**
-   * Set Domain.
+   * Domain Switch.
    *
    * @command amp:ds
    * @description Set domain for site.
@@ -431,7 +431,7 @@ $update_list");
     $domain_id = $this->ask("Which domain should be the default?");
     $default_domain = $domains[$domain_id]['id'];
     $this->_exec("touch blt/md/$branch");
-    $this->_exec("echo 'domain:default $default_domain'>>blt/md/$branch");
+    $this->_exec("echo '$default_domain'>>blt/md/$branch");
   }
 
 }
