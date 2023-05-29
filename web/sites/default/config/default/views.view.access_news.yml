@@ -36,7 +36,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'ACCESS News'
+      title: 'ACCESS Announcements'
       fields:
         field_image:
           id: field_image
@@ -728,7 +728,7 @@ display:
           contextual_filters_or: false
       relationships: {  }
       link_display: custom_url
-      link_url: /news
+      link_url: /announcements
       header: {  }
       footer: {  }
       display_extenders: {  }
@@ -1010,7 +1010,7 @@ display:
         - 'config:field.storage.node.field_published_date'
   block_3:
     id: block_3
-    display_title: 'My News'
+    display_title: 'My Announcements'
     display_plugin: block
     position: 2
     display_options:
@@ -1354,7 +1354,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: false
-          content: "<div class=\"card mt-4\">\r\n<div class=\"card-body\">\r\n<h3 class=\"card-title\">My News</h3>"
+          content: "<div class=\"card mt-4\">\r\n<div class=\"card-body\">\r\n<h3 class=\"card-title\">My Announcements</h3>"
           tokenize: false
       footer:
         area_text_custom:
@@ -1380,11 +1380,11 @@ display:
         - 'config:field.storage.node.field_published_date'
   latest_news_block:
     id: latest_news_block
-    display_title: 'Latest News'
+    display_title: 'Latest Announcements'
     display_plugin: block
     position: 5
     display_options:
-      title: News
+      title: Announcements
       fields:
         title:
           id: title
@@ -1535,6 +1535,8 @@ display:
         use_more: false
         use_more_always: false
         use_more_text: false
+        link_display: false
+        link_url: false
         style: false
         row: false
         fields: false
@@ -1544,6 +1546,8 @@ display:
       use_more: false
       use_more_always: true
       use_more_text: 'All News'
+      link_display: custom_url
+      link_url: /announcements
       display_extenders: {  }
     cache_metadata:
       max-age: -1

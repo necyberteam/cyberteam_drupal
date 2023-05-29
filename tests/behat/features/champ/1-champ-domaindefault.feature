@@ -16,5 +16,5 @@ Feature: test champ domain
     Given the cache has been cleared
     When I am on the homepage
     Then I should get a "200" HTTP response
-    Then I should see "Collaboratively employing advanced computing and data to tackle society’s grand challenges"
+    Then I should see "Collaboratively employing advanced computing and data to tackle society's grand challenges"
 

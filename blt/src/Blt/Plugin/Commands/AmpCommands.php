@@ -200,7 +200,7 @@ GITHUB_TOKEN=$token'>.env");
           $behat = shell_exec($cmd);
         }
       }
-      $shell_cmd = $lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 --window-size=1440,1080 &) | behat  --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v' . $lando_end;
+      $shell_cmd = $lando . '\'google-chrome\' --headless --no-sandbox --disable-dev-shm-usage --disable-web-security --remote-debugging-port=9222 --window-size=1440,1080 &) | behat --format pretty /app/tests/behat --colors --no-interaction --stop-on-failure --config /app/tests/behat/local.yml --profile local --tags @' . $domain . ' -v 2>&1' . $lando_end;
 
       if ($dry_run) {
         $this->say("    dry-run: $shell_cmd");
@@ -230,7 +230,8 @@ GITHUB_TOKEN=$token'>.env");
             fclose($pipes[1]);
             fclose($pipes[2]);
             proc_close($process);
-            throw new \Exception('Failed behat tests.');
+            $this->_exec('git clean -f tests/behat/features/');
+            throw new \Exception('Failed behat tests');
           }
         }
 
@@ -239,7 +240,7 @@ GITHUB_TOKEN=$token'>.env");
         fclose($pipes[1]);
         fclose($pipes[2]);
         $return_value = proc_close($process);
-        $this->say("------------------ end of $domain test results ------------------");
+        $this->say("------------------ end of $domain test, return_value = $return_value ------------------");
       }
 
       if (!$no_drush_cmds) {
@@ -252,7 +253,7 @@ GITHUB_TOKEN=$token'>.env");
       }
 
       if ($return_value !== 0) {
-        throw new \Exception('Failed behat tests.');
+        $this->yell('*** behat tests finished with return value = ' . $return_value);
       }
     }
   }

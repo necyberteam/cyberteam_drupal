@@ -41,6 +41,6 @@ Feature: test for the affinity groups page as an authenticated user
     Then I should see "Email"
     Then I should see "Coordinators"
     Then I should see "Events"
-    Then I should see "Resources"
+    Then I should see "CI Links"
     Then I should see "People"
     #Then I should see "Masquerade"
