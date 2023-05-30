@@ -114,4 +114,5 @@ then
   branch="${GITHUB_REF#refs/heads/}"
   commands=$(cat blt/md/$branch)
   echo $commands
+  terminus remote:drush accessmatch.$branch -- domain:default $commands
 fi
