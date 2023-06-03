@@ -9,7 +9,7 @@ id: node.match_engagement.field_match_interested_users
 field_name: field_match_interested_users
 entity_type: node
 bundle: match_engagement
-label: 'Interested Users'
+label: 'Interested People'
 description: ''
 required: false
 translatable: false
@@ -17,5 +17,13 @@ default_value: {  }
 default_value_callback: ''
 settings:
   handler: 'default:user'
-  handler_settings: {  }
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: _none
+    include_anonymous: true
 field_type: entity_reference
