@@ -30,7 +30,7 @@ Feature: test ACCESS Support Tags Page
     When I fill in "Contact" with "Test"
     When I fill in "Registration" with "Test"
     When I fill in "Affinity Group" with "ACCESS Support (327)"
-    When I fill in "Tag" with "login"
+    When I fill in "Tag" with "python"
     When I select "Published" from "Save as"
 
 
