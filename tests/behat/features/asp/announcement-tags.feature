@@ -58,10 +58,10 @@ Feature: test ACCESS Support Tags Page
     When I select "Published" from "Save as"
     When I press "Save"
     When I go to "/tags/login"
-    When I press "more"
+    When I click "more"
     Then I should see "News"
-    #Then I should see "Test3"
-    #Then I should see "ACCESS RP Integration"
+    Then I should see "Test3"
+    Then I should see "ACCESS RP Integration"
 
   Scenario: Unauthenticated user tests the Term selector on the Announcements Page
     Given I am not logged in
