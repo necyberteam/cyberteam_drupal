@@ -13,7 +13,7 @@ dependencies:
     - taxonomy
     - user
 id: tagged_news_block
-label: 'Tagged News Block'
+label: 'Tagged Announcements Block'
 module: views
 description: ''
 tag: ''
@@ -26,7 +26,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: News
+      title: Announcements
       fields:
         title:
           id: title
@@ -314,7 +314,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning">There are no news articles with this tag. View <a href="/news">All News</a>.</div>'
+            value: '<div class="alert alert-warning">There are no announcements with this tag. View <a href="/announcements">All Announcements</a>.</div>'
             format: full_no_editor
           tokenize: false
       sorts:
@@ -457,7 +457,7 @@ display:
       use_more_always: false
       use_more_text: more
       link_display: custom_url
-      link_url: '/news?tid={{ raw_arguments.tid }}'
+      link_url: '/announcements?tid={{ raw_arguments.tid }}'
       header: {  }
       footer: {  }
       display_extenders: {  }
