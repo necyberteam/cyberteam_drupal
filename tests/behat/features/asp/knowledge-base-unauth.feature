@@ -18,7 +18,7 @@ Feature: test ACCESS Support knowledge base
     Then I should see "Ask.CI Q&A"
     Then I should see "Browse the Documentation"
     Then I should see "Visit ASK.CI"
-    Then I should see "Crowd-sourced information"
+    Then I should see "Crowd-sourced Links"
     Then I should see "Useful CI Links contributed by the community"
     Then I should see "Visit CI Links"
     Then I should see "Community Affinity Groups"
