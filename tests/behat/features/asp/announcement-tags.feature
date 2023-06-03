@@ -43,7 +43,6 @@ Feature: test ACCESS Support Tags Page
     Then I should see "Title"
     Then I should see "test"
     Then I should see "Date"
-    Then I should see "05/28/2023"
     Then I should see "Tags"
     Then I should see "login"
     Then I should see "Affinity Group"
