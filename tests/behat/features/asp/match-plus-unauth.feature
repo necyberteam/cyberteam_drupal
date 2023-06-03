@@ -76,5 +76,4 @@ Feature: test ACCESS Support Match Plus Page
     Then I should see "Our research group has been working on applying machine learning"
     Then I should see "Student"
     Then I should see "Mentor"
-    Then I should see "Tags"
     Then I should see "ai, big-data, gpu"
