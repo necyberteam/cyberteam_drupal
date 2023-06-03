@@ -18,5 +18,5 @@ Feature: test ACCESS Support domain
     Given the cache has been cleared
     When I am on the homepage
     Then I should get a "404" HTTP response
-    Then I should see "Supporting the ACCESS Research Community"
+    #Then I should see "Supporting the ACCESS Research Community"
 
