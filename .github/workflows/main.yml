@@ -50,6 +50,16 @@ jobs:
           runner: md_check
           terminus_api: ${{ secrets.TERMINUS_API }}
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+      - name: Store md file status
+        run: |
+          branch="${GITHUB_REF#refs/heads/}"
+          filename="blt/md/$branch"
+          file_exists=false
+          if [ -f "$filename" ]; then
+            file_exists=true
+          fi
+          echo $file_exists
+          echo "MD_FILE=$(echo $file_exists)" >> $GITHUB_ENV
       - name: Store md status into env variable
         run: |
           MD_STATUS=$(cat md_check.txt)
@@ -60,5 +70,12 @@ jobs:
         if: ${{ env.md == 'false' }}
         env:
           runner: md_create
+          terminus_api: ${{ secrets.TERMINUS_API }}
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+      - name: Store run file commands
+        uses: ./.github/actions/dingorunner
+        if: ${{ env.MD_FILE == 'true' }}
+        env:
+          runner: md_file_commands
           terminus_api: ${{ secrets.TERMINUS_API }}
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
