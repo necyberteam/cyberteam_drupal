@@ -89,11 +89,11 @@ Feature: test Navigation Bar footer links
     When I follow "Events"
     Then I should be on "/events"
 
-  Scenario: test News link
+  Scenario: test Announcements link
     Given I am not logged in
     When I am on the homepage
     Given I click the ".footer-announcements-link" element
-    Then I should be on "/news"
+    Then I should be on "/announcements"
 
   Scenario: test Outages link
     Given I am not logged in
