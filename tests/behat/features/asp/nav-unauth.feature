@@ -25,7 +25,7 @@ Scenario: Unauthenticated user tests the Footer Navigation Bar
     Then I should see "Knowledge Base"
     Then I should see "Documentation"
     Then I should see "Q&A Forum"
-    Then I should see "Resources"
+    Then I should see "CI Links"
     Then I should see "Match"
     Then I should see "MatchPlus"
     Then I should see "MatchPremier"
