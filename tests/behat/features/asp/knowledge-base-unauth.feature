@@ -19,7 +19,7 @@ Feature: test ACCESS Support knowledge base
     Then I should see "Browse the Documentation"
     Then I should see "Visit ASK.CI"
     Then I should see "Crowd-sourced Links"
-    Then I should see "A vetted list useful Cyberinfrastructure websites"
+    Then I should see "training modules, and tutorials contributed by the community"
     Then I should see "Visit CI Links"
     Then I should see "Community Affinity Groups"
     Then I should see "Engage in direct connections with community experts and other researchers through, Slack, email and Q&A forums."
