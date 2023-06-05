@@ -1,0 +1,35 @@
+uuid: 42bcc4b8-8084-4e3d-89e4-06343fce2afd
+langcode: en
+status: true
+dependencies:
+  module:
+    - domain
+    - system
+  theme:
+    - champions
+_core:
+  default_config_hash: 7rR9chwXvdM2H8OYMAYx9Zj3GGlPMrZp_M3ZA4thYTk
+id: champions_page_title
+theme: champions
+region: title_area
+weight: -34
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    context_mapping: {  }
+    pages: "/user/*\r\n!/user/*/*\r\n/resource/*\r\n/affinity-groups/*\r\n/amp-front-page\r\n/about"
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
