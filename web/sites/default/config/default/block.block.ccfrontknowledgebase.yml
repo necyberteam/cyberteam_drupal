@@ -1,0 +1,33 @@
+uuid: 311db97e-ab77-4ad7-af9c-81ff6a920b1d
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:6e4da11a-a2f1-476e-b93a-c661220b0009'
+  module:
+    - block_content
+    - domain
+  theme:
+    - champions
+id: ccfrontknowledgebase
+theme: champions
+region: campus_champions_front_sections
+weight: 4
+provider: null
+plugin: 'block_content:6e4da11a-a2f1-476e-b93a-c661220b0009'
+settings:
+  id: 'block_content:6e4da11a-a2f1-476e-b93a-c661220b0009'
+  label: 'CC - Front - Knowledge Base'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
