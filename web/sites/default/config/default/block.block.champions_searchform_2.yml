@@ -1,0 +1,29 @@
+uuid: 1512362c-4e0f-43ff-9292-9f5a1857f884
+langcode: en
+status: true
+dependencies:
+  module:
+    - domain
+    - search
+  theme:
+    - champions
+id: champions_searchform_2
+theme: champions
+region: primary_menu
+weight: 0
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form'
+  label_display: '0'
+  provider: search
+  page_id: ''
+visibility:
+  domain:
+    id: domain
+    negate: true
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
