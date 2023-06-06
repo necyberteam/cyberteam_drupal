@@ -1060,7 +1060,7 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: webform_submission_field
-          label: ''
+          label: 'CI Link'
           exclude: false
           alter:
             alter_text: true
@@ -1105,110 +1105,6 @@ display:
           webform_multiple_value: true
           webform_multiple_delta: 0
           webform_check_access: 1
-        webform_submission_value:
-          id: webform_submission_value
-          table: webform_submission_field_resource_category
-          field: webform_submission_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: webform_submission_field
-          label: Category
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          webform_element_format: value
-          webform_multiple_value: true
-          webform_multiple_delta: 0
-        webform_submission_value_4:
-          id: webform_submission_value_4
-          table: webform_submission_field_resource_tags
-          field: webform_submission_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: webform_submission_field
-          label: Tags
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          webform_element_format: link
-          webform_multiple_value: true
-          webform_multiple_delta: 0
         webform_submission_value_3:
           id: webform_submission_value_3
           table: webform_submission_field_resource_skill_level
@@ -1218,7 +1114,7 @@ display:
           admin_label: ''
           plugin_id: webform_submission_field
           label: 'Skill Level'
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -1261,80 +1157,17 @@ display:
           webform_element_format: label
           webform_multiple_value: true
           webform_multiple_delta: 0
-        sid_1:
-          id: sid_1
-          table: webform_submission
-          field: sid
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: webform_submission
-          entity_field: sid
-          plugin_id: field
-          label: 'View CI Link'
-          exclude: true
-          alter:
-            alter_text: true
-            text: '<a href="/ci-link/{{ sid_1 }}">view</a>'
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: number_unformatted
-          settings: {  }
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        webform_submission_value_1:
-          id: webform_submission_value_1
-          table: webform_submission_field_resource_description
+          webform_check_access: 1
+        webform_submission_value_4:
+          id: webform_submission_value_4
+          table: webform_submission_field_resource_tags
           field: webform_submission_value
           relationship: none
           group_type: group
           admin_label: ''
           plugin_id: webform_submission_field
-          label: ''
-          exclude: true
+          label: Tags
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -1374,61 +1207,10 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          webform_element_format: value
+          webform_element_format: link
           webform_multiple_value: true
           webform_multiple_delta: 0
-        webform_submission_value_2:
-          id: webform_submission_value_2
-          table: webform_submission_field_resource_link_to_resource__title
-          field: webform_submission_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: webform_submission_composite_field
-          label: ''
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          webform_element_format: value
-          webform_multiple_value: '1'
-          webform_multiple_delta: '0'
+          webform_check_access: 1
       empty:
         area:
           id: area
@@ -1443,7 +1225,33 @@ display:
             value: '<div class="alert alert-warning">There are no CI Links associated with this topic. Please check back often as more CI Links are added regularly, or view <a href="/ci-links">CI Links</a>.</div>'
             format: full_html
           tokenize: false
-      sorts: {  }
+      sorts:
+        webform_submission_value_1:
+          id: webform_submission_value_1
+          table: webform_submission_field_resource_title
+          field: webform_submission_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_field_sort
+          order: ASC
+          expose:
+            label: Title
+            field_identifier: webform_submission_value_1
+          exposed: false
+        webform_submission_value_2:
+          id: webform_submission_value_2
+          table: webform_submission_field_resource_terms
+          field: webform_submission_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_field_sort
+          order: ASC
+          expose:
+            label: terms
+            field_identifier: webform_submission_value_2
+          exposed: false
       arguments:
         sid:
           id: sid
@@ -1493,6 +1301,7 @@ display:
           plugin_id: bundle
           value:
             resource: resource
+          group: 1
           expose:
             operator_limit_selection: false
             operator_list: {  }
@@ -1539,14 +1348,48 @@ display:
         groups:
           1: AND
       style:
-        type: html_list
+        type: table
         options:
           grouping: {  }
-          row_class: 'list-group-item py-0 px-1 border-0'
-          default_row_class: false
-          type: ul
-          wrapper_class: ''
-          class: 'list-group list-group-flush'
+          row_class: 'py-0 px-1 border-0 '
+          default_row_class: true
+          columns:
+            sid: sid
+            webform_submission_value_5: webform_submission_value_5
+            webform_submission_value_3: webform_submission_value_3
+            webform_submission_value_4: webform_submission_value_4
+          default: webform_submission_value_5
+          info:
+            sid:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            webform_submission_value_5:
+              sortable: true
+              default_sort_order: asc
+              align: views-align-left
+              separator: ''
+              empty_column: false
+              responsive: ''
+            webform_submission_value_3:
+              align: views-align-left
+              separator: ''
+              empty_column: false
+              responsive: ''
+            webform_submission_value_4:
+              align: views-align-left
+              separator: ''
+              empty_column: false
+              responsive: ''
+          override: false
+          sticky: false
+          summary: ''
+          empty_table: false
+          caption: ''
+          description: ''
       row:
         type: fields
         options: {  }
@@ -1587,6 +1430,7 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - url.query_args
         - user
       tags: {  }
   block_3:
