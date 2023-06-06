@@ -15,11 +15,23 @@ third_party_settings:
       student: student
       mentor: mentor
       researcher: researcher
+      representative: 0
+      research_computing_facilitator: 0
+      research_software_engineer: 0
+      ci_systems_engineer: 0
+      student_champion: 0
+      domain_champion: 0
     user_additional_register_form_required:
       authenticated: 0
       student: 0
       mentor: 0
       researcher: 0
+      representative: 0
+      research_computing_facilitator: 0
+      research_software_engineer: 0
+      ci_systems_engineer: 0
+      student_champion: 0
+      domain_champion: 0
 id: user.user.field_cv_resume
 field_name: field_cv_resume
 entity_type: user
@@ -33,7 +45,7 @@ default_value_callback: ''
 settings:
   handler: 'default:file'
   handler_settings: {  }
-  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_directory: 'resume/[date:custom:Y]-[date:custom:m]'
   file_extensions: 'txt doc docx pdf'
   max_filesize: ''
   description_field: false
