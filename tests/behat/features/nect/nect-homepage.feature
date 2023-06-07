@@ -17,7 +17,7 @@ Feature: verify specific links on homepage
     When I follow "Northeast Cyberteam"
     Then I should be on the homepage
 
-  Scenario: authenticated User is on the homepage
+  Scenario: authenticated User follows the "Contact Us" link
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
     When I follow "Contact Us"
