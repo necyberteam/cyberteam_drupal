@@ -1,19 +1,18 @@
-uuid: c99c6ca2-4002-4b0e-b4eb-33faba810fad
+uuid: 6d20f1a5-5069-4cf2-8ce4-b053817a87e3
 langcode: en
 status: true
 dependencies: {  }
-id: engagement_review_requested
+id: final_review
 workflow: match_engagement
 transitions:
-  request_review: request_review
+  finished_adding_information: finished_adding_information
 roles:
-  match_pm: match_pm
   match_sc: match_sc
 author: false
 site_mail: false
 emails: ''
-subject: 'MATCH Engagement submitted for review'
+subject: 'MATCH Engagement ready for review'
 body:
   value: "<p>Click on <a href=\"[node:url:unaliased:relative]/edit\">this link</a> to review the engagement submission \"[node:title]\".</p>\r\n"
-  format: full_html
-label: 'Review Requested'
+  format: basic_html
+label: 'Final Review'

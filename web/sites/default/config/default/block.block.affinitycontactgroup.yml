@@ -1,0 +1,37 @@
+uuid: 63c71f96-ef84-419d-b922-9630290f7903
+langcode: en
+status: true
+dependencies:
+  module:
+    - cssn
+    - node
+    - user
+  theme:
+    - accesstheme
+id: affinitycontactgroup
+theme: accesstheme
+region: content
+weight: 7
+provider: null
+plugin: affinity_contact_group
+settings:
+  id: affinity_contact_group
+  label: 'Affinity Contact Group'
+  label_display: '0'
+  provider: cssn
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      administrator: administrator
+      affinity_group_leader: affinity_group_leader
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      affinity_group: affinity_group
