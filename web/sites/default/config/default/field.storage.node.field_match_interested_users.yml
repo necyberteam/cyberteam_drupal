@@ -3,8 +3,12 @@ langcode: en
 status: true
 dependencies:
   module:
+    - field_permissions
     - node
     - user
+third_party_settings:
+  field_permissions:
+    permission_type: public
 id: node.field_match_interested_users
 field_name: field_match_interested_users
 entity_type: node
