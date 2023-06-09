@@ -32,6 +32,7 @@ Feature: test ACCESS Support Tags Page
     When I fill in "Affinity Group" with "ACCESS Support (327)"
     When I fill in "Tag" with "python"
     When I select "Published" from "Save as"
+    # TODO: be able to save an event with a date and time
 
 
   Scenario: Unauthenticated user tests the Term selector on the Events Page
