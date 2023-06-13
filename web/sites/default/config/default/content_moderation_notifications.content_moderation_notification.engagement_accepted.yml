@@ -5,13 +5,13 @@ dependencies: {  }
 id: engagement_accepted
 workflow: match_engagement
 transitions:
-  accept_engagement: accept_engagement
+  start_recruiting_and_notify_author_: start_recruiting_and_notify_author_
 roles: {  }
 author: true
 site_mail: false
 emails: ''
-subject: 'Your MATCH Engagement was accepted'
+subject: 'Your MATCH Engagement is ready to recruit!'
 body:
-  value: "<p>Please complete the additional information required to beginning recruiting for your engagement:</p>\r\n\r\n<p><a href=\"javascript:void(0);\">[node:canonical-source-domain-url]</a></p>\r\n"
-  format: basic_html
+  value: "<p>Your engagement <a href=\"[node:url:unaliased:relative]/edit\">[node:title]</a> is ready to recruit.</p>\r\n"
+  format: full_html
 label: 'Engagement Accepted'

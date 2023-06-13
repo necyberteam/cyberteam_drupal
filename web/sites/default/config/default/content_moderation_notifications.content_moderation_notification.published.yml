@@ -12,6 +12,6 @@ site_mail: false
 emails: ''
 subject: 'Your {% if entity.bundle|title == ''Access_News'' %}ACCESS News{% else %}ACCESS Event{% endif %} was published'
 body:
-  value: "<p>Your content {{ node.title.0.value }} was published.</p>\r\n\r\n<p>{% if entity.bundle|title == 'Access_News' %} <a href=\" entity.id}) }}/edit\">{{ node.title.value }}</a>{% else %} <a href=\" entity.id.value}) }}\">{{ entity.title.value }}</a>{% endif %}</p>\r\n"
-  format: basic_html
+  value: "<p>Your content {{ node.title.0.value }} was published.</p>\r\n\r\n<p>{% if entity.bundle|title == 'Access_News' %} <a href=\"{{ url('entity.node.canonical', {'node': entity.id}) }}/edit\">{{ node.title.value }}</a>{% else %} <a href=\"{{ url('entity.eventseries.canonical', {'eventseries': entity.id.value}) }}/../{{ entity.eventseries.id.value }}/edit\">{{ entity.title.value }}</a> {% endif %}</p>\r\n"
+  format: full_html
 label: Published
