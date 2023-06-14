@@ -154,6 +154,12 @@ type_settings:
         - reviewing_applicants
       to: on_hold
       weight: 5
+    move_to_received:
+      label: 'Move to Received'
+      from:
+        - accepted
+      to: received
+      weight: 8
     ready_to_recruit:
       label: 'Return to recruiting'
       from:

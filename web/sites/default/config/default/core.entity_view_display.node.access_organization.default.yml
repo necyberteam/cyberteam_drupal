@@ -1,0 +1,58 @@
+uuid: 0e59a607-4732-4512-b5b5-7c6b0c7ac8e4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.access_organization.field_carnegie_code
+    - field.field.node.access_organization.field_country
+    - field.field.node.access_organization.field_domain_access
+    - field.field.node.access_organization.field_domain_all_affiliates
+    - field.field.node.access_organization.field_domain_source
+    - field.field.node.access_organization.field_is_active
+    - field.field.node.access_organization.field_is_msi
+    - field.field.node.access_organization.field_latitude
+    - field.field.node.access_organization.field_longitude
+    - field.field.node.access_organization.field_org_type
+    - field.field.node.access_organization.field_organization_abbrev
+    - field.field.node.access_organization.field_organization_id
+    - field.field.node.access_organization.field_organization_name
+    - field.field.node.access_organization.field_organization_phone
+    - field.field.node.access_organization.field_organization_url
+    - field.field.node.access_organization.field_state
+    - node.type.access_organization
+  module:
+    - user
+id: node.access_organization.default
+targetEntityType: node
+bundle: access_organization
+mode: default
+content:
+  field_domain_access:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_carnegie_code: true
+  field_country: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  field_is_active: true
+  field_is_msi: true
+  field_latitude: true
+  field_longitude: true
+  field_org_type: true
+  field_organization_abbrev: true
+  field_organization_id: true
+  field_organization_name: true
+  field_organization_phone: true
+  field_organization_url: true
+  field_state: true

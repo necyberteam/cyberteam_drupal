@@ -1,0 +1,68 @@
+uuid: f59bbd55-f09f-46c6-a497-64bbaf47e86b
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.amp_cyberinfrastructure_org
+    - domain.record.campuschampions_cyberinfrastructure_org
+    - domain.record.careersct_cyberinfrastucture_org
+    - domain.record.ccmnet_org
+    - domain.record.coco_cyberinfrastructure_org
+    - domain.record.connectcidev_wpi_edu
+    - domain.record.greatplains_wpi_edu
+    - domain.record.kycyberteam_cyberinfrastructure_org
+    - domain.record.mines_cyberinfrastructure_org
+    - domain.record.nectd8_wpi_edu
+    - domain.record.rmacc_wpi_edu
+    - domain.record.sweeter_cyberinfrastructure_org
+    - domain.record.trecis_cyberinfrastructure_org
+    - domain.record.usrse_cyberinfrastructure_org
+    - field.storage.node.field_domain_access
+    - node.type.access_organization
+id: node.access_organization.field_domain_access
+field_name: field_domain_access
+entity_type: node
+bundle: access_organization
+label: 'Domain Access'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    target_uuid: d4f48099-0a21-4f65-a79f-59abf91d1eb5
+  -
+    target_uuid: a2d73be0-7261-4aa7-8a12-d2a8fdc26dd7
+  -
+    target_uuid: 03e787e8-a64f-494b-acfc-7cedb45dffef
+  -
+    target_uuid: dec80117-e01e-4be7-9328-3558eee4e112
+  -
+    target_uuid: 6361d29c-047b-4316-a358-f694a7d4ee6d
+  -
+    target_uuid: 2cf40d0f-cde1-4232-ad17-a3a6b69b9348
+  -
+    target_uuid: b5868f50-9dee-4e16-bc1e-3090f62ce420
+  -
+    target_uuid: 807f6060-ed2b-46d7-9efd-16918bd4307b
+  -
+    target_uuid: aae0c659-f7a4-411f-860b-0be21bc16587
+  -
+    target_uuid: 545ef7d6-6012-4355-b74b-e8edc8260432
+  -
+    target_uuid: 8aa15533-6804-46f3-9f3d-c005354003b4
+  -
+    target_uuid: fc59e9fd-6aae-4cc0-bd43-ebce51f3f75c
+  -
+    target_uuid: 1defd6d7-ac34-4dd3-9f60-893a66243960
+  -
+    target_uuid: de075c06-b43f-4cca-8b6a-295acf2486fc
+default_value_callback: ''
+settings:
+  handler: 'default:domain'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: weight
+      direction: ASC
+    auto_create: false
+field_type: entity_reference
