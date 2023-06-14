@@ -4,7 +4,7 @@
 
 Feature: verify specific links on homepage
 
-  Scenario: User is on the homepage
+  Scenario: User follows the contact us link to the contact form
     Given I am not logged in
     When I am on the homepage
     When I follow "Contact Us"
@@ -14,7 +14,7 @@ Feature: verify specific links on homepage
   Scenario: Verify the main logo goes to home page
     Given I am not logged in
     When I am on the homepage
-    When I follow "Northeast Cyberteam" 
+    When I follow "Northeast Cyberteam"
     Then I should be on the homepage
 
   Scenario: authenticated User is on the homepage
@@ -27,5 +27,5 @@ Feature: verify specific links on homepage
   Scenario: authenticated Verify the main logo goes to home page
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
-    When I follow "Northeast Cyberteam" 
+    When I follow "Northeast Cyberteam"
     Then I should be on the homepage
