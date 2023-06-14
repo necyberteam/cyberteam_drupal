@@ -4,7 +4,7 @@
 
 Feature: test ACCESS Support Match Plus Page
   In order to test the Match Plus Page
-
+# Adding to get screenshot of error
   Scenario: Unauthenticated user tests the Match Plus Page
     Given I am not logged in
     When I go to "/matchplus"
