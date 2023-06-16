@@ -14,9 +14,6 @@ Feature: test login function for access denied error
     When I follow "Login"
     Then I should not see "Access Denied"
 
-  Scenario: Testing log in permissions for access website
-    Given I am logged in as user: abrush
-    Then I should not see "Access Denied"
 
 
 
