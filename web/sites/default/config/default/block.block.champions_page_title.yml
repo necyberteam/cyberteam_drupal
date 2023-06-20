@@ -1,9 +1,8 @@
-uuid: 42bcc4b8-8084-4e3d-89e4-06343fce2afd
+uuid: 2bd14d50-d2bd-4275-a638-c9d925b86a03
 langcode: en
 status: true
 dependencies:
   module:
-    - domain
     - system
   theme:
     - champions
@@ -25,11 +24,4 @@ visibility:
     id: request_path
     negate: true
     context_mapping: {  }
-    pages: "/user/*\r\n!/user/*/*\r\n/resource/*\r\n/affinity-groups/*\r\n/amp-front-page\r\n/about"
-  domain:
-    id: domain
-    negate: false
-    context_mapping:
-      domain: '@domain.current_domain_context:domain'
-    domains:
-      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+    pages: "/user/*\r\n!/user/*/*\r\n/resource/*\r\n/affinity-groups/*\r\n/amp-front-page"

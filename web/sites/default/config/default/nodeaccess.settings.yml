@@ -2359,6 +2359,16 @@ role_alias:
     weight: '0'
     name: 'Match SC'
     allow: 0
+  cip:
+    alias: CIP
+    weight: '0'
+    name: CIP
+    allow: 0
+  site_developer:
+    alias: 'Site Developer'
+    weight: 0
+    name: 'Site Developer'
+    allow: 0
 role_map:
   anonymous: 1
   student: 2
@@ -2393,9 +2403,11 @@ role_map:
   consultant: 34
   match_sc: 35
   cip: 36
+  site_developer: 37
 allowed_types:
   access_active_resources_from_cid: 0
   access_news: 0
+  access_organization: 0
   affinity_group: 0
   article: 0
   blog_post: 0
@@ -2410,3 +2422,140 @@ allowed_types:
   published_articles: 0
   regional_about: 0
   webform: 0
+access_organization:
+  anonymous:
+    grant_view: '1'
+    grant_update: 0
+    grant_delete: 0
+  authenticated:
+    grant_view: '1'
+    grant_update: 0
+    grant_delete: 0
+  student:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  professional_mentor:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  researcher:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  representative:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  administrator:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  masquerade:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  regional_expert:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  campuschampionsadmin:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  exportpeople:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  research_computing_facilitator:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  research_software_engineer:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  ci_systems_engineer:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  mentee:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  student_champion:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  domain_champion:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  cssn:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  affinity_group_leader:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  match_pm:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  sc:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  lt:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  ra:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  coco_pm:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  cnctci_pm:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  news_pm:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  kb_pm:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  careers_sc:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  ccmnet_pm:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  consultant:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  match_sc:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  cip:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
+  author:
+    grant_view: 0
+    grant_update: 0
+    grant_delete: 0
