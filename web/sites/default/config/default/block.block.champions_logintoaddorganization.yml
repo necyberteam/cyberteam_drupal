@@ -1,0 +1,47 @@
+uuid: 7c282eef-16fa-4c5b-9f99-762712677e62
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:d7e936d6-5b3f-44fd-8cb5-1106f6156538'
+  module:
+    - block_content
+    - domain
+    - system
+    - user
+  theme:
+    - champions
+id: champions_logintoaddorganization
+theme: champions
+region: view_type_buttons
+weight: 1
+provider: null
+plugin: 'block_content:d7e936d6-5b3f-44fd-8cb5-1106f6156538'
+settings:
+  id: 'block_content:d7e936d6-5b3f-44fd-8cb5-1106f6156538'
+  label: 'Login to Add Organization'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      coco_cyberinfrastructure_org: coco_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/organizations\r\n<front>"
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      anonymous: anonymous

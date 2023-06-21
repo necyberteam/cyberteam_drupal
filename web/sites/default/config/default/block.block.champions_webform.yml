@@ -1,0 +1,31 @@
+uuid: ba0ecc70-5166-4870-a729-929ce287051b
+langcode: en
+status: true
+dependencies:
+  config:
+    - webform.webform.amp_newsletter
+  module:
+    - system
+    - webform
+  theme:
+    - champions
+id: champions_webform
+theme: champions
+region: content
+weight: 35
+provider: null
+plugin: webform_block
+settings:
+  id: webform_block
+  label: 'Get updates about AMP'
+  label_display: visible
+  provider: webform
+  webform_id: amp_newsletter
+  default_data: ''
+  redirect: false
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /amp-front-page

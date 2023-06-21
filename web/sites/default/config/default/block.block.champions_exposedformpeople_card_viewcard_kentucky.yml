@@ -1,0 +1,29 @@
+uuid: 2c98a368-ad4f-4745-8d32-f3f87c5c0a04
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_exposedformpeople_card_viewcard_kentucky
+theme: champions
+region: exposed_filters
+weight: 19
+provider: null
+plugin: 'views_exposed_filter_block:people_card_view-card_kentucky'
+settings:
+  id: 'views_exposed_filter_block:people_card_view-card_kentucky'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people_card_kentucky\r\n/people/card/kentucky"

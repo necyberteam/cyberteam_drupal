@@ -1,0 +1,39 @@
+uuid: 3251a65a-dbb1-49c8-a12e-c3722a77139b
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.regional_about
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__regional_about_regional_about_cc
+theme: champions
+region: content
+weight: 32
+provider: null
+plugin: 'views_block:regional_about-regional_about_cc'
+settings:
+  id: 'views_block:regional_about-regional_about_cc'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /about

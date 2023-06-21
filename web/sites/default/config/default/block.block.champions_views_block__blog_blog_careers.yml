@@ -1,0 +1,39 @@
+uuid: ec06ca3f-8e90-4464-b52e-048ab6b4ea13
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.blog
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__blog_blog_careers
+theme: champions
+region: blog_page
+weight: -56
+provider: null
+plugin: 'views_block:blog-blog_careers'
+settings:
+  id: 'views_block:blog-blog_careers'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /blog

@@ -1,0 +1,29 @@
+uuid: 12140426-39cf-47bc-821d-c7001f4328f7
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_exposedformpeople_card_viewcard_northeast
+theme: champions
+region: exposed_filters
+weight: 21
+provider: null
+plugin: 'views_exposed_filter_block:people_card_view-card_northeast'
+settings:
+  id: 'views_exposed_filter_block:people_card_view-card_northeast'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people_card_northeast\r\n/people/card/northeast"

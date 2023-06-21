@@ -1,0 +1,39 @@
+uuid: ec119835-f4d6-46b1-be5f-47e52932cccc
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.news
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__news_article_rmacc
+theme: champions
+region: content
+weight: 14
+provider: null
+plugin: 'views_block:news-article_rmacc'
+settings:
+  id: 'views_block:news-article_rmacc'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      rmacc_wpi_edu: rmacc_wpi_edu
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /news

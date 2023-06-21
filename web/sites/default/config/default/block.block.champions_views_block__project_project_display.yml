@@ -1,0 +1,39 @@
+uuid: d8eed4c8-520f-447f-afe4-35fabd6efa97
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.project
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__project_project_display
+theme: champions
+region: projects_page
+weight: -77
+provider: null
+plugin: 'views_block:project-project_display'
+settings:
+  id: 'views_block:project-project_display'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains: {  }
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '/project/*'

@@ -1,0 +1,38 @@
+uuid: c298689b-c908-4501-8216-2cd94e7427fb
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:774a4e8e-a353-4062-9fd8-7c6fb3823e29'
+  module:
+    - block_content
+    - domain
+    - system
+  theme:
+    - champions
+id: champions_campuschampionsqlhelp
+theme: champions
+region: promotional_message
+weight: -72
+provider: null
+plugin: 'block_content:774a4e8e-a353-4062-9fd8-7c6fb3823e29'
+settings:
+  id: 'block_content:774a4e8e-a353-4062-9fd8-7c6fb3823e29'
+  label: CampusChampionsQL-Help
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains: {  }
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '<front>'

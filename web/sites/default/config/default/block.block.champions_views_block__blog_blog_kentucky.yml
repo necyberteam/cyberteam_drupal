@@ -1,0 +1,39 @@
+uuid: 491baf80-0f60-483f-a8b0-4eb5f5d72ba6
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.blog
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__blog_blog_kentucky
+theme: champions
+region: blog_page
+weight: -54
+provider: null
+plugin: 'views_block:blog-blog_kentucky'
+settings:
+  id: 'views_block:blog-blog_kentucky'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      kycyberteam_cyberinfrastructure_org: kycyberteam_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /blog

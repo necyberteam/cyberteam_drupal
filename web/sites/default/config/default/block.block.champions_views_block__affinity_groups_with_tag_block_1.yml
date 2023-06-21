@@ -1,0 +1,33 @@
+uuid: af86eb4c-9e39-4b26-a6a6-194d8121a2b9
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.affinity_groups_with_tag
+  module:
+    - taxonomy
+    - views
+  theme:
+    - champions
+id: champions_views_block__affinity_groups_with_tag_block_1
+theme: champions
+region: tags_page_askci
+weight: 0
+provider: null
+plugin: 'views_block:affinity_groups_with_tag-block_1'
+settings:
+  id: 'views_block:affinity_groups_with_tag-block_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles:
+      tags: tags

@@ -1,0 +1,31 @@
+uuid: cb1099fc-973c-46ba-99b9-cb527f969029
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__people_card_view_card_kentucky
+theme: champions
+region: people_page_card
+weight: 0
+provider: null
+plugin: 'views_block:people_card_view-card_kentucky'
+settings:
+  id: 'views_block:people_card_view-card_kentucky'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people_card_kentucky\r\n/people/card/kentucky"

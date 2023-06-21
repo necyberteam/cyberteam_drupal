@@ -1,0 +1,37 @@
+uuid: 69733552-5004-458a-9d9d-2fc8e073c95d
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - user
+  theme:
+    - champions
+_core:
+  default_config_hash: X9I1OB0W3WlWtrK-CNcg6hNWwa8wficanpH8pYnDZDE
+id: champions_local_tasks
+theme: champions
+region: drupal_tabs
+weight: -38
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    context_mapping: {  }
+    pages: "/form/*\r\n/taxonomy/term/*\r\n/user/*\r\n!/user/*/*\r\n/node/24\r\n/webform/project/submissions/*\r\n/webform/project/submissions/*/edit\r\n/node/117\r\n/node/48"
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

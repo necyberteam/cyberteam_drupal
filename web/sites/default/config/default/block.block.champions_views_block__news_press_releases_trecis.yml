@@ -1,0 +1,39 @@
+uuid: 622d4d3b-7d25-45b5-8b37-a38ce5d535b3
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.news
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__news_press_releases_trecis
+theme: champions
+region: content
+weight: 23
+provider: null
+plugin: 'views_block:news-press_releases_trecis'
+settings:
+  id: 'views_block:news-press_releases_trecis'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      trecis_cyberinfrastructure_org: trecis_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /news

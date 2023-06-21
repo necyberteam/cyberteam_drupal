@@ -1,0 +1,27 @@
+uuid: bca8a8ee-4591-4e63-ac12-edea21dac199
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - champions
+_core:
+  default_config_hash: KHQIJ7Vfl25lTjzIc7qIvnuistt-Mw2O0kG4jCofmkI
+id: champions_messages
+theme: champions
+region: title_area
+weight: -36
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: visible
+  provider: system
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    context_mapping: {  }
+    pages: ''

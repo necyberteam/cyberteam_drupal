@@ -1,0 +1,29 @@
+uuid: 449cd191-13f8-4415-b93f-9dffa59183b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_exposedformpeople_card_viewcard_careers
+theme: champions
+region: exposed_filters
+weight: 17
+provider: null
+plugin: 'views_exposed_filter_block:people_card_view-card_careers'
+settings:
+  id: 'views_exposed_filter_block:people_card_view-card_careers'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people_card_careers\r\n/people/card/careers"

@@ -1,0 +1,29 @@
+uuid: c725ef63-d4a4-4eeb-b4f6-ab34a3494826
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_exposedformpeople_list_viewlist_rmacc
+theme: champions
+region: exposed_filters
+weight: 33
+provider: null
+plugin: 'views_exposed_filter_block:people_list_view-list_rmacc'
+settings:
+  id: 'views_exposed_filter_block:people_list_view-list_rmacc'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list/rmacc

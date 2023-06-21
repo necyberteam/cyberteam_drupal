@@ -1,0 +1,39 @@
+uuid: 4c27d45a-dbb5-4dd8-8b2a-ae1b4cceb14f
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:3daec616-b1c4-4d65-aba5-3595cfe26698'
+  module:
+    - block_content
+    - domain
+    - system
+  theme:
+    - champions
+id: champions_jobsfromaskci_2
+theme: champions
+region: below_main_content
+weight: 0
+provider: null
+plugin: 'block_content:3daec616-b1c4-4d65-aba5-3595cfe26698'
+settings:
+  id: 'block_content:3daec616-b1c4-4d65-aba5-3595cfe26698'
+  label: JobsFromAskCI
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '<front>'

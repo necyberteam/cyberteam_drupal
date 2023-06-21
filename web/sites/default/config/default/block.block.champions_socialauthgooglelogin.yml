@@ -1,0 +1,26 @@
+uuid: c750bfbb-6b48-4bcf-b504-e49da6d502d7
+langcode: en
+status: true
+dependencies:
+  module:
+    - campuschampions
+    - system
+  theme:
+    - champions
+id: champions_socialauthgooglelogin
+theme: champions
+region: below_main_content
+weight: 5
+provider: null
+plugin: socialauthgoogle
+settings:
+  id: socialauthgoogle
+  label: 'Social Auth Google Login'
+  label_display: '0'
+  provider: campuschampions
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /user/login

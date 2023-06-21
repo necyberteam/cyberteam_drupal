@@ -1,0 +1,31 @@
+uuid: fb4d9f3f-ffec-4006-8ce8-e2703579d7c6
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__people_list_view_list_northeast
+theme: champions
+region: people_page_list
+weight: 0
+provider: null
+plugin: 'views_block:people_list_view-list_northeast'
+settings:
+  id: 'views_block:people_list_view-list_northeast'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list/northeast

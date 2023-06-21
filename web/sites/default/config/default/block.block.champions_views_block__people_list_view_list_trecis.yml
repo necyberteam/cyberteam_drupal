@@ -1,0 +1,31 @@
+uuid: 481aea7f-2f60-4715-9cd0-d44e61060f79
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__people_list_view_list_trecis
+theme: champions
+region: people_page_list
+weight: 0
+provider: null
+plugin: 'views_block:people_list_view-list_trecis'
+settings:
+  id: 'views_block:people_list_view-list_trecis'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list/trecis

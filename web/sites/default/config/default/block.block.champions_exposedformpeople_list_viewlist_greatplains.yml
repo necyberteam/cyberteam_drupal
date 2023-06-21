@@ -1,0 +1,29 @@
+uuid: 260754c8-904f-44f3-b8f1-26f7147c35ed
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_exposedformpeople_list_viewlist_greatplains
+theme: champions
+region: exposed_filters
+weight: 29
+provider: null
+plugin: 'views_exposed_filter_block:people_list_view-list_greatplains'
+settings:
+  id: 'views_exposed_filter_block:people_list_view-list_greatplains'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list/great-plains

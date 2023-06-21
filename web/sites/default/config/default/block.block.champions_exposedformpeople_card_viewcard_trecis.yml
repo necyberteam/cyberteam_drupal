@@ -1,0 +1,29 @@
+uuid: 657df88d-70c7-4c40-a8da-1ad0e9f486ae
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_exposedformpeople_card_viewcard_trecis
+theme: champions
+region: exposed_filters
+weight: 24
+provider: null
+plugin: 'views_exposed_filter_block:people_card_view-card_trecis'
+settings:
+  id: 'views_exposed_filter_block:people_card_view-card_trecis'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/card/trecis

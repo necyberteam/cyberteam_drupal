@@ -1,0 +1,39 @@
+uuid: 3345d230-e9f5-44b7-ac31-a8a2a7e39909
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.affinity_group_community_events
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__affinity_group_community_events_cc_front_events
+theme: champions
+region: campus_champions_front_community_events
+weight: 0
+provider: null
+plugin: 'views_block:affinity_group_community_events-cc_front_events'
+settings:
+  id: 'views_block:affinity_group_community_events-cc_front_events'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '<front>'

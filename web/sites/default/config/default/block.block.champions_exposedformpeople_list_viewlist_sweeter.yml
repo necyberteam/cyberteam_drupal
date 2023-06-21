@@ -1,0 +1,29 @@
+uuid: 43ee4b9e-8bc9-4a87-80dd-98711632c681
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_exposedformpeople_list_viewlist_sweeter
+theme: champions
+region: exposed_filters
+weight: 34
+provider: null
+plugin: 'views_exposed_filter_block:people_list_view-list_sweeter'
+settings:
+  id: 'views_exposed_filter_block:people_list_view-list_sweeter'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list/sweeter

@@ -1,0 +1,38 @@
+uuid: 158318a7-5290-4a62-90e5-2692fe3d7e00
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.peoplebuttonblocks
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__peoplebuttonblocks_region_select_card
+theme: champions
+region: exposed_filters
+weight: 1
+provider: null
+plugin: 'views_block:peoplebuttonblocks-region_select_card'
+settings:
+  id: 'views_block:peoplebuttonblocks-region_select_card'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains: {  }
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people\r\n/people/card\r\n/people/card/*"

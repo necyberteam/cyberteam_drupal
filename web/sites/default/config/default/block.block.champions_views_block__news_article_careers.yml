@@ -1,0 +1,39 @@
+uuid: 14c5b445-aa59-4437-92b1-13fccd33c60a
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.news
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__news_article_careers
+theme: champions
+region: content
+weight: 6
+provider: null
+plugin: 'views_block:news-article_careers'
+settings:
+  id: 'views_block:news-article_careers'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /news

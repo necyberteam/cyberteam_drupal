@@ -1,0 +1,31 @@
+uuid: 615c9322-6590-4910-8187-85d6e0e41d72
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.affinity_group_card_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__affinity_group_card_view_block_1
+theme: champions
+region: below_main_content
+weight: 4
+provider: null
+plugin: 'views_block:affinity_group_card_view-block_1'
+settings:
+  id: 'views_block:affinity_group_card_view-block_1'
+  label: 'Affinity Groups'
+  label_display: '0'
+  provider: views
+  views_label: 'Affinity Groups'
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /regions

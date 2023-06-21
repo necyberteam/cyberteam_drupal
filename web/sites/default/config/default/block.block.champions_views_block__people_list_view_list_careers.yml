@@ -1,0 +1,31 @@
+uuid: c70e362a-ce13-45b4-808e-6b31ef5dbdcf
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__people_list_view_list_careers
+theme: champions
+region: people_page_list
+weight: 0
+provider: null
+plugin: 'views_block:people_list_view-list_careers'
+settings:
+  id: 'views_block:people_list_view-list_careers'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list/careers

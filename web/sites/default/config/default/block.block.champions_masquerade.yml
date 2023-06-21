@@ -1,0 +1,28 @@
+uuid: 96c7ae17-b3f5-4dbb-8b62-97184ce15bdb
+langcode: en
+status: true
+dependencies:
+  module:
+    - masquerade
+    - user
+  theme:
+    - champions
+id: champions_masquerade
+theme: champions
+region: third_footer
+weight: 0
+provider: null
+plugin: masquerade
+settings:
+  id: masquerade
+  label: Masquerade
+  label_display: visible
+  provider: masquerade
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      masquerade: masquerade

@@ -1,0 +1,25 @@
+uuid: 1adf5c19-a88e-433f-aa6e-f877bbd6751f
+langcode: en
+status: false
+dependencies:
+  config:
+    - system.menu.account
+  module:
+    - system
+  theme:
+    - champions
+id: champions_usermenu
+theme: champions
+region: primary_menu
+weight: 0
+provider: null
+plugin: 'system_menu_block:account'
+settings:
+  id: 'system_menu_block:account'
+  label: 'User menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

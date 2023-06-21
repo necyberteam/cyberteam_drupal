@@ -1,0 +1,38 @@
+uuid: 08903046-3af4-4695-97c6-6d38cf6b3e1a
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:3daec616-b1c4-4d65-aba5-3595cfe26698'
+  module:
+    - block_content
+    - domain
+    - system
+  theme:
+    - champions
+id: champions_jobsfromaskci
+theme: champions
+region: campus_champions_front_jobs
+weight: 0
+provider: null
+plugin: 'block_content:3daec616-b1c4-4d65-aba5-3595cfe26698'
+settings:
+  id: 'block_content:3daec616-b1c4-4d65-aba5-3595cfe26698'
+  label: JobsFromAskCI
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains: {  }
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '<front>'
