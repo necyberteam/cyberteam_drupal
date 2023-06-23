@@ -24,12 +24,11 @@ Feature: test ACCESS Support Outages Page
     Then I should see "show"
     Then I should see "entries"
     #outages-planned_length needs testing
-    # TODO search doesn't seem to be working
-     When I fill in "Search" with "ACCESS"
-     And I wait 5 seconds
-     Then I should see "ACCESS User Identity"
-     When I fill in "Search" with ""
-     And I wait 5 seconds
-    Then I should see "Showing 1 to 2 of 2 entries"
-    # TODO Paginitation test does not work ID needs to be added in order to test
-    # When I press "2"
+    And I wait 5 seconds
+    Then I should see "Showing 1 to 10"
+    When I select "100" from "outages-all_length"
+    Then I should see "Anvil Cluster Maintenance"
+    When I click "Anvil Cluster Maintenance"
+    Then I should get a "200" HTTP response
+    Then I should see "Anvil Cluster Maintenance"
+
