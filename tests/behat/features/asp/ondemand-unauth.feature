@@ -39,7 +39,7 @@ Feature: test ACCESS Support OnDemand Page
     Then I should be on "/wiki/SW:Portal"
     When I go to "/ondemand"
     Then I should see "PACE"
-    #Then I should see an image with alt text "Georgia Tech Logo"
+    Then I should see an image with alt text "Georgia Tech Logo"
     When I click "PACE"
     Then I should be on "/ood/guide/"
     When I go to "/ondemand"
