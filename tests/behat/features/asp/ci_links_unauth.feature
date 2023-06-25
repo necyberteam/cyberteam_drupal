@@ -12,6 +12,7 @@ Feature: test ACCESS Support CI links
     When I follow "Add new CI Link"
     Then I should be on "/user/login"
     When I am on "/ci-links"
+    #NOT PASSING
     #Then I should see "Title"
     When I follow "Neurostars"
     Then I should be on "/ci-links/3679"
