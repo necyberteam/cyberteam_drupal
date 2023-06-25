@@ -34,4 +34,5 @@ Feature: test ACCESS Support CI links
     #Then I should see "Affinity Group"
     #When I follow "Anvil"
     #Then I should be on "/affinity-groups/anvil"
+    #THERE ARE NO CI LINKS APPEARING ON PAGE
 
