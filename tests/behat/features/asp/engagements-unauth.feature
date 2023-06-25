@@ -12,18 +12,18 @@ Feature: test ACCESS Support Engagements Page
     Then I should see "MATCHPremier Engagements"
 
     # testing Titles link to Engagements
-    When I follow "Transient cooling of composite spherical moving droplet at high temperature with phase change and non-homogeneous boundary conditions"
-    Then I should be on "/node/326"
+    When I follow "UVM Art and AI Initiative"
+    Then I should be on "/node/331"
     When I am on "/engagements"
-    When I follow "Transient cooling of composite spherical moving droplet at high temperature with phase change and non-homogeneous boundary conditions"
-    Then I should be on "/node/326"
+    When I follow "UVM Art and AI Initiative"
+    Then I should be on "/node/331"
 
 #TODO: More buttons expand box to reveal whole excerpt and "- Less" link
 
     # testing tags in box and tag link
-    Then I should see "bash"
+    Then I should see "image-processing"
     When I am on "/engagements"
-    When I follow "bash"
-    Then I should be on "/tags/bash"
+    When I follow "image-processing"
+    Then I should be on "/tags/image-processing"
 
 #TODO: - Less link collapse box
