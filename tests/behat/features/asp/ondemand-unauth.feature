@@ -59,7 +59,7 @@ Feature: test ACCESS Support OnDemand Page
     Then I should see "For Resource Providers"
     Then I should see an image with alt text "Team working"
     Then I should see "The ACCESS OnDemand team will be providing OnDemand plugins,"
-    #TODO Need to test link to LEarn More
+    #TODO Need to test link to Learn More
     Then I should see "Learn More"
     Then I should see "Connect with us on Discourse"
     Then I should see "Join the Community"
