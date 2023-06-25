@@ -1,4 +1,4 @@
-@asp
+@wip
 @api
 @javascript
 
@@ -21,7 +21,9 @@ Feature: test ACCESS Support Outages Page
     Then I should see "Planned Downtimes"
     Then I should see "All Outages"
     # TODO Figure out how to add below test
-    # Then I should see "Show 10 Entries"
+    Then I should see "Show"
+    #Then I should see element with "outages-planned_length" selector
+    Then I should see "entries"
     # TODO search doesn't seem to be working
     # When I fill in "Search" with "ACCESS"
     # Then I should see "ACCESS Metrics XDMoD Update"
