@@ -30,6 +30,7 @@ Feature: test cssn form
     And I wait for the page to be loaded
     Then I should see "CSSN Member"
     Then I should see "Roles:"
+    #TODO Roles do not show on persona page
     #Then I should see "mentor"
     #Then I should see "Consultant"
     #Then I should see "CIP"
