@@ -35,5 +35,5 @@ Feature: test ACCESS Support Announcements Page
     When I click "DELTA"
     Then I should be on "/affinity-groups/delta"
     When I go to "/node/354"
-    When I click "block-newsnodetypelinkbacktonewsview"
+    When I click "< Back to Announcements"
     Then I should be on "/announcements"
