@@ -79,8 +79,8 @@ Feature: test ACCESS Support knowledge base
     Then I should see "Quantum Computing"
     Then I should see "Cloud Computing"
     Then I should see "See all Forums"
-    #TODO Button is not working ?
-    #When I click "See all forums"
+    When I click "See all Forums"
+    Then I should be on "https://ask.cyberinfrastructure.org/?_gl=1*1937nu1*_ga*OTkzMDg2OTU2LjE2ODc3OTUyMzA.*_ga_CNLGPXPT91*MTY4Nzk3NzQ4My44LjEuMTY4Nzk4MTIzMC4wLjAuMA.."
 
   Scenario: Unauthenticated user tests the Community Contributed CI Links section on the knowledge base page
     Given I am not logged in
