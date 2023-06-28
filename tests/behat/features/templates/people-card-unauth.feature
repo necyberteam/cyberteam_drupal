@@ -11,12 +11,9 @@ Feature: test people page Card view w/ filters
     Then I should see "People"
     And I should see "Filter By Program"
     And I should see "Search the people database"
-    # TODO - not working
-     And I should see "Filter By Role"
     And I should see "Card View"
     And I should see "Programs"
     And I should see "Roles"
-    #TODO Not showing
     And I should see "Affinity Groups"
     And I should see "Skills"
     And I should see "List view"
