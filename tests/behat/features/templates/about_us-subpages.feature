@@ -13,5 +13,5 @@ Feature: test About Us page
     When I am on "code-conduct"
     Then I should see "ACCESS welcomes and encourages participation in our community by people of all backgrounds and identities"
     When I am on "news"
-    Then I should see "Published Articles"
+    Then I should see "News"
 
