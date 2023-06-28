@@ -1,4 +1,4 @@
-@asp
+@templates
 @api
 @javascript
 Feature: test contact user page
