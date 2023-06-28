@@ -66,7 +66,7 @@ Feature: test ACCESS Support OnDemand Page
     Then I should see an image with alt text "Group of people in an office"
     Then I should see "The ACCESS OnDemand project team has a long track record of working with the"
     Then I should see "Join Us"
-    When I click "Join Us"
+    Then I click "Join Us"
     And I wait 2 seconds
     Then I should be on "https://discourse.openondemand.org/"
 ## Adding this just to run test. WIll delete after
