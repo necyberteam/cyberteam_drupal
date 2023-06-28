@@ -33,7 +33,7 @@ Feature: test ACCESS Support OnDemand Page
     When I click "Expanse"
     Then I should be on "/support/user_guides/expanse.html"
     When I go to "/ondemand"
-    Then I should see "Faster"
+    Then I should see "FASTER"
     Then I should see an image with alt text "Texas A&M University Logo"
     When I click "FASTER"
     Then I should be on "/wiki/SW:Portal"
@@ -59,7 +59,7 @@ Feature: test ACCESS Support OnDemand Page
     Then I should see "For Resource Providers"
     Then I should see an image with alt text "Team working"
     Then I should see "The ACCESS OnDemand team will be providing OnDemand plugins,"
-    #TODO Need to test link to LEarn More
+    #TODO Need to test link to Learn More
     Then I should see "Learn More"
     Then I should see "Connect with us on Discourse"
     Then I should see "Join the Community"
