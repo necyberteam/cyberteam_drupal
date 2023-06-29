@@ -49,24 +49,24 @@ Feature: verify specific links on homepage
     When I am on the homepage
     Then I should see "RMACC"
     # TODO following fails repeatedly on localhost
-    # And I wait for the page to be loaded
-    # And I wait 4 seconds
-    # And I follow "RMACC"
-    # And I wait for the page to be loaded
-    # Then I should be on "https://ask.cyberinfrastructure.org/c/communities/rmacc/65"
+    And I wait for the page to be loaded
+    And I wait 4 seconds
+    And I follow "RMACC"
+    And I wait for the page to be loaded
+    Then I should be on "/c/community-forums/rmacc/65"
 
     When I am on the homepage
-    And I wait for 2 seconds
+    And I wait for the page to be loaded
     And I follow "SWEETER Cyberteam"
     # TODO 404
-    # And I wait for the page to be loaded
-    # Then I should be on "https://sweeter.cyberinfrastructure.org/"
+    And I wait for the page to be loaded
+    Then I should be on "/c/sweeter/71"
 
     # TODO - failing on github with And I follow "TRECIS Cyberteam"
     # ╳  Unable to complete AJAX request. {"name":"step.after","feature":"verify specific links on homepage","step":"I follow \"TRECIS Cyberteam\"","suite":"default"} (RuntimeException)
-    # When I am on the homepage
-    # And I follow "TRECIS Cyberteam"
-    # Then I should be on "https://ask.cyberinfrastructure.org/c/cyberteams/trecis/60"
+    When I am on the homepage
+    And I follow "TRECIS Cyberteam"
+    Then I should be on "https://ask.cyberinfrastructure.org/c/cyberteams/trecis/60"
 
     When I am on the homepage
     And I follow "Campus Champions Region 1"
@@ -85,16 +85,16 @@ Feature: verify specific links on homepage
 
   # TODO - currently broken - see D8-1014
   #Scenario: User is on the homepage and follows contact us
-  #  Given I am not logged in
-  #  When I am on the homepage
-  #  When I follow "Contact Us"
-  #  Then I should be on "contact/connect_ci"
-  #  And I should see "Welcome to Connect Cyberinfrastructure"
+    Given I am not logged in
+    When I am on the homepage
+    When I follow "Contact Us"
+    Then I should be on "contact/connect_ci"
+    And I should see "Page not found"
 
   # TODO - currently broken
-  #Scenario: Authenticated User is on the homepage and follows contact us
-  #  Given I am logged in as a user with the "authenticated" role
-  #  When I am on the homepage
-  #  When I follow "Contact Us"
-  #  Then I should be on "contact/connect_ci"
-  #  And I should see "Welcome to Connect Cyberinfrastructure"
+  Scenario: Authenticated User is on the homepage and follows contact us
+    Given I am logged in as a user with the "authenticated" role
+    When I am on the homepage
+    When I follow "Contact Us"
+    Then I should be on "contact/connect_ci"
+    And I should see "Page not found"
