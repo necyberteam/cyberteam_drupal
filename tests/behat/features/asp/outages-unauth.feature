@@ -20,10 +20,9 @@ Feature: test ACCESS Support Outages Page
     Then I should see "End"
     Then I should see "Planned Downtimes"
     Then I should see "All Outages"
-    # TODO Figure out how to add below test
     Then I should see "show"
     Then I should see "entries"
-    #outages-planned_length needs testing
+    When I select "25" from "outages-planned_length"
     And I wait 5 seconds
     Then I should see "Showing 1 to 10"
     When I select "100" from "outages-all_length"
