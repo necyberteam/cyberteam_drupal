@@ -4,7 +4,8 @@
 
 Feature: test ACCESS Support CI links
 
-  Scenario: Authenticated user creates test CI Links
+
+  Scenario: Unauthenticated user tests CI Links page
     Given I am logged in as user "abrush"
     When I am on "/ci-links"
     When I follow "Add new CI Link"
@@ -17,7 +18,6 @@ Feature: test ACCESS Support CI links
     When I fill in "Link URL" with "https://support.access-ci.org"
     Then I should see "test"
 
-  Scenario: Unauthenticated user tests CI Links page
     Given I am not logged in
     When I go to "/ci-links"
     Then I should see "CI Links"
