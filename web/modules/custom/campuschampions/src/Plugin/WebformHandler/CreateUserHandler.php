@@ -70,7 +70,8 @@ class CreateUserHandler extends WebformHandlerBase
     $user = User::create();
 
     // madatory fields
-    $user->setPassword(user_password());
+    $generate_password = \Drupal::service('password_generator')->generate();
+    $user->setPassword($generate_password);
     $user->enforceIsNew();
     $user->setEmail($email);
     $user->setUsername($username);
