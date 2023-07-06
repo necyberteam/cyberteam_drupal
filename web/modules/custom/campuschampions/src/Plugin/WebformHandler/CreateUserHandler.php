@@ -30,7 +30,10 @@ class CreateUserHandler extends WebformHandlerBase
     $data = $webformSubmission->getData();
 
     // Create a new user if they don't exist already
-    $ids = \Drupal::entityQuery('user')->condition('mail', $data['user_email'])->execute();
+    $ids = \Drupal::entityQuery('user')
+      ->condition('mail', $data['user_email'])
+      ->accessCheck(FALSE)
+      ->execute();
     if (empty($ids)) {
       $user = $this->createUser($data);
       $webformSubmission->convert($user);
