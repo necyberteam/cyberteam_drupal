@@ -1,4 +1,4 @@
-@templates
+@wip
 @api
 @javascript
 
@@ -25,12 +25,12 @@ Feature: add a test project via the form
     When I fill in "Phone" with "555-1213"
     When I fill in "Ext:" with "333"
     # TODO not sure how to correctly reference people
-    #When I fill in "edit-mentor-items-0-item-" with "Julie Ma"
-    #When I fill in "edit-student-items-0-item-" with "Julie Ma (100)"
+    When I fill in "edit-mentor-items-0-item-" with "Julie Ma"
+    When I fill in "edit-student-items-0-item-" with "Julie Ma (100)"
     When I fill in "Project Description" with "test project description"
-    #When I fill in "edit-project-deliverables-mentee" with "test project Deliverables"
-    #When I fill in "Student Research Computing Facilitator Profile" with "test project student facilitator profile"
-    #When I select "One programming class" from "Student Facilitator Programming Skill Level"
+    When I fill in "edit-project-deliverables-mentee" with "test project Deliverables"
+    When I fill in "Student Research Computing Facilitator Profile" with "test project student facilitator profile"
+    When I select "One programming class" from "Student Facilitator Programming Skill Level"
     When I fill in "Project Institution" with "test Project Institution"
     When I fill in "Address" with "test Address"
     When I fill in "Address 2" with "test Address 2"
