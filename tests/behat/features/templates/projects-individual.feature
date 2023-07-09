@@ -7,11 +7,13 @@ Feature: test projects page
   Scenario: Remove all projects and verify empty messages
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/structure/webform/manage/project/results/submissions"
-    # TODO - following doesn't work
-    #When I check "Select all rows in this table"
-    #When I select "Delete submission" from "edit-action"
-    #When I press "Apply to selected items"
-    #Then I should see "Delete these submissions"
+    # Items below are selection of created projcts
+    When I check "items[1]"
+    When I check "items[2]"
+    When I check "items[3]"
+    When I select "Delete submission" from "edit-action"
+    When I press "Apply to selected items"
+    Then I should see "Delete these submissions"
 
   Scenario: Unath user must login to create a project
     Given I am not logged in
@@ -49,9 +51,9 @@ Feature: test projects page
     #When I fill in "edit-mentor-items-0-item-" with "Julie Ma"
     #When I fill in "edit-student-items-0-item-" with "Julie Ma (100)"
     When I fill in "Project Description" with "test project description"
-    #When I fill in "edit-project-deliverables-mentee" with "test project Deliverables"
-    #When I fill in "Student Research Computing Facilitator Profile" with "test project student facilitator profile"
-    #When I select "One programming class" from "Student Facilitator Programming Skill Level"
+    When I fill in "edit-project-deliverables-mentee" with "test project Deliverables"
+    When I fill in "Mentee Research Computing Profile" with "test project student facilitator profile"
+    When I select "One programming class" from "Student Facilitator Programming Skill Level"
     When I fill in "Project Institution" with "test Project Institution"
     When I fill in "Address" with "test Address"
     When I fill in "Address 2" with "test Address 2"
@@ -67,7 +69,7 @@ Feature: test projects page
     When I fill in "Github Contributions Link" with "http://test.com"
     When I fill in "Planned Portal Contributions (if any)" with "test Planned Portal Contributions"
     When I fill in "Planned Publications (if any)" with "test Planned Publications (if any)"
-    #When I fill in "What will the student learn?" with "test learning"
+    When I fill in "What will the mentee learn?" with "test learning"
     When I fill in "What will the Cyberteam program learn from this project?" with "test What will the Cyberteam program learn"
     When I fill in "HPC resources needed to complete this project?" with "test HPC resources needed to complete"
     When I fill in "Notes" with "test Notes"
@@ -156,9 +158,8 @@ Feature: test projects page
     And I should see "test project description"
     When I click "I'm interested"
     Then I should see "Interested"
-    #Interested button is not able to be clicked
+    # TODO Interested button is not able to be clicked
     #When I click " interested"
-    #Then I should see "I'm interested"
     And I should see "http://test.com"
     And I should see "33"
 
