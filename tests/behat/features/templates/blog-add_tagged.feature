@@ -13,15 +13,11 @@ Feature: add a blog post with a tag
     When I fill in "Title" with "test-blog-post"
     # tag is "login"
     When I select "682" from "edit-field-tags"
-    When I check "Published" 
-    When I press "Save" 
+    When I check "Published"
+    When I press "Save"
     Then I should see "has been created"
     And I should see "login"
-
-    Given I am not logged in
     When I go to "tags/login"
     Then I should see "Blog Entries"
-    # TODO following should work - bug filed at https://cyberteamportal.atlassian.net/browse/D8-991
-    # And I should see "test-blog-post"
-    
-    
+    And I should see "test-blog-post"
+
