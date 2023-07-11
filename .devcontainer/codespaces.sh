@@ -4,8 +4,8 @@ dir=${PWD}
 
 # Add Lando
 $LANDO_VERSION=$(cat .github/lando_version.md)
-curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-$LANDO_VERSION"
-chmod +x /usr/local/bin/l
+sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-$LANDO_VERSION"
+sudo chmod +x /usr/local/bin/lando
 
 # Install composer
 EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
