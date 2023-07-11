@@ -20,6 +20,5 @@ RUN curl -L https://github.com/pantheon-systems/terminus/releases/download/3.1.0
 RUN chmod +x terminus
 RUN ./terminus self:update
 RUN mv terminus /usr/local/bin/terminus && chmod 755 /usr/local/bin/terminus
-# Install Lando maybe
-RUN curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-v3.18.0" && \
+RUN curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-$(cat .github/lando_version.md)" && \
     chmod +x /usr/local/bin/lando

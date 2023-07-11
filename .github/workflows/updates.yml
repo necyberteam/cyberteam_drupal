@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+
       - uses: ./.github/actions/dingorunner
         env:
           runner: composer_update
@@ -26,6 +27,7 @@ jobs:
           username: ${{ github.actor }}
           email: github.actions@necyberteam.org
           gh_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create Pull Request
         run: |
           touch prnum.txt

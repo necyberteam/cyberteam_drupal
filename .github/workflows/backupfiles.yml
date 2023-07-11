@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+
       - uses: ./.github/actions/dingorunner
         env:
           runner: bkup-files
@@ -15,6 +16,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
           site_name: ${{ secrets.TERMINUS_SITE_NAME }}
           env: live
+
       - name: 'Upload Backup Artifact'
         uses: actions/upload-artifact@v3
         with:

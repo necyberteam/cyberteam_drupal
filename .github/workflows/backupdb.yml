@@ -9,10 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+
+      - name: Set lando version.
+        run: echo "LANDO_VERSION=$(cat .github/lando_version.md)" >> $GITHUB_ENV
+
       - name: Install Lando
         run: |
-          sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-v3.6.4"
+          sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-$LANDO_VERSION"
           sudo chmod +x /usr/local/bin/lando
+
       - name: Setup Lando cache
         uses: actions/cache@v2
         with:
@@ -20,6 +25,7 @@ jobs:
           key: ${{ runner.os }}-lando${{ matrix.lando.version }}-${{ github.ref }}
           restore-keys: |
             ${{ runner.os }}-lando${{ matrix.lando.version }}-
+
       - name: Start Lando
         run: |
           echo "$lando_env" > .env
@@ -30,6 +36,7 @@ jobs:
         env:
           lando_env: ${{ secrets.LANDO_ENV }}
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+
       - uses: ./.github/actions/dingorunner
         env:
           runner: bkup
@@ -37,6 +44,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
           site_name: ${{ secrets.TERMINUS_SITE_NAME }}
           env: live
+
       - name: Sync DB
         run: |
           lando composer config -g github-oauth.github.com $gh_token
@@ -54,6 +62,7 @@ jobs:
           lando db-export site.sql
         env:
           gh_token: ${{ secrets.GH_TOKEN_REPO }}
+
       - name: 'Upload Backup Artifact'
         uses: actions/upload-artifact@v3
         with:

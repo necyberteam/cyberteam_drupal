@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+
       - uses: ./.github/actions/dingorunner
         env:
           runner: bkup
@@ -19,10 +20,15 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
           site_name: ${{ secrets.TERMINUS_SITE_NAME }}
           env: live
+
+      - name: Set lando version.
+        run: echo "LANDO_VERSION=$(cat .github/lando_version.md)" >> $GITHUB_ENV
+
       - name: Install Lando
         run: |
-          sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-v3.11.0"
+          sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-$LANDO_VERSION"
           sudo chmod +x /usr/local/bin/lando
+
       - name: Setup Lando cache
         uses: actions/cache@v2
         with:
@@ -30,6 +36,7 @@ jobs:
           key: ${{ runner.os }}-lando${{ matrix.lando.version }}-${{ github.ref }}
           restore-keys: |
             ${{ runner.os }}-lando${{ matrix.lando.version }}-
+
       - name: Start Lando
         run: |
           echo "$lando_env" > .env
@@ -40,6 +47,7 @@ jobs:
           lando_env: ${{ secrets.LANDO_ENV }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+
       - name: Config diff
         run: |
           git remote set-url origin https://$username:$gh_token@github.com/necyberteam/cyberteam_drupal.git
@@ -106,6 +114,7 @@ jobs:
           username: ${{ github.actor }}
           email: github.actions@necyberteam.org
           gh_user: ${{ secrets.GH_USER }}
+
       - name: Create Pull Request
         run: |
           gh pr create --title "[Config sync]" --body "Sync the config from branch"

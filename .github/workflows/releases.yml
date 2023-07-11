@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+
       - name: Create/push tag
         run: |
           git remote set-url origin https://$gh_user:$gh_token@github.com/$gh_repo.git
@@ -51,6 +52,7 @@ jobs:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
           gh_user: ${{ secrets.GH_USER }}
           gh_repo: necyberteam/cyberteam_drupal
+
       - uses: ./.github/actions/dingorunner
         env:
           runner: deploy
