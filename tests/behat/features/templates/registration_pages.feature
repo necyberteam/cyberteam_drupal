@@ -56,5 +56,4 @@ Feature: Test registration page
     # When I fill in "edit-field-current-occupation-0-value" with "Test"
     When I fill in "edit-field-citizenships-0-value" with "Test"
     When I click "op"
-    #TODO Does not go to Homepage goes to /people/card
-    #Then I should be on the homepage
+    Then I should be on "/people/card"
