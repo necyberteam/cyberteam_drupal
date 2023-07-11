@@ -26,13 +26,10 @@ Feature: test tags page
       Given I am not logged in
       When I go to "tags"
       When I fill in "Search" with "login"
-      #And I wait 1 seconds
       Then I should see "login"
       When I fill in "Search" with "LOGIN"
-      #And I wait 1 seconds
       Then I should see "login"
       When I fill in "Search" with "LOGIN"
-      #And I wait 1 seconds
       Then I should see "login"
       When I follow "login"
       Then I should be on "tags/login"
@@ -44,8 +41,10 @@ Feature: test tags page
       When I follow "Tree View"
       Then I should see "Please select the"
       And I should be on "tags/hierarchal"
+      When I click "ACCESS RPs"
+    # want to test clicking the down arrow - following isn't right
+      #Then I should see "access-acount"
+      When I go to "tags/hierarchal"
       When I follow "List View"
       Then I should be on "/tags"
-      # TODO want to test clicking the down arrow - following isn't right
-      # When I follow "#admin-and-support"
-      # Then I should see "login"
+
