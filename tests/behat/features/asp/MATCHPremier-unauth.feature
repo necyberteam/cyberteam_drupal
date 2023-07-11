@@ -59,10 +59,6 @@ Feature: test ACCESS Support MATCHPremier Page
     When I am on "/matchpremier"
     When I follow "Developing Computational Labs for Upper Level Physical Chemistry II Course"
     Then I should be on "/node/330"
-    # TODO gone
-    # When I am on "/matchpremier"
-    # When I follow "Statistical Analysis of criminal cases in the United States District Court of Puerto Rico"
-    # Then I should be on "/node/335"
 
 
 #TODO: test More buttons expand box to reveal whole excerpt and "- Less" link
@@ -77,13 +73,6 @@ Feature: test ACCESS Support MATCHPremier Page
     #Given I click the ".view-match-engagement-view .view-content .col:first-of-type .more-match" element
     #Then I should see "big-data"
     #When I click "- Less"
-
-    # TODO gone
-    # When I am on "/matchpremier"
-    # Then I should see "gravitational-waves"
-    # When I am on "/matchpremier"
-    # When I follow "gravitational-waves"
-    # Then I should be on "/tags/gravitational-waves"
 
 
 #TODO: test -Less link collapse box

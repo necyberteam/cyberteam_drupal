@@ -37,7 +37,7 @@ Feature: test tags page
 
     Scenario: Unauthenticated user examines tree view and list view of tags
       Given I am not logged in
-      When I go to "tags"
+      When I go to "/tags"
       When I follow "Tree View"
       Then I should see "Please select the"
       And I should be on "tags/hierarchal"
@@ -47,4 +47,3 @@ Feature: test tags page
       When I go to "tags/hierarchal"
       When I follow "List View"
       Then I should be on "/tags"
-
