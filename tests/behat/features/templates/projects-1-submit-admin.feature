@@ -48,7 +48,7 @@ Feature: add a test project via the form
     When I fill in "Github Contributions Link" with "http://test.com"
     When I fill in "Planned Portal Contributions (if any)" with "test Planned Portal Contributions"
     When I fill in "Planned Publications (if any)" with "test Planned Publications (if any)"
-    When I fill in "What will the mentee learn?" with "test learning"
+    When I fill in "What will the student learn?" with "test learning"
     When I fill in "What will the Cyberteam program learn from this project?" with "test What will the Cyberteam program learn"
     When I fill in "HPC resources needed to complete this project?" with "test HPC resources needed to complete"
     When I fill in "Notes" with "test Notes"
