@@ -26,13 +26,10 @@ Feature: test tags page
       Given I am not logged in
       When I go to "tags"
       When I fill in "Search" with "login"
-      #And I wait 1 seconds
       Then I should see "login"
       When I fill in "Search" with "LOGIN"
-      #And I wait 1 seconds
       Then I should see "login"
       When I fill in "Search" with "LOGIN"
-      #And I wait 1 seconds
       Then I should see "login"
       When I follow "login"
       Then I should be on "tags/login"
@@ -40,12 +37,14 @@ Feature: test tags page
 
     Scenario: Unauthenticated user examines tree view and list view of tags
       Given I am not logged in
-      When I go to "tags"
+      When I go to "/tags"
       When I follow "Tree View"
       Then I should see "Please select the"
       And I should be on "tags/hierarchal"
       When I follow "List View"
       Then I should be on "/tags"
-      # TODO want to test clicking the down arrow - following isn't right
-      # When I follow "#admin-and-support"
-      # Then I should see "login"
+      When I select "Contains all words" from "edit-name-op--2"
+      When I fill in "Search" with "ADMIN and SUPPORT"
+      And I wait 5 seconds
+      When I click "ADMIN and SUPPORT"
+      Then I should see "ADMIN and SUPPORT"
