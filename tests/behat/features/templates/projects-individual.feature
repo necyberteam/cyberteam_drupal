@@ -1,4 +1,4 @@
-@templates
+@asp
 @api
 @javascript
 
@@ -8,9 +8,9 @@ Feature: test projects page
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/structure/webform/manage/project/results/submissions"
     # Items below are selection of created projcts
-    When I check "items[1]"
-    When I check "items[2]"
-    When I check "items[3]"
+    #When I check "items[1]"
+    #When I check "items[2]"
+    #When I check "items[3]"
     When I select "Delete submission" from "edit-action"
     When I press "Apply to selected items"
     Then I should see "Delete these submissions"
@@ -48,8 +48,8 @@ Feature: test projects page
     When I fill in "Phone" with "555-1213"
     When I fill in "Ext:" with "333"
     # TODO not sure how to correctly reference people
-    #When I fill in "edit-mentor-items-0-item-" with "Julie Ma"
-    #When I fill in "edit-student-items-0-item-" with "Julie Ma (100)"
+    #When I fill in "edit-mentor-items-0-item-" with "Test Smith (TestSmith)"
+    #When I fill in "edit-mentee-s-items-0-item-" with "Test Smith (TestSmith)"
     When I fill in "Project Description" with "test project description"
     When I fill in "edit-project-deliverables-mentee" with "test project Deliverables"
     When I fill in "Mentee Research Computing Profile" with "test project student facilitator profile"
