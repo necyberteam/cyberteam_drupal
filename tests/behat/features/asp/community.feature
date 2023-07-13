@@ -35,16 +35,14 @@ Feature: test ACCESS Support Community Page
     Then I should be on "/ccep-pilot"
 
 
-  # TODO enable when authenticated is possible on ASP.
-  # (and rename this filename to just "community.feature" or "cssn.feature")
-  # Scenario: Authenticated user tests the Community Page
-  #   Given I am logged in as a user with the "authenticated" role
-  #   When I go to "/cssn"
-  #   When I click "Join the CSSN Network"
-  #   Then I should be on "/user/login"
-  #
-  #   When I go to "/cssn"
-  #   And I click "FIND OUT MORE"
-  #   Then I should be on "/ccep-pilot"
+
+  Scenario: Authenticated user tests the Community Page
+    Given I am logged in as a user with the "authenticated" role
+    When I go to "/cssn"
+    When I click "Join the CSSN"
+    Then I should be on "/form/join-the-cssn-network"
+    When I go to "/cssn"
+    And I click "FIND OUT MORE"
+    Then I should be on "/ccep-pilot"
 
 
