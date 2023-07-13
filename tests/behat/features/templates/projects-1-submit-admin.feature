@@ -28,7 +28,8 @@ Feature: add a test project via the form
     #When I fill in "edit-mentor-items-0-item-" with "Test Smith (TestSmith)"
     #When I fill in "edit-mentee-s-items-0-item-" with "Test Smith (TestSmith)"
     When I fill in "Project Description" with "test project description"
-    When I fill in "edit-project-deliverables-mentee" with "test project Deliverables"
+    #TODO project deliverables in different on each domain. Ticket created D8-1658
+    #When I fill in "edit-project-deliverables-mentee" with "test project Deliverables"
     When I fill in "Mentee Research Computing Profile" with "test project student facilitator profile"
     When I select "One programming class" from "Student Facilitator Programming Skill Level"
     When I select "One programming class" from "Mentee Programming Skill Level"
