@@ -22,9 +22,9 @@ Feature: test ACCESS Support Outages Page
     Then I should see "All Outages"
     Then I should see "show"
     Then I should see "entries"
-    When I select "25" from "outages-planned_length"
+    When I select "25" from "outages-all_length"
     And I wait 5 seconds
-    Then I should see "Showing 1 to 10"
+    Then I should see "Showing 1 to 25"
     When I select "100" from "outages-all_length"
     Then I should see "Anvil Cluster Maintenance"
     When I click "Anvil Cluster Maintenance"
