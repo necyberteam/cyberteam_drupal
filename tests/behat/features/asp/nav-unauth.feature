@@ -41,7 +41,7 @@ Scenario: Unauthenticated user tests the Footer Navigation Bar
     Then I should see "Code of Conduct"
     Then I should see "Privacy Policy"
     #Test for the ACCESS logo at footer
-    #Then I should see "/themes/custom/accesstheme/assets/ACCS050322_ACCESS_Brand_Tagline-RGB.png"
+    Then I should see an image with alt text "ACCESS"
 
 
 
@@ -49,7 +49,7 @@ Scenario: Unauthenticated user tests the NSF Section
     Given I am not logged in
     When I am on the homepage
     #Test the image
-    #Then I should see "/themes/custom/accesstheme/assets/NSF_4-Color_bitmap_Logo_350x350.png"
+    Then I should see an image with alt text "National Science Foundation"
     Then I should see "National Science Foundation"
     Then I should see "ACCESS is an advanced computing and data resource supported by the National Science Foundation and made possible through these lead institutions and their partners"
     Then I should see "Carnegie Mellon University"

@@ -69,4 +69,3 @@ Feature: test ACCESS Support OnDemand Page
     When I click "Join Us"
     And I wait 2 seconds
     Then I should be on "https://discourse.openondemand.org/"
-## Adding this just to run test. WIll delete after

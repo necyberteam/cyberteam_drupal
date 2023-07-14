@@ -58,7 +58,7 @@ Feature: test ACCESS Support Pegasus Page
 
     Then I should see "View Workflow Examples"
     Then I should see "We have Jupyter based training notebooks available"
-    #Then I should see an image with alt text "workflow key"
+    Then I should see an image with alt text "workflow key"
 
     Then I should see "Single Job"
     Then I should see an image with alt text "Single job workflow"
@@ -68,7 +68,6 @@ Feature: test ACCESS Support Pegasus Page
     When I go to "/pegasus"
 
     Then I should see "Set of Independent jobs"
-    #Alt does not seem to be working
     Then I should see an image with alt text "Independent jobs workflow"
     #Multiple Example buttons. How do I specify?
     When I click "Example"
@@ -76,7 +75,6 @@ Feature: test ACCESS Support Pegasus Page
     When I go to "/pegasus"
 
     Then I should see "Split/Merge Workflow"
-    #Alt does not seem to be working
     Then I should see an image with alt text "Split/merge workflow"
     #Multiple Example buttons. How do I specify?
     When I click "Example"
@@ -96,12 +94,12 @@ Feature: test ACCESS Support Pegasus Page
     Then I should see "Single Sign On with your ACCESS ID"
     Then I should see "All registered users with an active allocation automatically have an ACCESS Pegasus account."
     #Alt is not working come back to this
-    #Then I should see an image with alt text "OpenOndemand instance"
+    #Then I should see an image with alt text "SDSC Login Screenshot"
 
     Then I should see "Configure resources once"
     Then I should see "Use Open OnDemand instance at resource providers to install SSH keys and determine location allocation ID."
     Then I should see "Run Workflows on ACCESS"
-    #Then I should see an image with alt text "Create the workflow"
+    Then I should see an image with alt text "Create the workflow"
 
     Then I should see an image with alt text "Workflow step 1"
     Then I should see "1. Create the workflow"
@@ -136,7 +134,6 @@ Feature: test ACCESS Support Pegasus Page
 
     When I go to "/pegasus"
     Then I should see "More Help"
-    #Alt is not working
     Then I should see an image with alt text "More help icon"
     Then I should see "Links to more help and places to ask questions"
     When I click "Get Help"
@@ -144,7 +141,7 @@ Feature: test ACCESS Support Pegasus Page
 
     When I go to "/pegasus"
     Then I should see "Pegasus Affinity Group"
-    #Then I should see an image with alt text "Pegasus icon"
+    Then I should see an image with alt text "Pegasus icon"
     Then I should see "The hub for the ACCESS Pegasus"
     When I click "Join us"
     Then I should be on "/affinity-groups/pegasus"
