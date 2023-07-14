@@ -9,6 +9,3 @@ Feature: test Additional Universal Navigation menu
     When I am on the homepage
     When I follow "ACCESS Home"
     Then I should be on "https://access-ci.org/"
-
-
-

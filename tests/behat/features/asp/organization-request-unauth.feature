@@ -11,5 +11,5 @@ Feature: test ACCESS Support Organization Request Form
     When I fill in "edit-your-name" with "Test"
     When I fill in "edit-your-email" with "Test@email.com"
     When I fill in "edit-your-organization" with "Test Organization"
-    #Submit button is not working
-    #When I click "SUBMIT"
+    When I press "edit-submit"
+    Then I should see "Thanks for submitting your request"
