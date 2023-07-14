@@ -9,11 +9,9 @@ Feature: test individual Affinity Group page
     When I go to "/affinity-groups/cloud-computing"
 
     #Cant test image
-   # Then I should see "col-lg-4 col-md-8 mb-3"
+    #Then I should see "col-lg-4 col-md-8 mb-3"
 
     Then I should see "Cloud Computing"
-    #TODO Add image Test
-    #Then I should see the link "/sites/default/files/affinity-groups/cc%20cloud%20affinity_.png"
     Then I should see "cloud-commercial"
     Then I should see "People who use or are"
     Then I should see "Join"
