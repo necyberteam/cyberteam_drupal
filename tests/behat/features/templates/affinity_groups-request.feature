@@ -6,7 +6,7 @@ Feature: test affinity group request form
   In order to test the affinity group request form
   As a user of the authenticated role
 
-  Scenario: Administrator user fills out affinity group form
+  Scenario: Authenticated user fills out affinity group form
     Given I am logged in as a user with the "authenticated" role
     When I go to "affinity-groups"
     When I follow "Request an Affinity Group"
