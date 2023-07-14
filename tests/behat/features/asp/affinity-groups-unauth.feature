@@ -28,13 +28,9 @@ Feature: test ACCESS Support Affinty Groups Page
     When I follow "Login to join"
     And I wait 4 seconds
     Then I should be on "/user/login"
-
-#TODO: test Request an Affinity Group link takes you to login and then a webform to request a new Affinity Group
+    
+  Scenario: Unauthenticated user tests Request an Affinity Group link takes you to login and then a webform to request a new Affinity Group
     When I am on "/affinity_groups"
     Then I should see "submit a request form"
     When I click "submit a request form"
     Then I should be on "user/login?destination=/form/affinity-group-request"
-    #TODO: test webform to request after you login
-
-
-
