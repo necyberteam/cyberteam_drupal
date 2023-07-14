@@ -6,7 +6,7 @@ Feature: test cssn form
   In order to test the cssn form
   As a user of the authenticated role
 
-  Scenario: Administrator user fills out CSSN form
+  Scenario: Authenticated user fills out CSSN form
     Given I am logged in as a user with the "authenticated" role
     When I go to "/form/join-the-cssn-network"
     Then I should see "Join the CSSN Network"
