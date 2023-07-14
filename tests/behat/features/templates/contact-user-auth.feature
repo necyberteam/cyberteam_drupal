@@ -10,7 +10,6 @@ Feature: test contact user page
     When I fill in "Search by Name" with "Julie Ma"
     And I wait 4 seconds
     Then I should see "Julie Ma"
-    # TODO broken 4/12/23
     When I click "Julie"
     Then I should see "Julie Ma "
     When I click "contact_user"
