@@ -2,9 +2,9 @@
 @api
 @javascript
 
-Feature: test About Us page
+Feature: test About Us menu subpages
 
-  Scenario: About Us page has expected links
+  Scenario: test About Us menu subpages
     Given I am not logged in
     When I am on "about-us/user-guide"
     Then I should see "Welcome to the Cyberteam Portal Users Guide!"
@@ -13,5 +13,6 @@ Feature: test About Us page
     When I am on "code-conduct"
     Then I should see "ACCESS welcomes and encourages participation in our community by people of all backgrounds and identities"
     When I am on "news"
+    Then I should see "Published Articles"
     Then I should see "News"
 
