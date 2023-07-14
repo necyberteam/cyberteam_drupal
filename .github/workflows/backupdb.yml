@@ -26,7 +26,7 @@ jobs:
         uses: necyberteam/amp_lando_start@main
         with:
           DATABASE: ''
-          GH_TOKEN_REPO: ${{ secrets.gh_token }}
+          GH_TOKEN_REPO: ${{ secrets.GH_TOKEN_REPO }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Sanitize backup
