@@ -21,7 +21,7 @@ Feature: for a new tag, verify all blocks display a no entries message
     Then I should see "behat_test_tag"
     Then I should see "There are no Mentors and Regional Facilitators associated with this topic."
     # TODO - when Ask.CI is working, fix this
-    # Then I should see "There are no Ask.CI entries associated with this topic."
+    #Then I should see "There are no Ask.CI entries associated with this topic."
     Then I should see "There are no Affinity Groups associated with this topic."
     Then I should see "There are no Users associated with this topic."
     Then I should see "There are no CI Links associated with this topic."
