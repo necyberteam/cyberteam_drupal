@@ -28,7 +28,7 @@ Feature: test Navigation Bar footer
 
     When I am on the homepage
     When I follow "Documentation"
-    Then I should be on "/wiki/spaces/ACCESSdocumentation/"
+    Then I should be on "/wiki/spaces/ACCESSdocumentation/overview"
 
     When I am on the homepage
     And I wait 2 seconds
