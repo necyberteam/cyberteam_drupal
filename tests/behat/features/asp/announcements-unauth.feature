@@ -37,3 +37,5 @@ Feature: test ACCESS Support Announcements Page
     When I go to "/node/354"
     When I click "< Back to Announcements"
     Then I should be on "/announcements"
+    When I click "Add Announcement"
+    Then I should be on "/user/login?destination=/node/add/access_news"

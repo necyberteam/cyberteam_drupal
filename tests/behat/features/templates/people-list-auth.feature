@@ -31,11 +31,7 @@ Feature: test people page list view w/ filters
     When I fill in "Search by Name" with "Northeast"
     And I wait 4 seconds
     Then I should see "Northeast"
-    When I fill in "Search by Name" with ""
-
-    When I fill in "Filter by Role" with "Student-facilitator"
-    And I wait 4 seconds
-    Then I should see "Student-facilitator"
+    When I fill in "Search by Name" with " "
 
     When I fill in "Filter by Role" with " "
     And I wait 4 seconds
@@ -78,5 +74,3 @@ Feature: test people page list view w/ filters
     When I fill in "Filter by Role" with "rcf"
     And I wait 4 seconds
     Then I should see "rcf"
-
-

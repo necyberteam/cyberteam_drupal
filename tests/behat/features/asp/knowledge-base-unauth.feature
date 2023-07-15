@@ -63,9 +63,8 @@ Feature: test ACCESS Support knowledge base
     Given I am not logged in
     When I go to "/knowledge-base"
     Then I should see "Frequently Asked Questions"
-    #TODO Button for drop down does not seem to work
-    #When I click "collapseOne"
-   # Then I should see "Visit the ACCESS HOME page to learn about all of the ACCESS"
+    When I press "Where can I find general information about ACCESS?"
+    Then I should see "Visit the ACCESS HOME page to learn about all of the ACCESS"
 
   Scenario: Unauthenticated user tests the Visit our Forums section on the knowledge base page
     Given I am not logged in
