@@ -6,7 +6,7 @@ Feature: test ACCESS Support CI links
 
 
   Scenario: Authenticated user creates CI Link
-    Given I am logged in as user "abrush"
+    Given I am logged in as a user with the "authenticated" role
     When I am on "/ci-links"
     When I follow "Add new CI Link"
     When I fill in "Title" with "Test Link"
