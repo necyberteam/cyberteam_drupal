@@ -40,7 +40,7 @@ Feature: test ACCESS Support OnDemand Page
     Then I should be on "/wiki/SW:Portal"
     When I go to "/ondemand"
     Then I should see "PACE"
-    #Then I should see an image with alt text "Georgia Tech Logo"
+    Then I should see an image with alt text "Georgia Tech Logo"
     When I click "PACE"
     Then I should be on "/ood/guide/"
     When I go to "/ondemand"
@@ -70,4 +70,3 @@ Feature: test ACCESS Support OnDemand Page
     When I click "Join Us"
     And I wait 2 seconds
     Then I should be on "https://discourse.openondemand.org/"
-## Adding this just to run test. WIll delete after

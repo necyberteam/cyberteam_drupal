@@ -20,3 +20,4 @@ Feature: test join-the-cssn-network webform
     #Below code does not seem to be passing anymore
     #Then I should see "Submission updated in Join the CSSN Network."
     #Then I should see "Thanks for updating your CSSN membership."
+

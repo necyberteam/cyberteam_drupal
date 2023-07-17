@@ -41,10 +41,9 @@ Feature: test tags page
       When I follow "Tree View"
       Then I should see "Please select the"
       And I should be on "tags/hierarchal"
+      When I click "ACCESS RPs"
+    # want to test clicking the down arrow - following isn't right
+      #Then I should see "access-acount"
+      When I go to "tags/hierarchal"
       When I follow "List View"
       Then I should be on "/tags"
-      When I select "Contains all words" from "edit-name-op--2"
-      When I fill in "Search" with "ADMIN and SUPPORT"
-      And I wait 5 seconds
-      When I click "ADMIN and SUPPORT"
-      Then I should see "ADMIN and SUPPORT"

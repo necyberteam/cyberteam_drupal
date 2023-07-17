@@ -6,7 +6,7 @@ Feature: test cssn form
   In order to test the cssn form
   As a user of the authenticated role
 
-  Scenario: Administrator user fills out CSSN form
+  Scenario: Authenticated user fills out CSSN form
     Given I am logged in as a user with the "authenticated" role
     When I go to "/form/join-the-cssn-network"
     Then I should see "Join the CSSN Network"
@@ -24,8 +24,8 @@ Feature: test cssn form
     When I select "1st year undergraduate" from "academic_status_select2"
     When I press "Submit"
     And I wait 5 seconds
-    #Then I should see "Submission updated in Join the CSSN Network."
-    #Then I should see "Thanks for updating your CSSN membership."
+    Then I should see "Thank you for joining the cssn."
+    Then I should see "Thanks for updating your CSSN membership."
     When I go to "/community-persona"
     And I wait for the page to be loaded
     Then I should see "CSSN Member"
