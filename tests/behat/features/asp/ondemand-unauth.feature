@@ -21,6 +21,7 @@ Feature: test ACCESS Support OnDemand Page
     When I go to "/ondemand"
     Then I should see "Bridges2"
     Then I should see an image with alt text "Bridges2 logo"
+    #TODO Bridges is commented out due to page not loading and failing
     #When I click "Bridges2"
     #Then I should be on "/resources/bridges-2/user-guide-2-2/#ondemand"
     #When I go to "/ondemand"
