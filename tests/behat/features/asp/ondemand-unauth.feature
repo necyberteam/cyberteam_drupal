@@ -17,6 +17,7 @@ Feature: test ACCESS Support OnDemand Page
     Then I should see an image with alt text "Purdue logo"
     When I click "Anvil"
     Then I should be on "/knowledge/anvil/access/login"
+    When I go to the homepage
     When I go to "/ondemand"
     Then I should see "Bridges2"
     Then I should see an image with alt text "Bridges2 logo"
