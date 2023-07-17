@@ -40,7 +40,7 @@ Feature: test resource form
     And I should see "Description"
     And I should see "Link to CI Link"
     #TODO: Doesnt always work, investigate
-    #When I press "Submission information"
+    When I press "Submission information"
     #Then I should see "Submission Number"
     #And I should see "Submission ID"
     #And I should see "Submission UUID"
