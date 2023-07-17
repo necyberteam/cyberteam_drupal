@@ -20,7 +20,7 @@ Feature: test ACCESS Support OnDemand Page
     When I go to "/ondemand"
     Then I should see "Bridges2"
     Then I should see an image with alt text "Bridges2 logo"
-    When I click "Bridges2"
+    When I click "Bridges2 logo"
     Then I should be on "/resources/bridges-2/user-guide-2-2/#ondemand"
     When I go to "/ondemand"
     Then I should see "DELTA"
