@@ -9,7 +9,6 @@ Feature: test ACCESS Support About Page
     Given I am not logged in
     When I go to "/about-support"
     Then I should see "About ACCESS Support"
-    #Then I should see "Make the most of your computing resources"
     Then I should see "ACCESS Support Portal"
     Then I should see "The front door for researchers to obtain guided support, services, and"
     #TODO Alt text needs to be added to images
