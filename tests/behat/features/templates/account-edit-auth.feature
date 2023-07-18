@@ -8,7 +8,7 @@ Feature: test for the edit account page
   Scenario: Authenticated user tests the edit account page
     Given I am logged in as a user with the "authenticated" role
     When I go to the homepage
-    Then I should see "My Profile"
+    Then I should see " My profile"
     When I click "Edit my account"
     #Cannot test user name
     #Then I should see "mrfYEeUO"
