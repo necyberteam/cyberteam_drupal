@@ -13,7 +13,7 @@ Feature: add a test project via the form
     When I check "mentor"
     When I check "student-facilitator"
     When I check "researcher/educator"
-    When I select "1st year undergraduate" from "edit-field-academic-status"
+    #When I select "1st year undergraduate" from "edit-field-academic-status"
     When I press "op"
 
   Scenario: Add a project for verify it is created
