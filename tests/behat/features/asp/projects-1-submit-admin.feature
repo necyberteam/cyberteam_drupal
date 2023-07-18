@@ -14,13 +14,13 @@ Feature: add a test project via the form
     When I check "student-facilitator"
     When I check "researcher/educator"
     When I select "1st year undergraduate" from "edit-field-academic-status"
-    #Then I should see "urfnuhf"
     When I press "op"
 
-  #Scenario: Add a project for verify it is created
-   # Given I am logged in as a user with the "administrator" role
-    When I go to "projects"
-    When I follow "Submit New Project"
+  Scenario: Add a project for verify it is created
+    Given I am logged in as a user with the "administrator" role
+    When I go to the homepage
+    When I go to "/projects"
+    #When I follow "Submit New Project"
     When I check "Received"
     When I check "Accept and Publish"
     When I fill in "Project Title" with "test-create-project-title"
