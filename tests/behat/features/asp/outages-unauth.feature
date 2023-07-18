@@ -20,12 +20,13 @@ Feature: test ACCESS Support Outages Page
     Then I should see "End"
     Then I should see "Planned Downtimes"
     Then I should see "All Outages"
-    # TODO Figure out how to add below test
-    # Then I should see "Show 10 Entries"
-    # TODO search doesn't seem to be working
-    # When I fill in "Search" with "ACCESS"
-    # Then I should see "ACCESS Metrics XDMoD Update"
-    # When I fill in "Search" with ""
-    # Then I should see "Showing 1 to 1 of 1 entries"
-    # TODO Paginitation test does not work
-    # When I click "2"
+    Then I should see "show"
+    Then I should see "entries"
+    When I select "25" from "outages-all_length"
+    And I wait 5 seconds
+    Then I should see "Showing 1 to 25"
+    When I select "100" from "outages-all_length"
+    Then I should see "Anvil Cluster Maintenance"
+    When I click "Anvil Cluster Maintenance"
+    Then I should get a "200" HTTP response
+    Then I should see "Anvil Cluster Maintenance"

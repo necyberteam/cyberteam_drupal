@@ -5,7 +5,7 @@ if (login) {
 }
 
 /* secondary menu moves into the primary menu on mobile */
-let universal_secondary_menu, primary_menu, secondary_menu, li;
+let universal_secondary_menu, primary_menu, secondary_menu, access_menu_icon, li;
 
 const checkElement = async selector => {
     while (document.querySelector(selector) === null) {
@@ -29,6 +29,13 @@ async function handleMobileMenu() {
                 li = document.createElement('li');
                 li.appendChild(secondary_menu);
                 selector.appendChild(li);
+
+                // Expand ACCESS menu on mobile
+                access_menu_icon = document.querySelector('#superfish-access-additional-universal-menu-accordion-clone .access-menu-item');
+                access_menu_icon.style.display = 'none';
+                const access_menu = access_menu_icon.nextSibling;
+                access_menu.classList.remove('sf-hidden');
+                access_menu.classList.add('access-menu-mobile');
 
                 // add event handlers and carets to secondary menuparents
                 const i = document.createElement('i');

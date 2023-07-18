@@ -205,19 +205,27 @@ iframe {
 }
 
 ul.sf-menu {
-  .search-menu-item::before {
+  .search-menu-item::before, .access-home-menu-item::before, .access-menu-item::before {
     display: inline-block;
     height: 20px;
     width: 14px;
     overflow: visible;
     content: ' ';
-    background-image: url("data:image/svg+xml,%3Csvg version='1.1' class='universal-navbar__search-icon' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='18' height='18' viewBox='0 0 100 100' style='enable-background:new 0 0 100 100; fill: %23ffffff;' xml:space='preserve'%3E%3Cg%3E%3Cpath class='st0' d='M98.22,92.72l-5.48,5.47c-1.8,1.82-4.74,1.82-6.55,0L66.9,78.9c-0.87-0.87-1.35-2.05-1.35-3.29v-3.15 c-6.83,5.34-15.42,8.51-24.76,8.51c-22.23,0-40.24-18.01-40.24-40.24S18.55,0.49,40.78,0.49S81.02,18.5,81.02,40.73 c0,9.34-3.18,17.94-8.51,24.76h3.15c1.24,0,2.42,0.48,3.29,1.35l19.29,19.29C100.03,87.95,100.03,90.89,98.22,92.72z M65.54,40.73 c0-13.7-11.08-24.76-24.76-24.76c-13.7,0-24.76,11.08-24.76,24.76c0,13.7,11.08,24.76,24.76,24.76 C54.47,65.49,65.54,54.41,65.54,40.73z'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 50%;
     margin-left: 1px;
   }
-  .search-menu-item, .search-menu-item:hover {
+  .search-menu-item::before {
+    background-image: url("data:image/svg+xml,%3Csvg version='1.1' class='universal-navbar__search-icon' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='18' height='18' viewBox='0 0 100 100' style='enable-background:new 0 0 100 100; fill: %23ffffff;' xml:space='preserve'%3E%3Cg%3E%3Cpath class='st0' d='M98.22,92.72l-5.48,5.47c-1.8,1.82-4.74,1.82-6.55,0L66.9,78.9c-0.87-0.87-1.35-2.05-1.35-3.29v-3.15 c-6.83,5.34-15.42,8.51-24.76,8.51c-22.23,0-40.24-18.01-40.24-40.24S18.55,0.49,40.78,0.49S81.02,18.5,81.02,40.73 c0,9.34-3.18,17.94-8.51,24.76h3.15c1.24,0,2.42,0.48,3.29,1.35l19.29,19.29C100.03,87.95,100.03,90.89,98.22,92.72z M65.54,40.73 c0-13.7-11.08-24.76-24.76-24.76c-13.7,0-24.76,11.08-24.76,24.76c0,13.7,11.08,24.76,24.76,24.76 C54.47,65.49,65.54,54.41,65.54,40.73z'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+  }
+  .access-home-menu-item::before {
+    background-image: url("data: image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' height='1em' fill='%23ffffff' viewBox='0 0 576 512' %3E%3Cpath d='M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z' /%3E%3C/svg%3E");
+  }
+  .access-menu-item::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='1em' fill='%23ffffff' viewBox='0 0 448 512'%3E%3C!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --%3E%3Cpath d='M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z'/%3E%3C/svg%3E");
+  }
+  .search-menu-item, .search-menu-item:hover, .access-home-menu-item, .access-home-menu-item:hover, .access-menu-item, .access-menu-item:hover {
       font-size: 1px !important;
       letter-spacing: -1px;
       color: transparent !important;
@@ -339,6 +347,14 @@ ul.sf-menu {
           text-decoration: underline;
         }
       }
+      .access-menu-mobile {
+        position: relative;
+        top: 0;
+      }
+      .access-menu-mobile:hover {
+        left: 0;
+      }
+
     }
 
   }
@@ -1309,4 +1325,9 @@ ul.sf-menu {
 }
 .tag:hover {
   background-color: var(--gray);
+}
+.glossary-term {
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  color: #781346;
 }
