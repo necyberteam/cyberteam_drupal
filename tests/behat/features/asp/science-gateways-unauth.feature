@@ -30,7 +30,3 @@ Feature: test ACCESS Support Science Gateways Page
     When I am on "/tools/science-gateways"
     When I follow "Learn More"
     Then I should be on "https://sciencegateways.org/"
-
-
-
-
