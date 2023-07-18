@@ -10,14 +10,13 @@ Feature: test contact user page
     When I fill in "Search by Name" with "Julie Ma"
     And I wait 4 seconds
     Then I should see "Julie Ma"
-    # TODO broken 4/12/23
-    # When I click "Julie"
-    # Then I should see "Julie Ma "
-    # When I click "contact_user"
-    # Then I should be on "/user/100/contact"
-    # Then I should see "Contact Julie Ma"
-    # When I click "Julie Ma"
-    # Then I should be on "/user/julie-ma"
+    When I click "Julie"
+    Then I should see "Julie Ma "
+    When I click "contact_user"
+    Then I should be on "/user/100/contact"
+    Then I should see "Contact Julie Ma"
+    When I click "Julie Ma"
+    Then I should be on "/user/julie-ma"
     When I go to "/user/100/contact"
     #Subject ID is edit-subject-0-value
     When I fill in "edit-subject-0-value" with "Test"

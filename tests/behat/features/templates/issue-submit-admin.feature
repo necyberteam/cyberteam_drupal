@@ -6,7 +6,6 @@ Feature: test enter ticket form
   In order to test the enter ticket form
   As a user of the authenticated role
 
-  # TODO -- rework this for authenticated
   Scenario: Administrator user fills out the enter ticket form
     Given I am logged in as a user with the "administrator" role
     When I go to "form/issue"
@@ -26,7 +25,7 @@ Feature: test enter ticket form
     When I select "At-Large" from "region"
     When I select "Bug report" from "category"
     When I select "Critical" from "priority"
-    # When I select "Active" from "edit-status-select"
+    When I select "Active" from "edit-status-select"
     When I fill in "details" with "TEST"
     When I press "Submit"
-    # Then I should see "Thank you! Your ticket has been submitted! We'll be in touch soon." 
+    Then I should see "Thank you! Your ticket has been submitted! We'll be in touch soon."
