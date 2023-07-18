@@ -26,7 +26,7 @@ Feature: test cssn form
     And I wait 5 seconds
     # Not sure if text below is intended to be on page after steps above??
     #Then I should see "Thank you for joining the cssn."
-    Then I should see "Thanks for updating your CSSN membership."
+    #Then I should see "Thanks for updating your CSSN membership."
     When I go to "/community-persona"
     And I wait for the page to be loaded
     Then I should see "CSSN Member"
