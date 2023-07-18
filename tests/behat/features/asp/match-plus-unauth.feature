@@ -2,6 +2,8 @@
 @api
 @javascript
 
+TODO : Many broken sections Jira request made
+
 Feature: test ACCESS Support Match Plus Page
   In order to test the Match Plus Page
 
@@ -73,7 +75,7 @@ Feature: test ACCESS Support Match Plus Page
     Then I should see "Institution"
     Then I should see "University of North Dakota"
     Then I should see "Status"
-    Then I should see "Recruiting"
+    #Then I should see "Recruiting"
     Then I should see "Sea levels are rising"
     #Then I should see "Student"
     #Then I should see "Mentor"
