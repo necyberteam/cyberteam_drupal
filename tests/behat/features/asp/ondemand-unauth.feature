@@ -21,10 +21,9 @@ Feature: test ACCESS Support OnDemand Page
     When I go to "/ondemand"
     Then I should see "Bridges2"
     Then I should see an image with alt text "Bridges2 logo"
-    #TODO Bridges is commented out due to page not loading and failing
-    #When I click "Bridges2"
-    #Then I should be on "/resources/bridges-2/user-guide-2-2/#ondemand"
-    #When I go to "/ondemand"
+    When I click on "Bridges2 logo"
+    Then I should be on "/resources/bridges-2/user-guide-2-2/#ondemand"
+    When I go to "/ondemand"
     Then I should see "DELTA"
     Then I should see an image with alt text "I NCSA Logo"
     When I click "DELTA"
@@ -41,7 +40,7 @@ Feature: test ACCESS Support OnDemand Page
     Then I should be on "/wiki/SW:Portal"
     When I go to "/ondemand"
     Then I should see "PACE"
-    #Then I should see an image with alt text "Georgia Tech Logo"
+    Then I should see an image with alt text "Georgia Tech Logo"
     When I click "PACE"
     Then I should be on "/ood/guide/"
     When I go to "/ondemand"
@@ -71,4 +70,3 @@ Feature: test ACCESS Support OnDemand Page
     When I click "Join Us"
     And I wait 2 seconds
     Then I should be on "https://discourse.openondemand.org/"
-## Adding this just to run test. WIll delete after

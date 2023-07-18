@@ -30,4 +30,3 @@ Feature: test ACCESS Support Outages Page
     When I click "Anvil Cluster Maintenance"
     Then I should get a "200" HTTP response
     Then I should see "Anvil Cluster Maintenance"
-

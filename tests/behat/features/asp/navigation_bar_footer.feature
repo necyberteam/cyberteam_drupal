@@ -115,7 +115,3 @@ Feature: test Navigation Bar footer
     When I am on the homepage
     When I follow "Privacy Policy"
     Then I should be on "/privacy-policy"
-
-
-
-
