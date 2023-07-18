@@ -18,7 +18,7 @@ Feature: test contact user page
     When I click "Julie Ma"
     Then I should be on "/user/julie-ma"
     When I go to "/user/100/contact"
-    #Subject ID is edit-subject-0-value
+    #Then I should see element with "edit-subject-0-value" selector
     When I fill in "edit-subject-0-value" with "Test"
     #Message ID is edit-message-0-value
     When I fill in "edit-message-0-value" with "Test"
