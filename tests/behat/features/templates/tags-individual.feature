@@ -17,7 +17,7 @@ Feature: test individual tags page
     And I should see "Topics from Ask.CI"
     And I should see "Juan Vanegas"
     # TODO - doesn't pass on gpc
-    # And I should see "researcher/educator"
+    #And I should see "researcher/educator"
     # TODO - doesn't pass on nect
     # And I should see "Jetstream-2"
     And I should see "There are no CI Links associated with this topic"
@@ -38,18 +38,18 @@ Feature: test individual tags page
     When I select "682" from "edit-field-tags"
     When I check "Published"
     When I press "Save"
-    #Then I should see "has been created"
+    Then I should see "has been created"
 
-    #Given I am not logged in
-    #When I go to "tags/login"
-    #Then I should see "test-affinity-group"
-    #When I follow "test-affinity-group"
+    Given I am not logged in
+    When I go to "tags/login"
+    Then I should see "test-affinity-group"
+    When I follow "test-affinity-group"
     #Then I should see "Members get updates about news, events, and outages"
-    #And I should see "test-affinity-group"
+    And I should see "test-affinity-group"
 
-    #Given I am logged in as a user with the "authenticated" role
-    #When I go to "tags/login"
-    #Then I should see "test-affinity-group"
+    Given I am logged in as a user with the "authenticated" role
+    When I go to "tags/login"
+    Then I should see "test-affinity-group"
     # TODO not passing on ky
     # When I follow "test-affinity-group"
     # Then I should see "Members get updates about news, events, and outages"

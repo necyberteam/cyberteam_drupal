@@ -17,20 +17,7 @@ Feature: test ACCESS Support Announcements Page
     Then I should see "Posting Announcements"
     Then I should see "Add Announcement"
     When I select "Delta" from "field_affinity_group_target_id"
-    #TODO APPLY Button is not working
-    #When I click "edit-submit-access-news--2"
-    #And I wait 10 seconds
+    When I press "edit-submit-access-news--2"
+    And I wait 10 seconds
     When I click "Add Announcement"
     Then I should be on "/user/login?destination=/node/add/access_news"
-
-
-    Scenario: Unauthenticated user tests a individual Announcement Page
-    Then I should see ""
-    Then I should see ""
-    Then I should see ""
-    Then I should see ""
-    Then I should see ""
-    Then I should see ""
-    Then I should see ""
-    Then I should see ""
-    Then I should see ""
