@@ -48,8 +48,6 @@ Feature: verify specific links on homepage
 
     When I am on the homepage
     Then I should see "RMACC"
-    # TODO following fails repeatedly on localhost
-    And I wait for the page to be loaded
     And I wait 4 seconds
     And I follow "RMACC"
     And I wait for the page to be loaded
@@ -58,12 +56,9 @@ Feature: verify specific links on homepage
     When I am on the homepage
     And I wait for the page to be loaded
     And I follow "SWEETER Cyberteam"
-    # TODO 404
     And I wait for the page to be loaded
     Then I should be on "/c/sweeter/71"
 
-    # TODO - failing on github with And I follow "TRECIS Cyberteam"
-    # ╳  Unable to complete AJAX request. {"name":"step.after","feature":"verify specific links on homepage","step":"I follow \"TRECIS Cyberteam\"","suite":"default"} (RuntimeException)
     When I am on the homepage
     And I follow "TRECIS Cyberteam"
     Then I should be on "https://ask.cyberinfrastructure.org/c/cyberteams/trecis/60"
