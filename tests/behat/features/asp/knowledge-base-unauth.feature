@@ -65,7 +65,7 @@ Feature: test ACCESS Support knowledge base
     Then I should see "Frequently Asked Questions"
     #TODO Button for drop down does not seem to work
     #When I click "collapseOne"
-   # Then I should see "Visit the ACCESS HOME page to learn about all of the ACCESS"
+    # Then I should see "Visit the ACCESS HOME page to learn about all of the ACCESS"
 
   Scenario: Unauthenticated user tests the Visit our Forums section on the knowledge base page
     Given I am not logged in
@@ -80,8 +80,8 @@ Feature: test ACCESS Support knowledge base
     Then I should see "Cloud Computing"
     Then I should see "See all Forums"
     When I click "See all Forums"
-    Then I should be on "https://ask.cyberinfrastructure.org/?_gl=1*1937nu1*_ga*OTkzMDg2OTU2LjE2ODc3OTUyMzA.*_ga_CNLGPXPT91*MTY4Nzk3NzQ4My44LjEuMTY4Nzk4MTIzMC4wLjAuMA.."
-
+    Then I should be on "https://ask.cyberinfrastructure.org"
+    
   Scenario: Unauthenticated user tests the Community Contributed CI Links section on the knowledge base page
     Given I am not logged in
     When I go to "/knowledge-base"
