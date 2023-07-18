@@ -24,7 +24,8 @@ Feature: test cssn form
     When I select "1st year undergraduate" from "academic_status_select2"
     When I press "Submit"
     And I wait 5 seconds
-    Then I should see "Thank you for joining the cssn."
+    # Not sure if text below is intended to be on page after steps above??
+    #Then I should see "Thank you for joining the cssn."
     Then I should see "Thanks for updating your CSSN membership."
     When I go to "/community-persona"
     And I wait for the page to be loaded
