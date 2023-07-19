@@ -38,6 +38,36 @@ third_party_settings:
     allow_custom: false
     sections:
       -
+        layout_id: layout_onecol
+        layout_settings:
+          label: Title
+          context_mapping: {  }
+        components:
+          83c8f594-ddf4-4a68-b848-8182c2bf3752:
+            uuid: 83c8f594-ddf4-4a68-b848-8182c2bf3752
+            region: content
+            configuration:
+              id: 'field_block:node:affinity_group:title'
+              label: Title
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 0
+            additional:
+              layout_builder_styles_style:
+                page_title: page_title
+                pe_3: 0
+                tags: 0
+        third_party_settings: {  }
+      -
         layout_id: layout_twocol_section
         layout_settings:
           label: ''
