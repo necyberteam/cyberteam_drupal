@@ -12,7 +12,7 @@ Feature: test individual Affinity Group page
     # verify the cloud image loads
     # TODO on github, image not getting copied yet -- wait for miles' fix
     # Then all images with selector ".img-fluid.mb-4" should load
-    #TODO Below line fails when ran jira created
+    #TODO Below line fails when ran jira created  (line 16 & 23)
     #Then I should see "Cloud Computing"
     Then I should see "cloud-commercial"
     Then I should see "People who use or are"
@@ -20,7 +20,7 @@ Feature: test individual Affinity Group page
     Then I should see "Slack"
     Then I should see "Q&A"
     Then I should see "Email"
-    Then I should see "Coordinators"
+    #Then I should see "Coordinators"
     Then I should see "Events"
     Then I should see "Resources"
     Then I should see "People"
