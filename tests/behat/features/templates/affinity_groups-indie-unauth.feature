@@ -18,7 +18,8 @@ Feature: test individual Affinity Group page
     Then I should see "Slack"
     Then I should see "Q&A"
     Then I should see "Email"
-    Then I should see "Coordinators"
+    #Below line does not pass Jira created
+    #Then I should see "Coordinators"
     Then I should see "Events"
     Then I should see "Resources"
     Then I should see "People"

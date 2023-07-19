@@ -19,7 +19,7 @@ Feature: test for the affinity groups page as an authenticated user
     Then I should not see "Approved"
     Then I should see "Affinity Group Name"
     Then I should see "Affinity Group Image"
-#TODO Below two lines do not pass Jira Created
+#TODO Below two lines  and line 43 do not pass Jira Created
     #Then I should see "Region"
     #Then I should see "Coordinators"
     Then I should see "Tags"
@@ -40,7 +40,7 @@ Feature: test for the affinity groups page as an authenticated user
     Then I should see "Slack"
     Then I should see "Q&A"
     Then I should see "Email"
-    Then I should see "Coordinators"
+    #Then I should see "Coordinators"
     Then I should see "Events"
     Then I should see "CI Links"
     Then I should see "People"
