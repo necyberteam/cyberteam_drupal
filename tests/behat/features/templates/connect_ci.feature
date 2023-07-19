@@ -24,11 +24,6 @@ Feature: test connect.ci page
     Then I should be on "https://campuschampions.cyberinfrastructure.org/affinity-groups/arcgis-users"
 
 
-
-
-
-
-
   Scenario: User is on the Connect.CI Page
     Given I am logged in as a user with the "authenticated" role
     When I go to "regions"

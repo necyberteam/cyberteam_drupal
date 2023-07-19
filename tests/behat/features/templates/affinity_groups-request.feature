@@ -6,7 +6,7 @@ Feature: test affinity group request form
   In order to test the affinity group request form
   As a user of the authenticated role
 
-  Scenario: Administrator user fills out affinity group form
+  Scenario: Authenticated user fills out affinity group form
     Given I am logged in as a user with the "authenticated" role
     When I go to "affinity-groups"
     When I follow "Request an Affinity Group"
@@ -36,5 +36,4 @@ Feature: test affinity group request form
     # op is the submit button
     When I press "Submit"
     And I wait for the page to be loaded
-    #Submission confirmation is not passing
     Then I should see "Thank you for your submission. We will contact you when your affinity group has been created."
