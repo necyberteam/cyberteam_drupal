@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.user.user.field_academic_status
-    - field.field.user.user.field_access_organization
     - field.field.user.user.field_blocked_ag_tax
     - field.field.user.user.field_carnegie_code
     - field.field.user.user.field_cider_resources
@@ -60,16 +59,6 @@ content:
     weight: 7
     region: content
     settings: {  }
-    third_party_settings: {  }
-  field_access_organization:
-    type: entity_reference_autocomplete
-    weight: 18
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_blocked_ag_tax:
     type: entity_reference_autocomplete
