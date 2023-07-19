@@ -26,26 +26,36 @@ class AmpCommands extends BltTasks {
       $token = $this->ask("What is your GitHub token: ");
       $uid = $this->ask("What is your drupal user id: ");
     }
-    // Not to self: Can't place composer install in here because
+    // Note to self: Can't place composer install in here because
     // it needs to run before you can run this command.
-    $this->_exec("ln -s web docroot && mkdir backups");
+    $files = 'web/sites/default/files';
+    $db_backup = 'backups';
+    $theme_node = 'web/themes/custom/accesstheme/node_modules';
+    $this->_exec("ln -s web docroot");
     $this->_exec("mkdir -p web/sites/default/settings");
     $this->_exec("cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php");
-    $this->_exec($this->lando() . "composer install --ignore-platform-reqs -n");
     $hash = Crypt::randomBytesBase64(55);
     $this->_exec("echo 'PANTHEON_ENVIRONMENT=local
 DRUPAL_HASH_SALT=$hash
 AMP_UID=$uid
 GITHUB_TOKEN=$token'>.env");
     $this->say("❗️ Environment vars setup, now starting lando. ❗️");
-    $this->_exec($this->lando() . " start");
-    $this->_exec($this->lando() . " blt blt:telemetry:disable --no-interaction");
-    $this->_exec($this->lando() . " xdebug-off");
-    $this->_exec($this->lando() . " blt gh:pulldb");
-    $this->_exec($this->lando() . " blt gh:pullfiles");
-    $this->_exec($this->lando() . " blt amp:did");
-    $this->_exec($this->lando() . " drush deploy");
-    $this->_exec("cd web/themes/custom/accesstheme && lando npm install && lando npm run build:sass");
+    $this->_exec("lando start");
+    $this->_exec("lando blt blt:telemetry:disable --no-interaction");
+    $this->_exec("lando xdebug-off");
+    $this->_exec("lando composer config -g github-oauth.github.com $token");
+    if (!file_exists($db_backup)) {
+      $this->_exec("mkdir backups");
+      $this->_exec("lando blt gh:pulldb");
+    }
+    if (!file_exists($files)) {
+      $this->_exec("lando blt gh:pullfiles");
+    }
+    $this->_exec("lando blt amp:did");
+    $this->_exec("lando drush deploy");
+    if (!file_exists($theme_node)) {
+      $this->_exec("cd web/themes/custom/accesstheme && lando npm install && lando npm run build:sass");
+    }
   }
 
   /**
