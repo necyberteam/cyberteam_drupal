@@ -104,13 +104,19 @@ if (!function_exists('validate_form')) {
     $username = $form_state->getValue('username');
 
     if (!\Drupal::currentUser()->isAuthenticated()) {
-      $ids = \Drupal::entityQuery('user')->condition('mail', $user_email)->execute();
+      $ids = \Drupal::entityQuery('user')
+        ->condition('mail', $user_email)
+        ->accessCheck(FALSE)
+        ->execute();
 
       if (!empty($ids)) {
         $form_state->setErrorByName('user_email', t('There is an account associated with this email address. Please <a href="/user/login">login</a> first.'));
       }
 
-      $uids = \Drupal::entityQuery('user')->condition('name', $username)->execute();
+      $uids = \Drupal::entityQuery('user')
+        ->condition('name', $username)
+        ->accessCheck(FALSE)
+        ->execute();
 
       if (!empty($uids)) {
         $form_state->setErrorByName('username', t('There is an account associated with this username. Please <a href="/user/login">login</a> first.'));
