@@ -3,33 +3,17 @@ on:
   workflow_dispatch:
   schedule:
     - cron:  '16 11 * * *'
+permissions:
+  contents: write
+  actions: read
+  pull-requests: write
 jobs:
   build:
     name: Grab backup and fix backup
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Install Lando
-        run: |
-          sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-v3.6.4"
-          sudo chmod +x /usr/local/bin/lando
-      - name: Setup Lando cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.lando/cache
-          key: ${{ runner.os }}-lando${{ matrix.lando.version }}-${{ github.ref }}
-          restore-keys: |
-            ${{ runner.os }}-lando${{ matrix.lando.version }}-
-      - name: Start Lando
-        run: |
-          echo "$lando_env" > .env
-          mkdir -p web/sites/default/settings
-          cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php
-          lando destroy -y
-          lando start && lando xdebug-off
-        env:
-          lando_env: ${{ secrets.LANDO_ENV }}
-          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+      - uses: actions/checkout@v3
+
       - uses: ./.github/actions/dingorunner
         env:
           runner: bkup
@@ -37,23 +21,25 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
           site_name: ${{ secrets.TERMINUS_SITE_NAME }}
           env: live
-      - name: Sync DB
+
+      - id: Lando
+        uses: necyberteam/amp_lando_start@v1
+        with:
+          DATABASE: ''
+          GH_TOKEN_REPO: ${{ secrets.GH_TOKEN_REPO }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sanitize backup
         run: |
-          lando composer config -g github-oauth.github.com $gh_token
-          composer config -g github-oauth.github.com $gh_token
-          composer install --ignore-platform-reqs
-          lando db-import backups/site.sql.gz
-          cd web
-          lando drush cr
-          lando drush deploy
           lando drush sql-sanitize --sanitize-password -y
+          lando drush deploy
           lando drush en amp_dev
           lando drush pmu amp_dev
           lando drush cr
-          cd ..
           lando db-export site.sql
         env:
           gh_token: ${{ secrets.GH_TOKEN_REPO }}
+
       - name: 'Upload Backup Artifact'
         uses: actions/upload-artifact@v3
         with:

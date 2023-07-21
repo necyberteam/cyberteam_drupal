@@ -10,16 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !contains(github.event.head_commit.message, '#nobuild') }}
     steps:
-      - uses: actions/checkout@v1
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: necyber-2
-        with:
-          path: |
-            vendor
-            web/core
-          key: ${{ env.cache-name }}
+      - uses: actions/checkout@v3
+
       - uses: ./.github/actions/dingorunner
         env:
           runner: update
@@ -27,6 +19,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
           message: ${{ github.event.head_commit.message }}
           gh_token: ${{ secrets.GH_TOKEN_REPO }}
+
       - name: Trigger Behat workflow
         if: "contains(github.event.head_commit.message, '#behat')"
         run: |
@@ -34,22 +27,26 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
           drupal_update: ${{ github.event.inputs.drupal_update }}
+
   md:
     name: Spin up Multidev environment
     runs-on: ubuntu-latest
     if: ${{ contains(github.ref, 'md-') }}
     needs: deploy
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
+
       - name: Composer install
         run: |
           composer install
+
       - name: Check if multidev environment exists
         uses: ./.github/actions/dingorunner
         env:
           runner: md_check
           terminus_api: ${{ secrets.TERMINUS_API }}
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+
       - name: Store md file status
         run: |
           branch="${GITHUB_REF#refs/heads/}"
@@ -60,11 +57,13 @@ jobs:
           fi
           echo $file_exists
           echo "MD_FILE=$(echo $file_exists)" >> $GITHUB_ENV
+
       - name: Store md status into env variable
         run: |
           MD_STATUS=$(cat md_check.txt)
           echo $MD_STATUS
           echo "md=$(echo $MD_STATUS)" >> $GITHUB_ENV
+
       - name: Create multidev environment
         uses: ./.github/actions/dingorunner
         if: ${{ env.md == 'false' }}
@@ -72,6 +71,7 @@ jobs:
           runner: md_create
           terminus_api: ${{ secrets.TERMINUS_API }}
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+
       - name: Store run file commands
         uses: ./.github/actions/dingorunner
         if: ${{ env.MD_FILE == 'true' }}
