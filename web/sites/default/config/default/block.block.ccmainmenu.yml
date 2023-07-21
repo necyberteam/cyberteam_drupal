@@ -1,0 +1,39 @@
+uuid: 1cb96ea6-cb70-4666-a8f9-e5fb462f58e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.cc-main-menu
+  module:
+    - domain
+    - menu_block
+  theme:
+    - champions
+id: ccmainmenu
+theme: champions
+region: primary_menu
+weight: 0
+provider: null
+plugin: 'menu_block:cc-main-menu'
+settings:
+  id: 'menu_block:cc-main-menu'
+  label: 'CC Main menu'
+  label_display: '0'
+  provider: menu_block
+  follow: false
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 0
+  expand_all_items: false
+  parent: 'cc-main-menu:'
+  suggestion: cc_main_menu
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
