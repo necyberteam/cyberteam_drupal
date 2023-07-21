@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - block_content.type.basic
     - field.field.node.affinity_group.body
     - field.field.node.affinity_group.field_affinity_group
     - field.field.node.affinity_group.field_affinity_group_category
@@ -66,6 +67,16 @@ third_party_settings:
                 page_title: page_title
                 pe_3: 0
                 tags: 0
+          8c77e38f-89cd-4166-8f30-04cdc3de8fa8:
+            uuid: 8c77e38f-89cd-4166-8f30-04cdc3de8fa8
+            region: content
+            configuration:
+              id: 'extra_field_block:node:affinity_group:links'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+            weight: 1
+            additional: {  }
         third_party_settings: {  }
       -
         layout_id: layout_twocol_section
@@ -201,7 +212,7 @@ third_party_settings:
                 settings:
                   link: true
                 third_party_settings: {  }
-            weight: 2
+            weight: 3
             additional:
               layout_builder_styles_style:
                 pe_3: pe_3
@@ -222,7 +233,7 @@ third_party_settings:
                 settings:
                   link: true
                 third_party_settings: {  }
-            weight: 4
+            weight: 5
             additional:
               layout_builder_styles_style:
                 pe_3: pe_3
@@ -235,7 +246,7 @@ third_party_settings:
               label_display: '0'
               provider: access_affinitygroup
               context_mapping: {  }
-            weight: 5
+            weight: 6
             additional:
               layout_builder_styles_style:
                 pe_3: pe_3
@@ -271,6 +282,24 @@ third_party_settings:
               context_mapping: {  }
             weight: 2
             additional: {  }
+          d3082a31-4eb3-4f00-a0dd-f77e94ab145b:
+            uuid: d3082a31-4eb3-4f00-a0dd-f77e94ab145b
+            region: first
+            configuration:
+              id: 'inline_block:basic'
+              label: Coordinators
+              label_display: '0'
+              provider: layout_builder
+              view_mode: full
+              context_mapping: {  }
+              block_revision_id: 85
+              block_serialized: null
+            weight: 4
+            additional:
+              layout_builder_styles_style:
+                page_title: 0
+                pe_3: 0
+                tags: 0
         third_party_settings: {  }
       -
         layout_id: layout_onecol
