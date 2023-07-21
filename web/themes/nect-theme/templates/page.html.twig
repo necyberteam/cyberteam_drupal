@@ -114,7 +114,7 @@
         {% elseif domain_name == "connect-ci" %}
         <img src="/themes/nect-theme/img/ConnectCI-Logo.jpg" class="logo" alt="Connect CI">
         {% elseif domain_name == "coco" %}
-        <img src="/themes/nect-theme/img/coco-logo.png" class="logo" alt="CoCo">
+        <img src="/themes/nect-theme/img/coco-logo.jpg" class="logo" alt="CoCo">
         {% elseif domain_name == "usrse" %}
         <img src="/themes/nect-theme/img/usrse-logo.png" class="logo" alt="USRSE">
         {% endif %}
@@ -128,6 +128,9 @@
 				  {{ page.primary_menu }}
 			{% endif %}
 			</div>
+      {% endif %}
+      {% if domain_name == "coco" %}
+      <div class="tagline">Connecting research computing, data &amp; software professionals.</div>
       {% endif %}
 		</div>
 	 </nav>

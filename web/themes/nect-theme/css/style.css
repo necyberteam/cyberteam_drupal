@@ -379,14 +379,17 @@ img::-moz-selection {
   text-transform: uppercase;
 }
 .logo {
-  float: left;
-  max-width: 150px;
-  min-width: 150px;
-  width: 100% !important;
+  max-height: 125px;
   padding: 5px;
-  margin: auto 0;
-  display: inline-block;
-  vertical-align: middle;
+}
+.tagline {
+  font-size: 1.4rem;
+  font-weight: 600;
+  max-width: 390px;
+  text-align: right;
+}
+.coco .tagline {
+  color: #781346;
 }
 .navbar li.nav-item a.nav-link {
   color: var(--navbar-link);
@@ -498,8 +501,10 @@ li.dropdown-item a.nav-link:active {
   .navbar .container { max-width: 100% !important; }
   .navbar-brand .logo {
     width: 100% !important;
-    margin-right: -4rem;
     padding-right: 0;
+  }
+  .tagline {
+    text-align: left;
   }
   @media screen and (max-width: 575.98px) {
     .navbar-brand { margin-right: -7rem; }
@@ -999,7 +1004,10 @@ form[id="views-exposed-form-organization-organizations"] label.option {
   border-radius: 12px;
   font-size: 1.0rem;
 }
-
+.coco form[id="views-exposed-form-organization-organizations"] label.option {
+  background-color: #781346;
+  color: #ffffff;
+}
 form[id^="views-exposed-form-people"] label.option,
 form[id^="views-exposed-form-resources"] label.option {
   font-size: 10px;
@@ -1144,6 +1152,10 @@ table.sticky-header th {
   padding: 3px 6px;
   border-radius: 12px;
   font-size: 0.8rem;
+}
+.coco .type-outline > a {
+  background-color: #781346;
+  color: #ffffff;
 }
 /* AMP styles */
 #amp-logo-text {
