@@ -283,11 +283,11 @@ handlers:
     settings:
       states:
         - completed
-      to_mail: _default
+      to_mail: '[webform_role:ccmnet_pm]'
       to_options: {  }
       bcc_mail: ''
       bcc_options: {  }
-      cc_mail: '[webform_role:ccmnet_pm]'
+      cc_mail: ''
       cc_options: {  }
       from_mail: '[webform_submission:values:email:raw]'
       from_options: {  }
@@ -296,8 +296,8 @@ handlers:
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: '[webform_submission:values:subject:raw]'
-      body: '[webform_submission:values:message:value]'
+      subject: 'CCMNet Mentors Contact'
+      body: _default
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true
