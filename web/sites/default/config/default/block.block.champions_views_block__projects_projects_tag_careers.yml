@@ -1,0 +1,39 @@
+uuid: 011c381c-d7d7-493a-a3d4-0f7878ee7d26
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.projects
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__projects_projects_tag_careers
+theme: champions
+region: tags_page_projects
+weight: 4
+provider: null
+plugin: 'views_block:projects-projects_tag_careers'
+settings:
+  id: 'views_block:projects-projects_tag_careers'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '/taxonomy/term/*'
