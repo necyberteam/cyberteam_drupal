@@ -21,7 +21,7 @@ Feature: test ACCESS Support OnDemand Page
     Then I should see "Bridges2"
     Then I should see an image with alt text "Bridges2 logo"
     When I click "Bridges2"
-    Then I should be on "/resources/bridges-2/user-guide-2-2/#ondemand"
+    Then I should be on "https://www.psc.edu/resources/bridges-2/user-guide/#ondemand"
     When I go to "/ondemand"
     Then I should see "DELTA"
     Then I should see an image with alt text "I NCSA Logo"
