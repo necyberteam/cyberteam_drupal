@@ -1,0 +1,44 @@
+uuid: de4718fa-99ea-4a8c-b555-896c9ba5bea5
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:4b14d8ad-d416-41fc-9a95-923651f97f98'
+  module:
+    - block_content
+    - domain
+    - rules
+    - system
+  theme:
+    - champions
+id: champions_interestsdescription
+theme: champions
+region: content
+weight: 3
+provider: null
+plugin: 'block_content:4b14d8ad-d416-41fc-9a95-923651f97f98'
+settings:
+  id: 'block_content:4b14d8ad-d416-41fc-9a95-923651f97f98'
+  label: 'Interests Description'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains: {  }
+  rules_user_is_blocked:
+    id: rules_user_is_blocked
+    negate: true
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /add-interest

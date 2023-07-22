@@ -1,0 +1,29 @@
+uuid: 02e917e6-5817-4c56-ad36-f97d3ee0f48a
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_exposedformpeople_list_viewlist_all
+theme: champions
+region: exposed_filters
+weight: 25
+provider: null
+plugin: 'views_exposed_filter_block:people_list_view-list_all'
+settings:
+  id: 'views_exposed_filter_block:people_list_view-list_all'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list
