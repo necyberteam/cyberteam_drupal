@@ -9,7 +9,7 @@ Feature: test affinity group request form
   Scenario: Authenticated user fills out affinity group form
     Given I am logged in as a user with the "authenticated" role
     When I go to "affinity_groups"
-    When I follow "Request an Affinity Group"
+    When I follow "submit a request form"
     Then I should be on "form/affinity-group-request"
     And I should see "Affinity Group Request"
     And I should see "Affinity Group Name"
