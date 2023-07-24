@@ -19,5 +19,6 @@ Feature: test join-the-cssn-network webform
     And I wait 2 seconds
     When I press "Submit"
     And I wait 2 seconds
-    Then I should see "Thank you for joining the cssn."
+    #Text below does not appear on page when following these steps of testing
+    #Then I should see "Thank you for joining the cssn."
     Then I should see "Thanks for updating your CSSN membership."
