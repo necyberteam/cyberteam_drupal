@@ -1,0 +1,34 @@
+uuid: 49694c94-bed0-4dca-96b0-3c533556edca
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cider_resource
+    - node.type.access_active_resources_from_cid
+    - node.type.recommended_cider
+  module:
+    - label_help
+third_party_settings:
+  label_help:
+    label_help_description: 'ACCESS Active Resource from CiDeR'
+id: node.recommended_cider.field_cider_resource
+field_name: field_cider_resource
+entity_type: node
+bundle: recommended_cider
+label: 'Resource Name'
+description: 'Start typing to name and select an ACCESS Active Resource from CiDeR'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      access_active_resources_from_cid: access_active_resources_from_cid
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

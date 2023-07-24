@@ -1,0 +1,38 @@
+uuid: 35318656-b1bc-4786-8a51-dbd475e12e27
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.recommended_cider.body
+    - field.field.node.recommended_cider.field_cider_resource
+    - field.field.node.recommended_cider.field_domain_access
+    - field.field.node.recommended_cider.field_domain_all_affiliates
+    - field.field.node.recommended_cider.field_domain_source
+    - node.type.recommended_cider
+  module:
+    - text
+    - user
+id: node.recommended_cider.teaser
+targetEntityType: node
+bundle: recommended_cider
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_cider_resource: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true

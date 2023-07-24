@@ -1,0 +1,21 @@
+uuid: 46d04b65-2ad6-42fc-acfb-d0912f53a526
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_domain_all_affiliates
+    - node.type.recommended_cider
+id: node.recommended_cider.field_domain_all_affiliates
+field_name: field_domain_all_affiliates
+entity_type: node
+bundle: recommended_cider
+label: 'Send to all affiliates'
+description: 'Make this content available on all domains.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
