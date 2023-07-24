@@ -2,7 +2,9 @@
 function VIEWSOVERRIDE_cron() {
   \Drupal::logger('cron_files_delete')->notice('cron_files_delete ran');
   // get all files ids
-  $fids = Drupal::entityQuery('file')->execute();
+  $fids = Drupal::entityQuery('file')
+    ->accessCheck(FALSE)
+    ->execute();
   $file_usage = Drupal::service('file.usage');
   // loop all fids and load files by fid
   foreach ($fids as $fid) {

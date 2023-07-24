@@ -1,0 +1,30 @@
+uuid: 942fb85e-6a74-463a-a84e-3af58fc7eb10
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__people_card_view_card_access_cssn
+theme: champions
+region: people_page_card
+weight: 0
+provider: null
+plugin: 'views_block:people_card_view-card_access_cssn'
+settings:
+  id: 'views_block:people_card_view-card_access_cssn'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people/card/access-cssn
