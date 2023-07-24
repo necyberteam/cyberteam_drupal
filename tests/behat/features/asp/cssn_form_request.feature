@@ -22,6 +22,7 @@ Feature: test cssn form
     When I check "i_am_joining_as_a_[NSF-funded CIP]"
     #academic_status_select2 is the Academic Status
     When I select "1st year undergraduate" from "academic_status_select2"
+    And I wait 1 second
     When I press "Submit"
     And I wait 5 seconds
     # Not sure if text below is intended to be on page after steps above??
