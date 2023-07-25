@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.affinity_group.body
     - field.field.node.affinity_group.field_affinity_group
     - field.field.node.affinity_group.field_affinity_group_category
+    - field.field.node.affinity_group.field_ag_recommended_ciders
     - field.field.node.affinity_group.field_ask_ci_locale
     - field.field.node.affinity_group.field_cider_resources
     - field.field.node.affinity_group.field_coordinator
@@ -16,6 +17,7 @@ dependencies:
     - field.field.node.affinity_group.field_image
     - field.field.node.affinity_group.field_list_id
     - field.field.node.affinity_group.field_mailing_list
+    - field.field.node.affinity_group.field_recommended_access_res
     - field.field.node.affinity_group.field_resources_entity_reference
     - field.field.node.affinity_group.field_slack
     - field.field.node.affinity_group.field_tags
@@ -24,6 +26,7 @@ dependencies:
   module:
     - content_moderation
     - image
+    - inline_entity_form
     - link
     - path
     - text
@@ -133,6 +136,32 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_recommended_access_res:
+    type: inline_entity_form_complex
+    weight: 24
+    region: content
+    settings:
+      form_mode: default
+      override_labels: false
+      label_singular: ''
+      label_plural: ''
+      auto_open: true
+      allow_new: true
+      allow_existing: false
+      allow_edit: true
+      match_operator: CONTAINS
+      allow_duplicate: false
+      hide_fieldset: false
+      hide_title: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
+      config_labels_button: _none
+      labels: {  }
+      add_existing_widget: autocomplete
+      auto_open_edit_form: false
+    third_party_settings: {  }
   field_resources_entity_reference:
     type: entity_reference_autocomplete
     weight: 9
@@ -220,4 +249,5 @@ content:
     third_party_settings: {  }
 hidden:
   field_affinity_group: true
+  field_ag_recommended_ciders: true
   field_resources_placeholder: true

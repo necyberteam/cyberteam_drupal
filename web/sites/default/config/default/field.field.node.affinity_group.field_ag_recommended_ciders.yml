@@ -1,0 +1,29 @@
+uuid: b20a9f52-b7cd-4e54-84df-cb97a213b7fa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ag_recommended_ciders
+    - node.type.affinity_group
+    - node.type.recommended_cider
+id: node.affinity_group.field_ag_recommended_ciders
+field_name: field_ag_recommended_ciders
+entity_type: node
+bundle: affinity_group
+label: 'Recommended ACCESS Resources'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      recommended_cider: recommended_cider
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
