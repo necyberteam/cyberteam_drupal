@@ -21,7 +21,6 @@ Feature: test ACCESS Support Events Page and Individual Events Page
     Then I should see "Posting Events"
     Then I should see "Do you have events or trainings you would like to"
     Then I should see "Add an Event"
-    # TODO not always shown on /events, perhaps due to paging
     When I click "2023 ACES Workshop"
     Then I should be on "/events/7173"
     When I go to "/events"
