@@ -24,7 +24,7 @@ Feature: test ACCESS Support Announcements Page
     Then I should be on "/user/login?destination=/node/add/access_news"
 
 
-    Scenario: Unauthenticated user tests a individual Announcement Page
+  Scenario: Unauthenticated user tests a individual Announcement Page
     Given I am not logged in
     When I go to "/node/354"
     Then I should see "NCSA DELTA to Enter Production"
