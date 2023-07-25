@@ -10,8 +10,52 @@ dependencies:
     - field.field.node.recommended_cider.field_domain_source
     - node.type.recommended_cider
   module:
+    - layout_builder
+    - layout_discovery
     - text
     - user
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          e1c0b843-6ea0-42bd-8ccb-cabb3984f638:
+            uuid: e1c0b843-6ea0-42bd-8ccb-cabb3984f638
+            region: content
+            configuration:
+              id: 'field_block:node:recommended_cider:field_cider_resource'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          bf43b05d-5f51-4113-b362-f1bfbb62b2eb:
+            uuid: bf43b05d-5f51-4113-b362-f1bfbb62b2eb
+            region: content
+            configuration:
+              id: 'field_block:node:recommended_cider:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+        third_party_settings: {  }
 id: node.recommended_cider.default
 targetEntityType: node
 bundle: recommended_cider
@@ -22,7 +66,7 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 2
+    weight: 1
     region: content
   field_cider_resource:
     type: entity_reference_label
@@ -30,14 +74,10 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 1
-    region: content
-  links:
-    settings: {  }
-    third_party_settings: {  }
     weight: 0
     region: content
 hidden:
   field_domain_access: true
   field_domain_all_affiliates: true
   field_domain_source: true
+  links: true
