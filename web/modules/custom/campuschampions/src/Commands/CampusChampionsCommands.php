@@ -20,9 +20,9 @@ class CampusChampionsCommands extends DrushCommands
      * @command campuschampions:exportAffinityGroups
      * @aliases drush-cc affinity-groups
      * @usage --uri="https://campuschampions.cyberinfrastructure.org" campuschampions:exportAffinityGroups
-     * 
+     *
      * Or substitute whatever uri you prefer in the usage command
-     * 
+     *
      */
     public function exportAffinityGroups() {
         $viewId = 'affinity_group';
@@ -33,9 +33,10 @@ class CampusChampionsCommands extends DrushCommands
         $nids = \Drupal::entityQuery('node')
         ->condition('status', 1)
         ->condition('type', 'affinity_group')
+        ->accessCheck(FALSE)
         ->execute();
         $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
-    
+
         foreach ($nodes as $affinityGroup) {
             $view = \Drupal\views\Views::getView($viewId);
             $view->setDisplay($displayId);
@@ -43,7 +44,7 @@ class CampusChampionsCommands extends DrushCommands
             $view->execute();
             $rendered = $view->render();
             $output = \Drupal::service('renderer')->renderPlain($rendered);
-    
+
             $filename = 'affinity-groups/affinity_group_' . $affinityGroup->getTitle() . '_'. date('Y_m_d') . '.csv';
             $filepath = "sites/default/files/{$filename}";
             file_unmanaged_save_data($output, "public://{$filename}", FILE_EXISTS_REPLACE);
@@ -67,7 +68,7 @@ class CampusChampionsCommands extends DrushCommands
   <title>Cyberteam Affinity Groups</title>
 </head>
 <body>
-<h1>Cyberteam Affinity Groups - ' . date('M d, Y') . '</h1>' . 
+<h1>Cyberteam Affinity Groups - ' . date('M d, Y') . '</h1>' .
 $report_list . '
 </body>
 </html>

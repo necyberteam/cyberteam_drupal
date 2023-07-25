@@ -1,0 +1,33 @@
+uuid: 6bf23531-de3d-42bb-bfd0-467f31590af3
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:25b89091-af18-4ccc-baf6-392588d18968'
+  module:
+    - block_content
+    - domain
+  theme:
+    - champions
+id: ccfrontbecomeachampion
+theme: champions
+region: campus_champions_front_sections
+weight: 1
+provider: null
+plugin: 'block_content:25b89091-af18-4ccc-baf6-392588d18968'
+settings:
+  id: 'block_content:25b89091-af18-4ccc-baf6-392588d18968'
+  label: 'CC - Front - Become a Champion'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org

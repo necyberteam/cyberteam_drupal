@@ -1,0 +1,29 @@
+uuid: 06c14ff5-69b7-4a23-ae04-25c02c0c3c55
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_exposedformpeople_card_viewcard_campus_champions
+theme: champions
+region: exposed_filters
+weight: 16
+provider: null
+plugin: 'views_exposed_filter_block:people_card_view-card_campus_champions'
+settings:
+  id: 'views_exposed_filter_block:people_card_view-card_campus_champions'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people/card/campus-champions\r\n/community/current-campus-champions\r\n/champions/current-campus-champions"
