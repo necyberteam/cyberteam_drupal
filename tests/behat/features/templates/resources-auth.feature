@@ -9,11 +9,11 @@ Feature: test resources page as a authenticated user
     When I go to "/ci-links"
     Then I should see "Add New CI link"
     Then I should see "These CI Links have been crowd-sourced"
-    # edit-skill-level-305--2 is the Beginner radio button
-    When I check "edit-skill-level-305--2"
+    # edit-skill-level-307--2 is the Expert radio button
+    When I check "edit-skill-level-307--2"
     And I wait 4 seconds
     Then I should see "There are no CI Links at this time. Please check back often as CI Links are added regularly."
-    When I uncheck "edit-skill-level-305--2"
+    When I uncheck "edit-skill-level-307--2"
     And I wait 4 seconds
     When I fill in "edit-search--2" with "NotAResource"
     And I wait 4 seconds
