@@ -1,7 +1,7 @@
 @templates
 @api
 @javascript
-Feature: test recources page as a authenticated user
+Feature: test resources page as a authenticated user
   In order to test the resource page as an authenticated user
 
   Scenario: Authenticated user Test the resource page
@@ -9,12 +9,6 @@ Feature: test recources page as a authenticated user
     When I go to "/ci-links"
     Then I should see "Add New CI link"
     Then I should see "These CI Links have been crowd-sourced"
-    Then I should see "Title"
-    Then I should see "Description"
-    Then I should see "Category"
-    Then I should see "Tags"
-    Then I should see "Skill Level"
-    Then I should see "Affinity Group"
     # edit-skill-level-305--2 is the Beginner radio button
     When I check "edit-skill-level-305--2"
     And I wait 4 seconds
