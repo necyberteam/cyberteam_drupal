@@ -31,7 +31,7 @@ Feature: test coco domain
     When I click "Campus Champions"
     Then I should see "Campus Champions"
     #Then I should see "img-fluid"
-    Then I should see "https://campuschampions.cyberinfrastructure.org"
+    Then I should see "https://campuschampions.org"
     Then I should see "Community of Practice"
     Then I should see "professional-development"
     Then I should see "The Campus Champions Program"
@@ -60,5 +60,5 @@ Feature: test coco domain
     When I fill in "Institution" with "Test"
     When I fill in "Citizenships" with "Test"
     When I press "edit-submit"
-    
+
 
