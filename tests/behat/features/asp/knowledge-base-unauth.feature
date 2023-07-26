@@ -56,7 +56,7 @@ Feature: test ACCESS Support knowledge base
     Then I should see "A handy list of where to find info for researchers with XSEDE experience."
     When I click "View Cheatsheet"
     Then I should get a "200" HTTP response
-    Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129144254/Cheatsheets+for+XSEDE+Users"
+    Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/283776816/Cheatsheets+for+XSEDE+Users"
 
   Scenario: Unauthenticated user tests the Frequently Asked Questions section on the knowledge base page
     Given I am not logged in
@@ -78,8 +78,9 @@ Feature: test ACCESS Support knowledge base
     Then I should see "Cloud Computing"
     Then I should see "See all Forums"
     When I click "See all Forums"
+    And I wait 4 seconds
     Then I should be on "https://ask.cyberinfrastructure.org"
-    
+
   Scenario: Unauthenticated user tests the Community Contributed CI Links section on the knowledge base page
     Given I am not logged in
     When I go to "/knowledge-base"
