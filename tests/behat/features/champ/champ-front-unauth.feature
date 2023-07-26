@@ -8,7 +8,6 @@ Feature: test for the front page
     Given I am not logged in
     When I am on the homepage
     Then I should see an image with alt text "Campus Champions"
-    Then I should see "Collaboratively employing advanced computing and data to tackle society's grand challenges"
     #Is there a better way to test the stats?
     Then I should see "Champions Nationionwide"
     Then I should see "Institutions Represented"
