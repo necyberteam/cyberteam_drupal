@@ -2251,7 +2251,7 @@ display:
           click_sort_column: value
           type: list_default
           settings: {  }
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -2513,7 +2513,7 @@ display:
           exposed: true
           expose:
             operator_id: field_skill_level_value_op
-            label: 'Skill Level (field_skill_level)'
+            label: 'Skill Level'
             description: ''
             use_operator: false
             operator: field_skill_level_value_op
@@ -2559,7 +2559,7 @@ display:
               cip: '0'
               site_developer: '0'
             reduce: false
-          is_grouped: true
+          is_grouped: false
           group_info:
             label: 'Skill Level'
             description: ''
@@ -2586,7 +2586,7 @@ display:
                 operator: or
                 value:
                   Advanced: Advanced
-          reduce_duplicates: false
+          reduce_duplicates: true
         tid:
           id: tid
           table: taxonomy_term_field_data
