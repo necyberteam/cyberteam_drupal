@@ -70,6 +70,18 @@ GITHUB_TOKEN=$token'>.env");
   }
 
   /**
+   * Config export.
+   *
+   * @command amp:cex
+   * @description Export config files and checkout deleted files.
+   */
+  public function ced() {
+    $this->_exec($this->lando() . "drush cex -y");
+    // Checkout deleted files.
+    $this->_exec("git ls-files -z -d | xargs -0 git checkout --");
+  }
+
+  /**
    * Load Token.
    *
    * @command amp:loadtoken
