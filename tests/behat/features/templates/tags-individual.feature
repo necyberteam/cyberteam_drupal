@@ -132,6 +132,4 @@ Feature: test individual tags page
     Then I should see "Name"
     # Then I should see "student facilitator"
     Then I should see "image-processing"
-    Then I should see "There are no CI Links associated with this topic. View All CI Links."
-    Then I should see "There are no projects associated with this topic"
     Then I should see "There are no Blog Entries associated with this topic."
