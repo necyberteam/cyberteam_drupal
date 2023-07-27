@@ -38,6 +38,7 @@ Feature: test ACCESS Support OnDemand Page
     Then I should see "Faster"
     Then I should see an image with alt text "Texas A&M University Logo"
     When I click "FASTER"
+    And I wait 4 seconds
     Then I should be on "/wiki/SW:Portal"
     When I go to "/ondemand"
     Then I should see "PACE"
