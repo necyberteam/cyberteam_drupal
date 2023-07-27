@@ -12,11 +12,7 @@ Feature: test footer
     And I should see "All Rights Reserved"
     And I should see "Connect.CI"
     And I should see "Contact Us"
-    #Feedback Usersnap does not seeem to be working
-    #When I follow "Feedback"
-    When I follow "Connect.CI"
-    Then I should be on "regions"
-    
+
   Scenario: User is on the homepage
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
@@ -25,8 +21,3 @@ Feature: test footer
     And I should see "All Rights Reserved"
     And I should see "Connect.CI"
     And I should see "Contact Us"
-    #Feedback Usersnap does not seeem to be working
-    #When I follow "Feedback"
-    When I follow "Connect.CI"
-    Then I should be on "regions"
-    
