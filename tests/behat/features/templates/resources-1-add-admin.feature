@@ -57,7 +57,9 @@ Feature: test CI Link form
     And I should see "Webform"
     And I should see "Delete submission"
     When I click "Edit"
+    Then I should get a "200" HTTP response
 
+  Scenario: Administrator creates a simple ci-link
     Given I am logged in as a user with the "administrator" role
     When I go to homepage
     When I go to "/ci-links"
