@@ -303,6 +303,7 @@ GITHUB_TOKEN=$token'>.env");
     }
     $uid = Xss::filter(shell_exec("printenv AMP_UID"));
     $this->_exec($this->lando() . "drush uli --uid=$uid");
+    $this->_exec($this->lando() . "drush cr");
   }
 
   /**
@@ -328,6 +329,7 @@ GITHUB_TOKEN=$token'>.env");
       ");
     }
     $this->_exec("sleep 2");
+    $this->_exec($this->lando() . "composer install");
     $this->_exec($this->lando() . "drush deploy -y");
     $this->_exec("sleep 2");
     $this->_exec($this->lando() . "drush cim -y");
