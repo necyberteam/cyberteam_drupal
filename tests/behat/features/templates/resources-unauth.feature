@@ -25,7 +25,7 @@ Feature: test resource page
     Then I should see "Skill Level"
     Then I should see "Affinity Group"
 
-    # edit-skill-level-307--2 is the Export radio button
+    # edit-skill-level-307--2 is the Expert radio button
     When I check "edit-skill-level-307--2"
     And I wait 4 seconds
     Then I should see "There are no CI Links at this time. Please check back often as CI Links are added regularly."
