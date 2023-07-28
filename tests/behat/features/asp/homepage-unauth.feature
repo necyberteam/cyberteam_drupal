@@ -2,8 +2,6 @@
 @api
 @javascript
 
-#TODO FIX THIS
-
 Feature: test ACCESS Support Homepage
   In order to test the Homepage
 
@@ -15,10 +13,10 @@ Feature: test ACCESS Support Homepage
     Then I should see "What are you looking for?"
     Then I should see "Search the ACCESS Universe for answers by typing keywords or phrases. Search is an evolving feature and will improve with time."
     Then I should see "Browse the Documentation"
-    #TODO How can I test the specific link?
-    #Then I should see "/knowledge-base"
-    Then I should see "Go to Knowledge Base"
-    #TODO How can I test the image?
+    When I click "Go to Knowledge Base"
+    Then I should be on "/knowledge-base"
+
+    When I am on the homepage
     Then I should see an image with alt text "Woman with laptop"
     Then I should see "Engage With the Community"
     Then I should see "Join Affinity Groups"
@@ -28,7 +26,7 @@ Feature: test ACCESS Support Homepage
     Then I should see an image with alt text "Person using a laptop"
     Then I should see "MATCH Research Support"
     Then I should see "Longer term support engagements with expert consultants help you focus on your research and move science forward."
-    Then I should see an image with alt text "Team working together"
+    Then I should see an image with alt text "Three people using a computer"
     Then I should see "CCEP Travel Grants and Rewards for your Contributions"
     Then I should see "The CSSN Community Engagement Program (CCEP) is accepting"
     Then I should see "FIND OUT MORE"
@@ -39,9 +37,9 @@ Feature: test ACCESS Support Homepage
     Then I should see "Get help from the Computational Science and Support Network (CSSN)"
     Then I should see "Modeled on the Northeast and CAREERS Cyberteams Workflow"
     Then I should see "Assistance to address computationally-intensive research challenges and needs"
-    #TODO TEst specific link for below
+    #TODO - how to test a specify learn more?  jira ticket:  https://cyberteamportal.atlassian.net/
     Then I should see "Learn More"
-    #TODO Icons need alt added
+    Then I should see an image with alt text "Team working together"
     Then I should see "MATCHPremier"
     Then I should see "Long-term Embedded Partnerships"
     Then I should see "Support for projects of 12-18 months"
@@ -50,5 +48,5 @@ Feature: test ACCESS Support Homepage
     Then I should see "Arranged between your institution and the consultant or through MATCH partnerships"
     Then I should see "Supported by MATCH"
     Then I should see "Strong support system to ensure you receive effective research support"
-    #TODO TEst specific link for below
+    #TODO - how to test a specify learn more?  jira ticket:  https://cyberteamportal.atlassian.net/
     Then I should see "Learn More"

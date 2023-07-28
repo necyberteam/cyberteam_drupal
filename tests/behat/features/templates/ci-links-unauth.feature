@@ -2,10 +2,10 @@
 @api
 @javascript
 
-Feature: test resource page
-  In order to test the resource page
+Feature: test CI Links page
+  In order to test the CI Links page
 
-  Scenario: Unauthenticated user tests the resource page
+  Scenario: Unauthenticated user tests the CI Links page
     Given I am not logged in
     When I go to "/ci-links"
     Then I should see "CI Links"
