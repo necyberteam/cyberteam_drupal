@@ -22,21 +22,22 @@ Feature: test cssn form
     When I check "i_am_joining_as_a_[NSF-funded CIP]"
     #academic_status_select2 is the Academic Status
     When I select "1st year undergraduate" from "academic_status_select2"
+    And I wait 2 seconds
     When I press "Submit"
     # following sometimes failes with "There was a problem with your form submission.  Please
     #    wait NN seconds and try again."
     # Not sure what to do about this, since it's sporadic.
     # Commenting out for now.
     # ticket filed: https://cyberteamportal.atlassian.net/browse/D8-1777
-    #And I wait 5 seconds
-    #Then I should see "Thank you for joining the cssn."
-    #Then I should see "Thanks for updating your CSSN membership."
-    #When I go to "/community-persona"
-    #And I wait for the page to be loaded
-    #Then I should see "CSSN Member"
-    #Then I should see "Roles:"
-    #Then I should see "mentor"
-    #Then I should see "student-facilitator"
-    #Then I should see "Consultant"
-    #Then I should see "CIP"
-    #Then I should see "CSSN"
+    And I wait 5 seconds
+    Then I should see "Thank you for joining the cssn."
+    Then I should see "Thanks for updating your CSSN membership."
+    When I go to "/community-persona"
+    And I wait for the page to be loaded
+    Then I should see "CSSN Member"
+    Then I should see "Roles:"
+    Then I should see "mentor"
+    Then I should see "student-facilitator"
+    Then I should see "Consultant"
+    Then I should see "CIP"
+    Then I should see "CSSN"
