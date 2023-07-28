@@ -1,7 +1,6 @@
 @templates
 @api
 @javascript
-
 Feature: test CI Links page as a authenticated user
   In order to test the CI Links page as an authenticated user
 
