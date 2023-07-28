@@ -30,7 +30,10 @@ class CreateUserHandler extends WebformHandlerBase
     $data = $webformSubmission->getData();
 
     // Create a new user if they don't exist already
-    $ids = \Drupal::entityQuery('user')->condition('mail', $data['user_email'])->execute();
+    $ids = \Drupal::entityQuery('user')
+      ->condition('mail', $data['user_email'])
+      ->accessCheck(FALSE)
+      ->execute();
     if (empty($ids)) {
       $user = $this->createUser($data);
       $webformSubmission->convert($user);
@@ -67,7 +70,8 @@ class CreateUserHandler extends WebformHandlerBase
     $user = User::create();
 
     // madatory fields
-    $user->setPassword(user_password());
+    $generate_password = \Drupal::service('password_generator')->generate();
+    $user->setPassword($generate_password);
     $user->enforceIsNew();
     $user->setEmail($email);
     $user->setUsername($username);

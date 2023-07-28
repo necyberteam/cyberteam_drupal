@@ -56,16 +56,14 @@ Feature: test ACCESS Support knowledge base
     Then I should see "A handy list of where to find info for researchers with XSEDE experience."
     When I click "View Cheatsheet"
     Then I should get a "200" HTTP response
-
-    # Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129144254/Cheatsheets+for+XSEDE+Users"
+    Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129144254/Cheatsheets+for+XSEDE+Users"
 
   Scenario: Unauthenticated user tests the Frequently Asked Questions section on the knowledge base page
     Given I am not logged in
     When I go to "/knowledge-base"
     Then I should see "Frequently Asked Questions"
-    #TODO Button for drop down does not seem to work
-    #When I click "collapseOne"
-   # Then I should see "Visit the ACCESS HOME page to learn about all of the ACCESS"
+    When I press "Where can I find general information about ACCESS?"
+    Then I should see "Visit the ACCESS HOME page to learn about all of the ACCESS"
 
   Scenario: Unauthenticated user tests the Visit our Forums section on the knowledge base page
     Given I am not logged in

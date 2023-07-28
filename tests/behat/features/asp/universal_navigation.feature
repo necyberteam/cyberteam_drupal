@@ -27,4 +27,3 @@ Feature: test Universal Navigation menu
     When I am on the homepage
     When I follow "Metrics"
     Then I should be on "https://metrics.access-ci.org/"
-

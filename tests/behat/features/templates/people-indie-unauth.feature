@@ -1,4 +1,4 @@
-@templates--DISABLED_BROKEN
+@templates
 @api
 @javascript
 Feature: test individual people page
@@ -13,12 +13,12 @@ Feature: test individual people page
     When I click "Julie"
     Then I should see "Julie Ma "
     Then I should see "MGHPCC"
-    Then I should see "mentor"
+    Then I should see "Affinity Group Leader"
     Then I should see "Skills"
     Then I should see "Affinity Groups"
     #Projects section does not show in testing
     #Then I should see "Projects"
     Then I should not see "HPC Experience"
-    #Then I should not see "Interest"
+    Then I should see "Interest"
     #It reads the Contact Us at the footer
     #Then I should not see "Contact"

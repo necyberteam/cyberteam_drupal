@@ -1,0 +1,40 @@
+uuid: 836d09be-2615-44d2-bab6-88f003c885bb
+langcode: en
+status: false
+dependencies:
+  content:
+    - 'block_content:basic:cbe69daf-961a-464c-9449-1249b0bc4386'
+  module:
+    - block_content
+    - domain
+    - user
+  theme:
+    - champions
+id: champions_disabledlogin
+theme: champions
+region: title_area
+weight: -37
+provider: null
+plugin: 'block_content:cbe69daf-961a-464c-9449-1249b0bc4386'
+settings:
+  id: 'block_content:cbe69daf-961a-464c-9449-1249b0bc4386'
+  label: 'disabled login'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains: {  }
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      anonymous: anonymous
