@@ -2,10 +2,10 @@
 @api
 @javascript
 
-Feature: test resource page
-  In order to test the resource page
+Feature: test CI Links page
+  In order to test the CI Links page
 
-  Scenario: Unauthenticated user tests the resource page
+  Scenario: Unauthenticated user tests the CI Links page
     Given I am not logged in
     When I go to "/ci-links"
     Then I should see "CI Links"
@@ -25,11 +25,11 @@ Feature: test resource page
     Then I should see "Skill Level"
     Then I should see "Affinity Group"
 
-    # edit-skill-level-304--2 is the Beginner radio button
-    When I check "edit-skill-level-305--2"
+    # edit-skill-level-307--2 is the Export radio button
+    When I check "edit-skill-level-307--2"
     And I wait 4 seconds
     Then I should see "There are no CI Links at this time. Please check back often as CI Links are added regularly."
-    When I uncheck "edit-skill-level-305--2"
+    When I uncheck "edit-skill-level-307--2"
     And I wait 4 seconds
     When I fill in "edit-search--2" with "somthing545"
     And I wait 4 seconds

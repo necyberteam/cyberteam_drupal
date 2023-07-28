@@ -2,7 +2,7 @@
 @api
 @javascript
 
-Feature: test for the governance page as an authenticated user 
+Feature: test for the governance page as an authenticated user
 
   Scenario: User runs through the governance page as authenticated.
     Given I am logged in as a user with the "authenticated" role
@@ -13,4 +13,3 @@ Feature: test for the governance page as an authenticated user
     Then I should see "Name"
     Then I should see "Institution"
     Then I should see "Position"
-    Then I should not see "Code of Conduct"

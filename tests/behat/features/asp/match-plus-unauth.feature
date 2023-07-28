@@ -59,10 +59,9 @@ Feature: test ACCESS Support Match Plus Page
     When I go to "/matchplus"
     Then I should see "Featured MATCHPlus Engagements"
     #Testing of engagment names seems to not stay consistent
+    When I click "See All"
     Then I should see "GPU-accelerated ice sheet flow modeling"
     Then I should see "University of North Dakota"
-    #When I click "+ More"
-    When I click "See All"
     Then I should be on "/engagements"
     Then I should see "MATCH Engagements"
     Then I should see "MATCHPlus Engagements"
@@ -73,12 +72,9 @@ Feature: test ACCESS Support Match Plus Page
     Then I should see "Institution"
     Then I should see "University of North Dakota"
     Then I should see "Status"
-    Then I should see "Recruiting"
+    Then I should see "Reviewing"
     Then I should see "Sea levels are rising"
-    #Then I should see "Student"
-    #Then I should see "Mentor"
-    #Then I should see "Tags"
-    # testing tags on /node/412
+    Then I should see "Researcher"
     Then I should see "matlab"
     Then I should see "cuda"
 
