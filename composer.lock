@@ -8678,51 +8678,6 @@
             }
         },
         {
-            "name": "drupal/upgrade_rector",
-            "version": "1.0.0-alpha8",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/upgrade_rector.git",
-                "reference": "8.x-1.0-alpha8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/upgrade_rector-8.x-1.0-alpha8.zip",
-                "reference": "8.x-1.0-alpha8",
-                "shasum": "211fce086bf8b59f49d01b2b58ee6233c21a9bb4"
-            },
-            "require": {
-                "drupal/core": "^8.7.7 || ^9",
-                "palantirnet/drupal-rector": "~0.11"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.0-alpha8",
-                    "datestamp": "1628760136",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Alpha releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Gábor Hojtsy",
-                    "homepage": "https://www.drupal.org/user/4166"
-                }
-            ],
-            "description": "Get automated code fix suggestions for deprecations.",
-            "homepage": "http://drupal.org/project/upgrade_rector",
-            "support": {
-                "source": "https://git.drupalcode.org/project/upgrade_rector"
-            }
-        },
-        {
             "name": "drupal/user_current_paths",
             "version": "2.0.3",
             "source": {
@@ -11720,83 +11675,6 @@
             "time": "2021-12-15T12:32:42+00:00"
         },
         {
-            "name": "palantirnet/drupal-rector",
-            "version": "0.15.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/palantirnet/drupal-rector.git",
-                "reference": "09d3dc6a422483de4c7c9b17692a48252b6b0af3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/palantirnet/drupal-rector/zipball/09d3dc6a422483de4c7c9b17692a48252b6b0af3",
-                "reference": "09d3dc6a422483de4c7c9b17692a48252b6b0af3",
-                "shasum": ""
-            },
-            "require": {
-                "rector/rector": "~0.15.2",
-                "webflo/drupal-finder": "^1.2"
-            },
-            "replace": {
-                "drupal8-rector/drupal8-rector": "*",
-                "palantirnet/drupal8-rector": "*"
-            },
-            "require-dev": {
-                "cweagans/composer-patches": "^1.7.2",
-                "php": "^8.1",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^1.0",
-                "phpstan/phpstan-deprecation-rules": "^1.0",
-                "phpunit/phpunit": "^9.5",
-                "rector/rector-src": "dev-main",
-                "symfony/yaml": "^5 || ^6",
-                "symplify/vendor-patches": "^11.0"
-            },
-            "type": "library",
-            "extra": {
-                "enable-patching": true
-            },
-            "autoload": {
-                "psr-4": {
-                    "DrupalRector\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dezső Biczó",
-                    "email": "mxr576@gmail.com"
-                },
-                {
-                    "name": "Ofer Shaal",
-                    "email": "shaal@palantir.net"
-                },
-                {
-                    "name": "Daniel Montgomery",
-                    "email": "montgomery@palantir.net"
-                },
-                {
-                    "name": "Matt Glaman",
-                    "email": "nmd.matt@gmail.com"
-                }
-            ],
-            "description": "Instant fixes for your Drupal code by using Rector.",
-            "keywords": [
-                "Code style",
-                "Drupal 8",
-                "ast",
-                "drupal 9",
-                "rector"
-            ],
-            "support": {
-                "source": "https://github.com/palantirnet/drupal-rector/tree/0.15.0"
-            },
-            "time": "2023-01-11T16:46:06+00:00"
-        },
-        {
             "name": "pantheon-systems/quicksilver-pushback",
             "version": "2.1.1",
             "source": {
@@ -12179,68 +12057,6 @@
                 "source": "https://github.com/pear/PEAR_Exception"
             },
             "time": "2021-03-21T15:43:46+00:00"
-        },
-        {
-            "name": "phpstan/phpstan",
-            "version": "1.10.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "b10ceb526d9607903c5b2673f1fc8775dbe48975"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b10ceb526d9607903c5b2673f1fc8775dbe48975",
-                "reference": "b10ceb526d9607903c5b2673f1fc8775dbe48975",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2|^8.0"
-            },
-            "conflict": {
-                "phpstan/phpstan-shim": "*"
-            },
-            "bin": [
-                "phpstan",
-                "phpstan.phar"
-            ],
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "PHPStan - PHP Static Analysis Tool",
-            "keywords": [
-                "dev",
-                "static analysis"
-            ],
-            "support": {
-                "docs": "https://phpstan.org/user-guide/getting-started",
-                "forum": "https://github.com/phpstan/phpstan/discussions",
-                "issues": "https://github.com/phpstan/phpstan/issues",
-                "security": "https://github.com/phpstan/phpstan/security/policy",
-                "source": "https://github.com/phpstan/phpstan-src"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/ondrejmirtes",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/phpstan",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2023-03-16T15:24:20+00:00"
         },
         {
             "name": "phrity/net-uri",
@@ -12760,67 +12576,6 @@
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
             "time": "2019-03-08T08:55:37+00:00"
-        },
-        {
-            "name": "rector/rector",
-            "version": "0.15.21",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rectorphp/rector.git",
-                "reference": "1cee8cc5d6d836e1bf9a3006d7b062adde3a6022"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/1cee8cc5d6d836e1bf9a3006d7b062adde3a6022",
-                "reference": "1cee8cc5d6d836e1bf9a3006d7b062adde3a6022",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.10.1"
-            },
-            "conflict": {
-                "rector/rector-doctrine": "*",
-                "rector/rector-downgrade-php": "*",
-                "rector/rector-phpunit": "*",
-                "rector/rector-symfony": "*"
-            },
-            "bin": [
-                "bin/rector"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "0.15-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Instant Upgrade and Automated Refactoring of any PHP code",
-            "keywords": [
-                "automation",
-                "dev",
-                "migration",
-                "refactoring"
-            ],
-            "support": {
-                "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.15.21"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/tomasvotruba",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-03-06T11:44:29+00:00"
         },
         {
             "name": "softcreatr/jsonpath",
@@ -18888,6 +18643,83 @@
             "time": "2023-01-13T03:08:29+00:00"
         },
         {
+            "name": "palantirnet/drupal-rector",
+            "version": "0.15.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/palantirnet/drupal-rector.git",
+                "reference": "85382a67a07b928f5a963d94fbca11d7be33d6ca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/palantirnet/drupal-rector/zipball/85382a67a07b928f5a963d94fbca11d7be33d6ca",
+                "reference": "85382a67a07b928f5a963d94fbca11d7be33d6ca",
+                "shasum": ""
+            },
+            "require": {
+                "rector/rector": "~0.15.2",
+                "webflo/drupal-finder": "^1.2"
+            },
+            "replace": {
+                "drupal8-rector/drupal8-rector": "*",
+                "palantirnet/drupal8-rector": "*"
+            },
+            "require-dev": {
+                "cweagans/composer-patches": "^1.7.2",
+                "php": "^8.1",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan": "^1.0",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpunit/phpunit": "^10.0",
+                "rector/rector-src": "dev-main",
+                "symfony/yaml": "^5 || ^6",
+                "symplify/vendor-patches": "^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "enable-patching": true
+            },
+            "autoload": {
+                "psr-4": {
+                    "DrupalRector\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dezső Biczó",
+                    "email": "mxr576@gmail.com"
+                },
+                {
+                    "name": "Ofer Shaal",
+                    "email": "shaal@palantir.net"
+                },
+                {
+                    "name": "Daniel Montgomery",
+                    "email": "montgomery@palantir.net"
+                },
+                {
+                    "name": "Matt Glaman",
+                    "email": "nmd.matt@gmail.com"
+                }
+            ],
+            "description": "Instant fixes for your Drupal code by using Rector.",
+            "keywords": [
+                "Code style",
+                "Drupal 8",
+                "ast",
+                "drupal 9",
+                "rector"
+            ],
+            "support": {
+                "source": "https://github.com/palantirnet/drupal-rector/tree/0.15.1"
+            },
+            "time": "2023-03-23T20:57:43+00:00"
+        },
+        {
             "name": "phar-io/manifest",
             "version": "2.0.3",
             "source": {
@@ -19330,6 +19162,68 @@
                 "source": "https://github.com/phpstan/phpdoc-parser/tree/1.20.4"
             },
             "time": "2023-05-02T09:19:37+00:00"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "version": "1.10.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan.git",
+                "reference": "b10ceb526d9607903c5b2673f1fc8775dbe48975"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b10ceb526d9607903c5b2673f1fc8775dbe48975",
+                "reference": "b10ceb526d9607903c5b2673f1fc8775dbe48975",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2|^8.0"
+            },
+            "conflict": {
+                "phpstan/phpstan-shim": "*"
+            },
+            "bin": [
+                "phpstan",
+                "phpstan.phar"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan - PHP Static Analysis Tool",
+            "keywords": [
+                "dev",
+                "static analysis"
+            ],
+            "support": {
+                "docs": "https://phpstan.org/user-guide/getting-started",
+                "forum": "https://github.com/phpstan/phpstan/discussions",
+                "issues": "https://github.com/phpstan/phpstan/issues",
+                "security": "https://github.com/phpstan/phpstan/security/policy",
+                "source": "https://github.com/phpstan/phpstan-src"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ondrejmirtes",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/phpstan",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-03-16T15:24:20+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -19871,6 +19765,67 @@
                 }
             ],
             "time": "2023-05-02T15:15:43+00:00"
+        },
+        {
+            "name": "rector/rector",
+            "version": "0.15.24",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rectorphp/rector.git",
+                "reference": "716473919bcfdc27bdd2a32afb72adbf4c224e59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/716473919bcfdc27bdd2a32afb72adbf4c224e59",
+                "reference": "716473919bcfdc27bdd2a32afb72adbf4c224e59",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2|^8.0",
+                "phpstan/phpstan": "^1.10.1"
+            },
+            "conflict": {
+                "rector/rector-doctrine": "*",
+                "rector/rector-downgrade-php": "*",
+                "rector/rector-phpunit": "*",
+                "rector/rector-symfony": "*"
+            },
+            "bin": [
+                "bin/rector"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "0.15-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Instant Upgrade and Automated Refactoring of any PHP code",
+            "keywords": [
+                "automation",
+                "dev",
+                "migration",
+                "refactoring"
+            ],
+            "support": {
+                "issues": "https://github.com/rectorphp/rector/issues",
+                "source": "https://github.com/rectorphp/rector/tree/0.15.24"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/tomasvotruba",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-05T08:49:11+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -21364,7 +21319,6 @@
         "drupal/rules": 20,
         "drupal/search_exclude": 10,
         "drupal/typed_data": 15,
-        "drupal/upgrade_rector": 15,
         "drupal/views_data_export": 5,
         "drupal/views_field_view": 10,
         "drupal/views_tree": 15,
