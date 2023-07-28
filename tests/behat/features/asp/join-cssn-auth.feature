@@ -15,13 +15,9 @@ Feature: test join-the-cssn-network webform
     Then I should see "NSF-funded CIP"
 
     When I check "MATCHPlus Mentor"
+    # add a wait before submitting to avoid "There was a problem with your form submission.  Please wait NN seconds and try again."
+    And I wait 2 seconds
     When I press "Submit"
-
-    # following sometimes failes with "There was a problem with your form submission.  Please
-    #    wait NN seconds and try again."
-    # Not sure what to do about this, since it's sporadic.
-    # Commenting out for now.
-    # ticket filed: https://cyberteamportal.atlassian.net/browse/D8-1777
-    #And I wait 2 seconds
-    #Then I should see "Thank you for joining the cssn."
-    #Then I should see "Thanks for updating your CSSN membership."
+    And I wait 2 seconds
+    Then I should see "Thank you for joining the cssn."
+    Then I should see "Thanks for updating your CSSN membership."
