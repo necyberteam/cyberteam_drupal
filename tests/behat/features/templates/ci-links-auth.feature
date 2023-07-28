@@ -1,8 +1,8 @@
 @templates
 @api
 @javascript
-Feature: test resources page as a authenticated user
-  In order to test the resource page as an authenticated user
+Feature: test CI Links page as a authenticated user
+  In order to test the CI Links page as an authenticated user
 
   Scenario: Authenticated user Test the resource page
     Given I am logged in as a user with the "authenticated" role
