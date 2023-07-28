@@ -120,6 +120,7 @@ GITHUB_TOKEN=$token'>.env");
     $snap_selected = $this->ask("Which Snapshots would you like to restore? \n" . $snap_option);
     $this->_exec("git checkout " . $snap_name[$snap_selected][1]);
     $this->say("Restored Branch: " . $snap_name[$snap_selected][1]);
+    $this->_exec($this->lando() . "composer install");
     $this->_exec($this->lando() . "db-import backups/snapshots/" . $snap_name[$snap_selected][0] . "_" . $snap_name[$snap_selected][1] . "_" . $snap_name[$snap_selected][2] . ".sql.gz");
     $this->say("Restored Snapshot: " . $snap_name[$snap_selected][2]);
     $this->_exec($this->lando() . "drush deploy");
