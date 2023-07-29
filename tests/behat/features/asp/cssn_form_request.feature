@@ -22,10 +22,11 @@ Feature: test cssn form
     When I check "i_am_joining_as_a_[NSF-funded CIP]"
     #academic_status_select2 is the Academic Status
     When I select "1st year undergraduate" from "academic_status_select2"
+    # add a wait before submitting to avoid "There was a problem with your form submission.  Please wait NN seconds and try again."
+    And I wait 2 seconds
     When I press "Submit"
     And I wait 5 seconds
-    # Not sure if text below is intended to be on page after steps above??
-    #Then I should see "Thank you for joining the cssn."
+    Then I should see "Thank you for joining the cssn."
     Then I should see "Thanks for updating your CSSN membership."
     When I go to "/community-persona"
     And I wait for the page to be loaded
