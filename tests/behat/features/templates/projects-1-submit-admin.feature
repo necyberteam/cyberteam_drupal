@@ -7,7 +7,7 @@ Feature: add a test project via the form
   As admin
   I can add a project
 
-  Scenario: Add a project for verify it is created
+  Scenario: Add an "in-progress" project and verify it is created
     Given I am logged in as a user with the "administrator" role
     When I go to "projects"
     When I follow "Submit New Project"
@@ -69,7 +69,7 @@ Feature: add a test project via the form
     And I should see "http://test.com"
     And I should see "33"
 
-  Scenario: Add a Recruiting project for verify it is created
+  Scenario: Add a Recruiting project to verify it is created
     Given I am logged in as a user with the "administrator" role
     When I go to "projects"
     When I follow "Submit New Project"
