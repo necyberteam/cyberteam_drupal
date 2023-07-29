@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Theme override to display a Recommended Resource node.
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'pt-3',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+  ]
+%}
+{{ attach_library('classy/node') }}
+<article{{ attributes.addClass(classes) }}>
+  <div{{ content_attributes.addClass('node__content') }}>
+    {{ content.field_cider_resource }}
+    {{ content.body }}
+  </div>
+</article>
