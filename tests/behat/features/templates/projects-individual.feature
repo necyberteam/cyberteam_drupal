@@ -150,8 +150,5 @@ Feature: test projects page
     And I should see "test project description"
     When I click "I'm interested"
     Then I should see "Interested"
-    # TODO Interested button is not able to be clicked
-    #When I click " interested"
     And I should see "http://test.com"
     And I should see "33"
-
