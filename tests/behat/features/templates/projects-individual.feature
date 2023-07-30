@@ -47,7 +47,7 @@ Feature: test projects page
     When I fill in "Mobile Phone" with "555-1212"
     When I fill in "Phone" with "555-1213"
     When I fill in "Ext:" with "333"
-    # TODO not sure how to correctly reference people
+    # TODO not sure how to correctly reference people D8-1626 : https://cyberteamportal.atlassian.net/browse/D8-1626
     #When I fill in "edit-mentor-items-0-item-" with "Test Smith (TestSmith)"
     #When I fill in "edit-mentee-s-items-0-item-" with "Test Smith (TestSmith)"
     When I fill in "Project Description" with "test project description"
