@@ -15,6 +15,8 @@ Feature: test join-the-cssn-network webform
     Then I should see "NSF-funded CIP"
 
     When I check "MATCHPlus Mentor"
+    # add a wait before submitting to avoid "There was a problem with your form submission.  Please wait NN seconds and try again."
+    And I wait 2 seconds
     When I press "Submit"
     And I wait 2 seconds
     #TODO 2 lines below do not pass D8-1668 : https://cyberteamportal.atlassian.net/browse/D8-1668

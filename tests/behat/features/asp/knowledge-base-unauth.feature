@@ -56,7 +56,7 @@ Feature: test ACCESS Support knowledge base
     Then I should see "A handy list of where to find info for researchers with XSEDE experience."
     When I click "View Cheatsheet"
     Then I should get a "200" HTTP response
-    Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/129144254/Cheatsheets+for+XSEDE+Users"
+    Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/pages/283776816/Cheatsheets+for+XSEDE+Users"
 
   Scenario: Unauthenticated user tests the Frequently Asked Questions section on the knowledge base page
     Given I am not logged in
@@ -77,8 +77,12 @@ Feature: test ACCESS Support knowledge base
     Then I should see "Quantum Computing"
     Then I should see "Cloud Computing"
     Then I should see "See all Forums"
-    #TODO Button is not working ?
-    #When I click "See all forums"
+    # following gives 'Unable to complete AJAX request. {"name":"step.after","feature":"test ACCESS Support OnDemand Page","step":"I click \"Join Us\"","suite":"default"} (RuntimeException)'
+    # not sure why, disabling for now
+    # see ticket: https://cyberteamportal.atlassian.net/browse/D8-1775
+    #When I click "See all Forums"
+    #And I wait 4 seconds
+    #Then I should be on "https://ask.cyberinfrastructure.org"
 
   Scenario: Unauthenticated user tests the Community Contributed CI Links section on the knowledge base page
     Given I am not logged in

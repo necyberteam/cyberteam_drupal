@@ -1,0 +1,33 @@
+uuid: 07edb726-939b-4c2b-b5f9-62b4ad1747bf
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:d728f68b-abe1-4ee1-9811-6900ea568b19'
+  module:
+    - block_content
+    - domain
+  theme:
+    - champions
+id: ccfronttacklinggrandchallenges
+theme: champions
+region: campus_champions_front_sections
+weight: 0
+provider: null
+plugin: 'block_content:d728f68b-abe1-4ee1-9811-6900ea568b19'
+settings:
+  id: 'block_content:d728f68b-abe1-4ee1-9811-6900ea568b19'
+  label: 'CC - Front - Tackling Grand Challenges'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org

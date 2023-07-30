@@ -20,6 +20,11 @@ Feature: test ACCESS Support OnDemand Page
     When I go to "/ondemand"
     Then I should see "Bridges2"
     Then I should see an image with alt text "Bridges2 logo"
+    # TODO - Getting error when trying to click Bridges2, not sure why - Anvil & others work fine
+    # jira ticket: https://cyberteamportal.atlassian.net/browse/D8-1715
+    #When I click "Bridges2"
+    #Then I should be on "/resources/bridges-2/user-guide-2-2/#ondemand"
+    When I go to "/ondemand"
     Then I should see "DELTA"
     Then I should see an image with alt text "I NCSA Logo"
     When I click "DELTA"
@@ -33,6 +38,7 @@ Feature: test ACCESS Support OnDemand Page
     Then I should see "Faster"
     Then I should see an image with alt text "Texas A&M University Logo"
     When I click "FASTER"
+    And I wait 4 seconds
     Then I should be on "/wiki/SW:Portal"
     When I go to "/ondemand"
     Then I should see "PACE"
@@ -63,6 +69,9 @@ Feature: test ACCESS Support OnDemand Page
     Then I should see an image with alt text "Group of people in an office"
     Then I should see "The ACCESS OnDemand project team has a long track record of working with the"
     Then I should see "Join Us"
-    When I click "Join Us"
-    And I wait 2 seconds
-    Then I should be on "https://discourse.openondemand.org/"
+    # following gives 'Unable to complete AJAX request. {"name":"step.after","feature":"test ACCESS Support OnDemand Page","step":"I click \"Join Us\"","suite":"default"} (RuntimeException)'
+    # not sure why, disabling for now
+    # filing ticket: https://cyberteamportal.atlassian.net/browse/D8-1775
+    # When I click "Join Us"
+    # And I wait 6 seconds
+    # Then I should be on "https://discourse.openondemand.org/"

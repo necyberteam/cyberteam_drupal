@@ -22,6 +22,8 @@ Feature: test cssn form
     When I check "i_am_joining_as_a_[NSF-funded CIP]"
     #academic_status_select2 is the Academic Status
     When I select "1st year undergraduate" from "academic_status_select2"
+    # add a wait before submitting to avoid "There was a problem with your form submission.  Please wait NN seconds and try again."
+    And I wait 2 seconds
     When I press "Submit"
     And I wait 5 seconds
     # TODO 2 lines below are not consistent in passing https://cyberteamportal.atlassian.net/browse/D8-1665

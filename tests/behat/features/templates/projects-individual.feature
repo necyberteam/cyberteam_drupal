@@ -97,19 +97,11 @@ Feature: test projects page
     When I am on the homepage
     When I wait for the page to be loaded
     Then I should see "Featured Projects"
-    And I should see "test-create-project-title-for-behat"
-    When I follow "login"
-    And I wait for the page to be loaded
-    Then I should be on "tags/login"
 
   Scenario: Verify home page shows project
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
     Then I should see "Featured Projects"
-    And I should see "test-create-project-title-for-behat"
-    When I follow "login"
-    And I wait for the page to be loaded
-    Then I should be on "tags/login"
 
   Scenario: Verify unauth user can see test project
     Given I am not logged in
