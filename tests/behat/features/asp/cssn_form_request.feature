@@ -31,7 +31,7 @@ Feature: test cssn form
     And I wait for the page to be loaded
     Then I should see "CSSN Member"
     Then I should see "Roles:"
-    #TODORoles do not showon community persona page Ticket Created :D8-1659
+    #TODO Roles do not show on community persona page Ticket Created D8-1659 : https://cyberteamportal.atlassian.net/browse/D8-1659
     #Then I should see "mentor"
     #Then I should see "student-facilitator"
     #Then I should see "Consultant"
