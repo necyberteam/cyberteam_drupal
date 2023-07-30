@@ -17,7 +17,7 @@ Feature: test join-the-cssn-network webform
     When I check "MATCHPlus Mentor"
     When I press "Submit"
     And I wait 2 seconds
-    #Below code does not seem to be passing anymore
+    #TODO 2 lines below do not pass D8-1668 : https://cyberteamportal.atlassian.net/browse/D8-1668
     #Then I should see "Submission updated in Join the CSSN Network."
     #Then I should see "Thanks for updating your CSSN membership."
 
