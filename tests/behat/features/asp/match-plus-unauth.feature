@@ -58,7 +58,6 @@ Feature: test ACCESS Support Match Plus Page
     Given I am not logged in
     When I go to "/matchplus"
     Then I should see "Featured MATCHPlus Engagements"
-    #Testing of engagment names seems to not stay consistent
     When I click "See All"
     Then I should see "GPU-accelerated ice sheet flow modeling"
     Then I should see "University of North Dakota"
