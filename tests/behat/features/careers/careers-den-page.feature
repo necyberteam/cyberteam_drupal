@@ -56,6 +56,7 @@ Feature: test Distributed Experts Network
     When I fill in "Please provide a brief description of your computational challenge." with "Testing"
     When I fill in "What have you tried so far to solve this challenge?" with "testing"
     #edit-actions-submit is the request help button
+    And I wait 5 seconds
     When I press "edit-actions-submit"
     And I wait 5 seconds
     Then I should see "New submission added to Distributed Experts Network Help Request Form."
