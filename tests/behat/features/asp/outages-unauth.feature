@@ -27,6 +27,7 @@ Feature: test ACCESS Support Outages Page
     Then I should see "Showing 1 to 25"
     When I select "100" from "outages-all_length"
     Then I should see "Anvil Cluster Maintenance"
+    When I click "Anvil Cluster Maintenance
     When I click "Anvil Cluster Maintenance"
     Then I should get a "200" HTTP response
     Then I should see "Anvil Cluster Maintenance"

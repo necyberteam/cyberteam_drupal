@@ -1,4 +1,4 @@
-@templates
+@asp
 @api
 @javascript
 
@@ -7,7 +7,7 @@ Feature: add a test project via the form
   As admin
   I can add a project
 
-  Scenario: Assigning mentor & student facilitator to TEST
+  Scenario: Assigning mentor& student facilitator to TEST
     Given I am logged in as a user with the "administrator" role
     When I go to "/user/1998/edit?destination=/admin/people%3Fuser%3Dtest%26status%3DAll%26role%3DAll%26permission%3DAll%26field_is_cc_value%3DAll%26field_region_target_id%3DAll"
     When I check "mentor"
@@ -16,9 +16,7 @@ Feature: add a test project via the form
     #When I select "1st year undergraduate" from "edit-field-academic-status"
     When I press "op"
 
-
-  Scenario: Add an "in-progress" project and verify it is created
-
+  Scenario: Add a project for verify it is created
     Given I am logged in as a user with the "administrator" role
     When I go to the homepage
     When I go to "/projects"
@@ -83,7 +81,7 @@ Feature: add a test project via the form
     And I should see "http://test.com"
     And I should see "33"
 
-  Scenario: Add a Recruiting project to verify it is created
+  Scenario: Add a Recruiting project for verify it is created
     Given I am logged in as a user with the "administrator" role
     When I go to "projects"
     When I follow "Submit New Project"
