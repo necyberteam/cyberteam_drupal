@@ -141,9 +141,9 @@ content:
     region: content
     settings:
       form_mode: default
-      override_labels: false
-      label_singular: ''
-      label_plural: ''
+      override_labels: true
+      label_singular: resource
+      label_plural: resources
       auto_open: true
       allow_new: true
       allow_existing: false
@@ -156,10 +156,12 @@ content:
       collapsed: false
       revision: false
       removed_reference: optional
-      config_labels_button: _none
-      labels: {  }
+      config_labels_button: simple_label
+      labels:
+        label_singular_recommended_cider: ''
+        label_plural_recommended_cider: ''
       add_existing_widget: autocomplete
-      auto_open_edit_form: false
+      auto_open_edit_form: 0
     third_party_settings: {  }
   field_resources_entity_reference:
     type: entity_reference_autocomplete
