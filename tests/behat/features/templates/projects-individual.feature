@@ -17,6 +17,7 @@ Feature: test projects page
     When I am on the homepage
     When I wait for the page to be loaded
     Then I should see "Featured Projects"
+    When I follow "Featured Projects"
     And I should see "test-create-project-title"
     When I follow "login"
     And I wait for the page to be loaded
