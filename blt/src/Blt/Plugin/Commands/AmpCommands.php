@@ -420,7 +420,7 @@ GITHUB_TOKEN=$token'>.env");
   }
 
   /**
-   *
+   * Run composer updates.
    */
   private function composer_updates($regex) {
     $log = file_get_contents("log.txt");
@@ -500,6 +500,27 @@ $update_list");
     $default_domain = $domains[$domain_id]['id'];
     $this->_exec("touch blt/md/$branch");
     $this->_exec("echo '$default_domain'>>blt/md/$branch");
+  }
+
+  /**
+   * Checkout branch.
+   *
+   * @command amp:checkout
+   * @description Checkout branch and run commands to load properly.
+   */
+  public function checkout(array $args) {
+    $branch = $args[0] ?? '';
+    $domain = $args[1] ?? 0;
+    if (empty($branch)) {
+      $branch = $this->ask("Which branch should be checked out?");
+    }
+    $this->_exec("git checkout $branch");
+    $this->_exec($this->lando() . "composer install");
+    $this->_exec($this->lando() . "drush deploy");
+    if ($domain !== 0) {
+      $this->_exec($this->lando() . "blt amp:ds $domain");
+    }
+    $this->_exec($this->lando() . "blt amp:uli");
   }
 
 }
