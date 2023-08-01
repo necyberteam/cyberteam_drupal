@@ -70,6 +70,63 @@ GITHUB_TOKEN=$token'>.env");
   }
 
   /**
+   * Config export.
+   *
+   * @command amp:cex
+   * @description Export config files and checkout deleted files.
+   */
+  public function cex() {
+    $this->_exec($this->lando() . "drush cex -y");
+    // Checkout deleted files.
+    $this->_exec("git ls-files -z -d | xargs -0 git checkout --");
+  }
+
+  /**
+   * Create Snapshot.
+   *
+   * @command amp:snap:create
+   * @description Create snapshot of current db.
+   */
+  public function snapC() {
+    if (!file_exists('backups/snapshots')) {
+      $this->_exec("mkdir -p backups/snapshots");
+    }
+    $date = date('Ymd-His');
+    $branch = shell_exec("git rev-parse --abbrev-ref HEAD");
+    // Remove extra return from $branch.
+    $branch = trim(preg_replace('/\s+/', ' ', $branch));
+    $snap_name = $this->ask("What is the Snapshots name?");
+    $this->say("❗️ Creating snapshot $snap_name. ❗️");
+    $snap_name = strtolower($snap_name);
+    $snap_name = preg_replace('/[^A-Za-z0-9\-]/', '-', $snap_name);
+    $this->_exec($this->lando() . "db-export backups/snapshots/" . $date . "_" . $branch . "_" . $snap_name. ".sql");
+  }
+
+  /**
+   * Restore Snapshot.
+   *
+   * @command amp:snap:restore
+   * @description Restore a snapshot.
+   */
+  public function snapR() {
+    $snap_name = shell_exec("ls -1 backups/snapshots | grep sql | sed 's/.sql\.gz//g' | sort -r ");
+    $snap_name = explode("\n", $snap_name);
+    array_pop($snap_name);
+    $snap_option = '';
+    foreach ($snap_name as $key => $snap) {
+      $snap_name[$key] = explode("_", $snap);
+      $snap_option .= $key . " - Branch: " . $snap_name[$key][1] . " Name: " . $snap_name[$key][2] . "\n";
+    }
+    $snap_selected = $this->ask("Which Snapshots would you like to restore? \n" . $snap_option);
+    $this->_exec("git checkout " . $snap_name[$snap_selected][1]);
+    $this->say("Restored Branch: " . $snap_name[$snap_selected][1]);
+    $this->_exec($this->lando() . "composer install");
+    $this->_exec($this->lando() . "db-import backups/snapshots/" . $snap_name[$snap_selected][0] . "_" . $snap_name[$snap_selected][1] . "_" . $snap_name[$snap_selected][2] . ".sql.gz");
+    $this->say("Restored Snapshot: " . $snap_name[$snap_selected][2]);
+    $this->_exec($this->lando() . "drush deploy");
+  }
+
+  /**
    * Load Token.
    *
    * @command amp:loadtoken
@@ -303,6 +360,7 @@ GITHUB_TOKEN=$token'>.env");
     }
     $uid = Xss::filter(shell_exec("printenv AMP_UID"));
     $this->_exec($this->lando() . "drush uli --uid=$uid");
+    $this->_exec($this->lando() . "drush cr");
   }
 
   /**
@@ -328,6 +386,7 @@ GITHUB_TOKEN=$token'>.env");
       ");
     }
     $this->_exec("sleep 2");
+    $this->_exec($this->lando() . "composer install");
     $this->_exec($this->lando() . "drush deploy -y");
     $this->_exec("sleep 2");
     $this->_exec($this->lando() . "drush cim -y");
@@ -362,7 +421,7 @@ GITHUB_TOKEN=$token'>.env");
   }
 
   /**
-   *
+   * Run composer updates.
    */
   private function composer_updates($regex) {
     $log = file_get_contents("log.txt");
@@ -442,6 +501,27 @@ $update_list");
     $default_domain = $domains[$domain_id]['id'];
     $this->_exec("touch blt/md/$branch");
     $this->_exec("echo '$default_domain'>>blt/md/$branch");
+  }
+
+  /**
+   * Checkout branch.
+   *
+   * @command amp:checkout
+   * @description Checkout branch and run commands to load properly.
+   */
+  public function checkout(array $args) {
+    $branch = $args[0] ?? '';
+    $domain = $args[1] ?? 0;
+    if (empty($branch)) {
+      $branch = $this->ask("Which branch should be checked out?");
+    }
+    $this->_exec("git checkout $branch");
+    $this->_exec($this->lando() . "composer install");
+    $this->_exec($this->lando() . "drush deploy");
+    if ($domain !== 0) {
+      $this->_exec($this->lando() . "blt amp:ds $domain");
+    }
+    $this->_exec($this->lando() . "blt amp:uli");
   }
 
 }
