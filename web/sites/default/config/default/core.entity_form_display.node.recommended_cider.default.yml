@@ -18,7 +18,7 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 2
+    weight: 1
     region: content
     settings:
       rows: 9
@@ -28,19 +28,11 @@ content:
     third_party_settings: {  }
   field_cider_resource:
     type: entity_reference_autocomplete
-    weight: 1
+    weight: 0
     region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  title:
-    type: string_textfield
-    weight: 0
-    region: content
-    settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
@@ -54,5 +46,6 @@ hidden:
   promote: true
   status: true
   sticky: true
+  title: true
   uid: true
   url_redirects: true

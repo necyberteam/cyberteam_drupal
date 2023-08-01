@@ -24,15 +24,18 @@ content:
     settings:
       trim_length: 600
     third_party_settings: {  }
-    weight: 101
+    weight: 0
     region: content
-  links:
-    settings: {  }
+  field_cider_resource:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
     third_party_settings: {  }
-    weight: 100
+    weight: 1
     region: content
 hidden:
-  field_cider_resource: true
   field_domain_access: true
   field_domain_all_affiliates: true
   field_domain_source: true
+  links: true
