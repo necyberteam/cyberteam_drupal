@@ -5,7 +5,6 @@
 Feature: test projects/engagements page
   In order to test the Project/Engagements Page
 
-
   Scenario: Unauthenticated user Test the Projects/Engagements Page
     Given I am not logged in
     When I go to "/projects"
@@ -23,6 +22,7 @@ Feature: test projects/engagements page
     When I fill in "edit-search--2" with "testy2002"
     And I wait 5 seconds
     Then I should see "There are no projects at this time. Please check back often as projects are added regularly."
+
     When I fill in "edit-search--2" with ""
     And I wait 5 seconds
     When I click "login"

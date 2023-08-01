@@ -39,7 +39,6 @@ Feature: test ACCESS Support Pegasus Page
     Then I should see an image with alt text "Heterogenous Environments icon"
     Then I should see "Pegasus can execute workflows in a variety of distributed computing"
 
-
     Then I should see "Reproducibility"
     Then I should see an image with alt text "Reproducibility icon"
     Then I should see "Scientific workflows allow researchers to document"
@@ -61,7 +60,7 @@ Feature: test ACCESS Support Pegasus Page
     Then I should see an image with alt text "workflow key"
 
     Then I should see "Single Job"
-    #Then I should see an image with alt text "Single job workflow"
+    Then I should see an image with alt text "Single job workflow"
     #Multiple Example buttons. How do I specify?
     When I click "Example"
     Then I should get a "200" HTTP response
@@ -93,6 +92,7 @@ Feature: test ACCESS Support Pegasus Page
 
     Then I should see "Single Sign On with your ACCESS ID"
     Then I should see "All registered users with an active allocation automatically have an ACCESS Pegasus account."
+
     #Issue with consistency in alt testing
     #Then I should see an image with alt text "SDSC Login Screenshot"
 
@@ -127,7 +127,7 @@ Feature: test ACCESS Support Pegasus Page
 
     When I go to "/pegasus"
     Then I should see "Documentation"
-    #Then I should see an image with alt text "Documentation icon"
+    Then I should see an image with alt text "Documentation icon"
     Then I should see "Detailed documentation about"
     When I click "Read"
     Then I should get a "200" HTTP response

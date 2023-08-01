@@ -17,9 +17,8 @@ Feature: test ACCESS Support domain cssn roles webform editing
     When I check "edit-roles-mentor"
     When I check "edit-roles-student"
     # select2-edit-academic-status-select2-container is the Academic Status dropdown
-
     When I select "1st year undergraduate" from "academic_status_select2"
-
+    And I wait 2 seconds
     When I press "Submit"
     And I wait 4 seconds
     Then I should see "Thank you for updating your roles."
