@@ -26,6 +26,10 @@ Feature: test ACCESS Support Events Page and Individual Events Page
     Then I should be on "/past-events"
     And I should see "Past Events"
     And I should see "Filter by"
+    When I select "Training" from "Event Type"
+    When I select "Community" from "Affiliation"
+    When I select "Delta" from "Affinity Group"
+
 
     When I go to "/events/17"
     Then I should see "Cybersecurity and Coding for Middle and High School Students"
