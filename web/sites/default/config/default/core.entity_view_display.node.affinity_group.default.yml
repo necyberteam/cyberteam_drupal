@@ -17,6 +17,7 @@ dependencies:
     - field.field.node.affinity_group.field_image
     - field.field.node.affinity_group.field_list_id
     - field.field.node.affinity_group.field_mailing_list
+    - field.field.node.affinity_group.field_recommended_access_res
     - field.field.node.affinity_group.field_resources_entity_reference
     - field.field.node.affinity_group.field_slack
     - field.field.node.affinity_group.field_tags
@@ -280,7 +281,7 @@ third_party_settings:
               label_display: '0'
               provider: access_affinitygroup
               context_mapping: {  }
-            weight: 2
+            weight: 4
             additional: {  }
           d3082a31-4eb3-4f00-a0dd-f77e94ab145b:
             uuid: d3082a31-4eb3-4f00-a0dd-f77e94ab145b
@@ -295,6 +296,29 @@ third_party_settings:
               block_revision_id: 85
               block_serialized: null
             weight: 4
+            additional:
+              layout_builder_styles_style:
+                page_title: 0
+                pe_3: 0
+                tags: 0
+          9e2be374-90b2-432f-9221-ab247d713823:
+            uuid: 9e2be374-90b2-432f-9221-ab247d713823
+            region: second
+            configuration:
+              id: 'field_block:node:affinity_group:field_recommended_access_res'
+              label: 'Recommended ACCESS Resources from CiDeR'
+              label_display: visible
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_entity_view
+                label: hidden
+                settings:
+                  view_mode: affinity_group
+                third_party_settings: {  }
+            weight: 3
             additional:
               layout_builder_styles_style:
                 page_title: 0
@@ -342,6 +366,14 @@ targetEntityType: node
 bundle: affinity_group
 mode: default
 content:
+  field_recommended_access_res:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }
