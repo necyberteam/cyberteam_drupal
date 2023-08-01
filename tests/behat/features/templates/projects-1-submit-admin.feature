@@ -1,4 +1,4 @@
-@templates
+@wip
 @api
 @javascript
 
@@ -7,13 +7,15 @@ Feature: add a test project via the form
   As admin
   I can add a project
 
-  Scenario: Assigning mentor & student facilitator to TEST
+  Scenario: Assigning mentor & student facilitator to user "Test Smith"
     Given I am logged in as a user with the "administrator" role
+    # user 1998 is "Test Smith"
     When I go to "/user/1998/edit?destination=/admin/people%3Fuser%3Dtest%26status%3DAll%26role%3DAll%26permission%3DAll%26field_is_cc_value%3DAll%26field_region_target_id%3DAll"
     When I check "mentor"
     When I check "student-facilitator"
     When I check "researcher/educator"
     #When I select "1st year undergraduate" from "edit-field-academic-status"
+    # "op" is the name of the submit button.
     When I press "op"
 
 
@@ -22,7 +24,7 @@ Feature: add a test project via the form
     Given I am logged in as a user with the "administrator" role
     When I go to the homepage
     When I go to "/projects"
-    #When I follow "Submit New Project"
+    When I follow "Submit New Project"
     When I check "Received"
     When I check "Accept and Publish"
     When I fill in "Project Title" with "test-create-project-title"
@@ -36,14 +38,9 @@ Feature: add a test project via the form
     When I fill in "Mobile Phone" with "555-1212"
     When I fill in "Phone" with "555-1213"
     When I fill in "Ext:" with "333"
-    # TODO referencing people does not work
-    When I fill in "edit-mentor-items-0-item-" with "Test Smith (TestSmith)"
-    When I fill in "edit-mentee-s-items-0-item-" with "Test Smith (TestSmith)"
+    When I fill in "edit-mentor-items-0-item-" with "Test Smith"
     When I fill in "Project Description" with "test project description"
-    When I fill in "edit-project-deliverables-mentee" with "test project Deliverables"
-    When I fill in "Mentee Research Computing Profile" with "test project student facilitator profile"
     When I select "One programming class" from "Student Facilitator Programming Skill Level"
-    When I select "One programming class" from "Mentee Programming Skill Level"
     When I fill in "Project Institution" with "test Project Institution"
     When I fill in "Address" with "test Address"
     When I fill in "Address 2" with "test Address 2"
@@ -59,7 +56,7 @@ Feature: add a test project via the form
     When I fill in "Github Contributions Link" with "http://test.com"
     When I fill in "Planned Portal Contributions (if any)" with "test Planned Portal Contributions"
     When I fill in "Planned Publications (if any)" with "test Planned Publications (if any)"
-    When I fill in "What will the mentee learn?" with "test learning"
+    When I fill in "What will the student learn?" with "test learning"
     When I fill in "What will the Cyberteam program learn from this project?" with "test What will the Cyberteam program learn"
     When I fill in "HPC resources needed to complete this project?" with "test HPC resources needed to complete"
     When I fill in "Notes" with "test Notes"
@@ -116,7 +113,6 @@ Feature: add a test project via the form
     When I fill in "Github Contributions Link" with "http://test.com"
     When I fill in "Planned Portal Contributions (if any)" with "test Planned Portal Contributions"
     When I fill in "Planned Publications (if any)" with "test Planned Publications (if any)"
-    When I fill in "What will the mentee learn?" with "test learning"
     When I fill in "What will the Cyberteam program learn from this project?" with "test What will the Cyberteam program learn"
     When I fill in "HPC resources needed to complete this project?" with "test HPC resources needed to complete"
     When I fill in "Notes" with "test Notes"
