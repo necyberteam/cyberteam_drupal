@@ -26,7 +26,8 @@ Feature: test ACCESS Support Events Page and Individual Events Page
     Then I should be on "/past-events"
     And I should see "Past Events"
     And I should see "Filter by"
-    When I select "Training" from "Event Type"
+    #edit-field-event-type-value--2 is Event Type
+    When I select "Training" from "edit-field-event-type-value--2"
     When I select "Community" from "Affiliation"
     When I select "Delta" from "Affinity Group"
 
