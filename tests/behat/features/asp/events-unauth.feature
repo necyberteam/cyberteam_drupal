@@ -29,7 +29,8 @@ Feature: test ACCESS Support Events Page and Individual Events Page
     #edit-field-event-type-value--2 is Event Type
     When I select "Training" from "edit-field-event-type-value--2"
     When I select "Community" from "Affiliation"
-    When I select "Delta" from "Affinity Group"
+    #edit-field-affinity-group-target-id--2 is the affinity group
+    When I select "Delta" from "edit-field-affinity-group-target-id--2"
 
 
     When I go to "/events/17"
