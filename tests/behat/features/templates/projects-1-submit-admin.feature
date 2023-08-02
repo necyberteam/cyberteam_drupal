@@ -1,4 +1,4 @@
-@wip
+@templates
 @api
 @javascript
 
@@ -10,13 +10,17 @@ Feature: add a test project via the form
   Scenario: Assigning mentor & student facilitator to user "Test Smith"
     Given I am logged in as a user with the "administrator" role
     # user 1998 is "Test Smith"
-    When I go to "/user/1998/edit?destination=/admin/people%3Fuser%3Dtest%26status%3DAll%26role%3DAll%26permission%3DAll%26field_is_cc_value%3DAll%26field_region_target_id%3DAll"
+    When I go to "/user/1998/edit"
+    When I fill in "First Name" with "Test"
+    When I fill in "Last Name" with "Smith"
     When I check "mentor"
     When I check "student-facilitator"
     When I check "researcher/educator"
     #When I select "1st year undergraduate" from "edit-field-academic-status"
     # "op" is the name of the submit button.
     When I press "op"
+    And I wait 2 seconds
+    Then I should see "The changes have been saved."
 
 
   Scenario: Add an "in-progress" project and verify it is created
@@ -38,7 +42,7 @@ Feature: add a test project via the form
     When I fill in "Mobile Phone" with "555-1212"
     When I fill in "Phone" with "555-1213"
     When I fill in "Ext:" with "333"
-    When I fill in "edit-mentor-items-0-item-" with "Test Smith"
+    When I fill in "edit-mentor-items-0-item-" with "Test Smith (1998)"
     When I fill in "Project Description" with "test project description"
     When I select "One programming class" from "Student Facilitator Programming Skill Level"
     When I fill in "Project Institution" with "test Project Institution"
