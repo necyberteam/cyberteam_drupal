@@ -92,7 +92,6 @@ Feature: test ACCESS Support Pegasus Page
 
     Then I should see "Single Sign On with your ACCESS ID"
     Then I should see "All registered users with an active allocation automatically have an ACCESS Pegasus account."
-
     #Issue with consistency in alt testing
     #Then I should see an image with alt text "SDSC Login Screenshot"
 
