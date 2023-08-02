@@ -21,8 +21,7 @@ class AmpCommands extends BltTasks {
     if ($args) {
       $token = $args[0];
       $uid = $args[1];
-    }
-    else {
+    } else {
       $token = $this->ask("What is your GitHub token: ");
       $uid = $this->ask("What is your drupal user id: ");
     }
@@ -80,8 +79,7 @@ GITHUB_TOKEN=$token'>.env");
       $this->say("❗️ Setting GITHUB_TOKEN token. ❗️");
       $this->_exec("composer config -g github-oauth.github.com $(printenv GITHUB_TOKEN)");
       $this->_exec($this->lando() . " composer config -g github-oauth.github.com $(printenv GITHUB_TOKEN)");
-    }
-    else {
+    } else {
       $this->say("❗️ GITHUB_TOKEN not set. ❗️");
     }
   }
@@ -202,11 +200,10 @@ GITHUB_TOKEN=$token'>.env");
         : "  *not* copying any templates");
 
       if ($copy_templates) {
-        $cmd = "cp tests/behat/features/$copy_from/*.feature tests/behat/features/$domain/ && sed -i '1 s/@templates/@$domain/g' tests/behat/features/$domain/*.feature";
+        $cmd = "cp -r tests/behat/features/$copy_from tests/behat/features/$domain/ && find tests/behat/features/$domain -type f -name \"*.feature\" -exec sed -i '1 s/@templates/@$domain/g' {} \;";
         if ($dry_run) {
           $this->say('    dry-run: ' . $cmd);
-        }
-        else {
+        } else {
           $behat = shell_exec($cmd);
         }
       }
@@ -215,17 +212,16 @@ GITHUB_TOKEN=$token'>.env");
       if ($dry_run) {
         $this->say("    dry-run: $shell_cmd");
         $behat = '';
-      }
-      else {
+      } else {
         $this->say("    running: $shell_cmd");
         $this->say("------------------ start of $domain test results ------------------");
         // Open a pipe to the command and capture its output.
         $descriptorspec = [
-        // Stdin.
+          // Stdin.
           0 => ["pipe", "r"],
-        // Stdout.
+          // Stdout.
           1 => ["pipe", "w"],
-        // Stderr.
+          // Stderr.
           2 => ["pipe", "w"],
         ];
         $process = proc_open($shell_cmd, $descriptorspec, $pipes);
@@ -318,8 +314,7 @@ GITHUB_TOKEN=$token'>.env");
     }
     if ($this->lando() == 'lando ') {
       $this->_exec("lando db-import backups/site.sql.gz");
-    }
-    else {
+    } else {
       $this->_exec("drush sql-drop -y &&
         cp backups/site.sql.gz lando-import.sql.gz &&
         gunzip lando-import.sql.gz
@@ -353,8 +348,7 @@ GITHUB_TOKEN=$token'>.env");
     if ($arrrrgs == 'drupal/core') {
       $this->_exec("composer update drupal/core drupal/core-composer-scaffold drupal/core-dev drupal/core-recommended drupal/core-project-message -W --ignore-platform-req=ext-gd >log.txt 2>&1");
       $this->composer_updates('/Upgrading (drupal)\/core \((.* \=\> .*)\)$/mU');
-    }
-    elseif (!empty($arrrrgs)) {
+    } elseif (!empty($arrrrgs)) {
       $this->_exec("composer update $arrrrgs --no-scripts --ignore-platform-req=ext-gd >log.txt 2>&1");
       $this->_exec("cat log.txt");
       $this->composer_updates('/Upgrading .*\/(.*)\((.* \=\> .*)\)$/m');
@@ -443,5 +437,4 @@ $update_list");
     $this->_exec("touch blt/md/$branch");
     $this->_exec("echo '$default_domain'>>blt/md/$branch");
   }
-
 }
