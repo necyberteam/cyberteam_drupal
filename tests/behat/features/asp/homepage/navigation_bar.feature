@@ -3,6 +3,7 @@
 @javascript
 
 Feature: test Navigation Bar
+  For unauthenticted user, verify the MATCHPlus and MATCHPremier links
 
   Scenario: test MATCHPlus link
     Given I am not logged in
@@ -15,3 +16,4 @@ Feature: test Navigation Bar
     When I am on the homepage
     When I follow "MATCHPremier"
     Then I should be on "/matchpremier"
+

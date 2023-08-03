@@ -3,7 +3,7 @@
 @javascript
 
 Feature: test ACCESS Support Outages Page
-  In order to test the Outages Page
+  Test the Outages Page at /outages
 
   Scenario: Unauthenticated user tests the Outages Page
     Given I am not logged in
