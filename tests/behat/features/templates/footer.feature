@@ -3,6 +3,9 @@
 @javascript
 
 Feature: test footer
+Both unauthenticated and authenticated
+users tests footer for links
+Connect.CI & Contact us 
 
   Scenario: User is on the homepage
     Given I am not logged in
