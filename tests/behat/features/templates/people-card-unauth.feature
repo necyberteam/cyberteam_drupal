@@ -2,12 +2,15 @@
 @api
 @javascript
 Feature: test people page Card view w/ filters
-  In order to test the people page from Card View
+  Unauthenticated user tests the people page from Card View:
+  Result cards display:	First & last name (link to user’s page)
+	User’s region (if any),User profile image, User’s roles, User’s institution, User with skills (tags),
+  Card View button is grayed out, List View button appears,
+  Has no search restrictions on program. If you search you should see people from any program.
 
   Scenario: Unauthenticated user tests the people page in Card View and filters
     Given I am not logged in
     When I go to "people/Card"
-
     Then I should see "People"
     And I should see "Filter By Program"
     And I should see "Search the people database"
