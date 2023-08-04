@@ -661,9 +661,20 @@ display:
           default_row_class: true
           columns:
             sid: sid
+            flagged: flagged
+            link_flag: link_flag
+            count: count
             webform_submission_value_5: webform_submission_value_5
-            webform_submission_value: webform_submission_value
             webform_submission_value_1: webform_submission_value_1
+            webform_submission_value: webform_submission_value
+            webform_submission_value_4: webform_submission_value_4
+            webform_submission_value_7: webform_submission_value_7
+            webform_submission_value_6: webform_submission_value_6
+            webform_submission_value_8: webform_submission_value_8
+            webform_submission_value_3: webform_submission_value_3
+            sid_1: sid_1
+            webform_submission_value_2: webform_submission_value_2
+            field_affinity_group: field_affinity_group
           default: '-1'
           info:
             sid:
@@ -680,8 +691,64 @@ display:
               has_aggr_column: false
               aggr_column: views_aggregator_sum
               aggr_par_column: ''
+            flagged:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            link_flag:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            count:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
             webform_submission_value_5:
               sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: true
+              aggr:
+                views_aggregator_group_and_compress: views_aggregator_group_and_compress
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            webform_submission_value_1:
+              sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
@@ -708,7 +775,7 @@ display:
               has_aggr_column: false
               aggr_column: views_aggregator_sum
               aggr_par_column: ''
-            webform_submission_value_1:
+            webform_submission_value_4:
               align: ''
               separator: ''
               empty_column: false
@@ -720,6 +787,94 @@ display:
               has_aggr_column: false
               aggr_column: views_aggregator_sum
               aggr_par_column: ''
+            webform_submission_value_7:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            webform_submission_value_6:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            webform_submission_value_8:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            webform_submission_value_3:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            sid_1:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            webform_submission_value_2:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            field_affinity_group:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_group_and_compress: views_aggregator_group_and_compress
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
           override: true
           sticky: false
           summary: ''
@@ -727,7 +882,7 @@ display:
           caption: ''
           description: ''
           group_aggregation:
-            group_aggregation_results: '1'
+            group_aggregation_results: '0'
             grouping_field_class: ''
             result_label_prefix: ''
             result_label_suffix: ''
@@ -1878,6 +2033,14 @@ display:
           webform_element_format: value
           webform_multiple_value: true
           webform_multiple_delta: 0
+          set_precision: false
+          precision: 0
+          decimal: .
+          separator: ','
+          format_plural: false
+          format_plural_string: !!binary MQNAY291bnQ=
+          prefix: ''
+          suffix: ''
           webform_check_access: 1
         webform_submission_value_1:
           id: webform_submission_value_1
@@ -2704,7 +2867,7 @@ display:
         filter_groups: false
         header: false
       use_ajax: true
-      group_by: true
+      group_by: false
       header: {  }
       exposed_block: true
       display_extenders:
