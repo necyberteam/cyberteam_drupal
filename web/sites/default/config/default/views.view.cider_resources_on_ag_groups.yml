@@ -21,7 +21,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Affinity Groups'
+      title: ''
       fields:
         title:
           id: title
@@ -274,7 +274,20 @@ display:
           plugin_id: entity_reverse
           required: true
       group_by: false
-      header: {  }
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<h2 class="pb-1">Affinity Groups</h2>'
+            format: full_html
+          tokenize: false
       footer: {  }
       display_extenders: {  }
     cache_metadata:
