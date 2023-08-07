@@ -2,7 +2,13 @@
 @api
 @javascript
 
-Feature: test contact us form
+Feature: This Behat test goes over the Contact Us Page,
+the contact form requires the following fields, all of which are required:
+User's Name
+Email Address
+Email Subject
+Message
+Users need to fill out these fields to submit the contact form successfully.
 
   Scenario: Unauthenticated user fills out the contact us form
     Given I am not logged in
@@ -15,7 +21,7 @@ Feature: test contact us form
     #op is the name for the Submit button
     When I click "op"
     Then I should get a "200" HTTP response
-    
+
 
   Scenario: Authenticated user fills out the contact us form
     Given I am logged in as a user with the "authenticated" role

@@ -2,8 +2,13 @@
 @api
 @javascript
 
-Feature: test CI Links page
-  In order to test the CI Links page
+Feature: This Behat test goes over the CI Links Page, when accessed by an
+unauthenticated user, this page does not display the "Add New CI Links" button. The search
+function works on approved CI Links' titles only, is case-insensitive, and shows
+a special message if no results are found. The page includes radio buttons to
+filter CI Links by level (beginner, intermediate, advanced, expert), and the
+results are shown in a table with columns for "Votes", "CI Links Title", "Category",
+"Tags", and "Skill Level." There is also a text description at the top of the page.
 
   Scenario: Unauthenticated user tests the CI Links page
     Given I am not logged in
