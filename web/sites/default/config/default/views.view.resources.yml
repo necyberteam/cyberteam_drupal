@@ -1917,7 +1917,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: 'align-middle '
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
@@ -1944,7 +1944,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<p>{{ webform_submission_value }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>'
+            text: '{{ webform_submission_value }}'
             make_link: false
             path: ''
             absolute: false
@@ -1984,6 +1984,7 @@ display:
           webform_element_format: value
           webform_multiple_value: true
           webform_multiple_delta: 0
+          webform_check_access: 1
         webform_submission_value_4:
           id: webform_submission_value_4
           table: webform_submission_field_resource_tags
@@ -2189,7 +2190,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: 'square-tags align-middle '
           element_label_type: ''
           element_label_class: ''
           element_label_colon: true
@@ -2215,8 +2216,8 @@ display:
           label: 'Skill Level'
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: "{% set skill_level = webform_submission_value_3  |render|render %}\r\n{%  if skill_level == 'Beginner' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner.png\" alt=\"Beginner\"/>\r\n{% elseif 'Beginner' in skill_level and 'Intermediate' in skill_level and 'Advanced' not in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner-medium.png\" alt=\"Beginner and Intermediate\"/>\r\n{% elseif skill_level == 'Intermediate' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium.png\" alt=\"Intermediate\"/>\r\n{% elseif 'Beginner' not in skill_level and 'Intermediate' in skill_level and 'Advanced' in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium-advanced.png\" alt=\"Intermediate and Advanced\"/>\r\n{% elseif skill_level == 'Advanced' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-advanced.png\" alt=\"Advanced\"/>\r\n{% endif %}\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -2256,6 +2257,7 @@ display:
           webform_element_format: label
           webform_multiple_value: true
           webform_multiple_delta: 0
+          webform_check_access: 1
         sid_1:
           id: sid_1
           table: webform_submission
