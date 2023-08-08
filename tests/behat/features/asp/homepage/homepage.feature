@@ -4,6 +4,7 @@
 
 Feature: test ACCESS Support Homepage
   On the homepage, verify page text and links and images.
+  TODO:  test for the 3 icons for MATCH plus or premiere
 
   Scenario: Unauthenticated user tests the Homepage
     Given I am not logged in

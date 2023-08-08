@@ -4,6 +4,7 @@
 
 Feature: test ACCESS Support Navigation Bar
   Verify the text of many links on the homepage
+  TODO:  add tests fors social links (twitter, fb, etc)
 
   Scenario: Unauthenticated user tests the Navigation Bar
     Given I am not logged in

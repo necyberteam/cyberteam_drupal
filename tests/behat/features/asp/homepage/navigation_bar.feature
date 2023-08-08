@@ -4,6 +4,7 @@
 
 Feature: test Navigation Bar
   For unauthenticted user, verify the MATCHPlus and MATCHPremier links
+  TODO: add test for authenticated user too
 
   Scenario: test MATCHPlus link
     Given I am not logged in

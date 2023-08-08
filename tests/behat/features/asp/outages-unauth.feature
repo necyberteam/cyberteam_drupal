@@ -4,6 +4,7 @@
 
 Feature: test ACCESS Support Outages Page
   Test the Outages Page at /outages
+  TODO: authenticated testing needed too
 
   Scenario: Unauthenticated user tests the Outages Page
     Given I am not logged in
