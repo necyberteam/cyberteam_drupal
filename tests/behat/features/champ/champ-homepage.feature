@@ -3,16 +3,21 @@
 @javascript
 
 Feature: For non-authenticated users, Campus Champions Specific Tests encompass the header
-displaying a Top Menu bar with a "Log In" link (to user log in), a "Join" link
-(to Join Campus Champions registration form), and the absence of the User menu.
-The Cyberteam Logo links to the homepage, featuring unique logos for each region site,
-and the Menu Items include an "About Us" link. The Front Page includes a Campus Champions
-banner with animated statistics and a Campus Champions YouTube video. It also features four
-links leading to the About page: "A Community of Practice," "Scientific Computing Advocates,"
-"Cyberinfrastructure Professionals," and "Mentors, Peers, and Students." Quick Links consist of
-options to join the community, access tags, and seek help, with links to Join Campus Champions
-Registration, Current Campus Champions page, affinity groups, Connect to Slack, Ask.Cyberinfrastructure,
-Submit a Help Desk Ticket, Find Learning Resource, and Find Expert by Tag.
+  displaying a Top Menu bar with a "Log In" link (to user log in), a "Join" link
+  (to Join Campus Champions registration form), and the absence of the User menu.
+  The Cyberteam Logo links to the homepage, featuring unique logos for each region site,
+  and the Menu Items include an "About Us" link. The Front Page includes a Campus Champions
+  banner with animated statistics and a Campus Champions YouTube video. It also features four
+  links leading to the About page: "A Community of Practice," "Scientific Computing Advocates,"
+  "Cyberinfrastructure Professionals," and "Mentors, Peers, and Students." Quick Links consist of
+  options to join the community, access tags, and seek help, with links to Join Campus Champions
+  Registration, Current Campus Champions page, affinity groups, Connect to Slack, Ask.Cyberinfrastructure,
+  Submit a Help Desk Ticket, Find Learning Resource, and Find Expert by Tag.
+  TODO: add test for
+    Job Listings
+      Four recent job posting cards
+      More Jobs button linking to Ask.CI job listing page
+
 
   Scenario: Verify the main icon loads
     Given I am not logged in
