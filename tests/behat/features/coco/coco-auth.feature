@@ -1,8 +1,21 @@
 @coco
 @api
 @javascript
-Feature: test coco domain
-  In order to test the coco domain
+Feature: This test verifies the following for the coco domain for an authenticated user:
+  CoCo logo shows
+  No menu items
+  Home page shows card listing of organizations
+    Name, Logo, website, Description (excerpted), Type, Tags
+  TODO: Home page shows exposed filters allowing user to filter orgs by type
+  Unauthenticated home page shows “login to suggest a new listing” button
+  Authenticated home page shows “Suggest an organization” button
+  Clicking organization name takes you to the detailed organization page
+    Name, Logo, website, Description (excerpted), Type, Tags, Contact button
+  Clicking an organization type takes you to a listing of organizations of that type
+  Clicking a tag takes you to the tag listing page
+  Individual organization page shows logo, name, link, type, tags, description, and email of org
+  “Suggest an organization” form (Organization | CoCo ) form contains following:
+    Organization Name (required), Logo, Alt tag, Shortened name (required), Contact Email, Organization type (required), Description, Tags
 
   Scenario: Authenticated/Unauthenticated user navigates through coco domain
     Given I am logged in as a user with the "authenticated" role
