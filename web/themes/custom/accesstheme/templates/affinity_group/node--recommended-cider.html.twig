@@ -5,16 +5,13 @@
  */
 #}
 
-
-  <div  class="accordion-item">
-        <h4 class="accordion-header">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse"  id="recommended-resource-{{node.id}}" data-bs-toggle="collapse" data-bs-target="#recommended-resource-body-{{node.id}}" aria-expanded="true" aria-controls="{{target}}">
-          {{ content.field_cider_resource }}
-          </button>
-        </h4>
-        <div id="recommended-resource-body-{{node.id}}" class="accordion-collapse collapse show" aria-labelledby="recommended-resource-{{node.id}}">
-          <div class="accordion-body">
-            {{ content.body[0]|raw}}
-          </div>
-        </div>
+<div  class="accordion-item">
+  <h4 class="accordion-header accordion-button collapsed"  data-bs-toggle="collapse"  id="recommended-resource-{{node.id}}" data-bs-toggle="collapse" data-bs-target="#recommended-resource-body-{{node.id}}" aria-expanded="false" aria-controls="recommended-resource-body-{{node.id}}">
+    {{ content.field_cider_resource }}
+  </h4>
+  <div id="recommended-resource-body-{{node.id}}" class="accordion-collapse collapse" aria-labelledby="recommended-resource-{{node.id}}">
+    <div class="accordion-body">
+      {{ content.body[0]}}
+    </div>
   </div>
+</div>
