@@ -2,7 +2,13 @@
 @api
 @javascript
 
-Feature: test for the affinity groups page as an authenticated user 
+Feature: For authenticated users, the Affinity Groups section showcases a list of groups,
+each with a link to the group, a short description, and associated tags. An active "Join"
+button is present, which changes to "Joined" upon clicking, displaying the tester's user
+profile under 'People' on the Affinity Group page. Clicking again changes the button back
+to "Join". Additionally, there's a button to request an Affinity Group that leads to the
+Affinity Group Request page for authenticated users.
+
   Scenario: User runs through the affinity group page and individual page as authenticated.
     Given I am logged in as a user with the "authenticated" role
     When I go to "/affinity-groups"
