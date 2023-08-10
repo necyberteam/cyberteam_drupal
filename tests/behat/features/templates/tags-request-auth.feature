@@ -2,9 +2,9 @@
 @api
 @javascript
 
-Feature: test tags form
-  In order to test the tags form
-  As a user of the authenticated role
+Feature: Authenticated user on the Request Tag Page:
+Webform items include Tag Request Name and Suggested Parent Tag (dropdown).
+An email is sent to the NECT mailing list upon submission.
 
   Scenario: Authenticated user fills out the tags form
     Given I am logged in as a user with the "authenticated" role
