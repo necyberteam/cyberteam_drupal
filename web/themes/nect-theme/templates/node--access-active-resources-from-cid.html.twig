@@ -1,0 +1,21 @@
+{#
+/**
+ * @file
+ * nect-theme: display a Recommended Resource node as an accordion item.
+ */
+#}
+
+<div  class="card">
+  <div class="card-header"  id="associated-resource-header-{{node.id}}" data-bs-toggle="collapse" data-bs-target="#associated-resource-body-{{node.id}}" aria-expanded="false" aria-controls="associated-resource-body-{{node.id}}">
+    <h4 class="mb-0">
+       <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#associated-resource-body-{{node.id}}" aria-expanded="false" aria-controls="associated-resource-body-{{node.id}}">
+        {{ label }}
+       </button>
+    </h4>
+  </div>
+  <div id="associated-resource-body-{{node.id}}" class="collapse collapse" aria-labelledby="associated-resource-header-{{node.id}}">
+    <div class="card-body">
+      {{ content}}
+    </div>
+  </div>
+</div>
