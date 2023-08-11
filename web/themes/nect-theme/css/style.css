@@ -1424,13 +1424,25 @@ table.sticky-header th {
 .coco .user-profile-projects {
   display: none;
 }
+
 /* card accordion */
+
+.accordion {
+  margin-bottom: 16px;
+}
+.accordion-header {
+  padding: 7px 0px 0px 0px;
+}
+.accordion-item {
+  margin-bottom: 8px;
+  border-radius: 0px;
+}
 .accordion-btn {
   color: var(--primary);
-
+  margin-bottom: 0px;
+  border: none;
 }
-.accordion-btn:hover,.accordion-btn:focus, .accordion-btn:active  {
+.accordion-btn:hover, .accordion-btn:active, .accordion-btn:focus  {
   color: var(--primary-hover);
-  border-color: var(--primary-hover);
-  text-decoration: none;
+  box-shadow: none;
 }

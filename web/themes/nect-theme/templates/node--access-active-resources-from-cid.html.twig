@@ -5,13 +5,11 @@
  */
 #}
 
-<div  class="card accordion resources">
-  <div class="card-header accordion-item resources" id="associated-resource-header-{{node.id}}" data-bs-toggle="collapse" data-bs-target="#associated-resource-body-{{node.id}}" aria-expanded="false" aria-controls="associated-resource-body-{{node.id}}">
-    <h4 class="mb-0">
-       <button  class="btn btn-link btn-block text-left accordion-btn resources" type="button" data-toggle="collapse" data-target="#associated-resource-body-{{node.id}}" aria-expanded="false" aria-controls="associated-resource-body-{{node.id}}">
+<div  class="card accordion-item resources">
+  <div class="card-header accordion-header resources" id="associated-resource-header-{{node.id}}" data-bs-toggle="collapse" data-bs-target="#associated-resource-body-{{node.id}}" aria-expanded="false" aria-controls="associated-resource-body-{{node.id}}">
+      <button  class="btn btn-block text-left accordion-btn resources" type="button" data-toggle="collapse" data-target="#associated-resource-body-{{node.id}}" aria-expanded="false" aria-controls="associated-resource-body-{{node.id}}">
         {{ label }}
-       </button>
-    </h4>
+      </button>
   </div>
   <div id="associated-resource-body-{{node.id}}" class="collapse collapse" aria-labelledby="associated-resource-header-{{node.id}}">
     <div class="card-body  accordion-body resources">
