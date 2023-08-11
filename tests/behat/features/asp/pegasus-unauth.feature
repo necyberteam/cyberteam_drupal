@@ -7,7 +7,6 @@ Feature: test ACCESS Support Pegasus Page
   Scenario: Unauthenticated user tests the Pegasus Page
     Given I am not logged in
     When I go to "/pegasus"
-    Then I should see "Adding in to Test CSS"
     Then I should see "Run Jobs and Workflows on ACCESS Resources from a Single Entry Point"
     Then I should see "About ACCESS Pegasus"
 
