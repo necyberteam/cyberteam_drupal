@@ -2,7 +2,14 @@
 @api
 @javascript
 
-Feature: test ACCESS Support OnDemand Page
+Feature: This Behat test checks the OnDemand page
+ for the appearance of page sub-titles, titles,
+ and specific sections like "For Researchers,"
+ "For Resource Providers," and "Join the Community,"
+ each containing relevant content, images, and links.
+ The test also verifies the presence of buttons with specific URLs for contact,
+ learning more, and joining the community.
+
   In order to test the OnDemand Page
 
   Scenario: Unauthenticated user tests the OnDemand Page

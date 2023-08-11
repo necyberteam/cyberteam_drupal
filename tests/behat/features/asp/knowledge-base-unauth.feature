@@ -2,8 +2,13 @@
 @api
 @javascript
 
-Feature: test ACCESS Support knowledge base
-  In order to test the knowledge base
+Feature: This behat tests the Knowledge Base page which features a sub-title and page title,
+an introduction section, four icon sections with headings, copy, and
+button links, a "Getting Started with ACCESS" section, a "Frequently
+Asked Questions" section with collapsible answers and a link to ACCESS
+home, a "Visit our Forums" section, a "Community Contributed Resources"
+section, and an "Affinity Groups" section with three groups and a button
+linking to all affinity groups.
 
   Scenario: Unauthenticated user tests the knowledge base
     Given I am not logged in

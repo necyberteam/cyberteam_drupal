@@ -2,9 +2,12 @@
 @api
 @javascript
 
-Feature: test enter ticket form
-  In order to test the enter ticket form
-  As a user of the authenticated role
+Feature: For an authenticated user, the New Issue Page offers
+a form featuring fields like Title, Region, Category, Expert
+Category (on CAREERS), Priority, and Tags. Users can provide
+Details and upload Files. After submission, an email notification
+is sent to the NECT mailing list, and the ticket becomes visible
+in the Help Desk, where only administrators can view and edit it.
 
   Scenario: Authenticated user fills out the enter ticket form
     Given I am logged in as a user with the "authenticated" role

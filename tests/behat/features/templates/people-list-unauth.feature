@@ -2,7 +2,9 @@
 @api
 @javascript
 Feature: test people page list view w/ filters
-  In order to test the people page from List View
+  Verify "people/List" page has all the expected headers, and that search and
+  filtering work as expected.
+
 
   Scenario: Unauthenticated user tests the people page
     Given I am not logged in

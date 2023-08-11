@@ -2,7 +2,12 @@
 @api
 @javascript
 
-Feature: test for the affinity groups page
+Feature: For unauthenticated users on the Campus Champion domains,
+the Affinity Groups section presents a list of groups, each with a
+link to the group, a short description, and associated tags. For each
+Affinity Group, the page features the logo, name, description, and an
+inactive "Join" button. Coordinators, events with links, resources, and
+people are listed, along with constant "Join" functionality and additional buttons based on form content.
 
   Scenario: User runs through the affinity group page and individual page.
     Given I am not logged in
