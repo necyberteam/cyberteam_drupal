@@ -5,16 +5,16 @@
  */
 #}
 
-<div  class="card">
-  <div class="card-header"  id="recommended-resource-header-{{node.id}}" data-bs-toggle="collapse" data-bs-target="#recommended-resource-body-{{node.id}}" aria-expanded="false" aria-controls="recommended-resource-body-{{node.id}}">
+<div  class="card accordion resources">
+  <div class="card-header accordion-item resources"  id="recommended-resource-header-{{node.id}}" data-bs-toggle="collapse" data-bs-target="#recommended-resource-body-{{node.id}}" aria-expanded="false" aria-controls="recommended-resource-body-{{node.id}}">
     <h4 class="mb-0">
-       <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#recommended-resource-body-{{node.id}}" aria-expanded="false" aria-controls="recommended-resource-body-{{node.id}}">
+       <button class="btn btn-link btn-block text-left accordion-btn resources" type="button" data-toggle="collapse" data-target="#recommended-resource-body-{{node.id}}" aria-expanded="false" aria-controls="recommended-resource-body-{{node.id}}">
         {{ content.field_cider_resource }}
        </button>
     </h4>
   </div>
   <div id="recommended-resource-body-{{node.id}}" class="collapse collapse" aria-labelledby="recommended-resource-header-{{node.id}}">
-    <div class="card-body">
+    <div class="card-body   accordion-body resources">
       {{ content.body[0]}}
     </div>
   </div>
