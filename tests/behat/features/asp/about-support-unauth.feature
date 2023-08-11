@@ -2,8 +2,12 @@
 @api
 @javascript
 
-Feature: test ACCESS Support About Page
-  In order to test the About Page
+Feature: This behat test is for the The About Support Page includes a sub-title
+"Make the most of your computing resources" and a page title "About Support."
+It features four icons with descriptions for "Share ACCESS Tools," "Knowledge Base,"
+"MATCHPlus," and "MATCHPremier," along with sections for "ACCESS OnDemand," "ACCESS Pegasus,"
+"Community Knowledge Base," "MATCHPlus," and "MATCHPremier," each with limited scope pilot flags
+and relevant button links.
 
   Scenario: Unauthenticated user tests the About Page
     Given I am not logged in

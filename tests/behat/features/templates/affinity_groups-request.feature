@@ -2,9 +2,10 @@
 @api
 @javascript
 
-Feature: test affinity group request form
-  In order to test the affinity group request form
-  As a user of the authenticated role
+Feature: As an authenticated User the "Request An Affinity Group" Page features
+a form with fields including Affinity Group Name, Image, Coordinators, Tags, Short
+description, Description, Conversation Link, Q&A Platform Link, Github Organization
+Link, and Email List Link. Users can submit the form using the "Submit" button.
 
   Scenario: Authenticated user fills out affinity group form
     Given I am logged in as a user with the "authenticated" role

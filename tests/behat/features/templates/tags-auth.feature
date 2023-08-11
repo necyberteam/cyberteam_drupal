@@ -2,7 +2,13 @@
 @api
 @javascript
 
-Feature: test tags page for authenticated user
+Feature: This test is as an authenticated user.
+"Tree View" redirects to the hierarchical tags view page.
+It presents all published tags in a hierarchical tree structure.
+Each tag links to its respective tag page.
+Clicking the ">" arrow on a branch tag reveals its child tags.
+Clicking the down arrow on a branch tag hides its child tags.
+The "Tree View" button is grayed out.
 
   Scenario: Tags pages for authenticated user
     Given I am logged in as a user with the "authenticated" role

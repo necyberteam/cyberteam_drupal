@@ -26,6 +26,12 @@ Feature: test ACCESS Support Events Page and Individual Events Page
     Then I should be on "/past-events"
     And I should see "Past Events"
     And I should see "Filter by"
+    #edit-field-event-type-value--2 is Event Type
+    When I select "Training" from "edit-field-event-type-value--2"
+    When I select "Community" from "Affiliation"
+    #edit-field-affinity-group-target-id--2 is the affinity group
+    When I select "Delta" from "edit-field-affinity-group-target-id--2"
+
 
     When I go to "/events/17"
     Then I should see "Cybersecurity and Coding for Middle and High School Students"

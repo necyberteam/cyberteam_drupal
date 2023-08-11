@@ -2,7 +2,16 @@
 @api
 @javascript
 
-Feature: verify specific links on homepage
+Feature: verify specific items on CCI homepage
+  This test verifies the following items:
+    Heading
+    Description
+    Card and list views
+    Links to program pages
+    Programs heading
+    Affinity groups heading
+    Affinity groups description
+    Check all program cards
 
   Scenario: Verify the main logo goes to home page
     Given I am not logged in

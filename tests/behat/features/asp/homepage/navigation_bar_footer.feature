@@ -3,6 +3,7 @@
 @javascript
 
 Feature: test Navigation Bar footer
+  Verify the footer links
 
   Scenario: Unauthenticated user tests footer links OnDemand link
     Given I am not logged in
