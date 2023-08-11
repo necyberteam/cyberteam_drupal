@@ -1446,3 +1446,45 @@ table.sticky-header th {
   color: var(--primary-hover);
   box-shadow: none;
 }
+
+.square-tags a {
+  display: inline-block;
+  border: 1px solid var(--text);
+  margin: 2px auto;
+  padding: 2px 5px;
+  color: var(--text);
+  white-space: nowrap;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.square-tags a:hover {
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.ci-links table {
+  table-layout: fixed;
+}
+@media only screen and (max-width: 991.98px) {
+  .ci-links table{
+    width: auto;
+  }
+}
+.ci-links table #view-webform-submission-value-5-table-column {
+  width: 20%;
+  min-width: 200px;
+}
+.ci-links table #view-webform-submission-value-1-table-column {
+  width: 25%;
+  min-width: 200px;
+}
+.ci-links table #view-webform-submission-value-table-column {
+  width: max-content;
+}
+.ci-links table #view-webform-submission-value-8-table-column {
+  width: 25%;
+}
+.ci-links .skill-level, .ci-links #view-webform-submission-value-3-table-column {
+  text-align: center;
+}

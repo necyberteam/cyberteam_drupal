@@ -13,7 +13,9 @@ Feature: for a new tag, verify all blocks display a no entries message
     When I fill in "Name" with "behat_test_tag"
     When I check "Generate automatic URL alias"
     When I check "Published"
+    And I wait 4 seconds
     When I press "Save"
+    And I wait 4 seconds
     Then I should see "Created new term"
 
     Given I am not logged in

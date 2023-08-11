@@ -11,5 +11,7 @@ Feature: test ACCESS Support Organization Request Form
     When I fill in "edit-your-name" with "Test"
     When I fill in "edit-your-email" with "Test@email.com"
     When I fill in "edit-your-organization" with "Test Organization"
+    And I wait 5 seconds
     When I press "edit-submit"
+    And I wait 5 seconds
     Then I should see "Thanks for submitting your request"

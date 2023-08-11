@@ -1,4 +1,4 @@
-@templates
+@asp
 @api
 @javascript
 
@@ -9,7 +9,7 @@ Feature: test CI Link form
   Scenario: Administrator user fills out the CI Link form
     Given I am logged in as a user with the "administrator" role
     When I go to "/ci-links"
-    When I follow "Add new CI link"
+    When I follow "Add new CI Link"
     Then I should be on "/form/ci-link"
     And I should see "Title"
     And I should see "Category"
@@ -57,11 +57,13 @@ Feature: test CI Link form
     And I should see "Webform"
     And I should see "Delete submission"
     When I click "Edit"
+    Then I should get a "200" HTTP response
 
+  Scenario: Administrator creates a simple ci-link
     Given I am logged in as a user with the "administrator" role
     When I go to homepage
     When I go to "/ci-links"
-    When I follow "Add new CI link"
+    When I follow "Add new CI Link"
     Then I should be on "form/ci-link"
     Then I should see "Add"
     When I fill in "title" with "test-login-resource"

@@ -13,20 +13,24 @@ Feature: test ACCESS Support Affinty Groups Page
     Then I should see "Affinity Group"
     Then I should see "Description"
     Then I should see "Tags"
+    # TODO 7/26/23 not working on Github - image not there
     #Then I should see an image with alt text "The words Campus Champions ACCESS Facilitators"
     Then I should see "ACCESS Facilitators"
     Then I should see "People who use or support people"
     When I am on "/affinity_groups"
-    # TODO Following is failing in github only when running entire test suite (not when running just asp on github)
-    # with this error:  Tag matching xpath "//DIV[@id="block-accesstheme-content"]/DIV[1]/DIV[1]/DIV[2]/TABLE[1]/TBODY[1]/TR[6]/TD[4]/A[1]" not found.
-    # And I wait 4 seconds
-    # When I follow "research-facilitation"
-    # TODO repeated failing on github with "Current page is "/affinity_groups", but "/tags/research-facilitation" expected."
-    # And I wait 4 seconds
-    # Then I should be on "/tags/research-facilitation"
+    When I follow "research-facilitation"
+    And I wait 2 seconds
+    Then I should be on "/tags/research-facilitation"
+
     When I am on "/affinity_groups"
     When I follow "Login to join"
     And I wait 4 seconds
     Then I should be on "/user/login"
 
-#TODO: test Request an Affinity Group link takes you to login and then a webform to request a new Affinity Group
+  Scenario: Unauthenticated user tests Request an Affinity Group link takes you to login and then a webform to request a new Affinity Group
+    Given I am not logged in
+    When I am on "/affinity_groups"
+    Then I should see "submit a request form"
+    When I click "submit a request form"
+    Then I should be on "user/login?destination=/form/affinity-group-request"
+

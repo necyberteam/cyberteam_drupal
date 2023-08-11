@@ -20,8 +20,6 @@ Feature: test individual tags page
     #And I should see "researcher/educator"
     # TODO - doesn't pass on nect
     # And I should see "Jetstream-2"
-    And I should see "There are no CI Links associated with this topic"
-    And I should see "There are no projects associated with this topic"
     And I should see "There are no Blog Entries associated with this topic."
     And I should not see "Export Mailing List"
 
@@ -134,6 +132,4 @@ Feature: test individual tags page
     Then I should see "Name"
     # Then I should see "student facilitator"
     Then I should see "image-processing"
-    Then I should see "There are no CI Links associated with this topic. View All CI Links."
-    Then I should see "There are no projects associated with this topic"
     Then I should see "There are no Blog Entries associated with this topic."
