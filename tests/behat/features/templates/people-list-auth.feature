@@ -1,8 +1,9 @@
 @templates
 @api
 @javascript
-Feature: test people page list view w/ filters
-  In order to test the people page from List View
+Feature: This Behat test is authenticated and goes over the People Page - List Views, the features remain consistent:
+searching by first and last names (case-insensitive) with a message for no results, and a table displaying
+names (linked), profile images, roles, institutions, and tags. The Roles radio buttons allow role-specific filtering.
 
   Scenario: Authenticated user tests the people page
     Given I am logged in as a user with the "authenticated" role

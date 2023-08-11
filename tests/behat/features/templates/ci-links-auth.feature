@@ -1,8 +1,11 @@
 @templates
 @api
 @javascript
-Feature: test CI Links page as a authenticated user
-  In order to test the CI Links page as an authenticated user
+Feature: On the CI Links Page for authenticated users,
+functionalities comprise adding new CI links, conducting
+case-insensitive searches, filtering by skill level, and
+viewing content in List or Card View modes. Details include titles,
+descriptions, categories, tags (first 3 linked), skill levels, and affinity groups.
 
   Scenario: Authenticated user Test the resource page
     Given I am logged in as a user with the "authenticated" role

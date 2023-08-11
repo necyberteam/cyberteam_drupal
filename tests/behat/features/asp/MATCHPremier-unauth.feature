@@ -3,6 +3,12 @@
 @javascript
 
 Feature: test ACCESS Support MATCHPremier Page
+  This Behat test checks the /matchplus page for the appearance of page sub-titles,
+  titles, and specific sections like The MATCHPremier Process, Funding,
+  Interested in Joining, etc.
+  It checks for three Sample Engagements appear at the bottom of the page, that
+  titles link to Engagements.
+  Tests that some buttons take user to login page.
 
   Scenario: Unauthenticated user tests the MATCHPremier Page
     Given I am not logged in

@@ -2,7 +2,11 @@
 @api
 @javascript
 
-Feature: test ACCESS Support Affinty Groups Page
+Feature: This behat tests the Affinity Groups page which  has the title "Affinity Groups"
+and displays a description. The result table presents Affinity Group Images, names,
+descriptions, and tags (linking to individual tag pages). For joining a group, the
+"Login to Join" button redirects anonymous users to the login page, and there's a
+"Request an Affinity Group" link leading to a login page and then a webform for new group requests.
 
   Scenario: Unauthenticated user tests the Affinity Groups page
     Given I am not logged in
