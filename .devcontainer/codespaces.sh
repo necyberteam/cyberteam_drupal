@@ -2,6 +2,8 @@
 
 dir=${PWD}
 
+sleep 30
+
 # Add Lando
 sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-$(cat .github/lando_version.md)"
 sudo chmod +x /usr/local/bin/lando
