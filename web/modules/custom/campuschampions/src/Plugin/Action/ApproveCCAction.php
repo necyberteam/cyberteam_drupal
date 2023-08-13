@@ -23,12 +23,21 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase {
     // Update the status of the submission to 'approved'.
     $sid = $entity->id();
     $webform_submission = WebformSubmission::load($sid);
+    $champion_user_type = $webform_submission->getData()['champion_user_type'];
     $webform_submission->setElementData('status', 'approved');
     WebformSubmissionForm::submitWebformSubmission($webform_submission);
 
     // Update user to campus champion.
     $data = $entity->getData();
     $user = user_load_by_mail($data['user_email']);
+
+    // Set user role.
+    if ($champion_user_type == 'user_student') {
+      $user->addRole('student_champion');
+    }
+    if ($champion_user_type == 'user_champion') {
+      $user->addRole('research_computing_facilitator');
+    }
 
     $user->set('field_carnegie_code', $data['carnegie_classification']);
     $user->set('field_is_cc', 1);

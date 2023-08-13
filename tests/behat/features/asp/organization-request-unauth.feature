@@ -2,8 +2,8 @@
 @api
 @javascript
 
-Feature: test ACCESS Support Organization Request Form
-  In order to test the Organization Request Form
+Feature: The Organization Request Form includes fields for
+"Your name," "Your email," and "Your organization."
 
   Scenario: Unauthenticated user tests the Organization Request Form
     Given I am not logged in

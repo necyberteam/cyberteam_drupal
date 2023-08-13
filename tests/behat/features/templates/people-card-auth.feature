@@ -4,6 +4,14 @@
 
 Feature: test people page Card view w/ filters
   In order to test the people page from Card View
+  TODO:  make sure this test verifies the following:
+    Search works on people’s first and last names as expected
+    Roles radio buttons
+      Student-facilitator restricts search results to accounts with the student-facilitator role
+      Mentor restricts search results to accounts with the mentor role
+      Researcher/Educator restricts search results to accounts with the researcher/educator role
+      Steering Committee restricts search results to accounts with the steering committee role
+      Regional Facilitator restricts search results to accounts with the regional facilitator role
 
   Scenario: Authenticated user tests the people page in Card View and filters
     Given I am logged in as a user with the "authenticated" role

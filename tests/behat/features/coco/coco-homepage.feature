@@ -10,11 +10,11 @@ Feature: verify specific links on homepage
     When I follow "Contact Us"
     Then I should be on "contact/coco"
     And I should see "CoCo"
-    
+
   Scenario: Verify the main logo goes to home page
     Given I am not logged in
     When I am on the homepage
-    When I follow "CoCo" 
+    When I follow "CoCo"
     Then I should be on the homepage
 
   Scenario: authenticated User is on the homepage
@@ -23,10 +23,9 @@ Feature: verify specific links on homepage
     When I follow "Contact Us"
     Then I should be on "contact/coco"
     And I should see "CoCo"
-    
+
   Scenario: authenticated Verify the main logo goes to home page
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
-    When I follow "CoCo" 
+    When I follow "CoCo"
     Then I should be on the homepage
-    

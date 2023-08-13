@@ -2,8 +2,10 @@
 @api
 @javascript
 
-
 Feature: test ACCESS Support Engagements Page
+  Verify the MATCHPlus & MATCHPremier Engagements sections show,
+  and following an engagement works properly.
+  TODO: test More/Less buttons.
 
   Scenario: Unauthenticated user tests the Engagements Page
     Given I am not logged in
