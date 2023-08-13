@@ -2,8 +2,10 @@
 @api
 @javascript
 
-Feature: test for the change password page
-  In order to test the change password page
+Feature: For an authenticated user, the Change Password Page includes tabs for
+navigating to "View" (user's profile page), "Change Password" (this page), "Edit" (the edit profile page),
+and "Security" (MFA setup page). The page prompts the user to enter their current password and then confirm the new password.
+
 
   Scenario: Authenticated user tests the change password page
     Given I am logged in as a user with the "authenticated" role

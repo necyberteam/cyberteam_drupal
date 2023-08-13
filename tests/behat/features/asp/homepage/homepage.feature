@@ -3,7 +3,8 @@
 @javascript
 
 Feature: test ACCESS Support Homepage
-  In order to test the Homepage
+  On the homepage, verify page text and links and images.
+  TODO:  test for the 3 icons for MATCH plus or premiere
 
   Scenario: Unauthenticated user tests the Homepage
     Given I am not logged in
@@ -50,3 +51,9 @@ Feature: test ACCESS Support Homepage
     Then I should see "Strong support system to ensure you receive effective research support"
     #TODO - how to test a specify learn more?  jira ticket:  https://cyberteamportal.atlassian.net/
     Then I should see "Learn More"
+
+  Scenario: authenticated User is on the homepage
+    Given I am logged in as a user with the "authenticated" role
+    When I am on the homepage
+    Then I should be on the homepage
+    # TODO verify any changes related to authenticated user

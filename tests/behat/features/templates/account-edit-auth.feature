@@ -2,8 +2,12 @@
 @api
 @javascript
 
-Feature: test for the edit account page
-  In order to test the edit account page
+Feature: For an authenticated user, the Edit Account Page displays
+the first and last name of the user as its title. The page features
+tabs for navigating to "View" (user's profile page), "Change Password"
+(change password page), "Edit" (current page), and "Security" (MFA setup page).
+The fields on the page include Program (region), Email Address, Roles (checkboxes for various roles),
+First Name, Last Name, Picture (file upload), Institution, CV/Resume (file upload), Time Zone (dropdown), and Citizenships.
 
   Scenario: Authenticated user tests the edit account page
     Given I am logged in as a user with the "authenticated" role

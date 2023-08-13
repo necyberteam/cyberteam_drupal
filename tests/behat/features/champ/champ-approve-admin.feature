@@ -2,7 +2,10 @@
 @api
 @javascript
 
-Feature: test for the affinity groups page as an authenticated user 
+Feature: For authenticated users, the Request An Affinity Group Form includes
+fields such as Affinity Group Name, Upload Image, Region, Coordinators, Tags,
+Short Description, Description, Slack Link, and Ask.Ci Locale Link. Additionally,
+an "Approved" checkbox is available exclusively for administrators.
 
   #TODO update this
 
@@ -11,4 +14,3 @@ Feature: test for the affinity groups page as an authenticated user
     When I go to "/affinity-groups"
     When I click "Request an Affinity Group"
     #Then I should see "masquerade"
-   

@@ -2,9 +2,11 @@
 @api
 @javascript
 
-Feature: test resource form
-  In order to test the resource form
-  As a user of the authenticated role
+Feature: On the Add New CI Links Page for authenticated users,
+the form includes fields for Resource Title, Category (dropdown),
+Tags (checkboxes with helper text), Skill Level (checkboxes),
+Description, and repeatable/reorderable sections for Link to
+Resource with Link Title and Link URL (must include https).
 
   Scenario: Authenticated user fills out the resource form
     Given I am logged in as a user with the "authenticated" role

@@ -1,0 +1,25 @@
+uuid: 5d6fb598-e141-46c7-ac64-369fe3a54e55
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_domain_source
+    - node.type.recommended_cider
+id: node.recommended_cider.field_domain_source
+field_name: field_domain_source
+entity_type: node
+bundle: recommended_cider
+label: 'Domain Source'
+description: 'Select the canonical domain for this content.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:domain'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: weight
+      direction: ASC
+field_type: entity_reference

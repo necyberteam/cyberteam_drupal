@@ -2,8 +2,13 @@
 @api
 @javascript
 
-Feature: test ACCESS Support Community Page
-  In order to test the Community Page
+Feature: This behat tests the The Community Page features which offers
+a sub-title "Engage with other researchers" and a page title
+"Computational Science & Support Network." Under the heading
+"Collaborate with the CSSN Community," there are four icons with
+descriptions, including "Share Knowledge," "Build Relationships,"
+"Mentor Students," and "Be a Consultant." The page also includes
+a button "Join the CSSN Network," which links to the login page.
 
   Scenario: Unauthenticated user tests the Community Page
     Given I am not logged in

@@ -2,8 +2,28 @@
 @api
 @javascript
 
-Feature: test projects page
-
+Feature: test individual projects page
+  TODO:  make sure following steps are tested, both as authenticated and unauthenticated user
+    Page title is the Project’s title
+    Project Image displayed under title (if any)
+    Project Information block displays:
+      Tags (if any; each tag links to its own tag page)
+      Project Status
+      Project Region
+      Submitted By (links to user’s profile)
+      Project Email (link requests to open email app)
+      Project Institution
+      Anchor Institution (if any)
+      Project Address (if any)
+      Mentors (if any; each name links to user’s page)
+      Student-facilitators (if any; each name links to user’s page)
+      “I’m interested” button should not show
+    Project Description block displays project description
+    Blogs related to this project are displayed in blocks containing:
+      Blog Image
+      Blog Title (links to blog’s page)
+      Tags (if any; each tag links to its own tag page)
+      The project related to this blog (links to project’s page)
 
   Scenario: Remove all projects and verify empty messages
     Given I am logged in as a user with the "administrator" role
