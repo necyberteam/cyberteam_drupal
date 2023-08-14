@@ -1,0 +1,25 @@
+uuid: ec087471-3b1f-4f15-b51d-2b62b3159a3c
+langcode: en
+status: true
+dependencies:
+  module:
+    - cssn
+    - system
+  theme:
+    - nect
+id: communitypersonablock_2
+theme: nect
+region: primary_sidebar
+weight: 0
+provider: null
+plugin: cssn_block
+settings:
+  id: cssn_block
+  label: 'Community persona block'
+  label_display: '0'
+  provider: cssn
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/community-persona\r\n/community-persona*\r\n"
