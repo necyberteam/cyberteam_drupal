@@ -284,7 +284,7 @@
     {% else %}
       <div class="row">
   		{% if page.primary_sidebar or page.secondary_sidebar %}
-  			<div class="col-lg-8 col-12 mx-auto">
+  			<div class="order-3 order-lg-3 col-lg-8 col-12 mx-auto">
           {{ page.page_top }}
           {{ page.title_area }}
           {{ page.view_type_buttons }}
@@ -307,7 +307,7 @@
           {{ page.content }}
           {{ page.below_main_content }}
   			</div>
-  			<div class="col-lg-4 col-12 mx-auto">
+  			<div class="order-1 order-lg-1 col-lg-4 col-12 mx-auto">
   				{{ page.primary_sidebar }}
   				{{ page.secondary_sidebar }}
   			</div>
@@ -318,11 +318,11 @@
           {{ page.view_type_buttons }}
           {{ page.drupal_tabs }}
           {{ page.exposed_filters }}
-	  {{ page.tags_page_mentors }}
-	  {{ page.tags_page_askci }}
+	        {{ page.tags_page_mentors }}
+	        {{ page.tags_page_askci }}
           {{ page.tags_page_students }}
           {{ page.tags_page_researchers }}
-	  {{ page.tags_page_resources }}
+	        {{ page.tags_page_resources }}
           {{ page.tags_page_projects }}
           {{ page.tags_page_blog }}
           {{ page.people_page_card }}
