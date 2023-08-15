@@ -674,7 +674,7 @@ display:
             webform_submission_value_3: webform_submission_value_3
             sid_1: sid_1
             webform_submission_value_2: webform_submission_value_2
-            field_affinity_group: field_affinity_group
+            sid_2: sid_2
           default: '-1'
           info:
             sid:
@@ -863,14 +863,16 @@ display:
               has_aggr_column: false
               aggr_column: views_aggregator_sum
               aggr_par_column: ''
-            field_affinity_group:
+            sid_2:
+              sortable: false
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
               has_aggr: false
               aggr:
-                views_aggregator_group_and_compress: views_aggregator_group_and_compress
+                views_aggregator_first: views_aggregator_first
               aggr_par: ''
               has_aggr_column: false
               aggr_column: views_aggregator_sum
@@ -2535,25 +2537,27 @@ display:
           webform_element_format: value
           webform_multiple_value: '1'
           webform_multiple_delta: '0'
-        field_affinity_group:
-          id: field_affinity_group
-          table: node__field_affinity_group
-          field: field_affinity_group
-          relationship: reverse__node__field_resources_entity_reference
+        sid_2:
+          id: sid_2
+          table: webform_submission
+          field: sid
+          relationship: none
           group_type: group
           admin_label: ''
+          entity_type: webform_submission
+          entity_field: sid
           plugin_id: field
           label: 'Affinity Group'
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: true
-            path: '/affinity-groups/{{ field_affinity_group|lower |replace({".": ""})|replace({"/": ""}) }}'
+            make_link: false
+            path: ''
             absolute: false
             external: false
-            replace_spaces: true
-            path_case: lower
+            replace_spaces: false
+            path_case: none
             trim_whitespace: false
             alt: ''
             rel: ''
@@ -2584,11 +2588,12 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
+          click_sort_column: value
+          type: number_integer
           settings:
-            link: false
-          group_column: target_id
+            thousand_separator: ''
+            prefix_suffix: true
+          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -2598,13 +2603,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          set_precision: false
-          precision: 0
-          decimal: .
-          format_plural: false
-          format_plural_string: !!binary MQNAY291bnQ=
-          prefix: ''
-          suffix: ''
       empty:
         area:
           id: area
@@ -2994,8 +2992,7 @@ display:
         - url
         - url.query_args
         - user
-      tags:
-        - 'config:field.storage.node.field_affinity_group'
+      tags: {  }
   page_2:
     id: page_2
     display_title: 'Resources by Tag Page'
