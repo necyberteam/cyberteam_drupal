@@ -2,7 +2,14 @@
 @api
 @javascript
 
-Feature: test ACCESS Support Pegasus Page
+Feature: This Behat test checks the Pegasus page features a sub-title,
+page title, Pegasus logo, documentation and submit button links,
+descriptive text, icons with associated text for various features,
+and a Workflow Examples section with images and button links.
+It also has a Getting Started section with images and icons for
+configuration steps and a "Try it now" button,
+as well as a Support section with icons and links for videos,
+documentation, more help, and affinity groups.
 
   Scenario: Unauthenticated user tests the Pegasus Page
     Given I am not logged in

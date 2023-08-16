@@ -2,7 +2,7 @@
 @api
 @javascript
 Feature: test individual people page
-  In order to test the individual people page
+  Verify an individual profile page has expected content.
 
   Scenario: Unauthenticated user tests the individual people page
     Given I am not logged in

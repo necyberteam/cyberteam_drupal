@@ -2,7 +2,9 @@
 @api
 @javascript
 
-Feature: test ACCESS Support Science Gateways Page
+Feature: This Behat test The Science Gateways page includes a sub-title and page title,
+an introduction section with copy and a photo, a section on the benefits of Science Gateways
+with four icons and labels, and a "Learn More" section featuring a photo, copy, and a link to Science Gateways.
 
   Scenario: Unauthenticated user tests the Science Gateways Page
     Given I am not logged in

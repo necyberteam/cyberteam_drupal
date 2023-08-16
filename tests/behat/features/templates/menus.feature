@@ -3,7 +3,8 @@
 @javascript
 
 Feature: test navigation menus
-  In order to test the navigation menus
+  Unauthenticated user tests menu items/links
+  Authenticated user tests menu items/links
 
   Scenario: Unauthenticated user navigates through navigation menus
     Given I am not logged in

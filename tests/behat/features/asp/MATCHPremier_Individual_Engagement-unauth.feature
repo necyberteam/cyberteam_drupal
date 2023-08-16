@@ -3,6 +3,7 @@
 @javascript
 
 Feature: test ACCESS Support MATCHPremier Indivdual Engagement Page
+  Test a single MATCHPremier Indivdual Engagement Page
 
   Scenario: Unauthenticated user tests the MATCHPremier Indivdual Engagement Page
     Given I am not logged in
@@ -18,3 +19,4 @@ Feature: test ACCESS Support MATCHPremier Indivdual Engagement Page
     # testing Right Column
     Then the image url "https://support.access-ci.org/sites/default/files/styles/access_match_sidebar/public/match_engagement/2022-08/BSU5_4_0_0.png?itok=dPwiMeMl" should load
     #TODO: test Consultant name appears
+    # TODO:  test for student & mentor

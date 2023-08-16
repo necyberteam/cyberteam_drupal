@@ -2,10 +2,19 @@
 @api
 @javascript
 
-Feature: test projects/engagements page
-  In order to test the Project/Engagements Page
+Feature: test projects page as authenticated user
+  TODO:  make sure the following is tested:
+    Add New Project button links to new project page
+    Search works on Project Title of approved projects only, case-insensitive
+    Results are displayed on a table with the following columns :
+      Project Title (sortable, links to project page)
+      Project Institution (sortable)
+      Project Owner (links to user’s page)
+      Tags (each tag links to its own tag page
+      Status (sortable)
+      Project Leader
 
-  Scenario: Authenticated user Test the Projects/Engagements Page
+  Scenario: Authenticated user Test the Projects Page
     Given I am logged in as a user with the "authenticated" role
     When I go to "/projects"
     Then I should see "Projects"

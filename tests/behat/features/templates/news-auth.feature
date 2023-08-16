@@ -2,8 +2,11 @@
 @api
 @javascript
 
-Feature: test news page as an authenticated user
-    In order to test the news page as an authenticated user 
+Feature: The News Page contains a block for Press Releases and another block for Published Articles.
+However, the page does not display the "+ Press Release" and "+ Published Article" buttons.
+The Press Releases display the published date, title, byline, and publisher. Each individual
+Press Release also shows a text editor view of the file. On the other hand, the Published
+Articles display the published date, publication, title, and author.
 
   Scenario: News page displays Articles and Releases
     Given I am logged in as a user with the "authenticated" role

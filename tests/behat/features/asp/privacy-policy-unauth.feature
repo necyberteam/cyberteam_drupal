@@ -2,8 +2,8 @@
 @api
 @javascript
 
-Feature: test ACCESS Support Privacy Policy Page
-  In order to test the Privacy Policy Page
+Feature: The Privacy Policy Page displays the title "Privacy Policy"
+and is accessible to unauthenticated users.
 
   Scenario: Unauthenticated user tests the Privacy Policy Page
     Given I am not logged in

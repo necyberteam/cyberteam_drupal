@@ -1,8 +1,11 @@
 @templates--DISABLED_BROKEN
 @api
 @javascript
-Feature: test individual people page
-  In order to test the individual people page
+Feature: Tested as an authenticated user the Individual Profile Page showcases
+key details such as name, institution, current degree program, roles, image,
+and a contact button. It also presents user interests and skills (linked to respective tag pages),
+user projects (linked to project pages), and HPC experience, while omitting cards for sections
+without content like interests, projects, skills, or HPC experience.
 
   Scenario: Authenticated user tests the individual people page
     Given I am logged in as a user with the "authenticated" role

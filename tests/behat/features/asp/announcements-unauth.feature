@@ -2,8 +2,11 @@
 @api
 @javascript
 
-Feature: test ACCESS Support Announcements Page
-  In order to test the Announcements Page
+Feature: The Announcements Page displays a title "Announcements" and lists
+announcements with titles and "Read more" buttons linking to their respective stories.
+The filter by Affinity Group works as expected, and a "Posting Announcement" box appears
+under the filter. For adding announcements, there's an "Add Announcement" button that directs
+users to a form, with anonymous users required to log in first.
 
   Scenario: Unauthenticated user tests the Announcements Page
     Given I am not logged in
