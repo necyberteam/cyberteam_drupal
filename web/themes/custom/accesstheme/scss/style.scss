@@ -1916,6 +1916,10 @@ footer {
   background-color: var(--gray);
 }
 
+.border-black {
+  border-color: $black !important;
+}
+
 .glossary-term {
   text-decoration-line: underline;
   text-decoration-thickness: 2px;
@@ -1948,6 +1952,7 @@ footer {
 
 .ci-links table {
   table-layout: fixed;
+<<<<<<< HEAD
   #view-webform-submission-value-5-table-column {
     width: 20%;
     min-width: 200px;
@@ -1963,6 +1968,25 @@ footer {
     width: 25%;
   }
   .skill-level, #view-webform-submission-value-3-table-column {
+=======
+
+  th[id^="view-webform-submission-value-5-table-column"] {
+    width: 20%;
+    min-width: 200px;
+  }
+
+  th[id^="view-webform-submission-value-1-table-column"] {
+    width: 25%;
+    min-width: 200px;
+  }
+
+  th[id^="view-webform-submission-value-8-table-column"] {
+    width: 25%;
+  }
+
+  .skill-level,
+  th[id^="view-webform-submission-value-3-table-column"] {
+>>>>>>> b749fff9 (Fix CI Links styles)
     text-align: center;
   }
 }
