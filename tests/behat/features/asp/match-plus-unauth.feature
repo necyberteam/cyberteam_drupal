@@ -80,7 +80,7 @@ Feature: test ACCESS Support Match Plus Page
     Then I should see "Recruiting"
     Then I should see "Urgency"
     Then I should see "Researcher"
-    Then I should see "matlab"
+    Then I should see "data-analysis"
     Then I should see "Mentor"
     # TODO test for student & mentor
 
