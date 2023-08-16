@@ -75,12 +75,12 @@ Feature: test ACCESS Support Match Plus Page
     Then I should be on "/node/348"
     Then I should see "Investigation of robustness of state of the art methods"
     Then I should see "Institution"
-    Then I should see "University of North Dakota"
+    Then I should see "University of Illinois at Urbana-Champaign"
     Then I should see "Status"
-    Then I should see "Reviewing"
-    Then I should see "Sea levels are rising"
+    Then I should see "Recruiting"
+    Then I should see "Urgency"
     Then I should see "Researcher"
     Then I should see "matlab"
-    Then I should see "cuda"
+    Then I should see "Mentor"
     # TODO test for student & mentor
 
