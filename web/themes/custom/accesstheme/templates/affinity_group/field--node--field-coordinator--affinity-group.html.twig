@@ -1,0 +1,16 @@
+{#
+/**
+ * @file
+ * Display Coordinator name as a link to Community Persona page
+ */
+#}
+
+  <div>
+  {% for item in items %}
+    <div>
+      <a href='/community-persona/{{ item.content['#options']['entity'].uid.value }}'>
+        {{item.content['#title']}}
+      </a>
+    </div>
+  {% endfor %}
+</div>
