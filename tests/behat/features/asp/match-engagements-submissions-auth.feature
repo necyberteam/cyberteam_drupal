@@ -36,6 +36,7 @@ Feature: testing match engagements submissions for Match SC role
   Scenario: Admin with Match PM role test match engagements submissions page
     Given I am logged in as a user with the "match_pm" role
     When I go to "/match-engagements-submissions"
+<<<<<<< HEAD
     Then I should see "Any"
     When I select "Recruiting" from "Status"
     And I press "Apply"
@@ -50,12 +51,39 @@ Feature: testing match engagements submissions for Match SC role
     Then I should see "Launch"
     Then I should see "Presentation Date:"
     Then I should see "Wrap"
+=======
+    Then I should see "Edit"
+
+    Then I should see "Status"
+    Then I should see "Match Title"
+>>>>>>> a8dcba84 (Testing in github to see errors)
 
     When I click "Adapting a GEOspatial Agent-based model for Covid Transmission (GeoACT) for general use"
     Then I should be on "/node/445"
     Then I should see "Adapting a GEOspatial Agent-based model for Covid Transmission (GeoACT) for general use"
+<<<<<<< HEAD
     When I click "Edit"
     Then I should be on "/node/445/edit"
     When I press "Save"
     Then I should be on "/node/445"
 
+=======
+
+    When I click "Edit"
+    Then I should be on "/node/445/edit"
+
+  Scenario: Admin with Authenticated role test match engagements submissions page
+    Given I am logged in as a user with the "authenticated" role
+    When I go to "/match-engagements-submissions"
+    Then I should see "Edit"
+
+    Then I should see "Status"
+    Then I should see "Match Title"
+
+    When I click "Adapting a GEOspatial Agent-based model for Covid Transmission (GeoACT) for general use"
+    Then I should be on "/node/445"
+    Then I should see "Adapting a GEOspatial Agent-based model for Covid Transmission (GeoACT) for general use"
+
+    When I click "Edit"
+    Then I should be on "/node/445/edit"
+>>>>>>> a8dcba84 (Testing in github to see errors)
