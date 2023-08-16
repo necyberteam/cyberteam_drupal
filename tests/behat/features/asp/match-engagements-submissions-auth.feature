@@ -115,9 +115,5 @@ Feature: testing match engagements submissions for Match SC role
     Then I should see "Adapting a GEOspatial Agent-based model for Covid Transmission (GeoACT) for general use"
     When I click "Edit"
     Then I should be on "/node/445/edit"
-<<<<<<< HEAD
->>>>>>> a8dcba84 (Testing in github to see errors)
-=======
     When I press "Save"
     Then I should be on "/node/445"
->>>>>>> 0ff8b2bb (Adding in other features to test)
