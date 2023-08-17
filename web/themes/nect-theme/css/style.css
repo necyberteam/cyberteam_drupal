@@ -1255,7 +1255,7 @@ table.sticky-header th {
 #block-views-block-affinity-group-group-2 .affinity-group-flag.btn {
   padding: 0;
 }
-#block-views-block-affinity-group-group-2 .bg-orange {
+.bg-orange {
   background-color: var(--navbar-link);
 }
 .affinity-group-flag.btn-outline-secondary {
@@ -1423,4 +1423,68 @@ table.sticky-header th {
 
 .coco .user-profile-projects {
   display: none;
+}
+
+/* card accordion */
+
+.accordion {
+  margin-bottom: 16px;
+}
+.accordion-header {
+  padding: 7px 0px 0px 0px;
+}
+.accordion-item {
+  margin-bottom: 8px;
+  border-radius: 0px;
+}
+.accordion-btn {
+  color: var(--primary);
+  margin-bottom: 0px;
+  border: none;
+}
+.accordion-btn:hover, .accordion-btn:active, .accordion-btn:focus  {
+  color: var(--primary-hover);
+  box-shadow: none;
+}
+
+.square-tags a {
+  display: inline-block;
+  border: 1px solid var(--text);
+  margin: 2px auto;
+  padding: 2px 5px;
+  color: var(--text);
+  white-space: nowrap;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.square-tags a:hover {
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.ci-links table {
+  table-layout: fixed;
+}
+@media only screen and (max-width: 991.98px) {
+  .ci-links table{
+    width: auto;
+  }
+}
+.ci-links table #view-webform-submission-value-5-table-column {
+  width: 20%;
+  min-width: 200px;
+}
+.ci-links table #view-webform-submission-value-1-table-column {
+  width: 25%;
+  min-width: 200px;
+}
+.ci-links table #view-webform-submission-value-table-column {
+  width: max-content;
+}
+.ci-links table #view-webform-submission-value-8-table-column {
+  width: 25%;
+}
+.ci-links .skill-level, .ci-links #view-webform-submission-value-3-table-column {
+  text-align: center;
 }

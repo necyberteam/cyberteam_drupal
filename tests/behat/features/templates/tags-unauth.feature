@@ -2,8 +2,8 @@
 @api
 @javascript
 
-Feature: test tags page
-  Tests for the Tags page
+Feature: Tests for the Tags page with unauthenticated user.  Verify "Request Tag"
+  button is not shown, a particular tag links to its page, search is case insensitive.
 
     Scenario: Tags pages for unauthenticated user
       Given I am not logged in

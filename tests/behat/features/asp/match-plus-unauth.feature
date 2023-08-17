@@ -3,7 +3,13 @@
 @javascript
 
 Feature: test ACCESS Support Match Plus Page
-  In order to test the Match Plus Page
+  This Behat test checks the /matchplus page for the appearance of page sub-titles,
+  titles, and specific sections like The MATCHPlus Process, Apply for MATCHPlus,
+  Join our Mentors, Be a Student-Facilitator.
+  It checks for three Sample Engagements appear at the bottom of the page, that
+  titles link to Engagements, and a See all button.
+  Also tests a specific engagement.
+  Tests that some buttons take user to login page.
 
   Scenario: Unauthenticated user tests the Match Plus Page
     Given I am not logged in
@@ -76,4 +82,5 @@ Feature: test ACCESS Support Match Plus Page
     Then I should see "Researcher"
     Then I should see "matlab"
     Then I should see "cuda"
+    # TODO test for student & mentor
 

@@ -3,7 +3,8 @@
 @javascript
 
 Feature: test ACCESS Support Navigation Bar
-  In order to test the Navigation Bar
+  Verify the text of many links on the homepage
+  TODO:  add tests fors social links (twitter, fb, etc)
 
   Scenario: Unauthenticated user tests the Navigation Bar
     Given I am not logged in
@@ -43,8 +44,6 @@ Scenario: Unauthenticated user tests the Footer Navigation Bar
     #Test for the ACCESS logo at footer
     Then I should see an image with alt text "ACCESS"
 
-
-
 Scenario: Unauthenticated user tests the NSF Section
     Given I am not logged in
     When I am on the homepage
@@ -57,6 +56,4 @@ Scenario: Unauthenticated user tests the NSF Section
     Then I should see "University of Illinois at Urbana-Champaign"
     Then I should see "State University of New York at Buffalo"
 
-    # TODO?
-    #Test for social links
-    #Then I should see "social-link"
+

@@ -2,8 +2,11 @@
 @api
 @javascript
 
-Feature: test connect.ci page
-  In order to test the Connect.CI page
+Feature: For authenticated users:
+
+The Connect.Ci Page features a list of other Cyberteams, each linking to their respective Cyberteam prod sites.
+It also displays a list of affinity groups, with clickable links to individual affinity groups.
+Users have the option to toggle between card and list display formats.
 
   Scenario: User is on the Connect.CI Page
     Given I am not logged in

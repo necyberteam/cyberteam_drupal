@@ -1,11 +1,24 @@
-@templates
+@wip
 @api
 @javascript
 
 Feature: test individual tags page
   To test an individual tag
   While either authenticated or not
-  I can verify tag components appear as expected
+  I can verify tag components appear as expected.
+  Included in test:
+   - Page title is the tag’s name
+   - CILinks, category, skill level,
+   - Can create a project or affinity group with a tag and the tag will appear
+     on the page and can be followed
+  TODO 8/4/23:
+    - from 1.0 spreadsheet: Mentors/Regional Facilitators/Facilitators/RCFs/RSEs/CISEs
+      with the tag (either in skills or interests; this section should display
+      mentors and regional facilitators from all regions).
+    - Ask.ci topics/posts with the tag (Term from Ask.CI), Topic Title (each item
+      links to its topic in ask.ci, links should open in a new tab)
+
+
 
   Scenario: Verify non-admin content for tag "bioinformatics"
     Given I am not logged in

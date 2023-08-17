@@ -1,8 +1,13 @@
 @templates
 @api
 @javascript
-Feature: test menu links
-  In order to test the menu links
+Feature: For an authenticated user, the Menu Items include:
+
+About Us link (redirects to the about us page)
+Community link
+Get Help page link (redirects to the Get Research Computing Help page)
+Projects page link (redirects to the projects/engagements page)
+Tags page link (redirects to the tags list page)
 
   Scenario: Authenticated user navigates through navigation menus
     Given I am logged in as a user with the "authenticated" role

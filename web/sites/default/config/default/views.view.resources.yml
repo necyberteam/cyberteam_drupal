@@ -661,9 +661,20 @@ display:
           default_row_class: true
           columns:
             sid: sid
+            flagged: flagged
+            link_flag: link_flag
+            count: count
             webform_submission_value_5: webform_submission_value_5
-            webform_submission_value: webform_submission_value
             webform_submission_value_1: webform_submission_value_1
+            webform_submission_value: webform_submission_value
+            webform_submission_value_4: webform_submission_value_4
+            webform_submission_value_7: webform_submission_value_7
+            webform_submission_value_6: webform_submission_value_6
+            webform_submission_value_8: webform_submission_value_8
+            webform_submission_value_3: webform_submission_value_3
+            sid_1: sid_1
+            webform_submission_value_2: webform_submission_value_2
+            field_affinity_group: field_affinity_group
           default: '-1'
           info:
             sid:
@@ -680,8 +691,64 @@ display:
               has_aggr_column: false
               aggr_column: views_aggregator_sum
               aggr_par_column: ''
+            flagged:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            link_flag:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            count:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
             webform_submission_value_5:
               sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            webform_submission_value_1:
+              sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
@@ -708,7 +775,95 @@ display:
               has_aggr_column: false
               aggr_column: views_aggregator_sum
               aggr_par_column: ''
-            webform_submission_value_1:
+            webform_submission_value_4:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            webform_submission_value_7:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            webform_submission_value_6:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            webform_submission_value_8:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            webform_submission_value_3:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            sid_1:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            webform_submission_value_2:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+              has_aggr: false
+              aggr:
+                views_aggregator_first: views_aggregator_first
+              aggr_par: ''
+              has_aggr_column: false
+              aggr_column: views_aggregator_sum
+              aggr_par_column: ''
+            field_affinity_group:
               align: ''
               separator: ''
               empty_column: false
@@ -1917,7 +2072,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: 'align-middle '
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
@@ -1944,7 +2099,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<p>{{ webform_submission_value }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>'
+            text: '{{ webform_submission_value }}'
             make_link: false
             path: ''
             absolute: false
@@ -1984,6 +2139,7 @@ display:
           webform_element_format: value
           webform_multiple_value: true
           webform_multiple_delta: 0
+          webform_check_access: 1
         webform_submission_value_4:
           id: webform_submission_value_4
           table: webform_submission_field_resource_tags
@@ -2189,7 +2345,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: 'square-tags align-middle '
           element_label_type: ''
           element_label_class: ''
           element_label_colon: true
@@ -2215,8 +2371,8 @@ display:
           label: 'Skill Level'
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: "{% set skill_level = webform_submission_value_3  |render|render %}\r\n{%  if skill_level == 'Beginner' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner.png\" alt=\"Beginner\"/>\r\n{% elseif 'Beginner' in skill_level and 'Intermediate' in skill_level and 'Advanced' not in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner-medium.png\" alt=\"Beginner and Intermediate\"/>\r\n{% elseif skill_level == 'Intermediate' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium.png\" alt=\"Intermediate\"/>\r\n{% elseif 'Beginner' not in skill_level and 'Intermediate' in skill_level and 'Advanced' in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium-advanced.png\" alt=\"Intermediate and Advanced\"/>\r\n{% elseif skill_level == 'Advanced' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-advanced.png\" alt=\"Advanced\"/>\r\n{% endif %}\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -2256,6 +2412,7 @@ display:
           webform_element_format: label
           webform_multiple_value: true
           webform_multiple_delta: 0
+          webform_check_access: 1
         sid_1:
           id: sid_1
           table: webform_submission
@@ -2696,6 +2853,7 @@ display:
           1: AND
       defaults:
         empty: false
+        css_class: false
         use_ajax: false
         group_by: false
         fields: false
@@ -2703,6 +2861,7 @@ display:
         filters: false
         filter_groups: false
         header: false
+      css_class: 'ci-links my-3'
       use_ajax: true
       group_by: true
       header: {  }
