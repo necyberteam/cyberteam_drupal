@@ -8,7 +8,8 @@ Feature: Testing the Help Desk Admin Page
     Given I am logged in as a user with the "administrator" role
     When I go to "/help-desk"
     Then I should see "Help Desk"
-    Then I should see "There are currently no open tickets."
+    #Below line is commented out since not all domains have no tickets
+    #Then I should see "There are currently no open tickets."
     Then I should see "At-Large"
     Then I should see "Title"
     Then I should see "Region"
