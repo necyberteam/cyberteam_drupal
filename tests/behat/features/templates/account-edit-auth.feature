@@ -4,8 +4,7 @@
 
 Feature: For an authenticated user, the Edit Account Page displays
 the first and last name of the user as its title. The page features
-tabs for navigating to "View" (user's profile page), "Change Password"
-(change password page), "Edit" (current page), and "Security" (MFA setup page).
+tabs for navigating to "View" (user's profile page), "Edit" (current page), and "Security" (MFA setup page).
 The fields on the page include Program (region), Email Address, Roles (checkboxes for various roles),
 First Name, Last Name, Picture (file upload), Institution, CV/Resume (file upload), Time Zone (dropdown), and Citizenships.
 
@@ -17,11 +16,12 @@ First Name, Last Name, Picture (file upload), Institution, CV/Resume (file uploa
     #Cannot test user name
     #Then I should see "mrfYEeUO"
     Then I should see "View"
-    Then I should see "Change Password"
     Then I should see "Edit"
     Then I should see "TFA"
     Then I should see "Program"
     Then I should see "Email Address"
+    Then I should see "Password strength"
+    Then I should see "Confirm Password"
     Then I should see "First Name"
     Then I should see "Last Name"
     Then I should see "Picture"
