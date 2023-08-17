@@ -9,6 +9,7 @@ Feature: Testing the Help Desk Admin Page
     When I go to "/help-desk"
     Then I should see "Help Desk"
 <<<<<<< HEAD
+<<<<<<< HEAD
     #Below lines are commented out since not all domains have tickets
     # TODO -- make domain specific versions of this test?
     #Then I should see "There are currently no open tickets."
@@ -25,6 +26,10 @@ Feature: Testing the Help Desk Admin Page
     #Then I should see "Tags"
 =======
     Then I should see "There are currently no open tickets."
+=======
+    #Below line is commented out since not all domains have no tickets
+    #Then I should see "There are currently no open tickets."
+>>>>>>> 638932a8 (Commenting out inconsistent line)
     Then I should see "At-Large"
     Then I should see "Title"
     Then I should see "Region"
