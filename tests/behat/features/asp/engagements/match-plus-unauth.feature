@@ -77,7 +77,7 @@ Feature: test ACCESS Support Match Plus Page
     Then I should see "Institution"
     Then I should see "University of North Dakota"
     Then I should see "Status"
-    Then I should see "Reviewing"
+    Then I should see "In Progress"
     Then I should see "Sea levels are rising"
     Then I should see "Researcher"
     Then I should see "matlab"
