@@ -2,14 +2,14 @@
 @api
 @javascript
 
-Feature: test cssn form
-  In order to test the cssn form
-  As a user of the authenticated role
+Feature: As an authenticated user, test the join-the-cssn form.  Fill in
+  the form, submit it, and verify correct response & fields.
 
   Scenario: Authenticated user fills out CSSN form
     Given I am logged in as a user with the "authenticated" role
     When I go to "/form/join-the-cssn-network"
     Then I should see "Join the CSSN Network"
+    Then I should see "How would you like to participate in the CSSN?"
     Then I should see "General Member"
     Then I should see "MATCHPlus Mentor"
     Then I should see "Student-Facilitator"
@@ -25,7 +25,7 @@ Feature: test cssn form
     # add a wait before submitting to avoid "There was a problem with your form submission.  Please wait NN seconds and try again."
     And I wait 2 seconds
     When I press "Submit"
-    And I wait 5 seconds
+    And I wait 2 seconds
     Then I should see "Thank you for joining the cssn."
     Then I should see "Thanks for updating your CSSN membership."
     When I go to "/community-persona"
