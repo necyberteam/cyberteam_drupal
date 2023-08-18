@@ -2,8 +2,10 @@
 @api
 @javascript
 
-Feature: test Navigation Bar footer
+Feature: test footer
   Verify the footer links
+  Verify NSF acknowledgement and TODO: social links
+  Verify acceptable use, code of conduct, and privacy policy
 
   Scenario: Unauthenticated user tests footer links OnDemand link
     Given I am not logged in

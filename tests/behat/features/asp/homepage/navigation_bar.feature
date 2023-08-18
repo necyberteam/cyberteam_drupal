@@ -4,6 +4,7 @@
 
 Feature: test Navigation Bar
   For unauthenticted user, verify the MATCHPlus and MATCHPremier links
+  TODO: verify tools menu, knowledge base menu, and community menu items
   TODO: add test for authenticated user too
 
   Scenario: test MATCHPlus link

@@ -2,11 +2,11 @@
 @api
 @javascript
 
-Feature: test cssn form
-  In order to test the cssn form
-  As a user of the authenticated role
+Feature: test the "join the cssn" form
+  Form to join the CSSN allows authenticated people to pick their roles.
+  TODO: anonymous people are redirected to /user/login
 
-  Scenario: Authenticated user fills out CSSN form
+  Scenario: Authenticated user fills out CSSN form selecting all the roles
     Given I am logged in as a user with the "authenticated" role
     When I go to "/form/join-the-cssn-network"
     Then I should see "Join the CSSN Network"
@@ -23,11 +23,13 @@ Feature: test cssn form
     #academic_status_select2 is the Academic Status
     When I select "1st year undergraduate" from "academic_status_select2"
     # add a wait before submitting to avoid "There was a problem with your form submission.  Please wait NN seconds and try again."
-    And I wait 2 seconds
+    And I wait 1 seconds
     When I press "Submit"
-    And I wait 5 seconds
+    And I wait 3 seconds
     Then I should see "Thank you for joining the cssn."
     Then I should see "Thanks for updating your CSSN membership."
+
+  Scenario: Verify selected roles were added properly
     When I go to "/community-persona"
     And I wait for the page to be loaded
     Then I should see "CSSN Member"
