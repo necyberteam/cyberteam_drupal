@@ -1,4 +1,5 @@
 @templates
+@api
 @javascript
 
 Feature: test individual tags page
