@@ -2,9 +2,15 @@
 @api
 @javascript
 
+<<<<<<< HEAD
 Feature: test cssn form
   In order to test the cssn form
   As a user of the authenticated role
+=======
+Feature: As an authenticated user, test the join-the-cssn form.  Fill in
+  the form, submit it, and verify correct response & fields.
+  TODO: anonymous people are redirected to /user/login
+>>>>>>> 0c450e99 (migrating some asp tweaks)
 
   Scenario: Authenticated user fills out CSSN form
     Given I am logged in as a user with the "authenticated" role

@@ -20,7 +20,11 @@ Feature: test ACCESS Support Engagements Page
     When I follow "UVM Art and AI Initiative"
     Then I should be on "/node/331"
 
+<<<<<<< HEAD
 #TODO: More buttons expand box to reveal whole excerpt and "- Less" link
+=======
+    # TODO: More buttons expand box to reveal whole excerpt and "- Less" link
+>>>>>>> 0c450e99 (migrating some asp tweaks)
 
     # testing tags in box and tag link
     Then I should see "image-processing"

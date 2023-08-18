@@ -12,6 +12,7 @@ Feature: testing match engagements submissions for Match SC role
     And I press "Apply"
     And I wait 3 seconds
     Then I should see "Edit"
+
     Then I should see "Status"
     Then I should see "Recruiting"
     Then I should see "Match Title"
@@ -25,6 +26,7 @@ Feature: testing match engagements submissions for Match SC role
     When I click "Adapting a GEOspatial Agent-based model for Covid Transmission (GeoACT) for general use"
     Then I should be on "/node/445"
     Then I should see "Adapting a GEOspatial Agent-based model for Covid Transmission (GeoACT) for general use"
+
     When I click "Edit"
     Then I should be on "/node/445/edit"
     When I press "Save"
