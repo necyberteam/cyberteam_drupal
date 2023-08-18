@@ -2,7 +2,9 @@
 @api
 @javascript
 
-Feature: test ACCESS Support domain cssn roles webform editing
+Feature: test cssn roles webform
+  The "Edit your roles" webform allows authenticated people to select their own roles.
+  TODO: anonymous people are redirected to /user/login
 
   Scenario: Authenticated user tests editing cssn roles webform on ACCESS Support domain
     Given I am logged in as a user with the "authenticated" role

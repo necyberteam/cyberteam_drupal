@@ -31,7 +31,7 @@ Feature: test ACCESS Support Events Page and Individual Events Page
     When I select "Community" from "Affiliation"
     #edit-field-affinity-group-target-id--2 is the affinity group
     When I select "Delta" from "edit-field-affinity-group-target-id--2"
-
+    # TODO should this test then click the "Apply" button and verify results?
 
     When I go to "/events/17"
     Then I should see "Cybersecurity and Coding for Middle and High School Students"

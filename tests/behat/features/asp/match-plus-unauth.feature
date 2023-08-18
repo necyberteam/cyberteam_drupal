@@ -11,7 +11,7 @@ Feature: test ACCESS Support Match Plus Page
   Also tests a specific engagement.
   Tests that some buttons take user to login page.
 
-  Scenario: Unauthenticated user tests the Match Plus Page
+  Scenario: anonymous user can read information about MATCHPlus
     Given I am not logged in
     When I go to "/matchplus"
     Then I should see "Short-term support partnerships"
@@ -32,6 +32,8 @@ Feature: test ACCESS Support Match Plus Page
     Then I should see "Student facilitator carries out the project"
     Then I should see "Research moves forward."
     #TODO: test 4 number icons ^
+
+  Scenario: Request an engagement section
     Then I should see "Interested in Joining the Pilot?"
     Then I should see "MATCHPlus will be selecting up to ten projects to launch between"
     Then I should see "Apply for MATCHPlus"
@@ -41,6 +43,8 @@ Feature: test ACCESS Support Match Plus Page
     Then I should see "Benefit from support dedicated to advancing your"
     When I click "Request a Pilot Engagement"
     Then I should be on "/user/login?destination=/node/add/match_engagement%3Ftype%3Dplus"
+
+Scenario: "Become a Mentor" button redirects to /user/login for anonymous
     When I go to "/matchplus"
     Then I should see "Join our Mentors"
     Then I should see "Leverage your expertise"
@@ -49,6 +53,8 @@ Feature: test ACCESS Support Match Plus Page
     Then I should see "Help drive evolving and emerging research"
     When I click "Become a Mentor"
     Then I should be on "/user/login?destination=/form/join-the-cssn-network"
+
+Scenario: "Join MATCHPlus" as a student button redirects to /user/login for anonymous
     When I go to "/matchplus"
     Then I should see "Be a Student-Facilitator"
     Then I should see "Gain cutting-edge research experience"
@@ -57,10 +63,11 @@ Feature: test ACCESS Support Match Plus Page
     Then I should see "Showcase your expertise,"
     When I click "Join MATCHPlus"
     Then I should be on "/user/login?destination=/form/join-the-cssn-network"
+
     When I go to "/matchplus"
     Then I should see "Fill out our online form"
 
-  Scenario: Unauthenticated user tests the Match Plus Page Sample Engagement Section
+  Scenario: anonymous user - Featured Engagement Section
     Given I am not logged in
     When I go to "/matchplus"
     Then I should see "Featured MATCHPlus Engagements"

@@ -3,8 +3,8 @@
 @javascript
 
 Feature: test affinity group request form
-  In order to test the affinity group request form
-  As a user of the authenticated role
+  authenticated role should be able to complete the affinity group request form
+  TODO: anonymous should be redirected to /user/login
 
   Scenario: Authenticated user fills out affinity group form
     Given I am logged in as a user with the "authenticated" role
