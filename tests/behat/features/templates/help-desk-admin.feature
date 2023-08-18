@@ -9,6 +9,7 @@ Feature: Testing the Help Desk Admin Page
     When I go to "/help-desk"
     Then I should see "Help Desk"
     #Below lines are commented out since not all domains have tickets
+    # TODO -- make domain specific versions of this test?
     #Then I should see "There are currently no open tickets."
     Then I should see "At-Large"
     Then I should see "All Regions"
