@@ -1,4 +1,4 @@
-@asp--disabled until amp_dev.install working
+@asp
 @api
 @javascript
 
@@ -26,6 +26,10 @@ Feature: test ACCESS Support Community Persona
     Then I should see "Interests"
     Then I should see "access-acount"
     Then I should see "science gateway"
+
+    Then I should see "Expertise"
+    Then I should see "bioinformatics"
+    Then I should see "astrophysics"
 
     Then I should see "Affinity Groups"
     Then I should see "DELTA"
