@@ -1,4 +1,4 @@
-@asp
+@asp--disabled until amp_dev.install working
 @api
 @javascript
 
