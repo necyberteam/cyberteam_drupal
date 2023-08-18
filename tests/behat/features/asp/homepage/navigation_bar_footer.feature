@@ -2,7 +2,7 @@
 @api
 @javascript
 
-Feature: test footer
+Feature: test Navigation Bar footer
   Verify the footer links
   Verify NSF acknowledgement and TODO: social links
   Verify acceptable use, code of conduct, and privacy policy

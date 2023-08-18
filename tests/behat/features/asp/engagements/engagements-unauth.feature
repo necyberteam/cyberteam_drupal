@@ -27,6 +27,8 @@ Feature: test ACCESS Support Engagements Page
     When I follow "UVM Art and AI Initiative"
     Then I should be on "/node/331"
 
+    # TODO: More buttons expand box to reveal whole excerpt and "- Less" link
+
     # testing tags in box and tag link
     Then I should see "image-processing"
     When I am on "/engagements"
