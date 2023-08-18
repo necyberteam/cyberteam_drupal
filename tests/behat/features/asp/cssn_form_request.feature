@@ -10,6 +10,7 @@ Feature: test the "join the cssn" form
     Given I am logged in as a user with the "authenticated" role
     When I go to "/form/join-the-cssn-network"
     Then I should see "Join the CSSN Network"
+    Then I should see "How would you like to participate in the CSSN?"
     Then I should see "General Member"
     Then I should see "MATCHPlus Mentor"
     Then I should see "Student-Facilitator"
