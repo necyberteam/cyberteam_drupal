@@ -10,6 +10,6 @@ Feature: test ACCESS Support domain cssn members page
     And I wait 4 seconds
     Then I should see "CSSN Members"
     When I select "Completed" from "action"
-    When I check "webform_submission_bulk_form[2]"
+    When I check "webform_submission_bulk_form[0]"
     When I press "op"
 
