@@ -30,7 +30,7 @@ Feature: As an authenticated user, test the join-the-cssn form.  Fill in
     Then I should see "Thank you for joining the cssn."
     Then I should see "Thanks for updating your CSSN membership."
 
-  Scenario: Verify selected roles were added properly
+    # Verify selected roles were added properly
     When I go to "/community-persona"
     And I wait for the page to be loaded
     Then I should see "CSSN Member"
