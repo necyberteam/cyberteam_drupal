@@ -35,6 +35,11 @@ Feature: As an authenticated user, test the join-the-cssn form.  Fill in
     And I wait 5 seconds
     Then I should see "Thank you for joining the cssn."
     Then I should see "Thanks for updating your CSSN membership."
+<<<<<<< HEAD
+=======
+
+    # Verify selected roles were added properly
+>>>>>>> 133c1011 (Update cssn_form-request.feature)
     When I go to "/community-persona"
     And I wait for the page to be loaded
     Then I should see "CSSN Member"
