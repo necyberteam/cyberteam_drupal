@@ -1,4 +1,4 @@
-uuid: 9e2789f0-e1e8-45d8-b62c-c1ff3aaa5651
+iuuid: 9e2789f0-e1e8-45d8-b62c-c1ff3aaa5651
 langcode: en
 status: true
 dependencies:
@@ -1139,6 +1139,7 @@ display:
     display_plugin: block
     position: 2
     display_options:
+      enabled: false
       title: ''
       fields:
         sid:
@@ -2372,7 +2373,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{% set skill_level = webform_submission_value_3  |render|render %}\r\n{%  if skill_level == 'Beginner' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner.png\" alt=\"Beginner\"/>\r\n{% elseif 'Beginner' in skill_level and 'Intermediate' in skill_level and 'Advanced' not in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner-medium.png\" alt=\"Beginner and Intermediate\"/>\r\n{% elseif skill_level == 'Intermediate' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium.png\" alt=\"Intermediate\"/>\r\n{% elseif 'Beginner' not in skill_level and 'Intermediate' in skill_level and 'Advanced' in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium-advanced.png\" alt=\"Intermediate and Advanced\"/>\r\n{% elseif skill_level == 'Advanced' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-advanced.png\" alt=\"Advanced\"/>\r\n{% elseif 'Beginner' in skill_level and 'Intermediate' in skill_level and 'Advanced' in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-all.png\" alt=\"All skill levels\"/>\r\n{% endif %}\r\n"
+            text: "{% set skill_level = webform_submission_value_3  |render|render %}\r\n{%  if skill_level == 'Beginner' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner.png\" alt=\"Beginner\"/>\r\n{% elseif 'Beginner' in skill_level and 'Intermediate' in skill_level and 'Advanced' not in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner-medium.png\" alt=\"Beginner and Intermediate\"/>\r\n{% elseif skill_level == 'Intermediate' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium.png\" alt=\"Intermediate\"/>\r\n{% elseif 'Beginner' not in skill_level and 'Intermediate' in skill_level and 'Advanced' in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium-advanced.png\" alt=\"Intermediate and Advanced\"/>\r\n{% elseif skill_level == 'Advanced' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-advanced.png\" alt=\"Advanced\"/>\r\n{% endif %}\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -2529,25 +2530,27 @@ display:
           webform_element_format: value
           webform_multiple_value: '1'
           webform_multiple_delta: '0'
-        field_affinity_group:
-          id: field_affinity_group
-          table: node__field_affinity_group
-          field: field_affinity_group
-          relationship: reverse__node__field_resources_entity_reference
+        sid_2:
+          id: sid_2
+          table: webform_submission
+          field: sid
+          relationship: none
           group_type: group
           admin_label: ''
+          entity_type: webform_submission
+          entity_field: sid
           plugin_id: field
           label: 'Affinity Group'
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: true
-            path: '/affinity-groups/{{ field_affinity_group|lower |replace({".": ""})|replace({"/": ""}) }}'
+            make_link: false
+            path: ''
             absolute: false
             external: false
-            replace_spaces: true
-            path_case: lower
+            replace_spaces: false
+            path_case: none
             trim_whitespace: false
             alt: ''
             rel: ''
@@ -2578,11 +2581,12 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
+          click_sort_column: value
+          type: number_integer
           settings:
-            link: false
-          group_column: target_id
+            thousand_separator: ''
+            prefix_suffix: true
+          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -2592,13 +2596,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          set_precision: false
-          precision: 0
-          decimal: .
-          format_plural: false
-          format_plural_string: !!binary MQNAY291bnQ=
-          prefix: ''
-          suffix: ''
       empty:
         area:
           id: area
@@ -2990,8 +2987,7 @@ display:
         - url
         - url.query_args
         - user
-      tags:
-        - 'config:field.storage.node.field_affinity_group'
+      tags: {  }
   page_2:
     id: page_2
     display_title: 'Resources by Tag Page'
