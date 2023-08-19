@@ -2,8 +2,8 @@
 @api
 @javascript
 
-Feature: test the "join the cssn" form
-  Form to join the CSSN allows authenticated people to pick their roles.
+Feature: As an authenticated user, test the join-the-cssn form.  Fill in
+  the form, submit it, and verify correct response & fields.
   TODO: anonymous people are redirected to /user/login
 
   Scenario: Authenticated user fills out CSSN form selecting all the roles
