@@ -1408,6 +1408,10 @@ table.sticky-header th {
   color: #781346;
 }
 
+.region-content .node--type-affinity-group .view {
+  margin-top: 1rem;
+}
+
 .affinity-group-buttons {
   align-items: center;
 }
@@ -1429,6 +1433,13 @@ table.sticky-header th {
 
 .accordion {
   margin-bottom: 16px;
+}
+/* act like h3 for generated block title */
+.accordion h2 {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #dee2e6;
 }
 .accordion-header {
   padding: 7px 0px 0px 0px;
@@ -1471,20 +1482,17 @@ table.sticky-header th {
     width: auto;
   }
 }
-.ci-links table #view-webform-submission-value-5-table-column {
+.ci-links table th[id^="view-webform-submission-value-5-table-column"] {
   width: 20%;
   min-width: 200px;
 }
-.ci-links table #view-webform-submission-value-1-table-column {
+.ci-links table th[id^="view-webform-submission-value-1-table-column"] {
   width: 25%;
   min-width: 200px;
 }
-.ci-links table #view-webform-submission-value-table-column {
-  width: max-content;
-}
-.ci-links table #view-webform-submission-value-8-table-column {
+.ci-links table th[id^="view-webform-submission-value-8-table-column"] {
   width: 25%;
 }
-.ci-links .skill-level, .ci-links #view-webform-submission-value-3-table-column {
+.ci-links .skill-level, .ci-links th[id^="view-webform-submission-value-3-table-column"] {
   text-align: center;
 }
