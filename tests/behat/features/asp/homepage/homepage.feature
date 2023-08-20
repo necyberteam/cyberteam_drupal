@@ -4,6 +4,10 @@
 
 Feature: test ACCESS Support Homepage
   On the homepage, verify page text and links and images.
+  TODO: test latest announcements and upcoming events
+  Test search section
+  TODO: verify that entering search term and clicking search returns results
+  Test sections the knowledge base, affinity groups, opening a ticket, CCEP, and MATCH
   TODO:  test for the 3 icons for MATCH plus or premiere
 
   Scenario: Unauthenticated user tests the Homepage
