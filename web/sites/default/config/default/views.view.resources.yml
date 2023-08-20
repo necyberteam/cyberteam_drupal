@@ -1,4 +1,4 @@
-iuuid: 9e2789f0-e1e8-45d8-b62c-c1ff3aaa5651
+uuid: 9e2789f0-e1e8-45d8-b62c-c1ff3aaa5651
 langcode: en
 status: true
 dependencies:
@@ -2373,7 +2373,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{% set skill_level = webform_submission_value_3  |render|render %}\r\n{%  if skill_level == 'Beginner' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner.png\" alt=\"Beginner\"/>\r\n{% elseif 'Beginner' in skill_level and 'Intermediate' in skill_level and 'Advanced' not in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner-medium.png\" alt=\"Beginner and Intermediate\"/>\r\n{% elseif skill_level == 'Intermediate' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium.png\" alt=\"Intermediate\"/>\r\n{% elseif 'Beginner' not in skill_level and 'Intermediate' in skill_level and 'Advanced' in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium-advanced.png\" alt=\"Intermediate and Advanced\"/>\r\n{% elseif skill_level == 'Advanced' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-advanced.png\" alt=\"Advanced\"/>\r\n{% endif %}\r\n"
+            text: "{% set skill_level = webform_submission_value_3  |render|render %}\r\n{%  if skill_level == 'Beginner' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner.png\" alt=\"Beginner\"/>\r\n{% elseif 'Beginner' in skill_level and 'Intermediate' in skill_level and 'Advanced' not in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner-medium.png\" alt=\"Beginner and Intermediate\"/>\r\n{% elseif skill_level == 'Intermediate' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium.png\" alt=\"Intermediate\"/>\r\n{% elseif 'Beginner' not in skill_level and 'Intermediate' in skill_level and 'Advanced' in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium-advanced.png\" alt=\"Intermediate and Advanced\"/>\r\n{% elseif 'Beginner' in skill_level and 'Intermediate' in skill_level and 'Advanced' in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-all.png\" alt=\"Beginner, Intermediate, and Advanced\"/>\r\n{% elseif skill_level == 'Advanced' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-advanced.png\" alt=\"Advanced\"/>\r\n{% endif %}\r\n"
             make_link: false
             path: ''
             absolute: false
