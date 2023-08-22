@@ -22,8 +22,9 @@ Feature: test people page Card view w/ filters
 
     And I should see "Programs"
     And I should see "Roles"
-    #When I fill in "roles_target_id[]" with "ci systems engineer"
-    And I should see "Affinity Groups"
+    When I fill in "roles_target_id[]" with "ci systems engineer"
+    And I wait 5 seconds
+    Then I should see "Affinity Groups"
     And I should see "Skills"
     And I should see "List view"
 
