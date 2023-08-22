@@ -28,7 +28,7 @@ Feature: add a test project via the form
     When I check "mentor"
     When I check "student-facilitator"
     When I check "researcher/educator"
-    When I select "1st year undergraduate" from "edit-field-academic-status"
+    #When I select "1st year undergraduate" from "edit-field-academic-status"
     # "op" is the name of the submit button.
     When I press "op"
     And I wait 2 seconds
