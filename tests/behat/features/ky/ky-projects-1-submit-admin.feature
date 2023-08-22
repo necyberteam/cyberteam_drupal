@@ -28,6 +28,7 @@ Feature: add a test project via the form
     When I check "mentor"
     When I check "student-facilitator"
     When I check "researcher/educator"
+    And I wait 3 seconds
     When I fill in "edit-field-academic-status" with "1"
     And I wait 3 seconds
     # "op" is the name of the submit button.
