@@ -80,6 +80,7 @@ Scenario: "Join MATCHPlus" as a student button redirects to /user/login for anon
     Then I should see "GPU-accelerated ice sheet flow modeling"
     When I click "GPU-accelerated ice sheet flow modeling"
     And I wait 6 seconds
+    And I wait for the page to be loaded
     Then I should be on "/node/412"
     Then I should see "GPU-accelerated ice sheet flow modeling"
     Then I should see "Institution"
