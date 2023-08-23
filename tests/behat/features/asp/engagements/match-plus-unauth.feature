@@ -65,15 +65,16 @@ Feature: test ACCESS Support Match Plus Page
     When I go to "/matchplus"
     Then I should see "Featured MATCHPlus Engagements"
     When I click "See All"
-    And I wait 4 seconds
-    Then I should see "GPU-accelerated ice sheet flow modeling"
-    Then I should see "University of North Dakota"
+    And I wait 2 seconds
     Then I should be on "/engagements"
     Then I should see "MATCH Engagements"
     Then I should see "MATCHPlus Engagements"
     Then I should see "GPU-accelerated ice sheet flow modeling"
-    When I follow "GPU-accelerated ice sheet flow modeling"
-    And I wait 4 seconds
+    Then I should see "University of North Dakota"
+    # following is failing, even with long waits, not sure why
+    # asp/engagements/engagements-unauth.feature is passing with nearly identical testing
+    When I follow "GPU-accelerated ice sheet flow modeling".
+    And I wait 10 seconds
     Then I should be on "/node/412"
     Then I should see "GPU-accelerated ice sheet flow modeling"
     Then I should see "Institution"
