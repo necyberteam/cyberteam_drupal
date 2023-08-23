@@ -41,12 +41,19 @@ Feature: test ACCESS Support Engagements Page
 Scenario: anonymous view of an engagement page
     Given I am not logged in
     When I go to "/engagements"
+<<<<<<< HEAD
     Then I should see "UVM Art and AI Initiative"
     # This was "When I click ..." with a 10 second wait, but kept failing.  Trying "follow" instead.
     When I follow "UVM Art and AI Initiative"
     And I wait 3 seconds
     Then I should be on "/node/331"
     Then I should see "UVM Art and AI Initiative"
+=======
+    Then I should see "GPU-accelerated ice sheet flow modeling"
+    When I click "GPU-accelerated ice sheet flow modeling"
+    Then I should be on "/engagements"
+    Then I should see "GPU-accelerated ice sheet flow modeling"
+>>>>>>> 7832c0be (Fixing other test that are preventing full pass)
     Then I should see "Institution"
     Then I should see "University of Vermont"
     Then I should see "Status"
