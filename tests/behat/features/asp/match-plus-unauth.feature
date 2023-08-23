@@ -72,7 +72,7 @@ Feature: test ACCESS Support Match Plus Page
     Then I should see "MATCHPlus Engagements"
     Then I should see "GPU-accelerated ice sheet flow modeling"
     When I click "GPU-accelerated ice sheet flow modeling"
-    Then I should be on "/node/412"
+    Then I should be on "/engagements"
     Then I should see "GPU-accelerated ice sheet flow modeling"
     Then I should see "Institution"
     Then I should see "University of North Dakota"
