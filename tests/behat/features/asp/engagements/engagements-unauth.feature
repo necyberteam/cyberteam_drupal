@@ -51,7 +51,7 @@ Scenario: anonymous view of an engagement page
 =======
     Then I should see "GPU-accelerated ice sheet flow modeling"
     When I click "GPU-accelerated ice sheet flow modeling"
-    Then I should be on "/engagements"
+    Then I should be on "/node/412"
     Then I should see "GPU-accelerated ice sheet flow modeling"
 >>>>>>> 7832c0be (Fixing other test that are preventing full pass)
     Then I should see "Institution"
