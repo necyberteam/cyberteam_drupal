@@ -72,15 +72,15 @@ Scenario: "Join MATCHPlus" as a student button redirects to /user/login for anon
     When I go to "/matchplus"
     Then I should see "Featured MATCHPlus Engagements"
     When I click "See All"
+    And I wait 4 seconds
     Then I should see "GPU-accelerated ice sheet flow modeling"
-    And I wait 8 seconds
     Then I should see "University of North Dakota"
     Then I should be on "/engagements"
     Then I should see "MATCH Engagements"
     Then I should see "MATCHPlus Engagements"
     Then I should see "GPU-accelerated ice sheet flow modeling"
-    When I click "GPU-accelerated ice sheet flow modeling"
-    And I wait 10 seconds
+    When I follow "GPU-accelerated ice sheet flow modeling"
+    And I wait 4 seconds
     Then I should be on "/node/412"
     Then I should see "GPU-accelerated ice sheet flow modeling"
     Then I should see "Institution"
