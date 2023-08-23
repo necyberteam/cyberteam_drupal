@@ -69,6 +69,7 @@ Feature: verify specific items on CCI homepage
     Then I should be on "/c/sweeter/71"
 
     When I am on the homepage
+    And I wait 4 seconds
     And I follow "TRECIS Cyberteam"
     Then I should be on "https://ask.cyberinfrastructure.org/c/cyberteams/trecis/60"
 
