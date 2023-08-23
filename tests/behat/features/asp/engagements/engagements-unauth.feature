@@ -39,18 +39,17 @@ Feature: test ACCESS Support Engagements Page
     #TODO: - Less link collapse box
 
 Scenario: anonymous view of an engagement page
+    Given I am not logged in
     When I go to "/engagements"
-    Then I should see "GPU-accelerated ice sheet flow modeling"
+    Then I should see "UVM Art and AI Initiative"
     # This was "When I click ..." with a 10 second wait, but kept failing.  Trying "follow" instead.
-    When I follow "GPU-accelerated ice sheet flow modeling"
+    When I follow "UVM Art and AI Initiative"
     And I wait 3 seconds
-    Then I should be on "/node/412"
-    Then I should see "GPU-accelerated ice sheet flow modeling"
+    Then I should be on "/node/331"
+    Then I should see "UVM Art and AI Initiative"
     Then I should see "Institution"
-    Then I should see "University of North Dakota"
+    Then I should see "University of Vermont"
     Then I should see "Status"
-    Then I should see "Sea levels are rising"
-    Then I should see "Researcher"
-    Then I should see "matlab"
-    Then I should see "cuda"
+    Then I should see "UVM Art and AI Initiative"
+    Then I should see "image-processing"
     # TODO test for student & mentor
