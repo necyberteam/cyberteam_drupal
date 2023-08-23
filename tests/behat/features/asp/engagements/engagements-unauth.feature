@@ -41,8 +41,9 @@ Feature: test ACCESS Support Engagements Page
 Scenario: anonymous view of an engagement page
     When I go to "/engagements"
     Then I should see "GPU-accelerated ice sheet flow modeling"
-    When I click "GPU-accelerated ice sheet flow modeling"
-    And I wait 10 seconds
+    # This was "When I click ..." with a 10 second wait, but kept failing.  Trying "follow" instead.
+    When I follow "GPU-accelerated ice sheet flow modeling"
+    And I wait 3 seconds
     Then I should be on "/node/412"
     Then I should see "GPU-accelerated ice sheet flow modeling"
     Then I should see "Institution"
