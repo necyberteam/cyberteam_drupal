@@ -1,13 +1,15 @@
 @templates
 @api
 @javascript
-Feature: As an authenticated the Contact User Page is titled "Contact [user’s name]" and includes a link to the user who will receive the contact.
-The contact form requires the following fields:
-Email Subject
-Message
-The reCAPTCHA does not appear on this page.
-The "Send Yourself a copy" checkbox copies the user on the email to the contacted person.
-Clicking the "Send Message" button sends the user's email, along with the provided fields, to the contacted person.
+
+Feature: As an authenticated the Contact User Page is titled "Contact [user’s name]" and
+  includes a link to the user who will receive the contact.
+  The contact form requires the following fields:
+    Email Subject
+    Message
+  The reCAPTCHA does not appear on this page.
+  The "Send Yourself a copy" checkbox copies the user on the email to the contacted person.
+  Clicking the "Send Message" button sends the user's email, along with the provided fields, to the contacted person.
 
   Scenario: Authenticated user tests the contact user page
     Given I am logged in as a user with the "authenticated" role
