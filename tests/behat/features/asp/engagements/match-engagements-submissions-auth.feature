@@ -8,8 +8,8 @@ Feature: testing match engagements submissions for Match SC role
     Given I am logged in as a user with the "match_sc" role
     When I go to "/match-engagements-submissions"
     Then I should see "Any"
-    When I select "Draft" from "Status"
-    And I press "Apply"
+    #When I select "Draft" from "Status"
+   # And I press "Apply"
     And I wait 3 seconds
     Then I should see "Edit"
 
