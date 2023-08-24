@@ -9,12 +9,17 @@ Feature: testing match engagements submissions for Match SC role
     When I go to "/match-engagements-submissions"
     Then I should see "Any"
 <<<<<<< HEAD
+<<<<<<< HEAD
     #When I select "Draft" from "Status"
    # And I press "Apply"
 =======
     When I select "Reviewing Applicants" from "Status"
     And I press "Apply"
 >>>>>>> bd8d2882 (fix asp engagements)
+=======
+    #When I select "Draft" from "Status"
+   # And I press "Apply"
+>>>>>>> 7ee4c8cf (Disabling lines to see if rest of test works)
     And I wait 3 seconds
     Then I should see "Edit"
     Then I should see "Status"
