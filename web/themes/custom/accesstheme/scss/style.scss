@@ -1634,9 +1634,17 @@ probably not using this
 }
 .accordion-button {
   color: var(--accordion-active-color);
+  background-color: var(--accordion-bg);
+}
+.node--type-affinity-group {
+  .accordion-button {
+    background-color: #ffffff;
+  }
+  .accordion-item {
+    padding: 0px 15px 15px 15px;
+  }
 }
 .accordion-item {
-  padding: 0px 15px 15px 15px;
   background-color: var(--accordion-bg);
 }
 .accordion-body {
@@ -1647,6 +1655,20 @@ probably not using this
   background-color: var(--accordion-bg);
 }
 
+<<<<<<< HEAD
+=======
+// act like h3 for generated block title
+.accordion h2 {
+  @include font-size(20px);
+  font-weight: 700;
+  color: var(--bs-dark);
+}
+.node--type-affinity-group .accordion h2 {
+  margin-top: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #dee2e6;
+}
+>>>>>>> dd99f4bc (Update accordion styles)
 
 /* events page on AMP */
 [id="views-exposed-form-recurring-events-event-instances-block-1"],
