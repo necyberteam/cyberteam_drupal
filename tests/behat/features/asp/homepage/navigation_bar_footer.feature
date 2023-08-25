@@ -32,8 +32,9 @@ Feature: test Navigation Bar footer
     Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/overview"
 
     When I am on the homepage
-    When I follow "Q&A Forum"
     And I wait 2 seconds
+    When I follow "Q&A Forum"
+    And I wait 4 seconds
     Then I should be on "https://ask.cyberinfrastructure.org/"
 
     When I am on the homepage
