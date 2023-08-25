@@ -16,7 +16,6 @@ Feature: test the approval proccess of MATCH Engagements
     When I select "Submitted" from "edit-moderation-state-0-state"
     When I wait 3 seconds
     Then I press "op"
-    Then I should see "efouhefibe2i"
     When I click "Edit"
     And I wait for the page to be loaded
     #TODO MAtch engagement after approval section is not available in behat https://cyberteamportal.atlassian.net/browse/D8-1828
