@@ -3,8 +3,9 @@
 @javascript
 
 Feature: testing match engagements submissions for researcher role
-
-  Scenario: Admin with researcher role test match engagements submissions page
+  A person with the researcher role can create a MATCHPlus engagement
+  
+  Scenario: Person with researcher role creates a MATCHPlus engagement
     Given I am logged in as a user with the "researcher" role
     When I go to "/node/add/match_engagement?type=plus"
     Then I should see "Create MATCH+ Engagement"
