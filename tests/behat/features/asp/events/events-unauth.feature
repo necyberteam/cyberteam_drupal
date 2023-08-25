@@ -32,10 +32,11 @@ Feature: test ACCESS Support Events Page and Individual Events Page
     #edit-field-affinity-group-target-id--2 is the affinity group
     When I select "Delta" from "edit-field-affinity-group-target-id--2"
     # TODO should this test then click the "Apply" button and verify results?
+    When I press "edit-submit-recurring-events-event-instances--2"
+    Then I should see "No events or trainings are currently scheduled."
 
     When I go to "/events/17"
     Then I should see "Cybersecurity and Coding for Middle and High School Students"
     #TODO Title label?
     When I click "< Back to events"
     Then I should be on "/events"
-
