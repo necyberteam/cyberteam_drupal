@@ -3,16 +3,24 @@
 @javascript
 
 Feature: test Universal Navigation menu
-  Links in the upper left should got to allocations, support, operations, and metrics.
-  "ACCESS Home" links to access-ci.org.
+  - links in the upper left should go to allocations, support, operations, and metrics.
+  - anonymous sees button "login to create ticket" that links to /user/login
+  - authenticated sees "create ticket" button that links to https://access-ci.atlassian.net/servicedesk/customer/portal/2/group/3/create/17
+  - "ACCESS Home" links to access-ci.org.
   TODO: search links to Knowledge Base page.
-  TODO: "ACCESS Menu"has links to About, Announcements, Contact,
-  Events & Trainings, News, Outages, and Resource Providers
-  TODO: anonymous has link to login, questions, register, reset password.
-  TODO: authenticated has My ACCESS menu with links to Allocations,
-  Community Persona, Edit Profile, Publications, Share with ORCID, and Logout.
-  TODO: anonymous sees button "login to create ticket" that links to /user/login
-  TODO: authenticated sees "create ticket" button that links to https://access-ci.atlassian.net/servicedesk/customer/portal/2/group/3/create/17
+
+  Scenario: authenticated user, test "Create Ticket"
+    Given I am logged in as a user with the "authenticated" role
+    When I am on the homepage
+    When I follow "Create Ticket"
+    Then I should be on "/servicedesk/customer/portal/2/group/3/create/17"
+
+  Scenario: anonymous user, test "Login to Create Ticket"
+    Given I am not logged in
+    When I am on the homepage
+    Then I should see "Login to Create Ticket"
+    When I follow "Login to Create Ticket"
+    Then I should be on "/user/login"
 
   Scenario: test allocations link
     Given I am not logged in
