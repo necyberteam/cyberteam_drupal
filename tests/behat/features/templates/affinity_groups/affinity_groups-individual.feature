@@ -36,6 +36,10 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Q&A"
     Then I should see "Email"
     Then I should see "Coordinators"
+    When I click "Email Affinity Group"
+    Then I should be on "/form/affinity-group-contact?nid=189"
+    Then I should see "Affinity Group Contact"
+    When I go to "/affinity-groups/cloud-computing"
     When I click "Jacob Fosso Tande"
     Then I should be on "/community-persona/952"
     When I go to "/affinity-groups/access-support"
@@ -82,6 +86,10 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Q&A"
     Then I should see "Email"
     Then I should see "Coordinators"
+    When I click "Email Affinity Group"
+    Then I should be on "/form/affinity-group-contact?nid=189"
+    Then I should see "Affinity Group Contact"
+    When I go to "/affinity-groups/cloud-computing"
     When I click "Jacob Fosso Tande"
     Then I should be on "/community-persona/952"
     When I go to "/affinity-groups/access-support"
@@ -108,6 +116,5 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Email"
     When I click "Download CSV"
     Then I should get a 200 response
-
 
 #TODO Test CI links assigned to the Affinity Group display title, skill level, and tags.  https://cyberteamportal.atlassian.net/browse/D8-1826
