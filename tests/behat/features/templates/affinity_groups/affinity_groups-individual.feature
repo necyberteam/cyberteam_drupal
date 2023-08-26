@@ -1,7 +1,9 @@
-@templates
+@asp
 @api
 @javascript
-Feature: test individual Affinity Group page
+Feature: Feature: test an Affinity Groups page
+  An Affinity Group page should display the title, logo, description, and tags.
+  Groups that have specified an optional Slack, Q&A, GitHub, or email link should display a button with the appropriate link.
   TODO: verify this test checks the following
     Affinity Group Logo Image
     Affinity Group Name
@@ -26,14 +28,34 @@ Feature: test individual Affinity Group page
     Then I should see "Cloud Computing"
     Then I should see "cloud-commercial"
     Then I should see "People who use or are"
+    When I click "Join"
+    Then I should see "Member"
+    When I click "Leave"
     Then I should see "Join"
     Then I should see "Slack"
     Then I should see "Q&A"
     Then I should see "Email"
     Then I should see "Coordinators"
+    When I click "Jacob Fosso Tande"
+    Then I should be on "/community-persona/952"
+    When I go to "/affinity-groups/access-support"
     Then I should see "Events"
-    Then I should see "Resources"
+    Then I should see "[4/04/2023 7:00 PM EDT]"
+    When I click "How to Write a Successful "Maximize" ACCESS Allocations Request"
+    Then I should be on "/events/6593"
+    When I go to "/affinity-groups/delta"
+    Then I should see "Announcements"
+    Then I should see "[9/12/2022]"
+    When I click "NCSA DELTA to Enter Production 9/19/2022"
+    Then I should be on "/node/354"
+    When I go to "/affinity-groups/delta"
+    Then I should see "Allocated CiDeR Resources"
+    When I click "NCSA Delta GPU (Delta GPU)"
+    And I wait 3 seconds
+    Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
     Then I should see "People"
+    When I click "View Members"
+    Then I should be on "/affinity-groups/607/users/DELTA?nid=297"
 
 
   Scenario: Authenticated user Test the individual Affinity Group page
@@ -56,4 +78,3 @@ Feature: test individual Affinity Group page
     Then I should see "People"
     Then I click "Join"
     #TODO verify joined?
-
