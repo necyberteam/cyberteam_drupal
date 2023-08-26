@@ -108,3 +108,6 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Email"
     When I click "Download CSV"
     Then I should get a 200 response
+
+
+#TODO Test CI links assigned to the Affinity Group display title, skill level, and tags.  https://cyberteamportal.atlassian.net/browse/D8-1826
