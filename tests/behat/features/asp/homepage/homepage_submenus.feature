@@ -4,7 +4,7 @@
 
 Feature: verify content of dropdown submenus on the ACCESS Support Homepage
 
-  Scenario: Unauthenticated user tests the Homepage
+  Scenario: Unauthenticated user sees expected menus & submenus
     Given I am not logged in
     When I am on the homepage
     Then menu "Login" should have links "Login, Questions, Register, Reset Password"
@@ -15,7 +15,7 @@ Feature: verify content of dropdown submenus on the ACCESS Support Homepage
     And menu "MATCHPremier" (with id="access-secondary-menu-menu-link-content515b4f5d-95b9-4374-8807-23d8597da44d") should have links ""
     And menu "Community" (with id="access-secondary-menu-menu-link-content9415c0c5-3008-4bac-9605-165fc246e376") should have links "Affinity Groups, CSSN, CCEP Pilot, Community of Communities"
 
-  Scenario: Unauthenticated user tests the Homepage
+  Scenario: Authenticated user sees expected menus & submenus
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
     Then menu "My ACCESS" (with id="access-additional-universal-menu-menu-link-contenta116f3f8-0d73-431e-9d9f-3427c584d7cb") should have links "Allocations, Community Persona, Edit Profile, Publications, Share with ORCID, Logout"
