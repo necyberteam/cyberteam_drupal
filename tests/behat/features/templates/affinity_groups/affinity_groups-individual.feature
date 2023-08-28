@@ -1,4 +1,4 @@
-@templates
+@asp
 @api
 @javascript
 
@@ -52,10 +52,10 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "cloud-commercial"
     Then I should see "People who use or are"
 #TODO Below line reads Join in menu rather than on th e affinity group page, could we add an id to specify? D8-1830 https://cyberteamportal.atlassian.net/browse/D8-1830
-    #When I click "Join"
-    #Then I should see "Member"
-    #When I click "Leave"
-    #Then I should see "Join"
+    When I click the ".btn.affinity-group-flag" element
+    Then I should see "Member"
+    When I click "Leave"
+    Then I should see ".btn.affinity-group-flag"
     Then I should see "Slack"
     Then I should see "Q&A"
     Then I should see "Email"
@@ -75,7 +75,7 @@ Feature: Feature: test an Affinity Groups page
     When I go to "/affinity-groups/delta"
     Then I should see "Allocated CiDeR Resources"
     Then I should see "NCSA Delta GPU (Delta GPU)"
-    When I click "associated-resource-header-388"
+    When I click "NCSA Delta GPU (Delta GPU)"
     And I wait 3 seconds
     Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
     Then I should see "People"
@@ -129,7 +129,7 @@ Feature: Feature: test an Affinity Groups page
     When I go to "/affinity-groups/delta"
     Then I should see "Allocated CiDeR Resources"
     Then I should see "NCSA Delta GPU (Delta GPU)"
-    When I click "associated-resource-header-388"
+    When I click "NCSA Delta GPU (Delta GPU)"
     And I wait 3 seconds
     Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
     Then I should see "People"
