@@ -57,7 +57,7 @@ Feature: verify specific items on CCI homepage
 
     When I am on the homepage
     Then I should see "RMACC"
-    And I wait 4 seconds
+    And I wait 6 seconds
     And I follow "RMACC"
     And I wait for the page to be loaded
     Then I should be on "/c/community-forums/rmacc/65"
