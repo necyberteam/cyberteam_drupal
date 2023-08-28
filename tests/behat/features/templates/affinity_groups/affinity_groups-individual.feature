@@ -1,6 +1,7 @@
-@asp
+@templates
 @api
 @javascript
+
 Feature: Feature: test an Affinity Groups page
   An Affinity Group page should display the title, logo, description, and tags.
   Groups that have specified an optional Slack, Q&A, GitHub, or email link should display a button with the appropriate link.
@@ -17,6 +18,28 @@ Feature: Feature: test an Affinity Groups page
     Events (if none, filler text “No upcoming events”)
     Resources (links to individual resource pages)
     People (individual AG member cards are shown)
+
+  Scenario: Administrator user craetes CI Link and adds it to an affinity group
+    Given I am logged in as a user with the "administrator" role
+    When I go to "/form/ci-link"
+    Then I should see "CI Link"
+    When I fill in "title" with "TEST"
+    When I select "learning" from "category"
+    When I check "Approved"
+    # login tag
+    When I check "edit-tags-682"
+    When I check "Beginner"
+    When I fill in "Description" with "Test"
+    When I fill in "Link Title" with "Test"
+    When I fill in "Link URL" with "http://example.com"
+    When I wait 3 seconds
+    When I press "Submit"
+    When I go to "node/327/edit"
+    Then I should see "Edit Affinity Group ACCESS Support"
+    When I fill in "Display CI Links on your Affinity Group" with "TEST (4)"
+    And I wait 4 seconds
+    When I press "op"
+
 
   Scenario: Unauthenticated user Test the individual Affinity Group page
     Given I am not logged in
@@ -36,6 +59,7 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Q&A"
     Then I should see "Email"
     Then I should see "Coordinators"
+    Then I should see "CI Links"
     When I click "Email Affinity Group"
     Then I should be on "/form/affinity-group-contact?nid=189"
     Then I should see "Affinity Group Contact"
@@ -66,6 +90,8 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Email"
     When I click "Download CSV"
     Then I should get a 200 response
+
+
 
 
   Scenario: Authenticated user Test the individual Affinity Group page
