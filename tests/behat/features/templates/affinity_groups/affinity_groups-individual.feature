@@ -60,10 +60,6 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Q&A"
     Then I should see "Email"
     Then I should see "Coordinators"
-    When I click "Email Affinity Group"
-    Then I should be on "/form/affinity-group-contact?nid=189"
-    Then I should see "Affinity Group Contact"
-    When I go to "/affinity-groups/cloud-computing"
     When I click "Jacob Fosso Tande"
     Then I should be on "/community-persona/952"
     When I go to "/affinity-groups/access-support"
@@ -82,16 +78,14 @@ Feature: Feature: test an Affinity Groups page
     And I wait 3 seconds
     Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
     Then I should see "People"
-    When I click "View Members"
-    Then I should be on "/affinity-groups/607/users/DELTA?nid=297"
-    Then I should see "Delta"
-    Then I should see "Name"
-    Then I should see "Roles"
-    Then I should see "Email"
-    When I click "Download CSV"
-    Then I should get a 200 response
     When I go to "/affinity-groups/access-support"
     Then I should see "CI Links"
+    Then I should see "Title"
+    Then I should see "Skill Level'
+    Then I should see "Tags"
+    When I click "ACCESS Support Portal"
+    Then I should be on "/ci-link/467"
+
 
 
 
@@ -147,5 +141,11 @@ Feature: Feature: test an Affinity Groups page
     Then I should get a 200 response
     When I go to "/affinity-groups/access-support"
     Then I should see "CI Links"
+    Then I should see "Title"
+    Then I should see "Skill Level'
+    Then I should see "Tags"
+    When I click "ACCESS Support Portal"
+    Then I should be on "/ci-link/467"
+
 
 #TODO Test CI links assigned to the Affinity Group display title, skill level, and tags.  https://cyberteamportal.atlassian.net/browse/D8-1826
