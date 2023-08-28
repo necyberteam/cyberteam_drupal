@@ -3,6 +3,19 @@
 @javascript
 
 Feature: test the approval proccess of MATCH Engagements
+  MATCH engagements can be created by authenticated people.
+  TODO: Fields include:
+  - Title
+  - Institution
+  - Urgency
+  - Description
+  - Tags
+  TODO: The engagement can be saved as a "Draft" or "Submitted" for review.
+  When the engagement is submitted, match_sc receives email.
+  TODO: match_sc role can save as "Received", "Draft", or "Declined".
+  If the engagement is "Received", the author will be emailed and additional fields are available
+  to provide more information about the engagement.
+  If the engagement is "Declined", the author is emailed.
 
   Scenario: Administrator user tests the Approval the approval proccess of MATCH plus Engagements
     Given I am logged in as a user with the "administrator" role
@@ -21,7 +34,7 @@ Feature: test the approval proccess of MATCH Engagements
     #TODO MAtch engagement after approval section is not available in behat https://cyberteamportal.atlassian.net/browse/D8-1828
     #When I select "Received" from "edit-moderation-state-0-state"
 
-    Scenario: Administrator user tests the Approval the approval proccess of MATCH premier Engagements
+  Scenario: Administrator user tests the Approval the approval proccess of MATCH premier Engagements
     Given I am logged in as a user with the "administrator" role
     When I go to "/node/add/match_engagement?type=premier"
     Then I should see "Create premier Engagement"
