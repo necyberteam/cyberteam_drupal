@@ -74,7 +74,8 @@ Feature: Feature: test an Affinity Groups page
     Then I should be on "/node/403"
     When I go to "/affinity-groups/delta"
     Then I should see "Allocated CiDeR Resources"
-    When I click "NCSA Delta GPU (Delta GPU)"
+    Then I should see "NCSA Delta GPU (Delta GPU)"
+    When I click "associated-resource-header-388"
     And I wait 3 seconds
     Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
     Then I should see "People"
@@ -127,7 +128,8 @@ Feature: Feature: test an Affinity Groups page
     Then I should be on "/node/403"
     When I go to "/affinity-groups/delta"
     Then I should see "Allocated CiDeR Resources"
-    When I click "NCSA Delta GPU (Delta GPU)"
+    Then I should see "NCSA Delta GPU (Delta GPU)"
+    When I click "associated-resource-header-388"
     And I wait 3 seconds
     Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
     Then I should see "People"
