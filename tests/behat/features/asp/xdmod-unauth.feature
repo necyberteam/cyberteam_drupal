@@ -2,8 +2,8 @@
 @api
 @javascript
 
-Feature: The XDMoD displays Access xdmod information
-and is accessible to unauthenticated users.
+Feature: The XDMoD page displays information about ACCESS XDMoD
+  and is accessible to anonymous users.
 
   Scenario: Unauthenticated user tests the XDMoD Page
     Given I am not logged in
@@ -25,4 +25,4 @@ and is accessible to unauthenticated users.
     Then I should see "For the CI community"
     Then I should see "Gain insight into national CI usage. Export data for research projects."
     When I click "Join Us"
-    Then I should be on "/get_started/#data/"
+    Then I should be on "https://metrics.access-ci.org/get_started/#data/"
