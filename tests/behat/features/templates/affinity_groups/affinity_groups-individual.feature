@@ -51,7 +51,6 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Cloud Computing"
     Then I should see "cloud-commercial"
     Then I should see "People who use or are"
-#TODO Below line reads Join in menu rather than on th e affinity group page, could we add an id to specify? D8-1830 https://cyberteamportal.atlassian.net/browse/D8-1830
     When I click the ".btn.affinity-group-flag" element
     Then I should see "Member"
     When I click "Leave"
@@ -72,6 +71,11 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "[12/16/2022]"
     When I click "2022 - 2023 Holiday Support Schedule for Anvil"
     Then I should be on "/node/403"
+    When I go to "/affinity-groups/ai-institutes-cyberinfrastructure"
+    Then I should see "Recommended Resources"
+    When I click "NCSA Delta GPU (Delta GPU)"
+    And I wait 3 seconds
+    Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
     When I go to "/affinity-groups/delta"
     Then I should see "Allocated CiDeR Resources"
     Then I should see "NCSA Delta GPU (Delta GPU)"
@@ -126,6 +130,11 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "[12/16/2022]"
     When I click "2022 - 2023 Holiday Support Schedule for Anvil"
     Then I should be on "/node/403"
+    When I go to "/affinity-groups/ai-institutes-cyberinfrastructure"
+    Then I should see "Recommended Resources"
+    When I click "NCSA Delta GPU (Delta GPU)"
+    And I wait 3 seconds
+    Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
     When I go to "/affinity-groups/delta"
     Then I should see "Allocated CiDeR Resources"
     Then I should see "NCSA Delta GPU (Delta GPU)"
@@ -148,6 +157,3 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Tags"
     When I click "ACCESS Support Portal"
     Then I should be on "/ci-link/467"
-
-
-#TODO Test CI links assigned to the Affinity Group display title, skill level, and tags.  https://cyberteamportal.atlassian.net/browse/D8-1826
