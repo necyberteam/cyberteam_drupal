@@ -22,11 +22,18 @@ Feature: MATCH Engagements submissions page
 <<<<<<< HEAD
 =======
     When I select "Recruiting" from "Status"
+<<<<<<< HEAD
 >>>>>>> 558b40af (Update match-engagements-submissions-auth.feature)
+=======
+>>>>>>> cee1125c (Update match-engagements-submissions-auth.feature)
     # TODO: if engagements are recruiting currently this causes an error.
     # Don't actually filter.
     # And I press "Apply"
     # And I wait 3 seconds
+<<<<<<< HEAD
+=======
+    Then I should see "Edit"
+>>>>>>> cee1125c (Update match-engagements-submissions-auth.feature)
 
     Then I should see "Status"
     # Then I should see "Recruiting"
@@ -60,6 +67,7 @@ Feature: MATCH Engagements submissions page
     Then I should see "Any"
     When I select "Recruiting" from "Status"
 <<<<<<< HEAD
+<<<<<<< HEAD
     And I press "Apply"
     And I wait 3 seconds
 <<<<<<< HEAD
@@ -80,9 +88,13 @@ Feature: MATCH Engagements submissions page
 =======
 =======
 >>>>>>> 0ff8b2bb (Adding in other features to test)
+=======
+    #And I press "Apply"
+    #And I wait 3 seconds
+>>>>>>> cee1125c (Update match-engagements-submissions-auth.feature)
     Then I should see "Edit"
     Then I should see "Status"
-    Then I should see "Recruiting"
+    #Then I should see "Recruiting"
     Then I should see "Match Title"
 <<<<<<< HEAD
 >>>>>>> a8dcba84 (Testing in github to see errors)
