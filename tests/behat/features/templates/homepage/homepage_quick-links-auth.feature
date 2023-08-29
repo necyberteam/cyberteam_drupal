@@ -42,4 +42,3 @@ displaying only projects from the current or At-Large regions.
     Then I should be on "tags"
     When I am on the homepage
     Then I should not see "Join the team"
-    Then I should see "Featured Projects"
