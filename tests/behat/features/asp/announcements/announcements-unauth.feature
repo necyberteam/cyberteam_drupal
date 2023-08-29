@@ -3,12 +3,28 @@
 @javascript
 
 Feature: The Announcements Page displays a title "Announcements" and lists
-announcements with titles and "Read more" buttons linking to their respective stories.
-The filter by Affinity Group works as expected, and a "Posting Announcement" box appears
-under the filter. For adding announcements, there's an "Add Announcement" button that directs
-users to a form, with anonymous users required to log in first.
+  announcements with titles and "Read more" buttons linking to their respective stories.
+  The filter by Affinity Group works as expected, and a "Posting Announcement" box appears
+  under the filter. For adding announcements, there's an "Add Announcement" button that directs
+  users to a form, with anonymous users required to log in first.
 
-  Scenario: Unauthenticated user tests the Announcements Page
+  TODO: an authenticated user should see a My Announcements box that displays:
+  - Title with link to announcement
+  - Date
+  - Status
+
+  An announcement should display:
+  - Title
+  - Date
+  - Description
+  - Tags
+  - Affinity Group
+  - A link back to the announcements list
+
+  TODO: authenticated user should be able to edit their own announcement
+  TODO: match_pm should be able able edit announcements
+
+  Scenario: Anonymous user tests the Announcements Page
     Given I am not logged in
     When I go to "/announcements"
     Then I should see "Announcements"
@@ -24,10 +40,9 @@ users to a form, with anonymous users required to log in first.
     And I wait 10 seconds
     Then I should see "NCSA DELTA to Enter Production"
     When I click "Add Announcement"
-    Then I should be on "/user/login?destination=/node/add/access_news"
+    Then I should be on "/user/login?destination=/node/add/access_news"\
 
-
-  Scenario: Unauthenticated user tests a individual Announcement Page
+  Scenario: Anonymous user tests a individual Announcement Page
     Given I am not logged in
     When I go to "/node/354"
     Then I should see "NCSA DELTA to Enter Production"
