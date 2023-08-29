@@ -1,13 +1,16 @@
 @templates
 @api
 @javascript
-Feature: test project guide page 
-  In order to test the project guide page
-
-
+Feature: verify /about-us/project-guide as anonymous & authenticated user
 
   Scenario: Administrator user test the project guide
-    Given I am logged in as a user with the "administrator" role
+    Given I am not logged in
+    When I go to "/about-us/project-guide"
+    Then I should be on "/user/login"
+    And I should see "You must log in to view this page."
+
+  Scenario: Administrator user test the project guide
+    Given I am logged in as a user with the "authenticated" role
     When I go to "/about-us/project-guide"
     Then I should see "Project Guide"
     Then I should see "Cyberteam Project Procedures"

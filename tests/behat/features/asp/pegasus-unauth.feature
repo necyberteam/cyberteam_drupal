@@ -16,6 +16,7 @@ documentation, more help, and affinity groups.
     When I go to "/pegasus"
     Then I should see "Run Jobs and Workflows on ACCESS Resources from a Single Entry Point"
     Then I should see "About ACCESS Pegasus"
+    Then I should see an image with alt text "Pegasus workflow"
 
     # testing Pegasus logo
     Then I should see an image with alt text "Pegasus logo"
@@ -66,27 +67,36 @@ documentation, more help, and affinity groups.
     Then I should see "We have Jupyter based training notebooks available"
     Then I should see an image with alt text "workflow key"
 
+    # 3 example buttons (and page has 6 outlined buttons)
+    Then I should see 6 ".btn.btn-outline-secondary" elements
+
+    # Example of Single Job
+
+    # Example of Single Job
     Then I should see "Single Job"
     Then I should see an image with alt text "Single job workflow"
-    #Multiple Example buttons. How do I specify?
+    # verify generic "Example" button works, as well as specific Single-Job button
     When I click "Example"
     Then I should get a "200" HTTP response
     When I go to "/pegasus"
+    When I click the "a[href='https://xsedetoaccess.ccs.uky.edu/confluence/redirect/Single-Job.html']" element
+    Then I should get a "200" HTTP response
 
+    # Example of Set of Independent Jobs
+    When I go to "/pegasus"
     Then I should see "Set of Independent jobs"
     Then I should see an image with alt text "Independent jobs workflow"
-    #Multiple Example buttons. How do I specify?
-    When I click "Example"
+    When I click the "a[href='https://xsedetoaccess.ccs.uky.edu/confluence/redirect/Set-of-Independent-Jobs.html']" element
     Then I should get a "200" HTTP response
-    When I go to "/pegasus"
 
+    # Example of Split/Merge Workflow
+    When I go to "/pegasus"
     Then I should see "Split/Merge Workflow"
     Then I should see an image with alt text "Split/merge workflow"
-    #Multiple Example buttons. How do I specify?
-    When I click "Example"
+    When I click the "a[href='https://xsedetoaccess.ccs.uky.edu/confluence/redirect/Merge-Workflow.html']" element
     Then I should get a "200" HTTP response
-    When I go to "/pegasus"
 
+    When I go to "/pegasus"
     Then I should see "Get Started with ACCESS Pegasus"
     Then I should see "To get started you only need some Python/Jupyter Notebook"
     When I click "Find out about getting an ACCESS Allocation"
@@ -130,7 +140,6 @@ documentation, more help, and affinity groups.
     When I click "Watch"
     Then I should be on "/watch?reload=9&v=4wiyLFGwJg4"
 
-
     When I go to "/pegasus"
     Then I should see "Documentation"
     Then I should see an image with alt text "Documentation icon"
@@ -151,7 +160,3 @@ documentation, more help, and affinity groups.
     Then I should see "The hub for the ACCESS Pegasus"
     When I click "Join us"
     Then I should be on "/affinity-groups/pegasus"
-
-    #When I am on "/pegasus"
-    #When I follow "Learn More"
-    #Then I should be on "https://pegasus.isi.edu/documentation/"
