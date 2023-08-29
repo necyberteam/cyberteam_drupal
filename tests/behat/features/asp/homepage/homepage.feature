@@ -13,6 +13,9 @@ Feature: test ACCESS Support Homepage
   Scenario: Unauthenticated user tests the Homepage
     Given I am not logged in
     When I am on the homepage
+    Then I should see an image with alt text "Home"
+    When I follow "Home"
+    Then I should be on the homepage
     Then I should see "Supporting the ACCESS Research Community"
     Then I should see "Get Help"
     Then I should see "What are you looking for?"
@@ -57,6 +60,12 @@ Feature: test ACCESS Support Homepage
     Then I should see "Learn More"
 
   Scenario: authenticated User is on the homepage
+    Given I am logged in as a user with the "authenticated" role
+    When I am on the homepage
+    Then I should see an image with alt text "Home"
+    When I follow "Home"
+    Then I should be on the homepage
+    # TODO verify any changes related to authenticated user
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
     Then I should be on the homepage
