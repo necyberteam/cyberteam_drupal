@@ -1,4 +1,4 @@
-@asp
+@templates
 @api
 @javascript
 
@@ -16,10 +16,10 @@ Feature: Feature: test an Affinity Groups page
     Github Organization (e.g. /affinity-groups/open-ondemand)
     Coordinators (links to individual peoples profiles
     Events (if none, filler text “No upcoming events”)
-    Resources (links to individual resource pages)
-    People (individual AG member cards are shown)
-
-  Scenario: Administrator user craetes CI Link and adds it to an affinity group
+    Associated Resources accordion shows information about the resource on ACCESS RP AGs
+    Recommended Resources accordion shows recommendations on Community AGs
+    
+  Scenario: Administrator user creates CI Link and adds it to an affinity group
     Given I am logged in as a user with the "administrator" role
     When I go to "/form/ci-link"
     Then I should see "CI Link"
