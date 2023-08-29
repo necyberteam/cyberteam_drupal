@@ -3,6 +3,7 @@
 @javascript
 
 Feature: test removing all projects submissions
+  TODO this is currently disabled,  jira note: https://cyberteamportal.atlassian.net/browse/D8-1628
 
   Scenario: Remove all projects and verify empty messages
     Given I am logged in as a user with the "administrator" role

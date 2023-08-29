@@ -3,19 +3,18 @@
 @javascript
 
 Feature: For an authenticated user, the Headers include:
-
-Top Menu bar
-Search bar
-The "Log In" and "Join" links are not shown.
-The User menu, automatically expanded in laptop/desktop screen sizes, displays two submenus:
-My Profile (links to the user's page)
-Add/Edit Interests (links to the add interests page)
-Add/Edit Skills (links to the add skills page)
-Edit My Account (links to the edit account page)
-Change Password (links to the password reset form)
-Project Submissions (links to the user's project submissions page)
-"Cyberteam Logo link" that redirects to the homepage.
-Each region site has its own logo linked accordingly.
+  Top Menu bar
+  Search bar
+  The "Log In" and "Join" links are not shown.
+  The User menu, automatically expanded in laptop/desktop screen sizes, displays two submenus:
+  My Profile (links to the user's page)
+  Add/Edit Interests (links to the add interests page)
+  Add/Edit Skills (links to the add skills page)
+  Edit My Account (links to the edit account page)
+  Change Password (links to the password reset form)
+  Project Submissions (links to the user's project submissions page)
+  "Cyberteam Logo link" that redirects to the homepage.
+  Each region site has its own logo linked accordingly.
 
   Scenario: Verify the Log Out button links to home page
     Given I am logged in as a user with the "authenticated" role
