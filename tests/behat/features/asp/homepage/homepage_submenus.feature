@@ -13,7 +13,7 @@ Feature: verify content of dropdown submenus on the ACCESS Support Homepage
     And menu "Knowledge Base" (with id="access-secondary-menu-menu-link-content6de53421-5b9d-4f1a-9b04-c5736c20e02c") should have links "Knowledge Base, Documentation, Q&A Forum, CI Links"
     And menu "MATCHPlus" (with id="access-secondary-menu-menu-link-contente65eb494-52ba-4859-af62-ac4c9fb8a37d") should have links "Overview, Engagements"
     And menu "MATCHPremier" (with id="access-secondary-menu-menu-link-content515b4f5d-95b9-4374-8807-23d8597da44d") should have links ""
-    And menu "Community" (with id="access-secondary-menu-menu-link-content9415c0c5-3008-4bac-9605-165fc246e376") should have links "Affinity Groups, CSSN, CCEP Pilot, Community of Communities"
+    And menu "Community" (with id="access-secondary-menu-menu-link-content9415c0c5-3008-4bac-9605-165fc246e376") should have links "Affinity Groups, CSSN, CCEP, Community of Communities"
 
   Scenario: Authenticated user sees expected menus & submenus
     Given I am logged in as a user with the "authenticated" role
