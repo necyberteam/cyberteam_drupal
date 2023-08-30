@@ -71,7 +71,7 @@ Feature: This Behat test checks the OnDemand page
     # test Learn More, including link
     Then I should see "Learn More"
     Then I should see an "a[href='http://openondemand.org/']" element
-    When I go to "/ondemand"
+    When I am on "/ondemand""
     Then I should see "For Resource Providers"
     Then I should see an image with alt text "Team working"
     Then I should see "The ACCESS OnDemand team will be providing OnDemand plugins,"
