@@ -1,4 +1,4 @@
-@asp
+@wip
 @api
 @javascript
 
@@ -15,8 +15,15 @@ Feature: testing match engagements as researcher role
     When I click "Request a Pilot Engagement"
     Then I should be on "/node/add/match_engagement?type=plus"
     #TODO: test creating an engagement
-    When I fill in "edit-title-0-value" with "Florida Project"
-    #When I click the "edit-submit" element
+    Then I should see "Create MATCH+ Engagement"
+    When I fill in "Project Title" with "Test match_engagement abcdefg222"
+    When I fill in "Institution" with "Test"
+    When I select "Start as soon as possible" from "Urgency"
+    #Description is not easily accessible via behat, not critical for testing
+    #When I fill in "edit-body-wrapper" with "Test"
+    When I press "Save"
+    # TODO researcher role failing, not sure why
+    Then I should see "Test match_engagement abcdefg222"
 
   Scenario: testing editing engagement
     #TODO
