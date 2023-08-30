@@ -19,6 +19,7 @@ Feature: MATCH Engagements submissions page
     Given I am logged in as a user with the "match_sc" role
     When I go to "/match-engagements-submissions"
     Then I should see "Any"
+    When I select "Recruiting" from "Status"
     # TODO: if engagements are recruiting currently this causes an error.
     # Don't actually filter.
     # And I press "Apply"
