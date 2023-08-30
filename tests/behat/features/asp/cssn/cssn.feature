@@ -38,8 +38,6 @@ Feature: This behat tests the The Community Page features which offers
     And I wait for the page to be loaded
     Then I should be on "/ccep"
 
-
-
   Scenario: Authenticated user tests the Community Page
     Given I am logged in as a user with the "authenticated" role
     When I go to "/cssn"
