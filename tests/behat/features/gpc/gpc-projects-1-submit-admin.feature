@@ -1,4 +1,4 @@
-@templates
+@gpc
 @api
 @javascript
 
