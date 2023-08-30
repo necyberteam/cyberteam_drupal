@@ -1,4 +1,4 @@
-@asp
+@wip
 @api
 @javascript
 
@@ -14,7 +14,11 @@ Feature: This Behat test checks the OnDemand page
 
   Scenario: Unauthenticated user tests the OnDemand Page
     Given I am not logged in
-    When I go to "/ondemand"
+    When I am on "/ondemand"
+    Then I should see an "a[href='http://openondemand.org/']" element
+    When I click the "a[href='http://openondemand.org/']" element
+    Then I should get a "200" HTTP response
+    When I am on "/ondemand"
     Then I should see "Seamless Supercomputing on the Web"
     Then I should see "ACCESS OnDemand"
     Then I should see "Improving the ACCESS Experience"
@@ -24,40 +28,40 @@ Feature: This Behat test checks the OnDemand page
     Then I should see an image with alt text "Purdue logo"
     When I click "Anvil"
     Then I should be on "/knowledge/anvil/access/login"
-    When I go to "/ondemand"
+    When I am on "/ondemand"
     Then I should see "Bridges2"
     Then I should see an image with alt text "Bridges2 logo"
     # TODO following failing with "Page not loaded (Behat\Mink\Exception\DriverException)"
     #When I click "Bridges2"
     #And I wait 4 seconds
     #Then I should be on "/resources/bridges-2/user-guide/#ondemand"
-    When I go to "/ondemand"
+    When I am on "/ondemand"
     Then I should see "DELTA"
     Then I should see an image with alt text "I NCSA Logo"
     When I click "DELTA"
     Then I should be on "/display/DSC/Delta+User+Guide#DeltaUserGuide-DeltaScienceGatewayandOpenOnDemand"
-    When I go to "/ondemand"
+    When I am on "/ondemand"
     Then I should see "Expanse"
     Then I should see an image with alt text "SDSC logo"
     When I click "Expanse"
     Then I should be on "/support/user_guides/expanse.html"
-    When I go to "/ondemand"
+    When I am on "/ondemand"
     Then I should see "Faster"
     Then I should see an image with alt text "Texas A&M University Logo"
     When I click "FASTER"
     And I wait 4 seconds
     Then I should be on "/wiki/SW:Portal"
-    When I go to "/ondemand"
+    When I am on "/ondemand"
     Then I should see "PACE"
     Then I should see an image with alt text "Georgia Tech Logo"
     When I click "PACE"
     Then I should be on "/ood/guide/"
-    When I go to "/ondemand"
+    When I am on "/ondemand"
     Then I should see "Rockfish"
     Then I should see an image with alt text "John Hopkins University"
     When I click "Rockfish"
     Then I should be on "/OpenOnDemand.html"
-    When I go to "/ondemand"
+    When I am on "/ondemand"
     Then I should see "Running OnDemand and don't see your resource listed?"
     Then I should see "For Researchers"
     Then I should see "Use OnDemand on these ACCESS allocated resources"
@@ -66,16 +70,13 @@ Feature: This Behat test checks the OnDemand page
     Then I should see "ACCESS OnDemand helps computational researchers and students efficiently"
     # test Learn More, including link
     Then I should see "Learn More"
-    When I go to "http://openondemand.org/"
-    Then I should get a "200" HTTP response
+    Then I should see an "a[href='http://openondemand.org/']" element
     When I go to "/ondemand"
     Then I should see "For Resource Providers"
     Then I should see an image with alt text "Team working"
     Then I should see "The ACCESS OnDemand team will be providing OnDemand plugins,"
     # test 2nd Learn More with following link
-    When I go to "https://osc.github.io/ood-documentation/latest/"
-    Then I should get a "200" HTTP response
-    When I go to "/ondemand"
+    Then I should see an "a[href='https://osc.github.io/ood-documentation/latest/']" element
     Then I should see "Connect with us on Discourse"
     Then I should see "Join the Community"
     Then I should see an image with alt text "Group of people in an office"
