@@ -31,13 +31,13 @@ a button "Join the CSSN Network," which links to the login page.
     Then I should see "CCEP Travel Grants and Rewards for your Contributions"
     Then I should see "The CSSN Community Engagement Program (CCEP) is accepting"
     When I click "Join the CSSN"
-    And I wait 4 seconds
+    And I wait 8 seconds
     Then I should be on "/user/login?destination=/form/join-the-cssn-network"
 
     When I go to "/cssn"
     And I click "FIND OUT MORE"
     And I wait for the page to be loaded
-    Then I should be on "/ccep-pilot"
+    Then I should be on "/ccep"
 
 
 
@@ -48,6 +48,6 @@ a button "Join the CSSN Network," which links to the login page.
     Then I should be on "/form/join-the-cssn-network"
     When I go to "/cssn"
     And I click "FIND OUT MORE"
-    Then I should be on "/ccep-pilot"
+    Then I should be on "/ccep"
 
 
