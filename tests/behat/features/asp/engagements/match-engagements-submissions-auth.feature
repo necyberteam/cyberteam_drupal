@@ -24,6 +24,7 @@ Feature: MATCH Engagements submissions page
     # Don't actually filter.
     # And I press "Apply"
     # And I wait 3 seconds
+    Then I should see "Edit"
 
     Then I should see "Status"
     # Then I should see "Recruiting"
