@@ -1,4 +1,4 @@
-@templates
+@nect
 @api
 @javascript
 

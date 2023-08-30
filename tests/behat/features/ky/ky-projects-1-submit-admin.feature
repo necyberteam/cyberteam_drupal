@@ -1,4 +1,4 @@
-@templates
+@ky
 @api
 @javascript
 
