@@ -1,0 +1,25 @@
+uuid: f11f0cb0-ad7e-4429-949e-9420a74ece6e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_domain_access
+    - node.type.infrastructure_news
+id: node.infrastructure_news.field_domain_access
+field_name: field_domain_access
+entity_type: node
+bundle: infrastructure_news
+label: 'Domain Access'
+description: 'Select the affiliate domain(s) for this content'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: 'Drupal\domain_access\DomainAccessManager::getDefaultValue'
+settings:
+  handler: 'default:domain'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: weight
+      direction: ASC
+field_type: entity_reference
