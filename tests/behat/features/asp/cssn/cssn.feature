@@ -30,7 +30,7 @@ Feature: This behat tests the The Community Page features which offers
     Then I should see "CCEP Travel Grants and Rewards for your Contributions"
     Then I should see "The CSSN Community Engagement Program (CCEP) is accepting"
     When I click "Join the CSSN"
-    And I wait 4 seconds
+    And I wait 6 seconds
     Then I should be on "/user/login?destination=/form/join-the-cssn-network"
 
     When I go to "/cssn"
