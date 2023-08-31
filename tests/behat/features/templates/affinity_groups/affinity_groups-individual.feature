@@ -18,7 +18,7 @@ Feature: Feature: test an Affinity Groups page
     Events (if none, filler text “No upcoming events”)
     Associated Resources accordion shows information about the resource on ACCESS RP AGs
     Recommended Resources accordion shows recommendations on Community AGs
-    
+
   Scenario: Administrator user creates CI Link and adds it to an affinity group
     Given I am logged in as a user with the "administrator" role
     When I go to "/form/ci-link"
@@ -51,16 +51,14 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Cloud Computing"
     Then I should see "cloud-commercial"
     Then I should see "People who use or are"
-    When I click the ".btn.affinity-group-flag" element
-    Then I should see "Member"
-    When I click "Leave"
-    Then I should see ".btn.affinity-group-flag"
+    Then I should see the ".affinity-group-buttons .btn.disabled" button is disabled
     Then I should see "Slack"
     Then I should see "Q&A"
     Then I should see "Email"
     Then I should see "Coordinators"
-    When I click "Jacob Fosso Tande"
-    Then I should be on "/community-persona/952"
+    When I go to "/community-persona/952"
+    Then I should see "Affinity Groups"
+    Then I should see "Cloud Computing"
     When I go to "/affinity-groups/access-support"
     Then I should see "Events"
     Then I should see "[4/04/2023 7:00 PM EDT]"
@@ -73,7 +71,8 @@ Feature: Feature: test an Affinity Groups page
     Then I should be on "/node/403"
     When I go to "/affinity-groups/ai-institutes-cyberinfrastructure"
     Then I should see "Recommended Resources"
-    When I click "NCSA Delta GPU (Delta GPU)"
+    When I press "recommended-resource-header-5945"
+    When I press "NCSA Delta GPU (Delta GPU)"
     And I wait 3 seconds
     Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
     When I go to "/affinity-groups/delta"
