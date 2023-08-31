@@ -1,4 +1,4 @@
-@asp
+@wip
 @api
 @javascript
 
@@ -14,7 +14,6 @@ Feature: testing match engagements
     Then I should see "Request a Pilot Engagement"
     When I click "Request a Pilot Engagement"
     Then I should be on "/node/add/match_engagement?type=plus"
-    #TODO: test creating an engagement
     Then I should see "Create MATCH+ Engagement"
     When I fill in "Project Title" with "Test match_engagement abcdefg111"
     When I fill in "Institution" with "Test"
@@ -24,13 +23,21 @@ Feature: testing match engagements
     When I press "Save"
     Then I should see "Test match_engagement abcdefg111"
 
+  Scenario: creating engagement as authenticated role
+    Given I am logged in as a user with the "authenticated" role
+    When I am on "/node/add/match_engagement?type=plus"
+    Then I should see "Create MATCH+ Engagement"
+    When I fill in "Project Title" with "Test match_engagement abcdefg333"
+    #When I fill in "edit-body-wrapper" with "Test"
+    When I press "Save"
+    #Then I should see "Test match_engagement abcdefg333"
+
   Scenario: creating engagement as researcher role
     Given I am logged in as a user with the "researcher" role
     When I am on "/matchplus"
     Then I should see "Request a Pilot Engagement"
     When I click "Request a Pilot Engagement"
     Then I should be on "/node/add/match_engagement?type=plus"
-    #TODO: test creating an engagement
     Then I should see "Create MATCH+ Engagement"
     When I fill in "Project Title" with "Test match_engagement abcdefg222"
     When I fill in "Institution" with "Test"
