@@ -120,7 +120,7 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Q&A"
     Then I should see "Email"
     Then I should see "Coordinators"
-    When I click "Email Affinity Group"
+    When I press "Email Affinity Group"
     Then I should be on "/form/affinity-group-contact?nid=189"
     Then I should see "Affinity Group Contact"
     When I go to "/affinity-groups/cloud-computing"
