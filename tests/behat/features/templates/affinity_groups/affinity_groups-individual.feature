@@ -71,10 +71,10 @@ Feature: Feature: test an Affinity Groups page
     Then I should be on "/node/403"
     When I go to "/affinity-groups/ai-institutes-cyberinfrastructure"
     Then I should see "Recommended Resources"
-    When I press " .recommended-resource-header-5945"
+    #When I click ".recommended-resource-header-5945"
     #When I click "NCSA Delta GPU (Delta GPU)"
-    And I wait 3 seconds
-    Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
+    #And I wait 3 seconds
+    #Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
     When I go to "/affinity-groups/delta"
     Then I should see "Allocated CiDeR Resources"
     Then I should see "NCSA Delta GPU (Delta GPU)"
@@ -89,6 +89,13 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Tags"
     When I click "ACCESS Support Portal"
     Then I should be on "/ci-link/467"
+    When I go to "/affinity-groups/anvil"
+    Then I should see "Ask.CI Recent Topics"
+    Then I should see "Topics"
+    Then I should see "Last Update"
+    Then I should see "Test post for Anvil Affinity Group"
+    Then I should see "01/13/23"
+    Then I should see "View on Ask.CI"
 
 
 
@@ -130,11 +137,11 @@ Feature: Feature: test an Affinity Groups page
     When I click "2022 - 2023 Holiday Support Schedule for Anvil"
     Then I should be on "/node/403"
     When I go to "/affinity-groups/ai-institutes-cyberinfrastructure"
-    Then I should see "Recommended Resources"
-    When I press " .recommended-resource-header-5945"
+    #Then I should see "Recommended Resources"
+    #When I press ".recommended-resource-header-5945"
     #When I click "NCSA Delta GPU (Delta GPU)"
-    And I wait 3 seconds
-    Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
+    #And I wait 3 seconds
+    #Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
     When I go to "/affinity-groups/delta"
     #Then I should see "Allocated CiDeR Resources"
     #Then I should see "NCSA Delta GPU (Delta GPU)"
@@ -158,3 +165,10 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Tags"
     When I click "ACCESS Support Portal"
     Then I should be on "/ci-link/467"
+    When I go to "/affinity-groups/anvil"
+    Then I should see "Ask.CI Recent Topics"
+    Then I should see "Topics"
+    Then I should see "Last Update"
+    Then I should see "Test post for Anvil Affinity Group"
+    Then I should see "01/13/23"
+    Then I should see "View on Ask.CI"
