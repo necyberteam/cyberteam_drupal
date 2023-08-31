@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd2c6d849ce0e852b1f0b3d429b67a20",
+    "content-hash": "c99fe30b8f6020d48217a87a86deac2b",
     "packages": [
         {
             "name": "access/drupal_seamless_cilogon",
@@ -24,6 +24,42 @@
                 "Drupal"
             ],
             "time": "2023-07-06T22:18:27+00:00"
+        },
+        {
+            "name": "access/infrastructure_news",
+            "version": "1.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/access-ci-org/infrastructure_news",
+                "reference": "71210271594bc43e1d87c15458996666a794a9c2"
+            },
+            "require": {
+                "access/operations_cider": "dev-main",
+                "drupal/feeds": "^3.0@beta",
+                "drupal/feeds_ex": "^1.0@beta",
+                "drupal/field_group": "^3.4"
+            },
+            "default-branch": true,
+            "type": "drupal-custom-module",
+            "license": [
+                "Apache License, Version 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Miles France",
+                    "email": "miles.france@protitude.com"
+                },
+                {
+                    "name": "Andrew Pasquale",
+                    "email": "andrew@elytra.net"
+                }
+            ],
+            "description": "Drupal Feed of Infrastructure News",
+            "support": {
+                "issues": "https://github.com/access-ci-org/infrastructure_news/issues",
+                "source": "https://github.com/access-ci-org/infrastructure_news"
+            },
+            "time": "2023-02-21T17:24:00+00:00"
         },
         {
             "name": "access/operations_cider",
