@@ -86,12 +86,11 @@ Feature: test ACCESS Support Community Persona
     When I go to "/community-persona"
     And I wait for the page to be loaded
     Then I should see "Community Persona"
-    #Then I should see "institution-for-walnut-pie"
     Then I should see "Join the CSSN"
     Then I should see "Find out More"
 
     Then I should see "Roles:"
-    Then I should see not "administrator"
+    Then I should not see "administrator"
     Then I should see "Edit Roles"
     Then I should see "Edit Persona"
 
