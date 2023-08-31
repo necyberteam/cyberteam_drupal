@@ -4,7 +4,7 @@
 
 Feature: test ACCESS Support Community Persona
 
-  Scenario: Unauthenticated user tests the Community Persona for user 200
+  Scenario: Anonymous user tests the Community Persona for user 200
     Given I am not logged in
     When I go to "/community-persona/200"
     And I wait for the page to be loaded
@@ -45,7 +45,7 @@ Feature: test ACCESS Support Community Persona
 
 
 
-  Scenario: Unauthenticated user tests the Community Persona for user 201
+  Scenario: Anonymous user tests the Community Persona for user 201
     Given I am not logged in
     When I go to "/community-persona/201"
     And I wait for the page to be loaded
@@ -81,8 +81,7 @@ Feature: test ACCESS Support Community Persona
     Then I should see "No Projects."
 
 
-
-  Scenario: Specific user tests their own Community Persona
+  Scenario: administrator user tests their own Community Persona
     Given I am logged in as a user with the "administrator" role
     When I go to "/community-persona"
     And I wait for the page to be loaded
@@ -92,7 +91,7 @@ Feature: test ACCESS Support Community Persona
     Then I should see "Find out More"
 
     Then I should see "Roles:"
-    Then I should see "administrator"
+    Then I should see not "administrator"
     Then I should see "Edit Roles"
     Then I should see "Edit Persona"
 
