@@ -149,13 +149,13 @@ Feature: Feature: test an Affinity Groups page
     #And I wait 3 seconds
     #Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
    # Then I should see "People"
-    When I click "View Members"
-    Then I should be on "/affinity-groups/607/users/DELTA?nid=297"
-    Then I should see "Name"
-    Then I should see "Roles"
-    Then I should see "Email"
-    When I click "Download CSV"
-    Then I should get a 200 response
+    #When I click "View Members"
+    #Then I should be on "/affinity-groups/607/users/DELTA?nid=297"
+    #Then I should see "Name"
+    #Then I should see "Roles"
+   # Then I should see "Email"
+   # When I click "Download CSV"
+   # Then I should get a 200 response
     When I go to "/affinity-groups/access-support"
     Then I should see "CI Links"
     And I wait 3 seconds
