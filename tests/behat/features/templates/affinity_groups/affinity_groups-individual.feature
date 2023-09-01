@@ -157,6 +157,7 @@ Feature: Feature: test an Affinity Groups page
     When I click "ACCESS Support Portal"
     Then I should be on "/ci-link/467"
     When I go to "/affinity-groups/anvil"
+    And I wait 3 seconds
     Then I should see "Ask.CI Recent Topics"
     Then I should see "Topics"
     Then I should see "Last Update"
