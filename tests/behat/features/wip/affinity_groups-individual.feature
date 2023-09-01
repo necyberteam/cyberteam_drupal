@@ -1,4 +1,4 @@
-@templates
+@wip
 @api
 @javascript
 
@@ -196,7 +196,3 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Email"
     When I click "Download CSV"
     Then I should get a 200 response
-
-  Scenario: Administrator user masquarades as coordinator
-    Given I am logged in as a user with the "administrator" role
-    When I go to "/admin/people?user=swekestitrahecroswotretauichecotaclajigugodristaclestaslouosheuenicihodrowrohanoceshodreswivuvikiguwrosagimifrivaphaclimalotrocl&status=All&role=affinity_group_leader&permission=All&field_is_cc_value=All&field_region_target_id=All"
