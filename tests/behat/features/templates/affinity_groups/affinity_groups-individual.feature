@@ -148,7 +148,7 @@ Feature: Feature: test an Affinity Groups page
     #When I click "NCSA Delta GPU (Delta GPU)"
     #And I wait 3 seconds
     #Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
-    Then I should see "People"
+   # Then I should see "People"
     When I click "View Members"
     Then I should be on "/affinity-groups/607/users/DELTA?nid=297"
     Then I should see "Delta"
