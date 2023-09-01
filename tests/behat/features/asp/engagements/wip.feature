@@ -26,6 +26,7 @@ Feature: test the approval proccess of MATCH Engagements
     When I fill in "Project Title" with "Test1234567"
     When I select "Submitted" from "edit-moderation-state-0-state"
     Then I press "op"
+    And I wait 2 seconds
     Then I should see "Test1234567"
     Then I should see "MATCH+ Engagement Test1234567 has been created."
     Then I should see "A mail has been sent"
