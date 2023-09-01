@@ -1,0 +1,14 @@
+uuid: f2c69947-86f7-4c75-8dc3-d2a91a04b721
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.ci_moderators
+  module:
+    - user
+id: user_add_role_action.ci_moderators
+label: 'Add the CI Moderators role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: ci_moderators

@@ -4,6 +4,9 @@ status: true
 dependencies:
   config:
     - flag.flag.completed
+    - flag.flag.inaccurate
+    - flag.flag.not_useful
+    - flag.flag.outdated
     - flag.flag.upvote
     - webform.webform.resource
   module:
@@ -445,6 +448,268 @@ display:
           format_plural_string: !!binary MQNAY291bnQ=
           prefix: ''
           suffix: ''
+        nothing:
+          id: nothing
+          table: views
+          field: nothing
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: custom
+          label: ''
+          exclude: true
+          alter:
+            alter_text: true
+            text: 'Flag this CI Link'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
+        link_flag_2:
+          id: link_flag_2
+          table: flagging
+          field: link_flag
+          relationship: flag_relationship_3
+          group_type: group
+          admin_label: ''
+          entity_type: flagging
+          plugin_id: flag_link
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+        link_flag_3:
+          id: link_flag_3
+          table: flagging
+          field: link_flag
+          relationship: flag_relationship_4
+          group_type: group
+          admin_label: ''
+          entity_type: flagging
+          plugin_id: flag_link
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+        link_flag_4:
+          id: link_flag_4
+          table: flagging
+          field: link_flag
+          relationship: flag_relationship_5
+          group_type: group
+          admin_label: ''
+          entity_type: flagging
+          plugin_id: flag_link
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+        dropbutton:
+          id: dropbutton
+          table: views
+          field: dropbutton
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: dropbutton
+          label: 'Flag this item:'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          destination: true
+          fields:
+            nothing: nothing
+            link_flag_2: link_flag_2
+            link_flag_3: link_flag_3
+            link_flag_4: link_flag_4
+            link_flag: '0'
+            webform_submission_value_1: '0'
+            webform_submission_value_2: '0'
+            webform_submission_value_5: '0'
+            webform_submission_value_3: '0'
+            link_flag_1: '0'
+            flagged: '0'
+            count: '0'
         webform_submission_value:
           id: webform_submission_value
           table: webform_submission_field_resource_title
@@ -457,7 +722,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"card my-3 mx-auto card-body\">\r\n<div class=\"row pb-2 mb-2\">\r\n<div class=\"col-lg-1 col-sm-2 align-middle mt-2 my-md-auto d-none\">\r\n{{ count }}\r\n</div>\r\n<div class=\"col-lg-11 col-sm-10 order-first order-sm-last\">\r\n<h3>{{ webform_submission_value }}</h3>\r\n{{ webform_submission_value_1 }}<br>\r\n{{ webform_submission_value_2 }}\r\n</div>\r\n</div>\r\n<hr>\r\n{{ webform_submission_value_5 }}<br>\r\n{{ webform_submission_value_3 }}\r\n</div>"
+            text: "<div class=\"card my-3 mx-auto card-body\">\r\n<div class=\"row pb-2 mb-2\">\r\n<div class=\"col-lg-1 col-sm-2 align-middle mt-2 my-md-auto d-none\">\r\n{{ count }}\r\n</div>\r\n<div class=\"col-lg-11 col-sm-10 order-first order-sm-last\">\r\n<h3>{{ webform_submission_value }}</h3>\r\n{{ webform_submission_value_1 }}<br>\r\n{{ webform_submission_value_2 }}\r\n</div>\r\n</div>\r\n<hr>\r\n{{ webform_submission_value_5 }}<br>\r\n{{ webform_submission_value_3 }}\r\n</div>\r\n<h1>add dropdown for flagging</h1>\r\n<div class=\"dropdown\">\r\n  <button class=\"btn btn-secondary dropdown-toggle\" type=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">\r\n    Dropdown button\r\n  </button>\r\n  <ul class=\"dropdown-menu\">\r\n    <li><a class=\"dropdown-item\" href=\"#\">Action</a></li>\r\n    <li><a class=\"dropdown-item\" href=\"#\">Another action</a></li>\r\n    <li><a class=\"dropdown-item\" href=\"#\">Something else here</a></li>\r\n  </ul>\r\n</div>\r\n<hr>\r\n<p>  end of rewrite rules </p>\r\n<hr>"
             make_link: false
             path: ''
             absolute: false
@@ -517,7 +782,7 @@ display:
         type: none
         options: {  }
       cache:
-        type: tag
+        type: none
         options: {  }
       empty: {  }
       sorts: {  }
@@ -629,6 +894,42 @@ display:
           required: false
           flag: upvote
           user_scope: any
+        flag_relationship_3:
+          id: flag_relationship_3
+          table: webform_submission
+          field: flag_relationship
+          relationship: none
+          group_type: group
+          admin_label: 'Flagged as Outdated by Current User'
+          entity_type: webform_submission
+          plugin_id: flag_relationship
+          required: false
+          flag: outdated
+          user_scope: current
+        flag_relationship_4:
+          id: flag_relationship_4
+          table: webform_submission
+          field: flag_relationship
+          relationship: none
+          group_type: group
+          admin_label: 'Flagged as Not Useful by Current User'
+          entity_type: webform_submission
+          plugin_id: flag_relationship
+          required: false
+          flag: not_useful
+          user_scope: current
+        flag_relationship_5:
+          id: flag_relationship_5
+          table: webform_submission
+          field: flag_relationship
+          relationship: none
+          group_type: group
+          admin_label: 'Flagged as Inaccurate by Current User'
+          entity_type: webform_submission
+          plugin_id: flag_relationship
+          required: false
+          flag: inaccurate
+          user_scope: current
       header: {  }
       footer: {  }
       display_extenders: {  }

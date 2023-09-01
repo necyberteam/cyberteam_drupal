@@ -1,0 +1,15 @@
+uuid: 6a3c8325-ee32-4c56-9fce-0ad47a8eb55e
+langcode: en
+status: true
+dependencies:
+  config:
+    - flag.flag.outdated
+  module:
+    - flag
+id: flag_action.outdated_flag
+label: 'Flag this item as outdated'
+type: webform_submission
+plugin: 'flag_action:outdated_flag'
+configuration:
+  flag_id: outdated
+  flag_action: flag

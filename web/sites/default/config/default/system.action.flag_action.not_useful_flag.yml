@@ -1,0 +1,15 @@
+uuid: 36fbb11a-aac8-448e-8284-fb2201b33f0a
+langcode: en
+status: true
+dependencies:
+  config:
+    - flag.flag.not_useful
+  module:
+    - flag
+id: flag_action.not_useful_flag
+label: 'Flag this item as not useful'
+type: webform_submission
+plugin: 'flag_action:not_useful_flag'
+configuration:
+  flag_id: not_useful
+  flag_action: flag

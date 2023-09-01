@@ -1,0 +1,15 @@
+uuid: 831add1f-07d7-4540-91cf-8b8e005b2b40
+langcode: en
+status: true
+dependencies:
+  config:
+    - flag.flag.inaccurate
+  module:
+    - flag
+id: flag_action.inaccurate_flag
+label: 'Flag this item as inaccurate'
+type: webform_submission
+plugin: 'flag_action:inaccurate_flag'
+configuration:
+  flag_id: inaccurate
+  flag_action: flag

@@ -1,0 +1,49 @@
+uuid: 32840845-ab3a-4575-8ed5-ccfbc43eac3c
+langcode: en
+status: true
+dependencies: {  }
+id: flag_a_ci_link
+label: 'Flag a CI Link as Outdated'
+events:
+  -
+    event_name: 'rules_entity_insert:flagging--outdated'
+description: 'After flagging a CI Link submission as Outdated, send an email.'
+tags: {  }
+config_version: '3'
+expression:
+  id: rules_rule
+  uuid: 331eab40-5357-4a01-9692-a110e63f9c31
+  weight: 0
+  conditions:
+    id: rules_and
+    uuid: fa6d746f-a77f-4426-84ab-bd389dee692d
+    weight: 0
+    conditions: {  }
+  actions:
+    id: rules_action_set
+    uuid: ab5baf19-e24c-4dd2-accb-1c483013d7c8
+    weight: 0
+    actions:
+      -
+        id: rules_action
+        uuid: a58bcd6d-38ac-4ea1-8633-0a294302cca1
+        weight: 0
+        action_id: rules_send_email
+        context_values:
+          to:
+            - 'CI Moderators'
+          subject: 'A CI Link has been flagged as Outdated'
+          reply: ''
+          language: ''
+        context_mapping:
+          message: '@webform.webform_submission_route_context:webform_submission.remote_addr.value'
+        context_processors:
+          to:
+            rules_tokens: {  }
+          subject:
+            rules_tokens: {  }
+          reply:
+            rules_tokens: {  }
+          language:
+            rules_tokens: {  }
+        provides_mapping: {  }

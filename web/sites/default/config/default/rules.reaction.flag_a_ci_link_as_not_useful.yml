@@ -1,0 +1,51 @@
+uuid: 901feccb-8686-4159-9cff-e7891f63217c
+langcode: en
+status: true
+dependencies: {  }
+id: flag_a_ci_link_as_not_useful
+label: 'Flag a CI Link as Not Useful'
+events:
+  -
+    event_name: 'rules_entity_insert:flagging--not_useful'
+description: 'After flagging a CI Link submission as Not Useful, send an email.'
+tags: {  }
+config_version: '3'
+expression:
+  id: rules_rule
+  uuid: 183509d8-9576-4585-9b78-2e50121820ab
+  weight: 0
+  conditions:
+    id: rules_and
+    uuid: 8749337e-d4cc-43c3-a824-c434aac6c2f7
+    weight: 0
+    conditions: {  }
+  actions:
+    id: rules_action_set
+    uuid: 06739ce2-7f70-41b2-832a-2d8a503c327d
+    weight: 0
+    actions:
+      -
+        id: rules_action
+        uuid: 6f6f386a-bb94-4da7-a249-9cddf773b7b2
+        weight: 0
+        action_id: rules_send_email
+        context_values:
+          to:
+            - andrew+flag_cilink@elytra.net
+          subject: 'A CI Link has been flagged as Not Useful'
+          message: 'A CI Link has been flagged as Not Useful'
+          reply: ''
+          language: ''
+        context_mapping: {  }
+        context_processors:
+          to:
+            rules_tokens: {  }
+          subject:
+            rules_tokens: {  }
+          message:
+            rules_tokens: {  }
+          reply:
+            rules_tokens: {  }
+          language:
+            rules_tokens: {  }
+        provides_mapping: {  }

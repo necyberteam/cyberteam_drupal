@@ -1,0 +1,101 @@
+uuid: 8bbc6e2e-bd8c-4545-8386-c29a0b07ecdf
+langcode: en
+status: true
+dependencies: {  }
+id: after_saving_a_new_flagging_entity_of_type_inaccurate
+label: 'Flag a CI Link as Inaccurate'
+events:
+  -
+    event_name: 'rules_entity_insert:flagging--inaccurate'
+description: 'After flagging a CI Link submission as inaccurate, send an email.'
+tags: {  }
+config_version: '3'
+expression:
+  id: rules_rule
+  uuid: 05bf816f-bc1c-4a7c-a053-d0dd23ea8bb3
+  weight: 0
+  conditions:
+    id: rules_and
+    uuid: f9c3d548-eedc-4daa-a634-2677961363cb
+    weight: 0
+    conditions: {  }
+  actions:
+    id: rules_action_set
+    uuid: 210a6a5e-201a-48bb-a62c-a243bff82bc5
+    weight: 0
+    actions:
+      -
+        id: rules_action
+        uuid: b2ea7164-fcce-4886-abbe-1e45e31102c1
+        weight: 0
+        action_id: rules_send_email
+        context_values:
+          to:
+            - andrew+flag_cilink@elytra.net
+          subject: 'A CI Link has been flagged as Inaccurate'
+          message: 'flagged: {{ flagged }}, link_flag_1: {{ link_flag_1 }}, node: {{ node.nid }}, user: {{ user.uid.value }}'
+          reply: ''
+          language: ''
+        context_mapping: {  }
+        context_processors:
+          to:
+            rules_tokens: {  }
+          subject:
+            rules_tokens: {  }
+          message:
+            rules_tokens: {  }
+          reply:
+            rules_tokens: {  }
+          language:
+            rules_tokens: {  }
+        provides_mapping: {  }
+      -
+        id: rules_action
+        uuid: a28fc1a2-a957-4172-887f-be5719bf4fe6
+        weight: 0
+        action_id: rules_email_to_users_of_role
+        context_values:
+          roles:
+            - ci_moderators
+          subject: 'A CI Link has been flagged as Inaccurate'
+          message: 'node: {{ node.nid }} -- user: {{ user.uid.value }}'
+          reply: ''
+          language: ''
+        context_mapping: {  }
+        context_processors:
+          roles:
+            rules_tokens: {  }
+          subject:
+            rules_tokens: {  }
+          message:
+            rules_tokens: {  }
+          reply:
+            rules_tokens: {  }
+          language:
+            rules_tokens: {  }
+        provides_mapping: {  }
+      -
+        id: rules_action
+        uuid: 19ad600a-81b0-4a48-9db6-b07383ddce32
+        weight: 0
+        action_id: rules_email_to_users_of_role
+        context_values:
+          roles:
+            - 'CI Moderators'
+          subject: 'A CI Link has been flagged as Inaccurate'
+          message: 'flagged: {{ flagged }}, link_flag_1: {{ link_flag_1 }}, node: {{ node.nid }}, user: {{ user.uid.value }}'
+          reply: ''
+          language: ''
+        context_mapping: {  }
+        context_processors:
+          roles:
+            rules_tokens: {  }
+          subject:
+            rules_tokens: {  }
+          message:
+            rules_tokens: {  }
+          reply:
+            rules_tokens: {  }
+          language:
+            rules_tokens: {  }
+        provides_mapping: {  }

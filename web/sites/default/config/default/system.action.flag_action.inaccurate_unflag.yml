@@ -1,0 +1,15 @@
+uuid: 6cf5221d-1f0d-4dc8-afc9-430595f9c335
+langcode: en
+status: true
+dependencies:
+  config:
+    - flag.flag.inaccurate
+  module:
+    - flag
+id: flag_action.inaccurate_unflag
+label: 'Unflag this item'
+type: webform_submission
+plugin: 'flag_action:inaccurate_unflag'
+configuration:
+  flag_id: inaccurate
+  flag_action: unflag

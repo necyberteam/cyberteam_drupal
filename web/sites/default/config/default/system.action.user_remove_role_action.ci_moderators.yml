@@ -1,0 +1,14 @@
+uuid: ff5611d5-4ce5-46e4-b175-7ae2a05084bd
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.ci_moderators
+  module:
+    - user
+id: user_remove_role_action.ci_moderators
+label: 'Remove the CI Moderators role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: ci_moderators

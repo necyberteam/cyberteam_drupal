@@ -1,0 +1,55 @@
+uuid: 9974b98c-99a3-45f5-b3af-43b60f261585
+langcode: en
+status: true
+dependencies: {  }
+id: update_a_ci_link_flag
+label: 'Update a CI Link Flag'
+events:
+  -
+    event_name: 'rules_entity_update:flagging--outdated'
+  -
+    event_name: 'rules_entity_update:flagging--not_useful'
+  -
+    event_name: 'rules_entity_update:flagging--inaccurate'
+description: 'When updating a CI Link flag, send an email.'
+tags: {  }
+config_version: '3'
+expression:
+  id: rules_rule
+  uuid: 71445b32-83b5-42db-90b0-82e2f4a559c7
+  weight: 0
+  conditions:
+    id: rules_and
+    uuid: 1e510829-cdcf-4072-8172-961ec280dfde
+    weight: 0
+    conditions: {  }
+  actions:
+    id: rules_action_set
+    uuid: dc662c29-6c4d-488a-81ef-f28a6c0aa041
+    weight: 0
+    actions:
+      -
+        id: rules_action
+        uuid: 1671cb10-9494-4fd4-a6ed-93ca77847862
+        weight: 0
+        action_id: rules_send_email
+        context_values:
+          to:
+            - andrew+flag_cilink@elytra.net
+          subject: 'entity.title.value={{ entity.title.value }} -- node.title.value={{ node.title.value }}'
+          message: 'A CI Link flag has been updated'
+          reply: ''
+          language: ''
+        context_mapping: {  }
+        context_processors:
+          to:
+            rules_tokens: {  }
+          subject:
+            rules_tokens: {  }
+          message:
+            rules_tokens: {  }
+          reply:
+            rules_tokens: {  }
+          language:
+            rules_tokens: {  }
+        provides_mapping: {  }
