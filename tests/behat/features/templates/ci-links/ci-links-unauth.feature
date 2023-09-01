@@ -31,7 +31,7 @@ results are shown in a table with columns for "Votes", "CI Links Title", "Catego
     Then I should see "Affinity Group"
 
     # edit-skill-level-306--2 is the Advanced radio button
-    When I check "edit-skill-level-306"
+    When I check "edit-skill-level-306--2"
     And I wait 4 seconds
     Then I should see "There are no CI Links at this time. Please check back often as CI Links are added regularly."
     When I uncheck "edit-skill-level-306--2"
