@@ -1,4 +1,4 @@
-@wip
+@wip--
 @api
 @javascript
 
@@ -12,7 +12,20 @@ Feature: test the approval proccess of MATCH Engagements
   to provide more information about the engagement.
   If the engagement is "Declined", the author is emailed.
 
-  Scenario: Administrator user tests the Approval the approval proccess of MATCH plus Engagements
+
+  Scenario: Administrator user tests the approval proccess of MATCH plus Engagements
+    Given I am logged in as a user with the "administrator" role
+    When I go to "/node/add/match_engagement?type=plus"
+    Then I should see "Create MATCH+ Engagement"
+    When I fill in "Project Title" with "Test1234567"
+    When I select "Submitted" from "edit-moderation-state-0-state"
+    Then I press "op"
+    Then I should see "Test1234567"
+    Then I should see "MATCH+ Engagement t224 has been updated."
+
+    When I am on "/match-engagements-submissions"
+
+  Scenario: Administrator user tests the approval proccess of MATCH plus Engagements
     Given I am logged in as a user with the "administrator" role
     When I go to "/node/add/match_engagement?type=plus"
     Then I should see "Create MATCH+ Engagement"
@@ -30,7 +43,7 @@ Feature: test the approval proccess of MATCH Engagements
     #TODO MAtch engagement after approval section is not available in behat https://cyberteamportal.atlassian.net/browse/D8-1828
     When I select "Received" from "edit-moderation-state-0-state"
 
-  Scenario: Administrator user tests the Approval the approval proccess of MATCH premier Engagements
+  Scenario: Administrator user tests the approval proccess of MATCH premier Engagements
     Given I am logged in as a user with the "administrator" role
     When I go to "/node/add/match_engagement?type=premier"
     Then I should see "Create premier Engagement"

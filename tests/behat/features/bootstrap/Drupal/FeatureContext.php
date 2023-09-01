@@ -34,6 +34,21 @@ class FeatureContext extends RawDrupalContext {
   }
 
   /**
+   * Remove terms that we probably created. Nodes
+   * are handled because when a user is deleted their content
+   * is deleted as well. This not true for terms
+   * that they create though.
+   *
+   * @AfterScenario
+   */
+  public function resetMailSystem() {
+    // Restore the original system.
+    if ($this->originalMailSystem) {
+      \Drupal::state()->set('mail_system', $this->originalMailSystem);
+    }
+  }
+
+  /**
    * Look for submenus under a menu item.
    *
    * @param string $menu_text
@@ -152,6 +167,43 @@ class FeatureContext extends RawDrupalContext {
       throw new \Exception("Element with id '$element_id' does not contain '$contents'");
     }
   }
+
+  /**
+   * @Given /^the test email system is enabled$/
+   */
+  public function theTestEmailSystemIsEnabled() {
+    // Store the original system to restore after the scenario.
+    $this->originalMailSystem = \Drupal::state()->get('mail_system', ['default-system' => 'DefaultMailSystem']);
+    // Set the test system.
+    \Drupal::state()->set('mail_system', ['default-system' => 'TestingMailSystem']);
+    // Flush the email buffer, allowing us to reuse this step definition to clear existing mail.
+    \Drupal::state()->set('drupal_test_email_collector', []);
+    var_dump($this->originalMailSystem);
+    throw new \Exception('stop');
+  }
+
+  /**
+   * @Then /^the email to "([^"]*)" should contain "([^"]*)"$/
+   */
+  public function theEmailToShouldContain($to, $contents) {
+    // We can't use variable_get() because $conf is only fetched once per scenario.
+    $variables = array_map('unserialize', \Drupal::database()->query("SELECT name, value FROM {variable} WHERE name = 'drupal_test_email_collector'")->fetchAllKeyed());
+    $this->activeEmail = FALSE;
+    foreach ($variables['drupal_test_email_collector'] as $message) {
+      if ($message['to'] == $to) {
+        $this->activeEmail = $message;
+        if (
+          strpos($message['body'], $contents) !== FALSE ||
+          strpos($message['subject'], $contents) !== FALSE
+        ) {
+          return TRUE;
+        }
+        throw new \Exception('Did not find expected content in message body or subject.');
+      }
+    }
+    throw new \Exception(sprintf('Did not find expected message to %s', $to));
+  }
+
   /**
    * Verify the value of an element identified by an ID contains a string.
    *

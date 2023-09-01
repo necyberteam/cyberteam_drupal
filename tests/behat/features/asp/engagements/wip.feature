@@ -1,4 +1,4 @@
-@wip
+@wip--
 @api
 @javascript
 
@@ -16,6 +16,20 @@ Feature: test the approval proccess of MATCH Engagements
   then updates it to "received", fills in additional fields, saves it again,
   then the test verifies those fields have expected values.
 
+
+  Background:
+    Given users:
+      | name   | mail         |
+      | _bob   | _bob@foo.com |
+      | _boss  | _bos@foo.com |
+    #And user "_boss" has the "manage point levels" role
+    And I am logged in as "_bob"
+    #And I edit my profile
+    #And I fill in the following:
+    #  | First name         | Bob   |
+    #  | Last name          | Smith |
+    #And I press "Save"
+    And the test email system is enabled
 
   Scenario: match_sc user tests the approval proccess of MATCH plus Engagements
     Given I am logged in as a user with the "match_sc" role
