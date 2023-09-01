@@ -186,7 +186,7 @@ Feature: Feature: test an Affinity Groups page
     When I go to "/affinity-groups/delta"
     Then I should see "Allocated CiDeR Resources"
     Then I should see "NCSA Delta GPU (Delta GPU)"
-    When I click on the accordion header "associated-resource-header-388"
+    When I click the "associated-resource-header-388" element
     #When I click "associated-resource-header-388"
     And I wait 3 seconds
     Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
