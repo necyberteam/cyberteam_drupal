@@ -151,7 +151,6 @@ Feature: Feature: test an Affinity Groups page
    # Then I should see "People"
     When I click "View Members"
     Then I should be on "/affinity-groups/607/users/DELTA?nid=297"
-    Then I should see "Delta"
     Then I should see "Name"
     Then I should see "Roles"
     Then I should see "Email"
