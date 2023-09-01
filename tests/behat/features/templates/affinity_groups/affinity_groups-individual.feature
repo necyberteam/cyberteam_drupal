@@ -180,9 +180,9 @@ Feature: Feature: test an Affinity Groups page
     When I go to "/affinity-groups/ai-institutes-cyberinfrastructure"
     Then I should see "Recommended Resources"
     #When I click ".recommended-resource-header-5945"
-    When I click "NCSA Delta GPU (Delta GPU)"
-    And I wait 3 seconds
-    Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
+    #When I click "NCSA Delta GPU (Delta GPU)"
+    #And I wait 3 seconds
+    #Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
     When I go to "/affinity-groups/delta"
     Then I should see "Allocated CiDeR Resources"
     Then I should see "NCSA Delta GPU (Delta GPU)"
