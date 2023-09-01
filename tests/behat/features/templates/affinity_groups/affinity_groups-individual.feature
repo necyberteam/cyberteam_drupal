@@ -168,7 +168,7 @@ Feature: Feature: test an Affinity Groups page
   Scenario: Administrator user Test the individual Affinity Group page
     Given I am logged in as a user with the "administrator" role
     When I go to "/affinity-groups/cloud-computing"
-    When I press "Email Affinity Group"
+    When I click "Email Affinity Group"
     Then I should be on "/form/affinity-group-contact?nid=189"
     Then I should see "Affinity Group Contact"
     When I go to "/affinity-groups/anvil"
