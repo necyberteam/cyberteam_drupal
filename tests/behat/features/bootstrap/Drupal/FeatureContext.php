@@ -101,6 +101,127 @@ class FeatureContext extends RawDrupalContext {
   }
 
   /**
+   * Display an element identified by an ID.
+   *
+   * @param string $element_id
+   *   The text of the menue to verify.
+   *
+   * @Then I print element with id :element_id
+   */
+  public function iDisplayEnElement($element_id) {
+    $session = $this->getSession();
+    $menu_element = $session->getPage()->findById($element_id);
+
+    print("element '$element_id': '" . ($menu_element ? $menu_element->getHtml() : "null") . "'\n");
+  }
+
+  /**
+   * Display an element's value identified by an ID.
+   *
+   * @param string $element_id
+   *   The text of the menue to verify.
+   *
+   * @Then I print value of element with id :element_id
+   */
+  public function iDisplayEnElementValue($element_id) {
+    $session = $this->getSession();
+    $menu_element = $session->getPage()->findById($element_id);
+
+    print("element '$element_id' value: '" . ($menu_element ? $menu_element->getValue() : "null") . "'\n");
+  }
+
+  /**
+   * Display info about all links with an id.
+   *
+   * @param string $link
+   *   The link to display.
+   *
+   * @Then I print link :element_id
+   */
+  public function iDisplayLink($link) {
+    $session = $this->getSession();
+    $menu_elements = $session->getPage()->findAll('named', ['link', $link]);
+
+    foreach ($menu_elements as $menu_element) {
+      print("link '$link': '");
+      var_dump($menu_element->getOuterHtml());
+      var_dump($menu_element->getHtml());
+      var_dump($menu_element->getText());
+    }
+    // print("link '$link': '");
+    // var_dump($menu_element);
+  }
+
+  /**
+   * Verify the an element identified by an ID contains a string.
+   *
+   * @param string $element_id
+   *   The text of the menue to verify.
+   * @param string $contents
+   *   Text that should appear in the field.
+   *
+   * @Then element :element_id should contain :contents
+   */
+  public function elementShouldContain($element_id, $contents) {
+    $session = $this->getSession();
+    $menu_element = $session->getPage()->findById($element_id);
+
+    if (!$menu_element) {
+      throw new \Exception("Could not find element with id '$element_id'");
+    }
+
+    if (!str_contains($menu_element->getHtml(), $contents)) {
+      throw new \Exception("Element with id '$element_id' does not contain '$contents'");
+    }
+  }
+
+  /**
+   * Verify the an element identified by an ID does not contains a string.
+   *
+   * @param string $element_id
+   *   The text of the menue to verify.
+   * @param string $contents
+   *   Text that not should appear in the field.
+   *
+   * @Then element :element_id should not contain :contents
+   */
+  public function elementShouldNotContain($element_id, $contents) {
+    $session = $this->getSession();
+    $menu_element = $session->getPage()->findById($element_id);
+
+    if (!$menu_element) {
+      throw new \Exception("Could not find element with id '$element_id'");
+    }
+
+    if (str_contains($menu_element->getHtml(), $contents)) {
+      throw new \Exception("Element with id '$element_id' errantly contain '$contents'");
+    }
+  }
+
+  /**
+   * Verify the value of an element identified by an ID contains a string.
+   *
+   * @param string $element_id
+   *   The text of the menue to verify.
+   * @param string $contents
+   *   Text that should appear in the value of the element.
+   *
+   * @Then value of element :element_id should contain :contents
+   */
+  public function elementHasValue($element_id, $contents) {
+    $session = $this->getSession();
+    $menu_element = $session->getPage()->findById($element_id);
+
+    if (!$menu_element) {
+      throw new \Exception("Could not find element with id '$element_id'");
+    }
+
+    if (!str_contains($menu_element->getValue(), $contents)) {
+      throw new \Exception("Element with id '$element_id' does not contain '$contents'");
+    }
+  }
+
+  /**
    * Verify the existence of submenus.
    *
    * @param unknown $menu_element
