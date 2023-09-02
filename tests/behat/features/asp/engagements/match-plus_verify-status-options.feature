@@ -19,6 +19,7 @@ Feature: Verify options for the status of an engagement for authenticated and ma
     Then I should see "Create MATCH+ Engagement"
     When I fill in "Project Title" with "Test match_engagement abcdefg222"
     When I select "Submitted" from "edit-moderation-state-0-state"
+    And I wait 1 seconds
     When I press "Save"
     And I wait 2 seconds
     Then I should see "Test match_engagement abcdefg222"
@@ -45,6 +46,7 @@ Feature: Verify options for the status of an engagement for authenticated and ma
     Then I should be on "/node/add/match_engagement?type=plus"
     Then I should see "Create MATCH+ Engagement"
     When I fill in "Project Title" with "Test match_engagement abcdefg111"
+    And I wait 1 seconds
     When I press "Save"
     And I wait 2 seconds
     Then I should see "Test match_engagement abcdefg111"
