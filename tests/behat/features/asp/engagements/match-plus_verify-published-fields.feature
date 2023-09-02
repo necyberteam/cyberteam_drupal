@@ -13,6 +13,7 @@ Feature: test the approval process of MATCH Engagements
     Then I should see "Create MATCH+ Engagement"
     When I fill in "Project Title" with "Test1234567"
     When I select "Submitted" from "edit-moderation-state-0-state"
+    And I wait 1 seconds
     When I press "Save"
     Then I should see "Test1234567"
     Then I should see "MATCH+ Engagement Test1234567 has been created."
@@ -25,6 +26,7 @@ Feature: test the approval process of MATCH Engagements
     Then I should see "Change to"
     # Change status to "Received
     When I select "Received" from "edit-moderation-state-0-state"
+    And I wait 1 seconds
     When I press "Save"
     Then I should see "MATCH+ Engagement Test1234567 has been updated."
     When I follow "Test1234567"
@@ -49,6 +51,7 @@ Feature: test the approval process of MATCH Engagements
     When I fill in "edit-field-match-interested-users-0-target-id" with "Walnut Pie (200)"
     Then I should see "Notes to Author"
     When I fill in "edit-field-notes-to-author-0-value" with "notes123"
+    And I wait 1 seconds
     When I press "Save"
     Then I should see "MATCH+ Engagement Test1234567 has been updated."
     When I follow "Edit"
