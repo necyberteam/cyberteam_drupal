@@ -12,6 +12,7 @@ Feature: test the creation of MATCH Engagements
     Then I should see "Create MATCH+ Engagement"
     When I fill in "Project Title" with "t224"
     When I select "Submitted" from "edit-moderation-state-0-state"
+    And I wait 1 seconds
     When I press "Save"
     And I wait 2 seconds
     Then I should see "MATCH+ Engagement t224 has been created."
@@ -25,6 +26,7 @@ Feature: test the creation of MATCH Engagements
     When I select "Start within 3 months" from "edit-field-urgency"
     Then I should see "Description"
     When I select "Submitted" from "edit-moderation-state-0-state"
+    And I wait 1 seconds
     When I press "Save"
     And I wait 2 seconds
     Then I should see "MATCH+ Engagement Test456 has been created."

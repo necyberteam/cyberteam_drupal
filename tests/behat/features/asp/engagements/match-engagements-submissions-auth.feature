@@ -20,6 +20,7 @@ Feature: MATCH Engagements submissions page
     When I go to "/match-engagements-submissions"
     Then I should see "Any"
     When I select "Any" from "Status"
+    And I wait 1 seconds
     And I press "Apply"
     And I wait 3 seconds
     Then I should see "Edit"
@@ -40,6 +41,7 @@ Feature: MATCH Engagements submissions page
 
     When I click "Edit"
     Then I should be on "/node/445/edit"
+    And I wait 1 seconds
     When I press "Save"
     Then I should be on "/node/445"
 
@@ -51,6 +53,7 @@ Feature: MATCH Engagements submissions page
     When I go to "/match-engagements-submissions"
     Then I should see "Any"
     When I select "Any" from "Status"
+    And I wait 1 seconds
     And I press "Apply"
     And I wait 3 seconds
     Then I should see "Edit"
@@ -70,5 +73,6 @@ Feature: MATCH Engagements submissions page
     When I click "Edit"
     Then I should be on "/node/445/edit"
     Then I should see "MATCH Steering Committee member"
+    And I wait 1 seconds
     When I press "Save"
     Then I should be on "/node/445"
