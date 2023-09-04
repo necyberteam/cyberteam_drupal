@@ -1,0 +1,30 @@
+uuid: 9fa0dce3-0302-4966-89d8-933d28b2aa73
+langcode: en
+status: true
+dependencies:
+  module:
+    - webform
+id: outdated
+label: Outdated
+bundles:
+  - resource
+entity_type: webform_submission
+global: false
+flag_short: 'Flag this item as outdated'
+flag_long: ''
+flag_message: 'This CI Link has been flagged as outdated'
+unflag_short: 'Unflag this item as outdated'
+unflag_long: ''
+unflag_message: 'This CI Link has been unflagged as outdated'
+unflag_denied_text: ''
+weight: 0
+flag_type: 'entity:webform_submission'
+link_type: ajax_link
+flagTypeConfig:
+  show_in_links: {  }
+  show_as_field: true
+  show_on_form: false
+  show_contextual_link: false
+  extra_permissions:
+    owner: '0'
+linkTypeConfig: {  }
