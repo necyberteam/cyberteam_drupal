@@ -76,6 +76,7 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Allocated CiDeR Resources"
     Then I should see "NCSA Delta GPU (Delta GPU)"
     When I click the "#associated-resource-388" element
+    #Adding in comment to get commit in githb
     #When I click "NCSA Delta GPU (Delta GPU)"
     #And I wait 3 seconds
     #Then I should see "The Delta GPU resource comprises 4 different node configurations intended to support"
