@@ -126,7 +126,7 @@ jobs:
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   wip:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v1
-    if: contains(github.event.inputs.sites, 'wip') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'wip')
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "wip"
