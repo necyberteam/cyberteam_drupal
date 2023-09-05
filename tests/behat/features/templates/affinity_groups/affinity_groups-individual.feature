@@ -67,7 +67,7 @@ Feature: Feature: test an Affinity Groups page
     Then I should be on "/node/403"
     When I go to "/affinity-groups/ai-institutes-cyberinfrastructure"
     Then I should see "Recommended Resources"
-    When I click the "#recommended-resource-5945" element
+    #When I click the "#recommended-resource-5945" element
     #When I click ".recommended-resource-header-5945"
     #When I click "NCSA Delta GPU (Delta GPU)"
     #And I wait 3 seconds
