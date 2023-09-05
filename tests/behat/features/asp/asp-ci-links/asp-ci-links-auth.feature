@@ -22,12 +22,7 @@ Feature: test resources page as a authenticated user
     And I wait 4 seconds
     When I fill in "edit-search--2" with "NotAResource"
     And I wait 4 seconds
-    Then I should see "Title"
-    Then I should see "Description"
-    Then I should see "Category"
-    Then I should see "Tags"
-    Then I should see "Skill Level"
-    Then I should see "Affinity Group"
+    Then I should see "There are no CI Links at this time. Please check back often as CI Links are added regularly"
     When I fill in "edit-search--2" with "test"
     And I wait 4 seconds
     Then I should see "test"
