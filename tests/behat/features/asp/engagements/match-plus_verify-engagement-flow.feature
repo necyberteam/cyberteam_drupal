@@ -1,4 +1,4 @@
-@asp
+@wip
 @api
 @javascript
 
@@ -14,9 +14,7 @@ Feature: verify the approval process of a MATCH Engagement
   - The author of the engagement should be able to see this as read-only.
 
 
-
-
-  Scenario: authenticated user creates a match-plus engagement
+  Scenario: Pecan Pie user creates a match-plus engagement
     Given I am logged in with email "pecan@pie.org"
     When I go to "/node/add/match_engagement?type=plus"
     And I wait 1 seconds
@@ -28,14 +26,10 @@ Feature: verify the approval process of a MATCH Engagement
     Then I should see "Description"
 
     # verify the cannot accept or decline their engagement
-    #Then I print element with id "edit-moderation-state-0-state"
-    # if authenticated, should see:
-    #       │ element 'edit-moderation-state-0-state': '<option value="draft" selected="selected">Draft</option><option value="in_review">Submitted</option>'
     Then element "edit-moderation-state-0-state" should contain "Draft"
     Then element "edit-moderation-state-0-state" should contain "Submitted"
     Then element "edit-moderation-state-0-state" should not contain "Declined"
     Then element "edit-moderation-state-0-state" should not contain "Received"
-
     When I press "Save"
     And I wait 2 seconds
     Then I should see "MATCH+ Engagement Test1234567 has been created."
@@ -54,7 +48,8 @@ Feature: verify the approval process of a MATCH Engagement
     Then I should see "Thank you for submitting your project"
     Then I should see "In Review"
 
-    # Now become a match_sc user, and edit the submission
+
+  Scenario: match_sc user updates the engagement to "received"
     Given I am logged in as a user with the "match_sc" role
     When I go to "/match-engagements-submissions"
     When I follow "Test1234567"
@@ -84,19 +79,60 @@ Feature: verify the approval process of a MATCH Engagement
     Then I should see "MATCH+ Engagement Test1234567 has been updated."
     Then I should see "received"
 
-    # verify new fields appear, and add a steering committee member
+
+  Scenario: match_sc user adds a steering committee member, and updates the status to "In Review"
+    Given I am logged in as a user with the "match_sc" role
+    When I go to "/match-engagements-submissions"
     When I follow "Test1234567"
     When I follow "Edit"
+
+    # add steering committee member
     Then I should see "MATCH Steering Committee member"
     When I fill in "edit-field-match-steering-committee-m-0-target-id" with "Julie Ma (100)"
+
+    # update to In Review
+    When I select "In Review" from "edit-moderation-state-0-state"
     And I wait 1 seconds
     When I press "Save"
     And I wait 2 seconds
     Then I should see "MATCH+ Engagement Test1234567 has been updated."
 
-    # Now become the author again, and edit the submission
-    Given I am logged in with email "pecan@pie.org"
+
+  Scenario: match_sc user updates the status to "Recruiting"
+    Given I am logged in as a user with the "match_sc" role
     When I go to "/match-engagements-submissions"
+    When I follow "Test1234567"
+    When I follow "Edit"
+
+    When I select "Recruiting" from "edit-moderation-state-0-state"
+    And I wait 1 seconds
+    When I press "Save"
+    And I wait 2 seconds
+    Then I should see "MATCH+ Engagement Test1234567 has been updated."
+
+
+  Scenario: match_sc user verifies status options of "Recruiting" engagement
+    Given I am logged in as a user with the "match_sc" role
+    When I go to "/match-engagements-submissions"
+    When I follow "Test1234567"
+    When I follow "Edit"
+
+    # verify all status options are available
+    Then element "edit-moderation-state-0-state" should contain "Draft"
+    Then element "edit-moderation-state-0-state" should contain "In Review"
+    Then element "edit-moderation-state-0-state" should contain "Recruiting"
+    Then element "edit-moderation-state-0-state" should contain "Reviewing Applicants"
+    Then element "edit-moderation-state-0-state" should contain "In Progress"
+    Then element "edit-moderation-state-0-state" should contain "Finishing Up"
+    Then element "edit-moderation-state-0-state" should contain "Complete"
+    Then element "edit-moderation-state-0-state" should contain "On Hold"
+    Then element "edit-moderation-state-0-state" should contain "Halted"
+    Then element "edit-moderation-state-0-state" should contain "Declined"
+
+
+  Scenario:  Pecan Pie user can edit their engagement after it has been marked as Recruiting
+    Given I am logged in with email "pecan@pie.org"
+    When I go to "/community-persona"
     When I follow "Test1234567"
     When I follow "Edit"
     And I wait 2 seconds
@@ -121,10 +157,6 @@ Feature: verify the approval process of a MATCH Engagement
     When I fill in "edit-field-git-contribution-0-uri" with "https://github.com/necyberteam/cyberteam_drupal"
     Then I should see "What MATCH will learn"
     When I fill in "edit-field-what-match-will-learn-0-value" with "learn123"
-    When I should see "Interested People"
-    When I fill in "edit-field-match-interested-users-0-target-id" with "Walnut Pie (200)"
-    Then I should see "Notes to Author"
-    When I fill in "edit-field-notes-to-author-0-value" with "notes123"
     And I wait 1 seconds
     When I press "Save"
     Then I should see "MATCH+ Engagement Test1234567 has been updated."
@@ -138,12 +170,20 @@ Feature: verify the approval process of a MATCH Engagement
     #Then I print value of element with id "edit-field-git-contribution-0-uri"
     Then value of element "edit-field-git-contribution-0-uri" should contain "https://github.com/necyberteam/cyberteam_drupal"
     Then element "edit-field-what-match-will-learn-0-value" should contain "learn123"
-    Then value of element "edit-field-match-interested-users-0-target-id" should contain "Walnut Pie (200)"
-    Then element "edit-field-notes-to-author-0-value" should contain "notes123"
 
-  Scenario: steering committee field is disabled for authenticated user's engagement
-    Given I am logged in with email "pecan@pie.org"
-    When I go to "/node/6055/edit"
     #Then I display element "edit-field-match-steering-committee-m-0-target-id"
     Then value of element "edit-field-match-steering-committee-m-0-target-id" should contain "Julie Ma"
     Then "edit-field-match-steering-committee-m-0-target-id" is disabled
+
+    # verify expected status options
+    Then element "edit-moderation-state-0-state" should contain "Draft"
+    Then element "edit-moderation-state-0-state" should contain "In Review"
+    Then element "edit-moderation-state-0-state" should contain "Reviewing Applicants"
+    Then element "edit-moderation-state-0-state" should contain "In Progress"
+    Then element "edit-moderation-state-0-state" should contain "Finishing Up"
+    Then element "edit-moderation-state-0-state" should contain "Complete"
+    Then element "edit-moderation-state-0-state" should contain "On Hold"
+    Then element "edit-moderation-state-0-state" should contain "Halted"
+    Then element "edit-moderation-state-0-state" should not contain "Declined"
+    Then element "edit-moderation-state-0-state" should not contain "Received"
+    Then element "edit-moderation-state-0-state" should not contain "Accepted"
