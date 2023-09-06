@@ -61,7 +61,7 @@ Feature: The Announcements Page displays a title "Announcements" and lists
     Then I should see "Announcements"
     Then I should see "PEARC Steering Committee Accepting Nominations"
     Then I should see "6/08/2023"
-  #TODO: Status
+
 
  Scenario: Authenticated user tests a individual Announcement Page
     Given I am logged in as a user with the "authenticated" role
