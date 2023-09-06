@@ -1,4 +1,4 @@
-@wip
+@asp
 @api
 @javascript
 
@@ -101,7 +101,7 @@ Feature: verify the approval process of a MATCH Engagement
     When I follow "Edit"
     And I wait 2 seconds
     # following should be something like http://cyberteam.lndo.site/node/5997/edit
-    #Then print current Url
+    #Then print current URL
 
     # fill new new fields as original author and save
     Then I should see "Researcher(s)"
@@ -144,6 +144,6 @@ Feature: verify the approval process of a MATCH Engagement
   Scenario: steering committee field is disabled for authenticated user's engagement
     Given I am logged in with email "pecan@pie.org"
     When I go to "/node/6055/edit"
-    Then I display element "edit-field-match-steering-committee-m-0-target-id"
+    #Then I display element "edit-field-match-steering-committee-m-0-target-id"
     Then value of element "edit-field-match-steering-committee-m-0-target-id" should contain "Julie Ma"
     Then "edit-field-match-steering-committee-m-0-target-id" is disabled
