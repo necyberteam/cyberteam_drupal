@@ -23,7 +23,7 @@ Feature: test ACCESS Support Community Persona
     Then I should see "Northeast"
 
     Then I should see "Interests"
-    Then I should see "No Interest added"
+    Then I should see "No Interests added"
 
     Then I should see "Expertise"
     Then I should see "bioinformatics"
