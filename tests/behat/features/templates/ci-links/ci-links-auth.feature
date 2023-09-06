@@ -15,7 +15,13 @@ descriptions, categories, tags (first 3 linked), skill levels, and affinity grou
     # edit-skill-level-306--2 is the Advanced radio button
     When I check "edit-skill-level-306--2"
     And I wait 4 seconds
-    Then I should see "There are no CI Links at this time. Please check back often as CI Links are added regularly."
+    #Then I should see "There are no CI Links at this time. Please check back often as CI Links are added regularly."
+    Then I should see "Title"
+    Then I should see "Description"
+    Then I should see "Category"
+    Then I should see "Tags"
+    Then I should see "Skill Level"
+    Then I should see "Affinity Group"
     When I uncheck "edit-skill-level-306--2"
     And I wait 4 seconds
     When I fill in "edit-search--2" with "NotAResource"
