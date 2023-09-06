@@ -125,7 +125,7 @@ class FeatureContext extends RawDrupalContext {
    * Look for links under an element identified by an ID.
    *
    * @param string $menu_text
-   *   The text of the menue to verify.
+   *   The text of the menu to verify.
    * @param string $link_id
    *   The ID of a DOM element.
    * @param string $links
@@ -135,24 +135,24 @@ class FeatureContext extends RawDrupalContext {
    */
   public function iHoverOverTheElement($menu_text, $link_id, $links) {
     $session = $this->getSession();
-    $menu_element = $session->getPage()->findById($link_id);
+    $elem = $session->getPage()->findById($link_id);
 
-    if (!str_starts_with($menu_element->getText(), $menu_text)) {
+    if (!str_starts_with($elem->getText(), $menu_text)) {
       throw new \Exception(sprintf(
         'Link with specified id does not start with "%s", its text is "%s"',
         $menu_text,
-        $menu_element->getText()
+        $elem->getText()
       ));
     }
 
-    if (NULL === $menu_element) {
+    if (NULL === $elem) {
       throw new \Exception(sprintf('Could not find link for menu "%s" with id "%s"', $menu_text, $link_id));
     }
 
     // Ok, let's hover it.  (Turns out to be unnecessary.)
     // $element->mouseOver();
 
-    $this->verifySubmenus($menu_element, $menu_text, $links);
+    $this->verifySubmenus($elem, $menu_text, $links);
   }
 
   /**
@@ -165,9 +165,9 @@ class FeatureContext extends RawDrupalContext {
    */
   public function iDisplayEnElement($element_id) {
     $session = $this->getSession();
-    $menu_element = $session->getPage()->findById($element_id);
+    $elem = $session->getPage()->findById($element_id);
 
-    print("element '$element_id': '" . ($menu_element ? $menu_element->getHtml() : "null") . "'\n");
+    print("element '$element_id': '" . ($elem ? $elem->getHtml() : "null") . "'\n");
   }
 
   /**
@@ -180,9 +180,9 @@ class FeatureContext extends RawDrupalContext {
    */
   public function iDisplayEnElementValue($element_id) {
     $session = $this->getSession();
-    $menu_element = $session->getPage()->findById($element_id);
+    $elem = $session->getPage()->findById($element_id);
 
-    print("element '$element_id' value: '" . ($menu_element ? $menu_element->getValue() : "null") . "'\n");
+    print("element '$element_id' value: '" . ($elem ? $elem->getValue() : "null") . "'\n");
   }
 
   /**
@@ -195,14 +195,14 @@ class FeatureContext extends RawDrupalContext {
    */
   public function iDisplayLink($link) {
     $session = $this->getSession();
-    $menu_elements = $session->getPage()->findAll('named', ['id', $link]);
+    $elems = $session->getPage()->findAll('named', ['id', $link]);
 
-    foreach ($menu_elements as $menu_element) {
+    foreach ($elems as $elem) {
       print("link '$link':'\n");
-      print("  outHtml = '" . $menu_element->getOuterHtml() . "'\n");
-      print("  html    = '" . $menu_element->getHtml() . "'\n");
-      print("  text    = '" . $menu_element->getText() . "'\n");
-      print("  value   = '" . $menu_element->getValue() . "'\n");
+      print("  outHtml = '" . $elem->getOuterHtml() . "'\n");
+      print("  html    = '" . $elem->getHtml() . "'\n");
+      print("  text    = '" . $elem->getText() . "'\n");
+      print("  value   = '" . $elem->getValue() . "'\n");
     }
   }
 
@@ -218,13 +218,13 @@ class FeatureContext extends RawDrupalContext {
    */
   public function elementShouldContain($element_id, $contents) {
     $session = $this->getSession();
-    $menu_element = $session->getPage()->findById($element_id);
+    $elem = $session->getPage()->findById($element_id);
 
-    if (!$menu_element) {
+    if (!$elem) {
       throw new \Exception("Could not find element with id '$element_id'");
     }
 
-    if (!str_contains($menu_element->getHtml(), $contents)) {
+    if (!str_contains($elem->getHtml(), $contents)) {
       throw new \Exception("Element with id '$element_id' does not contain '$contents'");
     }
   }
@@ -241,13 +241,13 @@ class FeatureContext extends RawDrupalContext {
    */
   public function elementShouldNotContain($element_id, $contents) {
     $session = $this->getSession();
-    $menu_element = $session->getPage()->findById($element_id);
+    $elem = $session->getPage()->findById($element_id);
 
-    if (!$menu_element) {
+    if (!$elem) {
       throw new \Exception("Could not find element with id '$element_id'");
     }
 
-    if (str_contains($menu_element->getHtml(), $contents)) {
+    if (str_contains($elem->getHtml(), $contents)) {
       throw new \Exception("Element with id '$element_id' errantly contain '$contents'");
     }
   }
@@ -264,13 +264,13 @@ class FeatureContext extends RawDrupalContext {
    */
   public function elementHasValue($element_id, $contents) {
     $session = $this->getSession();
-    $menu_element = $session->getPage()->findById($element_id);
+    $elem = $session->getPage()->findById($element_id);
 
-    if (!$menu_element) {
+    if (!$elem) {
       throw new \Exception("Could not find element with id '$element_id'");
     }
 
-    if (!str_contains($menu_element->getValue(), $contents)) {
+    if (!str_contains($elem->getValue(), $contents)) {
       throw new \Exception("Element with id '$element_id' does not contain '$contents'");
     }
   }
@@ -285,15 +285,15 @@ class FeatureContext extends RawDrupalContext {
    */
   public function elementIsDisabled($element_id) {
     $session = $this->getSession();
-    $menu_element = $session->getPage()->findById($element_id);
+    $elem = $session->getPage()->findById($element_id);
 
-    if (!$menu_element) {
+    if (!$elem) {
       throw new \Exception("Could not find element with id '$element_id'");
     }
 
     $contents = 'disabled="disabled"';
 
-    if (!str_contains($menu_element->getOuterHtml(), $contents)) {
+    if (!str_contains($elem->getOuterHtml(), $contents)) {
       throw new \Exception("Element with id '$element_id' does not contain '$contents'");
     }
   }
