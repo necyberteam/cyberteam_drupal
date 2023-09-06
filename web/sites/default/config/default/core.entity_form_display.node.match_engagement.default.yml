@@ -45,6 +45,7 @@ dependencies:
     - field.field.node.match_engagement.field_overall_results
     - field.field.node.match_engagement.field_planned_portal_contributio
     - field.field.node.match_engagement.field_planned_publications
+    - field.field.node.match_engagement.field_preferred_semester
     - field.field.node.match_engagement.field_programming_skill_level
     - field.field.node.match_engagement.field_project_deliverables
     - field.field.node.match_engagement.field_project_image
@@ -70,7 +71,6 @@ dependencies:
     - field_group
     - file
     - image
-    - link
     - path
     - text
 third_party_settings:
@@ -100,7 +100,7 @@ third_party_settings:
       label: Milestone
       region: content
       parent_name: group_milestones_group
-      weight: 29
+      weight: 28
       format_type: details
       format_settings:
         classes: ''
@@ -174,7 +174,7 @@ third_party_settings:
       label: 'Final Report'
       region: content
       parent_name: ''
-      weight: 27
+      weight: 22
       format_type: details
       format_settings:
         classes: ''
@@ -193,7 +193,7 @@ third_party_settings:
       label: Milestones
       region: content
       parent_name: ''
-      weight: 25
+      weight: 20
       format_type: details
       format_settings:
         classes: ''
@@ -211,7 +211,7 @@ third_party_settings:
       label: 'Launch and Wrap Presentations'
       region: content
       parent_name: ''
-      weight: 26
+      weight: 21
       format_type: details
       format_settings:
         classes: ''
@@ -225,17 +225,34 @@ third_party_settings:
         - field_consultant
         - field_mentor
         - field_students
-        - field_qualifications
-        - field_programming_skill_level
       label: 'MATCH Team'
       region: content
       parent_name: ''
-      weight: 24
+      weight: 18
       format_type: details
       format_settings:
         classes: ''
         show_empty_fields: false
         id: ''
+        open: false
+        description: ''
+        required_fields: true
+    group_engagement_details:
+      children:
+        - field_hpc_resources_needed
+        - field_project_deliverables
+        - field_qualifications
+        - field_programming_skill_level
+        - field_requested_engagement
+      label: 'Engagement Details'
+      region: content
+      parent_name: ''
+      weight: 19
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: true
+        id: match_engagement_details
         open: false
         description: ''
         required_fields: true
@@ -246,7 +263,7 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 14
+    weight: 13
     region: content
     settings:
       rows: 9
@@ -339,22 +356,14 @@ content:
     third_party_settings: {  }
   field_email_user:
     type: boolean_checkbox
-    weight: 34
+    weight: 29
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
-  field_git_contribution:
-    type: link_default
-    weight: 22
-    region: content
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
-    third_party_settings: {  }
   field_hpc_resources_needed:
     type: string_textarea
-    weight: 17
+    weight: 20
     region: content
     settings:
       rows: 5
@@ -378,7 +387,7 @@ content:
     third_party_settings: {  }
   field_is_there_an_impact_on_inst:
     type: string_textarea
-    weight: 45
+    weight: 44
     region: content
     settings:
       rows: 5
@@ -417,7 +426,7 @@ content:
     third_party_settings: {  }
   field_launch_presentation_date:
     type: datetime_default
-    weight: 34
+    weight: 35
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -431,7 +440,7 @@ content:
     third_party_settings: {  }
   field_match_interested_users:
     type: entity_reference_autocomplete
-    weight: 31
+    weight: 26
     region: content
     settings:
       match_operator: CONTAINS
@@ -441,7 +450,7 @@ content:
     third_party_settings: {  }
   field_match_steering_committee_m:
     type: entity_reference_autocomplete
-    weight: 32
+    weight: 27
     region: content
     settings:
       match_operator: CONTAINS
@@ -513,13 +522,13 @@ content:
     third_party_settings: {  }
   field_node_type:
     type: options_select
-    weight: 29
+    weight: 24
     region: content
     settings: {  }
     third_party_settings: {  }
   field_notes:
     type: string_textarea
-    weight: 28
+    weight: 23
     region: content
     settings:
       rows: 5
@@ -527,7 +536,7 @@ content:
     third_party_settings: {  }
   field_notes_to_author:
     type: string_textarea
-    weight: 35
+    weight: 30
     region: content
     settings:
       rows: 5
@@ -541,7 +550,27 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_planned_portal_contributio:
+  field_planned_publications:
+    type: string_textarea
+    weight: 16
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_preferred_semester:
+    type: options_select
+    weight: 17
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_programming_skill_level:
+    type: options_select
+    weight: 23
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_project_deliverables:
     type: string_textarea
     weight: 21
     region: content
@@ -549,31 +578,9 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_planned_publications:
-    type: string_textarea
-    weight: 20
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  field_programming_skill_level:
-    type: options_select
-    weight: 33
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_project_deliverables:
-    type: string_textarea
-    weight: 19
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
   field_project_image:
     type: image_image
-    weight: 18
+    weight: 15
     region: content
     settings:
       progress_indicator: throbber
@@ -581,7 +588,7 @@ content:
     third_party_settings: {  }
   field_qualifications:
     type: string_textarea
-    weight: 32
+    weight: 22
     region: content
     settings:
       rows: 5
@@ -589,7 +596,7 @@ content:
     third_party_settings: {  }
   field_requested_engagement:
     type: options_select
-    weight: 16
+    weight: 24
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -621,13 +628,7 @@ content:
     third_party_settings: {  }
   field_tags:
     type: options_select
-    weight: 15
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_urgency:
-    type: options_select
-    weight: 13
+    weight: 14
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -647,17 +648,9 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_what_match_will_learn:
-    type: string_textarea
-    weight: 23
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
   field_wrap_presentation:
     type: file_generic
-    weight: 35
+    weight: 36
     region: content
     settings:
       progress_indicator: throbber
@@ -670,7 +663,7 @@ content:
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 30
+    weight: 25
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -682,7 +675,7 @@ content:
     third_party_settings: {  }
   promote:
     type: boolean_checkbox
-    weight: 33
+    weight: 28
     region: content
     settings:
       display_label: true
@@ -731,4 +724,8 @@ content:
     third_party_settings: {  }
 hidden:
   field_education: true
+  field_git_contribution: true
+  field_planned_portal_contributio: true
   field_student_learning: true
+  field_urgency: true
+  field_what_match_will_learn: true
