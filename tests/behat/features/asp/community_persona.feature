@@ -33,7 +33,7 @@ Feature: test ACCESS Support Community Persona
     Then I should see "Not connected to any Affinity Groups"
 
     Then I should see "Knowledge Base Contributions"
-    Then I should see "No Contributions to Knowledge Base"
+    Then I should see "No Contributions to the Knowledge Base"
 
     Then I should see "MATCH Engagements"
     Then I should see "No matched Engagements."
