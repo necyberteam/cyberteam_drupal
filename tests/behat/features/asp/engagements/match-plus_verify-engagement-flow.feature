@@ -130,7 +130,7 @@ Feature: verify the approval process of a MATCH Engagement
     Then element "edit-moderation-state-0-state" should contain "Declined"
 
 
-  Scenario:  Pecan Pie user can edit their engagement after it has been marked as Recruiting
+  Scenario:  Pecan Pie user can add additional details after their engagement has been "Received"
     Given I am logged in with email "pecan@pie.org"
     When I go to "/community-persona"
     When I follow "Test1234567"
