@@ -34,6 +34,61 @@ class FeatureContext extends RawDrupalContext {
   }
 
   /**
+   * Log in as a particular email.
+   *
+   * @param string $email
+   *   Email of user.
+   *
+   * @Given I am logged in with email :name
+   */
+  public function iAmLoggedInWithEmail($email) {
+
+    $domain = $this->getMinkParameter('base_url');
+
+    // Pass base url to drush command.
+
+    $uli = $this->getDriver('drush')->drush('uli', [
+      "--mail=$email",
+      "--browser=0",
+      "--uri=$domain",
+    ]);
+
+    // Trim EOL characters.
+    $uli = trim($uli);
+
+    // Log in.
+    $this->getSession()->visit($uli);
+  }
+
+
+  /**
+   * Log in as a particular UID.
+   *
+   * @param string $uid
+   *   Uid of user.
+   *
+   * @Given I am logged in with uid :uid
+   */
+  public function iAmLoggedInAsUid($uid) {
+
+    $domain = $this->getMinkParameter('base_url');
+
+    // Pass base url to drush command.
+
+    $uli = $this->getDriver('drush')->drush('uli', [
+      "--uid=$uid",
+      "--browser=0",
+      "--uri=$domain",
+    ]);
+
+    // Trim EOL characters.
+    $uli = trim($uli);
+
+    // Log in.
+    $this->getSession()->visit($uli);
+  }
+
+  /**
    * Look for submenus under a menu item.
    *
    * @param string $menu_text
@@ -131,25 +186,24 @@ class FeatureContext extends RawDrupalContext {
   }
 
   /**
-   * Display info about all links with an id.
+   * Display info about all elements with an id.
    *
    * @param string $link
    *   The link to display.
    *
-   * @Then I print link :element_id
+   * @Then I display element :element_id
    */
   public function iDisplayLink($link) {
     $session = $this->getSession();
-    $menu_elements = $session->getPage()->findAll('named', ['link', $link]);
+    $menu_elements = $session->getPage()->findAll('named', ['id', $link]);
 
     foreach ($menu_elements as $menu_element) {
-      print("link '$link': '");
-      var_dump($menu_element->getOuterHtml());
-      var_dump($menu_element->getHtml());
-      var_dump($menu_element->getText());
+      print("link '$link':'\n");
+      print("  outHtml = '" . $menu_element->getOuterHtml() . "'\n");
+      print("  html    = '" . $menu_element->getHtml() . "'\n");
+      print("  text    = '" . $menu_element->getText() . "'\n");
+      print("  value   = '" . $menu_element->getValue() . "'\n");
     }
-    // print("link '$link': '");
-    // var_dump($menu_element);
   }
 
   /**
@@ -217,6 +271,29 @@ class FeatureContext extends RawDrupalContext {
     }
 
     if (!str_contains($menu_element->getValue(), $contents)) {
+      throw new \Exception("Element with id '$element_id' does not contain '$contents'");
+    }
+  }
+
+  /**
+   * Verify an element is disabled.
+   *
+   * @param string $element_id
+   *   The text of the menue to verify.
+   *
+   * @Then :element_id is disabled
+   */
+  public function elementIsDisabled($element_id) {
+    $session = $this->getSession();
+    $menu_element = $session->getPage()->findById($element_id);
+
+    if (!$menu_element) {
+      throw new \Exception("Could not find element with id '$element_id'");
+    }
+
+    $contents = 'disabled="disabled"';
+
+    if (!str_contains($menu_element->getOuterHtml(), $contents)) {
       throw new \Exception("Element with id '$element_id' does not contain '$contents'");
     }
   }
