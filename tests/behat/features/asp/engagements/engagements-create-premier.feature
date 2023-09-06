@@ -2,7 +2,9 @@
 @api
 @javascript
 
-Feature: test the creation of MATCH Engagements
+Feature: test the creation of MATCH Premier Engagements
+  An authenticated user can create a new MATCH Premier engagement.
+  TODO: AP to describe differences in premier from plus engagements.
   TODO: replicate match-plus testing for premier?  almost the same
   TODO: If the engagement is submitted or updated, the author is emailed.
 
