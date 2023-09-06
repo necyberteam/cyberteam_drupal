@@ -23,24 +23,23 @@ Feature: test ACCESS Support Community Persona
     Then I should see "Northeast"
 
     Then I should see "Interests"
-    Then I should see "access-acount"
-    Then I should see "science gateway"
+    Then I should see "No Interest added"
 
     Then I should see "Expertise"
     Then I should see "bioinformatics"
     Then I should see "astrophysics"
 
     Then I should see "Affinity Groups"
-    Then I should see "DELTA"
+    Then I should see "Not connected to any Affinity Groups"
 
     Then I should see "Knowledge Base Contributions"
-    Then I should see "ci-link-for-user-200"
+    Then I should see "No Contributions to Knowledge Base"
 
     Then I should see "MATCH Engagements"
     Then I should see "No matched Engagements."
 
     Then I should see "Projects"
-    Then I should see "No Projects."
+    Then I should see "Understanding mechanical Properties"
 
 
 
