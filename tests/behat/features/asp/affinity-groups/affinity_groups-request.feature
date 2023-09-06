@@ -1,7 +1,7 @@
 @asp
 @api
 @javascript
-
+#Adding in to test in github
 Feature: test affinity group request form
   authenticated role should be able to complete the affinity group request form
   TODO: anonymous should be redirected to /user/login
