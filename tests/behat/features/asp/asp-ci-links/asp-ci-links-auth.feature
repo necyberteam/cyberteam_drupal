@@ -18,6 +18,6 @@ Feature: test resources page as a authenticated user
     When I fill in "edit-search--2" with "NotAResource"
     And I wait 4 seconds
     Then I should see "There are no CI Links at this time"
-    When I fill in "edit-search--2" with "test"
+    When I fill in "edit-search--2" with "for-user-200"
     And I wait 4 seconds
-    Then I should see "test"
+    Then I should see "for-user-200"

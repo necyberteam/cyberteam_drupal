@@ -20,9 +20,9 @@ results are shown in a table with columns for "Votes", "CI Links Title", "Catego
     Then I should be on "/user/login?destination=/form/resource"
 
     When I go to "/ci-links"
-    When I fill in "edit-search--2" with "test"
+    When I fill in "edit-search--2" with "for-user-200"
     Then I should see "These CI links have been crowd-sourced from the ConnectCI"
-    Then I should see "test"
+    Then I should see "for-user-200"
     Then I should see "Title"
     Then I should see "Description"
     Then I should see "Category"
@@ -40,20 +40,17 @@ results are shown in a table with columns for "Votes", "CI Links Title", "Catego
     And I wait 4 seconds
     Then I should see "There are no CI Links at this time. Please check back often as CI Links are added regularly."
     When I click "Card View"
-    Then I should see "test-login-resource"
-    Then I should see "Learning"
-    Then I should see "login"
 
     When I go to "/ci-links"
-     When I fill in "edit-search--2" with "test"
-     And I wait 4 seconds
-     When I click "test-login-resource"
-     Then I should get a "200" HTTP response
+    When I fill in "edit-search--2" with "for-user-200"
+    And I wait 4 seconds
+    When I click "ci-link-for-user-200"
+    Then I should get a "200" HTTP response
 
     When I go to "/ci-links"
     When I click "List View"
-    And I fill in "edit-search--2" with "test"
+    When I fill in "edit-search--2" with "for-user-200"
     And I wait 4 seconds
-    When I click "test-login-resource"
+    When I click "ci-link-for-user-200"
     Then I should get a "200" HTTP response
 

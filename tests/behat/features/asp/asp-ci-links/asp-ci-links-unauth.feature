@@ -14,9 +14,9 @@ Feature: test resource page
     Then I should be on "/user/login?destination=/form/resource"
 
     When I go to "/ci-links"
-    When I fill in "edit-search--2" with "test"
+    When I fill in "edit-search--2" with "for-user-200"
     Then I should see "These CI links are crowd-sourced from the ConnectCI"
-    Then I should see "test"
+    Then I should see "for-user-200"
     Then I should see "Title"
     Then I should see "Description"
     Then I should see "Category"
@@ -36,7 +36,8 @@ Feature: test resource page
     Then I should see "There are no CI Links at this time. Please check back often as CI Links are added regularly."
 
     When I go to "/ci-links"
-    When I fill in "edit-search--2" with "test"
-    And I wait 4 seconds
-    When I click "test-login-resource"
+    When I fill in "edit-search--2" with "for-user-200"
+    And I wait 2 seconds
+    When I click "ci-link-for-user-200"
+    And I wait 2 seconds
     Then I should get a "200" HTTP response

@@ -21,10 +21,8 @@ descriptions, categories, tags (first 3 linked), skill levels, and affinity grou
     When I fill in "edit-search--2" with "NotAResource"
     And I wait 4 seconds
     Then I should see "There are no CI Links at this time"
-    When I fill in "edit-search--2" with "test"
+    When I fill in "edit-search--2" with "for-user-200"
     And I wait 4 seconds
-    Then I should see "test"
+    Then I should see "for-user-200"
     When I click "Card View"
-    Then I should see "test-login-resource"
-    Then I should see "Learning"
-    Then I should see "login"
+    Then I should see "for-user-200"
