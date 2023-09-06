@@ -197,6 +197,10 @@ class FeatureContext extends RawDrupalContext {
     $session = $this->getSession();
     $elems = $session->getPage()->findAll('named', ['id', $link]);
 
+    if (count($elems) == 0) {
+      print("Did not find any elements with id '$link'\n");
+    }
+
     foreach ($elems as $elem) {
       print("link '$link':'\n");
       print("  outHtml = '" . $elem->getOuterHtml() . "'\n");
