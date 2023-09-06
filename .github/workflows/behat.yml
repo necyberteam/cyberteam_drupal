@@ -155,7 +155,7 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: 'success :rocket:'
-          SLACK_TITLE: "Github action: behat}"
+          SLACK_TITLE: "Github action: behat success"
           SLACK_CHANNEL: behat-git-notifications
   fail:
     name: Actions to run on fail
@@ -176,5 +176,5 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: ':octagonal_sign: behat tests failed :octagonal_sign:'
-          SLACK_TITLE: "Github action: behat}"
+          SLACK_TITLE: "Github action: behat failure"
           SLACK_CHANNEL: behat-git-notifications
