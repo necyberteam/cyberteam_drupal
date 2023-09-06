@@ -3,8 +3,7 @@
 @javascript
 
 Feature: test submit project form
-  In order to test the submit project form
-  As a user of the authenticated role
+  As an authenticated user, test the submit project form
 
   Scenario: Authenticated user fills out the submit project form
     Given I am logged in as a user with the "authenticated" role

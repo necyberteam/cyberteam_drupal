@@ -3,9 +3,7 @@
 @javascript
 
 Feature: add a test project via the form
-  To test adding project
-  As admin
-  I can add a project
+  As admin, add a project
   TODO:  ensure testing of the following:
     Login to Add New Project Button
     Search works on Project Title of approved projects only, case-insensitive
