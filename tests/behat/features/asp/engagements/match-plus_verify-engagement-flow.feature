@@ -1,4 +1,4 @@
-@wip
+@asp
 @api
 @javascript
 
@@ -117,7 +117,7 @@ Feature: verify the approval process of a MATCH Engagement
     When I follow "Test1234567"
     When I follow "Edit"
 
-    # verify all status options are available
+    # verify these status options are available
     Then element "edit-moderation-state-0-state" should contain "Draft"
     Then element "edit-moderation-state-0-state" should contain "In Review"
     Then element "edit-moderation-state-0-state" should contain "Recruiting"
