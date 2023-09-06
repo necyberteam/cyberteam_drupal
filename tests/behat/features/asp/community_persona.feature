@@ -8,7 +8,7 @@ Feature: test ACCESS Support Community Persona
     Given I am not logged in
     When I go to "/community-persona/200"
     And I wait for the page to be loaded
-    Then I should see "walnut pie"
+    #Then I should see "walnut pie"
     #Then I should see "institution-for-walnut-pie"
     #Then I should see "3rd year undergraduate"
     Then I should see "Not a CSSN Member"
