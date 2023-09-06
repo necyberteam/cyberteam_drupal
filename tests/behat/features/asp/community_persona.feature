@@ -15,7 +15,7 @@ Feature: test ACCESS Support Community Persona
     Then I should see "Find out More"
 
     Then I should see "Roles:"
-    Then I should see "student-facilitator"
+    Then I should see "mentor"
     Then I should see "Affinity Group Leader"
 
     Then I should see "Send Email"
