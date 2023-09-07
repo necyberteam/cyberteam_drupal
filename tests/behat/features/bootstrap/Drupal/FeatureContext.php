@@ -214,7 +214,7 @@ class FeatureContext extends RawDrupalContext {
    * Verify the an element identified by an ID contains a string.
    *
    * @param string $element_id
-   *   The text of the menue to verify.
+   *   The text of the menu to verify.
    * @param string $contents
    *   Text that should appear in the field.
    *
@@ -230,6 +230,29 @@ class FeatureContext extends RawDrupalContext {
 
     if (!str_contains($elem->getHtml(), $contents)) {
       throw new \Exception("Element with id '$element_id' does not contain '$contents'");
+    }
+  }
+
+  /**
+   * Verify a link contains a url.
+   *
+   * @param string $link_text
+   *   The text of the link to verify.
+   * @param string $url
+   *   URL that should appear in the field.
+   *
+   * @Then link :link_text should contain url :url
+   */
+  public function linkShouldContainUrl($link_text, $url) {
+    $session = $this->getSession();
+    $elem = $session->getPage()->findLink($link_text);
+
+    if (!$elem) {
+      throw new \Exception("Could not find link with text '$link_text'");
+    }
+
+    if (!str_contains($elem->getAttribute('href'), $url)) {
+      throw new \Exception("Link '$link_text' does not contain '$url'");
     }
   }
 
