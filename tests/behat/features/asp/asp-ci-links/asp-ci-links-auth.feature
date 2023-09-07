@@ -9,8 +9,8 @@ Feature: test resources page as a authenticated user
     When I go to "/ci-links"
     Then I should see "Add New CI Link"
     Then I should see "These CI Links are crowd-sourced"
-    # edit-skill-level-306--2 is the Advanced radio button
-    When I check "edit-skill-level-306--2"
+    # edit-skill-level-304--2 is the Beginner radio button
+    When I check "edit-skill-level-304--2"
     And I wait 4 seconds
     Then I should see "Title"
     Then I should see "Description"
@@ -18,7 +18,7 @@ Feature: test resources page as a authenticated user
     Then I should see "Tags"
     Then I should see "Skill Level"
     Then I should see "Affinity Group"
-    When I uncheck "edit-skill-level-306--2"
+    When I uncheck "edit-skill-level-304--2"
     And I wait 4 seconds
     When I fill in "edit-search--2" with "NotAResource"
     And I wait 4 seconds
