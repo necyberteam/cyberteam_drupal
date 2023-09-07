@@ -201,7 +201,7 @@
 	{% else %}
 		{% if page.banner_image %}
 			{% set escdiv = 'div' %}
-			<header class="masthead" style="background-image: url('{% autoescape 'div' %}{% spaceless %}{{- page.banner_image -}}{% endspaceless %}{% endautoescape %}')">
+			<header class="masthead" style="background-image: url('{% autoescape 'div' %}{% apply spaceless %}{{- page.banner_image -}}{% endapply %}{% endautoescape %}')">
 			  <div class="overlay"></div>
 			  <div class="container">
 				<div class="row">
