@@ -27,10 +27,10 @@ default:
     jarnaiz\JUnitFormatter\JUnitFormatterExtension:
         filename: report.xml
         outputDir: "%paths.base%/build/tests"
-    Bex\Behat\ScreenshotExtension:
-      screenshot_taking_mode: failed_steps
-      image_drivers:
-        local:
-          screenshot_directory: "%paths.base%/screenshots"
+    # Bex\Behat\ScreenshotExtension:
+    #   screenshot_taking_mode: failed_steps
+    #   image_drivers:
+    #     local:
+    #       screenshot_directory: "%paths.base%/screenshots"
   calls:
     error_reporting: 8191 # php -r "echo E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED;
