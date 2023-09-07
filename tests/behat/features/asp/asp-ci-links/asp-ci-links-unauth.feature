@@ -24,9 +24,9 @@ Feature: test resource page
     Then I should see "Skill Level"
     Then I should see "Affinity Group"
 
-    # edit-skill-level-306--2 is the Advanced radio button
+    # edit-skill-level-304--2 is the Beginner radio button
     When I fill in "edit-search--2" with ""
-    When I check "edit-skill-level-306--2"
+    When I check "edit-skill-level-304--2"
     And I wait 4 seconds
     Then I should see "Title"
     Then I should see "Description"
