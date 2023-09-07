@@ -1,4 +1,4 @@
-@wip
+@features
 @api
 @javascript
 
@@ -9,8 +9,6 @@ Feature: test Navigation Bar footer
   Scenario: Unauthenticated user tests footer links OnDemand link
     Given I am not logged in
     When I am on the homepage
-
-    Then link "Q&A Forum" should contain url "https://ask.ci/"
 
     When I follow "OnDemand"
     Then I should be on "/ondemand"
@@ -34,6 +32,8 @@ Feature: test Navigation Bar footer
     When I am on the homepage
     When I follow "Documentation"
     Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/overview"
+
+    Then link "Q&A Forum" should contain url "https://ask.ci/"
 
     When I am on the homepage
     When I follow "CI Links"
