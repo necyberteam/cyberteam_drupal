@@ -860,7 +860,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: '{{ field_region|replace({'' '':''-''})|lower }}'
+            text: "{{ field_region|replace({' ':'-'})|lower }}"
             make_link: false
             path: ''
             absolute: false
@@ -1166,7 +1166,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: '{{ field_region|replace({'' '':''-''})|lower }}'
+            text: "{{ field_region|replace({' ':'-'})|lower }}"
             make_link: false
             path: ''
             absolute: false
