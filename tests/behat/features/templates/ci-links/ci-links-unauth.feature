@@ -30,8 +30,8 @@ results are shown in a table with columns for "Votes", "CI Links Title", "Catego
     Then I should see "Skill Level"
     Then I should see "Affinity Group"
 
-    # edit-skill-level-306--2 is the Advanced radio button
-    When I check "edit-skill-level-306--2"
+    # edit-skill-level-304--2 is the Beginner radio button
+    When I check "edit-skill-level-304--2"
     And I wait 4 seconds
     #Then I should see "There are no CI Links at this time. Please check back often as CI Links are added regularly."
     Then I should see "Title"
@@ -40,7 +40,7 @@ results are shown in a table with columns for "Votes", "CI Links Title", "Catego
     Then I should see "Tags"
     Then I should see "Skill Level"
     Then I should see "Affinity Group"
-    When I uncheck "edit-skill-level-306--2"
+    When I uncheck "edit-skill-level-304--2"
     And I wait 4 seconds
     When I fill in "edit-search--2" with "somthing545"
     And I wait 4 seconds
