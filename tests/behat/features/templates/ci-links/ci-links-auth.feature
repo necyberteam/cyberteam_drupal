@@ -12,8 +12,8 @@ descriptions, categories, tags (first 3 linked), skill levels, and affinity grou
     When I go to "/ci-links"
     Then I should see "Add New CI link"
     Then I should see "These CI Links have been crowd-sourced"
-    # edit-skill-level-306--2 is the Advanced radio button
-    When I check "edit-skill-level-306--2"
+    # edit-skill-level-304--2 is the Beginner radio button
+    When I check "edit-skill-level-304--2"
     And I wait 4 seconds
     #Then I should see "There are no CI Links at this time. Please check back often as CI Links are added regularly."
     Then I should see "Title"
