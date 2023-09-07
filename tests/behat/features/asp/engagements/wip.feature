@@ -8,3 +8,4 @@ Feature: verify the approval process of a MATCH Engagement
     Given I am logged in with email "pecan@pie.org"
     When I go to "/ci-links"
     Then I should see "ci-link-for-user-200"
+    And I should not see "Introduction to Python"
