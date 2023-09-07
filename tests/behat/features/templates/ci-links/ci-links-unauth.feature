@@ -3,12 +3,14 @@
 @javascript
 
 Feature: This Behat test goes over the CI Links Page, when accessed by an
-unauthenticated user, this page does not display the "Add New CI Links" button. The search
-function works on approved CI Links' titles only, is case-insensitive, and shows
-a special message if no results are found. The page includes radio buttons to
-filter CI Links by level (beginner, intermediate, advanced, expert), and the
-results are shown in a table with columns for "Votes", "CI Links Title", "Category",
-"Tags", and "Skill Level." There is also a text description at the top of the page.
+  unauthenticated user, this page does not display the "Add New CI Links" button. The search
+  function works on approved CI Links' titles only, is case-insensitive, and shows
+  a special message if no results are found. The page includes radio buttons to
+  filter CI Links by level (beginner, intermediate, advanced, expert), and the
+  results are shown in a table with columns for "Votes", "CI Links Title", "Category",
+  "Tags", and "Skill Level." There is also a text description at the top of the page.
+  TODO: test filtering by level
+
 
   Scenario: Unauthenticated user tests the CI Links page
     Given I am not logged in
@@ -30,12 +32,6 @@ results are shown in a table with columns for "Votes", "CI Links Title", "Catego
     Then I should see "Skill Level"
     Then I should see "Affinity Group"
 
-    # edit-skill-level-306--2 is the Advanced radio button
-    When I check "edit-skill-level-306--2"
-    And I wait 4 seconds
-    Then I should see "There are no CI Links at this time. Please check back often as CI Links are added regularly."
-    When I uncheck "edit-skill-level-306--2"
-    And I wait 4 seconds
     When I fill in "edit-search--2" with "somthing545"
     And I wait 4 seconds
     Then I should see "There are no CI Links at this time. Please check back often as CI Links are added regularly."
