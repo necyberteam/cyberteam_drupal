@@ -24,8 +24,114 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'CI Link'
+      title: ''
       fields:
+        webform_submission_value_4:
+          id: webform_submission_value_4
+          table: webform_submission_field_resource_link_to_resource
+          field: webform_submission_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: false
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          webform_element_format: value
+          webform_multiple_value: true
+          webform_multiple_delta: 0
+          webform_check_access: 1
+        webform_submission_value_6:
+          id: webform_submission_value_6
+          table: webform_submission_field_resource_category
+          field: webform_submission_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          webform_element_format: value
+          webform_multiple_value: true
+          webform_multiple_delta: 0
+          webform_check_access: 1
         link_flag:
           id: link_flag
           table: flagging
@@ -38,7 +144,7 @@ display:
           label: ''
           exclude: true
           alter:
-            alter_text: true
+            alter_text: false
             text: '<div class="float-right">{{ link_flag }}</div>'
             make_link: false
             path: ''
@@ -139,8 +245,8 @@ display:
           label: ''
           exclude: true
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: "{% set skill_level = webform_submission_value_2  |render|render %}\r\n{%  if skill_level == 'Beginner' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner.png\" alt=\"Beginner\"/>\r\n{% elseif 'Beginner' in skill_level and 'Intermediate' in skill_level and 'Advanced' not in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner-medium.png\" alt=\"Beginner and Intermediate\"/>\r\n{% elseif skill_level == 'Intermediate' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium.png\" alt=\"Intermediate\"/>\r\n{% elseif 'Beginner' not in skill_level and 'Intermediate' in skill_level and 'Advanced' in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium-advanced.png\" alt=\"Intermediate and Advanced\"/>\r\n{% elseif 'Beginner' in skill_level and 'Intermediate' in skill_level and 'Advanced' in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-all.png\" alt=\"Beginner, Intermediate, and Advanced\"/>\r\n{% elseif skill_level == 'Advanced' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-advanced.png\" alt=\"Advanced\"/>\r\n{% endif %}"
             make_link: false
             path: ''
             absolute: false
@@ -166,7 +272,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: align-middle
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
@@ -180,6 +286,7 @@ display:
           webform_element_format: label
           webform_multiple_value: true
           webform_multiple_delta: 0
+          webform_check_access: 1
         webform_submission_value_5:
           id: webform_submission_value_5
           table: webform_submission_field_resource_description
@@ -282,8 +389,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           webform_element_format: value
-          webform_multiple_value: '1'
+          webform_multiple_value: '0'
           webform_multiple_delta: '0'
+          webform_check_access: 1
         link_flag_1:
           id: link_flag_1
           table: flagging
@@ -445,6 +553,72 @@ display:
           format_plural_string: !!binary MQNAY291bnQ=
           prefix: ''
           suffix: ''
+        sid:
+          id: sid
+          table: webform_submission
+          field: sid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          entity_field: sid
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         webform_submission_value:
           id: webform_submission_value
           table: webform_submission_field_resource_title
@@ -457,7 +631,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"card my-3 mx-auto card-body\">\r\n<div class=\"row pb-2 mb-2\">\r\n<div class=\"col-lg-1 col-sm-2 align-middle mt-2 my-md-auto d-none\">\r\n{{ count }}\r\n</div>\r\n<div class=\"col-lg-11 col-sm-10 order-first order-sm-last\">\r\n<h3>{{ webform_submission_value }}</h3>\r\n{{ webform_submission_value_1 }}<br>\r\n{{ webform_submission_value_2 }}\r\n</div>\r\n</div>\r\n<hr>\r\n{{ webform_submission_value_5 }}<br>\r\n{{ webform_submission_value_3 }}\r\n</div>"
+            text: "<div class=\"container\">\r\n  <div class=\"row\">\r\n    <div class=\"col-8\">\r\n        <h1>{{ webform_submission_value }}</h1>\r\n       <div class=\"square-tags my-2\">{{ webform_submission_value_1 }}</div>\r\n       <p>{{ webform_submission_value_5 }}</p>\r\n       <div class=\"cilinks-buttons\">{{ webform_submission_value_4 }}</div>\r\n    </div>\r\n    <div class=\"col-4\">\r\n     <div class=\"mb-3\">\r\n       {{ count }}\r\n       {{ link_flag }}\r\n       <h4>Category</h4>\r\n       {{ webform_submission_value_6 }}\r\n    </div>\r\n     <div class=\"mb-3\">\r\n      <h4>Skill Level</h4>\r\n      {{ webform_submission_value_2 }}\r\n    </div>\r\n     <div class=\"mb-3\">\r\n      <h4>Affinity Group</h4>\r\n      [[REPLACEAFFINITY]]:{{ sid }}\r\n    </div>\r\n\r\n<div class=\"dropdown\">\r\n  <a class=\"btn btn-outline-dark btn-sm dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">\r\n    Report The CI Link\r\n  </a>\r\n  <ul class=\"dropdown-menu\">\r\n    [[REPLACE]]:{{ sid }}\r\n  </ul>\r\n</div>\r\n\r\n    </div>\r\n  </div>\r\n</div>\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -498,204 +672,6 @@ display:
           webform_multiple_value: true
           webform_multiple_delta: 0
           webform_check_access: 1
-        sid:
-          id: sid
-          table: webform_submission
-          field: sid
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: webform_submission
-          entity_field: sid
-          plugin_id: field
-          label: ''
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: number_integer
-          settings:
-            thousand_separator: ''
-            prefix_suffix: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        sid_1:
-          id: sid_1
-          table: webform_submission
-          field: sid
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: webform_submission
-          entity_field: sid
-          plugin_id: field
-          label: ''
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: number_integer
-          settings:
-            thousand_separator: ''
-            prefix_suffix: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        sid_2:
-          id: sid_2
-          table: webform_submission
-          field: sid
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: webform_submission
-          entity_field: sid
-          plugin_id: field
-          label: ''
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: number_integer
-          settings:
-            thousand_separator: ''
-            prefix_suffix: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
       pager:
         type: some
         options:
@@ -828,7 +804,20 @@ display:
           flag: upvote
           user_scope: any
       header: {  }
-      footer: {  }
+      footer:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: "<script>\r\n\r\n// Select all <a> elements inside elements with class '.cilinks-tags'\r\nconst cilinksTags = document.querySelectorAll('.cilinks-tags a');\r\n\r\n// Loop through the selected elements and add the 'btn' class\r\ncilinksTags.forEach(function(element) {\r\n  element.classList.add('d-inline-flex', 'flag-tag', 'bg-white', 'border', 'border-black', 'm-1', 'p-1', 'text-decoration-none');\r\n});\r\n\r\n// Select all <li> elements inside elements with class '.cilinks-buttons'\r\nconst cilinksLi = document.querySelectorAll('.cilinks-buttons li');\r\n\r\n// Loop through the selected elements and add the 'btn' class\r\ncilinksLi.forEach(function(element) {\r\n  element.classList.add('p-0', 'my-1', \"mx-0\");\r\n});\r\n\r\n// Select <ul> element inside elements with class '.cilinks-buttons'\r\nconst cilinksUl = document.querySelector('.cilinks-buttons ul');\r\ncilinksUl.classList.add('list-group', 'list-unstyled');\r\n\r\n// Select all <a> elements inside elements with class '.cilinks-buttons'\r\nconst cilinksButtons = document.querySelectorAll('.cilinks-buttons a');\r\n\r\n// Loop through the selected elements and add the 'btn' class\r\ncilinksButtons.forEach(function(element) {\r\n  element.classList.add('btn', 'btn-outline-dark', 'btn-sm', 'py-1', 'px-2', 'm-0');\r\n});\r\n</script>"
+            format: full_no_editor
+          tokenize: false
       display_extenders: {  }
     cache_metadata:
       max-age: -1
