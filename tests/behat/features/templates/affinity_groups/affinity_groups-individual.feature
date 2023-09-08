@@ -1,4 +1,4 @@
-@teplates
+@templates
 @api
 @javascript
 
