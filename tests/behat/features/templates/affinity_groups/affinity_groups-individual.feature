@@ -1,4 +1,4 @@
-@wip
+@wip-
 @api
 @javascript
 
@@ -17,7 +17,11 @@ Feature: Feature: test an Affinity Groups page
     Associated Resources accordion shows information about the resource on ACCESS RP AGs
     Recommended Resources accordion shows recommendations on Community AGs
 
-
+  # TODO get this to work
+  # I have not be able to add an existing CI Link to the affinity group.
+  # The UI does not allow me to add an existing CI Link to the AG.
+  # The name of the CI Link gets appended with a variable suffix (like "ci-link-for-user-200 (5)")
+  # but I'm haven't figured out what that number should be ahead of time.
   #Scenario: Admin user adds a CI Link to the AG ACCESS Support
     Given I am logged in as a user with the "administrator" role
     # add a CI-Link to an AG
@@ -67,6 +71,7 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Events"
     Then I should see "[4/04/2023 7:00 PM EDT]"
     Then link "How to Write a Successful" should contain "/events/6593"
+    # TODO - once able to add a CI Link to this AG, uncomment the following
     #Then I should see "ci-link-for-user-200"
     Then link "Changing my user profile name on the" should contain "/t/changing-my-user-profile-name-on-the-access-support-portal/2479"
     When I click "How to Write a Successful"
