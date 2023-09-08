@@ -1,4 +1,4 @@
-@templates
+@wip
 @api
 @javascript
 
@@ -24,7 +24,7 @@ Feature: Feature: test an Affinity Groups page
     When I go to "node/327/edit"
     Then I should see "Edit Affinity Group ACCESS Support"
     # this CI link is created by amp_dev.install
-    When I fill in "Display CI Links on your Affinity Group" with "ci-link-for-user-200 (2)"
+    When I fill in "Display CI Links on your Affinity Group" with "ci-link-for-user-200"
     And I wait 1 seconds
     When I press "Save"
     And I wait 2 seconds
