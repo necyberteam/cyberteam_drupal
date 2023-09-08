@@ -3,26 +3,8 @@
 @javascript
 Feature: test individual Affinity Group page
 
-  #Scenario: Administrator user creates CI Link and adds it to an affinity group
-    Given I am logged in as a user with the "administrator" role
-    When I go to "/form/ci-link"
-    Then I should see "CI Link"
-    When I fill in "title" with "dummy-ci-link-for-ag-testing"
-    When I select "learning" from "category"
-    When I check "Approved"
-    # login tag
-    When I check "edit-tags-682"
-    When I check "Beginner"
-    When I fill in "Description" with "dummy-ci-link-for-ag-testing"
-    When I fill in "Link Title" with "dummy-ci-link-for-ag-testing"
-    When I fill in "Link URL" with "http://example.com"
-    #When I wait 3 seconds
-    When I press "Submit"
-    When I go to /ci-links"
-    Then I should see "dummy-ci-link-for-ag-testing"
 
-
-  Scenario: Administrator user creates CI Link and adds it to an affinity group
+  Scenario: Administrator adds existing ci-link to an affinity group
     Given I am logged in as a user with the "administrator" role
     When I go to "node/327/edit"
     Then I should see "Edit Affinity Group ACCESS Support"
@@ -49,3 +31,22 @@ Feature: test individual Affinity Group page
     When I follow "ci-link-for-user-200"
     And I wait 1 seconds
     Then I should see "ci-link-for-user-200"
+
+
+  #Scenario: Administrator user creates CI Link and adds it to an affinity group
+    Given I am logged in as a user with the "administrator" role
+    When I go to "/form/ci-link"
+    Then I should see "CI Link"
+    When I fill in "title" with "dummy-ci-link-for-ag-testing"
+    When I select "learning" from "category"
+    When I check "Approved"
+    # login tag
+    When I check "edit-tags-682"
+    When I check "Beginner"
+    When I fill in "Description" with "dummy-ci-link-for-ag-testing"
+    When I fill in "Link Title" with "dummy-ci-link-for-ag-testing"
+    When I fill in "Link URL" with "http://example.com"
+    #When I wait 3 seconds
+    When I press "Submit"
+    When I go to /ci-links"
+    Then I should see "dummy-ci-link-for-ag-testing"
