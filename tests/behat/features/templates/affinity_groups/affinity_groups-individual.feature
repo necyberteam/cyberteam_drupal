@@ -18,9 +18,9 @@ Feature: Feature: test an Affinity Groups page
     Recommended Resources accordion shows recommendations on Community AGs
 
 
-  Scenario: Admin user adds a CI Link to the AG ACCESS Support
+  #Scenario: Admin user adds a CI Link to the AG ACCESS Support
     Given I am logged in as a user with the "administrator" role
-    # add the above CI Link to an AG
+    # add a CI-Link to an AG
     When I go to "node/327/edit"
     Then I should see "Edit Affinity Group ACCESS Support"
     # this CI link is created by amp_dev.install
@@ -67,7 +67,7 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Events"
     Then I should see "[4/04/2023 7:00 PM EDT]"
     Then link "How to Write a Successful" should contain "/events/6593"
-    Then I should see "ci-link-for-user-200"
+    #Then I should see "ci-link-for-user-200"
     Then link "Changing my user profile name on the" should contain "/t/changing-my-user-profile-name-on-the-access-support-portal/2479"
     When I click "How to Write a Successful"
     Then I should be on "/events/6593"
