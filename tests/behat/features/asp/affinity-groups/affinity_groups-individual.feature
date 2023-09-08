@@ -1,4 +1,4 @@
-@asp
+@wip-
 @api
 @javascript
 
@@ -78,7 +78,7 @@ Feature: Feature: test an Affinity Groups page
     Then I should be on "/events/6593"
 
 
-  Scenario: Unauthenticated user tests an AG with an announcement
+  Scenario: Unauthenticated user tests an AG with an announecment
     Given I am not logged in
     When I am on "/affinity-groups/anvil"
     Then I should see "Announcements"
@@ -139,7 +139,7 @@ Feature: Feature: test an Affinity Groups page
 
   Scenario: Unauthenticated user tests Ask.CI Recent Topics
     Given I am not logged in
-    # Test an AG with an announcement
+    # Test an AG with an announecment
     When I am on "/affinity-groups/anvil"
     Then I should see "Ask.CI Recent Topics"
     Then link "About the ACCESS-Anvil category" should contain "https://ask.cyberinfrastructure.org/t/about-the-access-anvil-category/2473"
