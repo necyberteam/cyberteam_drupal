@@ -1,59 +1,42 @@
 @templates
 @api
 @javascript
-Feature: test individual Affinity Group page
-    Affinity Group Logo Image
-    Affinity Group Name
-    Description
-    TODO: Join (if selected, button grays out and check mark appears next to “Leave”)
-    TODO: Join on Slack (if applicable, links to slack group)
-    TODO: Visit Q&A Platform (if applicable, links to Ask.CI)
-    TODO: Mailing List (if applicable, links to email)
-    TODO: Github Organization (e.g. /affinity-groups/open-ondemand)
-    TODO: Coordinators (links to individual peoples profiles
-    TODO: Events (if none, filler text “No upcoming events”)
-    TODO: Recommended Resources for Community affinity group
-    TODO: Associated Resources for ACCESS RP
-    TODO: CI links
-    TODO: Announcements
-    TODO: Ask.ci topics
 
-  Scenario: Unauthenticated user Test the individual Affinity Group page
-    Given I am not logged in
-    When I go to "/affinity-groups/cloud-computing"
+Feature: Feature: test an Affinity Groups page
+  An Affinity Group page should display the title, logo, description, and tags.
+  Groups that have specified an optional Slack, Q&A, GitHub, or email link should
+  display a button with the appropriate link.
+  This test checks the following:
+    Join is & Leave an
+    Join on Slack (if applicable, links to slack group)
+    Visit Q&A Platform (if applicable, links to Ask.CI)
+    Mailing List (if applicable, links to email)
+    Github Organization (e.g. /affinity-groups/open-ondemand)
+    Coordinators (links to individual peoples profiles)
+    Events (if none, filler text “No upcoming events”)
+    Associated Resources accordion shows information about the resource on ACCESS RP AGs
+    Recommended Resources accordion shows recommendations on Community AGs
 
-    Then I should see an image with src "/sites/default/files/affinity-groups/cc%20cloud%20affinity_.png"
-    Then I should see "Cloud Computing"
-    Then I should see "cloud-commercial"
-    Then I should see "People who use or are"
-    Then I should see "Join"
-    Then I should see "Slack"
-    Then I should see "Q&A"
-    Then I should see "Email"
-    Then I should see "Coordinators"
-    Then I should see "Events"
-    Then I should see "Resources"
-    Then I should see "People"
-
-
-  Scenario: Authenticated user Test the individual Affinity Group page
-    Given I am logged in as a user with the "authenticated" role
-    When I go to "/affinity-groups/cloud-computing"
+  # TODO get this to work
+  # I have not be able to add an existing CI Link to the affinity group.
+  # The UI does not allow me to add an existing CI Link to the AG.
+  # The name of the CI Link gets appended with a variable suffix (like "ci-link-for-user-200 (5)")
+  # but I'm haven't figured out what that number should be ahead of time.
+  # Screenshot showing error on https://cyberteam-projects.slack.com/archives/C047PFB6UKE/p1694214896487699
+  #Scenario: Admin user adds a CI Link to the AG ACCESS Support
+    Given I am logged in as a user with the "administrator" role
+    # add a CI-Link to an AG
+    When I go to "node/327/edit"
+    Then I should see "Edit Affinity Group ACCESS Support"
+    # this CI link is created by amp_dev.install
+    When I fill in "Display CI Links on your Affinity Group" with "ci-link-for-user-200"
+    And I wait 1 seconds
+    When I press "Save"
     And I wait 2 seconds
-    Then I should see an image with src "/sites/default/files/affinity-groups/cc%20cloud%20affinity_.png"
-    Then I should see "Cloud Computing"
-    Then I should see "cloud-commercial"
-    Then I should see "People who use or are"
-    Then I should see "Join"
-    Then I should see "Slack"
-    Then I should see "Q&A"
-    Then I should see "Email"
-    Then I should see "Coordinators"
-    Then I should see "Events"
-    Then I should see "Resources"
-    Then I should see "People"
-    Then I click "Join"
-    #TODO verify joined?
+    Then I should see "Affinity Group ACCESS Support has been updated."
+    When I follow "ci-link-for-user-200"
+    And I wait 1 seconds
+    Then I should see "ci-link-for-user-200"
 
 
   Scenario: Unauthenticated user tests an individual Affinity Group page
