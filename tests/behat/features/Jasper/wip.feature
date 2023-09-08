@@ -1,4 +1,4 @@
-@wip
+@wip--
 @api
 @javascript
 Feature: test individual Affinity Group page
