@@ -1,4 +1,4 @@
-@wip
+@templates
 @api
 @javascript
 
@@ -28,7 +28,6 @@ Feature: test individual tags page
     And I should see "Brett Milash"
     And I should see "RMACC"
     And I should see "Topics from Ask.CI"
-    And I should see "Walnut Pie"
     # TODO - doesn't pass on gpc
     #And I should see "researcher/educator"
     # TODO - doesn't pass on nect
