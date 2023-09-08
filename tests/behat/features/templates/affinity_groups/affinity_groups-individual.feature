@@ -22,6 +22,7 @@ Feature: Feature: test an Affinity Groups page
   # The UI does not allow me to add an existing CI Link to the AG.
   # The name of the CI Link gets appended with a variable suffix (like "ci-link-for-user-200 (5)")
   # but I'm haven't figured out what that number should be ahead of time.
+  # Screenshot showing error on https://cyberteam-projects.slack.com/archives/C047PFB6UKE/p1694214896487699
   #Scenario: Admin user adds a CI Link to the AG ACCESS Support
     Given I am logged in as a user with the "administrator" role
     # add a CI-Link to an AG
