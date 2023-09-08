@@ -509,7 +509,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: "<div class=\"text-dark bg-light  p-3 mb-5\">\r\n  <div class=\"d-flex align-items-center\">\r\n    <span class=\"fs-1 ms-2 me-3\">{{ count }}</span> <span>{{ (count|render == \"1\") ? 'Person' : 'People' }} found this useful</span>\r\n  </div>\r\n  <span class=\"vote-for-ci text-decoration-none \">{{ link_flag_1 }}</span>\r\n</div>"
+            text: "<div class=\"text-dark bg-light  p-3 mb-5\">\r\n  <div class=\"d-flex align-items-center\">\r\n    <div class=\"fs-1 ml-2 ms-2 mr-2 me-2\">{{ count }}</div> <span>{{ (count|render == \"1\") ? 'Person' : 'People' }} found this useful</span>\r\n  </div>\r\n  <span class=\"vote-for-ci text-decoration-none \">{{ link_flag_1 }}</span>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -632,7 +632,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"container\">\r\n  <div class=\"row\">\r\n    <div class=\"col-12 col-md-8\">\r\n       <div class=\"square-tags my-2\">{{ webform_submission_value_1 }}</div>\r\n       <p>{{ webform_submission_value_5 }}</p>\r\n       <div class=\"cilinks-buttons\">{{ webform_submission_value_4 }}</div>\r\n    </div>\r\n    <div class=\"col-12 col-md-4\">\r\n      {{ count }}\r\n      <div class=\"d-flex justify-content-between\">\r\n         <div class=\"mb-3\">\r\n           <h4>Category</h4>\r\n           {{ webform_submission_value_6 }}\r\n        </div>\r\n         <div class=\"mb-3\">\r\n          <h4>Skill Level</h4>\r\n          {{ webform_submission_value_2 }}\r\n        </div>\r\n      </div>\r\n      <div class=\"mb-5\">\r\n        [[REPLACEAFFINITY]]:{{ sid }}\r\n      </div>\r\n\r\n      <div class=\"dropdown\">\r\n        <a class=\"btn btn-outline-dark btn-sm dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">\r\n          Report The CI Link\r\n        </a>\r\n        <ul class=\"dropdown-menu\">\r\n          [[REPLACE]]:{{ sid }}\r\n        </ul>\r\n      </div>\r\n\r\n    </div>\r\n  </div>\r\n</div>"
+            text: "<div class=\"container\">\r\n  <div class=\"row\">\r\n    <div class=\"col-12 col-md-8\">\r\n       <div class=\"square-tags my-2\">{{ webform_submission_value_1 }}</div>\r\n       <p>{{ webform_submission_value_5 }}</p>\r\n       <div class=\"cilinks-buttons\">{{ webform_submission_value_4 }}</div>\r\n    </div>\r\n    <div class=\"col-12 col-md-4\">\r\n      {{ count }}\r\n      <div class=\"d-flex justify-content-between\">\r\n         <div class=\"mb-3\">\r\n           <h4>Category</h4>\r\n           {{ webform_submission_value_6 }}\r\n        </div>\r\n         <div class=\"mb-3\">\r\n          <h4>Skill Level</h4>\r\n          {{ webform_submission_value_2 }}\r\n        </div>\r\n      </div>\r\n      <div class=\"mb-5\">\r\n        [[REPLACEAFFINITY]]:{{ sid }}\r\n      </div>\r\n\r\n      <div class=\"dropdown\">\r\n        <a class=\"btn btn-outline-dark btn-outline-primary btn-sm dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">\r\n          Report The CI Link\r\n        </a>\r\n        <ul class=\"dropdown-menu\">\r\n          [[REPLACE]]:{{ sid }}\r\n        </ul>\r\n      </div>\r\n\r\n    </div>\r\n  </div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
