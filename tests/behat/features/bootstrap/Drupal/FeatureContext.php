@@ -57,7 +57,6 @@ class FeatureContext extends RawDrupalContext {
     $this->getSession()->visit($uli);
   }
 
-
   /**
    * Log in as a particular UID.
    *
@@ -108,7 +107,6 @@ class FeatureContext extends RawDrupalContext {
 
     // Ok, let's hover it.  (Turns out to be unnecessary.)
     // $menu_element[0]->mouseOver();
-
     // Need to get it's parent's parents to find submenus.
     $menu_element = $menu_element[0]->getParent()->getParent();
 
@@ -145,7 +143,6 @@ class FeatureContext extends RawDrupalContext {
 
     // Ok, let's hover it.  (Turns out to be unnecessary.)
     // $element->mouseOver();
-
     $this->verifySubmenus($elem, $menu_text, $links);
   }
 
@@ -575,8 +572,7 @@ class FeatureContext extends RawDrupalContext {
       $url = $parsed['scheme'] . '://' . $parsed['host'] . $url;
     }
 
-    // var_dump("verifying image $url");
-
+    // var_dump("verifying image $url");.
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_exec($ch);
@@ -588,4 +584,5 @@ class FeatureContext extends RawDrupalContext {
       throw new \Exception(sprintf('The url %s did not return an image', $url));
     }
   }
+
 }
