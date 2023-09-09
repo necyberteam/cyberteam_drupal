@@ -35,7 +35,7 @@ Feature: test Navigation Bar footer
     When I follow "Documentation"
     Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/overview"
 
-    Then link "Q&A Forum" should contain url "https://ask.ci/"
+    Then link "Q&A Forum" should contain "https://ask.ci/"
 
     When I am on the homepage
     When I follow "CI Links"
