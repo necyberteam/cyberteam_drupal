@@ -43,8 +43,7 @@ class FeatureContext extends RawDrupalContext {
    */
   public function iAmLoggedInWithEmail($email) {
 
-    // Pass base url to drush command.
-
+    $domain = $this->getMinkParameter('base_url');
     $uli = $this->getDriver('drush')->drush('uli', [
       "--mail=$email",
       "--browser=0",
@@ -70,9 +69,6 @@ class FeatureContext extends RawDrupalContext {
   public function iAmLoggedInAsUid($uid) {
 
     $domain = $this->getMinkParameter('base_url');
-
-    // Pass base url to drush command.
-
     $uli = $this->getDriver('drush')->drush('uli', [
       "--uid=$uid",
       "--browser=0",
