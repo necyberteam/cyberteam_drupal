@@ -43,8 +43,6 @@ class FeatureContext extends RawDrupalContext {
    */
   public function iAmLoggedInWithEmail($email) {
 
-    $domain = $this->getMinkParameter('base_url');
-
     // Pass base url to drush command.
 
     $uli = $this->getDriver('drush')->drush('uli', [
@@ -228,10 +226,10 @@ class FeatureContext extends RawDrupalContext {
       throw new \Exception("Could not find element with id '$element_id'");
     }
 
-    $href = $elem->getAttribute('href');
+    $html = $elem->getHtml();
 
-    if (!str_contains($href, $url)) {
-      throw new \Exception("Link '$link_text' does not contain '$url', it contains '$href'");
+    if (!str_contains($html, $contents)) {
+      throw new \Exception("Element with id '$element_id' does not contain '$contents', it contains '$html'");
     }
   }
 
