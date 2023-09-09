@@ -228,8 +228,10 @@ class FeatureContext extends RawDrupalContext {
       throw new \Exception("Could not find element with id '$element_id'");
     }
 
-    if (!str_contains($elem->getHtml(), $contents)) {
-      throw new \Exception("Element with id '$element_id' does not contain '$contents'");
+    $href = $elem->getAttribute('href');
+
+    if (!str_contains($href, $url)) {
+      throw new \Exception("Link '$link_text' does not contain '$url', it contains '$href'");
     }
   }
 
