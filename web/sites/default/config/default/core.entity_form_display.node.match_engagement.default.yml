@@ -233,7 +233,7 @@ third_party_settings:
       format_type: details
       format_settings:
         classes: ''
-        show_empty_fields: true
+        show_empty_fields: false
         id: match_engagement_details
         open: false
         description: ''
@@ -249,10 +249,10 @@ third_party_settings:
       format_type: fieldset
       format_settings:
         classes: ''
-        show_empty_fields: true
-        id: ''
+        show_empty_fields: false
+        id: milestones_fieldset
         description: ''
-        required_fields: true
+        required_fields: false
     group_first_milestone_fs:
       children:
         - field_milestone_description
@@ -265,8 +265,8 @@ third_party_settings:
       format_type: fieldset
       format_settings:
         classes: ''
-        show_empty_fields: true
-        id: ''
+        show_empty_fields: false
+        id: milestone1_fieldset
         description: 'Please enter as many as five milestones for this engagement.  Only the first milestone is required.'
         required_fields: true
 id: node.match_engagement.default
