@@ -44,9 +44,6 @@ class FeatureContext extends RawDrupalContext {
   public function iAmLoggedInWithEmail($email) {
 
     $domain = $this->getMinkParameter('base_url');
-
-    // Pass base url to drush command.
-
     $uli = $this->getDriver('drush')->drush('uli', [
       "--mail=$email",
       "--browser=0",
@@ -72,9 +69,6 @@ class FeatureContext extends RawDrupalContext {
   public function iAmLoggedInAsUid($uid) {
 
     $domain = $this->getMinkParameter('base_url');
-
-    // Pass base url to drush command.
-
     $uli = $this->getDriver('drush')->drush('uli', [
       "--uid=$uid",
       "--browser=0",
@@ -228,8 +222,10 @@ class FeatureContext extends RawDrupalContext {
       throw new \Exception("Could not find element with id '$element_id'");
     }
 
-    if (!str_contains($elem->getHtml(), $contents)) {
-      throw new \Exception("Element with id '$element_id' does not contain '$contents'");
+    $html = $elem->getHtml();
+
+    if (!str_contains($html, $contents)) {
+      throw new \Exception("Element with id '$element_id' does not contain '$contents', it contains '$html'");
     }
   }
 
@@ -241,7 +237,7 @@ class FeatureContext extends RawDrupalContext {
    * @param string $url
    *   URL that should appear in the field.
    *
-   * @Then link :link_text should contain url :url
+   * @Then link :link_text should contain :url
    */
   public function linkShouldContainUrl($link_text, $url) {
     $session = $this->getSession();
@@ -251,8 +247,10 @@ class FeatureContext extends RawDrupalContext {
       throw new \Exception("Could not find link with text '$link_text'");
     }
 
-    if (!str_contains($elem->getAttribute('href'), $url)) {
-      throw new \Exception("Link '$link_text' does not contain '$url'");
+    $href = $elem->getAttribute('href');
+
+    if (!str_contains($href, $url)) {
+      throw new \Exception("Link '$link_text' does not contain '$url', it contains '$href'");
     }
   }
 
