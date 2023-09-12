@@ -124,6 +124,18 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+  wip:
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v1
+    if: contains(github.event.inputs.sites, 'wip')
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "wip"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
   success:
     name: Actions to run on success
     needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect]
@@ -143,7 +155,7 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: 'success :rocket:'
-          SLACK_TITLE: "Github action: behat}"
+          SLACK_TITLE: "Github action: behat success"
           SLACK_CHANNEL: behat-git-notifications
   fail:
     name: Actions to run on fail
@@ -164,5 +176,5 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: ':octagonal_sign: behat tests failed :octagonal_sign:'
-          SLACK_TITLE: "Github action: behat}"
+          SLACK_TITLE: "Github action: behat failure"
           SLACK_CHANNEL: behat-git-notifications

@@ -15,6 +15,7 @@ with links redirecting to their respective addresses.
     When I click "TEST"
     Then I should see "TEST"
     Then I should see "login"
-    Then I should see "Beginner"
+    Then I should see an image with alt text "Beginner"
     Then I should see "Test"
-    Then I should see "http://example.com"
+    When I click the "a[href='http://example.com']" element
+    Then I should get a "200" HTTP response
