@@ -1,13 +1,17 @@
-@asp
+@features
 @api
 @javascript
 
 Feature: test Navigation Bar footer
   Verify the footer links
+  Verify NSF acknowledgement and TODO: social links
+  Verify acceptable use, code of conduct, and privacy policy
+
 
   Scenario: Unauthenticated user tests footer links OnDemand link
     Given I am not logged in
     When I am on the homepage
+
     When I follow "OnDemand"
     Then I should be on "/ondemand"
 
@@ -31,10 +35,7 @@ Feature: test Navigation Bar footer
     When I follow "Documentation"
     Then I should be on "https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/overview"
 
-    When I am on the homepage
-    And I wait 2 seconds
-    When I follow "Q&A Forum"
-    Then I should be on "https://ask.cyberinfrastructure.org/"
+    Then link "Q&A Forum" should contain "https://ask.ci/"
 
     When I am on the homepage
     When I follow "CI Links"

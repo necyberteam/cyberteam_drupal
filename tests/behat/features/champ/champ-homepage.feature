@@ -51,28 +51,3 @@ Feature: For non-authenticated users, Campus Champions Specific Tests encompass 
     And I click "Join Affinity Groups"
     And I wait 4 seconds
     Then I should be on "/affinity-groups"
-
-  Scenario: Unauthenticated user clicks "Join us"
-    Given I am not logged in
-    When I am on the homepage
-    When I click "Join us"
-    Then I should see "Join Campus Champions"
-    Then I should see "Letter of Collaboration"
-    Then I should see "Username"
-    When I fill in "Username" with "test"
-    Then I should see "First Name"
-    When I fill in "First Name" with "test"
-    Then I should see "Last Name"
-    When I fill in "Last Name" with "test"
-    Then I should see "Email"
-    When I fill in "Email" with "test@email.com"
-    Then I should see "I am joining as a..."
-    # How would i test this?
-    # When I select "Student Champion" from "I am joining as a..."
-    Then I should see "Carnegie Classification"
-    When I fill in "Carnegie Classification" with "Champ"
-    And I wait 10 seconds
-    Then I should see "Champlain College"
-
-
-

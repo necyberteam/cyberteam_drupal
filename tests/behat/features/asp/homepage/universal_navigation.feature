@@ -3,10 +3,24 @@
 @javascript
 
 Feature: test Universal Navigation menu
-  Tests the 4 top left links of ASP:  allocations, support, operations, and metrics.
-  Tests "ACCESS Home" link
-  TODO:  do this when authenticated, and test search, ACCESS Menu,
-    login (Unauthenticated) and My ACCESS (authenticated)
+  - links in the upper left should go to allocations, support, operations, and metrics.
+  - anonymous sees button "login to create ticket" that links to /user/login
+  - authenticated sees "create ticket" button that links to https://access-ci.atlassian.net/servicedesk/customer/portal/2/group/3/create/17
+  - "ACCESS Home" links to access-ci.org.
+  TODO: search links to Knowledge Base page.
+
+  Scenario: authenticated user, test "Create Ticket"
+    Given I am logged in as a user with the "authenticated" role
+    When I am on the homepage
+    When I follow "Create Ticket"
+    Then I should be on "/servicedesk/customer/portal/2/group/3/create/17"
+
+  Scenario: anonymous user, test "Login to Create Ticket"
+    Given I am not logged in
+    When I am on the homepage
+    Then I should see "Login to Create Ticket"
+    When I follow "Login to Create Ticket"
+    Then I should be on "/user/login"
 
   Scenario: test allocations link
     Given I am not logged in

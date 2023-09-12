@@ -235,8 +235,8 @@ third_party_settings:
             region: second
             configuration:
               id: 'field_block:node:affinity_group:field_cider_resources'
-              label: 'CiDeR Resources'
-              label_display: '0'
+              label: 'Allocated Resources'
+              label_display: visible
               provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
@@ -247,7 +247,7 @@ third_party_settings:
                 settings:
                   view_mode: affinity_group
                 third_party_settings: {  }
-            weight: 2
+            weight: 3
             additional:
               layout_builder_styles_style:
                 accordion_wrapper: accordion_wrapper
@@ -288,8 +288,8 @@ third_party_settings:
             region: second
             configuration:
               id: 'field_block:node:affinity_group:field_recommended_access_res'
-              label: 'Recommended ACCESS Resources from CiDeR'
-              label_display: '0'
+              label: 'Recommended Resources'
+              label_display: visible
               provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
@@ -304,6 +304,22 @@ third_party_settings:
             additional:
               layout_builder_styles_style:
                 accordion_wrapper: accordion_wrapper
+                page_title: 0
+                pe_3: 0
+                tags: 0
+          8a756f35-154e-4ceb-a0fc-f55c704aa025:
+            uuid: 8a756f35-154e-4ceb-a0fc-f55c704aa025
+            region: second
+            configuration:
+              id: 'Ci Community'
+              label: 'Ci Community pulled via api'
+              label_display: '0'
+              provider: access_affinitygroup
+              context_mapping: {  }
+            weight: 6
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
                 page_title: 0
                 pe_3: 0
                 tags: 0

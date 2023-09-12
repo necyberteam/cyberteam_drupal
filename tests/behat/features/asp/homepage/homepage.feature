@@ -4,11 +4,18 @@
 
 Feature: test ACCESS Support Homepage
   On the homepage, verify page text and links and images.
+  TODO: test latest announcements and upcoming events
+  Test search section
+  TODO: verify that entering search term and clicking search returns results
+  Test sections the knowledge base, affinity groups, opening a ticket, CCEP, and MATCH
   TODO:  test for the 3 icons for MATCH plus or premiere
 
   Scenario: Unauthenticated user tests the Homepage
     Given I am not logged in
     When I am on the homepage
+    Then I should see an image with alt text "Home"
+    When I follow "Home"
+    Then I should be on the homepage
     Then I should see "Supporting the ACCESS Research Community"
     Then I should see "Get Help"
     Then I should see "What are you looking for?"
@@ -55,5 +62,7 @@ Feature: test ACCESS Support Homepage
   Scenario: authenticated User is on the homepage
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
+    Then I should see an image with alt text "Home"
+    When I follow "Home"
     Then I should be on the homepage
     # TODO verify any changes related to authenticated user
