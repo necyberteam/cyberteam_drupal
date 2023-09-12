@@ -1,0 +1,30 @@
+uuid: 7612e982-259b-4e25-8e8d-828a38e3bac3
+langcode: en
+status: true
+dependencies:
+  module:
+    - webform
+id: not_useful
+label: 'Not Useful'
+bundles:
+  - resource
+entity_type: webform_submission
+global: false
+flag_short: 'Flag this item not useful'
+flag_long: ''
+flag_message: 'This CI Link has been flagged as not useful'
+unflag_short: 'Unflag this item not useful'
+unflag_long: ''
+unflag_message: 'This CI Link has been unflagged as not useful'
+unflag_denied_text: ''
+weight: 0
+flag_type: 'entity:webform_submission'
+link_type: reload
+flagTypeConfig:
+  show_in_links: {  }
+  show_as_field: true
+  show_on_form: false
+  show_contextual_link: false
+  extra_permissions:
+    owner: '0'
+linkTypeConfig: {  }
