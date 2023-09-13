@@ -14,13 +14,14 @@ Feature: verify the approval process of a MATCH Engagement
   - The author of the engagement should be able to see this as read-only.
 
 
-  Scenario: Pecan Pie user creates a match-plus engagement
+
+  Scenario: Pecan Pie user creates a match-premier engagement
     Given I am logged in with email "pecan@pie.org"
-    When I go to "/node/add/match_engagement?type=plus"
+    When I go to "/node/add/match_engagement?type=premier"
     And I wait 1 seconds
-    Then I should see "Create MATCH+ Engagement"
+    Then I should see "Create Premier Engagement"
     And I wait 2 seconds
-    When I fill in "Project Title" with "Test1234567"
+    When I fill in "Project Title" with "Testing123"
     When I fill in "Institution" with "Test"
     When I select "Start within 3 months" from "edit-field-urgency"
     Then I should see "Description"
@@ -32,10 +33,10 @@ Feature: verify the approval process of a MATCH Engagement
     Then element "edit-moderation-state-0-state" should not contain "Received"
     When I press "Save"
     And I wait 2 seconds
-    Then I should see "MATCH+ Engagement Test1234567 has been created."
+    Then I should see "MATCH+ Engagement Testing123 has been created."
 
     # Now change to submitted
-    When I follow "Test1234567"
+    When I follow "Testing123"
     When I follow "Edit"
     # following should be something like http://cyberteam.lndo.site/node/5997/edit
     # Then print current URL
@@ -44,14 +45,15 @@ Feature: verify the approval process of a MATCH Engagement
     And I wait 1 seconds
     When I press "Save"
     And I wait 2 seconds
-    Then I should see "MATCH+ Engagement Test1234567 has been updated."
+    Then I should see "MATCH+ Engagement Testing123 has been updated."
     Then I should see "Thank you for submitting your project"
     Then I should see "In Review"
 
-  Scenario: match_sc user updates the Match+ engagement to "received"
+
+  Scenario: match_sc user updates the Match Premier engagement to "received"
     Given I am logged in as a user with the "match_sc" role
     When I go to "/match-engagements-submissions"
-    When I follow "Test1234567"
+    When I follow "Testing123"
     When I follow "Edit"
     # following should be something like http://cyberteam.lndo.site/node/5997/edit
     #Then print current URL
@@ -75,13 +77,14 @@ Feature: verify the approval process of a MATCH Engagement
     And I wait 1 seconds
     When I press "Save"
     And I wait 2 seconds
-    Then I should see "MATCH+ Engagement Test1234567 has been updated."
+    Then I should see "MATCH+ Engagement Testing123 has been updated."
     Then I should see "received"
 
-Scenario: match_sc user adds a steering committee member, and updates the status to "In Review"
+
+  Scenario: match_sc user adds a steering committee member, and updates the status to "In Review"
     Given I am logged in as a user with the "match_sc" role
     When I go to "/match-engagements-submissions"
-    When I follow "Test1234567"
+    When I follow "Testing123"
     When I follow "Edit"
 
     # add steering committee member
@@ -93,26 +96,26 @@ Scenario: match_sc user adds a steering committee member, and updates the status
     And I wait 1 seconds
     When I press "Save"
     And I wait 2 seconds
-    Then I should see "MATCH+ Engagement Test1234567 has been updated."
+    Then I should see "MATCH+ Engagement Testing123 has been updated."
 
 
   Scenario: match_sc user updates the status to "Recruiting"
     Given I am logged in as a user with the "match_sc" role
     When I go to "/match-engagements-submissions"
-    When I follow "Test1234567"
+    When I follow "Testing123"
     When I follow "Edit"
 
     When I select "Recruiting" from "edit-moderation-state-0-state"
     And I wait 1 seconds
     When I press "Save"
     And I wait 2 seconds
-    Then I should see "MATCH+ Engagement Test1234567 has been updated."
+    Then I should see "MATCH+ Engagement Testing123 has been updated."
 
 
   Scenario: match_sc user verifies status options of "Recruiting" engagement
     Given I am logged in as a user with the "match_sc" role
     When I go to "/match-engagements-submissions"
-    When I follow "Test1234567"
+    When I follow "Testing123"
     When I follow "Edit"
 
     # verify these status options are available
@@ -131,7 +134,7 @@ Scenario: match_sc user adds a steering committee member, and updates the status
   Scenario:  Pecan Pie user can add additional details after their engagement has been "Received"
     Given I am logged in with email "pecan@pie.org"
     When I go to "/community-persona"
-    Then I should see "Test1234567"
+    Then I should see "Testing123"
     When I go to "/node/5981"
     When I follow "Edit"
     And I wait 2 seconds
@@ -186,4 +189,3 @@ Scenario: match_sc user adds a steering committee member, and updates the status
     Then element "edit-moderation-state-0-state" should not contain "Declined"
     Then element "edit-moderation-state-0-state" should not contain "Received"
     Then element "edit-moderation-state-0-state" should not contain "Accepted"
-
