@@ -3,9 +3,9 @@
 @javascript
 
 Feature: This Behat tests goes over the Affinity Groups Page which has the title "Affinity Groups."
-  TODO: The result table presents Affinity Group Images, names, descriptions, and tags (linked to individual tag pages).
-  TODO: The "Join" button changes to a greyed-out "Leave" button upon clicking
-  TODO: "Request an Affinity Group" button redirects to the affinity group request form.
+The result table presents Affinity Group Images, names, descriptions, and tags (linked to individual tag pages).
+The "Join" button changes to a greyed-out "Leave" button upon clicking, and a "Request an Affinity Group" button
+redirects to the affinity group request form.
 
 
   Scenario: Unauthenticated user tests the affinity group
