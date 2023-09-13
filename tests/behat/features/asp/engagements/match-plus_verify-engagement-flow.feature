@@ -12,7 +12,14 @@ Feature: verify the approval process of a MATCH Engagement
   - The match_sc role should be able to add a user as the Steering Committee
     member to an engagement.
   - The author of the engagement should be able to see this as read-only.
-
+  - TODO: User can be added the mentor field. If they are a CSSN member,
+    but don't have the mentor role, add that role to their account.
+  - TODO: User can be added the consultant field. If they are a CSSN member,
+    but don't have the consultant role, add that role to their account.
+  - TODO: if a user added to the mentor or consultant field has not joined
+    the CSSN, display a message asking them to join.
+  - TODO: if a user is added as a student, but does not have that role,
+    ask them to complete the form to join the CSSN as a student.
 
   Scenario: Pecan Pie user creates a match-plus engagement
     Given I am logged in with email "pecan@pie.org"
