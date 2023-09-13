@@ -145,6 +145,7 @@ Feature: Feature: test an Affinity Groups page
     When I am on "/affinity-groups/cloud-computing"
     When I follow "Join"
     Then I should see "You have joined this affinity group"
+    And I wait 10 seconds
     When I follow "Leave"
     Then I should see "You have left this affinity group"
 
