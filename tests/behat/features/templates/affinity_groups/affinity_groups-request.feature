@@ -35,6 +35,7 @@ Link, and Email List Link. Users can submit the form using the "Submit" button.
     When I fill in "short_description" with "TEST"
     When I fill in "project_description" with "TEST"
     # op is the submit button
+    And I wait 1 second
     When I press "Submit"
     And I wait for the page to be loaded
     Then I should see "Thank you for your submission. We will contact you when your affinity group has been created."
