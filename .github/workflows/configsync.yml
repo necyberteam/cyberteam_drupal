@@ -21,24 +21,12 @@ jobs:
           site_name: ${{ secrets.TERMINUS_SITE_NAME }}
           env: live
 
-      - name: Set lando version.
-        run: echo "LANDO_VERSION=$(cat .github/lando_version.md)" >> $GITHUB_ENV
-
-      - name: Install Lando
-        run: |
-          sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-$LANDO_VERSION"
-          sudo chmod +x /usr/local/bin/lando
-
-      - name: Start Lando
-        run: |
-          echo "$lando_env" > .env
-          echo "GITHUB_TOKEN=$GITHUB_ACTOR:$GITHUB_TOKEN" >> .env
-          lando destroy -y
-          lando start && lando xdebug-off
-        env:
-          lando_env: ${{ secrets.LANDO_ENV }}
+      - id: Lando
+        uses: necyberteam/amp_lando_start@v2
+        with:
+          DATABASE: ''
+          GH_TOKEN_REPO: ${{ secrets.GH_TOKEN_REPO }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
 
       - name: Config diff
         run: |
@@ -56,10 +44,6 @@ jobs:
           lando composer config -g github-oauth.github.com $gh_token
           composer config -g github-oauth.github.com $gh_token
           composer install --ignore-platform-reqs
-          lando db-import backups/site.sql.gz
-          mkdir -p web/sites/default/settings
-          cp blt/lando.local.settings.php web/sites/default/settings/local.settings.php
-          echo "" > salt.txt
           rm -fR web/sites/default/config
           git checkout web/sites/default/config
           lando drush cr
