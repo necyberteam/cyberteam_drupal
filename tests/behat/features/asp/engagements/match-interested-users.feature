@@ -3,8 +3,8 @@
 @javascript
 
 
-  Scenario: Unauthenticated user tests the Engagements Page
-    Given I am not logged in
+  Scenario: administrator user tests the MATCH Interested Users Page
+    Given I am logged in as a user with the "administrator" role
     When I go to "/match-interested-users"
     Then I should see "match interested users"
     Then I should see "Title"
