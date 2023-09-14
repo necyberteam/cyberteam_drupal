@@ -132,7 +132,7 @@ Scenario: match_sc user adds a steering committee member, and updates the status
     Given I am logged in with email "pecan@pie.org"
     When I go to "/community-persona"
     When I click "Test1234567"
-    #When I go to "/node/5981"
+    When I go to "/node/5981"
     When I follow "Edit"
     And I wait 2 seconds
     # following should be something like http://cyberteam.lndo.site/node/5997/edit
