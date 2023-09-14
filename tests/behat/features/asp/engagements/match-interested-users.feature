@@ -11,4 +11,4 @@
     Then I should see "Interested Users"
     Then I should see "Node ID"
     Then I should see "Roles"
-    Then I should see "aoksidnidns"
+    Then I should see "Should fail@#@@"
