@@ -145,12 +145,14 @@ Feature: Feature: test an Affinity Groups page
     When I am on "/affinity-groups/cloud-computing"
     When I follow "Join"
     Then I should see "You have joined this affinity group"
+    And I wait 10 seconds
     When I follow "Leave"
     Then I should see "You have left this affinity group"
 
 
   Scenario: AG Coordinator can see & download & email members
     Given I am logged in with uid "952"
+    And I wait 10 seconds
     When I am on "/affinity-groups/cloud-computing"
     When I follow "View Members"
     Then I should be on "/affinity-groups/571/users/Cloud%20Computing?nid=189"
