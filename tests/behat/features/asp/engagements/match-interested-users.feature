@@ -15,8 +15,9 @@ Feature: MATCH Interested Users page
   Scenario: Pecan Pie User tests the Interested button on a recruiting engagment
     Given I am logged in with email "pecan@pie.org"
     #When I go to "/engagements"
-    #When I follow "Test1234567"
-    When I go to "/node/6011"
+    When I go to "/community-persona/201"
+    When I follow "Test1234567"
+    #When I go to "/node/6011"
     Then I should see "recruiting"
     When I click "I'm Interested"
     And I wait 3 seconds
