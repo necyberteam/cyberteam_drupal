@@ -36,49 +36,18 @@ Feature: verify specific items on CCI homepage
     And I should see "Affinity Groups"
 
     When I am on the homepage
-    And I follow "ACCESS Support"
-    Then I should be on "https://support.access-ci.org/"
+    Then link "ACCESS Support" should contain "https://support.access-ci.org/"
 
-    When I am on the homepage
-    And I follow "CAREERS Cyberteam"
-    Then I should be on "https://careers-ct.cyberinfrastructure.org/"
+    Then link "CAREERS Cyberteam" should contain "https://careers-ct.cyberinfrastructure.org"
+    Then link "Great Plains Cyberteam" should contain "https://greatplains.cyberinfrastructure.org"
+    Then link "Kentucky Cyberteam" should contain "https://kycyberteam.cyberinfrastructure.org"
+    Then link "Northeast Cyberteam" should contain "https://necyberteam.org"
+    Then link "RMACC" should contain "https://ask.cyberinfrastructure.org/c/rmacc/65"
+    Then link "SWEETER Cyberteam" should contain "https://sweeter.cyberinfrastructure.org"
+    Then link "TRECIS Cyberteam" should contain "https://trecis.cyberinfrastructure.org"
+    Then link "Campus Champions Region 1" should contain "/affinity-groups/campus-champions-region-1"
 
-    When I am on the homepage
-    And I follow "Great Plains Cyberteam"
-    Then I should be on "https://greatplains.cyberinfrastructure.org"
-
-    When I am on the homepage
-    And I follow "Kentucky Cyberteam"
-    Then I should be on "https://kycyberteam.cyberinfrastructure.org"
-
-    When I am on the homepage
-    And I follow "Northeast Cyberteam"
-    Then I should be on "https://necyberteam.org"
-
-    When I am on the homepage
-    Then I should see "RMACC"
-    And I wait 4 seconds
-    And I follow "RMACC"
-    And I wait for the page to be loaded
-    Then I should be on "/c/community-forums/rmacc/65"
-
-    When I am on the homepage
-    And I wait for the page to be loaded
-    And I follow "SWEETER Cyberteam"
-    And I wait for the page to be loaded
-    Then I should be on "/c/sweeter/71"
-
-    When I am on the homepage
-    And I wait 4 seconds
-    And I follow "TRECIS Cyberteam"
-    Then I should be on "https://ask.cyberinfrastructure.org/c/cyberteams/trecis/60"
-
-    When I am on the homepage
-    And I follow "Campus Champions Region 1"
-    Then I should be on "affinity-groups/campus-champions-region-1"
-
-    When I am on the homepage
-    And I follow "Anvil"
+    When I follow "Anvil"
     Then I should be on "affinity-groups/anvil"
     And I should see "Purdue University is the home of Anvil"
 

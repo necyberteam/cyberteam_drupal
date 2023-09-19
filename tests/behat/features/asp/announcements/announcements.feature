@@ -8,11 +8,6 @@ Feature: The Announcements Page displays a title "Announcements" and lists
   under the filter. For adding announcements, there's an "Add Announcement" button that directs
   users to a form, with anonymous users required to log in first.
 
-  TODO: an authenticated user should see a My Announcements box that displays:
-  - Title with link to announcement
-  - Date
-  - Status
-
   An announcement should display:
   - Title
   - Date
@@ -40,7 +35,8 @@ Feature: The Announcements Page displays a title "Announcements" and lists
     And I wait 10 seconds
     Then I should see "NCSA DELTA to Enter Production"
     When I click "Add Announcement"
-    Then I should be on "/user/login?destination=/node/add/access_news"\
+    Then I should be on "/user/login?destination=/node/add/access_news"
+
 
   Scenario: Anonymous user tests a individual Announcement Page
     Given I am not logged in
@@ -57,3 +53,23 @@ Feature: The Announcements Page displays a title "Announcements" and lists
     Then I should be on "/announcements"
     When I click "Add Announcement"
     Then I should be on "/user/login?destination=/node/add/access_news"
+
+
+ Scenario: Authenticated user tests the Announcements Page
+    Given I am logged in as a user with the "authenticated" role
+    When I go to "/announcements"
+    Then I should see "Announcements"
+    Then I should see "PEARC Steering Committee Accepting Nominations"
+    Then I should see "6/08/2023"
+
+
+ Scenario: Authenticated user tests a individual Announcement Page
+    Given I am logged in as a user with the "authenticated" role
+    When I go to "/node/354"
+    Then I should see "NCSA DELTA to Enter Production 9/19/2022"
+    Then I should see "09-12-2022"
+    Then I should see "We are happy to announce that the National Science"
+    Then I should see "ACCESS RPs"
+    Then I should see "DELTA"
+    Then I should see "< Back to Announcements"
+

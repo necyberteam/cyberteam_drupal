@@ -22,7 +22,7 @@ $lightgreen: #ecf9f8;
       margin: 0 1rem;
     }
 
-    .bg-light {
+    .md-full-width {
       margin: 0 calc(50% - 50vw);
       padding: 1.5rem;
       width: auto;
@@ -1459,6 +1459,16 @@ a.button {
 
 .view-display-id-group .flag-affinity-group a:hover {
   @extend .btn, .btn-primary;
+}
+
+/* Affinity Groups on tag pages */
+.view-affinity-groups-with-tag .flag-affinity-group a {
+  @extend .btn, .btn-outline-secondary;
+  font-size: 500 !important;
+  color: var(--bs-secondary);
+}
+.view-affinity-groups-with-tag .flag-affinity-group a:hover {
+  color: #ffffff;
 }
 
 #cider-resources li {

@@ -66,7 +66,3 @@ Feature: test ACCESS Support Homepage
     When I follow "Home"
     Then I should be on the homepage
     # TODO verify any changes related to authenticated user
-    Given I am logged in as a user with the "authenticated" role
-    When I am on the homepage
-    Then I should be on the homepage
-    # TODO verify any changes related to authenticated user

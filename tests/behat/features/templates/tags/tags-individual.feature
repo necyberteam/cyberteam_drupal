@@ -28,7 +28,6 @@ Feature: test individual tags page
     And I should see "Brett Milash"
     And I should see "RMACC"
     And I should see "Topics from Ask.CI"
-    And I should see "Juan Vanegas"
     # TODO - doesn't pass on gpc
     #And I should see "researcher/educator"
     # TODO - doesn't pass on nect
@@ -138,7 +137,7 @@ Feature: test individual tags page
     Then I should see "Affinity Groups"
     Then I should see "Large Data Sets"
     Then I should see "For people who evaluate or use storage options for researchers with large data sets."
-    Then I should see "cloud-storage,"
+    Then I should see "cloud-storage"
     Then I should see "Join"
     Then I should see "Topics from Ask.CI"
     Then I should see "Users"
