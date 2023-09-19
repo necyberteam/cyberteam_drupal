@@ -24,6 +24,9 @@ Feature: MATCH Interested Users page
     When I click "I'm no longer Interested"
     And I wait 1 seconds
     Then I should see "You have been removed from the interested list"
+    When I click "I'm Interested"
+    And I wait 1 seconds
+    Then I should see "You have been added to the interested list"
 
 
   Scenario: administrator user tests the MATCH Interested Users Page
