@@ -78,12 +78,12 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 6
+    weight: 8
     region: content
   content_moderation_control:
     settings: {  }
     third_party_settings: {  }
-    weight: -20
+    weight: 0
     region: content
   field_completion_date_goal_1:
     type: datetime_custom
@@ -92,7 +92,14 @@ content:
       timezone_override: ''
       date_format: n/j/Y
     third_party_settings: {  }
-    weight: 5
+    weight: 7
+    region: content
+  field_hpc_resources_needed:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 9
     region: content
   field_institution:
     type: string
@@ -100,21 +107,28 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 0
+    weight: 1
     region: content
   field_preferred_semester:
     type: list_default
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_project_deliverables:
+    type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 7
+    weight: 10
     region: content
   field_requested_engagement:
     type: list_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 4
+    weight: 6
     region: content
   field_researcher:
     type: entity_reference_label
@@ -122,21 +136,21 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 3
+    weight: 4
     region: content
   field_status:
     type: list_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 1
+    weight: 2
     region: content
   field_urgency:
     type: list_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 2
+    weight: 3
     region: content
 hidden:
   field_actual_completion_date_1: true
@@ -153,7 +167,6 @@ hidden:
   field_education: true
   field_email_user: true
   field_git_contribution: true
-  field_hpc_resources_needed: true
   field_is_there_an_impact_on_info: true
   field_is_there_an_impact_on_inst: true
   field_is_there_an_impact_on_soci: true
@@ -179,7 +192,6 @@ hidden:
   field_planned_portal_contributio: true
   field_planned_publications: true
   field_programming_skill_level: true
-  field_project_deliverables: true
   field_project_image: true
   field_qualifications: true
   field_student_learning: true
