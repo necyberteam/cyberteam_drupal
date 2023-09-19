@@ -3,14 +3,18 @@
 @javascript
 
 Feature: MATCH Interested Users page
-  The MATCH Interested Users page has a table listing interested users
-  This page should be viewable by match_pm and match_sc roles but not authenticated
+  MATCH Engagements in recruiting state have an "I'm interested" button. 
+  An authenticated user clicking the button is adding to a table on the 
+  the MATCH Interested Users page listing interested users.
+  An authenticated "interested" user can click a button to indicate they 
+  are no longer interested.
+  TODO: This page should be viewable by match_pm and match_sc roles but not authenticated
   Displaying:
   - Link to edit
-  - Status
+  - TODO: Status
   - Title with link to view
-  - Team with links to community persona for researcher(s), student(s), mentor(s), and consultant
-  Submissions can be filtered by status
+  - TODO: Team with links to community persona for researcher(s), student(s), mentor(s), and consultant
+  Submissions on the Interested Users page can be filtered by status.
 
   Scenario: Pecan Pie User tests the Interested button on a recruiting engagment
     Given I am logged in with email "pecan@pie.org"
@@ -27,8 +31,6 @@ Feature: MATCH Interested Users page
     When I click "I'm Interested"
     And I wait 3 seconds
     Then I should see "You have been added to the interested list"
-
-
 
   Scenario: administrator user tests the MATCH Interested Users Page
     Given I am logged in as a user with the "administrator" role
