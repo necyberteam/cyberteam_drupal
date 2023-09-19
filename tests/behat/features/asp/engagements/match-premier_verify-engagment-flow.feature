@@ -161,7 +161,7 @@ Feature: verify the approval process of a MATCH Engagement
     When I fill in "edit-field-what-match-will-learn-0-value" with "learn123"
     And I wait 1 seconds
     When I press "Save"
-    Then I should see "MATCH+ Engagement Test1234567 has been updated."
+    Then I should see "MATCH+ Engagement Testing123 has been updated."
     When I follow "Edit"
 
     # Verify fields have expected values
