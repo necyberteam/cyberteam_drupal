@@ -135,7 +135,6 @@ Feature: verify the approval process of a MATCH Engagement
     Given I am logged in with email "pecan@pie.org"
     When I go to "/community-persona"
     Then I should see "Testing123"
-    When I go to "/node/5981"
     When I follow "Edit"
     And I wait 2 seconds
     # following should be something like http://cyberteam.lndo.site/node/5997/edit
