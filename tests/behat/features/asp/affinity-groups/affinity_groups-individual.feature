@@ -157,6 +157,7 @@ Feature: Feature: test an Affinity Groups page
   Scenario: AG Coordinator can see & download & email members
     Given I am logged in with uid "952"
     When I am on "/affinity-groups/cloud-computing"
+    And I wait 6 seconds
     When I follow "View Members"
     Then I should be on "/affinity-groups/571/users/Cloud%20Computing?nid=189"
     And I should see "Download CSV"
