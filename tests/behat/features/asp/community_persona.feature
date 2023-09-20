@@ -120,5 +120,8 @@ Feature: test ACCESS Support Community Persona
     And I wait for the page to be loaded
     When I fill in "edit-title-0-value" with "test-admin-created-engagement"
     When I press "Save"
+    And I wait 4 seconds
+    Then I should see "MATCH+ Engagement test-admin-created-engagement has been created."
     When I go to "/community-persona"
+    And I wait 4 seconds
     Then I should see "test-admin-created-engagement"
