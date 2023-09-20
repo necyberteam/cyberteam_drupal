@@ -3,7 +3,8 @@
 @javascript
 
 Feature: test CCMNET Page and submission
-
+  TODO: this should be in the CCMNet domain tests
+  
   Scenario: Authenticated user tests the CCMNET Page
     Given I am logged in as a user with the "authenticated" role
     When I go to "/form/get-updates-about-ccmnet"
