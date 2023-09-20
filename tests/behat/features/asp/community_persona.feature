@@ -121,6 +121,8 @@ Feature: test ACCESS Support Community Persona
     When I fill in "edit-title-0-value" with "test-admin-created-engagement"
     When I wait 3 seconds
     When I press "Save"
-    #Then I should see "testshouldfail"
+    And I wait 4 seconds
+    Then I should see "MATCH+ Engagement test-admin-created-engagement has been created."
     When I go to "/community-persona"
+    And I wait 4 seconds
     Then I should see "test-admin-created-engagement"
