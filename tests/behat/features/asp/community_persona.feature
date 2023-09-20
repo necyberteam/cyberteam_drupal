@@ -119,6 +119,8 @@ Feature: test ACCESS Support Community Persona
     When I go to "/node/add/match_engagement?type=plus"
     And I wait for the page to be loaded
     When I fill in "edit-title-0-value" with "test-admin-created-engagement"
+    When I wait 3 seconds
     When I press "Save"
+    #Then I should see "testshouldfail"
     When I go to "/community-persona"
     Then I should see "test-admin-created-engagement"
