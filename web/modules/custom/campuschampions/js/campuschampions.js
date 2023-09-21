@@ -1,10 +1,21 @@
-setTimeout(function() {
-    const nationwide = document.getElementById("cc-nationwide");
-    nationwide.innerHTML = 827;
-    const institutions = document.getElementById("cc-institutions");
-    institutions.innerHTML = 362;
-    const epscor = document.getElementById("cc-epscor");
-    epscor.innerHTML = 87;
-    const msi = document.getElementById("cc-msi");
-    msi.innerHTML = 61;
-}, 0);
+document.addEventListener('DOMContentLoaded', function () {
+    const nationwide = document.getElementById('cc-nationwide');
+    if (nationwide) {
+        nationwide.innerHTML = nationwide.getAttribute('data-value');
+    }
+
+    const institutions = document.getElementById('cc-institutions');
+    if (institutions) {
+        institutions.innerHTML = institutions.getAttribute('data-value');
+    }
+
+    const epscor = document.getElementById('cc-epscor');
+    if (epscor) {
+        epscor.innerHTML = epscor.getAttribute('data-value');
+    }
+
+    const msi = document.getElementById('cc-msi');
+    if (msi) {
+        msi.innerHTML = msi.getAttribute('data-value');
+    }
+});
