@@ -19,9 +19,26 @@ class CampusChampionsBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
+    $stats = [
+      'nationwide' => 827,
+      'institutions' => 362,
+      'epscor' => 87,
+      'msi' => 61
+    ];
+
+    $file = \Drupal::service('file_system')->realpath('public://') . '/cc-breakdown-stats.json';
+
+    if (file_exists($file)) {
+      $contents = file_get_contents($file);
+      $data = json_decode($contents);
+      if (!empty($data)) {
+        $stats = $data;
+      }
+    }
+
     return [
       '#theme' => 'campuschampions_block',
-      '#data' => [],
+      '#data' => $stats,
     ];
   }
 
