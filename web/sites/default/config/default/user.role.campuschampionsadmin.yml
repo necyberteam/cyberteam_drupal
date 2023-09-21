@@ -4,10 +4,12 @@ status: true
 dependencies:
   module:
     - actions_permissions
+    - field_permissions
 id: campuschampionsadmin
 label: CampusChampionsAdmin
 weight: 2
 is_admin: null
 permissions:
+  - 'create field_carnegie_code'
   - 'execute campuschampions_approve_cc_action all'
   - 'execute campuschampions_approve_cc_decline all'
