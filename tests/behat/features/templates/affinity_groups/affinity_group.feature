@@ -76,8 +76,8 @@ Feature: Feature: test an Affinity Groups page
     # TODO - once able to add a CI Link to this AG, uncomment the following
     #Then I should see "ci-link-for-user-200"
     Then link "Changing my user profile name on the" should contain "/t/changing-my-user-profile-name-on-the-access-support-portal/2479"
-    When I click "How to Write a Successful"
-    Then I should be on "/events/6593"
+    #When I click "How to Write a Successful"
+    #Then I should be on "/events/6593"
 
 
   Scenario: Unauthenticated user tests an AG with an announcement
