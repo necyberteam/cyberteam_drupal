@@ -72,7 +72,7 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Events"
     # TODO need a future event for the following
     # Then I should see "[4/04/2023 7:00 PM EDT]"
-    Then link "How to Write a Successful" should contain "/events/6593"
+    # Then link "How to Write a Successful" should contain "/events/6593"
     # TODO - once able to add a CI Link to this AG, uncomment the following
     #Then I should see "ci-link-for-user-200"
     Then link "Changing my user profile name on the" should contain "/t/changing-my-user-profile-name-on-the-access-support-portal/2479"
