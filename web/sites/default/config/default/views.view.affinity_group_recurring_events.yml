@@ -299,7 +299,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{# split off first value of times range in date__value__1 (instance_time) #}\r\n{% set split_times =  date__value_1|split('*') %}\r\n[{{ date__value }} {{split_times[0]}}] <a href=\"{{ view_eventinstance }}\">{{ title }}</a>"
+            text: "{# split off first value of times range in date__value__1 (instance_time) #}\r\n{% set split_times =  date__value_1|split('*') %}\r\n[{{ date__value }} {{split_times[0]|trim}}] <a href=\"{{ view_eventinstance }}\">{{ title }}</a>"
             make_link: false
             path: ''
             absolute: false
