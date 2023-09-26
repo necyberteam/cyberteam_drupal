@@ -141,10 +141,10 @@ class FeatureContext extends RawDrupalContext {
 
     // print('ck_editor getHtml: "' . $ck_editor->getHtml() . "\"\n");
 
-    // Padding the ck_text with 4 spaces seems to be needed.  Not sure why, but
+    // Padding the ck_text with some text seems to be needed.  Not sure why, but
     // the ck-editor sometime rotates the characters of the
     // the text being added to the field.
-    $ck_editor->setValue('      ' . $ck_text . '      ');
+    $ck_editor->setValue('pad      ' . $ck_text . '     pad');
 
     // print('ck_editor getHtml: "' . $ck_editor->getHtml() . "\"\n");
   }
