@@ -141,10 +141,10 @@ class FeatureContext extends RawDrupalContext {
 
     // print('ck_editor getHtml: "' . $ck_editor->getHtml() . "\"\n");
 
-    // Prepending the ck_text with 4 spaces seems to work.  Not sure why, but
-    // sometimes the ck-editor rotates the first few charactesr of the
-    // the text to the end of the string.
-    $ck_editor->setValue('    ' . $ck_text);
+    // Padding the ck_text with 4 spaces seems to be needed.  Not sure why, but
+    // the ck-editor sometime rotates the characters of the
+    // the text being added to the field.
+    $ck_editor->setValue('      ' . $ck_text . '      ');
 
     // print('ck_editor getHtml: "' . $ck_editor->getHtml() . "\"\n");
   }
