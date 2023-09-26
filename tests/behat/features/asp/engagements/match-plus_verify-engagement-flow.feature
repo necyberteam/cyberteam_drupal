@@ -29,8 +29,10 @@ Feature: verify the approval process of a MATCH Engagement
     And I wait 2 seconds
     When I fill in "Project Title" with "Test1234567"
     When I fill in "Institution" with "Test"
-    When I select "Start within 3 months" from "edit-field-urgency"
-    Then I should see "Description"
+    When I fill the rich textarea "edit-body-wrapper" with "Test1234567-description"
+    Then I should see "Test1234567-description"
+    When I click the element with selector "Select relevant tags"
+    When I click the element with selector "access-acount"
 
     # verify the cannot accept or decline their engagement
     Then element "edit-moderation-state-0-state" should contain "Draft"
@@ -67,7 +69,8 @@ Feature: verify the approval process of a MATCH Engagement
     Then I should see "Select relevant tags"
     # TODO select & confirm tags??  could be difficult
     Then I should see "Interested People"
-    Then I should see "Notes to Author"
+    # Then I should see "Notes to Author"
+
     Then I should see "Current state"
     Then I should see "Submitted"
 
@@ -85,11 +88,16 @@ Feature: verify the approval process of a MATCH Engagement
     Then I should see "MATCH+ Engagement Test1234567 has been updated."
     Then I should see "received"
 
-Scenario: match_sc user adds a steering committee member, and updates the status to "In Review"
+  Scenario: match_sc user adds a steering committee member, and updates the status to "In Review"
     Given I am logged in as a user with the "match_sc" role
     When I go to "/match-engagements-submissions"
     When I follow "Test1234567"
     When I follow "Edit"
+
+    # Add a milestone & date
+    When I fill in "edit-field-milestone-description-0-value" with "Test1234567-Milestone-1"
+    When I fill in "edit-field-milestone-completion-date-0-value-date" with "2025-01-01"
+    #When I set date of "edit-field-milestone-completion-date-0-value-date" to "2025-01-01"
 
     # add steering committee member
     Then I should see "MATCH Steering Committee member"
@@ -135,33 +143,33 @@ Scenario: match_sc user adds a steering committee member, and updates the status
     Then element "edit-moderation-state-0-state" should contain "Declined"
 
 
-  Scenario:  Pecan Pie user can add additional details after their engagement has been "Received"
-    Given I am logged in with email "pecan@pie.org"
-    When I go to "/community-persona"
+  Scenario:  match_sc user can add additional details after their engagement has been "Received"
+
+    Given I am logged in as a user with the "match_sc" role
+    When I go to "/match-engagements-submissions"
     When I follow "Test1234567"
     When I follow "Edit"
     And I wait 2 seconds
     # following should be something like http://cyberteam.lndo.site/node/5997/edit
     #Then print current URL
 
-    # fill new new fields as original author and save
     Then I should see "Researcher(s)"
     Then I should see "Select the researcher(s) leading this project"
+
     # Fill in fields that are now available
+    When I click the element with selector "Engagement Details"
     Then I should see "HPC Resources Needed (if known)"
     When I fill in "edit-field-hpc-resources-needed-0-value" with "hpc123"
     Then I should see "Select relevant tags"
     Then I should see "Project Image"
     Then I should see "Project Deliverables"
     When I fill in "edit-field-project-deliverables-0-value" with "deliv123"
-    Then I should see "Planned Publications"
-    When I fill in "edit-field-planned-publications-0-value" with "plan123"
-    Then I should see "Planned Knowledge Base Contribution"
-    When I fill in "edit-field-planned-portal-contributio-0-value" with "contrib123"
-    Then I should see "Git Contribution"
-    When I fill in "edit-field-git-contribution-0-uri" with "https://github.com/necyberteam/cyberteam_drupal"
-    Then I should see "What MATCH will learn"
-    When I fill in "edit-field-what-match-will-learn-0-value" with "learn123"
+
+    When I click the element with selector "Final Report"
+    Then I should see "What is the impact on the development discipline(s) of the project?"
+    When I fill in "edit-field-what-is-the-impact-on-the-0-value" with "impact123"
+    Then I should see "Lessons Learned"
+    When I fill in "edit-field-lessons-learned-0-value" with "learn123"
     And I wait 1 seconds
     When I press "Save"
     Then I should see "MATCH+ Engagement Test1234567 has been updated."
@@ -170,15 +178,48 @@ Scenario: match_sc user adds a steering committee member, and updates the status
     # Verify fields have expected values
     Then element "edit-field-hpc-resources-needed-0-value" should contain "hpc123"
     Then element "edit-field-project-deliverables-0-value" should contain "deliv123"
-    Then element "edit-field-planned-publications-0-value" should contain "plan123"
-    Then element "edit-field-planned-portal-contributio-0-value" should contain "contrib123"
-    #Then I print value of element with id "edit-field-git-contribution-0-uri"
-    Then value of element "edit-field-git-contribution-0-uri" should contain "https://github.com/necyberteam/cyberteam_drupal"
-    Then element "edit-field-what-match-will-learn-0-value" should contain "learn123"
+    Then element "edit-field-what-is-the-impact-on-the-0-value" should contain "impact123"
+    Then element "edit-field-lessons-learned-0-value" should contain "learn123"
 
-    #Then I display element "edit-field-match-steering-committee-m-0-target-id"
+
+  Scenario:  Pecan Pie user can add additional details after their engagement has been "Received"
+    Given I am logged in with email "pecan@pie.org"
+    When I go to "/community-persona"
+    When I follow "Test1234567"
+    When I follow "Edit"
+    And I wait 2 seconds
+    # following should be something like http://cyberteam.lndo.site/node/5997/edit
+    # Then print current URL
+
     Then value of element "edit-field-match-steering-committee-m-0-target-id" should contain "Julie Ma"
+    # id="edit-field-match-steering-committee-m-0-target-id"
     Then "edit-field-match-steering-committee-m-0-target-id" is disabled
+
+    # fill new new fields as original author and save
+
+    When I click the element with selector "Engagement Details"
+    When I fill in "edit-field-qualifications-0-value" with "qualifications123"
+
+    When I click the element with selector "Final Report"
+    When I fill in "edit-field-what-is-the-impact-on-othe-0-value" with "otherImpact123"
+    When I fill in "edit-field-notes-0-value" with "notes123"
+
+    And I wait 1 seconds
+    When I press "Save"
+    Then I should see "MATCH+ Engagement Test1234567 has been updated."
+    When I follow "Edit"
+    When I click the element with selector "Engagement Details"
+
+    # Verify fields have expected values
+    When I click the element with selector "Engagement Details"
+    When I click the element with selector "Final Report"
+    Then element "edit-field-hpc-resources-needed-0-value" should contain "hpc123"
+    Then element "edit-field-project-deliverables-0-value" should contain "deliv123"
+    Then element "edit-field-what-is-the-impact-on-the-0-value" should contain "impact123"
+    Then element "edit-field-lessons-learned-0-value" should contain "learn123"
+    Then element "edit-field-qualifications-0-value" should contain "qualifications123"
+    Then element "edit-field-what-is-the-impact-on-othe-0-value" should contain "otherImpact123"
+    Then element "edit-field-notes-0-value" should contain "notes123"
 
     # verify expected status options
     Then element "edit-moderation-state-0-state" should contain "Draft"
