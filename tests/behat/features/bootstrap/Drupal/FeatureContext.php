@@ -139,14 +139,14 @@ class FeatureContext extends RawDrupalContext {
 
     $ck_editor = $ck_editor[0]->find('css', '.ck-editor__editable');
 
-    print('ck_editor getHtml: "' . $ck_editor->getHtml() . "\"\n");
+    // print('ck_editor getHtml: "' . $ck_editor->getHtml() . "\"\n");
 
     // Prepending the ck_text with 4 spaces seems to work.  Not sure why, but
     // sometimes the ck-editor rotates the first few charactesr of the
     // the text to the end of the string.
     $ck_editor->setValue('    ' . $ck_text);
 
-    print('ck_editor getHtml: "' . $ck_editor->getHtml() . "\"\n");
+    // print('ck_editor getHtml: "' . $ck_editor->getHtml() . "\"\n");
   }
 
   /**
