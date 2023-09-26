@@ -41,7 +41,7 @@ Feature: test ACCESS Support Events Page and Individual Events Page
     Then I should see "Create Access Event"
     When I fill in "Title" with "test-event-1"
     #P is the body field
-    When I fill in "p" with "testing body field"
+    When I fill the rich textarea "edit-body-wrapper" with "testing body field"
     #edit-recur-type-custom is the ID for Custom/Single Event
     When I click the "#edit-recur-type-custom" element
     #TODO: Not able to test date selection. Issue not created yet
