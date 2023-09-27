@@ -53,15 +53,15 @@ Feature: test ACCESS Support Events Page and Individual Events Page
     When I select "Training" from "Event Type"
     When I select "Community" from "Affiliation"
     When I select "Advanced" from "Skill Level"
-    When I select "Published" from "Save as"
+    When I select "Ready for Review" from "Save as"
     When I wait 3 seconds
     When I press "Save"
     And I wait 3 seconds
-    #When I go to "/events"
-    #Then I should see "My Events"
-    #Then I should see "Status"
-    #When I click "test-event-1"
-    #When I select "Published" from "Change to"
+    When I go to "/events"
+    Then I should see "My Events"
+    Then I should see "Status"
+    When I click "test-event-1"
+    When I select "Published" from "Change to"
     #op is the apply button
-    #When I press "op"
+    When I press "op"
     Then I should see "The moderation state has been updated"
