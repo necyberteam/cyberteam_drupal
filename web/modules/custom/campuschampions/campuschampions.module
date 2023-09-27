@@ -316,55 +316,19 @@ function campuschampions_views_data_export_row_alter(&$row, \Drupal\views\Result
       $row['field_carnegie_code_classification'] = $results['BASIC2021'];
       $row['field_carnegie_code_msi'] = $results['MSI'];
       $row['field_carnegie_code_site'] = $results['NAME'];
-      $row['field_carnegie_code_eps_lookup'] = 0;
+      $row['field_carnegie_code_region'] = CarnegieCodesLookup::region($results['STABBR']);
 
-      $epscor = array(
-        'AK', 'AL', 'AR', 'DE', 'GU', 'HI', 'ID',
-        'KS', 'KY', 'LA', 'ME', 'MS', 'MT', 'ND',
-        'NE', 'NH', 'NM', 'NV', 'OK', 'PR', 'RI',
-        'SC', 'SD', 'VI', 'VT', 'WV', 'WY',
-      );
-      if (in_array($results['STABBR'], $epscor)) {
+      $row['field_carnegie_code_eps_lookup'] = 0;
+      if (CarnegieCodesLookup::isEpscor($results['STABBR'])) {
         $row['field_carnegie_code_eps_lookup'] = 1;
       }
 
-      // type_id = MSI + 10 * EPS_lookup + 100 * non-academy
-      $nonacademy = 0;
-      if (is_numeric($cc)) {
-        $nonacademy = $cc > 9999 ? 0 : 1;
-      }
-      $row['field_carnegie_code_type_id'] = ($row['field_carnegie_code_msi'] + 10) * $row['field_carnegie_code_eps_lookup'] + (100 * $nonacademy);
-
-      switch ($row['field_carnegie_code_type_id'])
-      {
-        case 110:
-        case 100: $row['field_carnegie_code_type'] = 'other not-for-profit organization'; break;
-        case 11:  $row['field_carnegie_code_type'] = 'MSI in EPSCoR jurisdiction';        break;
-        case 10:  $row['field_carnegie_code_type'] = 'EPSCoR';                            break;
-        case 1:   $row['field_carnegie_code_type'] = 'Minority Serving Institution';      break;
-        case 0:
-        default:  $row['field_carnegie_code_type'] = 'Academic institution';
-      }
-
-      $regions = array(
-        'AK' => 1, 'AL' => 5, 'AR' => 4, 'AZ' => 2,
-        'CA' => 2, 'CO' => 8, 'CT' => 7, 'DC' => 6,
-        'DE' => 6, 'FL' => 5, 'GA' => 5, 'HI' => 2,
-        'IA' => 3, 'ID' => 1, 'IL' => 3, 'IN' => 6,
-        'KS' => 4, 'KY' => 6, 'LA' => 4, 'MA' => 7,
-        'MD' => 6, 'ME' => 7, 'MI' => 6, 'MN' => 3,
-        'MO' => 4, 'MS' => 5, 'MT' => 1, 'NC' => 5,
-        'ND' => 3, 'NE' => 4, 'NH' => 7, 'NJ' => 6,
-        'NM' => 8, 'NV' => 2, 'NY' => 7, 'OH' => 6,
-        'OK' => 4, 'OR' => 1, 'PA' => 6, 'PR' => 5,
-        'RI' => 7, 'SC' => 5, 'SD' => 3, 'TN' => 5,
-        'TX' => 4, 'UT' => 8, 'VA' => 6, 'VI' => 5,
-        'VT' => 7, 'WA' => 1, 'WI' => 3, 'WV' => 6,
-        'WY' => 8, 'GU' => 2,
+      $row['field_carnegie_code_type_id'] = CarnegieCodesLookup::typeId(
+        $row['field_carnegie_code_msi'],
+        $row['field_carnegie_code_eps_lookup'],
+        $row['field_carnegie_code']
       );
-      if (isset($regions[$results['STABBR']])) {
-        $row['field_carnegie_code_region'] = $regions[$results['STABBR']];
-      }
+      $row['field_carnegie_code_type'] = CarnegieCodesLookup::type($row['field_carnegie_code_type_id']);
 
       // Try to retrieve the LAT and LON from the ACCESS organization
       $nids = \Drupal::entityQuery('node')

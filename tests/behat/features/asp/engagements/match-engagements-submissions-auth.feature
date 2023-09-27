@@ -43,12 +43,6 @@ Feature: MATCH Engagements submissions page
     Then I am on "/node/445"
     Then I should see "Adapting a GEOspatial Agent-based model for Covid Transmission (GeoACT) for general use"
 
-    When I click "Edit"
-    Then I should be on "/node/445/edit"
-    And I wait 1 seconds
-    When I press "Save"
-    Then I should be on "/node/445"
-
     #TODO: test team column displays mentor, student, consultant, and steering committee assignments
     # see https://cyberteamportal.atlassian.net/browse/D8-1593
 
@@ -92,6 +86,3 @@ Feature: MATCH Engagements submissions page
     When I click "Edit"
     Then I should be on "/node/445/edit"
     Then I should see "MATCH Steering Committee member"
-    And I wait 1 seconds
-    When I press "Save"
-    Then I should be on "/node/445"

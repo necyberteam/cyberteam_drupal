@@ -14,6 +14,13 @@ services:
     type: php:8.1
   database:
     portforward: 3300
+  node:
+    type: node:18
+    build_as_root:
+      - apt-get update
+      - apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+    run:
+      - "cd /app/tests/cypress && npx cypress install"
   appserver:
     build_as_root:
       - apt-get update
@@ -31,6 +38,12 @@ tooling:
   blt:
     service: appserver
     cmd: /app/vendor/bin/blt
+  cypress:
+    service: node
+    cmd: npx cypress
+  npm18:
+    service: node
+    cmd: npm
   npm:
     service: appserver
     cmd: /usr/bin/npm

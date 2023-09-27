@@ -45,6 +45,7 @@ dependencies:
     - field.field.node.match_engagement.field_overall_results
     - field.field.node.match_engagement.field_planned_portal_contributio
     - field.field.node.match_engagement.field_planned_publications
+    - field.field.node.match_engagement.field_preferred_semester
     - field.field.node.match_engagement.field_programming_skill_level
     - field.field.node.match_engagement.field_project_deliverables
     - field.field.node.match_engagement.field_project_image
@@ -70,28 +71,10 @@ dependencies:
     - field_group
     - file
     - image
-    - link
     - path
     - text
 third_party_settings:
   field_group:
-    group_milestones:
-      children:
-        - field_milestone_description
-        - field_milestone_completion_date
-        - field_milestone_actual_date
-      label: Milestone
-      region: content
-      parent_name: group_milestones_group
-      weight: 27
-      format_type: details
-      format_settings:
-        classes: ''
-        show_empty_fields: false
-        id: ''
-        open: true
-        description: ''
-        required_fields: true
     group_milestone_1:
       children:
         - field_milestone_description_1
@@ -100,7 +83,7 @@ third_party_settings:
       label: Milestone
       region: content
       parent_name: group_milestones_group
-      weight: 29
+      weight: 35
       format_type: details
       format_settings:
         classes: ''
@@ -117,7 +100,7 @@ third_party_settings:
       label: Milestone
       region: content
       parent_name: group_milestones_group
-      weight: 30
+      weight: 36
       format_type: details
       format_settings:
         classes: ''
@@ -134,7 +117,7 @@ third_party_settings:
       label: Milestone
       region: content
       parent_name: group_milestones_group
-      weight: 31
+      weight: 38
       format_type: details
       format_settings:
         classes: ''
@@ -151,7 +134,7 @@ third_party_settings:
       label: Milestone
       region: content
       parent_name: group_milestones_group
-      weight: 32
+      weight: 39
       format_type: details
       format_settings:
         classes: ''
@@ -174,7 +157,7 @@ third_party_settings:
       label: 'Final Report'
       region: content
       parent_name: ''
-      weight: 27
+      weight: 21
       format_type: details
       format_settings:
         classes: ''
@@ -185,22 +168,21 @@ third_party_settings:
         required_fields: true
     group_milestones_group:
       children:
-        - group_milestones
         - group_milestone_1
         - group_milestone_2
         - group_milestone_3
         - group_milestone_4
-      label: Milestones
+      label: 'Further Milestones'
       region: content
-      parent_name: ''
-      weight: 25
+      parent_name: group_milestones_set
+      weight: 43
       format_type: details
       format_settings:
         classes: ''
         show_empty_fields: false
         id: group_milestones_group
         open: false
-        description: 'Please enter as many as five milestones for this engagement.  Note that not all five fields are required.'
+        description: 'Please enter as many as four additional milestones for this engagement.'
         required_fields: true
     group_launch_and_wrap_presentati:
       children:
@@ -211,7 +193,7 @@ third_party_settings:
       label: 'Launch and Wrap Presentations'
       region: content
       parent_name: ''
-      weight: 26
+      weight: 20
       format_type: details
       format_settings:
         classes: ''
@@ -225,12 +207,10 @@ third_party_settings:
         - field_consultant
         - field_mentor
         - field_students
-        - field_qualifications
-        - field_programming_skill_level
       label: 'MATCH Team'
       region: content
       parent_name: ''
-      weight: 24
+      weight: 18
       format_type: details
       format_settings:
         classes: ''
@@ -239,6 +219,56 @@ third_party_settings:
         open: false
         description: ''
         required_fields: true
+    group_engagement_details:
+      children:
+        - field_hpc_resources_needed
+        - field_project_deliverables
+        - field_qualifications
+        - field_programming_skill_level
+        - field_requested_engagement
+      label: 'Engagement Details'
+      region: content
+      parent_name: ''
+      weight: 17
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: match_engagement_details
+        open: false
+        description: ''
+        required_fields: true
+    group_milestones_set:
+      children:
+        - group_first_milestone_fs
+        - group_milestones_group
+      label: Milestones
+      region: content
+      parent_name: ''
+      weight: 19
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: milestones_fieldset
+        description: ''
+        required_fields: false
+    group_first_milestone_fs:
+      children:
+        - field_milestone_description
+        - field_milestone_completion_date
+        - field_milestone_actual_date
+      label: 'First Milestone (required)'
+      region: content
+      parent_name: group_milestones_set
+      weight: 41
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: milestone1_fieldset
+        description: 'Please enter as many as five milestones for this engagement.  Only the first milestone is required.'
+        required_fields: true
 id: node.match_engagement.default
 targetEntityType: node
 bundle: match_engagement
@@ -246,7 +276,7 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 14
+    weight: 13
     region: content
     settings:
       rows: 9
@@ -262,49 +292,49 @@ content:
     third_party_settings: {  }
   field_actual_completion_date_1:
     type: datetime_default
-    weight: 25
+    weight: 40
     region: content
     settings: {  }
     third_party_settings: {  }
   field_actual_completion_date_2:
     type: datetime_default
-    weight: 33
+    weight: 40
     region: content
     settings: {  }
     third_party_settings: {  }
   field_actual_completion_date_3:
     type: datetime_default
-    weight: 28
+    weight: 24
     region: content
     settings: {  }
     third_party_settings: {  }
   field_actual_completion_date_4:
     type: datetime_default
-    weight: 32
+    weight: 33
     region: content
     settings: {  }
     third_party_settings: {  }
   field_completion_date_goal_1:
     type: datetime_default
-    weight: 23
+    weight: 39
     region: content
     settings: {  }
     third_party_settings: {  }
   field_completion_date_goal_2:
     type: datetime_default
-    weight: 32
+    weight: 39
     region: content
     settings: {  }
     third_party_settings: {  }
   field_completion_date_goal_3:
     type: datetime_default
-    weight: 27
+    weight: 23
     region: content
     settings: {  }
     third_party_settings: {  }
   field_completion_date_goal_4:
     type: datetime_default
-    weight: 31
+    weight: 32
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -339,22 +369,14 @@ content:
     third_party_settings: {  }
   field_email_user:
     type: boolean_checkbox
-    weight: 34
+    weight: 28
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
-  field_git_contribution:
-    type: link_default
-    weight: 22
-    region: content
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
-    third_party_settings: {  }
   field_hpc_resources_needed:
     type: string_textarea
-    weight: 17
+    weight: 20
     region: content
     settings:
       rows: 5
@@ -402,7 +424,7 @@ content:
     third_party_settings: {  }
   field_is_there_an_impact_physica:
     type: string_textarea
-    weight: 43
+    weight: 44
     region: content
     settings:
       rows: 5
@@ -431,7 +453,7 @@ content:
     third_party_settings: {  }
   field_match_interested_users:
     type: entity_reference_autocomplete
-    weight: 31
+    weight: 25
     region: content
     settings:
       match_operator: CONTAINS
@@ -441,7 +463,7 @@ content:
     third_party_settings: {  }
   field_match_steering_committee_m:
     type: entity_reference_autocomplete
-    weight: 32
+    weight: 26
     region: content
     settings:
       match_operator: CONTAINS
@@ -461,19 +483,19 @@ content:
     third_party_settings: {  }
   field_milestone_actual_date:
     type: datetime_default
-    weight: 20
+    weight: 45
     region: content
     settings: {  }
     third_party_settings: {  }
   field_milestone_completion_date:
     type: datetime_default
-    weight: 19
+    weight: 44
     region: content
     settings: {  }
     third_party_settings: {  }
   field_milestone_description:
     type: string_textarea
-    weight: 18
+    weight: 42
     region: content
     settings:
       rows: 5
@@ -481,7 +503,7 @@ content:
     third_party_settings: {  }
   field_milestone_description_1:
     type: string_textarea
-    weight: 22
+    weight: 38
     region: content
     settings:
       rows: 5
@@ -489,7 +511,7 @@ content:
     third_party_settings: {  }
   field_milestone_description_2:
     type: string_textarea
-    weight: 31
+    weight: 38
     region: content
     settings:
       rows: 5
@@ -497,7 +519,7 @@ content:
     third_party_settings: {  }
   field_milestone_description_3:
     type: string_textfield
-    weight: 26
+    weight: 22
     region: content
     settings:
       size: 60
@@ -513,13 +535,13 @@ content:
     third_party_settings: {  }
   field_node_type:
     type: options_select
-    weight: 29
+    weight: 23
     region: content
     settings: {  }
     third_party_settings: {  }
   field_notes:
     type: string_textarea
-    weight: 28
+    weight: 22
     region: content
     settings:
       rows: 5
@@ -527,7 +549,7 @@ content:
     third_party_settings: {  }
   field_notes_to_author:
     type: string_textarea
-    weight: 35
+    weight: 29
     region: content
     settings:
       rows: 5
@@ -541,7 +563,19 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_planned_portal_contributio:
+  field_preferred_semester:
+    type: options_select
+    weight: 16
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_programming_skill_level:
+    type: options_select
+    weight: 23
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_project_deliverables:
     type: string_textarea
     weight: 21
     region: content
@@ -549,31 +583,9 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_planned_publications:
-    type: string_textarea
-    weight: 20
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  field_programming_skill_level:
-    type: options_select
-    weight: 33
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_project_deliverables:
-    type: string_textarea
-    weight: 19
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
   field_project_image:
     type: image_image
-    weight: 18
+    weight: 15
     region: content
     settings:
       progress_indicator: throbber
@@ -581,7 +593,7 @@ content:
     third_party_settings: {  }
   field_qualifications:
     type: string_textarea
-    weight: 32
+    weight: 22
     region: content
     settings:
       rows: 5
@@ -589,7 +601,7 @@ content:
     third_party_settings: {  }
   field_requested_engagement:
     type: options_select
-    weight: 16
+    weight: 24
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -621,13 +633,7 @@ content:
     third_party_settings: {  }
   field_tags:
     type: options_select
-    weight: 15
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_urgency:
-    type: options_select
-    weight: 13
+    weight: 14
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -647,14 +653,6 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_what_match_will_learn:
-    type: string_textarea
-    weight: 23
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
   field_wrap_presentation:
     type: file_generic
     weight: 35
@@ -664,13 +662,13 @@ content:
     third_party_settings: {  }
   field_wrap_presentation_date:
     type: datetime_default
-    weight: 37
+    weight: 36
     region: content
     settings: {  }
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 30
+    weight: 24
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -682,7 +680,7 @@ content:
     third_party_settings: {  }
   promote:
     type: boolean_checkbox
-    weight: 33
+    weight: 27
     region: content
     settings:
       display_label: true
@@ -731,4 +729,9 @@ content:
     third_party_settings: {  }
 hidden:
   field_education: true
+  field_git_contribution: true
+  field_planned_portal_contributio: true
+  field_planned_publications: true
   field_student_learning: true
+  field_urgency: true
+  field_what_match_will_learn: true
