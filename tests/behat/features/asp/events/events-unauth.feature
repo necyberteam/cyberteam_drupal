@@ -60,7 +60,7 @@ Feature: test ACCESS Support Events Page and Individual Events Page
     #When I select "ACCESS Support" from "field_affinity_group_target_id_1"
     When I press "edit-submit-recurring-events-event-instances--2"
     Then I should see "test-event-1"
-    Then I should see "PuttingintoFail"
+    When I press "PuttingintoFail"
     When I click "View Past Events"
     Then I should be on "/past-events"
 
