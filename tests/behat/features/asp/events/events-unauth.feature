@@ -1,4 +1,4 @@
-@wip
+@asp
 @api
 @javascript
 Feature: test ACCESS Support Events Page and Individual Events Page
