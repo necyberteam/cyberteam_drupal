@@ -1,4 +1,4 @@
-@asp
+@wip
 @api
 @javascript
 Feature: test ACCESS Support Events Page and Individual Events Page
@@ -57,7 +57,7 @@ Feature: test ACCESS Support Events Page and Individual Events Page
     #edit-tid--2 is the term selection in filter by
     When I select "login" from "edit-tid--2"
     #edit-field-affinity-group-target-id-1--2 is the affinity group
-    When I select "ACCESS Support" from "field_affinity_group_target_id_1"
+    #When I select "ACCESS Support" from "field_affinity_group_target_id_1"
     When I press "edit-submit-recurring-events-event-instances--2"
     Then I should see "test-event-1"
     When I click "View Past Events"

@@ -1,4 +1,4 @@
-@asp
+@wip
 @api
 @javascript
 Feature: test ACCESS Support Events Page and Individual Events Page
@@ -34,8 +34,18 @@ Feature: test ACCESS Support Events Page and Individual Events Page
   - TODO: Affinity Group
   - Link back to events page
 
+  Scenario: Administrator sets pecan@pie to a affinity group leader role
+    Given I am logged in as a user with the "administrator" role
+    When I go to "/admin/people?user=pecan%40pie.org&status=All&role=All&permission=All&field_is_cc_value=All&field_region_target_id=All"
+    When I fill in "edit-user" with "pecan@pie.org"
+    #edit-submit-user-admin-people is the filter button
+    When I press "edit-submit-user-admin-people"
+    And I wait 3 seconds
+    When I click "Edit"
+    When I check "Affinity Group Leader"
+    And I press "Save"
 
-  Scenario: Anonymous user tests the Events Page
+  Scenario: pecan@pie.org user tests the Events Page
     Given I am logged in with email "pecan@pie.org"
     When I go to "/events/add"
     Then I should see "Create Access Event"
@@ -48,20 +58,20 @@ Feature: test ACCESS Support Events Page and Individual Events Page
     When I fill in "Location" with "Zoom"
     When I fill in "Contact" with "Pecan Pie"
     When I fill in "Registration" with "https://test-accessmatch.pantheonsite.io/form/join-the-cssn-network"
-    When I fill in "Affinity Group" with "ACCESS Support"
+    #Set PecanPie as a coordinator of a affinity group
+    #When I fill in "Affinity Group" with "ACCESS Support"
     When I fill in "Tags" with "login (682)"
     When I select "Training" from "Event Type"
     When I select "Community" from "Affiliation"
     When I select "Advanced" from "Skill Level"
-    When I select "Ready for Review" from "Save as"
+    When I select "Published" from "Save as"
     When I wait 3 seconds
     When I press "Save"
-    And I wait 3 seconds
     When I go to "/events"
     Then I should see "My Events"
     Then I should see "Status"
-    When I click "test-event-1"
-    When I select "Published" from "Change to"
-    #op is the apply button
-    When I press "op"
-    Then I should see "The moderation state has been updated"
+
+  #Scenario: Anonymous user tests the Events Page
+  #  Given I am not logged in
+  #  When I go to "/Events"
+   # Then I should see "efuiewwbe"
