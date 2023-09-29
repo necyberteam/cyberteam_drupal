@@ -15,7 +15,7 @@ Feature: This behat tests the The Community Page features which offers
     When I go to "/cssn"
     And I wait for the page to be loaded
     Then I should see "Engage with other researchers"
-    Then I should see "Computational Science & Support Network"
+    Then I should see "Computational Science Support Network"
     Then I should see "Join the CSSN Community"
     Then I should see "The Computational Science and Support Network (CSSN) makes us all stronger "
     Then I should see "Knowledge & Relationships"
