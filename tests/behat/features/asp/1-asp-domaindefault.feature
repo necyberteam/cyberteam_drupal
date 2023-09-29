@@ -13,7 +13,7 @@ Feature: test ACCESS Support domain
     When I go to "admin/config/domain/edit/amp_cyberinfrastructure_org"
     When I check "Default domain"
     When I uncheck "Test server response"
-    When I fill in "Hostname" with "http://cyberteam.cnctci.lndo.site"
+    When I fill in "Hostname" with "cyberteam.cnctci.lndo.site"
     When I press "Save"
     Given the cache has been cleared
     When I am on the homepage
