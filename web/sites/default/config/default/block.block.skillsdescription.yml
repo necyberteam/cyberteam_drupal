@@ -6,15 +6,14 @@ dependencies:
     - 'block_content:basic:b25cd33e-a4be-4ab8-b975-fc092df35dd5'
   module:
     - block_content
-    - domain
     - system
     - user
   theme:
     - nect
 id: skillsdescription
 theme: nect
-region: content
-weight: 8
+region: title_area
+weight: 3
 provider: null
 plugin: 'block_content:b25cd33e-a4be-4ab8-b975-fc092df35dd5'
 settings:
@@ -26,12 +25,6 @@ settings:
   info: ''
   view_mode: full
 visibility:
-  domain:
-    id: domain
-    negate: null
-    context_mapping:
-      domain: '@domain.current_domain_context:domain'
-    domains: {  }
   request_path:
     id: request_path
     negate: false

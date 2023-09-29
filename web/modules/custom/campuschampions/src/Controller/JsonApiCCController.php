@@ -30,12 +30,10 @@ class JsonApiCCController {
         $rows = $query->execute();
         foreach ($rows as $row) {
             $results[] = [
-            'label' => $row->NAME,
-            'value' => $row->UNITID
+                'label' => $row->NAME,
+                'value' => $row->UNITID
             ];
         }
         return new JsonResponse($results);
-    }  
+    }
 }
-
-?>
