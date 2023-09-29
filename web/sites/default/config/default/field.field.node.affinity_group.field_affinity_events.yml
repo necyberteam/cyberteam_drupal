@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.node.field_affinity_events
     - node.type.affinity_group
-    - recurring_events.eventinstance_type.default
 id: node.affinity_group.field_affinity_events
 field_name: field_affinity_events
 entity_type: node
@@ -17,13 +16,6 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:eventinstance'
-  handler_settings:
-    target_bundles:
-      default: default
-    sort:
-      field: _none
-      direction: ASC
-    auto_create: false
-    auto_create_bundle: ''
+  handler: 'default:eventseries'
+  handler_settings: {  }
 field_type: entity_reference
