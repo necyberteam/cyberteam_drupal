@@ -14,13 +14,6 @@ services:
     type: php:8.1
   database:
     portforward: 3300
-  node:
-    type: node:18
-    build_as_root:
-      - apt-get update
-      - apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-    run:
-      - "cd /app/tests/cypress && npx cypress install"
   appserver:
     build_as_root:
       - apt-get update
@@ -34,6 +27,9 @@ services:
       - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
       - apt install -y ./google-chrome-stable_current_amd64.deb
       - rm google-chrome-stable_current_amd64.deb
+      - apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+    run:
+      - "cd /app/tests/cypress && npx cypress install -y"
 proxy:
   appserver:
     - '*.cnctci.lndo.site'
@@ -42,10 +38,10 @@ tooling:
     service: appserver
     cmd: /app/vendor/bin/blt
   cypress:
-    service: node
+    service: appserver
     cmd: npx cypress
   npm18:
-    service: node
+    service: appserver
     cmd: npm
   npm:
     service: appserver
