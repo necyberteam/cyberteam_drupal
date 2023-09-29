@@ -1,0 +1,31 @@
+uuid: 7c2d392f-aa7a-4a95-a8dd-d657f77dfc8a
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:8692d31d-fbc5-4bc0-a591-bbdcefdebddd'
+  module:
+    - block_content
+    - system
+  theme:
+    - aspTheme
+id: aspTheme_resourceslist
+theme: aspTheme
+region: sidebar_first
+weight: 5
+provider: null
+plugin: 'block_content:8692d31d-fbc5-4bc0-a591-bbdcefdebddd'
+settings:
+  id: 'block_content:8692d31d-fbc5-4bc0-a591-bbdcefdebddd'
+  label: Resources-List
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /ci-links

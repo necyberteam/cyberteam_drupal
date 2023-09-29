@@ -4,6 +4,7 @@ status: true
 dependencies:
   module:
     - obfuscate_email
+    - shortcode
 name: 'Full no editor'
 format: full_no_editor
 weight: 0
@@ -13,4 +14,16 @@ filters:
     provider: obfuscate_email
     status: true
     weight: 0
-    settings: {  }
+    settings:
+      click: '0'
+      click_label: 'Click here to show mail address'
+  shortcode:
+    id: shortcode
+    provider: shortcode
+    status: true
+    weight: 0
+    settings:
+      accordion: '1'
+      cta_block: '1'
+      square: '1'
+      icon_block: '1'
