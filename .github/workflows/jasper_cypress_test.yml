@@ -29,7 +29,7 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   asp:
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v2
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@main
     if: contains(github.event.inputs.sites, 'asp')
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -145,7 +145,7 @@ jobs:
       - name: Comment on pull request
         if: "${{ env.prnum  != '' }}"
         run: |
-          gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Behat Test was Successful -=-=-=- 🤖"
+          gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Test was Successful -=-=-=- 🤖"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
@@ -155,7 +155,7 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: 'success :rocket:'
-          SLACK_TITLE: "Github action: behat success"
+          SLACK_TITLE: "Github action: test success"
           SLACK_CHANNEL: behat-git-notifications
   fail:
     name: Actions to run on fail
