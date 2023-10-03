@@ -16,18 +16,6 @@ permissions:
   actions: read
   pull-requests: write
 jobs:
-  cci:
-    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v2
-    if: contains(github.event.inputs.sites, 'cci') || github.event_name == 'pull_request'
-    secrets:
-      slack_token: ${{ secrets.SLACK_TOKEN }}
-      site: "cci"
-      database: ${{ github.event.inputs.database }}
-      prnum: ${{ github.event.inputs.prnum }}
-      gh_token: ${{ secrets.GH_TOKEN_REPO }}
-      LANDO_ENV: ${{ secrets.LANDO_ENV }}
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      REPO: "${{ github.server_url }}/${{ github.repository }}"
   asp:
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@main
     if: contains(github.event.inputs.sites, 'asp')
@@ -40,105 +28,10 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
-  champ:
-    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v2
-    if: contains(github.event.inputs.sites, 'champ') || github.event_name == 'pull_request'
-    secrets:
-      slack_token: ${{ secrets.SLACK_TOKEN }}
-      site: "champ"
-      database: ${{ github.event.inputs.database }}
-      prnum: ${{ github.event.inputs.prnum }}
-      gh_token: ${{ secrets.GH_TOKEN_REPO }}
-      LANDO_ENV: ${{ secrets.LANDO_ENV }}
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      REPO: "${{ github.server_url }}/${{ github.repository }}"
-  coco:
-    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v2
-    if: contains(github.event.inputs.sites, 'coco') || github.event_name == 'pull_request'
-    secrets:
-      slack_token: ${{ secrets.SLACK_TOKEN }}
-      site: "coco"
-      database: ${{ github.event.inputs.database }}
-      prnum: ${{ github.event.inputs.prnum }}
-      gh_token: ${{ secrets.GH_TOKEN_REPO }}
-      LANDO_ENV: ${{ secrets.LANDO_ENV }}
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      REPO: "${{ github.server_url }}/${{ github.repository }}"
-  usrse:
-    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v2
-    if: contains(github.event.inputs.sites, 'usrse') || github.event_name == 'pull_request'
-    secrets:
-      slack_token: ${{ secrets.SLACK_TOKEN }}
-      site: "usrse"
-      database: ${{ github.event.inputs.database }}
-      prnum: ${{ github.event.inputs.prnum }}
-      gh_token: ${{ secrets.GH_TOKEN_REPO }}
-      LANDO_ENV: ${{ secrets.LANDO_ENV }}
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      REPO: "${{ github.server_url }}/${{ github.repository }}"
-  careers:
-    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v2
-    if: contains(github.event.inputs.sites, 'careers') || github.event_name == 'pull_request'
-    secrets:
-      slack_token: ${{ secrets.SLACK_TOKEN }}
-      site: "careers"
-      database: ${{ github.event.inputs.database }}
-      prnum: ${{ github.event.inputs.prnum }}
-      gh_token: ${{ secrets.GH_TOKEN_REPO }}
-      LANDO_ENV: ${{ secrets.LANDO_ENV }}
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      REPO: "${{ github.server_url }}/${{ github.repository }}"
-  gpc:
-    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v2
-    if: contains(github.event.inputs.sites, 'gpc') || github.event_name == 'pull_request'
-    secrets:
-      slack_token: ${{ secrets.SLACK_TOKEN }}
-      site: "gpc"
-      database: ${{ github.event.inputs.database }}
-      prnum: ${{ github.event.inputs.prnum }}
-      gh_token: ${{ secrets.GH_TOKEN_REPO }}
-      LANDO_ENV: ${{ secrets.LANDO_ENV }}
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      REPO: "${{ github.server_url }}/${{ github.repository }}"
-  ky:
-    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v2
-    if: contains(github.event.inputs.sites, 'ky') || github.event_name == 'pull_request'
-    secrets:
-      slack_token: ${{ secrets.SLACK_TOKEN }}
-      site: "ky"
-      database: ${{ github.event.inputs.database }}
-      prnum: ${{ github.event.inputs.prnum }}
-      gh_token: ${{ secrets.GH_TOKEN_REPO }}
-      LANDO_ENV: ${{ secrets.LANDO_ENV }}
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      REPO: "${{ github.server_url }}/${{ github.repository }}"
-  nect:
-    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v2
-    if: contains(github.event.inputs.sites, 'nect') || github.event_name == 'pull_request'
-    secrets:
-      slack_token: ${{ secrets.SLACK_TOKEN }}
-      site: "nect"
-      database: ${{ github.event.inputs.database }}
-      prnum: ${{ github.event.inputs.prnum }}
-      gh_token: ${{ secrets.GH_TOKEN_REPO }}
-      LANDO_ENV: ${{ secrets.LANDO_ENV }}
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      REPO: "${{ github.server_url }}/${{ github.repository }}"
-  wip:
-    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v2
-    if: contains(github.event.inputs.sites, 'wip')
-    secrets:
-      slack_token: ${{ secrets.SLACK_TOKEN }}
-      site: "wip"
-      database: ${{ github.event.inputs.database }}
-      prnum: ${{ github.event.inputs.prnum }}
-      gh_token: ${{ secrets.GH_TOKEN_REPO }}
-      LANDO_ENV: ${{ secrets.LANDO_ENV }}
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      REPO: "${{ github.server_url }}/${{ github.repository }}"
+
   success:
     name: Actions to run on success
-    needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect]
+    needs: [asp]
     if: ${{ success() || ( always() && ! cancelled() && ! failure() ) }}
     runs-on: ubuntu-latest
     steps:
@@ -159,7 +52,7 @@ jobs:
           SLACK_CHANNEL: behat-git-notifications
   fail:
     name: Actions to run on fail
-    needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect]
+    needs: [asp]
     if:  ${{ failure() }}
     runs-on: ubuntu-latest
     steps:
