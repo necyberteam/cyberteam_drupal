@@ -1,0 +1,56 @@
+name: (M) Cypress Tests
+on:
+  workflow_call:
+    secrets:
+      slack_token:
+        description: "API token for slack"
+      site:
+        description: "Site to run tests on"
+      database:
+        description: "Database to pull in, normally blank"
+      prnum:
+        description: "Pull request number"
+      gh_token:
+        description: "A github token"
+      LANDO_ENV:
+        description: "Lando environment variables"
+      SLACK_WEBHOOK:
+        description: "Slack webhook to communicate with api"
+      REPO:
+        description: "Get current repo for gh cli command to comment on PR"
+permissions:
+  contents: write
+  actions: read
+  pull-requests: write
+jobs:
+  cypress:
+    name: Run cypress tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - id: Lando
+        uses: necyberteam/amp_lando_start@v2
+        with:
+          DATABASE: ${{ secrets.DATABASE }}
+          GH_TOKEN_REPO: ${{ secrets.gh_token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run cypress test
+        run: |
+          cd tests/cypress
+          pwd
+          lando ssh -c 'pwd'
+          lando cypress run --config baseUrl=https://accessmatch-local.cnctci.lndo.site
+        env:
+          SITE: ${{ secrets.site }}
+
+      - name: Slack Notification Fail
+        uses: MeilCli/slack-upload-file@v2
+        if: failure()
+        with:
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          channels: behat-git-notifications
+          file_path: 'tests/cypress/cypress/screenshots/*'
+          file_type: 'images'
+          initial_comment: 'Files found in tests/cypress/cypress/screenshots, for help in diagnosing test failures'
