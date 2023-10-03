@@ -29,7 +29,7 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   asp:
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v2
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml
     if: contains(github.event.inputs.sites, 'asp')
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
