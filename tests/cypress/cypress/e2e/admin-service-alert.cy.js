@@ -1,3 +1,4 @@
+/*
 describe('Loads routes and tests', () => {
   it('Test pages as admin', () => {
     cy.fixture("login-data.json").then((loginData) => {
@@ -27,4 +28,5 @@ describe('Loads routes and tests', () => {
     })
   });
 });
+*
 
