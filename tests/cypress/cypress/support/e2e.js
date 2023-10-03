@@ -18,7 +18,12 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+// Jasper, 10/3/2023:  Following is necessary when running cypress remotely,
+// or javascript errors cause the cypress test to fail.  To see the
+// error(s), uncomment the alert(err) line below.
 Cypress.on('uncaught:exception', (err, runnable) => {
+  // alert(err);  // This allows seeing the error in the browser.
   // returning false here prevents Cypress from failing the test
   return false
 })
