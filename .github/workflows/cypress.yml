@@ -33,7 +33,7 @@ jobs:
     if: contains(github.event.inputs.sites, 'asp')
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
-      site: "asp"
+      site: "accessmatch"
       database: ${{ github.event.inputs.database }}
       prnum: ${{ github.event.inputs.prnum }}
       gh_token: ${{ secrets.GH_TOKEN_REPO }}
