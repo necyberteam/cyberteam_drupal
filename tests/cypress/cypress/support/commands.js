@@ -41,7 +41,82 @@ Cypress.Commands.add('loginUserByUid', (uid) => {
 Cypress.Commands.add('deleteLastNode', () => {
   cy.visit('/admin/content');
   cy.get('tbody > :nth-child(1) > .views-field-title > a').click();
-  cy.get('#block-dingo-local-tasks > ul > :nth-child(3) > a').click({force: true});
+  cy.get('#block-dingo-local-tasks > ul > :nth-child(3) > a').click({ force: true });
   cy.get('[value="Delete"]').click();
 });
+
+
+/**
+* Logs a user in by their uid via drush uli.
+*/
+Cypress.Commands.add('drushUli', () => {
+  cy.task('log', 'in drushUli');
+
+  cy.drush('uli', ['--uri=' + Cypress.env('baseUrl')], {})
+    .its('stdout')
+    .then(function (url) {
+      cy.task('log', 'drushUli trying to visit "' + url + '"');
+      cy.visit(url);
+    });
+});
+
+
+
+/**
+ * Defines a cypress command that executes drush commands.
+ *
+ * Note that our definition of the drush command depends on our environment
+ * variable 'drushCommand'. Define this in cypress.json or cypress.env.json
+ * based on your local dev setup.
+ *
+ * We're passing the object containing 'failOnNonZeroExit' to Cypress so that
+ * our Cypress tests don't crash if the drush command returns an error (e.g.
+ * if we try to delete a user account that does not exist.)
+ */
+Cypress.Commands.add('drush', (command, args = [], options = {}) => {
+  cy.task('log', 'in drush, command = "' + command + '"');
+  const ee = `lando drush ${command} ${stringifyArguments(args)} ${stringifyOptions(options)} -y`;
+  cy.task("log", 'in drush, about to exec this:  ' + ee);
+  return cy.exec(ee, { failOnNonZeroExit: false });
+});
+
+/**
+ * Returns a series of arguments, separated by spaces.
+ *
+ * @param {*} args
+ * @returns
+ */
+function stringifyArguments(args) {
+  return args.join(' ');
+}
+
+/**
+ * Returns a string from an array of options.
+ *
+ * @param {array} options
+ * @returns
+ */
+function stringifyOptions(options) {
+  return Object.keys(options).map(option => {
+    let output = `--${option}`;
+
+    if (options[option] === true) {
+      return output;
+    }
+
+    if (options[option] === false) {
+      return '';
+    }
+
+    if (typeof options[option] === 'string') {
+      output += `="${options[option]}"`;
+    } else {
+      output += `=${options[option]}`
+    }
+
+    return output;
+  }).join(' ')
+}
+
+
 
