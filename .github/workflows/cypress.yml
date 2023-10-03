@@ -49,7 +49,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: 'success :rocket:'
           SLACK_TITLE: "Github action: test success"
-          SLACK_CHANNEL: behat-git-notifications
+          SLACK_CHANNEL: cypress-git-notifications
   fail:
     name: Actions to run on fail
     needs: [asp]
@@ -68,6 +68,6 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: ':octagonal_sign: behat tests failed :octagonal_sign:'
+          SLACK_MESSAGE: ':octagonal_sign: cypress tests failed :octagonal_sign:'
           SLACK_TITLE: "Github action: cypress failure"
-          SLACK_CHANNEL: behat-git-notifications
+          SLACK_CHANNEL: cypress-git-notifications
