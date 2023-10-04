@@ -19,9 +19,17 @@ elements: |-
       '#type': textfield
       '#title': 'Affinity Group Name'
       '#required': true
+    do_you_have_a_logo_or_image_:
+      '#type': checkbox
+      '#title': 'Do you have a logo or image?'
+      '#title_display': before
     affinity_group_image:
       '#type': webform_image_file
       '#title': 'Affinity Group Image'
+      '#states':
+        required:
+          ':input[name="do_you_have_a_logo_or_image_"]':
+            checked: true
       '#file_preview': 'thumbnail:image'
       '#max_filesize': '2'
       '#file_extensions': 'gif jpg png svg jpeg'
@@ -32,6 +40,7 @@ elements: |-
       '#title': Coordinators
       '#multiple': true
       '#description': '<span class="CheckStep-line-content d-inline-block flex-auto js-check-line-content ml-3"><span class="ansifg-r text-bold">Type a few letters of the name and then select from the list of names presented</span></span>'
+      '#description_display': before
       '#multiple__sorting': false
       '#multiple__add_more_input': false
       '#target_type': user
@@ -47,10 +56,14 @@ elements: |-
       '#select2': true
       '#vocabulary': tags
       '#breadcrumb_delimiter': ''
+      '#required': true
     cider:
       '#type': webform_entity_select
       '#title': 'Select one (or more) related CiDeR resources '
       '#multiple': true
+      '#description': '<p data-renderer-start-pos="421"><strong data-renderer-mark="true">If you are an ACCESS RP</strong>, select one (or more) related CiDeR resources</p>'
+      '#title_display': invisible
+      '#description_display': before
       '#select2': true
       '#target_type': node
       '#selection_handler': 'default:node'
@@ -65,20 +78,20 @@ elements: |-
     project_description:
       '#type': textarea
       '#title': Description
-      '#description': 'Provide a description that will be displayed on this Affinity Group. It can be the same as the short description above if there is no additional information needed.'
+      '#description': '<p data-renderer-start-pos="561">Please include information about the intent of the group, what type of communications you expect the group will use, and how often.</p>'
       '#description_display': before
       '#required': true
       '#format_items': comma
     short_description:
       '#type': textarea
-      '#title': 'Short Description'
+      '#title': Summary
       '#description': 'Provide a short description that will appear on the Affinity Groups directory page.'
       '#description_display': before
       '#required': true
       '#counter_type': character
       '#counter_minimum': 1
-      '#counter_maximum': 300
-      '#counter_maximum_message': 'Maximum 300 Characters Allowed'
+      '#counter_maximum': 160
+      '#counter_maximum_message': 'Maximum 160 Characters Allowed'
       '#format_items': comma
   flexbox_01:
     '#type': webform_flexbox
@@ -95,7 +108,7 @@ elements: |-
       '#description_display': before
       '#title__access': false
       '#url__title': Slack
-      '#url__description': 'Provide a link to the Slack group if applicable.'
+      '#url__description': 'Provide a link to an associated Slack group, if there is one.'
     github_organization:
       '#type': webform_link
       '#title': 'GitHub Organization'
@@ -105,7 +118,7 @@ elements: |-
     email_list_or_contact:
       '#type': textfield
       '#title': 'Email List or Contact'
-      '#description': 'Provide a link to the email list or email contact for the Affinity Group. Please enter the full URL to your mailing list including the https:// or if an email please type mailto: before the address. For example: mailto:example@email.com'
+      '#description': 'Provide a full URL to your email list or email contact for the Affinity <a data-testid="inline-card-resolved-view" href="http://group.ie/" role="button" tabindex="0">group.ie</a> <a data-renderer-mark="true" data-testid="link-with-safety" href="https://mydomain.com/thank-you/" title="https://mydomain.com/thank-you/"><u data-renderer-mark="true">https://mydomain.com/our-email-list/</u></a> or <a data-renderer-mark="true" data-testid="link-with-safety" href="mailto:example@email.com" title="mailto:example@email.com">mailto:example@email.com</a>'
 css: 'body:not(.path-admin) .webform-submission-information, body:not(.path-admin) .webform-submission-navigation {display: none}'
 javascript: ''
 settings:
