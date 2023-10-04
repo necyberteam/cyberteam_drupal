@@ -64,10 +64,27 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
           REPO: "${{ github.server_url }}/${{ github.repository }}"
-      - name: Slack Notification Fail
+      - name: Slack Notification Fail with rtCamp
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: ':octagonal_sign: behat tests failed :octagonal_sign:'
+          SLACK_MESSAGE: ':octagonal_sign: tests failed :octagonal_sign:'
           SLACK_TITLE: "Github action: cypress failure"
-          SLACK_CHANNEL: cypress-git-notifications
+          SLACK_CHANNEL: behat-git-notifications
+
+      - name: create a dummy file to test MeilCli slack notification
+        run: |
+          echo "dummy file" > dummy.txt
+
+      - name: Slack Notification Fail with MeilCli
+        uses: MeilCli/slack-upload-file@v3
+        with:
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          #channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+          channel_id: cypress-git-notifications
+          content: 'file content'
+          file_type: 'text'
+          file_name: 'dummy.txt'
+          title: 'dummy.txt file'
+          initial_comment: 'post by MeilCli v3 slack-upload-file'
+          # thread_ts: 'option'
