@@ -16,6 +16,30 @@ permissions:
   actions: read
   pull-requests: write
 jobs:
+  test_slack_notification:
+    name: Actions to run on launch
+    # needs: [asp]
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: create a dummy3 file to test MeilCli slack notification
+        run: |
+          echo "dummy3 file" > dummy3.txt
+
+      - name: Slack Notification Fail with MeilCli
+        uses: MeilCli/slack-upload-file@v3
+        with:
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          #channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+          channel_id: cypress-git-notifications
+          content: 'file content'
+          file_type: 'text'
+          file_name: 'dummy3.txt'
+          title: 'dummy3.txt file'
+          initial_comment: 'post by MeilCli v3 slack-upload-file'
+          # thread_ts: 'option'
+
+
   asp:
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@main
     if: contains(github.event.inputs.sites, 'asp')
