@@ -27,10 +27,19 @@ services:
       - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
       - apt install -y ./google-chrome-stable_current_amd64.deb
       - rm google-chrome-stable_current_amd64.deb
+      - apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+    run:
+      - "cd /app/tests/cypress && npm install && npm_config_no_npx_prompt | npx cypress install"
+proxy:
+  appserver:
+    - '*.cnctci.lndo.site'
 tooling:
   blt:
     service: appserver
     cmd: /app/vendor/bin/blt
+  cypress:
+    service: appserver
+    cmd: npx cypress
   npm:
     service: appserver
     cmd: /usr/bin/npm

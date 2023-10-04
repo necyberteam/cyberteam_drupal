@@ -77,5 +77,6 @@ $settings['config_exclude_modules'] = [
   'login_disable',
   'recaptcha',
   'upgrade_status',
+  'symfony_mailer',
   'swiftmailer'
 ];

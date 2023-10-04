@@ -114,6 +114,42 @@ class FeatureContext extends RawDrupalContext {
   }
 
   /**
+   * Add text to a CKEditor.
+   *
+   * @param string $ck_editor_id
+   *   The id of a ck-editor.
+   * @param string $ck_text
+   *   Text to add to the ck-editor.
+   *
+   * @When I fill the rich textarea :ck_editor_id with :ck_text
+   */
+  public function ckEditorAddText($ck_editor_id, $ck_text) {
+    $page = $this->getSession()->getPage();
+
+    // Look for 1 element with the menu name.
+    $ck_editor = $page->findAll('named', ['id', $ck_editor_id]);
+    $cnt = count($ck_editor);
+    if ($cnt === 0) {
+      throw new \Exception("Did not find a ck-editor with id '$ck_editor_id'");
+    }
+
+    if ($cnt > 1) {
+      print("WARNING, Found $cnt elements with id '$ck_editor_id' - expected just 1, using first one.");
+    }
+
+    $ck_editor = $ck_editor[0]->find('css', '.ck-editor__editable');
+
+    // print('ck_editor getHtml: "' . $ck_editor->getHtml() . "\"\n");
+
+    // Padding the ck_text with some text seems to be needed.  Not sure why, but
+    // the ck-editor sometime rotates the characters of the
+    // the text being added to the field.
+    $ck_editor->setValue('pad      ' . $ck_text . '     pad');
+
+    // print('ck_editor getHtml: "' . $ck_editor->getHtml() . "\"\n");
+  }
+
+  /**
    * Look for links under an element identified by an ID.
    *
    * @param string $menu_text
@@ -379,6 +415,22 @@ class FeatureContext extends RawDrupalContext {
   }
 
   /**
+   * Click an element by selector.
+   *
+   * @Given I click the element with selector :selector
+   */
+  public function iClickTheElementWithSelector($selector) {
+    $page = $this->getSession()->getPage();
+    $element = $page->find('named', ['content', $selector]);
+
+    if (empty($element)) {
+      throw new \Exception("No element found for the selector ('$selector')");
+    }
+
+    $element->click();
+  }
+
+  /**
    * Click an element.
    *
    * @Given I click the :arg1 element
@@ -584,5 +636,4 @@ class FeatureContext extends RawDrupalContext {
       throw new \Exception(sprintf('The url %s did not return an image', $url));
     }
   }
-
 }

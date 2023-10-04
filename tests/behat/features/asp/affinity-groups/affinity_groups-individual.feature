@@ -69,13 +69,14 @@ Feature: Feature: test an Affinity Groups page
     Given I am not logged in
     When I am on "/affinity-groups/access-support"
     Then I should see "Events"
-    Then I should see "[4/04/2023 7:00 PM EDT]"
-    Then link "How to Write a Successful" should contain "/events/6593"
+    # TODO need a future event for the following
+    # Then I should see "[4/04/2023 7:00 PM EDT]"
+    # Then link "How to Write a Successful" should contain "/events/6593"
     # TODO - once able to add a CI Link to this AG, uncomment the following
     #Then I should see "ci-link-for-user-200"
     Then link "Changing my user profile name on the" should contain "/t/changing-my-user-profile-name-on-the-access-support-portal/2479"
-    When I click "How to Write a Successful"
-    Then I should be on "/events/6593"
+    #When I click "How to Write a Successful"
+    #Then I should be on "/events/6593"
 
 
   Scenario: Unauthenticated user tests an AG with an announcement
@@ -157,6 +158,7 @@ Feature: Feature: test an Affinity Groups page
   Scenario: AG Coordinator can see & download & email members
     Given I am logged in with uid "952"
     When I am on "/affinity-groups/cloud-computing"
+    And I wait 6 seconds
     When I follow "View Members"
     Then I should be on "/affinity-groups/571/users/Cloud%20Computing?nid=189"
     And I should see "Download CSV"

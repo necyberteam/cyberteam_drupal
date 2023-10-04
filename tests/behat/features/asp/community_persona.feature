@@ -119,6 +119,14 @@ Feature: test ACCESS Support Community Persona
     When I go to "/node/add/match_engagement?type=plus"
     And I wait for the page to be loaded
     When I fill in "edit-title-0-value" with "test-admin-created-engagement"
+    When I fill the rich textarea "edit-body-wrapper" with "test-admin-created-description"
+    Then I should see "test-admin-created-description"
+    When I click the element with selector "Select relevant tags"
+    When I click the element with selector "access-acount"
+    When I wait 3 seconds
     When I press "Save"
+    And I wait 4 seconds
+    Then I should see "MATCH+ Engagement test-admin-created-engagement has been created."
     When I go to "/community-persona"
+    And I wait 4 seconds
     Then I should see "test-admin-created-engagement"

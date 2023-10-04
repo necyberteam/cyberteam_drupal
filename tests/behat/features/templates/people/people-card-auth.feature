@@ -16,12 +16,10 @@ Feature: test people page Card view w/ filters
   Scenario: Authenticated user tests the people page in Card View and filters
     Given I am logged in as a user with the "authenticated" role
     When I go to "/people/card"
-
     Then I should see "People"
-
-
     And I should see "Programs"
     And I should see "Roles"
+    And I wait 6 seconds
     When I fill in "roles_target_id[]" with "ci systems engineer"
     And I wait 8 seconds
     Then I should see "Affinity Groups"

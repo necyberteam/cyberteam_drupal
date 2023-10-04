@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.user.field_carnegie_code
     - taxonomy.vocabulary.region
+    - user.role.administrator
     - user.role.campuschampionsadmin
   content:
     - 'taxonomy_term:region:9551e6b0-0c26-41f1-b028-6aa4c1422242'
@@ -15,8 +16,6 @@ dependencies:
     - taxonomy
     - user
     - views_data_export
-    - webform
-    - webform_views
 id: campus_champions_user_export
 label: 'Campus Champions - User export'
 module: views
@@ -210,59 +209,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        webform_submission_value:
-          id: webform_submission_value
-          table: webform_submission_field_join_campus_champions_champion_user_type
-          field: webform_submission_value
-          relationship: webform_submission
-          group_type: group
-          admin_label: ''
-          plugin_id: webform_submission_field
-          label: Designation
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          webform_element_format: value
-          webform_multiple_value: true
-          webform_multiple_delta: 0
-          webform_check_access: 1
         field_carnegie_code_site:
           id: field_carnegie_code_site
           table: user__field_carnegie_code
@@ -988,6 +934,7 @@ display:
         type: role
         options:
           role:
+            administrator: administrator
             campuschampionsadmin: campuschampionsadmin
       cache:
         type: tag
@@ -1068,17 +1015,7 @@ display:
           replica: false
           query_tags: {  }
           contextual_filters_or: false
-      relationships:
-        webform_submission:
-          id: webform_submission
-          table: users_field_data
-          field: webform_submission
-          relationship: none
-          group_type: group
-          admin_label: 'Webform submission'
-          entity_type: user
-          plugin_id: standard
-          required: false
+      relationships: {  }
       group_by: true
       header: {  }
       footer: {  }

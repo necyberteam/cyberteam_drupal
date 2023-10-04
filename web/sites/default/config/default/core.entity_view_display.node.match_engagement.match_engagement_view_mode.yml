@@ -46,6 +46,7 @@ dependencies:
     - field.field.node.match_engagement.field_overall_results
     - field.field.node.match_engagement.field_planned_portal_contributio
     - field.field.node.match_engagement.field_planned_publications
+    - field.field.node.match_engagement.field_preferred_semester
     - field.field.node.match_engagement.field_programming_skill_level
     - field.field.node.match_engagement.field_project_deliverables
     - field.field.node.match_engagement.field_project_image
@@ -79,6 +80,11 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 3
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
     region: content
   field_institution:
     type: string
@@ -156,6 +162,7 @@ hidden:
   field_overall_results: true
   field_planned_portal_contributio: true
   field_planned_publications: true
+  field_preferred_semester: true
   field_programming_skill_level: true
   field_project_deliverables: true
   field_qualifications: true
