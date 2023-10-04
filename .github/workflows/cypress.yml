@@ -30,14 +30,30 @@ jobs:
         uses: MeilCli/slack-upload-file@v3
         with:
           slack_token: ${{ secrets.SLACK_TOKEN }}
-          #channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-          channel_id: cypress-git-notifications
+          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+          # channel_id: cypress-git-notifications
           content: 'file content'
-          file_type: 'text'
+          # file_type: 'text'
           file_name: 'dummy3.txt'
           title: 'dummy3.txt file'
           initial_comment: 'post by MeilCli v3 slack-upload-file'
           # thread_ts: 'option'
+
+      - name: Slack Notification Fail with rtCamp to behat-git-notifications channel
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: 'test notification to behat-git-notifications channel'
+          SLACK_TITLE: "test notification to behat channel"
+          SLACK_CHANNEL: behat-git-notifications
+
+      - name: Slack Notification Fail with rtCamp to cypress-git-notifications channel
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: 'test notification to behat-git-notifications channel'
+          SLACK_TITLE: "test notification to cypress channel"
+          SLACK_CHANNEL: cypress-git-notifications
 
 
   asp:
