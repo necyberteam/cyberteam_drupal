@@ -22,26 +22,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      # - name: create a dummy3 file to test MeilCli slack notification
-      #   run: |
-      #     mkdir -p dummy_folder
-      #     echo "dummy3 file" > dummy_folder/dummy3.txt
+      - name: create a dummy3 file to test MeilCli slack notification
+        run: |
+          mkdir -p dummy_folder
+          echo "Cypress notification" > dummy_folder/dummy3.txt
 
-      - name: Slack Notification Fail with rtCamp to behat-git-notifications channel
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: 'test notification to behat-git-notifications channel'
-          SLACK_TITLE: "test notification to behat channel"
-          SLACK_CHANNEL: behat-git-notifications
+      - name: Slack Notification test
+        uses: MeilCli/slack-upload-file@v2
+        with:
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          channels: cypress-git-notifications
+          file_path: 'dummy_folder/*'
+          file_type: 'text'
+          initial_comment: 'Files found in dummy_folder/*'
 
-      - name: Slack Notification with rtCamp to cypress-git-notifications channel
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: 'test notification to cypress-git-notifications channel'
-          SLACK_TITLE: "test notification to cypress channel"
-          SLACK_CHANNEL: cypress-git-notifications
+      # - name: Slack Notification Fail with rtCamp to behat-git-notifications channel
+      #   uses: rtCamp/action-slack-notify@v2
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      #     SLACK_MESSAGE: 'test notification to behat-git-notifications channel'
+      #     SLACK_TITLE: "test notification to behat channel"
+      #     SLACK_CHANNEL: behat-git-notifications
+
+      # - name: Slack Notification with rtCamp to cypress-git-notifications channel
+      #   uses: rtCamp/action-slack-notify@v2
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      #     SLACK_MESSAGE: 'test notification to cypress-git-notifications channel'
+      #     SLACK_TITLE: "test notification to cypress channel"
+      #     SLACK_CHANNEL: cypress-git-notifications
+
+
 
 
   #     - name: Slack Notification with MeilCli/slack-upload-file@v2 to behat channel
