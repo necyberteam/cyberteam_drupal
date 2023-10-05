@@ -1,0 +1,84 @@
+name: (M) Cypress Tests
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      database:
+        description: 'Recent database dump to use (leave blank to use artifact)'
+      sites:
+        description: 'Specify which sites to test or leave the default to run all tests.'
+        default: 'asp'
+        required: true
+      prnum:
+        description: 'Pull request number — adds a comment to a pull request (nomally empty)'
+permissions:
+  contents: write
+  actions: read
+  pull-requests: write
+jobs:
+
+  asp:
+    name: Run cypress tests in 'accessmatch' directory
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@main
+    if: contains(github.event.inputs.sites, 'asp')
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "accessmatch"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+
+  success:
+    name: Actions to run on success
+    needs: [asp]
+    if: ${{ success() || ( always() && ! cancelled() && ! failure() ) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on pull request
+        if: "${{ env.prnum  != '' }}"
+        run: |
+          gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Cypress Test was Successful -=-=-=- 🤖"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          prnum: ${{ github.event.inputs.prnum }}
+          REPO: "${{ github.server_url }}/${{ github.repository }}"
+      - name: create notification file
+        run: |
+          echo "🤖 -=-=-=- Cypress Test Succeeded -=-=-=- 🤖" > Cypress_Tests_Succeeded.txt
+      - name: Slack Notification Success
+        uses: MeilCli/slack-upload-file@v2
+        with:
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          channels: cypress-git-notifications
+          file_path: 'Cypress_Tests_Succeeded.txt'
+          file_type: 'text'
+          initial_comment: '🤖 -=-=-=- Cypress Test Succeeded -=-=-=- 🤖'
+
+  fail:
+    name: Actions to run on fail
+    needs: [asp]
+    if:  ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on pull request
+        if: "${{ env.prnum  != '' }}"
+        run: |
+          gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Cypress Test has failed 😩 -=-=-=- 🤖"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          prnum: ${{ github.event.inputs.prnum }}
+          REPO: "${{ github.server_url }}/${{ github.repository }}"
+      - name: create notification file
+        run: |
+          echo "🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖" > Cypress_Tests_Failed.txt
+      - name: Slack Notification Fail
+        uses: MeilCli/slack-upload-file@v2
+        with:
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          channels: cypress-git-notifications
+          file_path: 'Cypress_Tests_Failed.txt'
+          file_type: 'text'
+          initial_comment: '🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖'
