@@ -24,7 +24,8 @@ jobs:
 
       - name: create a dummy3 file to test MeilCli slack notification
         run: |
-          echo "dummy3 file" > dummy3.txt
+          mkdir -p dummy_folder
+          echo "dummy3 file" > dummy_folder/dummy3.txt
 
       # - name: Slack Notification Fail with rtCamp to behat-git-notifications channel
       #   uses: rtCamp/action-slack-notify@v2
@@ -48,19 +49,28 @@ jobs:
         with:
           slack_token: ${{ secrets.SLACK_TOKEN }}
           channels: behat-git-notifications
-          file_path: 'tests/behat/screenshots/*.png'
-          file_type: 'images'
-          initial_comment: 'Files found in tests/behat/screenshots, for help in diagnosing behat failures'
+          file_path: 'dummy_folder/*'
+          file_type: 'text'
+          initial_comment: 'Files found in dummy_folder/*'
+
+      # - name: Slack Notification with MeilCli/slack-upload-file@v2 to behat channel
+      #   uses: MeilCli/slack-upload-file@v2
+      #   with:
+      #     slack_token: ${{ secrets.SLACK_TOKEN }}
+      #     channels: behat-git-notifications
+      #     file_path: 'tests/behat/screenshots/*.png'
+      #     file_type: 'images'
+      #     initial_comment: 'Files found in tests/behat/screenshots, for help in diagnosing behat failures'
 
 
-      - name: Slack Notification with MeilCli/slack-upload-file@v2 to cypress channel
-        uses: MeilCli/slack-upload-file@v2
-        with:
-          slack_token: ${{ secrets.SLACK_TOKEN }}
-          channels: cypress-git-notifications
-          file_path: 'tests/cypress/cypress/screenshots/*'
-          file_type: 'images'
-          initial_comment: 'Files found in tests/cypress/cypress/screenshots/*, for help in diagnosing cypress failures'
+      # - name: Slack Notification with MeilCli/slack-upload-file@v2 to cypress channel
+      #   uses: MeilCli/slack-upload-file@v2
+      #   with:
+      #     slack_token: ${{ secrets.SLACK_TOKEN }}
+      #     channels: cypress-git-notifications
+      #     file_path: 'tests/cypress/cypress/screenshots/*'
+      #     file_type: 'images'
+      #     initial_comment: 'Files found in tests/cypress/cypress/screenshots/*, for help in diagnosing cypress failures'
 
 
       # - name: Slack Notification Fail with MeilCli
