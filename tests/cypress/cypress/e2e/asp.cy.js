@@ -1,6 +1,6 @@
 describe('Homepage ASP Test', () => {
   it('tests ASP', () => {
     cy.visit('/')
-    cy.contains('Search the ACCESS Universe for answers by typing keywords or phrases.')
+    cy.contains('Advanced Computing Resources for Researchers at Small and Medium Sized Institutions in Northern New England')
   })
 })
