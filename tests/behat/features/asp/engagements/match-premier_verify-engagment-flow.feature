@@ -42,7 +42,7 @@ Feature: verify the approval process of a MATCH Engagement
     # Now change to submitted
     When I follow "Testing456"
     When I follow "Edit"
-    # following should be something like http://cyberteam.lndo.site/node/5997/edit
+    # following should be something like http://cyberteam.cnctci.lndo.site/node/5997/edit
     # Then print current URL
     Then I should see "Current state"
     When I select "Submitted" from "edit-moderation-state-0-state"
@@ -59,7 +59,7 @@ Feature: verify the approval process of a MATCH Engagement
     When I go to "/match-engagements-submissions"
     When I follow "Testing456"
     When I follow "Edit"
-    # following should be something like http://cyberteam.lndo.site/node/5997/edit
+    # following should be something like http://cyberteam.cnctci.lndo.site/node/5997/edit
     #Then print current URL
 
     # verify new fields appear
@@ -146,7 +146,7 @@ Feature: verify the approval process of a MATCH Engagement
     When I follow "Testing456"
     When I follow "Edit"
     And I wait 2 seconds
-    # following should be something like http://cyberteam.lndo.site/node/5997/edit
+    # following should be something like http://cyberteam.cnctci.lndo.site/node/5997/edit
     #Then print current URL
 
     Then I should see "Researcher(s)"
@@ -183,7 +183,7 @@ Feature: verify the approval process of a MATCH Engagement
     When I follow "Testing456"
     When I follow "Edit"
     And I wait 2 seconds
-    # following should be something like http://cyberteam.lndo.site/node/5997/edit
+    # following should be something like http://cyberteam.cnctci.lndo.site/node/5997/edit
     # Then print current URL
 
     Then value of element "edit-field-match-steering-committee-m-0-target-id" should contain "Julie Ma"

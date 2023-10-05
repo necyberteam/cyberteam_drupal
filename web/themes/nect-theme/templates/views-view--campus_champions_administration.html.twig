@@ -34,9 +34,9 @@
 #}
 
 {% set escdiv = 'div' %}
-{% autoescape 'div' %}{% spaceless %}
+{% autoescape 'div' %}{% apply spaceless %}
 {%- if rows -%}
-<div><iframe id="session-frame" scrolling="yes" src="/connectci/cc/cc-login.php?{% autoescape 'div' %}{% spaceless %}{{- rows -}}{% endspaceless %}{% endautoescape %}" style="border:none" width="100%" height="10000" data-hj-allow-iframe></iframe></div>
+<div><iframe id="session-frame" scrolling="yes" src="/connectci/cc/cc-login.php?{% autoescape 'div' %}{% apply spaceless %}{{- rows -}}{% endapply %}{% endautoescape %}" style="border:none" width="100%" height="10000" data-hj-allow-iframe></iframe></div>
 {#
 <script type="text/javascript">(function() {
 var iframe = document.getElementById('session-frame');
@@ -65,4 +65,4 @@ window.addEventListener("message", function(e) {
 {%- elseif empty -%}
   {{ empty }}
 {%- endif -%}
-{% endspaceless %}{% endautoescape %}
+{% endapply %}{% endautoescape %}

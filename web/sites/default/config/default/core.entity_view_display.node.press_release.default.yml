@@ -15,7 +15,7 @@ dependencies:
     - node.type.press_release
   module:
     - datetime
-    - gdoc_field
+    - file
     - text
     - user
 id: node.press_release.default
@@ -39,11 +39,12 @@ content:
     weight: 3
     region: content
   field_press_release:
-    type: gdoc_field
-    label: hidden
-    settings: {  }
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
     third_party_settings: {  }
-    weight: 5
+    weight: 6
     region: content
   field_published_date:
     type: datetime_custom

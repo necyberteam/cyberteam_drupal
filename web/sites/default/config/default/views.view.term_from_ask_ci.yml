@@ -37,7 +37,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '{{ name|split(''('')|first|trim|replace({'' '':''-''}) }}'
+            text: "{{ name|split('(')|first|trim|replace({' ':'-'}) }}"
             make_link: false
             path: ''
             absolute: false

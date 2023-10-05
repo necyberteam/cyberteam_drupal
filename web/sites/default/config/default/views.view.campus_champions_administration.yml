@@ -37,7 +37,7 @@ display:
           exclude: true
           alter:
             alter_text: false
-            text: '{% if ''administrator'' in roles_target_id__role %}true{% endif %}'
+            text: "{% if 'administrator' in roles_target_id__role %}true{% endif %}"
             make_link: false
             path: ''
             absolute: false
@@ -90,7 +90,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: 'uid={{uid}}&cc_admin={% if ''administrator'' in roles_target_id|render or ''CampusChampionsAdmin'' in roles_target_id|render %}true{% else %}false{% endif %}'
+            text: "uid={{uid}}&cc_admin={% if 'administrator' in roles_target_id|render or 'CampusChampionsAdmin' in roles_target_id|render %}true{% else %}false{% endif %}"
             make_link: false
             path: ''
             absolute: false

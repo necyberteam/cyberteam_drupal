@@ -11,7 +11,7 @@ Feature: test cci domain
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/domain/edit/connectcidev_wpi_edu"
     When I check "Default domain"
-    When I fill in "Hostname" with "cyberteam.lndo.site"
+    When I fill in "Hostname" with "cyberteam.cnctci.lndo.site"
     When I press "Save"
     Given the cache has been cleared
     When I am on the homepage
