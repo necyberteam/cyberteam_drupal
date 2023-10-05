@@ -118,10 +118,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Comment on pull request
+        run: |
+          echo "🤖 -=-=-=- Cypress Test was Successful -=-=-=- 🤖  with repo " $REPO > tmp_cypress_notification.txt
         if: "${{ env.prnum  != '' }}"
         run: |
           gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Cypress Test was Successful -=-=-=- 🤖"
-          echo "🤖 -=-=-=- Cypress Test was Successful -=-=-=- 🤖  with repo " $REPO > tmp_cypress_notification.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
@@ -149,10 +150,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Comment on pull request
+        run: |
+          echo "🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖  with repo " $REPO > tmp_cypress_notification.txt
         if: "${{ env.prnum  != '' }}"
         run: |
           gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Cypress Test has failed 😩 -=-=-=- 🤖"
-          echo "🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖  with repo " $REPO > tmp_cypress_notification.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
