@@ -16,87 +16,6 @@ permissions:
   actions: read
   pull-requests: write
 jobs:
-  # test_slack_notification:
-  #   name: Actions to run on launch
-  #   # needs: [asp]
-  #   runs-on: ubuntu-latest
-  #   steps:
-
-  #     - name: create a dummy3 file to test MeilCli slack notification
-  #       run: |
-  #         mkdir -p dummy_folder
-  #         echo "Cypress notification" > dummy_folder/dummy3.txt
-
-  #     - name: Slack Notification test
-  #       uses: MeilCli/slack-upload-file@v2
-  #       with:
-  #         slack_token: ${{ secrets.SLACK_TOKEN }}
-  #         channels: cypress-git-notifications
-  #         file_path: 'dummy_folder/*'
-  #         file_type: 'text'
-  #         initial_comment: 'Files found in dummy_folder/*'
-
-      # - name: Slack Notification Fail with rtCamp to behat-git-notifications channel
-      #   uses: rtCamp/action-slack-notify@v2
-      #   env:
-      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      #     SLACK_MESSAGE: 'test notification to behat-git-notifications channel'
-      #     SLACK_TITLE: "test notification to behat channel"
-      #     SLACK_CHANNEL: behat-git-notifications
-
-      # - name: Slack Notification with rtCamp to cypress-git-notifications channel
-      #   uses: rtCamp/action-slack-notify@v2
-      #   env:
-      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      #     SLACK_MESSAGE: 'test notification to cypress-git-notifications channel'
-      #     SLACK_TITLE: "test notification to cypress channel"
-      #     SLACK_CHANNEL: cypress-git-notifications
-
-
-
-
-  #     - name: Slack Notification with MeilCli/slack-upload-file@v2 to behat channel
-  #       uses: MeilCli/slack-upload-file@v2
-  #       with:
-      #     slack_token: ${{ secrets.SLACK_TOKEN }}
-      #     channels: behat-git-notifications
-      #     file_path: 'dummy_folder/*'
-      #     file_type: 'text'
-      #     initial_comment: 'Files found in dummy_folder/*'
-
-      # - name: Slack Notification with MeilCli/slack-upload-file@v2 to behat channel
-      #   uses: MeilCli/slack-upload-file@v2
-      #   with:
-      #     slack_token: ${{ secrets.SLACK_TOKEN }}
-      #     channels: cypress-git-notifications
-      #     file_path: 'tests/behat/screenshots/*.png'
-      #     file_type: 'images'
-      #     initial_comment: 'Files found in tests/behat/screenshots, for help in diagnosing behat failures'
-
-
-      # - name: Slack Notification with MeilCli/slack-upload-file@v2 to cypress channel
-      #   uses: MeilCli/slack-upload-file@v2
-      #   with:
-      #     slack_token: ${{ secrets.SLACK_TOKEN }}
-      #     channels: behat-git-notifications
-      #     file_path: 'tests/cypress/cypress/screenshots/*'
-      #     file_type: 'images'
-      #     initial_comment: 'Files found in tests/cypress/cypress/screenshots/*, for help in diagnosing cypress failures'
-
-
-      # - name: Slack Notification Fail with MeilCli
-      #   uses: MeilCli/slack-upload-file@v3
-      #   with:
-      #     slack_token: ${{ secrets.SLACK_TOKEN }}
-      #     channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-      #     # channel_id: cypress-git-notifications
-      #     content: 'file content'
-      #     # file_type: 'text'
-      #     file_name: 'dummy3.txt'
-      #     title: 'dummy3.txt file'
-      #     initial_comment: 'post by MeilCli v3 slack-upload-file'
-      #     # thread_ts: 'option'
-
 
   asp:
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@main
@@ -127,22 +46,15 @@ jobs:
           REPO: "${{ github.server_url }}/${{ github.repository }}"
       - name: create notification file
         run: |
-          echo "🤖 -=-=-=- Cypress Test was Successful -=-=-=- 🤖  with repo " $REPO > tmp_cypress_notification.txt
+          echo "🤖 -=-=-=- Cypress Test Succeeded -=-=-=- 🤖" > Cypress_Tests_Succeeded.txt
       - name: Slack Notification Success
         uses: MeilCli/slack-upload-file@v2
         with:
           slack_token: ${{ secrets.SLACK_TOKEN }}
           channels: cypress-git-notifications
-          file_path: 'tmp_cypress_notification.txt'
+          file_path: 'Cypress_Tests_Succeeded.txt'
           file_type: 'text'
-          initial_comment: '🤖 -=-=-=- Cypress Test was Successful -=-=-=- 🤖'
-      # - name: Slack Notification Success
-      #   uses: rtCamp/action-slack-notify@v2
-      #   env:
-      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      #     SLACK_MESSAGE: 'success :rocket:'
-      #     SLACK_TITLE: "Github action: cypress test success"
-      #     SLACK_CHANNEL: behat-git-notifications
+          initial_comment: '🤖 -=-=-=- Cypress Test Succeeded -=-=-=- 🤖'
 
   fail:
     name: Actions to run on fail
@@ -160,19 +72,12 @@ jobs:
           REPO: "${{ github.server_url }}/${{ github.repository }}"
       - name: create notification file
         run: |
-          echo "🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖  with repo " $REPO > tmp_cypress_notification.txt
+          echo "🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖" > Cypress_Tests_Failed.txt
       - name: Slack Notification Fail
         uses: MeilCli/slack-upload-file@v2
         with:
           slack_token: ${{ secrets.SLACK_TOKEN }}
           channels: cypress-git-notifications
-          file_path: 'tmp_cypress_notification.txt'
+          file_path: 'Cypress_Tests_Failed.txt'
           file_type: 'text'
           initial_comment: '🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖'
-      # - name: Slack Notification Fail with rtCamp
-      #   uses: rtCamp/action-slack-notify@v2
-      #   env:
-      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      #     SLACK_MESSAGE: ':octagonal_sign: cypress tests failed :octagonal_sign:'
-      #     SLACK_TITLE: "Github action: cypress failure"
-      #     SLACK_CHANNEL: behat-git-notifications
