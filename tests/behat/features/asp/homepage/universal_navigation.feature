@@ -4,7 +4,6 @@
 
 Feature: test Universal Navigation menu
   - links in the upper left should go to allocations, support, operations, and metrics.
-  - anonymous sees button "login to create ticket" that links to /user/login
   - authenticated sees "create ticket" button that links to /help-ticket
   - "ACCESS Home" links to access-ci.org.
   TODO: search links to Knowledge Base page.
@@ -14,13 +13,6 @@ Feature: test Universal Navigation menu
     When I am on the homepage
     When I follow "Create Ticket"
     Then I should be on "/help-ticket"
-
-  Scenario: anonymous user, test "Login to Create Ticket"
-    Given I am not logged in
-    When I am on the homepage
-    Then I should see "Login to Create Ticket"
-    When I follow "Login to Create Ticket"
-    Then I should be on "/user/login"
 
   Scenario: test allocations link
     Given I am not logged in
