@@ -16,16 +16,16 @@ permissions:
   actions: read
   pull-requests: write
 jobs:
-  # test_slack_notification:
-  #   name: Actions to run on launch
-  #   # needs: [asp]
-  #   runs-on: ubuntu-latest
-  #   steps:
+  test_slack_notification:
+    name: Actions to run on launch
+    # needs: [asp]
+    runs-on: ubuntu-latest
+    steps:
 
-  #     - name: create a dummy3 file to test MeilCli slack notification
-  #       run: |
-  #         mkdir -p dummy_folder
-  #         echo "dummy3 file" > dummy_folder/dummy3.txt
+      # - name: create a dummy3 file to test MeilCli slack notification
+      #   run: |
+      #     mkdir -p dummy_folder
+      #     echo "dummy3 file" > dummy_folder/dummy3.txt
 
   #     # - name: Slack Notification Fail with rtCamp to behat-git-notifications channel
   #     #   uses: rtCamp/action-slack-notify@v2
@@ -35,13 +35,13 @@ jobs:
   #     #     SLACK_TITLE: "test notification to behat channel"
   #     #     SLACK_CHANNEL: behat-git-notifications
 
-  #     - name: Slack Notification Fail with rtCamp to cypress-git-notifications channel
-  #       uses: rtCamp/action-slack-notify@v2
-  #       env:
-  #         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-  #         SLACK_MESSAGE: 'test notification to behat-git-notifications channel'
-  #         SLACK_TITLE: "test notification to cypress channel"
-  #         SLACK_CHANNEL: cypress-git-notifications
+      - name: Slack Notification with rtCamp to cypress-git-notifications channel
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: 'test notification to behat-git-notifications channel'
+          SLACK_TITLE: "test notification to cypress channel"
+          SLACK_CHANNEL: cypress-git-notifications
 
 
   #     - name: Slack Notification with MeilCli/slack-upload-file@v2 to behat channel
@@ -53,11 +53,11 @@ jobs:
       #     file_type: 'text'
       #     initial_comment: 'Files found in dummy_folder/*'
 
-      # # - name: Slack Notification with MeilCli/slack-upload-file@v2 to behat channel
-      # #   uses: MeilCli/slack-upload-file@v2
-      # #   with:
+      # - name: Slack Notification with MeilCli/slack-upload-file@v2 to behat channel
+      #   uses: MeilCli/slack-upload-file@v2
+      #   with:
       #     slack_token: ${{ secrets.SLACK_TOKEN }}
-      #     channels: behat-git-notifications
+      #     channels: cypress-git-notifications
       #     file_path: 'tests/behat/screenshots/*.png'
       #     file_type: 'images'
       #     initial_comment: 'Files found in tests/behat/screenshots, for help in diagnosing behat failures'
