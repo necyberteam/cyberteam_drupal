@@ -45,12 +45,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
           REPO: "${{ github.server_url }}/${{ github.repository }}"
-
       - name: Slack Notification Success
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: '🤖 -=-=-=- Cypress Test Succeeded, repo = ${{ secrets.REPO }} -=-=-=- 🤖'
+          SLACK_MESSAGE: '🤖 -=-=-=- Cypress Test Succeeded -=-=-=- 🤖'
           SLACK_TITLE: "Cypress tests passed"
           SLACK_CHANNEL: cypress-git-notifications
 
@@ -68,11 +67,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
           REPO: "${{ github.server_url }}/${{ github.repository }}"
-
       - name: Slack Notification Success
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: '🤖 -=-=-=- Cypress Test Failed, repo = ${{ secrets.REPO }} -=-=-=- 🤖'
+          SLACK_MESSAGE: '🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖'
           SLACK_TITLE: "Cypress tests failed"
           SLACK_CHANNEL: cypress-git-notifications
