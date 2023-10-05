@@ -17,9 +17,26 @@ permissions:
   pull-requests: write
 jobs:
 
+  # test:
+  #   name: testing slack notifications
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: create notification file
+  #       run: |
+  #         echo "🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖" > Cypress_Tests_Failed.txt
+  #     - name: Slack Notification Fail
+  #       uses: MeilCli/slack-upload-file@v2
+  #       with:
+  #         slack_token: ${{ secrets.SLACK_TOKEN }}
+  #         channels: cypress-git-notifications
+  #         file_path: 'Cypress_Tests_Failed.txt'
+  #         file_type: 'text'
+  #         initial_comment: '🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖'
+
   asp:
+    name: Run cypress tests in 'accessmatch' directory
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@main
-    if: contains(github.event.inputs.sites, 'asp')
+    if: ${{ hashFiles('tests/cypress/cypress/e2e/accessmatch/*') != '' }}
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "accessmatch"
