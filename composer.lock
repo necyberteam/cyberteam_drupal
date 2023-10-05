@@ -27,6 +27,42 @@
             "time": "2023-09-07T21:47:15+00:00"
         },
         {
+            "name": "access/infrastructure_news",
+            "version": "1.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/access-ci-org/infrastructure_news",
+                "reference": "bced3f08a609e144d06fc38d90cd8f8a31ec3a1a"
+            },
+            "require": {
+                "access/operations_cider": "dev-main",
+                "drupal/feeds": "^3.0@beta",
+                "drupal/feeds_ex": "^1.0@beta",
+                "drupal/field_group": "^3.4"
+            },
+            "default-branch": true,
+            "type": "drupal-custom-module",
+            "license": [
+                "Apache License, Version 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Miles France",
+                    "email": "miles.france@protitude.com"
+                },
+                {
+                    "name": "Andrew Pasquale",
+                    "email": "andrew@elytra.net"
+                }
+            ],
+            "description": "Drupal Feed of Infrastructure News",
+            "support": {
+                "issues": "https://github.com/access-ci-org/infrastructure_news/issues",
+                "source": "https://github.com/access-ci-org/infrastructure_news"
+            },
+            "time": "2023-09-26T16:45:13+00:00"
+        },
+        {
             "name": "access/operations_cider",
             "version": "dev-main",
             "source": {
@@ -259,7 +295,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/necyberteam/access.git",
-                "reference": "624fa9dead8007e631fff42219b0c3a14fd08257"
+                "reference": "3cd82ba461f4fd7dbdd9367ef9e2737327a02c39"
             },
             "default-branch": true,
             "type": "drupal-custom-module",
@@ -277,7 +313,7 @@
                 "issues": "https://github.com/necyberteam/access/issues",
                 "source": "https://github.com/necyberteam/access"
             },
-            "time": "2023-09-29T13:31:40+00:00"
+            "time": "2023-10-05T15:25:25+00:00"
         },
         {
             "name": "arthurkushman/query-path",
@@ -21641,6 +21677,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "access/drupal_seamless_cilogon": 20,
+        "access/infrastructure_news": 20,
         "access/operations_cider": 20,
         "amp/access": 20,
         "drupal/auditfiles": 10,
