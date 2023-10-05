@@ -27,19 +27,19 @@ jobs:
       #     mkdir -p dummy_folder
       #     echo "dummy3 file" > dummy_folder/dummy3.txt
 
-  #     # - name: Slack Notification Fail with rtCamp to behat-git-notifications channel
-  #     #   uses: rtCamp/action-slack-notify@v2
-  #     #   env:
-  #     #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-  #     #     SLACK_MESSAGE: 'test notification to behat-git-notifications channel'
-  #     #     SLACK_TITLE: "test notification to behat channel"
-  #     #     SLACK_CHANNEL: behat-git-notifications
+      - name: Slack Notification Fail with rtCamp to behat-git-notifications channel
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: 'test notification to behat-git-notifications channel'
+          SLACK_TITLE: "test notification to behat channel"
+          SLACK_CHANNEL: behat-git-notifications
 
       - name: Slack Notification with rtCamp to cypress-git-notifications channel
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: 'test notification to behat-git-notifications channel'
+          SLACK_MESSAGE: 'test notification to cypress-git-notifications channel'
           SLACK_TITLE: "test notification to cypress channel"
           SLACK_CHANNEL: cypress-git-notifications
 
