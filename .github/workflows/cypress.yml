@@ -118,8 +118,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Comment on pull request
-        run: |
-          echo "🤖 -=-=-=- Cypress Test was Successful -=-=-=- 🤖  with repo " $REPO > tmp_cypress_notification.txt
         if: "${{ env.prnum  != '' }}"
         run: |
           gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Cypress Test was Successful -=-=-=- 🤖"
@@ -127,6 +125,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
           REPO: "${{ github.server_url }}/${{ github.repository }}"
+      - create notification file
+        run: |
+          echo "🤖 -=-=-=- Cypress Test was Successful -=-=-=- 🤖  with repo " $REPO > tmp_cypress_notification.txt
       - name: Slack Notification Success
         uses: MeilCli/slack-upload-file@v2
         with:
@@ -150,8 +151,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Comment on pull request
-        run: |
-          echo "🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖  with repo " $REPO > tmp_cypress_notification.txt
         if: "${{ env.prnum  != '' }}"
         run: |
           gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Cypress Test has failed 😩 -=-=-=- 🤖"
@@ -159,6 +158,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
           REPO: "${{ github.server_url }}/${{ github.repository }}"
+      - create notification file
+        run: |
+          echo "🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖  with repo " $REPO > tmp_cypress_notification.txt
       - name: Slack Notification Fail
         uses: MeilCli/slack-upload-file@v2
         with:
