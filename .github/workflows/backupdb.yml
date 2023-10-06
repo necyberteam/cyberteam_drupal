@@ -33,6 +33,7 @@ jobs:
         run: |
           lando drush sql-sanitize --sanitize-password=y -y
           lando drush cim
+          lando drush cr
           lando drush updb
           lando drush en amp_dev
           lando drush pmu amp_dev
