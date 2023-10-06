@@ -32,7 +32,8 @@ jobs:
       - name: Sanitize backup
         run: |
           lando drush sql-sanitize --sanitize-password=y -y
-          lando drush deploy
+          lando drush cim
+          lando drush updb
           lando drush en amp_dev
           lando drush pmu amp_dev
           lando drush cr
