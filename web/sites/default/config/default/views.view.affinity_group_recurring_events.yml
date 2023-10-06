@@ -6,7 +6,6 @@ dependencies:
     - field.storage.eventseries.field_affinity_group
   module:
     - datetime
-    - datetime_range
     - recurring_events
 id: affinity_group_recurring_events
 label: 'Affinity Group Recurring Events'
@@ -152,21 +151,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        date__value_1:
-          id: date__value_1
-          table: eventinstance_field_data
-          field: date__value
-          relationship: event_instances_target_id
+        eventseries_start_date:
+          id: eventseries_start_date
+          table: eventseries_field_data
+          field: eventseries_start_date
+          relationship: none
           group_type: group
-          admin_label: instance_time
-          entity_type: eventinstance
-          entity_field: date
-          plugin_id: field
+          admin_label: ''
+          entity_type: eventseries
+          plugin_id: eventseries_start_date
           label: ''
           exclude: true
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: "{{ eventseries_start_date |date('m/d/y')}}"
             make_link: false
             path: ''
             absolute: false
@@ -203,89 +201,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: daterange_custom
-          settings:
-            timezone_override: ''
-            date_format: 'g:i A T'
-            separator: '*'
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        date__value:
-          id: date__value
-          table: eventinstance_field_data
-          field: date__value
-          relationship: event_instances_target_id
-          group_type: group
-          admin_label: ''
-          entity_type: eventinstance
-          entity_field: date
-          plugin_id: field
-          label: 'Event Date'
-          exclude: true
-          alter:
-            alter_text: true
-            text: "[{{ date__value__value|date('n/d/Y g:i A T')}}]"
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: daterange_custom
-          settings:
-            timezone_override: ''
-            date_format: 'Y-m-d\TH:i:s'
-            separator: '-'
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
         view_eventinstance:
           id: view_eventinstance
           table: eventinstance
@@ -299,7 +214,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{# split off first value of times range in date__value__1 (instance_time) #}\r\n{% set split_times =  date__value_1|split('*') %}\r\n[{{ date__value }} {{split_times[0]|trim}}] <a href=\"{{ view_eventinstance }}\">{{ title }}</a>"
+            text: "[{{ eventseries_start_date }}] <br />\r\n<a href=\"{{ view_eventinstance }}\" class=\"text-white font-bold\">{{ title }}</a>"
             make_link: false
             path: ''
             absolute: false
@@ -505,6 +420,7 @@ display:
           entity_type: eventseries
           plugin_id: standard
           required: false
+      css_class: 'bg-md-teal p-4 text-white font-bold'
       header:
         area:
           id: area
@@ -516,8 +432,8 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: '<h3 class="border-bottom pb-2">Events</h3>'
-            format: basic_html
+            value: '<h3 class="border-bottom pb-2 text-white mt-0">Upcoming Events</h3>'
+            format: full_no_editor
           tokenize: false
       footer: {  }
       display_extenders: {  }
