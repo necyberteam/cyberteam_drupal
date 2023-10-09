@@ -11,7 +11,7 @@ archive: false
 id: affinity_group_request
 title: 'Affinity Group Request'
 description: ''
-category: ''
+categories: {  }
 elements: |-
   flexbox_03:
     '#type': webform_flexbox
@@ -22,7 +22,6 @@ elements: |-
     do_you_have_a_logo_or_image_:
       '#type': checkbox
       '#title': 'Do you have a logo or image?'
-      '#title_display': before
     affinity_group_image:
       '#type': webform_image_file
       '#title': 'Affinity Group Image'
@@ -39,12 +38,11 @@ elements: |-
       '#type': entity_autocomplete
       '#title': Coordinators
       '#multiple': true
-      '#description': '<span class="CheckStep-line-content d-inline-block flex-auto js-check-line-content ml-3"><span class="ansifg-r text-bold">Type a few letters of the name and then select from the list of names presented</span></span>'
+      '#description': '<p><span class="CheckStep-line-content d-inline-block flex-auto js-check-line-content ml-3 ansifg-r text-bold">Type a few letters of the name and then select from the list of names presented</span></p>'
       '#description_display': before
       '#multiple__sorting': false
       '#multiple__add_more': false
       '#multiple__add_more_input': false
-      '#multiple__add_more_button_label': ''
       '#target_type': user
       '#selection_handler': 'default:user'
       '#selection_settings':
@@ -63,8 +61,8 @@ elements: |-
       '#type': webform_entity_select
       '#title': 'Select one (or more) related CiDeR resources '
       '#multiple': true
-      '#description': '<h2 data-renderer-start-pos="421"><strong data-renderer-mark="true">If you are an ACCESS RP</strong>, select one (or more) related CiDeR resources</h2>'
-      '#title_display': invisible
+      '#description': '<p><strong>If you are an ACCESS RP</strong>, select one (or more) related CiDeR resources</p>'
+      '#title_display': none
       '#description_display': before
       '#select2': true
       '#target_type': node
@@ -80,14 +78,14 @@ elements: |-
     project_description:
       '#type': textarea
       '#title': Description
-      '#description': '<p data-renderer-start-pos="561">Please include information about the intent of the group, what type of communications you expect the group will use, and how often.</p>'
+      '#description': '<p style="font-size:1em;font-weight:normal;letter-spacing:-0.005em;line-height:1.714;margin-bottom:0px;margin-left:;margin-right:;margin-top:0px;padding:0px;" data-renderer-start-pos="561">Please include information about the intent of the group, what type of communications you expect the group will use, and how often.</p>'
       '#description_display': before
       '#required': true
       '#format_items': comma
     short_description:
       '#type': textarea
       '#title': Summary
-      '#description': 'Provide a short description that will appear on the Affinity Groups directory page.'
+      '#description': '<p>Provide a short description that will appear on the Affinity Groups directory page.</p>'
       '#description_display': before
       '#required': true
       '#counter_type': character
@@ -120,7 +118,7 @@ elements: |-
     email_list_or_contact:
       '#type': textfield
       '#title': 'Email List or Contact'
-      '#description': 'Provide a full URL to your email list or email contact for the Affinity <a data-testid="inline-card-resolved-view" href="http://group.ie/" role="button" tabindex="0">group.ie</a> <a data-renderer-mark="true" data-testid="link-with-safety" href="https://mydomain.com/thank-you/" title="https://mydomain.com/thank-you/"><u data-renderer-mark="true">https://mydomain.com/our-email-list/</u></a> or <a data-renderer-mark="true" data-testid="link-with-safety" href="mailto:example@email.com" title="mailto:example@email.com">mailto:example@email.com</a>'
+      '#description': '<p>Provide a full URL to your email list or email contact for the Affinity group.ie &nbsp;https://mydomain.com/our-email-list/ or mailto:example@email.com</p>'
 css: 'body:not(.path-admin) .webform-submission-information, body:not(.path-admin) .webform-submission-navigation {display: none}'
 javascript: ''
 settings:
@@ -208,6 +206,8 @@ settings:
   wizard_toggle: true
   wizard_toggle_show_label: ''
   wizard_toggle_hide_label: ''
+  wizard_page_type: container
+  wizard_page_title_tag: h2
   preview: 0
   preview_label: ''
   preview_title: ''
@@ -323,7 +323,7 @@ handlers:
       notes: ''
       sticky: null
       locked: null
-      data: 'terms: ''[webform_submission:values:tags]'''
+      data: "terms: '[webform_submission:values:tags]'"
       message: ''
       message_type: status
       debug: false
