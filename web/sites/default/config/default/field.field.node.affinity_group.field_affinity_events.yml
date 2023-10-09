@@ -1,0 +1,21 @@
+uuid: 1216df9c-4f66-48c6-9348-3d67e63c5c2a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_affinity_events
+    - node.type.affinity_group
+id: node.affinity_group.field_affinity_events
+field_name: field_affinity_events
+entity_type: node
+bundle: affinity_group
+label: Events
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:eventseries'
+  handler_settings: {  }
+field_type: entity_reference

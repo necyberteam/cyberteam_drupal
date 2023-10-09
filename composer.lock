@@ -4,16 +4,17 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3af2dbae250f01aedc0ad84231e6e27d",
+    "content-hash": "ec929f11c57551ab4cb754ee293f3a63",
     "packages": [
         {
             "name": "access/drupal_seamless_cilogon",
-            "version": "dev-d10",
+            "version": "3.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/access-ci-org/drupal_seamless_cilogon.git",
                 "reference": "0870406d60f030899bb0cdd6ba084bd165ad8775"
             },
+            "default-branch": true,
             "type": "drupal-custom-module",
             "license": [
                 "GPL-2.0-or-later"
@@ -24,6 +25,42 @@
                 "Drupal"
             ],
             "time": "2023-09-07T21:47:15+00:00"
+        },
+        {
+            "name": "access/infrastructure_news",
+            "version": "1.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/access-ci-org/infrastructure_news",
+                "reference": "bced3f08a609e144d06fc38d90cd8f8a31ec3a1a"
+            },
+            "require": {
+                "access/operations_cider": "dev-main",
+                "drupal/feeds": "^3.0@beta",
+                "drupal/feeds_ex": "^1.0@beta",
+                "drupal/field_group": "^3.4"
+            },
+            "default-branch": true,
+            "type": "drupal-custom-module",
+            "license": [
+                "Apache License, Version 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Miles France",
+                    "email": "miles.france@protitude.com"
+                },
+                {
+                    "name": "Andrew Pasquale",
+                    "email": "andrew@elytra.net"
+                }
+            ],
+            "description": "Drupal Feed of Infrastructure News",
+            "support": {
+                "issues": "https://github.com/access-ci-org/infrastructure_news/issues",
+                "source": "https://github.com/access-ci-org/infrastructure_news"
+            },
+            "time": "2023-09-26T16:45:13+00:00"
         },
         {
             "name": "access/operations_cider",
@@ -254,11 +291,11 @@
         },
         {
             "name": "amp/access",
-            "version": "dev-aspTheme",
+            "version": "dev-asp-theme",
             "source": {
                 "type": "git",
                 "url": "https://github.com/necyberteam/access.git",
-                "reference": "419140a3aa02726d283ba08b68dc992c3b1c5b70"
+                "reference": "21763473c921f5be96c5a8f59e0511182290a2ee"
             },
             "type": "drupal-custom-module",
             "license": [
@@ -275,7 +312,7 @@
                 "issues": "https://github.com/necyberteam/access/issues",
                 "source": "https://github.com/necyberteam/access"
             },
-            "time": "2023-10-03T19:39:58+00:00"
+            "time": "2023-10-09T02:48:53+00:00"
         },
         {
             "name": "arthurkushman/query-path",
@@ -9529,21 +9566,22 @@
         },
         {
             "name": "drupal_fork/cilogon_auth",
-            "version": "dev-d10",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/necyberteam/cilogin_auth.git",
-                "reference": "f3cc670286aa826b0d7b8e1e2b276dc4cf84c376"
+                "reference": "643a628a16e72552865d93d62c7754218c2036cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/necyberteam/cilogin_auth/zipball/f3cc670286aa826b0d7b8e1e2b276dc4cf84c376",
-                "reference": "f3cc670286aa826b0d7b8e1e2b276dc4cf84c376",
+                "url": "https://api.github.com/repos/necyberteam/cilogin_auth/zipball/643a628a16e72552865d93d62c7754218c2036cb",
+                "reference": "643a628a16e72552865d93d62c7754218c2036cb",
                 "shasum": ""
             },
             "require": {
                 "drupal/core": "^10"
             },
+            "default-branch": true,
             "type": "drupal-module",
             "license": [
                 "GPL-2.0-or-later"
@@ -9566,22 +9604,23 @@
                 "issues": "https://drupal.org/project/issues/cilogon_auth",
                 "source": "https://git.drupalcode.org/project/cilogon_auth"
             },
-            "time": "2023-09-07T20:25:50+00:00"
+            "time": "2023-10-05T18:25:22+00:00"
         },
         {
             "name": "drupal_fork/domain_adv",
-            "version": "dev-d10",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/necyberteam/domain_adv.git",
-                "reference": "068b3ff420070aef69c108411064bf6473f32979"
+                "reference": "fe2378dcff62836babdd6fd36d5a66ed15109f76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/necyberteam/domain_adv/zipball/068b3ff420070aef69c108411064bf6473f32979",
-                "reference": "068b3ff420070aef69c108411064bf6473f32979",
+                "url": "https://api.github.com/repos/necyberteam/domain_adv/zipball/fe2378dcff62836babdd6fd36d5a66ed15109f76",
+                "reference": "fe2378dcff62836babdd6fd36d5a66ed15109f76",
                 "shasum": ""
             },
+            "default-branch": true,
             "type": "drupal-module",
             "license": [
                 "GPL-2.0+"
@@ -9598,7 +9637,7 @@
                 "irc": "http://irc.freenode.org/drupal-contribute",
                 "source": "http://cgit.drupalcode.org/domain_adv"
             },
-            "time": "2023-09-07T20:24:27+00:00"
+            "time": "2023-10-05T18:25:58+00:00"
         },
         {
             "name": "drush/drush",
@@ -11338,7 +11377,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/necyberteam/aspTheme.git",
-                "reference": "01dd0fbfd81c26b99f448e34b869bbc374a01461"
+                "reference": "c94658d3542b52a290c87924836dd2097e21e925"
             },
             "default-branch": true,
             "type": "drupal-theme",
@@ -11356,7 +11395,7 @@
                 "issues": "https://github.com/necyberteam/aspTheme/issues",
                 "source": "https://github.com/necyberteam/aspTheme"
             },
-            "time": "2023-10-03T19:39:09+00:00"
+            "time": "2023-10-09T02:49:54+00:00"
         },
         {
             "name": "necyberteam/campus-champions-theme",
@@ -13646,16 +13685,16 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v6.3.3",
+            "version": "v6.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "9915db259f67d21eefee768c1abcf1cc61b1fc9e"
+                "reference": "a1b31d88c0e998168ca7792f222cbecee47428c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/9915db259f67d21eefee768c1abcf1cc61b1fc9e",
-                "reference": "9915db259f67d21eefee768c1abcf1cc61b1fc9e",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/a1b31d88c0e998168ca7792f222cbecee47428c4",
+                "reference": "a1b31d88c0e998168ca7792f222cbecee47428c4",
                 "shasum": ""
             },
             "require": {
@@ -13690,7 +13729,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v6.3.3"
+                "source": "https://github.com/symfony/finder/tree/v6.3.5"
             },
             "funding": [
                 {
@@ -13706,7 +13745,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-07-31T08:31:44+00:00"
+            "time": "2023-09-26T12:56:25+00:00"
         },
         {
             "name": "symfony/http-client",
@@ -16511,7 +16550,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/necyberteam/amp_dev.git",
-                "reference": "cc0190b0a3358ea93bfaaf0d1687b5a0b4752d0a"
+                "reference": "7785bd2d16b0e8bdac221ce8fb87fc9c8345a7a3"
             },
             "default-branch": true,
             "type": "drupal-custom-module",
@@ -16523,7 +16562,7 @@
             "keywords": [
                 "Drupal"
             ],
-            "time": "2023-06-09T14:20:43+00:00"
+            "time": "2023-10-06T18:01:24+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -21663,6 +21702,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "access/drupal_seamless_cilogon": 20,
+        "access/infrastructure_news": 20,
         "access/operations_cider": 20,
         "amp/access": 20,
         "drupal/auditfiles": 10,
