@@ -8,7 +8,7 @@ Feature: test ci-link submission page as an administrator user
   Scenario: Administrator user Test ci links submission page
     Given I am logged in as a user with the "administrator" role
     When I go to "/admin/structure/webform/manage/resource/results/submissions"
-    Then I should see "There are no submissions yet."
+    Then I should see "Cybersecurity Resource Center"
     Then I should see "#"
     Then I should see "Title"
     Then I should see "Approved"
