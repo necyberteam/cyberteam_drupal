@@ -488,6 +488,7 @@ $update_list");
     }
     $default_domain = $domains[$domain_id]['id'];
     $this->_exec("$lando drush domain:default $default_domain");
+    $this->_exec("$lando drush cr");
     $this->say("Setting $default_domain as default");
     $this->_exec("$lando drush cr");
   }
