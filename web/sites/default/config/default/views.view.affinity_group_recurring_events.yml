@@ -214,7 +214,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "[{{ eventseries_start_date }}] <br />\r\n<a href=\"{{ view_eventinstance }}\" class=\"text-white font-bold\">{{ title }}</a>"
+            text: "[{{ eventseries_start_date }}] <br />\r\n<a href=\"{{ view_eventinstance }}\" class=\"text-white-er font-bold\">{{ title }}</a>"
             make_link: false
             path: ''
             absolute: false
@@ -425,7 +425,7 @@ display:
           entity_type: eventseries
           plugin_id: standard
           required: false
-      css_class: 'bg-md-teal p-4 text-white font-bold mb-6 mt-4'
+      css_class: 'bg-md-teal p-4 text-white-er font-bold mb-6 mt-4'
       header:
         area:
           id: area
@@ -437,7 +437,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: '<h3 class="border-bottom pb-2 text-white mt-0">Upcoming Events</h3>'
+            value: '<h3 class="border-bottom pb-2 text-white-er mt-0">Upcoming Events</h3>'
             format: full_no_editor
           tokenize: false
       footer: {  }
