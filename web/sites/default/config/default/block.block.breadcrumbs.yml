@@ -1,4 +1,4 @@
-uuid: e1d15898-d23b-4961-b57b-943c500c9514
+uuid: 56e417bc-32d3-42f7-9f65-d784543e6bec
 langcode: en
 status: true
 dependencies:
@@ -6,17 +6,17 @@ dependencies:
     - system
   theme:
     - aspTheme
-id: pagetitle
+id: breadcrumbs
 theme: aspTheme
-region: title_banner
+region: breadcrumbs
 weight: 0
 provider: null
-plugin: page_title_block
+plugin: system_breadcrumb_block
 settings:
-  id: page_title_block
-  label: 'Page title'
+  id: system_breadcrumb_block
+  label: Breadcrumbs
   label_display: '0'
-  provider: core
+  provider: system
 visibility:
   request_path:
     id: request_path
