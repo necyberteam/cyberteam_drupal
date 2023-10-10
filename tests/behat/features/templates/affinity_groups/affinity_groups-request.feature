@@ -22,6 +22,7 @@ Link, and Email List Link. Users can submit the form using the "Submit" button.
     And I should see "If you are an ACCESS RP, select one (or more) related CiDeR resources"
     And I should see "Summary"
     And I should see "Provide a short description that will appear on the Affinity Groups directory page."
+    Then I should see "Maximum 160 Characters Allowed"
     And I should see "Description"
     And I should see "Please include information about the intent of the group, what type of communications you expect the group will use, and how often."
     And I should see "Slack"
