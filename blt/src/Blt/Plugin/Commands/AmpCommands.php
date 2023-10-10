@@ -40,8 +40,8 @@ DRUPAL_HASH_SALT=$hash
 AMP_UID=$uid
 GITHUB_TOKEN=$token'>.env");
     $this->say("❗️ Environment vars setup, now starting lando. ❗️");
-    $this->_exec("lando start");
     $this->_exec("lando blt blt:telemetry:disable --no-interaction");
+    $this->_exec("lando start");
     $this->_exec("lando xdebug-off");
     $this->_exec("lando composer config -g github-oauth.github.com $token");
     if (!file_exists($db_backup)) {
