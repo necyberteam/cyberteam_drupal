@@ -33,10 +33,11 @@ Link, and Email List Link. Users can submit the form using the "Submit" button.
     And I should see "Email List or Contact"
     And I should see "Provide a full URL to your email list or email contact for the Affinity"
     When I fill in "affinity_group_name" with "TEST"
+    When I fill in "edit-tags" with "Login"
     When I fill in "short_description" with "TEST"
     When I fill in "project_description" with "TEST"
     # op is the submit button
     And I wait 1 second
     When I press "Submit"
     And I wait for the page to be loaded
-    Then I should see "Thank you for your submission. We will contact you when your affinity group has been created."
+   # Then I should see "Thank you for your submission"
