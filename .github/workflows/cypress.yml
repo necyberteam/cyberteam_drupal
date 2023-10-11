@@ -33,7 +33,7 @@ jobs:
   asp:
     name: Run cypress tests in 'accessmatch' directory
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@main
-    if: contains(github.event.inputs.sites, 'asp') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'asp')
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "accessmatch"
