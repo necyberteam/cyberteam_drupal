@@ -11,7 +11,7 @@ archive: false
 id: affinity_group_request
 title: 'Affinity Group Request'
 description: ''
-category: ''
+categories: {  }
 elements: |-
   flexbox_03:
     '#type': webform_flexbox
@@ -193,6 +193,8 @@ settings:
   wizard_toggle: true
   wizard_toggle_show_label: ''
   wizard_toggle_hide_label: ''
+  wizard_page_type: container
+  wizard_page_title_tag: h2
   preview: 0
   preview_label: ''
   preview_title: ''
@@ -308,7 +310,7 @@ handlers:
       notes: ''
       sticky: null
       locked: null
-      data: 'terms: ''[webform_submission:values:tags]'''
+      data: "terms: '[webform_submission:values:tags]'"
       message: ''
       message_type: status
       debug: false

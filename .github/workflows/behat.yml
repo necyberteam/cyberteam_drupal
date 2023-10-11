@@ -7,7 +7,7 @@ on:
         description: 'Recent database dump to use (leave blank to use artifact)'
       sites:
         description: 'Specify which sites to test or leave the default to run all tests.'
-        default: 'cci, asp, champ, coco, usrse, careers, gpc, ky, nect'
+        default: 'cci, champ, coco, usrse, careers, gpc, ky, nect'
         required: true
       prnum:
         description: 'Pull request number — adds a comment to a pull request (nomally empty)'
@@ -125,7 +125,7 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   wip:
-    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v1
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v2
     if: contains(github.event.inputs.sites, 'wip')
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -138,7 +138,7 @@ jobs:
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   # success:
   #   name: Actions to run on success
-  #   needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect]
+  #   needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect, wip]
   #   if: ${{ success() || ( always() && ! cancelled() && ! failure() ) }}
   #   runs-on: ubuntu-latest
   #   steps:
@@ -159,7 +159,7 @@ jobs:
   #         SLACK_CHANNEL: behat-git-notifications
   fail:
     name: Actions to run on fail
-    needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect]
+    needs: [cci, asp, champ, coco, usrse, careers, gpc, ky, nect, wip]
     if:  ${{ failure() }}
     runs-on: ubuntu-latest
     steps:

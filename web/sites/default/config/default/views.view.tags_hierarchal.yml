@@ -949,6 +949,7 @@ display:
         filters: false
         filter_groups: false
         header: false
+        footer: false
       css_class: mb-3
       display_description: ''
       header:
@@ -963,6 +964,20 @@ display:
           empty: false
           content:
             value: '<p>Please select the "<i class="fa fa-chevron-right"></i>" arrow to reveal child tags.</p>'
+            format: full_no_editor
+          tokenize: false
+      footer:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: "<script>\r\ndocument.querySelectorAll('.list-group-item span:last-of-type a').forEach((el) => {\r\n  el.addEventListener('click', (e) => {\r\n    e.preventDefault();\r\n    const target = e.target.parentNode.previousElementSibling.querySelector('a');\r\n    if (target && target.getAttribute('data-toggle') === 'collapse') {\r\n      target.click();\r\n    }\r\n  });\r\n});\r\n</script>"
             format: full_no_editor
           tokenize: false
       display_extenders:
