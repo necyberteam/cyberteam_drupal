@@ -11,8 +11,6 @@ describe("Unauthenticated user tests the XDMoD Page", () => {
 
     cy.get('img[alt="XDMoD logo"]').should("be.visible");
 
-    //cy.contains("XDMoD").should("be.visible");
-
     cy.contains("Optimize Job Efficiency").should("be.visible");
 
     cy.contains(
@@ -64,10 +62,6 @@ describe("Unauthenticated user tests the XDMoD Page", () => {
     cy.contains("XDMoD Support").should("be.visible");
 
     cy.contains("Launch XDMoD").click();
-
-    cy.origin("https://xdmod.access-ci.org/", () => {
-      cy.url().should("eq", "https://xdmod.access-ci.org/");
-    });
 
     cy.origin("https://xdmod.access-ci.org/", () => {
       cy.url().should("eq", "https://xdmod.access-ci.org/");

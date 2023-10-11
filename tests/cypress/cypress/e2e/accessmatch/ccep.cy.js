@@ -3,7 +3,6 @@ describe("Unauthenticated user tests the XDMoD Page", () => {
     // Given I am not logged in
     // Cypress does not have a specific command for this step as it depends on your application's authentication mechanism.
 
-    // When I go to "/ccep"
     cy.visit("/ccep");
 
     cy.contains("CSSN Community Engagement Program").should("be.visible");
@@ -17,6 +16,10 @@ describe("Unauthenticated user tests the XDMoD Page", () => {
     cy.contains("Submissions are reviewed once a month.").should("be.visible");
 
     cy.contains("Tier 1: $1,000").should("be.visible");
+
+    cy.contains(
+      "Prepare an Intro to ACCESS lecture, tutorial, or slide deck for Basic, Intermediate, or Advanced User."
+    ).should("not.visible");
 
     cy.contains("Intro to ACCESS lecture").click();
 
