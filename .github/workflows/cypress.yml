@@ -11,25 +11,13 @@ on:
         required: true
       prnum:
         description: 'Pull request number — adds a comment to a pull request (nomally empty)'
+
 permissions:
   contents: write
   actions: read
   pull-requests: write
+
 jobs:
-
-  not-asp-check:
-    name: report no asp in sites
-    runs-on: ubuntu-latest
-    if: ${{ !contains(github.event.inputs.sites, 'asp') }}
-    steps:
-      - name: if this action runs, then no "asp" found in "sites"
-        run: |
-          echo no "asp" found in "sites"
-          echo github.event_name = ${{ github.event_name }}
-          echo github.event.inputs.sites = ${{ github.event.inputs.sites}}
-          echo github.event.inputs.database: ${{ github.event.inputs.database }}
-          echo github.event.inputs.prnum: ${{ github.event.inputs.prnum }}
-
   asp:
     name: Run cypress tests in 'accessmatch' directory
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@main
