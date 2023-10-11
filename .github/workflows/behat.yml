@@ -30,7 +30,7 @@ jobs:
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   asp:
     uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v2
-    if: contains(github.event.inputs.sites, 'asp') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'asp')
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "asp"
@@ -125,7 +125,7 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
   wip:
-    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v1
+    uses: necyberteam/reusable_actions/.github/workflows/behat.yml@v2
     if: contains(github.event.inputs.sites, 'wip')
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
