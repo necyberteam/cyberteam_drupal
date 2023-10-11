@@ -25,5 +25,5 @@ import './commands'
 Cypress.on('uncaught:exception', (err, runnable) => {
   // alert(err);  // This allows seeing the error in the browser.
   // returning false here prevents Cypress from failing the test
-  return false
-})
+  return false;
+});
