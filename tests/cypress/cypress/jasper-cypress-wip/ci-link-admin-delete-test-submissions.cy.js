@@ -1,7 +1,7 @@
 //
 // Remove all test CI-Links called "cypress-ci-link-for-testing".
 //
-describe(describe('Admin user deletes all cypress-ci-link-for-testing submissions', () => {
+describe('Admin user deletes all cypress-ci-link-for-testing submissions', () => {
   it('should delete all cypress-ci-link-for-testing submissions', () => {
     // login user with the "administrator" role
     cy.loginAs('apple@pie.org', 'Apple');
@@ -14,4 +14,4 @@ describe(describe('Admin user deletes all cypress-ci-link-for-testing submission
     cy.get("#edit-confirm-input").check();
     cy.get("#edit-submit").click();
   });
-}));
+});
