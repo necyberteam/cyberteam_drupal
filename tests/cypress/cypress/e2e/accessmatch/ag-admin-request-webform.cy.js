@@ -33,6 +33,5 @@ describe('test affinity group request form', () => {
     cy.get('#edit-email-list-or-contact').type('mailto:a@b.com');
     cy.get('#edit-submit').click();
     cy.contains('Thank you for your submission. We will contact you when your affinity group has been created.');
-    cy.visit('admin/structure/webform/manage/affinity_group_request/results/submissions');
   });
 });
