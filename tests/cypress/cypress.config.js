@@ -27,6 +27,8 @@ module.exports = defineConfig({
     },
     specPattern: "cypress/**",
     supportFile: "cypress/support/e2e.js",
-    fixturesFolder: "cypress/fixtures"
+    fixturesFolder: "cypress/fixtures",
+    experimentalStudio: true
+
   },
 });
