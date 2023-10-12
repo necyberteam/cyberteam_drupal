@@ -1,8 +1,14 @@
-describe("Unauthenticated user tests the XDMoD Page", () => {
-  it("Should test XDMoD page for unauthenticated user", () => {
-    // Given I am not logged in
-    // Cypress does not have a specific command for this step as it depends on your application's authentication mechanism.
+/*  
+    This test is specifically focused on the CCEP page tested for an unauthenticated user.
+    This test checks for major functions like:
+    Page Title, 
+    Testing accordion function,
+    and verifying links load in 
+    
+*/
 
+describe("Unauthenticated user tests the CCEP Page", () => {
+  it("Should test CCEP page for unauthenticated user", () => {
     cy.visit("/ccep");
 
     cy.contains("CSSN Community Engagement Program").should("be.visible");

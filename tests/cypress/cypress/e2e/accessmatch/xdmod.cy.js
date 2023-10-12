@@ -1,3 +1,11 @@
+/*  
+    This test is specifically focused on the XDMoD page tested for an unauthenticated user.
+    This test checks for major functions like:
+    Page Title, 
+    Testing accordion function,
+    and verifying images and links load in  
+*/
+
 describe("Unauthenticated user tests the XDMoD Page", () => {
   it("Should test XDMoD page for unauthenticated user", () => {
     // Given I am not logged in
