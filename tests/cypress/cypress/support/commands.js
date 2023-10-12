@@ -52,7 +52,7 @@ Cypress.Commands.add('deleteLastNode', () => {
 Cypress.Commands.add('drushUli', () => {
   cy.task('log', 'in drushUli');
 
-  cy.drush('uli', ['--uri=' + Cypress.env('baseUrl')], {})
+  cy.drush('uli', ['--uri=' + Cypress.config('baseUrl')], {})
     .its('stdout')
     .then(function (url) {
       cy.task('log', 'drushUli trying to visit "' + url + '"');
