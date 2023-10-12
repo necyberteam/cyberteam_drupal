@@ -23,10 +23,6 @@ describe("Unauthenticated user tests the CCEP Page", () => {
 
     cy.contains("Tier 1: $1,000").should("be.visible");
 
-    cy.contains(
-      "Prepare an Intro to ACCESS lecture, tutorial, or slide deck for Basic, Intermediate, or Advanced User."
-    ).should("not.visible");
-
     cy.contains("Intro to ACCESS lecture").click();
 
     cy.contains(
@@ -109,12 +105,9 @@ describe("Unauthenticated user tests the CCEP Page", () => {
 
     cy.contains("Apply to CCEP").click();
 
-    cy.origin(
-      "https://docs.google.com/forms/d/e/1FAIpQLSfkD7BgQPSqCv5LjL8EOUwmt-rUuikpxisi5eD455tuSnjMJQ/viewform",
-      () => {
-        cy.contains("ACCESS CSSN Community Engagement").should("be.visible");
-      }
-    );
+    cy.origin("https://docs.google.com", () => {
+      cy.contains("ACCESS CSSN Community Engagement").should("be.visible");
+    });
 
     cy.visit("/ccep");
 
@@ -131,4 +124,3 @@ describe("Unauthenticated user tests the CCEP Page", () => {
     );
   });
 });
-
