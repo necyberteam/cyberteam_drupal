@@ -24,7 +24,7 @@ describe('test affinity group request form', () => {
     cy.contains('Provide a link to the Github Organization if applicable.');
     cy.contains('Email List or Contact');
     cy.contains('Provide a link to the email list or email contact for the Affinity Group. Please enter the full URL to your mailing list including the https:// or if an email please type mailto: before the address. For example: mailto:example@email.com');
-    cy.get('input[name="affinity_group_name"]').type('affinity group galaxy question 3800');
+    cy.get('input[name="affinity_group_name"]').type('affinity group galaxy quest 3800');
     cy.get('#edit-short-description').type('TEST');
     cy.get('textarea[name="project_description"]').type('TEST');
     cy.get('#edit-ask-ci-locale-url').type('http://1.com');
