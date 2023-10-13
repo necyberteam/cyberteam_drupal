@@ -2,6 +2,8 @@ uuid: e1d15898-d23b-4961-b57b-943c500c9514
 langcode: en
 status: true
 dependencies:
+  module:
+    - system
   theme:
     - aspTheme
 id: pagetitle
@@ -15,4 +17,8 @@ settings:
   label: 'Page title'
   label_display: '0'
   provider: core
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: '<front>'

@@ -394,9 +394,11 @@ GITHUB_TOKEN=$token'>.env");
     if (!empty($domain_id)) {
       $this->_exec($this->lando() . "blt amp:ds $domain_id");
     }
+    else {
+      $this->_exec("sleep 2");
+      $this->_exec($this->lando() . "drush cr");
+    }
     $this->_exec($this->lando() . "blt amp:uli");
-    $this->_exec("sleep 2");
-    $this->_exec($this->lando() . "drush cr");
   }
 
   /**
@@ -482,6 +484,7 @@ $update_list");
     $default_domain = $domains[$domain_id]['id'];
     $this->_exec("$lando drush domain:default $default_domain");
     $this->say("Setting $default_domain as default");
+    $this->_exec("$lando drush cr");
   }
 
   /**

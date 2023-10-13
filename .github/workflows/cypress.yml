@@ -11,16 +11,17 @@ on:
         required: true
       prnum:
         description: 'Pull request number — adds a comment to a pull request (nomally empty)'
+
 permissions:
   contents: write
   actions: read
   pull-requests: write
-jobs:
 
+jobs:
   asp:
     name: Run cypress tests in 'accessmatch' directory
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@main
-    if: contains(github.event.inputs.sites, 'asp')
+    if: contains(github.event.inputs.sites, 'asp') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "accessmatch"
@@ -45,17 +46,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
           REPO: "${{ github.server_url }}/${{ github.repository }}"
-      - name: create notification file
-        run: |
-          echo "🤖 -=-=-=- Cypress Test Succeeded -=-=-=- 🤖" > Cypress_Tests_Succeeded.txt
       - name: Slack Notification Success
-        uses: MeilCli/slack-upload-file@v2
-        with:
-          slack_token: ${{ secrets.SLACK_TOKEN }}
-          channels: cypress-git-notifications
-          file_path: 'Cypress_Tests_Succeeded.txt'
-          file_type: 'text'
-          initial_comment: '🤖 -=-=-=- Cypress Test Succeeded -=-=-=- 🤖'
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: '🤖 -=-=-=- Cypress Test Succeeded -=-=-=- 🤖'
+          SLACK_TITLE: "Cypress tests passed"
+          SLACK_CHANNEL: cypress-git-notifications
+
   fail:
     name: Actions to run on fail
     needs: [asp]
@@ -70,14 +68,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           prnum: ${{ github.event.inputs.prnum }}
           REPO: "${{ github.server_url }}/${{ github.repository }}"
-      - name: create notification file
-        run: |
-          echo "🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖" > Cypress_Tests_Failed.txt
-      - name: Slack Notification Fail
-        uses: MeilCli/slack-upload-file@v2
-        with:
-          slack_token: ${{ secrets.SLACK_TOKEN }}
-          channels: cypress-git-notifications
-          file_path: 'Cypress_Tests_Failed.txt'
-          file_type: 'text'
-          initial_comment: '🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖'
+      - name: Slack Notification Success
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: '🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖'
+          SLACK_TITLE: "Cypress tests failed"
+          SLACK_CHANNEL: cypress-git-notifications
