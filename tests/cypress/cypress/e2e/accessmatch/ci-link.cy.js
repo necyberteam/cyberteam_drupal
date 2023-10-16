@@ -14,11 +14,21 @@
 */
 describe("Unauthenticated user tests the Individual CI Link Page", () => {
   it("Should test Individual CI Link page for unauthenticated user", () => {
-    cy.visit("/ci-links/2");
+    cy.visit("/ci-links");
 
-    cy.contains("ci-link-for-user-200").should("be.visible");
+    cy.contains("cypress-ci-link-for-testing").click();
 
-    cy.contains("[webform_submission:values:tags]").should("be.visible");
+    cy.contains("cypress-ci-link-for-testing").should("be.visible");
+
+    cy.contains("access-acount").should("be.visible");
+
+    cy.contains("finite-element-analysis").should("be.visible");
+
+    cy.contains(
+      "Dummy description for ci-link 'cypress-ci-link-for-testing'"
+    ).should("be.visible");
+
+    cy.contains("access-acount").should("be.visible");
 
     cy.contains("0 People found this useful").should("be.visible");
 
