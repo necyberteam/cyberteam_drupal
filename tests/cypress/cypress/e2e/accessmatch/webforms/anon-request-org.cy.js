@@ -1,4 +1,7 @@
-describe('The Organization Request Form', () => {
+//
+// Anonymous user tests the Organization Request form
+//
+describe('Test the Organization Request form', () => {
   it('allows unauthenticated user to submit the form', () => {
     cy.visit('/form/organization-request');
     cy.get('#edit-your-name').type('Test');
