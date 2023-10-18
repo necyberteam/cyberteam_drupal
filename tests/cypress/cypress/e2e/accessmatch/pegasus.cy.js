@@ -3,13 +3,13 @@
     This test checks for major functions like: 
     Accordion Functionality,
     Headers,
-    and Verifying links and images load in,
         
 */
 describe("Unauthenticated user tests the Pegaus Page", () => {
   it("Should test the Pegasus page for unauthenticated user", () => {
     cy.visit("/pegasus");
     cy.contains("Construct, run, and debug workflows from a Jupyter Notebook.");
+    //Testing an accordion
     cy.contains("Why use workflows").click();
     cy.contains(
       "Scientific Workflow Management Systems (WMS) such as Pegasus are vital tools for scientists and researchers in a wide range of fields."
