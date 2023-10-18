@@ -727,7 +727,7 @@ display:
           query_tags: {  }
           contextual_filters_or: false
       relationships: {  }
-      css_class: 'bg-md-teal p-4 text-white-er font-bold mb-10'
+      css_class: 'bg-md-teal p-4 text-white-er mb-10'
       link_display: custom_url
       link_url: /announcements
       header: {  }
@@ -815,8 +815,8 @@ display:
             trim: false
             preserve_tags: ''
             html: false
-          element_type: ''
-          element_class: ''
+          element_type: div
+          element_class: text-lg
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
@@ -945,7 +945,7 @@ display:
             trim: false
             preserve_tags: ''
             html: false
-          element_type: ''
+          element_type: p
           element_class: ''
           element_label_type: ''
           element_label_class: ''
@@ -981,7 +981,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: true
-          content: "<div class=\"alert alert-warning\">\r\n<p>There are no announcements at this time. Please check back later or visit the <a href=\"/announcements\" class=\"text-white-er hover--text-light-teal\">Announcements</a> page.</p>\r\n</div>"
+          content: "<div class=\"alert alert-warning\">\r\n<p>No announcements.</p>\r\n</div>"
           tokenize: false
       arguments:
         field_affinity_group_node_target_id:
@@ -1064,9 +1064,9 @@ display:
         options:
           default_field_elements: true
           inline:
-            title: title
             field_published_date: field_published_date
-          separator: '&nbsp;'
+            title: title
+          separator: ''
           hide_empty: false
       defaults:
         empty: false
@@ -1089,7 +1089,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<h3 class="border-bottom pb-2 text-white-er mt-0">Announcements</h3>'
+            value: '<h2 class="border-bottom pb-2 text-xl text-white-er font-semibold mt-0">Announcements</h2>'
             format: full_html
           tokenize: false
       display_extenders: {  }
