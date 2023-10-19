@@ -39,9 +39,11 @@ describe('Report broken links', () => {
     let brokenLinks = new Set();
     let goodLinks = new Set();
 
-    // known broken links
+    // known broken links - these need to be hardcoded because cy.request() breaks
+    // on them, even though 'failOnStatusCode' is set to false.
     brokenLinks.add('https://xdmod.access-cs.org/');  // gives ENOENT error
     brokenLinks.add('https://metrics.access-cs.org/');  // gives ENOENT error
+    brokenLinks.add('https://metrics.access-ci.xn--org-9o0a/');  // gives ENOENT error
     brokenLinks.add('http://metrics.access-ci.xn--org-9o0a/');  // gives ENOENT error
     brokenLinks.add('https://illinois.edu/');  // gives ENOENT error
 
@@ -55,7 +57,7 @@ describe('Report broken links', () => {
     ///////////////////  recursive visitUrl function ///////////////////////
 
     // specify maximum depth of recursion. if too large, can run out of memory.
-    const maxDepth = 5;
+    const maxDepth = 10;
 
     const visitUrl = (url, depth = 0) => {
 
