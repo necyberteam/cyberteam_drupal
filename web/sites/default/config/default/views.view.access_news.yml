@@ -727,7 +727,7 @@ display:
           query_tags: {  }
           contextual_filters_or: false
       relationships: {  }
-      css_class: 'bg-md-teal p-4 text-white-er font-bold mb-6'
+      css_class: ''
       link_display: custom_url
       link_url: /announcements
       header: {  }
@@ -1215,7 +1215,7 @@ display:
         - 'config:workflow_list'
   block_2:
     id: block_2
-    display_title: 'Affinity group news Block'
+    display_title: 'Affinity Group Announcements Block'
     display_plugin: block
     position: 2
     display_options:
@@ -1257,8 +1257,8 @@ display:
             trim: false
             preserve_tags: ''
             html: false
-          element_type: ''
-          element_class: ''
+          element_type: div
+          element_class: text-lg
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
@@ -1387,7 +1387,7 @@ display:
             trim: false
             preserve_tags: ''
             html: false
-          element_type: ''
+          element_type: p
           element_class: ''
           element_label_type: ''
           element_label_class: ''
@@ -1423,7 +1423,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: true
-          content: "<div class=\"alert alert-warning\">\r\n<p>There are no announcements at this time. Please check back later or visit the <a href=\"/announcements\" class=\"text-white\">Announcements</a> page.</p>\r\n</div>"
+          content: "<div class=\"alert alert-warning\">\r\n<p>No announcements.</p>\r\n</div>"
           tokenize: false
       arguments:
         field_affinity_group_node_target_id:
@@ -1506,9 +1506,9 @@ display:
         options:
           default_field_elements: true
           inline:
-            title: title
             field_published_date: field_published_date
-          separator: '&nbsp;'
+            title: title
+          separator: ''
           hide_empty: false
       defaults:
         empty: false
@@ -1531,7 +1531,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<h3 class="border-bottom pb-2 text-white-er mt-0">Announcements</h3>'
+            value: '<h2 class="border-bottom pb-2 text-xl text-white-er font-semibold mt-0">Announcements</h2>'
             format: full_html
           tokenize: false
       display_extenders: {  }
@@ -1924,16 +1924,17 @@ display:
     display_options:
       title: Announcements
       fields:
-        title:
-          id: title
-          table: node_field_data
-          field: title
+        view_node:
+          id: view_node
+          table: node
+          field: view_node
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: field
+          entity_type: node
+          plugin_id: entity_link
           label: ''
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -1961,7 +1962,59 @@ display:
             trim: false
             preserve_tags: ''
             html: false
-          element_type: h4
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          text: view
+          output_url_as_text: false
+          absolute: false
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: true
+            text: '{{ title }}'
+            make_link: true
+            path: '{{ view_node }}'
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: 'block text-white hover--text-light-teal font-medium leading-5 no-underline hover--underline'
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: div
           element_class: ''
           element_label_type: ''
           element_label_class: ''
@@ -1976,7 +2029,7 @@ display:
           click_sort_column: value
           type: string
           settings:
-            link_to_entity: true
+            link_to_entity: false
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -1991,7 +2044,7 @@ display:
         type: some
         options:
           offset: 0
-          items_per_page: 5
+          items_per_page: 2
       access:
         type: none
         options: {  }
@@ -2060,7 +2113,7 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: ''
+          row_class: mb-3
           default_row_class: true
       row:
         type: fields
@@ -2080,12 +2133,42 @@ display:
         fields: false
         filters: false
         filter_groups: false
+        header: false
+        footer: false
       display_description: ''
       use_more: false
       use_more_always: true
       use_more_text: 'All News'
       link_display: custom_url
       link_url: /announcements
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<h2 class="text-white">Announcements</h2>'
+            format: full_html
+          tokenize: false
+      footer:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<a class="text-white text-sm uppercase no-underline hover--text-light-teal hover--underline" href="/announcements">See all announcements</a>'
+            format: full_html
+          tokenize: false
       display_extenders: {  }
     cache_metadata:
       max-age: -1
