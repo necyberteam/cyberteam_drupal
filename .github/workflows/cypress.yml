@@ -6,7 +6,7 @@ on:
       database:
         description: 'Recent database dump to use (leave blank to use artifact)'
       sites:
-        description: 'Specify which sites to test or leave the default to run all tests.'
+        description: 'Specify which sites to test or leave the default to run all tests.  Specify "broken-links" for the broken links test.'
         default: 'asp'
         required: true
       prnum:
@@ -22,6 +22,20 @@ jobs:
     name: Run cypress tests in 'accessmatch' directory
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@main
     if: contains(github.event.inputs.sites, 'asp') || github.event_name == 'pull_request'
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "accessmatch"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+
+  broken-links:
+    name: Run cypress tests in 'broken-links' directory for accessmatch domain
+    uses: necyberteam/reusable_actions/.github/workflows/cypress-broken-links.yml@main
+    if: contains(github.event.inputs.sites, 'broken-links') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "accessmatch"
