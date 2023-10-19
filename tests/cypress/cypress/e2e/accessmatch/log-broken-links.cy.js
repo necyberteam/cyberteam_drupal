@@ -4,23 +4,6 @@
 describe('Report broken links', () => {
   it('should complete successfully', () => {
 
-    cy.exec(`echo "start" > logs/${Cypress.spec.name}.log.txt`);
-
-    let visitedLinks = new Set();
-    let brokenLinks = new Set();
-    let goodLinks = new Set();
-
-    // known broken links
-    brokenLinks.add('https://xdmod.access-cs.org/');  // gives ENOENT error
-    brokenLinks.add('https://metrics.access-cs.org/');  // gives ENOENT error
-    brokenLinks.add('http://metrics.access-ci.xn--org-9o0a/');  // gives ENOENT error
-
-    // adding these because they cause issues
-    visitedLinks.add(Cypress.config('baseUrl') + "login");
-    brokenLinks.forEach((link) => { visitedLinks.add(link) });  // add broken links to visited links
-
-    cy.log("visitedLinks = " + JSON.stringify([...visitedLinks], null, '\t'));
-    cy.log("brokenLinks = " + JSON.stringify([...brokenLinks], null, '\t'));
 
     ///////////////////  implement a count-limited logger ///////////////////////
     //
@@ -32,7 +15,7 @@ describe('Report broken links', () => {
 
     const countLog = (message) => {
       // cy.log("countLog", message)
-      cy.log(`countLog ${logCount}: ${message}`);
+      cy.task('log', `countLog ${logCount}: ${message}`);
       logCount++;
       if (logCount > maxLogCount)
         cy.then(() => {
@@ -43,31 +26,50 @@ describe('Report broken links', () => {
     ///////////////////  log broken links ///////////////////////
 
     const logBrokenLink = (href, url, status) => {
-      const msg = `BAD LINK '${href}' on url '${url}' status code ${status}`
-      // const msg = `BAD LINK`
+      const msg = `In url '${url}', status code ${status} with href '${href}' `
       countLog(msg);
       cy.exec(`echo "${msg}" >> logs/${Cypress.spec.name}.log.txt`);
     }
 
+    ///////////////////  initialize sets ///////////////////////
+
+    cy.exec(`echo "Broken links in ${Cypress.config('baseUrl')} " > logs/${Cypress.spec.name}.log.txt`);
+
+    let visitedLinks = new Set();
+    let brokenLinks = new Set();
+    let goodLinks = new Set();
+
+    // known broken links
+    brokenLinks.add('https://xdmod.access-cs.org/');  // gives ENOENT error
+    brokenLinks.add('https://metrics.access-cs.org/');  // gives ENOENT error
+    brokenLinks.add('http://metrics.access-ci.xn--org-9o0a/');  // gives ENOENT error
+
+    // adding these because they cause issues
+    visitedLinks.add(Cypress.config('baseUrl') + "/login");
+    brokenLinks.forEach((link) => { visitedLinks.add(link) });  // add broken links to visited links
+
+    countLog("visitedLinks = " + JSON.stringify([...visitedLinks], null, '\t'));
+    countLog("brokenLinks = " + JSON.stringify([...brokenLinks], null, '\t'));
+
     ///////////////////  recursive visitUrl function ///////////////////////
 
     // specify maximum depth of recursion. if too large, can run out of memory.
-    const maxDepth = 5;
+    const maxDepth = 2;
 
     const visitUrl = (url, depth = 0) => {
 
       if (visitedLinks.has(url)) {
-        // countLog(`** depth ${ depth } ** --Skipping "${url}" - already visited`);
+        // countLog(`depth ${ depth } --Skipping "${url}" - already visited`);
         return;
       }
       visitedLinks.add(url);
 
       if (!url.startsWith(Cypress.config('baseUrl'))) {
-        // countLog(`** depth ${depth} ** --Skipping "${url}" - not in base URL = "${Cypress.config('baseUrl')}"`);
+        // countLog(`depth ${depth} --Skipping "${url}" - not in base URL = "${Cypress.config('baseUrl')}"`);
         return;
       }
 
-      countLog(`** depth=${depth} maxDepth = ${maxDepth} ** -- ** visiting "${url}" ** `);
+      countLog(`[depth ${depth}] visiting "${url}"`);
 
       cy.visit(url).then(() => {
 
@@ -105,7 +107,7 @@ describe('Report broken links', () => {
                     visitUrl(href, depth + 1);
                   }
                   // Add this href to the goodLinks set *after* it's been vetted.
-                  // If it's added before the visitUrl() above, it can to be skipped
+                  // If it's added before the visitUrl() above, it may be skipped
                   // by other async visits.
                   goodLinks.add(href);
                 }
@@ -118,7 +120,9 @@ describe('Report broken links', () => {
 
     ///////////////////  main ///////////////////////
 
-    visitUrl(Cypress.config('baseUrl'));
+    const url = Cypress.config('baseUrl');
+    countLog(`Beginning recursive search of "${url}" for broken links, maxDepth = ${maxDepth}`);
+    visitUrl(url);
   });
 });
 
