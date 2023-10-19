@@ -6,7 +6,7 @@ on:
       database:
         description: 'Recent database dump to use (leave blank to use artifact)'
       sites:
-        description: 'Specify which sites to test or leave the default to run all tests.'
+        description: 'Specify which sites to test or leave the default to run all tests.  Specify "broken-links" for the broken links test.'
         default: 'asp'
         required: true
       prnum:
@@ -32,27 +32,41 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
 
-  success:
-    name: Actions to run on success
-    needs: [asp]
-    if: ${{ success() || ( always() && ! cancelled() && ! failure() ) }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Comment on pull request
-        if: "${{ env.prnum  != '' }}"
-        run: |
-          gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Cypress Test was Successful -=-=-=- 🤖"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          prnum: ${{ github.event.inputs.prnum }}
-          REPO: "${{ github.server_url }}/${{ github.repository }}"
-      - name: Slack Notification Success
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: '🤖 -=-=-=- Cypress Test Succeeded -=-=-=- 🤖'
-          SLACK_TITLE: "Cypress tests passed"
-          SLACK_CHANNEL: cypress-git-notifications
+  broken-links:
+    name: Run cypress tests in 'broken-links' directory for accessmatch domain
+    uses: necyberteam/reusable_actions/.github/workflows/cypress-broken-links.yml@main
+    if: contains(github.event.inputs.sites, 'broken-links') || github.event_name == 'pull_request'
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "accessmatch"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+
+  # success:
+  #   name: Actions to run on success
+  #   needs: [asp]
+  #   if: ${{ success() || ( always() && ! cancelled() && ! failure() ) }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Comment on pull request
+  #       if: "${{ env.prnum  != '' }}"
+  #       run: |
+  #         gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Cypress Test was Successful -=-=-=- 🤖"
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         prnum: ${{ github.event.inputs.prnum }}
+  #         REPO: "${{ github.server_url }}/${{ github.repository }}"
+  #     - name: Slack Notification Success
+  #       uses: rtCamp/action-slack-notify@v2
+  #       env:
+  #         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  #         SLACK_MESSAGE: '🤖 -=-=-=- Cypress Test Succeeded -=-=-=- 🤖'
+  #         SLACK_TITLE: "Cypress tests passed"
+  #         SLACK_CHANNEL: cypress-git-notifications
 
   fail:
     name: Actions to run on fail

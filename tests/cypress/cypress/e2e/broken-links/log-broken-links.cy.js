@@ -23,38 +23,48 @@ describe('Report broken links', () => {
         });
     }
 
-    ///////////////////  log broken links ///////////////////////
-
-    const logBrokenLink = (href, url, status) => {
-      const msg = `In url '${url}', status code ${status} with href '${href}' `
-      countLog(msg);
-      cy.exec(`echo "${msg}" >> logs/${Cypress.spec.name}.log.txt`);
-    }
-
     ///////////////////  initialize sets ///////////////////////
-
-    cy.exec(`echo "Broken links in ${Cypress.config('baseUrl')} " > logs/${Cypress.spec.name}.log.txt`);
 
     let visitedLinks = new Set();
     let brokenLinks = new Set();
     let goodLinks = new Set();
 
-    // known broken links
+    // known broken links - these need to be hardcoded because cy.request() breaks
+    // on them, even though 'failOnStatusCode' is set to false.
     brokenLinks.add('https://xdmod.access-cs.org/');  // gives ENOENT error
     brokenLinks.add('https://metrics.access-cs.org/');  // gives ENOENT error
+    brokenLinks.add('https://metrics.access-ci.xn--org-9o0a/');  // gives ENOENT error
     brokenLinks.add('http://metrics.access-ci.xn--org-9o0a/');  // gives ENOENT error
+    brokenLinks.add('https://illinois.edu/');  // gives ENOENT error
 
     // adding these because they cause issues
-    visitedLinks.add(Cypress.config('baseUrl') + "/login");
+    visitedLinks.add(Cypress.config('baseUrl') + "login"); // Error message: Failed to initialize OIDC flow.
+    visitedLinks.add(Cypress.config('baseUrl') + "open-a-ticket"); // redirects to login
     brokenLinks.forEach((link) => { visitedLinks.add(link) });  // add broken links to visited links
 
     countLog("visitedLinks = " + JSON.stringify([...visitedLinks], null, '\t'));
     countLog("brokenLinks = " + JSON.stringify([...brokenLinks], null, '\t'));
 
+    ///////////////////  log broken links ///////////////////////
+
+    cy.exec(`echo "Broken links in ${Cypress.config('baseUrl')} " > logs/${Cypress.spec.name}.log.txt`);
+    cy.exec(`echo "The following links are known to cause problems:" >> logs/${Cypress.spec.name}.log.txt`);
+    visitedLinks.forEach((link) => {
+      cy.exec(`echo "  ${link}" >> logs/${Cypress.spec.name}.log.txt`);
+    });
+
+    const baseLen = Cypress.config('baseUrl').length - 1;
+
+    const logBrokenLink = (href, url, status) => {
+      const msg = `In url '${url.slice(baseLen)}', status code ${status} with href '${href}' `
+      countLog(msg);
+      cy.exec(`echo "${msg}" >> logs/${Cypress.spec.name}.log.txt`);
+    }
+
     ///////////////////  recursive visitUrl function ///////////////////////
 
     // specify maximum depth of recursion. if too large, can run out of memory.
-    const maxDepth = 2;
+    const maxDepth = 50;
 
     const visitUrl = (url, depth = 0) => {
 
@@ -88,9 +98,10 @@ describe('Report broken links', () => {
               || goodLinks.has(href)) {
               // countLog(`** depth ${ depth } -- link #${i} of ${num}: "${href}" - skipped ** `);
             } else if (href.endsWith('devel/token')) {
-              // countLog(`** depth ${ depth } -- link #${i}: "${href}" - skipping devel / token link ${ href } ** `);
+              countLog(`** depth ${depth} -- link #${i}: "${href}" - skipping devel / token link ${href} ** `);
+              logBrokenLink(href, url, '"known broken link"');
             } else if (brokenLinks.has(href)) {
-              logBrokenLink(href, url, 'see previous');
+              logBrokenLink(href, url, '"known broken link"');
             } else {
               cy.request({
                 url: href,
