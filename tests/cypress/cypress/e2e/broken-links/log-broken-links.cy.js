@@ -25,8 +25,10 @@ describe('Report broken links', () => {
 
     ///////////////////  log broken links ///////////////////////
 
+    const baseLen = Cypress.config('baseUrl').length - 1;
+
     const logBrokenLink = (href, url, status) => {
-      const msg = `In url '${url}', status code ${status} with href '${href}' `
+      const msg = `In url '${url.slice(baseLen)}', status code ${status} with href '${href}' `
       countLog(msg);
       cy.exec(`echo "${msg}" >> logs/${Cypress.spec.name}.log.txt`);
     }
@@ -57,7 +59,7 @@ describe('Report broken links', () => {
     ///////////////////  recursive visitUrl function ///////////////////////
 
     // specify maximum depth of recursion. if too large, can run out of memory.
-    const maxDepth = 10;
+    const maxDepth = 50;
 
     const visitUrl = (url, depth = 0) => {
 
@@ -91,9 +93,10 @@ describe('Report broken links', () => {
               || goodLinks.has(href)) {
               // countLog(`** depth ${ depth } -- link #${i} of ${num}: "${href}" - skipped ** `);
             } else if (href.endsWith('devel/token')) {
-              // countLog(`** depth ${ depth } -- link #${i}: "${href}" - skipping devel / token link ${ href } ** `);
+              countLog(`** depth ${depth} -- link #${i}: "${href}" - skipping devel / token link ${href} ** `);
+              logBrokenLink(href, url, '"known broken link"');
             } else if (brokenLinks.has(href)) {
-              logBrokenLink(href, url, 'see previous');
+              logBrokenLink(href, url, '"known broken link"');
             } else {
               cy.request({
                 url: href,
