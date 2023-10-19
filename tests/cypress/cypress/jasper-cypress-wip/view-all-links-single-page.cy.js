@@ -8,18 +8,17 @@ describe('Report broken links', () => {
       // var href = '/junk';
       // var href = link.prop('href') + '-dead';
       var href = link.prop('href');
-      cy.log('checking "' + href + '"');
+      // cy.task('log', 'checking "' + href + '"');
       if (href)
         cy.request({
           url: href,
           failOnStatusCode: false
         }).then((response) => {
-          cy.log(`Checked "${href}" - status code: ${response.status}`);
-          cy.log('checked "' + href + '" - status code: ' + response.status);
+          cy.task('log', `"${href}" request status code: ${response.status}`);
 
           // cy.then(() => { throw new Error('stopping'); });
         });
-      cy.log('checked "' + href + '"');
+      // cy.log('checked "' + href + '"');
     })
   });
 });
