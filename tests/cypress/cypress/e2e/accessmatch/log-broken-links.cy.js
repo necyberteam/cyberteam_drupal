@@ -43,6 +43,7 @@ describe('Report broken links', () => {
     brokenLinks.add('https://xdmod.access-cs.org/');  // gives ENOENT error
     brokenLinks.add('https://metrics.access-cs.org/');  // gives ENOENT error
     brokenLinks.add('http://metrics.access-ci.xn--org-9o0a/');  // gives ENOENT error
+    brokenLinks.add('https://illinois.edu/');  // gives ENOENT error
 
     // adding these because they cause issues
     visitedLinks.add(Cypress.config('baseUrl') + "/login");
@@ -54,7 +55,7 @@ describe('Report broken links', () => {
     ///////////////////  recursive visitUrl function ///////////////////////
 
     // specify maximum depth of recursion. if too large, can run out of memory.
-    const maxDepth = 2;
+    const maxDepth = 5;
 
     const visitUrl = (url, depth = 0) => {
 
