@@ -38,8 +38,9 @@ describe('Report broken links', () => {
     brokenLinks.add('https://illinois.edu/');  // gives ENOENT error
 
     // adding these because they cause issues
+    visitedLinks.add(Cypress.config('baseUrl') + "devel"); // /devel pages can be ignored
     visitedLinks.add(Cypress.config('baseUrl') + "login"); // Error message: Failed to initialize OIDC flow.
-    visitedLinks.add(Cypress.config('baseUrl') + "open-a-ticket"); // redirects to login
+    // visitedLinks.add(Cypress.config('baseUrl') + "open-a-ticket"); // redirects to login
     brokenLinks.forEach((link) => { visitedLinks.add(link) });  // add broken links to visited links
 
     countLog("visitedLinks = " + JSON.stringify([...visitedLinks], null, '\t'));
@@ -98,8 +99,11 @@ describe('Report broken links', () => {
               || goodLinks.has(href)) {
               // countLog(`** depth ${ depth } -- link #${i} of ${num}: "${href}" - skipped ** `);
             } else if (href.endsWith('devel/token')) {
-              countLog(`** depth ${depth} -- link #${i}: "${href}" - skipping devel / token link ${href} ** `);
-              logBrokenLink(href, url, '"known broken link"');
+              countLog(`** depth ${depth} -- link #${i}: "${href}" - skipping devel/token link ${href} ** `);
+              // logBrokenLink(href, url, '"known broken link"');
+            } else if (href.endsWith('#main-content')) {
+              countLog(`** depth ${depth} -- link #${i}: "${href}" - skipping #main-content link ${href} ** `);
+              // logBrokenLink(href, url, '"known broken link"');
             } else if (brokenLinks.has(href)) {
               logBrokenLink(href, url, '"known broken link"');
             } else {
@@ -107,8 +111,11 @@ describe('Report broken links', () => {
                 url: href,
                 failOnStatusCode: false
               }).then((response) => {
-                // countLog(`** depth ${ depth } ** --link #${i}: "${href}" - status code: ${ response.status }`);
-                if (response.status >= 300) {
+                // countLog(`** depth ${ depth } ** --link #${ i }: "${href}" - status code: ${ response.status }`);
+
+                // look for any responses greater than 308, the highest redirect response code
+                // ()
+                if (response.status >= 309) {
                   visitedLinks.add(href);
                   brokenLinks.add(href);
                   logBrokenLink(href, url, response.status);
@@ -132,6 +139,7 @@ describe('Report broken links', () => {
     ///////////////////  main ///////////////////////
 
     const url = Cypress.config('baseUrl');
+    // const url = Cypress.config('baseUrl') + 'login';
     countLog(`Beginning recursive search of "${url}" for broken links, maxDepth = ${maxDepth}`);
     visitUrl(url);
   });
