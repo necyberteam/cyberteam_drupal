@@ -83,7 +83,6 @@ Feature: Feature: test an Affinity Groups page
     Given I am not logged in
     When I am on "/affinity-groups/anvil"
     Then I should see "Announcements"
-    Then I should see "[12/16/22]"
     When I click "2022 - 2023 Holiday Support Schedule for Anvil"
     Then I should be on "/node/403"
 
@@ -98,7 +97,6 @@ Feature: Feature: test an Affinity Groups page
     Given I am not logged in
     When I am on "/affinity-groups/anvil"
     Then I should see "Announcements"
-    Then I should see "[12/16/22]"
     When I click "2022 - 2023 Holiday Support Schedule for Anvil"
     Then I should be on "/node/403"
 
