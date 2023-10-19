@@ -23,19 +23,7 @@ describe('Report broken links', () => {
         });
     }
 
-    ///////////////////  log broken links ///////////////////////
-
-    const baseLen = Cypress.config('baseUrl').length - 1;
-
-    const logBrokenLink = (href, url, status) => {
-      const msg = `In url '${url.slice(baseLen)}', status code ${status} with href '${href}' `
-      countLog(msg);
-      cy.exec(`echo "${msg}" >> logs/${Cypress.spec.name}.log.txt`);
-    }
-
     ///////////////////  initialize sets ///////////////////////
-
-    cy.exec(`echo "Broken links in ${Cypress.config('baseUrl')} " > logs/${Cypress.spec.name}.log.txt`);
 
     let visitedLinks = new Set();
     let brokenLinks = new Set();
@@ -50,11 +38,28 @@ describe('Report broken links', () => {
     brokenLinks.add('https://illinois.edu/');  // gives ENOENT error
 
     // adding these because they cause issues
-    visitedLinks.add(Cypress.config('baseUrl') + "/login");
+    visitedLinks.add(Cypress.config('baseUrl') + "login"); // Error message: Failed to initialize OIDC flow.
+    visitedLinks.add(Cypress.config('baseUrl') + "open-a-ticket"); // redirects to login
     brokenLinks.forEach((link) => { visitedLinks.add(link) });  // add broken links to visited links
 
     countLog("visitedLinks = " + JSON.stringify([...visitedLinks], null, '\t'));
     countLog("brokenLinks = " + JSON.stringify([...brokenLinks], null, '\t'));
+
+    ///////////////////  log broken links ///////////////////////
+
+    cy.exec(`echo "Broken links in ${Cypress.config('baseUrl')} " > logs/${Cypress.spec.name}.log.txt`);
+    cy.exec(`echo "The following links are known to cause problems:" >> logs/${Cypress.spec.name}.log.txt`);
+    visitedLinks.forEach((link) => {
+      cy.exec(`echo "  ${link}" >> logs/${Cypress.spec.name}.log.txt`);
+    });
+
+    const baseLen = Cypress.config('baseUrl').length - 1;
+
+    const logBrokenLink = (href, url, status) => {
+      const msg = `In url '${url.slice(baseLen)}', status code ${status} with href '${href}' `
+      countLog(msg);
+      cy.exec(`echo "${msg}" >> logs/${Cypress.spec.name}.log.txt`);
+    }
 
     ///////////////////  recursive visitUrl function ///////////////////////
 
