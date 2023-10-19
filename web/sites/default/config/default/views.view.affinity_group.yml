@@ -542,8 +542,8 @@ display:
           label: Logo
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: "<div class=\"[&_img]--object-contain [&_img]--h-auto [&_img]--m-0\">\r\n  {{ field_image }}\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -758,7 +758,7 @@ display:
             more_link: false
             more_link_text: ''
             more_link_path: ''
-            strip_tags: false
+            strip_tags: true
             trim: false
             preserve_tags: ''
             html: false
@@ -796,11 +796,11 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: field
-          label: Tags
+          label: ''
           exclude: false
           alter:
             alter_text: false
-            text: ''
+            text: "<div class=\"[&_a]--no-underline [&_a]--whitespace-nowrap border border-black border-solid px-5 py-2 mr-2 mb-2 hover--border-dark-teal hover--text-dark-teal w-fit\">\r\n  {{ field_tags }}\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -850,7 +850,7 @@ display:
           delta_first_last: false
           multi_type: separator
           separator: ''
-          field_api_classes: false
+          field_api_classes: true
         view_node:
           id: view_node
           table: node
@@ -916,8 +916,8 @@ display:
           label: Join
           exclude: false
           alter:
-            alter_text: true
-            text: "<div class=\"affinity-group-flag my-2\">{{ link_flag }}</div>\r\n"
+            alter_text: false
+            text: "<div class=\"affinity-group-flag my-2 btn btn-md-teal\">{{ link_flag }}</div>\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -950,7 +950,7 @@ display:
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: false
-          empty: '<a href="/user/login?destination={{ view_node }}" class="btn btn-sm btn-primary"><small>Login to join</small></a>'
+          empty: '<a href="/user/login?destination={{ view_node }}" class="btn btn-sm btn-primary btn-md-teal" title="Login to join"><small>Login</small></a>'
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
@@ -1058,7 +1058,7 @@ display:
         type: table
         options:
           grouping: {  }
-          row_class: ''
+          row_class: 'border-x-0 border-b border-t-0 border-black border-solid'
           default_row_class: true
           columns:
             field_image: field_image
@@ -1066,7 +1066,9 @@ display:
             field_affinity_group: field_affinity_group
             body: body
             field_tags: field_tags
+            view_node: view_node
             link_flag: link_flag
+            name: name
           default: '-1'
           info:
             field_image:
@@ -1084,8 +1086,6 @@ display:
               empty_column: false
               responsive: ''
             field_affinity_group:
-              sortable: false
-              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
@@ -1102,12 +1102,26 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
+            view_node:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             link_flag:
               sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: true
+              responsive: ''
+            name:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
               responsive: ''
           override: true
           sticky: true
@@ -1140,9 +1154,9 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: text
-          empty: true
+          empty: false
           content:
-            value: '<p class="my-2">Affinity Groups encourage community members to gather based on common interests, and they provide connections to AG-specific slack channels, Q&A Forums, events, and relevant knowledge base resources. Joining ACCESS Resource Provider Affinity Groups (AGs) will add you to the distribution list for notifications about outages, news, and training events specific to the Resource Provider named. If you would like to create a new Affinity Group, please <a href="/form/affinity-group-request">submit a request form</a> and we will respond within five business days. Thank you!</p>'
+            value: ''
             format: full_no_editor
           tokenize: false
       display_extenders:
@@ -3787,7 +3801,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"py-3 border-top border-bottom\">        \r\n<p>Members get updates about announcements, events, and outages.</p>\r\n  <div class=\"affinity-group-buttons d-flex justify-content-start flex-wrap\">\r\n        {% if flagged %}\r\n        <div class=\"bg-orange btn cursor-default text-white m-2\">\r\n            <i class=\"fa-solid fa-badge-check\"></i> Member\r\n        </div>\r\n        {% endif %}\r\n        {% if link_flag %}\r\n        <div class=\"affinity-group-flag m-2 btn btn-primary\">{{ link_flag }}</div>\r\n        {% else %}\r\n        <a href=\"/user\" class=\"btn btn-secondary disabled m-2\" disabled>Join</a>\r\n        {% endif %}        \r\n        {% if field_slack %}\r\n        <a href=\"{{ field_slack }}\" target=\"_blank\" class=\"btn btn-primary m-2\">Slack</a>\r\n        {% endif %}\r\n        {% if field_ask_ci_locale %}\r\n        <a href=\"{{ field_ask_ci_locale }}\" target=\"_blank\" class=\"btn btn-primary m-2\">Q&amp;A</a>\r\n        {% endif %}\r\n        {% if field_github_organization %}\r\n        <a href=\"{{ field_github_organization }}\" target=\"_blank\" class=\"btn btn-primary m-2\" >GitHub</a>\r\n        {% endif %}\r\n        {% if field_mailing_list %}\r\n        <a href=\"{{ field_mailing_list }}\" target=\"_blank\" class=\"btn btn-primary m-2\"  style=\"width: fit-content\">Email</a>\r\n        {% endif %}\r\n      </div>\r\n</div>"
+            text: "<div class=\"py-3 border-top border-bottom\">        \r\n<p>Members get updates about announcements, events, and outages.</p>\r\n  <div class=\"affinity-group-buttons d-flex justify-content-start flex-wrap flex\">\r\n        {% if flagged %}\r\n        <div class=\"bg-orange bg-orange-500 btn cursor-default text-white-er my-2 ms-0 me-4\">\r\n            <i class=\"fa-solid fa-badge-check\"></i> Member\r\n        </div>\r\n        {% endif %}\r\n        {% if link_flag %}\r\n        <div class=\"affinity-group-flag m-2 ms-0\">{{ link_flag }}</div>\r\n        {% else %}\r\n        <a href=\"/user\" class=\"btn btn-secondary disabled m-2 ms-0\" disabled>Join</a>\r\n        {% endif %}        \r\n        {% if field_slack %}\r\n        <a href=\"{{ field_slack }}\" target=\"_blank\" class=\"btn btn-primary m-2\">Slack</a>\r\n        {% endif %}\r\n        {% if field_ask_ci_locale %}\r\n        <a href=\"{{ field_ask_ci_locale }}\" target=\"_blank\" class=\"btn btn-primary m-2\">Q&amp;A</a>\r\n        {% endif %}\r\n        {% if field_github_organization %}\r\n        <a href=\"{{ field_github_organization }}\" target=\"_blank\" class=\"btn btn-primary m-2\" >GitHub</a>\r\n        {% endif %}\r\n        {% if field_mailing_list %}\r\n        <a href=\"{{ field_mailing_list }}\" target=\"_blank\" class=\"btn btn-primary m-2\"  style=\"width: fit-content\">Email</a>\r\n        {% endif %}\r\n      </div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -5723,7 +5737,7 @@ display:
           element_wrapper_class: ''
           element_default_classes: true
           empty: ''
-          hide_empty: false
+          hide_empty: true
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
