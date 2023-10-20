@@ -1,0 +1,13 @@
+// cy.visit('http://localhost:32792/admin/people?user=newuser&status=All&role=All&permission=All&field_is_cc_value=All&field_region_target_id=All');
+// cy.url().should('contains', 'http://localhost:32792/admin/people/create');
+// cy.get('#edit-mail').click();
+// cy.get('#edit-mail').type('administrator@test.com');
+// cy.get('#edit-name').type('administrator-test-user');
+// cy.get('#edit-pass-pass1').type('administrator');
+// cy.get('#edit-pass-pass2').type('administrator');
+// cy.get('#edit-roles-administrator').click();
+// cy.get('#edit-field-user-first-name-0-value').type('administrator');
+// cy.get('#edit-field-user-last-name-0-value').type('test');
+// cy.get('#edit-field-institution-0-value').type('institution-for-administrator-test-user');
+// cy.get('#edit-submit').click();
+// cy.url().should('contains', 'http://localhost:32792/admin/people/create');
