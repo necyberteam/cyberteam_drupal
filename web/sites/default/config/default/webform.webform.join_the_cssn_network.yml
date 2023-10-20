@@ -13,9 +13,6 @@ title: 'Join the CSSN Network'
 description: ''
 categories: {  }
 elements: |-
-  markup:
-    '#type': webform_markup
-    '#markup': '<h3>How would you like to participate in the CSSN?</h3>'
   i_am_joining_as_a_:
     '#type': checkboxes
     '#title': 'I am joining as a:'
@@ -55,7 +52,15 @@ elements: |-
         ':input[name="i_am_joining_as_a_[Student-Facilitator]"]':
           checked: true
     '#states_clear': false
-css: ".form-item-i-am-joining-as-a--nsf-funded-cip {\r\n  border-top: 2px solid #dee2e6;\r\n  padding-top: .5em;\r\n}"
+  actions:
+    '#type': webform_actions
+    '#title': 'Submit button(s)'
+    '#submit__label': Join
+    '#submit__attributes':
+      class:
+        - btn
+        - btn-primary
+css: ''
 javascript: ''
 settings:
   ajax: false
