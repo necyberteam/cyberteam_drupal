@@ -503,10 +503,12 @@ display:
               secondary_open: false
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
+              reset_button_always_show: false
             filter:
               combine:
                 plugin_id: default
                 advanced:
+                  placeholder_text: ''
                   collapsible: false
                   is_secondary: false
               webform_submission_value_1:
@@ -878,7 +880,7 @@ display:
               aggr_column: views_aggregator_sum
               aggr_par_column: ''
           override: true
-          sticky: false
+          sticky: true
           summary: ''
           empty_table: false
           caption: ''
@@ -1936,10 +1938,10 @@ display:
           admin_label: ''
           plugin_id: numeric
           label: Votes
-          exclude: true
+          exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"card {{ (flagged|render == 1) ? 'border-success' : 'border-dark' }} card-body p-1 text-lowercase text-center align-center small\">\r\n{{ link_flag }}\r\n{{ count }}\r\nvote{{ (count|render == \"1\") ? '' : 's' }}\r\n</div>"
+            text: "<div class=\"card {{ (flagged|render == 1) ? 'border-success' : 'border-dark' }} card-body p-1 text-lowercase text-center align-center small\">\r\n{# link_flag #}\r\n<div class=\"text-2xl text-center text-dark-teal\">{{ count }}</div>\r\nvote{{ (count|render == \"1\") ? '' : 's' }}\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -1965,12 +1967,12 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: align-middle
+          element_class: 'align-middle border-0 border-b'
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
           element_wrapper_type: ''
-          element_wrapper_class: ''
+          element_wrapper_class: text-extrabold
           element_default_classes: false
           empty: ''
           hide_empty: false
@@ -2022,7 +2024,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: align-middle
+          element_class: 'align-top border-0 border-b border-black border-solid'
           element_label_type: ''
           element_label_class: ''
           element_label_colon: true
@@ -2083,9 +2085,9 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: 'align-middle '
+          element_class: 'align-top border-0 border-b border-black border-solid'
           element_label_type: ''
-          element_label_class: ''
+          element_label_class: font-extrabold
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
@@ -2136,9 +2138,9 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: align-middle
+          element_class: 'align-top border-0 border-b border-black border-solid'
           element_label_type: ''
-          element_label_class: ''
+          element_label_class: font-extrabold
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
@@ -2194,7 +2196,7 @@ display:
           element_label_class: ''
           element_label_colon: true
           element_wrapper_type: ''
-          element_wrapper_class: ''
+          element_wrapper_class: 'border border-solid border-black'
           element_default_classes: true
           empty: ''
           hide_empty: false
@@ -2247,7 +2249,7 @@ display:
           element_label_class: ''
           element_label_colon: false
           element_wrapper_type: ''
-          element_wrapper_class: ''
+          element_wrapper_class: 'border border-solid border-black'
           element_default_classes: true
           empty: ''
           hide_empty: false
@@ -2330,7 +2332,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{{ webform_submission_value_4 }}\r\n{{ webform_submission_value_7 }}\r\n{{ webform_submission_value_8 }}\r\n{% if webform_submission_value_6 %} <a href=\"/ci-link/{{sid}}\">more</a> {% endif %}"
+            text: "{{ webform_submission_value_4 }}\r\n{{ webform_submission_value_7 }}\r\n{{ webform_submission_value_8 }}\r\n{% if webform_submission_value_6 %} <a href=\"/ci-links/{{sid}}\">more</a> {% endif %}"
             make_link: false
             path: ''
             absolute: false
@@ -2356,12 +2358,12 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: 'square-tags align-middle '
+          element_class: 'square-tags align-top border-0 border-b border-black border-solid'
           element_label_type: ''
-          element_label_class: ''
+          element_label_class: font-extrabold
           element_label_colon: true
           element_wrapper_type: ''
-          element_wrapper_class: ''
+          element_wrapper_class: 'border border-solid border-black'
           element_default_classes: true
           empty: ''
           hide_empty: false
@@ -2409,9 +2411,9 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: align-middle
+          element_class: 'align-top border-0 border-b border-black border-solid'
           element_label_type: ''
-          element_label_class: ''
+          element_label_class: font-extrabold
           element_label_colon: true
           element_wrapper_type: ''
           element_wrapper_class: ''
@@ -2580,9 +2582,9 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: 'align-top border-0 border-b border-black border-solid'
           element_label_type: ''
-          element_label_class: ''
+          element_label_class: font-extrabold
           element_label_colon: true
           element_wrapper_type: ''
           element_wrapper_class: ''
@@ -2772,9 +2774,6 @@ display:
               mentor: '0'
               professional_mentor: '0'
               researcher: '0'
-              sc: '0'
-              ra: '0'
-              lt: '0'
               representative: '0'
               administrator: '0'
               masquerade: '0'
@@ -2787,6 +2786,22 @@ display:
               mentee: '0'
               student_champion: '0'
               domain_champion: '0'
+              cssn: '0'
+              affinity_group_leader: '0'
+              match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
+              coco_pm: '0'
+              cnctci_pm: '0'
+              news_pm: '0'
+              kb_pm: '0'
+              careers_sc: '0'
+              ccmnet_pm: '0'
+              consultant: '0'
+              match_sc: '0'
+              cip: '0'
+              site_developer: '0'
             placeholder: Search
           is_grouped: false
           group_info:
@@ -2836,24 +2851,50 @@ display:
               mentor: '0'
               professional_mentor: '0'
               researcher: '0'
-              sc: '0'
-              ra: '0'
               representative: '0'
               administrator: '0'
               masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+              cssn: '0'
+              affinity_group_leader: '0'
+              match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
+              coco_pm: '0'
+              cnctci_pm: '0'
+              news_pm: '0'
+              kb_pm: '0'
+              careers_sc: '0'
+              ccmnet_pm: '0'
+              consultant: '0'
+              match_sc: '0'
+              cip: '0'
+              site_developer: '0'
             placeholder: ''
           is_grouped: false
           group_info:
-            label: ''
-            description: ''
-            identifier: ''
+            label: 'Skill Level'
+            description: null
+            identifier: webform_submission_value_1
             optional: true
             widget: select
             multiple: false
             remember: false
             default_group: All
             default_group_multiple: {  }
-            group_items: {  }
+            group_items:
+              1: {  }
+              2: {  }
+              3: {  }
       filter_groups:
         operator: AND
         groups:
@@ -2868,7 +2909,7 @@ display:
         filters: false
         filter_groups: false
         header: false
-      css_class: 'ci-links my-3'
+      css_class: 'ci-links mt-3 mb-10'
       use_ajax: true
       group_by: false
       header: {  }

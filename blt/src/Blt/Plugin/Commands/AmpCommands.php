@@ -120,12 +120,15 @@ GITHUB_TOKEN=$token'>.env");
       $snap_option .= $key . " - Branch: " . $snap_name[$key][1] . " Name: " . $snap_name[$key][2] . "\n";
     }
     $snap_selected = $this->ask("Which Snapshots would you like to restore? \n" . $snap_option);
+    $snap_deploy = $this->ask("Would you like to run deploy? (Y/n)");
     $this->_exec("git checkout " . $snap_name[$snap_selected][1]);
     $this->say("Restored Branch: " . $snap_name[$snap_selected][1]);
     $this->_exec($this->lando() . "composer install");
     $this->_exec($this->lando() . "db-import backups/snapshots/" . $snap_name[$snap_selected][0] . "_" . $snap_name[$snap_selected][1] . "_" . $snap_name[$snap_selected][2] . ".sql.gz");
     $this->say("Restored Snapshot: " . $snap_name[$snap_selected][2]);
-    $this->_exec($this->lando() . "drush deploy");
+    if ($snap_deploy != 'n') {
+      $this->_exec($this->lando() . "drush deploy");
+    }
   }
 
   /**
@@ -396,9 +399,11 @@ GITHUB_TOKEN=$token'>.env");
     if (!empty($domain_id)) {
       $this->_exec($this->lando() . "blt amp:ds $domain_id");
     }
+    else {
+      $this->_exec("sleep 2");
+      $this->_exec($this->lando() . "drush cr");
+    }
     $this->_exec($this->lando() . "blt amp:uli");
-    $this->_exec("sleep 2");
-    $this->_exec($this->lando() . "drush cr");
   }
 
   /**
@@ -485,6 +490,7 @@ $update_list");
     $this->_exec("$lando drush domain:default $default_domain");
     $this->_exec("$lando drush cr");
     $this->say("Setting $default_domain as default");
+    $this->_exec("$lando drush cr");
   }
 
   /**

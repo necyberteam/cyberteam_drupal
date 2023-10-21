@@ -1,6 +1,7 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
+
   component: {
     fixturesFolder: "cypress/fixtures",
     integrationFolder: "cypress/integration",
@@ -10,12 +11,23 @@ module.exports = defineConfig({
     videosFolder: "cypress/videos",
     viewportWidth: 1440,
     viewportHeight: 900,
-
   },
+
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
+      on('task', {
+        log(message) {
+          // Then to see the log messages in the terminal
+          //   cy.task("log", "my message");
+          console.log('log: ' + message);
+          return null;
+        },
+      });
     },
-    fixturesFolder: "cypress/fixtures"
+    specPattern: "cypress/**",
+    supportFile: "cypress/support/e2e.js",
+    fixturesFolder: "cypress/fixtures",
+    experimentalStudio: true
   },
 });
