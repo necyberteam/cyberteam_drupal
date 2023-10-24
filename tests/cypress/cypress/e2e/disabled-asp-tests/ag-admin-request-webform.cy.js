@@ -1,6 +1,20 @@
+/**
+ * Test /form/affinity-group-request
+ *
+ * An authenticated user should be able to complete the affinity group request form.
+ *
+ * CURRENT BROKEN because some elements are covered up.
+ *
+ *
+`<input data-drupal-selector="edit-ask-ci-locale-url" aria-describedby="edit-ask-ci-locale-url--description" type="url" id="edit-ask-ci-locale-url" name="ask_ci_locale[url]" value="" size="60" maxlength="255" class="form-url">`
+
+is being covered by another element:
+
+`<input data-drupal-selector="edit-slack-link-url" aria-describedby="edit-slack-link-url--description" type="url" id="edit-slack-link-url" name="slack_link[url]" value="" size="60" maxlength="255" class="form-url">`
+
+ */
 describe('test affinity group request form', () => {
   it('authenticated role should be able to complete the affinity group request form', () => {
-
 
     cy.loginAs('apple@pie.org', 'Apple');
     cy.visit('/affinity_groups');
