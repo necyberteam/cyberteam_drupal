@@ -1,8 +1,10 @@
 describe('test affinity group request form', () => {
   it('authenticated role should be able to complete the affinity group request form', () => {
+
+
     cy.loginAs('apple@pie.org', 'Apple');
     cy.visit('/affinity_groups');
-    cy.contains('submit a request form').click();
+    cy.contains('Request a group').click();
     cy.url().should('include', '/form/affinity-group-request');
     cy.visit('/form/affinity-group-request');
     // cy.contains('Affinity Group Request');
