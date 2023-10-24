@@ -8,7 +8,6 @@ describe("Verify the buttons on the Help Ticket page update the form action to g
 
     cy.visit("/help-ticket");
 
-    // check "I need help logging into ACCESS website"
     cy.contains("I need help logging into ACCESS website")
       .click();
     cy.get('#ticket-choice-form')
