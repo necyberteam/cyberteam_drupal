@@ -9,6 +9,7 @@
 
 describe("Unauthenticated user tests the CCEP Details Page", () => {
   it("Should test CCEP Details page for unauthenticated user", () => {
+    //Below line will eventually change to (/tools/overview)
     cy.visit("/tools");
     cy.contains("Tools");
     cy.contains(

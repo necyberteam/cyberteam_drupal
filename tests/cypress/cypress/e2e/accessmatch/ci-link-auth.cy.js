@@ -1,9 +1,9 @@
 //
-// As an admin user, create a test CI-Link called "cypress-ci-link-for-testing"
+// As an authenticated user, verify auth features for the ci link "cypress-ci-link-for-testing"
 //
-describe("Admin user uses form to create a CI Link", () => {
-  it("should create a CI-Link", () => {
-    // login user with the "administrator" role
+describe("Authenticated user tests a ci link", () => {
+  it("verify auth features of a ci link", () => {
+    // login user with the "authenticated" role
     cy.loginAs("pecan@pie.org", "Pecan");
     cy.visit("/ci-links");
     cy.contains("cypress-ci-link-for-testing").click();
