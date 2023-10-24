@@ -1887,8 +1887,8 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        date__value:
-          id: date__value
+        date__value_1:
+          id: date__value_1
           table: eventinstance_field_data
           field: date__value
           relationship: none
@@ -1897,74 +1897,7 @@ display:
           entity_type: eventinstance
           entity_field: date
           plugin_id: field
-          label: Date
-          exclude: false
-          alter:
-            alter_text: true
-            text: "{{ date__value__value|date('n/d/Y') }}"
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: daterange_plain
-          settings:
-            timezone_override: ''
-            separator: '-'
-          group_column: value
-          group_columns:
-            end_value: end_value
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        date__value_2:
-          id: date__value_2
-          table: eventinstance_field_data
-          field: date__value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: eventinstance
-          entity_field: date
-          plugin_id: field
-          label: Time
+          label: 'Event Date'
           exclude: false
           alter:
             alter_text: false
@@ -2006,14 +1939,12 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: daterange_custom
+          type: daterange_plain
           settings:
             timezone_override: ''
-            date_format: 'g:i A T'
             separator: '-'
-          group_column: value
-          group_columns:
-            end_value: end_value
+          group_column: entity_id
+          group_columns: {  }
           group_rows: true
           delta_limit: 0
           delta_offset: 0
@@ -2413,56 +2344,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_event_type_value:
-          id: field_event_type_value
-          table: eventseries__field_event_type
-          field: field_event_type_value
-          relationship: eventseries_id
-          group_type: group
-          admin_label: ''
-          plugin_id: list_field
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_event_type_value_op
-            label: 'Event Type (field_event_type)'
-            description: null
-            use_operator: false
-            operator: field_event_type_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_event_type_value
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: true
-          group_info:
-            label: 'Event&nbsp;Type'
-            description: ''
-            identifier: field_event_type_value
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items:
-              1:
-                title: Conference
-                operator: or
-                value:
-                  Conference: Conference
-              2:
-                title: Training
-                operator: or
-                value:
-                  Training: Training
-          reduce_duplicates: false
         field_affiliation_value:
           id: field_affiliation_value
           table: eventseries__field_affiliation
@@ -2512,6 +2393,129 @@ display:
                 operator: or
                 value:
                   Community: Community
+          reduce_duplicates: false
+        field_affinity_group_target_id_1:
+          id: field_affinity_group_target_id_1
+          table: eventseries__field_affinity_group
+          field: field_affinity_group_target_id
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_affinity_group_target_id_1_op
+            label: 'Affinity&nbsp;Group'
+            description: ''
+            use_operator: false
+            operator: field_affinity_group_target_id_1_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_affinity_group_target_id_1
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              student: '0'
+              mentor: '0'
+              professional_mentor: '0'
+              researcher: '0'
+              representative: '0'
+              administrator: '0'
+              masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+              cssn: '0'
+              affinity_group_leader: '0'
+              match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
+              coco_pm: '0'
+              cnctci_pm: '0'
+              news_pm: '0'
+              kb_pm: '0'
+              careers_sc: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: affinity_groups
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+        field_event_type_value:
+          id: field_event_type_value
+          table: eventseries__field_event_type
+          field: field_event_type_value
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_event_type_value_op
+            label: 'Event Type (field_event_type)'
+            description: null
+            use_operator: false
+            operator: field_event_type_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_event_type_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: true
+          group_info:
+            label: 'Event&nbsp;Type'
+            description: ''
+            identifier: field_event_type_value
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: Conference
+                operator: or
+                value:
+                  Conference: Conference
+              2:
+                title: Training
+                operator: or
+                value:
+                  Training: Training
           reduce_duplicates: false
         field_skill_level_value:
           id: field_skill_level_value
@@ -2617,7 +2621,7 @@ display:
           exposed: true
           expose:
             operator_id: tid_op
-            label: Term
+            label: Tag
             description: ''
             use_operator: false
             operator: tid_op
@@ -2634,9 +2638,6 @@ display:
               mentor: '0'
               professional_mentor: '0'
               researcher: '0'
-              steering_committee: '0'
-              regional_admin: '0'
-              leadership: '0'
               representative: '0'
               administrator: '0'
               masquerade: '0'
@@ -2664,6 +2665,7 @@ display:
               consultant: '0'
               match_sc: '0'
               cip: '0'
+              site_developer: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -2679,79 +2681,6 @@ display:
             group_items: {  }
           reduce_duplicates: false
           vid: tags
-          type: select
-          hierarchy: false
-          limit: true
-          error_message: true
-        field_affinity_group_target_id_1:
-          id: field_affinity_group_target_id_1
-          table: eventseries__field_affinity_group
-          field: field_affinity_group_target_id
-          relationship: eventseries_id
-          group_type: group
-          admin_label: ''
-          plugin_id: taxonomy_index_tid
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_affinity_group_target_id_1_op
-            label: 'Affinity&nbsp;Group'
-            description: ''
-            use_operator: false
-            operator: field_affinity_group_target_id_1_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_affinity_group_target_id_1
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              student: '0'
-              mentor: '0'
-              professional_mentor: '0'
-              researcher: '0'
-              representative: '0'
-              administrator: '0'
-              masquerade: '0'
-              regional_expert: '0'
-              campuschampionsadmin: '0'
-              exportpeople: '0'
-              research_computing_facilitator: '0'
-              research_software_engineer: '0'
-              ci_systems_engineer: '0'
-              mentee: '0'
-              student_champion: '0'
-              domain_champion: '0'
-              cssn: '0'
-              affinity_group_leader: '0'
-              match_pm: '0'
-              sc: '0'
-              lt: '0'
-              ra: '0'
-              coco_pm: '0'
-              cnctci_pm: '0'
-              news_pm: '0'
-              kb_pm: '0'
-              careers_sc: '0'
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-          vid: affinity_groups
           type: select
           hierarchy: false
           limit: true

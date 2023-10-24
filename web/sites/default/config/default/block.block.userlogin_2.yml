@@ -1,25 +1,25 @@
-uuid: d511f53d-723c-4982-bf50-af2a48ed97d1
+uuid: d6b74b4c-d629-4d7d-adc9-6be62298543e
 langcode: en
 status: true
 dependencies:
   module:
     - system
-    - ticketing
+    - user
   theme:
     - aspTheme
-id: ticketingchoices_2
+id: userlogin_2
 theme: aspTheme
 region: content
-weight: -10
+weight: -9
 provider: null
-plugin: ticketing_block
+plugin: user_login_block
 settings:
-  id: ticketing_block
-  label: 'Ticketing choices'
+  id: user_login_block
+  label: 'User login'
   label_display: '0'
-  provider: ticketing
+  provider: user
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /help-ticket
+    pages: /f64816be-34ca-4d5b-975a-687cb374ddf7

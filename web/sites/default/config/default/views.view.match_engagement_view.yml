@@ -492,7 +492,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"card\">\r\n<div class=\"card-photo\">\r\n{{ field_project_image }} \r\n{% if field_status == 'Recruiting' %}\r\n<div class=\"engagement-status\">{{ field_status }}</div>\r\n{% endif %}\r\n</div>\r\n<div class=\"card-body\">\r\n<h5 class=\"card-title\">{{ title }}</h5>\r\n<div class=\"card-text\">{{ field_researcher }}</div>\r\n<div class=\"card-text\">{{ field_institution }}</div>\r\n<div class=\"card-text\"><strong>Status: </strong><em>{{ field_status }}</em> </div>\r\n<div class=\"card-text visually-hidden field--type-text-with-summary\">{{ body }}</div>\r\n<div class=\"card-text visually-hidden field--name-field-tags\">{{ field_tags }}</div>\r\n</div>\r\n<div class=\"card-footer text-center\"></div>\r\n</div>"
+            text: "<div class=\"card\">\r\n<div class=\"card-photo\">\r\n{{ field_project_image }} \r\n{% if field_status == 'Recruiting' %}\r\n<div class=\"engagement-status\">{{ field_status }}</div>\r\n{% endif %}\r\n</div>\r\n<div class=\"card-body  p-4\">\r\n<h5 class=\"card-title\">{{ title }}</h5>\r\n<div class=\"card-text\">{{ field_researcher }}</div>\r\n<div class=\"card-text\">{{ field_institution }}</div>\r\n<div class=\"card-text visually-hidden field--type-text-with-summary\">{{ body }}</div>\r\n<div class=\"card-text visually-hidden field--name-field-tags\">{{ field_tags }}</div>\r\n<div class=\"card-text\"><span class=\"font-bold\">Status:</span> {{ field_status }}</div>\r\n</div>\r\n<div class=\"card-footer text-center\"></div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -630,7 +630,7 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: ''
+          row_class: 'bg-white border-4 border-solid border-dark-teal'
           default_row_class: true
       row:
         type: fields
@@ -649,6 +649,7 @@ display:
           query_tags: {  }
           contextual_filters_or: false
       relationships: {  }
+      css_class: ''
       use_more: false
       use_more_always: true
       use_more_text: more
@@ -660,7 +661,20 @@ display:
           table: views
           field: area
           plugin_id: text
-      footer: {  }
+      footer:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: '<a href="/engagements" class="btn btn-primary mt-12">All Engagements</a>'
+            format: full_no_editor
+          tokenize: false
       display_extenders: {  }
     cache_metadata:
       max-age: -1
@@ -853,10 +867,25 @@ display:
         use_more_text: false
         filters: false
         filter_groups: false
+        header: false
       display_description: ''
-      use_more: true
-      use_more_always: true
-      use_more_text: 'See All'
+      use_more: false
+      use_more_always: false
+      use_more_text: 'All Engagements'
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: "<div id=\"engagements\" class=\"flex items-center\">\r\n<svg width=\"25\" height=\"25\" class=\"me-4\">\r\n  <rect width=\"25\" height=\"25\" style=\"fill:rgb(240,117,55);stroke-width:3\" />\r\n</svg>\r\n<h2 class=\"m-0\">MATCH Engagements</h2>\r\n</div>\r\n<p class=\"my-5 text-xl\">Let us know which projects you'd like help with.</p>"
+            format: full_no_editor
+          tokenize: false
       display_extenders: {  }
     cache_metadata:
       max-age: -1
@@ -1430,10 +1459,12 @@ display:
         fields: true
         filters: false
         filter_groups: false
+        footer: false
       display_description: ''
       use_more: false
       use_more_always: true
       use_more_text: 'See All'
+      footer: {  }
       display_extenders: {  }
     cache_metadata:
       max-age: -1
