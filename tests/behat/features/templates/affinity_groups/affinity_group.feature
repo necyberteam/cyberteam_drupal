@@ -124,7 +124,7 @@ Feature: Feature: test an Affinity Groups page
     When I go to "/affinity-groups/delta"
     Then I should see an image with alt text "Delta ACCESS Affinity Group logo"
     Then I should see "DELTA is a dedicated, ACCESS-allocated resource designed by HPE and NCSA"
-    Then I should see "Allocated CiDeR Resources"
+    Then I should see "Associated Resources"
     Then I should see "NCSA Delta GPU (Delta GPU)"
     Then I should not see "The Delta GPU resource comprises 4 different node configurations"
     When I press "NCSA Delta GPU (Delta GPU)"
