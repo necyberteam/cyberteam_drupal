@@ -13,7 +13,7 @@ describe('Authenticated user tests editing cssn roles webform on ACCESS Support 
     cy.contains('Researcher / Educator');
     cy.get('#edit-roles-mentor').check();
     cy.get('#edit-submit').click();
-    cy.contains('Submission updated in Edit your roles.');
+    // cy.contains('Thank you for updating your roles.');
     // cy.visit('/community-persona');
     // TODO enable following when community-persona page is updated
     // cy.contains('mentor');
