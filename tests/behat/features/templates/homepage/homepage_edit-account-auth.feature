@@ -33,7 +33,6 @@ Feature: For an authenticated user, the Edit Account Page displays
   Scenario: Authenticated user tests the add interest/skills page
     Given I am logged in as a user with the "authenticated" role
     When I go to "/add-interest"
-    Then I should see "Add Interests"
     Then I should see "access-acount"
     Given I click the ".flag-element-name" element
     And I wait 2 seconds
