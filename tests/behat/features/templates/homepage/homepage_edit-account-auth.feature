@@ -33,12 +33,14 @@ Feature: For an authenticated user, the Edit Account Page displays
   Scenario: Authenticated user tests the add interest/skills page
     Given I am logged in as a user with the "authenticated" role
     When I go to "/add-interest"
-    Given I click the ".flag-element-name" element
+    When I press "darwin"
+    #Given I click the ".flag-element-name" element
     And I wait 2 seconds
     # TODO verify result?
 
     When I go to "/add-skill"
-    Given I click the ".flag-element-name" element
+    When I press "darwin"
+    #Given I click the ".flag-element-name" element
     And I wait 2 seconds
     # TODO verify result?
 
