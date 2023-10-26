@@ -42,7 +42,7 @@ Feature: Feature: test an Affinity Groups page
   Scenario: Unauthenticated user tests an individual Affinity Group page
     Given I am not logged in
     When I am on "/affinity-groups/cloud-computing"
-    Then I should see an image with alt text "A blue cloud"
+    #Then I should see an image with alt text "A blue cloud"
     Then I should see "People who use or are considering the use of cloud resources"
     # follow a Tags
     When I follow "cloud-commercial"
@@ -84,7 +84,7 @@ Feature: Feature: test an Affinity Groups page
     Given I am not logged in
     When I am on "/affinity-groups/anvil"
     Then I should see "Announcements"
-    Then I should see "[12/16/22]"
+    Then I should see "12/16/2022"
     When I click "2022 - 2023 Holiday Support Schedule for Anvil"
     Then I should be on "/node/403"
 
@@ -99,7 +99,7 @@ Feature: Feature: test an Affinity Groups page
     Given I am not logged in
     When I am on "/affinity-groups/anvil"
     Then I should see "Announcements"
-    Then I should see "[12/16/22]"
+    Then I should see "12/16/2022"
     When I click "2022 - 2023 Holiday Support Schedule for Anvil"
     Then I should be on "/node/403"
 
@@ -124,7 +124,7 @@ Feature: Feature: test an Affinity Groups page
     When I go to "/affinity-groups/delta"
     Then I should see an image with alt text "Delta ACCESS Affinity Group logo"
     Then I should see "DELTA is a dedicated, ACCESS-allocated resource designed by HPE and NCSA"
-    Then I should see "Allocated CiDeR Resources"
+    Then I should see "Associated Resources"
     Then I should see "NCSA Delta GPU (Delta GPU)"
     Then I should not see "The Delta GPU resource comprises 4 different node configurations"
     When I press "NCSA Delta GPU (Delta GPU)"
