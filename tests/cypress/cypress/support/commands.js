@@ -15,7 +15,7 @@ Cypress.Commands.add('drupalLogout', () => {
  */
 Cypress.Commands.add('loginAs', (username, password) => {
   cy.drupalLogout();
-  cy.visit('/user/login');
+  cy.visit('/f64816be-34ca-4d5b-975a-687cb374ddf7');
   cy.get('#edit-name')
     .type(username);
   cy.get('#edit-pass').type(password, {
