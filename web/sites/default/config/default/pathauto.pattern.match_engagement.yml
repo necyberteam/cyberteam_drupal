@@ -1,0 +1,22 @@
+uuid: b0264d22-bef3-45b8-9f01-e90c1abdafc6
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: match_engagement
+label: 'MATCH Engagement'
+type: 'canonical_entities:node'
+pattern: '/engagements/[node:title]'
+selection_criteria:
+  0f0e2efe-9eef-4250-be7d-431717245f61:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 0f0e2efe-9eef-4250-be7d-431717245f61
+    context_mapping:
+      node: node
+    bundles:
+      match_engagement: match_engagement
+selection_logic: and
+weight: -5
+relationships: {  }

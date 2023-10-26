@@ -65,9 +65,185 @@ dependencies:
     - node.type.match_engagement
   module:
     - datetime
+    - layout_builder
     - options
     - text
     - user
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          35d36e27-ef80-44e7-b186-2b0049d4c7e5:
+            uuid: 35d36e27-ef80-44e7-b186-2b0049d4c7e5
+            region: content
+            configuration:
+              id: 'extra_field_block:node:match_engagement:content_moderation_control'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+            weight: 0
+            additional: {  }
+          e56e85d4-8527-47e4-a57a-a0a34aa87a41:
+            uuid: e56e85d4-8527-47e4-a57a-a0a34aa87a41
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_institution'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          00f7b93d-3eca-44f4-b0e6-9d3ff7484b2a:
+            uuid: 00f7b93d-3eca-44f4-b0e6-9d3ff7484b2a
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_status'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: list_default
+                label: inline
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          f87cb2e3-d67a-4477-89ac-001ca84ecdee:
+            uuid: f87cb2e3-d67a-4477-89ac-001ca84ecdee
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_urgency'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: list_default
+                label: inline
+                settings: {  }
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+          50bbbe51-7814-4df8-b528-7e61c72b81f3:
+            uuid: 50bbbe51-7814-4df8-b528-7e61c72b81f3
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_researcher'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: inline
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 4
+            additional: {  }
+          851b0c69-3eed-4ab3-9920-3e9b5dd9ef9d:
+            uuid: 851b0c69-3eed-4ab3-9920-3e9b5dd9ef9d
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_preferred_semester'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: list_default
+                label: inline
+                settings: {  }
+                third_party_settings: {  }
+            weight: 5
+            additional: {  }
+          00673fae-f1bc-4fa6-9d63-64ff1db20563:
+            uuid: 00673fae-f1bc-4fa6-9d63-64ff1db20563
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_requested_engagement'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: list_default
+                label: inline
+                settings: {  }
+                third_party_settings: {  }
+            weight: 6
+            additional: {  }
+          90d53dec-bc55-41f4-921d-676e01490614:
+            uuid: 90d53dec-bc55-41f4-921d-676e01490614
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_completion_date_goal_1'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: datetime_custom
+                label: inline
+                settings:
+                  timezone_override: ''
+                  date_format: n/j/Y
+                third_party_settings: {  }
+            weight: 7
+            additional: {  }
+          b85c2ed3-9cb7-4a0f-ae16-464f0e4fd05f:
+            uuid: b85c2ed3-9cb7-4a0f-ae16-464f0e4fd05f
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 8
+            additional: {  }
+          4a97ed73-d7d6-4d79-be30-65de771dc235:
+            uuid: 4a97ed73-d7d6-4d79-be30-65de771dc235
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_hpc_resources_needed'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 9
+            additional: {  }
+          2b2d2568-52c8-45ef-a85d-7cde49592e79:
+            uuid: 2b2d2568-52c8-45ef-a85d-7cde49592e79
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_project_deliverables'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 10
+            additional: {  }
+        third_party_settings: {  }
 id: node.match_engagement.default
 targetEntityType: node
 bundle: match_engagement
