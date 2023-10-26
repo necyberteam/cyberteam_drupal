@@ -1,5 +1,11 @@
+/**
+ * Verifies that an admin user can add a CI Link to an affinity group
+ *
+ * CURENTLY BROKEN because the test ci-link "ci-link-for-user-200" is
+ * not being created in amp_dev.install.
+ *
+ */
 //
-// Verifies that an admin user can a CI Link to an affinity group
 //
 describe('Admin user adds a CI Link to the AG ACCESS Support', () => {
   it('should add a CI-Link to an AG', () => {
