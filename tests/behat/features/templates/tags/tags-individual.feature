@@ -46,7 +46,7 @@ Feature: test individual tags page
     When I fill in "Title" with "test-affinity-group"
     # tag is "login"
     When I select "682" from "edit-field-tags"
-    When I check "Published"
+    #When I check "Published"
     When I press "Save"
     Then I should see "has been created"
 
