@@ -77,6 +77,7 @@ Feature: test individual tags page
     When I go to "tags/login"
     And I wait 4 seconds
     Then I should see "test-login-resource"
+    #TODO Below Line is broken. Behat sees the test name with the line above but for some reason when trying to follow it no longer works
     #When I follow "test-login-resource"
    # And I wait for the page to be loaded
     # TODO not working for careers or nect -- was votes removed?
