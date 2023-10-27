@@ -1,0 +1,25 @@
+uuid: d511f53d-723c-4982-bf50-af2a48ed97d1
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - ticketing
+  theme:
+    - aspTheme
+id: ticketingchoices_2
+theme: aspTheme
+region: content
+weight: -10
+provider: null
+plugin: ticketing_block
+settings:
+  id: ticketing_block
+  label: 'Ticketing choices'
+  label_display: '0'
+  provider: ticketing
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /help-ticket
