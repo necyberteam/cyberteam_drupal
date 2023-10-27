@@ -15,7 +15,7 @@ Cypress.Commands.add('drupalLogout', () => {
  */
 Cypress.Commands.add('loginAs', (username, password) => {
   cy.drupalLogout();
-  cy.visit('/user/login');
+  cy.visit('/f64816be-34ca-4d5b-975a-687cb374ddf7');
   cy.get('#edit-name')
     .type(username);
   cy.get('#edit-pass').type(password, {
@@ -53,14 +53,16 @@ Cypress.Commands.add('drushUli', () => {
   cy.task('log', 'in drushUli');
 
   cy.drush('uli', ['--uri=' + Cypress.config('baseUrl')], {})
-    .its('stdout')
-    .then(function (url) {
-      cy.task('log', 'drushUli trying to visit "' + url + '"');
-      cy.visit(url);
+    .then((result) => {
+      cy.task('log', 'result = ' + JSON.stringify(result));
+      if (result.code !== 0) {
+        throw new Error(result.stderr);
+      } else {
+        cy.task('log', 'drushUli trying to visit "' + result.stdout + '"');
+        cy.visit(result.stdout);
+      }
     });
 });
-
-
 
 /**
  * Defines a cypress command that executes drush commands.
@@ -75,7 +77,7 @@ Cypress.Commands.add('drushUli', () => {
  */
 Cypress.Commands.add('drush', (command, args = [], options = {}) => {
   cy.task('log', 'in drush, command = "' + command + '"');
-  const ee = `lando drush ${command} ${stringifyArguments(args)} ${stringifyOptions(options)} -y`;
+  const ee = `drush ${command} ${stringifyArguments(args)} ${stringifyOptions(options)} -y`;
   cy.task("log", 'in drush, about to exec this:  ' + ee);
   return cy.exec(ee, { failOnNonZeroExit: false });
 });
@@ -117,6 +119,5 @@ function stringifyOptions(options) {
     return output;
   }).join(' ')
 }
-
 
 

@@ -5,7 +5,7 @@ describe('Admin user uses form to create a CI Link', () => {
   it('should create a CI-Link', () => {
 
     // login user with the "administrator" role
-    cy.loginAs('apple@pie.org', 'Apple');
+    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
     cy.visit('/form/ci-link');
     cy.contains(' CI Link ');
     cy.task('log', 'logged in as Apple Pie, on add ci-link form');
