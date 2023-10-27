@@ -3,7 +3,7 @@
 //
 describe('Authenticated user requests to join campus champions', () => {
   it('should complete successfully', () => {
-    cy.loginAs('walnut@pie.org', 'Walnut');
+    cy.loginAs('authenticated@amptesting.com', '6%l7iF}6(4tI');
     cy.visit('/form/join-campus-champions');
     cy.get('#edit-letter-of-collaboration-upload').click();
     cy.get('#edit-letter-of-collaboration-upload').selectFile('cypress/fixtures/dummy-file.txt');

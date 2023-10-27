@@ -1,6 +1,6 @@
 describe('Authenticated user fills out the enter ticket form', () => {
   it('should submit the form successfully', () => {
-    cy.loginAs('pecan@pie.org', 'Pecan');
+    cy.loginAs('authenticated@amptesting.com', '6%l7iF}6(4tI');
     cy.visit('/form/issue');
     cy.contains('Issue');
     cy.contains('Ticket Data');

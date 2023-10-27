@@ -20,3 +20,7 @@ describe('Authenticated user tests the Distributed Experts Network form', () => 
     cy.contains('New submission added to Distributed Experts Network Help Request Form.');
   });
 });
+
+/*
+<a class="btn btn-primary" href="http://localhost:32792/form/distributed-experts-network-help">REQUEST A CONSULT</a>
+*/
