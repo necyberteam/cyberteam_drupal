@@ -1,11 +1,14 @@
 //
-// Anonymous user tests the Distributed Experts Network form
+// Authenticated user tests the Distributed Experts Network form
 //
-describe('Unauthenticated user tests the Distributed Experts Network form', () => {
+describe('Authenticated user tests the Distributed Experts Network form', () => {
   it('should submit the form successfully', () => {
+    cy.loginAs('authenticated@amptesting.com', '6%l7iF}6(4tI');
     cy.visit('/distributed-experts-network');
-    cy.contains('REQUEST A CONSULT').click();
-    cy.url().should('include', '/form/distributed-experts-network-help');
+    cy.get('.btn').contains('REQUEST A CONSULT')
+      .should('have.attr', 'href')
+      .and('contain', 'distributed-experts-network-help');
+    cy.get('.btn').contains('REQUEST A CONSULT').click();
     cy.contains('Distributed Experts Network Help Request Form');
     cy.get('#edit-institution').type('167394');
     cy.get('#edit-my-institution-wasn-t-listed').check();
