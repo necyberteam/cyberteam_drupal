@@ -6,13 +6,12 @@
     Form Functionality 
 
     
-    This test has to issues :
-    This entity (node: 413) cannot be referenced.
-    You are not a Coordinator for the Access Support Testing Affinity Group.
-
+    // cy.get("#edit-field-affinity-group-node-0-target-id").type(
+    //   "Access Support Testing (413)"
+    // );
 */
 
-describe("Authenticated user tests the Events Form", () => {
+describe("Authenticated user tests the Events Form without Affinity Group", () => {
   it("Should test Events Form for authenticated user", () => {
     // login user with the "authenticated" role
     cy.loginAs("pecan@pie.org", "Pecan");
@@ -30,14 +29,13 @@ describe("Authenticated user tests the Events Form", () => {
     cy.get("#edit-field-registration-0-uri").type(
       "https://test-accessmatch.pantheonsite.io/"
     );
-    cy.get("#edit-field-affinity-group-node-0-target-id").type(
-      "Access Support Testing (413)"
-    );
     cy.get("#edit-field-tags-0-target-id").type("login (682)");
     cy.get("#edit-moderation-state-0-state").select("Ready for Review");
     cy.get("#edit-field-event-type").select("Training");
     cy.get("#edit-field-affiliation").select("Community");
     cy.get("#edit-field-skill-level").select("Advanced");
     cy.get("#edit-submit").click();
+    cy.contains("Successfully saved the example-event event series");
+    cy.contains("Thank you for submitting your event.");
   });
 });
