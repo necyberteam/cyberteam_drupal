@@ -4,8 +4,8 @@
  * Edits the AG to add a ci-link & cider resource, and verifies those appear.
  * Verifies the see & contact members buttons appear.
  */
-describe("Unauthenticated user tests the Individual Affinity Groups", () => {
-  it("Should test the Individual Affinity Groups for anon user", () => {
+describe("Admin user tests the Individual Affinity Groups", () => {
+  it("Should test the Individual Affinity Groups page", () => {
 
     cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
@@ -27,23 +27,53 @@ describe("Unauthenticated user tests the Individual Affinity Groups", () => {
     // submit changes
     cy.get('#edit-submit').click()
 
-    // verify changes appear on the AG page
+    // verify the added ci-link appears
     cy.get('.block-resources-for-affinity-group')
       .contains('CI Links');
 
     cy.get('#ci-links')
       .contains('cypress-ci-link-for-testing')
       .should('have.attr', 'href')
-      .and('contain', '/ci-link');;
+      .and('contain', '/ci-link');
 
+    // verify the added cider resource appears
+    cy.get('.node--type-access-active-resources-from-cid')
+      .contains('UD DARWIN Storage (DARWIN Storage)');
+
+    // verify email AG button has correct href
     cy.get('.block-access-affinitygroup')
       .contains('Email Affinity Group')
       .should('have.attr', 'href')
       .and('contain', '/form/affinity-group-contact?nid=327');
 
+    // verify View Memebers button is good, and resulting page
+    // has list of members
     cy.get('.view-id-affinity_group')
       .contains('View Members')
       .should('have.attr', 'href')
       .and('contain', '/affinity-groups/618/users/ACCESS Support');
+
+    cy.get('.view-id-affinity_group')
+      .contains('View Members')
+      .click();
+
+    cy.url().should('contains', '/affinity-groups/618/users/ACCESS%20Support?nid=327');
+
+    // check the page title
+    cy.get('.page-title').contains('ACCESS Support');
+
+    // check the members table
+    cy.get('.views-table').each('tr', (tr) => {
+
+      // check each user has a link to a community-persona page
+      cy.get("[headers='view-realname-table-column']")
+        .find('a')
+        .should('have.attr', 'href')
+        .and('contain', '/community-persona');
+
+      // check each user an @ in their email address
+      cy.get("[headers='view-mail-table-column']")
+        .contains('@');
+    });
   });
 });

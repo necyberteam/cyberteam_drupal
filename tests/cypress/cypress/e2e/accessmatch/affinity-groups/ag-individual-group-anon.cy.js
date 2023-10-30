@@ -5,7 +5,7 @@
  * coordinators & askci table.
  */
 describe("Anonymous user tests the Individual Affinity Groups page", () => {
-  it("Should test the Individual Affinity Groups for anon user", () => {
+  it("Should test the Individual Affinity Groups page", () => {
 
     cy.visit("/affinity-groups/access-support");
 
