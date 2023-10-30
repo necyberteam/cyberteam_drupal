@@ -1301,7 +1301,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: false
-          content: '<h2 class="text-white">Upcoming Events</h2>'
+          content: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">Upcoming Events</h2>'
           tokenize: false
       footer:
         area:
@@ -1314,7 +1314,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: '<a class="text-white text-sm uppercase no-underline hover--text-light-teal hover--underline" href="/events">See all events</a>'
+            value: "<a class=\"btn btn-md-teal mt-4\" href=\"/events-trainings\">More events</a>\r\n<a class=\"btn btn-md-teal mt-4\" href=\"/past-events\">Past events</a>"
             format: full_html
           tokenize: false
       display_extenders: {  }
@@ -3914,7 +3914,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{{ date__value__value|date('n/d/Y') }}"
+            text: "{{ date__value__value|date('n/d/y') }}"
             make_link: false
             path: ''
             absolute: false
@@ -3978,7 +3978,7 @@ display:
           entity_field: date
           plugin_id: field
           label: Time
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -4168,7 +4168,7 @@ display:
           admin_label: ''
           plugin_id: field
           label: Tags
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -4231,7 +4231,7 @@ display:
           admin_label: ''
           plugin_id: field
           label: 'Affinity Group'
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -4557,7 +4557,7 @@ display:
         type: table
         options:
           grouping: {  }
-          row_class: ''
+          row_class: 'border-x-0 border-b border-t-0 border-black border-solid'
           default_row_class: true
           columns:
             title: title
@@ -4566,6 +4566,11 @@ display:
             title_2: title_2
             title_1: title_1
             date__value: date__value
+            date__value_2: date__value_2
+            field_affiliation: field_affiliation
+            field_event_type: field_event_type
+            field_tags: field_tags
+            field_affinity_group_node: field_affinity_group_node
           default: '-1'
           info:
             title:
@@ -4606,6 +4611,37 @@ display:
             date__value:
               sortable: false
               default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            date__value_2:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_affiliation:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_event_type:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_tags:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_affinity_group_node:
               align: ''
               separator: ''
               empty_column: false
