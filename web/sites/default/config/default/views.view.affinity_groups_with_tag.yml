@@ -41,11 +41,11 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: field
-          label: ''
+          label: Logo
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '<div class="[&_img]--object-contain [&_img]--h-auto [&_img]--m-0 w-24 align-middle">{{ field_image }}</div>'
             make_link: false
             path: ''
             absolute: false
@@ -388,7 +388,7 @@ display:
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: false
-          empty: '<a href="/user/login?destination={{ view_node }}" class="btn btn-sm btn-primary"><small>Login to join</small></a>'
+          empty: '<a href="/user/login?destination={{ view_node }}" class="btn btn-sm btn-primary whitespace-nowrap"><small>Login to join</small></a>'
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
@@ -574,13 +574,24 @@ display:
         type: table
         options:
           grouping: {  }
-          row_class: ''
+          row_class: 'border-x-0 border-b border-t-0 border-black border-solid not-prose'
           default_row_class: true
           columns:
+            field_image: field_image
             title: title
+            body: body
             field_tags: field_tags
+            view_node: view_node
+            link_flag: link_flag
           default: '-1'
           info:
+            field_image:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             title:
               sortable: false
               default_sort_order: asc
@@ -588,7 +599,28 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
+            body:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             field_tags:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            view_node:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            link_flag:
+              sortable: false
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
