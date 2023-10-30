@@ -1,9 +1,34 @@
 /**
+ * Verify that an img element loads.
+ *
+ * Note that this is a "child" custom command, so it must be called
+ * with parent cypress command that yields an image element, e.g.:
+ *    cy.get('.field--name-field-image')
+ *       .get('img')
+ *       .ampVerifyImage();
+ */
+Cypress.Commands.add('ampVerifyImage', { prevSubject: true }, ($img) => {
+  const url = ($img[0]?.src || $img[0]?.srcset);
+  if (url) {
+    cy.request(url).then((response) => {
+      // verify the image response is 200, and has a non-zero length body
+      // I was logging each image, but this seemed to verbose, so I commented it out.
+      // cy.task('log', 'verifying image "' + url + '"').then(() => {
+      expect(response.status).to.eq(200);
+      expect(response.body.length).to.be.greaterThan(0);
+      // });
+    });
+  } else {
+    throw new Error(`Found an image with no url src`);
+  }
+});
+
+/**
  * Logs out the user.
  */
 Cypress.Commands.add('drupalLogout', () => {
   cy.visit('/user/logout');
-})
+});
 
 /**
  * Basic user login command. Requires valid username and password.
@@ -44,7 +69,6 @@ Cypress.Commands.add('deleteLastNode', () => {
   cy.get('#block-dingo-local-tasks > ul > :nth-child(3) > a').click({ force: true });
   cy.get('[value="Delete"]').click();
 });
-
 
 /**
 * Logs a user in by their uid via drush uli.
@@ -90,7 +114,7 @@ Cypress.Commands.add('drush', (command, args = [], options = {}) => {
  */
 function stringifyArguments(args) {
   return args.join(' ');
-}
+};
 
 /**
  * Returns a string from an array of options.
@@ -118,6 +142,6 @@ function stringifyOptions(options) {
 
     return output;
   }).join(' ')
-}
+};
 
 
