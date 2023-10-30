@@ -16,7 +16,7 @@ describe("Authenticated user tests the Individual Affinity Groups", () => {
       .should('have.attr', 'href', '/affinity-groups/618/users/ACCESS Support?nid=327')
       .click();
 
-    cy.get('.page-title').contains('ACCESS Support');
+    cy.get('.page-title').contains('Affinity Group Members');
     // <h1 class="page-title">ACCESS Support</h1>
 
     // TODO - verify members table?
