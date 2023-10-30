@@ -30,7 +30,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'People with expertise'
+      title: 'People with Expertise'
       fields:
         uid:
           id: uid
@@ -673,7 +673,7 @@ display:
           entity_field: uid
           plugin_id: standard
           required: true
-      css_class: my-3
+      css_class: 'my-3 py-4'
       use_more: true
       use_more_always: false
       use_more_text: 'more people'
@@ -1178,9 +1178,9 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: text
-          empty: false
+          empty: true
           content:
-            value: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">People with Expertise</h2>'
+            value: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">[view:title]</h2>'
             format: full_no_editor
           tokenize: false
       display_extenders: {  }
