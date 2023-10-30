@@ -1232,7 +1232,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '{{ field_published_date }} <br />'
+            text: "<span class=\"text-white-er\">{{ field_published_date }}</span>\r\n<br />"
             make_link: false
             path: ''
             absolute: false
@@ -1387,7 +1387,7 @@ display:
             trim: false
             preserve_tags: ''
             html: false
-          element_type: p
+          element_type: div
           element_class: ''
           element_label_type: ''
           element_label_class: ''
@@ -1412,7 +1412,7 @@ display:
           delta_first_last: false
           multi_type: separator
           separator: ', '
-          field_api_classes: false
+          field_api_classes: true
       empty:
         area_text_custom:
           id: area_text_custom
