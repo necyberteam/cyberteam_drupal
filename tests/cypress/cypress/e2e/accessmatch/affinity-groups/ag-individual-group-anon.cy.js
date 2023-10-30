@@ -48,9 +48,9 @@ describe("Anonymous user tests the Individual Affinity Groups page", () => {
       .should('have.attr', 'href')
       .and('contain', 'https://ask.cyberinfrastructure.org/c/access-forums/access-support/73');
 
-    // // verify image
+    // verify image
     cy.get('.field--name-field-image')
-      .get('img')
+      .find('img')
       .ampVerifyImage();
 
     // events & announcements
