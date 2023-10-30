@@ -237,8 +237,8 @@ display:
           label: Tags
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '<div class="m-2 [&_a]--border [&_a]--font-normal [&_a]--no-underline [&_a]--px-2 [&_a]--py-1 [&_a]--mx-2 [&_a]--my-1 [&_a]--hover--border-dark-teal">{{ field_tags }}</div>'
             make_link: false
             path: ''
             absolute: false
@@ -676,8 +676,8 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<h2 class="card-title">[view:title]</h2>'
-            format: basic_html
+            value: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">[view:title]</h2>'
+            format: full_no_editor
           tokenize: false
       footer: {  }
       display_extenders: {  }
