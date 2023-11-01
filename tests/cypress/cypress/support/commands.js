@@ -24,6 +24,43 @@ Cypress.Commands.add('ampVerifyImage', { prevSubject: true }, ($img) => {
 });
 
 /**
+ * Verify breadcrumbs.
+ *
+ * var crumbs - an array of arrays, each inner array holds a [crumb, href] where
+ *    the crumb is the text of the breadcrumb and the href is the expected url or
+ *    null if no url is expected.
+ *
+ * Example:
+ *  const crumbs = [
+ *     ['Support', '/'],
+ *     ['Affinity Groups', '/affinity_groups'],
+ *     ['ACCESS Support', null]
+ *   ];
+ *   cy.checkBreadcrumbs(crumbs);
+ *
+ * This looks at the element with the 'breadcrumb' class, and confirms all the
+ * crumbs are present and have the expected hrefs.
+ *
+ */
+Cypress.Commands.add('checkBreadcrumbs', (crumbs) => {
+  var crumb, href;
+  for ([crumb, href] of crumbs) {
+    if (href) {
+      cy.get('.breadcrumb')
+        .contains(crumb)
+        .should('have.attr', 'href')
+        .and('contain', href);
+    } else {
+      cy.get('.breadcrumb')
+        .contains(crumb)
+        .should('not.have.attr', 'href');
+    }
+
+  }
+});
+
+
+/**
  * Logs out the user.
  */
 Cypress.Commands.add('drupalLogout', () => {
