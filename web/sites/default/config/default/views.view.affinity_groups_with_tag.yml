@@ -45,7 +45,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<div class="[&_img]--object-contain [&_img]--h-auto [&_img]--m-0 w-24 align-middle">{{ field_image }}</div>'
+            text: '<div class="[&_img]--object-contain [&_img]--h-auto [&_img]--m-0 w-24">{{ field_image }}</div>'
             make_link: false
             path: ''
             absolute: false
@@ -676,7 +676,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">[view:title]</h2>'
+            value: '<h2>[view:title]</h2>'
             format: full_no_editor
           tokenize: false
       footer: {  }
@@ -720,7 +720,7 @@ display:
         - 'config:field.storage.node.field_tags'
   block_2:
     id: block_2
-    display_title: 'Affinity Groups with Tag '
+    display_title: 'ASP: Affinity Groups with Tag '
     display_plugin: block
     position: 1
     display_options:
@@ -769,8 +769,8 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<h2>Affinity Groups</h2>'
-            format: basic_html
+            value: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">Affinity Groups</h2>'
+            format: full_html
           tokenize: false
       display_extenders:
         simple_sitemap_display_extender: {  }
