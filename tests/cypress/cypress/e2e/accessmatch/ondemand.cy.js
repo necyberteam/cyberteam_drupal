@@ -8,13 +8,27 @@
 describe("Unauthenticated user tests the OnDemand Page", () => {
   it("Should test the OnDemand page for unauthenticated user", () => {
     cy.visit("/ondemand");
-    cy.contains("Improving the ACCESS Experience");
-    cy.contains("Common web-based interfaces integrated with ACCESS services.");
-    cy.contains("For Researchers");
-    cy.contains("Use OnDemand on these ACCESS allocated resources");
-    cy.contains("Learn more about OnDemand");
-    cy.contains(
-      "ACCESS OnDemand helps computational researchers and students efficiently"
+
+    //Page Introduction paragraph
+    cy.get("#about > .prose").contains(
+      "Open OnDemand is an easy-to-use web portal that is being deployed on ACCESS"
+    );
+    cy.get("#about > .grid > :nth-child(1) > :nth-child(2)").contains(
+      "Zero installation"
+    );
+    cy.get("#about > .grid > :nth-child(1) > :nth-child(2)").contains(
+      "Run entirely in your browser."
+    );
+
+    //Accordion title and functionality
+    cy.get("#ondemand-faq > .colored-square").contains("ACCESS OnDemand FAQ");
+    cy.get("#ondemand-faq")
+      .contains(
+        "What is the difference between ACCESS OnDemand and Open OnDemand?"
+      )
+      .click();
+    cy.get('[style=""] > .bg-white').contains(
+      "ACCESS OnDemand is a standardized instance of Open OnDemand"
     );
   });
 });
