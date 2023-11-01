@@ -9,19 +9,83 @@
 describe("Authenticated user tests the Individual Affinity Groups", () => {
   it("Should test the Individual Affinity Groups page", () => {
 
-    cy.loginAs('authenticated@amptesting.com', '6%l7iF}6(4tI');
-
-    cy.visit("/affinity-groups/access-support");
-
-    cy.contains("View Members")
-      .should('have.attr', 'href', '/affinity-groups/618/users/ACCESS Support?nid=327')
-      .click();
-
-    cy.get('.page-title').contains('Affinity Group Members');
-    // <h1 class="page-title">ACCESS Support</h1>
-
-    // TODO - verify members button appears for to AG coordinator, and does not
-    // appear for non-coordinator.
+    add_pecan_as_ag_coord();
+    confirm_email_view_members();
+    remove_pecan_as_ag_coord();
+    confirm_no_email_view_members();
 
   });
 });
+
+// login as admin, add Pecan Pie as a coordinator
+function add_pecan_as_ag_coord() {
+  cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+  cy.visit("/affinity-groups/access-support");
+
+  // click the Edit tab in the tabs available to admins
+  cy.get('.tabs')
+    .contains("Edit")
+    .should('have.attr', 'href', '/node/327/edit')
+    .click();
+
+  // add Pecan Pie as a coordinator
+  cy.get('#edit-field-coordinator-2-target-id')
+    .type('Pecan Pie')
+    .get('#ui-id-3')  // this is the dropdown that shows up
+    .find('.ui-menu-item') //
+    .first() // take the first one
+    .click();;
+
+  // submit changes
+  cy.get('#edit-submit').click();
+  cy.contains('has been updated');
+  cy.get('.block-field-blocknodeaffinity-groupfield-coordinator')
+    .contains('Pecan Pie');
+}
+
+// login as Pecan Pie, who is now a coordinator, and verify the email & view members buttons appear.
+function confirm_email_view_members() {
+  cy.loginAs('pecan@pie.org', 'Pecan');
+  cy.visit("/affinity-groups/access-support");
+
+  cy.contains("Email Affinity Group")
+    .should('have.attr', 'href', '/form/affinity-group-contact?nid=327');
+
+  cy.contains("View Members")
+    .should('have.attr', 'href', '/affinity-groups/618/users/ACCESS Support?nid=327');
+}
+
+// login as admin, remove Pecan Pie as a coordinator
+function remove_pecan_as_ag_coord() {
+  cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+  cy.visit("/affinity-groups/access-support");
+
+  // click the Edit tab in the tabs available to admins
+  cy.get('.tabs')
+    .contains("Edit")
+    .should('have.attr', 'href', '/node/327/edit')
+    .click();
+
+  // add Pecan Pie as a coordinator
+  cy.get('#edit-field-coordinator-2-target-id')
+    .clear();
+
+  // submit changes
+  cy.get('#edit-submit').click();
+  cy.contains('has been updated');
+  cy.get('.block-field-blocknodeaffinity-groupfield-coordinator').should('not.include.text', 'Pecan')
+}
+
+// login as Pecan Pie, who is now a coordinator, and verify the email & view
+// members buttons do not appear.
+function confirm_no_email_view_members() {
+  cy.loginAs('pecan@pie.org', 'Pecan');
+  cy.visit("/affinity-groups/access-support");
+
+  cy.contains("Email Affinity Group")
+    .should('not.exist');
+
+  // // TODO - enable this when this page is fixed
+  // cy.contains("View Members")
+  //   .should('not.exist');
+}

@@ -39,7 +39,7 @@ describe("Admin user tests the Individual Affinity Groups", () => {
     cy.get('#edit-field-cider-resources-0-target-id').type('UD DARWIN Storage (DARWIN Storage) (366)');
 
     // submit changes
-    cy.get('#edit-submit').click()
+    cy.get('#edit-submit').click();
 
     // verify the added ci-link appears
     cy.get('.block-resources-for-affinity-group')
