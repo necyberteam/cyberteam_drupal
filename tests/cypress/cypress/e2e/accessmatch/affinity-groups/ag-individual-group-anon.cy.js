@@ -11,19 +11,15 @@ describe("Anonymous user tests the Individual Affinity Groups page", () => {
 
     cy.get('#block-pagetitle').contains("ACCESS Support");
 
-    // check breadcrumbs
-    cy.get('.breadcrumb')
-      .contains('Support')
-      .should('have.attr', 'href', '/');
-    cy.get('.breadcrumb')
-      .contains('Affinity Groups')
-      .should('have.attr', 'href')
-      .and('contain', '/affinity_groups');
-    cy.get('.breadcrumb')
-      .contains('ACCESS Support')
-      .should('not.have.attr', 'href');
+    // check breadcrumbsconst "
+    const crumbs = [
+      ['Support', '/'],
+      ['Affinity Groups', '/affinity_groups'],
+      ['ACCESS Support', null]
+    ];
+    cy.checkBreadcrumbs(crumbs);
 
-    // // tags
+    // tags
     cy.get('.field--name-field-tags')
       .contains('ACCESS-website')
       .should('have.attr', 'href', '/tags/access-website');
@@ -77,8 +73,11 @@ describe("Anonymous user tests the Individual Affinity Groups page", () => {
     cy.get('.block-access-affinitygroup.block-ci-community')
       .contains('Ask.CI Recent Topics');
 
-    // check each table has link to ask.ci
-    cy.get('.block-access-affinitygroup.block-ci-community')
+    // should have 6 rows (including header)
+    cy.get('table[id="ask-ci"]').find('tr').should('have.length', 6);
+
+    // check each row has link to ask.ci
+    cy.get('table[id="ask-ci"]')
       .find('tr')
       .find('a')
       .each(($a) => cy.wrap($a)
@@ -90,7 +89,5 @@ describe("Anonymous user tests the Individual Affinity Groups page", () => {
       .contains('View on Ask.CI')
       .should('have.attr', 'href')
       .and('contain', 'https://ask.cyberinfrastructure.org/c/access-forums/access-support/');
-
-
   });
 });
