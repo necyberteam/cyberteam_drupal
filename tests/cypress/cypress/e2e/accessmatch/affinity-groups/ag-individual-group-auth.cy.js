@@ -1,10 +1,8 @@
 /**
  * Authenticated user tests the Individual Affinity Groups page.
  *
- * Only addition from anonymous is ability to see AG members.
- *
- * TODO - verify members button appears for to AG coordinator, and does not
- * appear for non-coordinator.
+ * Only addition from anonymous is ability to see & email AG members (if
+ * the user is a coordinator).
  */
 describe("Authenticated user tests the Individual Affinity Groups", () => {
   it("Should test the Individual Affinity Groups page", () => {
@@ -13,7 +11,6 @@ describe("Authenticated user tests the Individual Affinity Groups", () => {
     confirm_email_view_members();
     remove_pecan_as_ag_coord();
     confirm_no_email_view_members();
-
   });
 });
 
@@ -85,7 +82,7 @@ function confirm_no_email_view_members() {
   cy.contains("Email Affinity Group")
     .should('not.exist');
 
-  // // TODO - enable this when this page is fixed
-  // cy.contains("View Members")
-  //   .should('not.exist');
+  // TODO - enable this when this page is fixed
+  cy.contains("View Members")
+    .should('not.exist');
 }
