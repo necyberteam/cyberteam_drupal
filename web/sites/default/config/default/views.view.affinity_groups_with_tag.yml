@@ -1119,13 +1119,10 @@ display:
             title: All
           title_enable: true
           title: '  Affinity Groups tagged {{ arguments.tid }}'
-          default_argument_type: taxonomy_tid
+          default_argument_type: raw
           default_argument_options:
-            term_page: '1'
-            node: false
-            limit: false
-            vids: {  }
-            anyall: ','
+            index: 1
+            use_alias: false
           default_argument_skip_url: false
           summary_options:
             base_path: ''
@@ -1154,7 +1151,7 @@ display:
       header: {  }
       display_extenders:
         simple_sitemap_display_extender: {  }
-      path: tag/%taxonomy_term/affinity-groups
+      path: tags/%/affinity-groups
     cache_metadata:
       max-age: 0
       contexts:
