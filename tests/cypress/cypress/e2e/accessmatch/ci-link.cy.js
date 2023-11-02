@@ -14,18 +14,41 @@
 */
 describe("Unauthenticated user tests the Individual CI Link Page", () => {
   it("Should test Individual CI Link page for unauthenticated user", () => {
+    //Naviagting To Indie CI Link
     cy.visit("/ci-links");
-    cy.contains("cypress-ci-link-for-testing").click();
-    cy.contains("cypress-ci-link-for-testing");
+    cy.get("tbody > :nth-child(1) > .views-field-webform-submission-value-5")
+      .contains("cypress-ci-link-for-testing")
+      .click();
+
+    //CI Link Title
+    cy.get(".page-title").contains("cypress-ci-link-for-testing");
+
+    //Tags
     cy.contains("access-acount");
     cy.contains("finite-element-analysis");
-    cy.contains("Dummy description for ci-link 'cypress-ci-link-for-testing'");
-    cy.contains("access-acount");
-    cy.contains("0 People found this useful");
-    cy.contains("Category");
-    cy.contains("learning");
-    cy.contains("Skill Level");
-    cy.contains("Login to vote").click();
-    cy.contains("Log in");
+
+    //Description
+    cy.get("p").contains(
+      "Dummy description for ci-link 'cypress-ci-link-for-testing'"
+    );
+
+    //CI Link Category and Skill Level
+    cy.get(".grid-cols-1 > :nth-child(2) > .grid > :nth-child(1)").contains(
+      "Category"
+    );
+    cy.get(".grid-cols-1 > :nth-child(2) > .grid > :nth-child(1)").contains(
+      "learning"
+    );
+    cy.get(".grid-cols-1 > :nth-child(2) > .grid > :nth-child(2)").contains(
+      "Skill Level"
+    );
+
+    //Vote Section
+    cy.get(".bg-light-teal").contains("0 People found this useful");
+    //cy.get('.bg-light-teal').contains("Login to vote").click();
+    cy.get(".bg-light-teal")
+      .contains("Login to vote")
+      .should("have.attr", "href")
+      .and("contain", "/user/login?destination=/ci-links/1");
   });
 });

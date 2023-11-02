@@ -26,10 +26,58 @@ describe("Unauthenticated user tests the Events Page", () => {
     cy.get("#edit-submit-recurring-events-event-instances--2").click(); //Submit button
 
     //Testing Cypress Created Event
+    //Event Title
     cy.get("tbody > tr > .views-field-title-2")
       .contains("example-event")
       .click();
     cy.get(".page-title > .field").contains("example-event");
-    //Verify what else is needed to test on this page
+
+    //Event Date
+    cy.get(".md--col-span-3").contains("Event Date");
+    cy.get(".md--col-span-3").contains("12/12/2026 - 04:30 AM - 04:30 AM EST");
+
+    //Event Location
+    cy.get(".md--col-span-3").contains("Location");
+    cy.get(".md--col-span-3").contains("Zoom");
+
+    //Event Tags
+    cy.get(".md--col-span-3").contains("Tags");
+    cy.get(".md--col-span-3").contains("login");
+
+    //Event Contact
+    cy.get("#block-mainpagecontent > .grid > :nth-child(2)").contains(
+      "Contact"
+    );
+    cy.get("#block-mainpagecontent > .grid > :nth-child(2)").contains(
+      "Pecan Pie"
+    );
+
+    //Registration Button Not sure how to correctly reference the btn
+    cy.get("#block-mainpagecontent > .grid > :nth-child(2)").contains(
+      "Registration"
+    );
+    // cy.get("#block-mainpagecontent > .grid > :nth-child(2)")
+    //   .contains("REGISTER HERE")
+    //   .should("have.attr", "href")
+    //   .and(
+    //     "contain",
+    //     "https://discourse.openondemand.org/t/open-ondemand-tips-and-tricks-calls/1684"
+    //   );
+
+    //Event Skill Level
+    cy.get("#block-mainpagecontent > .grid > :nth-child(2)").contains(
+      "Skill Level"
+    );
+    cy.get("#block-mainpagecontent > .grid > :nth-child(2)").contains(
+      "Advanced"
+    );
+
+    //Event Type
+    cy.get("#block-mainpagecontent > .grid > :nth-child(2)").contains(
+      "Event Type"
+    );
+    cy.get("#block-mainpagecontent > .grid > :nth-child(2)").contains(
+      "Training"
+    );
   });
 });

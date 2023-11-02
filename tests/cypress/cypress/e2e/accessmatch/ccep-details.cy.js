@@ -18,11 +18,10 @@ describe("Unauthenticated user tests the CCEP Details Page", () => {
     cy.get(".clearfix > ul > :nth-child(1)").contains(
       "All CSSN members (students, faculty, staff, or CI professionals) seeking CCEP rewards need to be affiliated"
     );
-
-    //Verifying Join CCEP Button  Test fails disabling for now
-    // cy.get(".btn")
-    //   .contains("Apply to CCEP")
-    //   .should("have.attr", "href")
-    //   .and("contain", "https://forms.gle/u4d4kCtsYNQgzxjq5");
+    //Verifying Join CCEP Button
+    cy.get(".btn")
+      .contains("APPLY TO CCEP")
+      .should("have.attr", "href")
+      .and("contain", "https://forms.gle/u4d4kCtsYNQgzxjq5");
   });
 });

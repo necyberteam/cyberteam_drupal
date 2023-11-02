@@ -23,6 +23,6 @@ describe("Authenticated user tests a ci link", () => {
     // cy.contains("0");
 
     //Flag Feature. When Flag is clicked I am not able to see the contents inside
-    cy.contains("Flag this link").click();
+    cy.get(".ps-5").contains("Flag this CI Link").click();
   });
 });

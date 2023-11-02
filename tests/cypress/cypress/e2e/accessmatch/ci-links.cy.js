@@ -12,6 +12,8 @@
 describe("Unauthenticated user tests the CI Links Page", () => {
   it("Should test the CI Links page for unauthenticated user", () => {
     cy.visit("/ci-links");
+
+    //Testing Column Headers
     cy.contains("Votes");
     cy.contains("Title").click();
     cy.contains("Description");
@@ -20,13 +22,19 @@ describe("Unauthenticated user tests the CI Links Page", () => {
     cy.contains("Skill Level");
     cy.contains("Affinity Group");
     cy.contains("Category");
-    cy.contains("Advanced").click();
-    cy.contains(
+
+    //Skill Level Filter Option
+    cy.get(".js-form-item-skill-level-306").contains("Advanced").click();
+    cy.get(".alert").contains(
       "There are no CI Links at this time. Please check back often as CI Links are added regularly."
     );
-    cy.contains("Advanced").click();
+    cy.get(".js-form-item-skill-level-306").contains("Advanced").click();
+
+    //Searching for Cypress Created CI Link
     cy.get("#edit-search--2").type("cypress-ci-link-for-testing");
-    cy.contains("cypress-ci-link-for-testing").click();
-    cy.contains("cypress-ci-link-for-testing");
+    cy.get("tbody > :nth-child(1) > .views-field-webform-submission-value-5")
+      .contains("cypress-ci-link-for-testing")
+      .click();
+    cy.get(".page-title").contains("cypress-ci-link-for-testing");
   });
 });
