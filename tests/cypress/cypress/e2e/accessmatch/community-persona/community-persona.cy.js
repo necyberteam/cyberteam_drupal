@@ -1,5 +1,10 @@
 /*
-* Anonymous user visits the community-persona page
+* Various tests of the Community Persona page.
+* - anonymous user visiting another user's page
+* - user visiting their own page
+* - user editing their own page
+* - admin user undoing the edits the user made and verifying changes
+*
 */
 describe('Anonymous user visit the community-persona page', () => {
   it('should find expected stuff', () => {
