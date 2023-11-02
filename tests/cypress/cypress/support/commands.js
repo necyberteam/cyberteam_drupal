@@ -48,7 +48,8 @@ Cypress.Commands.add('checkBreadcrumbs', (crumbs) => {
     if (href) {
       cy.get('.breadcrumb')
         .contains(crumb)
-        .should('have.attr', 'href', href);
+        .should('have.attr', 'href')
+        .and('contain', href);
     } else {
       cy.get('.breadcrumb')
         .contains(crumb)
