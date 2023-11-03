@@ -63,7 +63,7 @@ function remove_pecan_as_ag_coord() {
     .should('have.attr', 'href', '/node/327/edit')
     .click();
 
-  // add Pecan Pie as a coordinator
+  // remove Pecan Pie as a coordinator
   cy.get('#edit-field-coordinator-2-target-id')
     .clear();
 
@@ -73,7 +73,7 @@ function remove_pecan_as_ag_coord() {
   cy.get('.block-field-blocknodeaffinity-groupfield-coordinator').should('not.include.text', 'Pecan')
 }
 
-// login as Pecan Pie, who is now a coordinator, and verify the email & view
+// login as Pecan Pie, who is now not a coordinator, and verify the email & view
 // members buttons do not appear.
 function confirm_no_email_view_members() {
   cy.loginAs('pecan@pie.org', 'Pecan');
@@ -82,7 +82,6 @@ function confirm_no_email_view_members() {
   cy.contains("Email Affinity Group")
     .should('not.exist');
 
-  // TODO - enable this when this page is fixed
   cy.contains("View Members")
     .should('not.exist');
 }
