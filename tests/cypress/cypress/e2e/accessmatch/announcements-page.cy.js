@@ -27,10 +27,7 @@ describe("Unauthenticated user tests the Announcements Page", () => {
 
     //Testing another announcement
     cy.visit("/announcements");
-    cy.get(":nth-child(11) > .views-field-title")
-      .contains("Gateways 2023 Call for Participation")
-      .should("have.attr", "href", "/node/444")
-      .click();
+    cy.contains("Gateways 2023 Call for Participation").click();
     cy.get(".page-title > .field").contains(
       "Gateways 2023 Call for Participation"
     );
