@@ -14,12 +14,15 @@
 */
 describe("Unauthenticated user tests the Individual CI Link Page", () => {
   it("Should test Individual CI Link page for unauthenticated user", () => {
+    // first create a dummy ci-links so can reference one of them in the AG.
+    create_dummy_ci_link();
+
     //Naviagting To Indie CI Link
     cy.visit("/ci-links");
-    cy.contains("cypress-ci-link-for-testing").click();
+    cy.contains("create_dummy_ci_link").click();
 
     //CI Link Title
-    cy.get(".page-title").contains("cypress-ci-link-for-testing");
+    cy.get(".page-title").contains("create_dummy_ci_link");
 
     //Tags
     cy.contains("access-acount");
@@ -27,7 +30,7 @@ describe("Unauthenticated user tests the Individual CI Link Page", () => {
 
     //Description
     cy.get("p").contains(
-      "Dummy description for ci-link 'cypress-ci-link-for-testing'"
+      "Dummy description for ci-link 'create_dummy_ci_link'"
     );
 
     //CI Link Category and Skill Level

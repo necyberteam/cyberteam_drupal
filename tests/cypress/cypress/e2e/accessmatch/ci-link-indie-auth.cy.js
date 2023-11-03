@@ -6,9 +6,12 @@ describe("Authenticated user tests a ci link", () => {
     // login user with the "authenticated" role
     cy.loginAs("authenticated@amptesting.com", "6%l7iF}6(4tI");
 
+    // first create a dummy ci-links so can reference one of them in the AG.
+    create_dummy_ci_link();
+
     //Navigating to cypress created ci link
     cy.visit("/ci-links");
-    cy.contains("cypress-ci-link-for-testing").click();
+    cy.contains("create_dummy_ci_link").click();
 
     //Vote feature  When Vote button is clicked the user is brought to an access denied page. Section is disabled until this is figured out
     cy.get(".bg-light-teal").contains("Vote for this CI Link");
