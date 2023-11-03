@@ -20,7 +20,7 @@ describe("Authenticated user tests the Add Interests without adding an Affinity 
     cy.get(
       ":nth-child(1) > :nth-child(2) > :nth-child(1) > .view-display-id-page_2 > .view-content > .add-interest-list > ul > :nth-child(1) > :nth-child(1) > span > .d-inline-flex > .d-none > .flag > .use-ajax"
     )
-      .contains("ACCESS RPs")
+      .contains("access-acount")
       .click();
     cy.contains("Remove");
   });
