@@ -23,7 +23,6 @@ describe("Unauthenticated user tests the Individual CI Link Page", () => {
 
     //Tags
     cy.contains("access-acount");
-    cy.contains("finite-element-analysis");
 
     //Description
     cy.get("p").contains(

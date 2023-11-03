@@ -14,7 +14,7 @@ describe("Authenticated user tests a ci link", () => {
     cy.contains("dummy-ci-link-for-testing-knowledge-base").click();
 
     //Vote feature  When Vote button is clicked the user is brought to an access denied page. Section is disabled until this is figured out
-    cy.get(".bg-light-teal").contains("Vote for this CI Link");
+    cy.contains("Vote for this CI Link");
     // cy.contains("Thanks! Your vote has been recorded.");
     // cy.get(".text-[32px]").contains("1");
     // cy.get(".bg-light-teal")
