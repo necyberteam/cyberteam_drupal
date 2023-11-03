@@ -14,7 +14,7 @@ describe("Authenticated user tests the Add Skills without adding an Affinity Gro
     // login user with the "authenticated" role
 
     cy.loginAs("authenticated@amptesting.com", "6%l7iF}6(4tI");
-    cy.visit("/add-skill");
+    cy.visit("/community-persona/add-skill");
 
     //Page Title and Paragraph
     cy.contains("Add Expertise");

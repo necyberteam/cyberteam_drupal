@@ -14,7 +14,7 @@ describe("Authenticated user tests the Add Interests without adding an Affinity 
     // login user with the "authenticated" role
 
     cy.loginAs("authenticated@amptesting.com", "6%l7iF}6(4tI");
-    cy.visit("/add-interest");
+    cy.visit("/community-persona/add-interest");
 
     //Page Title
     cy.contains("Add Interests");
