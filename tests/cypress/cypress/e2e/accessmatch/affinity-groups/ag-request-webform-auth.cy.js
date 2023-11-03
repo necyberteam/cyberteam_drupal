@@ -2,7 +2,6 @@
  * Test /form/affinity-group-request
  *
  * An authenticated user should be able to complete the affinity group request form.
-
  */
 describe('test affinity group request form', () => {
   it('authenticated role should be able to complete the affinity group request form', () => {
