@@ -25,5 +25,22 @@ describe("Authenticated user tests a ci link", () => {
 
     //Flag Feature. When Flag is clicked I am not able to see the contents inside
     cy.get(".ps-5").contains("Flag this CI Link").click();
+
+    // helper function to create a ci-link
+    function create_dummy_ci_link() {
+      cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
+      cy.visit("/form/ci-link");
+      cy.get("#edit-approved").check();
+      cy.get("#edit-title").type("dummy-ci-link-for-testing-knowledge-base");
+      cy.get("#edit-category").select("Learning");
+      cy.get("#edit-skill-level-304").check(); // beginner level
+      cy.get("#edit-description").type(
+        "Dummy description for ci-link 'dummy-ci-link-for-testing-knowledge-base'"
+      );
+      // tag "access-acount" is selected
+      cy.get(".tags").contains("access-acount").click();
+      cy.get("#edit-submit").click();
+      cy.drupalLogout();
+    }
   });
 });

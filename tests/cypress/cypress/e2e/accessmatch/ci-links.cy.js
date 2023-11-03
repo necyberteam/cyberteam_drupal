@@ -11,9 +11,6 @@
 */
 describe("Unauthenticated user tests the CI Links Page", () => {
   it("Should test the CI Links page for unauthenticated user", () => {
-    // first create a dummy ci-links so can reference one of them in the AG.
-    create_dummy_ci_link();
-
     cy.visit("/ci-links");
 
     //Testing Column Headers

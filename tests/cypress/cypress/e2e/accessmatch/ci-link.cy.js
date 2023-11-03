@@ -14,9 +14,6 @@
 */
 describe("Unauthenticated user tests the Individual CI Link Page", () => {
   it("Should test Individual CI Link page for unauthenticated user", () => {
-    // first create a dummy ci-links so can reference one of them in the AG.
-    create_dummy_ci_link();
-
     //Naviagting To Indie CI Link
     cy.visit("/ci-links");
     cy.contains("create_dummy_ci_link").click();
