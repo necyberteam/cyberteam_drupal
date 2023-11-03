@@ -11,7 +11,7 @@ describe("Authenticated user tests a ci link", () => {
 
     //Navigating to cypress created ci link
     cy.visit("/ci-links");
-    cy.contains("create_dummy_ci_link").click();
+    cy.contains("dummy-ci-link-for-testing-knowledge-base").click();
 
     //Vote feature  When Vote button is clicked the user is brought to an access denied page. Section is disabled until this is figured out
     cy.get(".bg-light-teal").contains("Vote for this CI Link");
