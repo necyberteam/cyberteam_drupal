@@ -416,7 +416,7 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Apply
+          submit_button: Filter
           reset_button: false
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
@@ -713,7 +713,7 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: 'my-5 pb-5 border-black border-b'
+          row_class: 'my-5 pb-5 border-black border-b font-medium leading-5'
           default_row_class: true
       row:
         type: fields
@@ -830,7 +830,7 @@ display:
           admin_label: ''
           plugin_id: field
           label: ''
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -1258,7 +1258,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: div
-          element_class: text-lg
+          element_class: 'text-white-er leading-5 font-medium'
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
@@ -1273,7 +1273,7 @@ display:
           type: datetime_custom
           settings:
             timezone_override: ''
-            date_format: '[n/d/Y]'
+            date_format: n/d/Y
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -1372,7 +1372,7 @@ display:
             trim_whitespace: false
             alt: '{{ title }}'
             rel: ''
-            link_class: 'text-white-er font-bold'
+            link_class: 'block text-white-er hover--text-light-teal font-medium leading-5 no-underline hover--underline'
             prefix: ''
             suffix: ''
             target: ''
@@ -1387,7 +1387,7 @@ display:
             trim: false
             preserve_tags: ''
             html: false
-          element_type: p
+          element_type: div
           element_class: ''
           element_label_type: ''
           element_label_class: ''
@@ -1499,7 +1499,7 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: mb-3
+          row_class: 'mb-3 not-prose'
           default_row_class: true
       row:
         type: fields
@@ -1974,8 +1974,8 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          text: view
-          output_url_as_text: false
+          text: ''
+          output_url_as_text: true
           absolute: false
         title:
           id: title

@@ -50,6 +50,13 @@ third_party_settings:
           label: ''
           context_mapping: {  }
           column_widths: 75-25
+          layout_builder_styles_style:
+            mb_10_section: mb_10_section
+            bg_light_teal_overflow_section: 0
+            border_b_2: 0
+            border_gray: 0
+            mt_4_section: 0
+            pt_20: 0
         components:
           2135da39-6a8a-4141-85d9-bbdd72f68109:
             uuid: 2135da39-6a8a-4141-85d9-bbdd72f68109
@@ -95,7 +102,7 @@ third_party_settings:
                 label: hidden
                 settings: {  }
                 third_party_settings: {  }
-            weight: 2
+            weight: 3
             additional: {  }
           b91d909b-2db1-46ca-b57d-57526c25cbfd:
             uuid: b91d909b-2db1-46ca-b57d-57526c25cbfd
@@ -114,7 +121,7 @@ third_party_settings:
                 settings:
                   link: true
                 third_party_settings: {  }
-            weight: 1
+            weight: 2
             additional:
               layout_builder_styles_style:
                 accordion_wrapper: 0
@@ -142,16 +149,54 @@ third_party_settings:
                   timezone_override: ''
                   date_format: m/d/Y
                 third_party_settings: {  }
-            weight: 0
+            weight: 1
             additional:
               layout_builder_styles_style:
+                mb_5: mb_5
+                __div_h_full: 0
                 accordion_wrapper: 0
                 bg_light_teal: 0
+                mb_10: 0
+                md_teal_box: 0
                 page_title: 0
                 pb_4: 0
                 pe_3: 0
                 pt_4: 0
                 tags: 0
+          a092a842-c72e-4e23-ad65-3fe2257a2be8:
+            uuid: a092a842-c72e-4e23-ad65-3fe2257a2be8
+            region: first
+            configuration:
+              id: 'field_block:node:access_news:field_image'
+              label: 'Featured Image'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: image
+                label: hidden
+                settings:
+                  image_link: ''
+                  image_style: ''
+                  image_loading:
+                    attribute: lazy
+                third_party_settings: {  }
+            weight: 0
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
         third_party_settings: {  }
 id: node.access_news.default
 targetEntityType: node
