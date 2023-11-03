@@ -16,9 +16,7 @@ describe("Unauthenticated user tests the Individual CI Link Page", () => {
   it("Should test Individual CI Link page for unauthenticated user", () => {
     //Naviagting To Indie CI Link
     cy.visit("/ci-links");
-    cy.get("tbody > :nth-child(1) > .views-field-webform-submission-value-5")
-      .contains("cypress-ci-link-for-testing")
-      .click();
+    cy.contains("cypress-ci-link-for-testing").click();
 
     //CI Link Title
     cy.get(".page-title").contains("cypress-ci-link-for-testing");

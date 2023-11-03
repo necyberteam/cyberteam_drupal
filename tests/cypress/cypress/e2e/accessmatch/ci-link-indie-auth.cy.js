@@ -8,9 +8,7 @@ describe("Authenticated user tests a ci link", () => {
 
     //Navigating to cypress created ci link
     cy.visit("/ci-links");
-    cy.get("tbody > :nth-child(1) > .views-field-webform-submission-value-5")
-      .contains("cypress-ci-link-for-testing")
-      .click();
+    cy.contains("cypress-ci-link-for-testing").click();
 
     //Vote feature  When Vote button is clicked the user is brought to an access denied page. Section is disabled until this is figured out
     cy.get(".bg-light-teal").contains("Vote for this CI Link");
