@@ -11,7 +11,7 @@ describe("Anonymous user tests the Individual Affinity Groups page", () => {
 
     cy.get('#block-pagetitle').contains("ACCESS Support");
 
-    // check breadcrumbsconst "
+    // check breadcrumbs
     const crumbs = [
       ['Support', '/'],
       ['Affinity Groups', '/affinity_groups'],
