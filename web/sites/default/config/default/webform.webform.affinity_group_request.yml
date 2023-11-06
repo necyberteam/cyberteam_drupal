@@ -19,93 +19,120 @@ elements: |-
       '#type': textfield
       '#title': 'Affinity Group Name'
       '#required': true
+      '#label_attributes':
+        class:
+          - font-extrabold
+          - w-full
     affinity_group_image:
       '#type': webform_image_file
       '#title': 'Affinity Group Image'
+      '#label_attributes':
+        class:
+          - font-extrabold
+          - w-full
       '#file_preview': 'thumbnail:image'
       '#max_filesize': '2'
       '#file_extensions': 'gif jpg png svg jpeg'
+  coordinators:
+    '#type': entity_autocomplete
+    '#title': Coordinators
+    '#multiple': true
+    '#description': '<p><span class="CheckStep-line-content d-inline-block flex-auto js-check-line-content ml-3 ansifg-r text-bold">Type a few letters of the name and then select from the list of names presented</span></p>'
+    '#multiple__sorting': false
+    '#multiple__add_more_input': false
+    '#label_attributes':
+      class:
+        - font-extrabold
+        - w-full
+    '#target_type': user
+    '#selection_handler': 'default:user'
+    '#selection_settings':
+      include_anonymous: false
+      filter:
+        type: _none
+  tags:
+    '#type': webform_term_select
+    '#title': Tags
+    '#multiple': true
+    '#select2': true
+    '#label_attributes':
+      class:
+        - font-extrabold
+        - w-full
+    '#vocabulary': tags
+    '#breadcrumb_delimiter': ''
+  cider:
+    '#type': webform_entity_select
+    '#title': 'Select one (or more) related CiDeR resources '
+    '#multiple': true
+    '#select2': true
+    '#label_attributes':
+      class:
+        - font-extrabold
+        - w-full
+    '#target_type': node
+    '#selection_handler': 'default:node'
+    '#selection_settings':
+      target_bundles:
+        access_active_resources_from_cid: access_active_resources_from_cid
+      sort:
+        field: title
+        direction: ASC
   flexbox:
     '#type': webform_flexbox
-    coordinators:
-      '#type': entity_autocomplete
-      '#title': Coordinators
-      '#multiple': true
-      '#description': '<span class="CheckStep-line-content d-inline-block flex-auto js-check-line-content ml-3"><span class="ansifg-r text-bold">Type a few letters of the name and then select from the list of names presented</span></span>'
-      '#multiple__sorting': false
-      '#multiple__add_more_input': false
-      '#target_type': user
-      '#selection_handler': 'default:user'
-      '#selection_settings':
-        include_anonymous: false
-        filter:
-          type: _none
-    tags:
-      '#type': webform_term_select
-      '#title': Tags
-      '#multiple': true
-      '#select2': true
-      '#vocabulary': tags
-      '#breadcrumb_delimiter': ''
-    cider:
-      '#type': webform_entity_select
-      '#title': 'Select one (or more) related CiDeR resources '
-      '#multiple': true
-      '#select2': true
-      '#target_type': node
-      '#selection_handler': 'default:node'
-      '#selection_settings':
-        target_bundles:
-          access_active_resources_from_cid: access_active_resources_from_cid
-        sort:
-          field: title
-          direction: ASC
   flexbox_02:
     '#type': webform_flexbox
     project_description:
       '#type': textarea
       '#title': Description
-      '#description': 'Provide a description that will be displayed on this Affinity Group. It can be the same as the short description above if there is no additional information needed.'
+      '#description': '<p>Provide a description that will be displayed on this Affinity Group. It can be the same as the short description above if there is no additional information needed.</p>'
       '#description_display': before
       '#required': true
+      '#label_attributes':
+        class:
+          - font-extrabold
+          - w-full
       '#format_items': comma
     short_description:
       '#type': textarea
       '#title': 'Short Description'
-      '#description': 'Provide a short description that will appear on the Affinity Groups directory page.'
+      '#description': '<p>Provide a short description that will appear on the Affinity Groups directory page.</p>'
       '#description_display': before
       '#required': true
       '#counter_type': character
       '#counter_minimum': 1
       '#counter_maximum': 300
       '#counter_maximum_message': 'Maximum 300 Characters Allowed'
+      '#label_attributes':
+        class:
+          - font-extrabold
+          - w-full
       '#format_items': comma
-  flexbox_01:
-    '#type': webform_flexbox
-    ask_ci_locale:
-      '#type': webform_link
-      '#title': 'Q&A Platform'
-      '#title__access': false
-      '#url__title': 'Q&A Platform'
-      '#url__description': 'Provide a link to Ask.CI, StackExchange, or other Q&A platform specific to the Affinity Group.'
-      '#flexbox': '1'
-    slack_link:
-      '#type': webform_link
-      '#title': Slack
-      '#description_display': before
-      '#title__access': false
-      '#url__title': Slack
-      '#url__description': 'Provide a link to the Slack group if applicable.'
-    github_organization:
-      '#type': webform_link
-      '#title': 'GitHub Organization'
-      '#title__access': false
-      '#url__title': 'Github Organization'
-      '#url__description': 'Provide a link to the Github Organization if applicable.'
-    email_list_or_contact:
-      '#type': textfield
-      '#title': 'Email List or Contact'
-      '#description': 'Provide a link to the email list or email contact for the Affinity Group. Please enter the full URL to your mailing list including the https:// or if an email please type mailto: before the address. For example: mailto:example@email.com'
+  ask_ci_locale:
+    '#type': webform_link
+    '#title': 'Q&A Platform'
+    '#title__access': false
+    '#url__title': 'Q&A Platform'
+    '#url__description': 'Provide a link to Ask.CI, StackExchange, or other Q&A platform specific to the Affinity Group.'
+    '#url__title_display': before
+    '#flexbox': '1'
+  slack_link:
+    '#type': webform_link
+    '#title': Slack
+    '#description_display': before
+    '#title__access': false
+    '#url__title': Slack
+    '#url__description': 'Provide a link to the Slack group if applicable.'
+  github_organization:
+    '#type': webform_link
+    '#title': 'GitHub Organization'
+    '#title__access': false
+    '#url__title': 'Github Organization'
+    '#url__description': 'Provide a link to the Github Organization if applicable.'
+  email_list_or_contact:
+    '#type': textfield
+    '#title': 'Email List or Contact'
+    '#description': 'Provide a link to the email list or email contact for the Affinity Group. Please enter the full URL to your mailing list including the https:// or if an email please type mailto: before the address. For example: mailto:example@email.com'
 css: 'body:not(.path-admin) .webform-submission-information, body:not(.path-admin) .webform-submission-navigation {display: none}'
 javascript: ''
 settings:
