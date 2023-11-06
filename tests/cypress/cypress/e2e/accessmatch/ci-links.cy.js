@@ -31,10 +31,10 @@ describe("Unauthenticated user tests the CI Links Page", () => {
     cy.get(".js-form-item-skill-level-306").contains("Advanced").click();
 
     //Searching for Cypress Created CI Link
-    cy.get("#edit-search--2").type("cypress-ci-link-for-testing");
+    cy.get("#edit-search--2").type("dummy-ci-link-for-testing-knowledge-base");
     cy.get("tbody > :nth-child(1) > .views-field-webform-submission-value-5")
-      .contains("cypress-ci-link-for-testing")
+      .contains("dummy-ci-link-for-testing-knowledge-base")
       .click();
-    cy.get(".page-title").contains("cypress-ci-link-for-testing");
+    cy.get(".page-title").contains("dummy-ci-link-for-testing-knowledge-base");
   });
 });
