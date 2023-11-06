@@ -3,11 +3,11 @@
 //
 describe("Authenticated user tests a ci link", () => {
   it("verify auth features of a ci link", () => {
-    // login user with the "authenticated" role
-    cy.loginAs("authenticated@amptesting.com", "6%l7iF}6(4tI");
-
     // first create a dummy ci-links so can reference one of them in the AG.
     create_dummy_ci_link();
+
+    // login user with the "authenticated" role
+    cy.loginAs("authenticated@amptesting.com", "6%l7iF}6(4tI");
 
     //Navigating to cypress created ci link
     cy.visit("/ci-links");
@@ -21,10 +21,10 @@ describe("Authenticated user tests a ci link", () => {
     //   .contains("Remove your vote for this CI Link")
     //   .click();
     // cy.contains("Your vote has been removed.");
-    // cy.contains("0");
 
-    //Flag Feature. When Flag is clicked I am not able to see the contents inside
+    //Flag Feature.When one of the selections in the dropdown is clicked I am brough to an access denied page. Section is disabled for now
     cy.get(".ps-5").contains("Flag this CI Link").click();
+    cy.get(".dropdown-menu").contains("Flag this item not useful");
 
     // helper function to create a ci-link
     function create_dummy_ci_link() {
