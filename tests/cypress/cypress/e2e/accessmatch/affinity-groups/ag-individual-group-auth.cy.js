@@ -82,6 +82,7 @@ function confirm_no_email_view_members() {
   cy.contains("Email Affinity Group")
     .should('not.exist');
 
+  cy.task('log', 'The following is failing (Nov 6, 2023) because the "View Members" button is still appearing for Pecan Pie, even though they are no longer a coordinator. This is a bug in the code, but the test is still useful to show this error.');
   cy.contains("View Members")
     .should('not.exist');
 }

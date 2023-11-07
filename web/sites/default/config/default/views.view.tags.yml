@@ -158,7 +158,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<a href=\"{{ view_taxonomy_term }}\" class=\"col-md-4 col-sm-6 col-12 mb-md-2 mb-1\">\r\n\t{% if parent_target_id %}{{ parent_target_id }}: {% endif %}{{ name }}\r\n</a>"
+            text: "<a href=\"{{ view_taxonomy_term }}\" class=\"col-md-4 col-sm-6 col-12 mb-md-2 px-2 py-1 font-normal no-underline border border-black border-solid hover--border-dark-teal hover--text-dark-teal w-fit\">\r\n\t{% if parent_target_id %}{{ parent_target_id }}: {% endif %}{{ name }}\r\n</a>"
             make_link: false
             path: ''
             absolute: false
@@ -442,7 +442,7 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: row
+          row_class: 'row m-1'
           default_row_class: false
       row:
         type: fields
@@ -471,6 +471,7 @@ display:
           entity_field: parent
           plugin_id: standard
           required: false
+      css_class: py-4
       use_ajax: true
       header: {  }
       footer: {  }

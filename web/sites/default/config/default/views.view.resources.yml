@@ -11,7 +11,6 @@ dependencies:
     - better_exposed_filters
     - flag
     - node
-    - views_aggregator
     - webform
     - webform_views
 id: resources
@@ -28,7 +27,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'CI Links'
+      title: 'Popular CI Links'
       fields:
         sid:
           id: sid
@@ -108,7 +107,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/ci-link/{{ sid }}">{{ webform_submission_value_5 }}</a>'
+            text: '<a href="/ci-links/{{ sid }}">{{ webform_submission_value_5 }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -657,26 +656,18 @@ display:
             webform_submission_value_1: webform_submission_value_1
             webform_submission_value_2: webform_submission_value_2
       style:
-        type: views_aggregator_plugin_style_table
+        type: table
         options:
+          grouping: {  }
           row_class: ''
           default_row_class: true
           columns:
             sid: sid
-            flagged: flagged
-            link_flag: link_flag
-            count: count
-            webform_submission_value_5: webform_submission_value_5
-            webform_submission_value_1: webform_submission_value_1
+            webform_submission_value_2: webform_submission_value_2
+            webform_submission_value_3: webform_submission_value_3
             webform_submission_value: webform_submission_value
             webform_submission_value_4: webform_submission_value_4
-            webform_submission_value_7: webform_submission_value_7
-            webform_submission_value_6: webform_submission_value_6
-            webform_submission_value_8: webform_submission_value_8
-            webform_submission_value_3: webform_submission_value_3
-            sid_1: sid_1
-            webform_submission_value_2: webform_submission_value_2
-            sid_2: sid_2
+            webform_submission_value_1: webform_submission_value_1
           default: '-1'
           info:
             sid:
@@ -686,171 +677,6 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-              has_aggr: false
-              aggr:
-                views_aggregator_group_and_compress: views_aggregator_group_and_compress
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
-            flagged:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-              has_aggr: false
-              aggr:
-                views_aggregator_first: views_aggregator_first
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
-            link_flag:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-              has_aggr: false
-              aggr:
-                views_aggregator_first: views_aggregator_first
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
-            count:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-              has_aggr: false
-              aggr:
-                views_aggregator_first: views_aggregator_first
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
-            webform_submission_value_5:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-              has_aggr: true
-              aggr:
-                views_aggregator_group_and_compress: views_aggregator_group_and_compress
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
-            webform_submission_value_1:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-              has_aggr: false
-              aggr:
-                views_aggregator_first: views_aggregator_first
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
-            webform_submission_value:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-              has_aggr: false
-              aggr:
-                views_aggregator_first: views_aggregator_first
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
-            webform_submission_value_4:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-              has_aggr: false
-              aggr:
-                views_aggregator_first: views_aggregator_first
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
-            webform_submission_value_7:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-              has_aggr: false
-              aggr:
-                views_aggregator_first: views_aggregator_first
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
-            webform_submission_value_6:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-              has_aggr: false
-              aggr:
-                views_aggregator_first: views_aggregator_first
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
-            webform_submission_value_8:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-              has_aggr: false
-              aggr:
-                views_aggregator_first: views_aggregator_first
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
-            webform_submission_value_3:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-              has_aggr: false
-              aggr:
-                views_aggregator_first: views_aggregator_first
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
-            sid_1:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-              has_aggr: false
-              aggr:
-                views_aggregator_first: views_aggregator_first
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
             webform_submission_value_2:
               sortable: false
               default_sort_order: asc
@@ -858,47 +684,36 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-              has_aggr: false
-              aggr:
-                views_aggregator_first: views_aggregator_first
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
-            sid_2:
+            webform_submission_value_3:
               sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-              has_aggr: false
-              aggr:
-                views_aggregator_first: views_aggregator_first
-              aggr_par: ''
-              has_aggr_column: false
-              aggr_column: views_aggregator_sum
-              aggr_par_column: ''
+            webform_submission_value:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            webform_submission_value_4:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            webform_submission_value_1:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
           override: true
           sticky: true
           summary: ''
           empty_table: false
           caption: ''
           description: ''
-          group_aggregation:
-            group_aggregation_results: '0'
-            grouping_field_class: ''
-            result_label_prefix: ''
-            result_label_suffix: ''
-            grouping_row_class: ''
-          column_aggregation:
-            totals_row_position:
-              2: 2
-              1: 0
-              3: 0
-            totals_per_page: '1'
-            precision: '2'
-            totals_row_class: ''
       row:
         type: fields
       query:
@@ -974,7 +789,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - url.query_args
         - user
       tags: {  }
   block_1:
@@ -1000,8 +814,8 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning">There are no CI Links associated with this topic. View <a href="/ci-links">All CI Links</a>.</div>'
-            format: full_html
+            value: "<div class=\"alert alert-warning\">There are no CI Links associated with this topic. View <a href=\"/ci-links\">All CI Links</a>.</div>\r\n"
+            format: full_no_editor
           tokenize: false
       arguments:
         webform_submission_value:
@@ -1123,7 +937,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<h2 class="card-title">[view:title]</h2>'
+            value: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">[view:title]</h2>'
             format: full_no_editor
           tokenize: false
       display_extenders:
@@ -1134,7 +948,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - url.query_args
         - user
       tags: {  }
   block_2:
@@ -1749,7 +1562,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - url.query_args
         - user
       tags: {  }
   block_4:
@@ -1980,6 +1792,252 @@ display:
         options: {  }
       defaults:
         title: false
+        pager: false
+        group_by: false
+        style: false
+        row: false
+        fields: false
+        sorts: false
+        filters: false
+        filter_groups: false
+        header: false
+      group_by: true
+      display_description: ''
+      header: {  }
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - user
+      tags: {  }
+  block_4:
+    id: block_4
+    display_title: 'Popular CI Links'
+    display_plugin: block
+    position: 7
+    display_options:
+      fields:
+        sid:
+          id: sid
+          table: webform_submission
+          field: sid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          entity_field: sid
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        webform_submission_value_5:
+          id: webform_submission_value_5
+          table: webform_submission_field_resource_title
+          field: webform_submission_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: true
+            text: '<a href="/ci-links/{{ sid }}">{{ webform_submission_value_5 }}</a>'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          webform_element_format: value
+          webform_multiple_value: true
+          webform_multiple_delta: 0
+          webform_check_access: 0
+      pager:
+        type: some
+        options:
+          offset: 0
+          items_per_page: 3
+      sorts:
+        count:
+          id: count
+          table: flag_counts
+          field: count
+          relationship: flag_relationship
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: DESC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
+        webform_submission_value:
+          id: webform_submission_value
+          table: webform_submission_field_resource_title
+          field: webform_submission_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_field_sort
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: webform_submission_value
+          exposed: false
+      filters:
+        webform_id:
+          id: webform_id
+          table: webform_submission
+          field: webform_id
+          entity_type: webform_submission
+          entity_field: webform_id
+          plugin_id: bundle
+          value:
+            resource: resource
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        webform_submission_value:
+          id: webform_submission_value
+          table: webform_submission_field_resource_approved
+          field: webform_submission_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_checkbox_filter
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      style:
+        type: html_list
+        options:
+          grouping: {  }
+          row_class: m-0
+          default_row_class: true
+          type: ul
+          wrapper_class: list-none
+          class: mt-0
+      row:
+        type: fields
+        options: {  }
+      defaults:
         pager: false
         group_by: false
         style: false
@@ -3159,7 +3217,7 @@ display:
         header: false
       css_class: 'ci-links mt-3 mb-10'
       use_ajax: true
-      group_by: false
+      group_by: true
       header: {  }
       exposed_block: true
       display_extenders:
@@ -3284,12 +3342,11 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - url.query_args
         - user
       tags: {  }
   page_2:
     id: page_2
-    display_title: 'Resources by Tag Page'
+    display_title: 'CI Links by Tag Page'
     display_plugin: page
     position: 2
     display_options:
@@ -3375,7 +3432,7 @@ display:
             alter_text: false
             text: ''
             make_link: true
-            path: '/ci-link/{{ sid }}'
+            path: '/ci-links/{{ sid }}'
             absolute: false
             external: false
             replace_spaces: false
@@ -3399,7 +3456,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: align-top
           element_label_type: ''
           element_label_class: ''
           element_label_colon: true
@@ -3452,7 +3509,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: align-top
           element_label_type: ''
           element_label_class: ''
           element_label_colon: true
@@ -3505,7 +3562,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: align-top
           element_label_type: ''
           element_label_class: ''
           element_label_colon: true
@@ -3531,8 +3588,8 @@ display:
           label: 'Skill Level'
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: "{% set skill_level = webform_submission_value_4  |render|render %}\r\n{%  if skill_level == 'Beginner' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner.png\" alt=\"Beginner\"/>\r\n{% elseif 'Beginner' in skill_level and 'Intermediate' in skill_level and 'Advanced' not in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-beginner-medium.png\" alt=\"Beginner and Intermediate\"/>\r\n{% elseif skill_level == 'Intermediate' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium.png\" alt=\"Intermediate\"/>\r\n{% elseif 'Beginner' not in skill_level and 'Intermediate' in skill_level and 'Advanced' in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-medium-advanced.png\" alt=\"Intermediate and Advanced\"/>\r\n{% elseif 'Beginner' in skill_level and 'Intermediate' in skill_level and 'Advanced' in skill_level %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-all.png\" alt=\"Beginner, Intermediate, and Advanced\"/>\r\n{% elseif skill_level == 'Advanced' %}\r\n<img src=\"/themes/custom/accesstheme/assets/SL-advanced.png\" alt=\"Advanced\"/>\r\n{% endif %}\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -3558,7 +3615,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: align-top
           element_label_type: ''
           element_label_class: ''
           element_label_colon: true
@@ -3641,7 +3698,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning">There are no CI Links associated with this topic. Please check back often as more CI Links are added regularly, or view <a href="/ci-links">All CI Links</a>.</div>'
+            value: '<div class="alert alert-warning">There are no CI Links associated with this topic. </div>'
             format: full_html
           tokenize: false
       arguments:
@@ -3756,14 +3813,13 @@ display:
       header: {  }
       display_extenders:
         simple_sitemap_display_extender: {  }
-      path: term/%/ci-links
+      path: tags/%/ci-links
     cache_metadata:
       max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - url.query_args
         - user
       tags: {  }
   page_3:
@@ -4925,7 +4981,7 @@ display:
         header: false
       css_class: 'ci-links mt-3 mb-10'
       use_ajax: true
-      group_by: false
+      group_by: true
       display_description: 'With knowledge base url'
       header: {  }
       exposed_block: true
@@ -5051,7 +5107,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - url.query_args
         - user
       tags: {  }
   resource_card:

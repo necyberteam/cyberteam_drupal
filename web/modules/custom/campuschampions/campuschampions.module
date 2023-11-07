@@ -4,12 +4,15 @@
  * @file
  */
 
-use Drupal\user\Entity\User;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Component\Render\FormattableMarkup;
-use Drupal\node\NodeInterface;
-use Drupal\Core\Access\AccessResult;
 use Drupal\campuschampions\Plugin\CarnegieCodesLookup;
+use Drupal\Component\Render\FormattableMarkup;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
+use Drupal\user\Entity\User;
+use Drupal\views\ResultRow;
+use Drupal\views\ViewExecutable;
 
 /**
  *
@@ -200,11 +203,11 @@ function campuschampions_mail($key, &$message, $params) {
  */
 function campuschampions_mail_alter(&$message) {
   switch ($message['key']) {
-    // case 'page_mail':
+    // Case 'page_mail':
     // case 'page_copy':
     // case 'cancel_confirm':
     case 'password_reset':
-      // case 'register_admin_created':
+      // Case 'register_admin_created':
       // case 'register_no_approval_required':
       // case 'register_pending_approval':
       // case 'register_pending_approval_admin':
@@ -239,7 +242,7 @@ function campuschampions_node_access(NodeInterface $node, $op, $account) {
 }
 
 /**
- * Redirect to the profile page after submission
+ * Redirect to the profile page after submission.
  */
 function campuschampions_redirect_to_profile_page_form_submit($form, &$form_state) {
   $form_state->setRedirect('user.page');
@@ -250,11 +253,11 @@ function campuschampions_redirect_to_profile_page_form_submit($form, &$form_stat
  *
  * Fill out data about the associated intstitution (Carnegie code).
  */
-function campuschampions_views_data_export_row_alter(&$row, \Drupal\views\ResultRow $result, \Drupal\views\ViewExecutable $view) {
+function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, ViewExecutable $view) {
 
   if ($view->id() == 'campus_champions_user_export' && $view->current_display == 'ccusers_data_export') {
 
-    $cc = (string)$row['field_carnegie_code'];
+    $cc = (string) $row['field_carnegie_code'];
 
     $row['field_carnegie_code'] = t('Users Carnegie Code is not valid.');
     $row['field_carnegie_code_location'] = '';
@@ -268,9 +271,9 @@ function campuschampions_views_data_export_row_alter(&$row, \Drupal\views\Result
     $row['field_carnegie_code_lat'] = '';
     $row['field_carnegie_code_lon'] = '';
 
-    // If no Carnegie Code set, try to look it up based on the user's institution
+    // If no Carnegie Code set, try to look it up based on the user's institution.
     if (empty($cc)) {
-      $mail = strip_tags((string)$row['mail']);
+      $mail = strip_tags((string) $row['mail']);
       $user = user_load_by_mail($mail);
 
       $institution = $user->get('field_institution')->getValue();
@@ -279,13 +282,13 @@ function campuschampions_views_data_export_row_alter(&$row, \Drupal\views\Result
         return;
       }
 
-      // Try to find by institution name
+      // Try to find by institution name.
       $query = \Drupal::database()
         ->select('carnegie_codes', 'cc')
         ->fields('cc', ['UNITID']);
       $query->condition($query->orConditionGroup()
-          ->condition('NAME', $institution[0]['value'], '=')
-          ->condition('NAME', $institution[0]['value'] . '%', 'LIKE')
+        ->condition('NAME', $institution[0]['value'], '=')
+        ->condition('NAME', $institution[0]['value'] . '%', 'LIKE')
       );
       $carnegie_code = $query->execute()
         ->fetchField();
@@ -300,8 +303,8 @@ function campuschampions_views_data_export_row_alter(&$row, \Drupal\views\Result
       $cc = $carnegie_code;
     }
 
-    // Get data based on carnegie code
-    $db = new CarnegieCodesLookup;
+    // Get data based on carnegie code.
+    $db = new CarnegieCodesLookup();
     $results = $db->lookupByUnitId($cc, [
       'NAME',
       'CITY',
@@ -330,24 +333,25 @@ function campuschampions_views_data_export_row_alter(&$row, \Drupal\views\Result
       );
       $row['field_carnegie_code_type'] = CarnegieCodesLookup::type($row['field_carnegie_code_type_id']);
 
-      // Try to retrieve the LAT and LON from the ACCESS organization
+      // Try to retrieve the LAT and LON from the ACCESS organization.
       $nids = \Drupal::entityQuery('node')
-          ->condition('type', 'access_organization')
-          ->condition('field_carnegie_code', $cc, '=')
-          ->range(0, 1)
-          ->execute();
+        ->condition('type', 'access_organization')
+        ->condition('field_carnegie_code', $cc, '=')
+        ->range(0, 1)
+        ->accessCheck(FALSE)
+        ->execute();
 
       if (!empty($nids)) {
-        $rows = \Drupal\node\Entity\Node::loadMultiple($nids);
+        $rows = Node::loadMultiple($nids);
 
         foreach ($rows as $org) {
-          $row['field_carnegie_code_lat'] = $org->field_latitude ? $org->field_latitude->value : null;
-          $row['field_carnegie_code_lon'] = $org->field_longitude ? $org->field_longitude->value : null;
+          $row['field_carnegie_code_lat'] = $org->field_latitude ? $org->field_latitude->value : NULL;
+          $row['field_carnegie_code_lon'] = $org->field_longitude ? $org->field_longitude->value : NULL;
         }
       }
     }
 
-    // Designation
+    // Designation.
     if (!isset($row['webform_submission_value']) || !$row['webform_submission_value']) {
       $row['webform_submission_value'] = 'Champion';
     }

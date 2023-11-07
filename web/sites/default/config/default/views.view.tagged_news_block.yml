@@ -144,7 +144,7 @@ display:
           type: datetime_custom
           settings:
             timezone_override: ''
-            date_format: m/d/Y
+            date_format: m/d/y
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -164,7 +164,7 @@ display:
           admin_label: ''
           plugin_id: field
           label: Tags
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -227,7 +227,7 @@ display:
           admin_label: ''
           plugin_id: field
           label: 'Affinity Group'
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -452,13 +452,26 @@ display:
           query_tags: {  }
           contextual_filters_or: false
       relationships: {  }
-      css_class: my-3
+      css_class: py-4
       use_more: true
       use_more_always: false
       use_more_text: more
       link_display: custom_url
       link_url: '/announcements?tid={{ raw_arguments.tid }}'
-      header: {  }
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">[view:title]</h2>'
+            format: full_no_editor
+          tokenize: false
       footer: {  }
       display_extenders: {  }
     cache_metadata:

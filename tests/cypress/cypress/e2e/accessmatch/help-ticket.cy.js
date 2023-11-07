@@ -15,15 +15,13 @@ describe("Verify the buttons on the Help Ticket page update the form action to g
         "https://access-ci.atlassian.net/servicedesk/customer/portal/2/group/3/create/30"
       );
 
-    cy.contains(
-      "I need help logging into other affiliated infrastructure"
-    ).click();
-    cy.get("#ticket-choice-form")
-      .invoke("attr", "action")
-      .should(
-        "equal",
-        "https://access-ci.atlassian.net/servicedesk/customer/portal/2/group/3/create/31"
-      );
+
+    cy.contains("I need help logging into other affiliated infrastructure")
+      .click();
+    cy.get('#ticket-choice-form')
+      .invoke('attr', 'action')
+      .should('equal', 'https://access-ci.atlassian.net/servicedesk/customer/portal/2/group/3/create/31');
+
 
     cy.contains("I have another question").click();
     cy.get("#ticket-choice-form")

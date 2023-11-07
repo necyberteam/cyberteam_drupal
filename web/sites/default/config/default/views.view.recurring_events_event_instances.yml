@@ -3914,7 +3914,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{{ date__value__value|date('n/d/Y') }}"
+            text: "{{ date__value__value|date('n/d/y') }}"
             make_link: false
             path: ''
             absolute: false
@@ -3978,7 +3978,7 @@ display:
           entity_field: date
           plugin_id: field
           label: Time
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -4168,7 +4168,7 @@ display:
           admin_label: ''
           plugin_id: field
           label: Tags
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -4231,7 +4231,7 @@ display:
           admin_label: ''
           plugin_id: field
           label: 'Affinity Group'
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -4557,7 +4557,7 @@ display:
         type: table
         options:
           grouping: {  }
-          row_class: ''
+          row_class: 'border-x-0 border-b border-t-0 border-black border-solid'
           default_row_class: true
           columns:
             title: title
@@ -4566,6 +4566,11 @@ display:
             title_2: title_2
             title_1: title_1
             date__value: date__value
+            date__value_2: date__value_2
+            field_affiliation: field_affiliation
+            field_event_type: field_event_type
+            field_tags: field_tags
+            field_affinity_group_node: field_affinity_group_node
           default: '-1'
           info:
             title:
@@ -4610,6 +4615,37 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
+            date__value_2:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_affiliation:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_event_type:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_tags:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_affinity_group_node:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
           override: true
           sticky: false
           summary: ''
@@ -4637,13 +4673,26 @@ display:
         arguments: false
         filters: false
         filter_groups: false
-      css_class: ''
+        header: false
+      css_class: py-4
       display_description: ''
       use_more: true
       use_more_always: false
       use_more_text: more
       link_display: custom_url
       link_url: '/events?tid={{ raw_arguments.tid }}'
+      header:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: true
+          content: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">Upcoming Events & Trainings</h2>'
+          tokenize: false
       exposed_block: true
       display_extenders: {  }
     cache_metadata:
