@@ -11,16 +11,13 @@ describe("Authenticated user tests a ci link", () => {
 
     //Navigating to cypress created ci link
     cy.visit("/ci-links");
-    cy.contains("dummy-ci-link-for-testing-knowledge-base").click();
+    cy.get(":nth-child(2) > .views-field-webform-submission-value-5 > a")
+      .contains("dummy-ci-link-for-testing-knowledge-base")
+      .click();
 
-    //Vote feature  When Vote button is clicked the user is brought to an access denied page. Section is disabled until this is figured out
-    cy.contains("Vote for this CI Link");
-    // cy.contains("Thanks! Your vote has been recorded.");
-    // cy.get(".text-[32px]").contains("1");
-    // cy.get(".bg-light-teal")
-    //   .contains("Remove your vote for this CI Link")
-    //   .click();
-    // cy.contains("Your vote has been removed.");
+    //Vote feature
+    cy.get(".flag > .flex").click();
+    cy.contains("Thanks! Your vote has been recorded.");
 
     //Flag Feature.When one of the selections in the dropdown is clicked I am brough to an access denied page. Section is disabled for now
     cy.get(".ps-5").contains("Flag this CI Link").click();
