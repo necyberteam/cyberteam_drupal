@@ -47,7 +47,7 @@ describe("Anonymous user tests the Individual Affinity Groups page", () => {
     // verify image
     cy.get('.field--name-field-image')
       .find('img')
-      .ampVerifyImage();
+      .verifyImage();
 
     // events & announcements
     cy.get('.block-access-affinitygroup.block-affinity-bottom-left')
