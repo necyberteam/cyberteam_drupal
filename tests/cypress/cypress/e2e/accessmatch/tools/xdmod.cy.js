@@ -13,9 +13,7 @@ describe("Unauthenticated user tests the XDMoD Page", () => {
     cy.get(".prose > .text-white").contains(
       "Analyze and improve your allocation usage"
     );
-    cy.get("#about > .prose").contains(
-      "View information about allocations, usage data and usage"
-    );
+    cy.contains("View information about allocations, usage data and usage");
 
     //Checkpoint section
     cy.get("#about > .grid > :nth-child(1)").contains(
