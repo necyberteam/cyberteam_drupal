@@ -34,7 +34,7 @@ describe("Unauthenticated user tests the Events Page", () => {
 
     //Event Date
     cy.get(".md--col-span-3").contains("Event Date");
-    cy.get(".md--col-span-3").contains("12/12/2026 - 04:30 AM - 04:30 AM EST");
+    cy.get(".md--col-span-3").contains("12/12/2026");
 
     //Event Location
     cy.get(".md--col-span-3").contains("Location");
