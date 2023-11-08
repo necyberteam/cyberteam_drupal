@@ -454,7 +454,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "  <div class=\"d-flex flex justify-between\">\r\n    <div class=\"w-60 me-3\">\r\n    <h3 class=\"text-lg m-0\">{{ realname }}</h3>\r\n    <p class=\"text-break mwpx-200 mb-5\">{{ field_institution }}</p>\r\n    {% if field_region %}\r\n      <h4 class=\"font-medium uppercase text-sm m-0\">Programs</h4>\r\n      <p class=\"mb-5\">{{ field_region }}</p>\r\n    {% endif %}\r\n    {% if roles_target_id %}\r\n      <h4 class=\"font-medium uppercase text-sm m-0\">Roles</h4>\r\n      <p class=\"mb-5\">{{ roles_target_id }}</p>\r\n    {% endif %}\r\n    </div>\r\n    <div class=\"ms-3 minw-35 max-w-[150px]\">\r\n    {{ user_picture }}\r\n  </div>\r\n  </div>\r\n   <h4 class=\"font-medium uppercase text-sm m-0 mb-2\">Interests</h4>\r\n  <div class=\"flex\">{{ view }}</div>"
+            text: "  <div class=\"d-flex flex justify-between\">\r\n    <div class=\"w-60 me-3\">\r\n    <h3 class=\"text-lg m-0\">{{ realname }}</h3>\r\n    <p class=\"text-break mwpx-200 mb-5\">{{ field_institution }}</p>\r\n    {% if field_region %}\r\n      <h4 class=\"font-medium uppercase text-sm m-0\">Programs</h4>\r\n      <p class=\"mb-5\">{{ field_region }}</p>\r\n    {% endif %}\r\n    {% if roles_target_id %}\r\n      <h4 class=\"font-medium uppercase text-sm m-0\">Roles</h4>\r\n      <p class=\"mb-5\">{{ roles_target_id }}</p>\r\n    {% endif %}\r\n    </div>\r\n    <div class=\"ms-3 minw-35 max-w-[150px]\">\r\n    {{ user_picture }}\r\n  </div>\r\n  </div>\r\n   <h4 class=\"font-medium uppercase text-sm m-0 mb-2\">Interests</h4>\r\n  <div class=\"flex square-tags\">{{ view }}</div>"
             make_link: false
             path: ''
             absolute: false
@@ -673,7 +673,7 @@ display:
           entity_field: uid
           plugin_id: standard
           required: true
-      css_class: 'py-4 my-3'
+      css_class: 'py-4 my-3 people'
       use_more: true
       use_more_always: false
       use_more_text: 'more people'
