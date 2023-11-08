@@ -1458,7 +1458,7 @@ table.sticky-header th {
   box-shadow: none;
 }
 
-.square-tags a {
+.square-tags a, .tags-select a {
   display: inline-block;
   border: 1px solid var(--text);
   margin: 2px;
@@ -1469,7 +1469,7 @@ table.sticky-header th {
   font-weight: 400;
 }
 
-.square-tags a:hover {
+.square-tags a:hover, .tags-select a:hover {
   border: 1px solid var(--primary);
   color: var(--primary);
 }
@@ -1499,4 +1499,12 @@ table.sticky-header th {
 
 .fs-1 {
   font-size: 2.5rem !important
+}
+
+.\[\&\_div\]--flex div {
+  display: flex;
+}
+
+.\[\&\_div\]--flex-wrap div {
+  flex-wrap: wrap;
 }
