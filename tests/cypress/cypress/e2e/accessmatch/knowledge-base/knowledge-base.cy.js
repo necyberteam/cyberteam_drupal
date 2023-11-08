@@ -61,11 +61,41 @@ describe("Tests of the knowledge-base page", () => {
     cy.get('.field--type-text-with-summary')
       .contains('Popular CI Links');
 
+    // verify count of ask-ci links is 10
+    cy.get('.block-top-tags-from-askci > .flex-wrap')
+      .find('a').should('have.length', 10);
+
     // test the known ci-link
     cy.get('.view-resources.view-id-resources')
       .contains('dummy-ci-link-for-testing-knowledge-base')
       .should('have.attr', 'href')
       .and('contain', '/ci-links');
+
+    /*
+    <div class="my-3 view view-resources view-id-resources view-display-id-block_4 js-view-dom-id-8d851d82ae2783e99f65b39f6a4d7701d0e420172a1866fbffdf7f56c4eb8f17">
+
+
+
+          <div class="view-content">
+          <div class="list-none">
+
+      <ul class="mt-0">
+
+              <li class="m-0"><div class="views-field views-field-webform-submission-value-5"><span class="field-content"><a href="/ci-links/4">access-support-ci-link-for-testing</a></span></div></li>
+              <li class="m-0"><div class="views-field views-field-webform-submission-value-5"><span class="field-content"><a href="/ci-links/7">cypress-ci-link-for-testing</a></span></div></li>
+              <li class="m-0"><div class="views-field views-field-webform-submission-value-5"><span class="field-content"><a href="/ci-links/2">dummy-ci-link-for-testing-knowledge-base</a></span></div></li>
+
+      </ul>
+
+    </div>
+
+        </div>
+
+              </div>
+    */
+    // verify count of ci-links is 3
+    cy.get('.view-resources.view-id-resources')
+      .find('a').should('have.length', 3);
 
     // test any other ci-links
     cy.get('.view-resources.view-id-resources')
