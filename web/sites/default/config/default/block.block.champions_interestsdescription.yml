@@ -6,7 +6,6 @@ dependencies:
     - 'block_content:basic:4b14d8ad-d416-41fc-9a95-923651f97f98'
   module:
     - block_content
-    - domain
     - rules
     - system
   theme:
@@ -26,12 +25,6 @@ settings:
   info: ''
   view_mode: full
 visibility:
-  domain:
-    id: domain
-    negate: null
-    context_mapping:
-      domain: '@domain.current_domain_context:domain'
-    domains: {  }
   rules_user_is_blocked:
     id: rules_user_is_blocked
     negate: true
@@ -41,4 +34,4 @@ visibility:
     id: request_path
     negate: false
     context_mapping: {  }
-    pages: /add-interest
+    pages: "/add-interest\r\n/community-persona/add-interest"

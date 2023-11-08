@@ -1,4 +1,4 @@
-uuid: a2382aa5-d705-4ba0-8888-976c9beaf6f4
+uuid: 83740c3a-e630-4416-8a32-aaca054e4387
 langcode: en
 status: true
 dependencies:
@@ -6,14 +6,13 @@ dependencies:
     - 'block_content:basic:4b14d8ad-d416-41fc-9a95-923651f97f98'
   module:
     - block_content
-    - rules
     - system
   theme:
-    - nect
-id: interestsdescription
-theme: nect
-region: title_area
-weight: 4
+    - aspTheme
+id: interestsdescription_3
+theme: aspTheme
+region: content
+weight: -11
 provider: null
 plugin: 'block_content:4b14d8ad-d416-41fc-9a95-923651f97f98'
 settings:
@@ -25,13 +24,7 @@ settings:
   info: ''
   view_mode: full
 visibility:
-  rules_user_is_blocked:
-    id: rules_user_is_blocked
-    negate: true
-    context_mapping:
-      user: '@user.current_user_context:current_user'
   request_path:
     id: request_path
     negate: false
-    context_mapping: {  }
-    pages: "/add-interest\r\n/community-persona/add-interest"
+    pages: "/add-interests\r\n/community-persona/add-interests"
