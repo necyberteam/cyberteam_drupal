@@ -1,8 +1,11 @@
-/*  
+/*
     This test is specifically focused on the XDMoD page tested for an unauthenticated user.
     This test checks for major functions like:
-    Page Title, 
-    Testing accordion function, 
+    Page Title,
+    Testing accordion function,
+
+
+    View information about allocations, usage data, and usage, as well as specific information about your usage and general historic usage of the ACCESS allocated resources.
 */
 
 describe("Unauthenticated user tests the XDMoD Page", () => {
@@ -13,7 +16,8 @@ describe("Unauthenticated user tests the XDMoD Page", () => {
     cy.get(".prose > .text-white").contains(
       "Analyze and improve your allocation usage"
     );
-    cy.contains("View information about allocations, usage data and usage");
+
+    cy.contains("View information about allocations, usage data, and usage");
 
     //Checkpoint section
     cy.get("#about > .grid > :nth-child(1)").contains(

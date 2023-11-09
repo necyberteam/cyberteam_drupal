@@ -1,12 +1,12 @@
-/*  
+/*
     This test is specifically focused on the Events page tested for an unauthenticated user.
-    This test checks for major functions like: 
+    This test checks for major functions like:
     Filter Functionality,
     Headers,
     Testing created event
 
     Test breadcrumbs
-        
+
 */
 describe("Unauthenticated user tests the Events Page", () => {
   it("Should test the EVents page for unauthenticated user", () => {
@@ -34,7 +34,7 @@ describe("Unauthenticated user tests the Events Page", () => {
 
     //Event Date
     cy.get(".md--col-span-3").contains("Event Date");
-    cy.contains("12/12/2026");
+    cy.contains("12/12/26");
 
     //Event Location
     cy.get(".md--col-span-3").contains("Location");
