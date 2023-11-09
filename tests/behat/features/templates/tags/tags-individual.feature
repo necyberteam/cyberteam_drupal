@@ -65,10 +65,18 @@ Feature: test individual tags page
 
   Scenario: Add a "test-login-resource" for login tag and verify it appears
 
+    When I go to "/form/ci-link"
+    When I fill in "edit-title" with "test-login-resource"
+    When I select "Tool" from "edit-category"
+    # tag is "login"
+    When I check "edit-tags-682"
+    When I check "Approved"
+    When I press "op"
+
     Given I am not logged in
     When I go to "tags/login"
     Then I should see "test-login-resource"
-    When I follow "test-login-resource"
+    When I go to "/ci-links/1"
     And I wait for the page to be loaded
     #Then I should see "votes"
     And I should see "test-login-resource"
