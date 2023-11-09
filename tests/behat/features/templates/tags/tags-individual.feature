@@ -66,7 +66,7 @@ Feature: test individual tags page
   Scenario: Add a "test-login-resource" for login tag and verify it appears
 
     When I go to "/form/ci-link"
-    When I fill in "edit-title" with "test-login-resource"
+    When I fill in "title" with "test-login-resource"
     When I select "Tool" from "edit-category"
     # tag is "login"
     When I check "edit-tags-682"
