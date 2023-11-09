@@ -35,6 +35,7 @@ Feature: This test verifies the following for the coco domain for an authenticat
     Then I should see "Community of Practice"
     Then I should see "Consortium"
     Then I should see "Grant-Funded Program"
+    # not currently any Higher Ed Institutions on the home page
     Then I should see "Higher Ed Institution"
     Then I should see "Non-profit"
     Then I should see "Other"
