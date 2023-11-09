@@ -67,10 +67,19 @@ Feature: test individual tags page
 
   Scenario: Add a "test-login-resource" for login tag and verify it appears
 
+  Given I am logged in as a user with the "administrator" role
+    When I go to "/form/ci-link"
+    When I fill in "Title" with "test-login-resource"
+    When I select "Tool" from "edit-category"
+    # tag is "login"
+    When I check "edit-tags-682"
+    When I check "Approved"
+    When I press "op"
+
     Given I am not logged in
     When I go to "tags/login"
     Then I should see "test-login-resource"
-    When I follow "test-login-resource"
+    When I go to "/ci-links/1"
     And I wait for the page to be loaded
     #Then I should see "votes"
     And I should see "test-login-resource"
@@ -79,7 +88,7 @@ Feature: test individual tags page
     When I go to "tags/login"
     And I wait 4 seconds
     Then I should see "test-login-resource"
-    When I follow "test-login-resource"
+    When I go to "/ci-links/1"
     And I wait for the page to be loaded
     # TODO not working for careers or nect -- was votes removed?
     # Then I should see "votes"
