@@ -1,13 +1,20 @@
 /**
+ * Verify all images load.
+ */
+Cypress.Commands.add('verifyImages', () => {
+  cy.get('img').each(($img) => cy.wrap($img).verifyImage());
+});
+
+/**
  * Verify that an img element loads.
  *
  * Note that this is a "child" custom command, so it must be called
  * with parent cypress command that yields an image element, e.g.:
  *    cy.get('.field--name-field-image')
  *       .get('img')
- *       .ampVerifyImage();
+ *       .verifyImage();
  */
-Cypress.Commands.add('ampVerifyImage', { prevSubject: true }, ($img) => {
+Cypress.Commands.add('verifyImage', { prevSubject: true }, ($img) => {
   const url = ($img[0]?.src || $img[0]?.srcset);
   if (url) {
     cy.request(url).then((response) => {
@@ -58,7 +65,6 @@ Cypress.Commands.add('checkBreadcrumbs', (crumbs) => {
 
   }
 });
-
 
 /**
  * Logs out the user.

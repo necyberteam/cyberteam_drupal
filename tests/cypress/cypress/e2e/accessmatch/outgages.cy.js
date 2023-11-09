@@ -35,8 +35,8 @@ describe('Anonymous user visit the outages page', () => {
     cy.get('#outages-all_info').contains('Showing 1 to 10 of');
 
     // be default, 10 outages are shown.
-    cy.get('table[id="outages-all"]')
-      .find('tr').should('have.length', 11);
+    cy.get('table[id="outages-all"] > tbody')
+      .find('tr').should('have.length', 10);
 
     // check each row has link to ask.ci
     cy.get('table[id="outages-all"]')

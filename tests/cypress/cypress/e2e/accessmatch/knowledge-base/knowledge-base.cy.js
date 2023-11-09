@@ -51,8 +51,13 @@ describe("Tests of the knowledge-base page", () => {
         .should('have.attr', 'href')
         .and('contain', 'https://ask.cyberinfrastructure.org/tag'));
 
-    // popular ci-links
+    // popular 3 ci-links so popular links list is full
+    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
     create_dummy_ci_link();
+    create_dummy_ci_link();
+    create_dummy_ci_link();
+    cy.drupalLogout();
+    cy.visit("/knowledge-base");
 
     cy.get('.btn.btn-primary')
       .contains('FIND LINKS')
@@ -61,11 +66,19 @@ describe("Tests of the knowledge-base page", () => {
     cy.get('.field--type-text-with-summary')
       .contains('Popular CI Links');
 
+    // verify count of ask-ci links is 10
+    cy.get('.block-top-tags-from-askci > .flex-wrap')
+      .find('a').should('have.length', 10);
+
     // test the known ci-link
     cy.get('.view-resources.view-id-resources')
       .contains('dummy-ci-link-for-testing-knowledge-base')
       .should('have.attr', 'href')
       .and('contain', '/ci-links');
+
+    // verify count of ci-links is 3
+    cy.get('.view-resources.view-id-resources')
+      .find('a').should('have.length', 3);
 
     // test any other ci-links
     cy.get('.view-resources.view-id-resources')
@@ -80,7 +93,6 @@ describe("Tests of the knowledge-base page", () => {
 
 // helper function to create a ci-link that can be added to the AG
 function create_dummy_ci_link() {
-  cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
   cy.visit('/form/ci-link');
   cy.get('#edit-approved').check();
   cy.get('#edit-title').type('dummy-ci-link-for-testing-knowledge-base');
@@ -90,8 +102,6 @@ function create_dummy_ci_link() {
   // tag "access-acount" is selected
   cy.get('.tags').contains('access-acount').click();
   cy.get('#edit-submit').click();
-  cy.drupalLogout();
-  cy.visit("/knowledge-base");
 }
 
 
