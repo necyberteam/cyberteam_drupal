@@ -50,4 +50,4 @@ The "Tree View" button is grayed out.
     When I follow "List View"
     Then I should see "login"
     Then I should be on "/tags"
-    When I select "Contains all words" from "edit-name-op--2"
+    When I select "Contains all words" from "edit-name-op"
