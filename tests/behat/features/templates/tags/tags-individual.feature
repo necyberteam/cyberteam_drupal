@@ -67,7 +67,7 @@ Feature: test individual tags page
     
     When I go to "/ci-links"
     When I follow "Add new CI link"
-    When I fill in "#edit-title" with "TEST"
+    When I fill in "edit-title" with "TEST"
     When I fill in "title" with "test-login-resource"
     When I select "Tool" from "edit-category"
     # tag is "login"
