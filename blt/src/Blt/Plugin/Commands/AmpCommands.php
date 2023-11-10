@@ -40,8 +40,10 @@ DRUPAL_HASH_SALT=$hash
 AMP_UID=$uid
 GITHUB_TOKEN=$token'>.env");
     $this->say("❗️ Environment vars setup, now starting lando. ❗️");
+    $this->_exec("lando blt blt:telemetry:disable --no-interaction");
     $this->_exec("lando start");
     $this->_exec("lando blt blt:telemetry:disable --no-interaction");
+    $this->_exec("lando composer config --global github-protocols https");
     $this->_exec("lando xdebug-off");
     $this->_exec("lando composer config -g github-oauth.github.com $token");
     if (!file_exists($db_backup)) {
@@ -486,6 +488,7 @@ $update_list");
     }
     $default_domain = $domains[$domain_id]['id'];
     $this->_exec("$lando drush domain:default $default_domain");
+    $this->_exec("$lando drush cr");
     $this->say("Setting $default_domain as default");
     $this->_exec("$lando drush cr");
   }

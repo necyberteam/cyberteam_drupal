@@ -4,17 +4,17 @@ env_file:
   - .env
 config:
   webroot: web
-  php: '8.1'
   database: mysql:5.7
   xdebug: debug
   config:
     php: ./.lando.php.ini
 services:
-  defaults:
-    type: php:8.1
   database:
+    api: 3
     portforward: 3300
   appserver:
+    api: 3
+    type: php:8.1
     build_as_root:
       - apt-get update
       - apt-get install libxss1
