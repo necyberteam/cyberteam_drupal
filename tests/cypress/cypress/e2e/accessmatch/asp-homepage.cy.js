@@ -1,7 +1,7 @@
 /*  
     This test is specifically focused on the ASP Homepage tested for an unauthenticated user.
     This test checks for major functions like: 
-    
+
     Announcements and Events block,
     Call to actions,
     Search Access
@@ -34,8 +34,11 @@ describe("Unauthenticated user tests the ASP Homepage", () => {
       .contains("Search")
       .should("have.attr", "href", "/find");
 
-    //Call to action button  (function should be created to test more call to actions)
-    cy.get("#cta").contains("Try the ACCESS Resource Advisor");
-    //.should("have.attr", "href", "access-ara.ccs.uky.edu:8080/");
+    //Call to action function
+    cy.verifyCallToActionBlock(
+      "/",
+      "Try the ACCESS Resource Advisor",
+      "https://access-ara.ccs.uky.edu:8080"
+    );
   });
 });
