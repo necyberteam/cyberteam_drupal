@@ -87,14 +87,12 @@ Cypress.Commands.add("verifyCallToActionBlock", (url, text, href) => {
   // Visit the specified URL
   cy.visit(url);
 
-  // cta section is tested
-  cy.get("#cta").should("exist");
+  // cta section is tested, contained text within button, Button destination
 
-  //contained text within button
-  cy.contains(text);
-
-  //Button destination
-  cy.should("have.attr", "href", href);
+  cy.get("#cta")
+    .should("exist")
+    .contains(text)
+    .should("have.attr", "href", href);
 });
 
 /**
