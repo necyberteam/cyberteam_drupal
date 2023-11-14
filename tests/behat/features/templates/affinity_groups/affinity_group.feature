@@ -87,7 +87,7 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Announcements"
     Then I should see "12/16/22"
     When I click "2022 - 2023 Holiday Support Schedule for Anvil"
-    Then I should be on "/node/403"
+    Then I should be on "/announcements/2022-2023-holiday-support-schedule-anvil"
 
 
   Scenario: Unauthenticated user tests an AG with a github link
