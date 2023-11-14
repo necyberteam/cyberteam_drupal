@@ -49,7 +49,7 @@ describe('Admin user uses form to create a CI Link', () => {
     cy.contains('title for ci-link link 0').should('have.attr', 'href', 'http://example-0.com');
     cy.contains('title for ci-link link 1').should('have.attr', 'href', 'http://example-1.com');
     cy.contains('title for ci-link link 2').should('have.attr', 'href', 'http://example-2.com');
-    cy.contains('access-acount').should('have.attr', 'href').and('contains', '/tags/access-acount');
+    cy.contains('access-account').should('have.attr', 'href').and('contains', '/tags/access-account');
     cy.contains('finite-element-analysis').should('have.attr', 'href').and('contains', '/tags/finite-element-analysis');
     cy.contains('Beginner').should('have.attr', 'href').and('contains', '/skill-level/beginner');;
     cy.contains('Intermediate').should('have.attr', 'href').and('contains', '/skill-level/intermediate');;

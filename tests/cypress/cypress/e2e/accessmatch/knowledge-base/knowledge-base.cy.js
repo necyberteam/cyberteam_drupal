@@ -100,7 +100,7 @@ function create_dummy_ci_link() {
   cy.get('#edit-skill-level-304').check();  // beginner level
   cy.get('#edit-description').type("Dummy description for ci-link 'dummy-ci-link-for-testing-knowledge-base'");
   // tag "access-acount" is selected
-  cy.get('.tags').contains('access-acount').click();
+  cy.get('.tags').contains('access-account').click();
   cy.get('#edit-submit').click();
 }
 
