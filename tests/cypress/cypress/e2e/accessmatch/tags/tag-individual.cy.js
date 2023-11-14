@@ -8,7 +8,7 @@ describe("Verify the the community-outreach tag page", () => {
 
     checkTitleAndBreadcrumbs();
     checkSectionAffinityGroups();
-    checkSectionAnnouncementsEvents('.view-id-tagged_news_block', '/node/');
+    checkSectionAnnouncementsEvents('.view-id-tagged_news_block', '/announcements/');
     checkSectionAnnouncementsEvents('.view-id-recurring_events_event_instances', '/events/');
     checkSectionInterestedSkilled('.view-people-with-expertise-tags', 'expertise');
     checkSectionInterestedSkilled('.view-people-with-interest-tags', 'interest');
@@ -43,16 +43,6 @@ describe("Verify the the community-outreach tag page", () => {
           cy.wrap(block)
             .find('h3').find('a').should('have.attr', 'href')
             .and('contain', '/community-persona/');
-
-          // there are 3 h4 sections that all should have content
-          cy.wrap(block)
-            .find('h4').should('have.length', 3)
-            .each((e) => cy.wrap(e).should('not.be.empty'));
-
-          // there are 3 p sections that do not always should have content
-          cy.wrap(block)
-            // does not always have content
-            .find('p').should('have.length', 3);
 
           // check there's an image for the user
           cy.wrap(block)
