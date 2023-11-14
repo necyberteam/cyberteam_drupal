@@ -6,7 +6,6 @@
 describe("Verify a tag's page list of engagements", () => {
   it("Tests the tags page", () => {
 
-    cy.visit("/tags/community-outreach");
 
     // add some engagements with this tag
     cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
@@ -16,7 +15,9 @@ describe("Verify a tag's page list of engagements", () => {
     addEngagements(4);
     cy.drupalLogout();
 
-    // verify each link looks good
+    // verify each engagement looks good
+
+    cy.visit("/tags/community-outreach");
 
     cy.get('.view-match-engagement-view')
       .find('.views-row').should('have.length', 3)
