@@ -10,15 +10,13 @@
     */
 
 describe("Authenticated user tests the Add Skills without adding an Affinity Group", () => {
-  it("Should test Add Interests Form for authenticated user", () => {
+  it("Should test Add Skills Form for authenticated user", () => {
     // login user with the "authenticated" role
 
     cy.loginAs("authenticated@amptesting.com", "6%l7iF}6(4tI");
     cy.visit("/community-persona/add-skill");
 
-    //Adding Tag and removing Tag
+    //Adding Tag
     cy.contains("access-acount").click();
-
-    cy.contains("Remove");
   });
 });

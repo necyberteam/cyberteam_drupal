@@ -38,7 +38,7 @@ describe("Unauthenticated user tests the CCEP Page", () => {
       "CCEP (CSSN Community Engagement Program) gives travel rewards to ANYONE for community engagement, feedback forums,"
     );
 
-    //Testing See All Details click function and Intro text
+    //Testing See All Details click function and Intro text of /ccep/ccep-details
     cy.get(".container > :nth-child(3) > a")
       .contains("See all the details")
       .click();

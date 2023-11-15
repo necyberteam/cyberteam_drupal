@@ -10,7 +10,7 @@
 
 describe("Unauthenticated user tests the XDMoD Page", () => {
   it("Should test XDMoD page for unauthenticated user", () => {
-    cy.visit("/xdmod");
+    cy.visit("/tools/xdmod");
 
     //Page Title and Intro paragraph
     cy.get(".prose > .text-white").contains(

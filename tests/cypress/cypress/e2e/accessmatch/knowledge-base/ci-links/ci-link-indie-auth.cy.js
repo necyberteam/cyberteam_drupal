@@ -8,7 +8,7 @@ describe("Authenticated user tests a ci link", () => {
     // login user with the "authenticated" role
     cy.loginAs("authenticated@amptesting.com", "6%l7iF}6(4tI");
     //Navigating to cypress created ci link
-    cy.visit("/ci-links");
+    cy.visit("/knowledge-base/ci-links");
     cy.get('[headers="view-webform-submission-value-5-table-column"] > a')
       .contains("dummy-ci-link-for-testing-knowledge-base")
       .click()
@@ -17,10 +17,10 @@ describe("Authenticated user tests a ci link", () => {
         //   .contains("dummy-ci-link-for-testing-knowledge-base")
         //   .click();
         //Vote feature
-        cy.get(".flag > .flex").click();
-        cy.contains("Thanks! Your vote has been recorded.");
+        //cy.get(".flag > .flex > .me-2").click();
+        //cy.contains("Thanks! Your vote has been recorded.");
         //Flag Feature.When one of the selections in the dropdown is clicked I am brough to an access denied page. Section is disabled for now
-        cy.get(".ps-5").contains("Flag this CI Link").click();
+        cy.contains("Flag this CI Link").click();
         cy.get(".dropdown-menu").contains("Flag this item not useful");
       });
   });

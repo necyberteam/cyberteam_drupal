@@ -7,7 +7,7 @@
 */
 describe("Unauthenticated user tests the OnDemand Page", () => {
   it("Should test the OnDemand page for unauthenticated user", () => {
-    cy.visit("/ondemand");
+    cy.visit("/tools/ondemand");
 
     //Page Introduction paragraph
     cy.get("#about > .prose").contains(

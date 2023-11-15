@@ -1,5 +1,5 @@
 /*  
-    This test is specifically focused on the Tools page tested for an unauthenticated user.
+    This test is specifically focused on the Tools overview page tested for an unauthenticated user.
     This test checks for major functions like:
     Page Title, 
     Page Intro,
@@ -7,10 +7,9 @@
     
 */
 
-describe("Unauthenticated user tests the CCEP Details Page", () => {
-  it("Should test CCEP Details page for unauthenticated user", () => {
-    //Below line will eventually change to (/tools/overview)
-    cy.visit("/tools");
+describe("Unauthenticated user tests the Tools overview Page", () => {
+  it("Should test Tools overview page for unauthenticated user", () => {
+    cy.visit("/tools/overview");
 
     //Page Title And Intro Paragraph
     cy.get(".page-title").contains("Tools");

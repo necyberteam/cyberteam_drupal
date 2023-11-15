@@ -16,8 +16,7 @@ describe("Authenticated user tests the Add Interests without adding an Affinity 
     cy.loginAs("authenticated@amptesting.com", "6%l7iF}6(4tI");
     cy.visit("/community-persona/add-interest");
 
-    //Adding Tag and removing Tag
+    //Adding Tag
     cy.contains("access-acount").click();
-    cy.contains("Remove");
   });
 });

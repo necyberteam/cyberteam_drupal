@@ -7,7 +7,7 @@
 */
 describe("Unauthenticated user tests the Pegaus Page", () => {
   it("Should test the Pegasus page for unauthenticated user", () => {
-    cy.visit("/pegasus");
+    cy.visit("/tools/pegasus");
 
     //Page intro paragraph
     cy.get("#about > .prose").contains(
