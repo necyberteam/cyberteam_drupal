@@ -36,8 +36,8 @@ function create_dummy_ci_link() {
   cy.get("#edit-description").type(
     "Dummy description for ci-link 'dummy-ci-link-for-testing-knowledge-base'"
   );
-  // tag "access-acount" is selected
-  cy.get(".tags").contains("access-acount").click();
+  // tag "access-account" is selected
+  cy.get(".tags").contains("access-account").click();
   cy.get("#edit-submit").click();
   cy.drupalLogout();
 }

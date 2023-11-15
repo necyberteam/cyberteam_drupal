@@ -17,7 +17,7 @@ describe("Unauthenticated user tests the XDMoD Page", () => {
       "Analyze and improve your allocation usage"
     );
 
-    cy.contains("View information about allocations, usage data and usage");
+    cy.contains("View information about allocations, usage data, and usage");
 
     //Checkpoint section
     cy.get("#about > .grid > :nth-child(1)").contains(

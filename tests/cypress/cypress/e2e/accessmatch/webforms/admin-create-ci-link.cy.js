@@ -47,7 +47,7 @@ describe("Admin user uses form to create a CI Link", () => {
       "http://example-2.com"
     );
 
-    // tag "access-acount" is selected
+    // tag "access-account" is selected
     cy.get('span[data-tid="733"]').click();
 
     // tag "finite-element-analysis" is selected
@@ -76,9 +76,9 @@ describe("Admin user uses form to create a CI Link", () => {
       "href",
       "http://example-2.com"
     );
-    cy.contains("access-acount")
+    cy.contains("access-account")
       .should("have.attr", "href")
-      .and("contains", "/tags/access-acount");
+      .and("contains", "/tags/access-account");
     cy.contains("finite-element-analysis")
       .should("have.attr", "href")
       .and("contains", "/tags/finite-element-analysis");
