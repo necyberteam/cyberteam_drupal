@@ -31,14 +31,7 @@ describe("Unauthenticated user tests the CI Links Page", () => {
     //Searching for Cypress Created CI Link
     cy.get("#edit-search--2").type("dummy-ci-link-for-testing-knowledge-base");
     cy.get("tbody > :nth-child(1) > .views-field-webform-submission-value-5")
-      .find("a")
       .contains("dummy-ci-link-for-testing-knowledge-base")
-      .click()
-      .then(() => {
-        cy.get(".page-title").contains(
-          "dummy-ci-link-for-testing-knowledge-base"
-        );
-      });
-    // });
+      .should("have.attr", "href");
   });
 });

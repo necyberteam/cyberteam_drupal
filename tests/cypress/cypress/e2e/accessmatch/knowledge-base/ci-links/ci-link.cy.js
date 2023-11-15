@@ -23,7 +23,7 @@ describe("Unauthenticated user tests the Individual CI Link Page", () => {
           "dummy-ci-link-for-testing-knowledge-base"
         );
         //Tags
-        cy.contains("access-acount");
+        cy.contains("access-account");
         //Description
         cy.get("p").contains(
           "Dummy description for ci-link 'dummy-ci-link-for-testing-knowledge-base'"
