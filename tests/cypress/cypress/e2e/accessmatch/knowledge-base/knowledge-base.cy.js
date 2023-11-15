@@ -68,21 +68,16 @@ describe("Tests of the knowledge-base page", () => {
 
     // verify count of ask-ci links is 10
     cy.get('.block-top-tags-from-askci > .flex-wrap')
-      .find('a').should('have.length', 10);
-
-    // test the known ci-link
-    cy.get('.view-resources.view-id-resources')
-      .contains('dummy-ci-link-for-testing-knowledge-base')
-      .should('have.attr', 'href')
-      .and('contain', '/ci-links');
+      .find('a')
+      .should('have.length', 10)
+      .each(($a) => cy.wrap($a)
+        .should('have.attr', 'href')
+        .and('contain', '/tag'));
 
     // verify count of ci-links is 3
     cy.get('.view-resources.view-id-resources')
-      .find('a').should('have.length', 3);
-
-    // test any other ci-links
-    cy.get('.view-resources.view-id-resources')
       .find('a')
+      .should('have.length', 3)
       .each(($a) => cy.wrap($a)
         .should('have.attr', 'href')
         .and('contain', '/ci-links'));
@@ -99,8 +94,8 @@ function create_dummy_ci_link() {
   cy.get('#edit-category').select('Learning');
   cy.get('#edit-skill-level-304').check();  // beginner level
   cy.get('#edit-description').type("Dummy description for ci-link 'dummy-ci-link-for-testing-knowledge-base'");
-  // tag "access-acount" is selected
-  cy.get('.tags').contains('access-acount').click();
+  // tag "access-account" is selected
+  cy.get('.tags').contains('access-account').click();
   cy.get('#edit-submit').click();
 }
 
