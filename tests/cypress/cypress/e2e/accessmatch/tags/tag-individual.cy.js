@@ -6,13 +6,13 @@ describe("Verify the the community-outreach tag page", () => {
 
     cy.visit("/tags/community-outreach");
 
-    // checkTitleAndBreadcrumbs();
-    // checkSectionAffinityGroups();
-    // checkSectionAnnouncementsEvents('.view-id-tagged_news_block', '/announcements/');
-    // checkSectionAnnouncementsEvents('.view-id-recurring_events_event_instances', '/events/');
+    checkTitleAndBreadcrumbs();
+    checkSectionAffinityGroups();
+    checkSectionAnnouncementsEvents('.view-id-tagged_news_block', '/announcements/');
+    checkSectionAnnouncementsEvents('.view-id-recurring_events_event_instances', '/events/');
     checkSectionInterestedSkilled('.view-people-with-expertise-tags', 'expertise');
     checkSectionInterestedSkilled('.view-people-with-interest-tags', 'interest');
-    // checkSectionCILinks();
+    checkSectionCILinks();
 
     /////////////////////////////////////////////////////////////////////////
 
