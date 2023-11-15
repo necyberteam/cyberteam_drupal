@@ -104,6 +104,21 @@ Cypress.Commands.add('loginUserByUid', (uid) => {
 });
 
 /**
+* Custom command to verify the existence of a button within the "region-cta" block
+*/
+Cypress.Commands.add("verifyCallToActionBlock", (url, text, href) => {
+  // Visit the specified URL
+  cy.visit(url);
+
+  // cta section is tested, contained text within button, Button destination
+
+  cy.get("#cta")
+    .should("exist")
+    .contains(text)
+    .should("have.attr", "href", href);
+});
+
+/**
 * Deletes last node created.
 */
 Cypress.Commands.add('deleteLastNode', () => {
