@@ -14,8 +14,8 @@ describe("Unauthenticated user tests the CCEP Details Page", () => {
 
     //Verifying page title and paragraph
     cy.get(".page-title > .field").contains("CCEP Details");
-    cy.get(".clearfix > h2").contains("Important Fine Print:");
-    cy.get(".clearfix > ul > :nth-child(1)").contains(
+    cy.get("h2 > strong").contains("Important Fine Print:");
+    cy.get(".block-field-blocknodepagebody > .clearfix").contains(
       "All CSSN members (students, faculty, staff, or CI professionals) seeking CCEP rewards need to be affiliated"
     );
     //Verifying Join CCEP Button

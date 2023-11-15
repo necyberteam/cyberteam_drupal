@@ -23,7 +23,7 @@ describe("Authenticated user tests the Announcement Form without adding an Affin
     cy.get(".page-title").contains("Create ACCESS Announcements");
 
     //Form Title Field
-    cy.get("#edit-title-0-value").type("http://example-0.com");
+    cy.get("#edit-title-0-value").type("Cypress-Created-Annoucement");
 
     //Form Image Field
     cy.get("#ajax-wrapper > .claro-details").contains("Featured Image");
@@ -44,6 +44,8 @@ describe("Authenticated user tests the Announcement Form without adding an Affin
 
     //Submission and confirmation
     cy.get("#edit-submit").click();
-    cy.contains("ACCESS Announcements http://example-0.com has been created.");
+    cy.contains(
+      "ACCESS Announcements Cypress-Created-Annoucement has been created."
+    );
   });
 });

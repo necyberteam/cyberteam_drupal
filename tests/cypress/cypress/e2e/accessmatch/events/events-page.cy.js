@@ -34,23 +34,21 @@ describe("Unauthenticated user tests the Events Page", () => {
 
     //Event Date
     cy.get(".md--col-span-3").contains("Event Date");
-    cy.contains("12/12/26");
+    cy.get(".md--col-span-3 > :nth-child(1) > .field > .field__item").contains(
+      "12/12/2026"
+    );
 
     //Event Location
-    cy.get(".md--col-span-3").contains("Location");
-    cy.get(".md--col-span-3").contains("Zoom");
+    cy.get(":nth-child(2) > .clearfix > .field__label").contains("Location");
+    cy.get(":nth-child(2) > .clearfix > .field__item").contains("Zoom");
 
     //Event Tags
-    cy.get(".md--col-span-3").contains("Tags");
-    cy.get(".md--col-span-3").contains("login");
+    cy.get(".field--name-tags").contains("Tags");
+    cy.get(".field--name-tags").contains("login");
 
     //Event Contact
-    cy.get("#block-mainpagecontent > .grid > :nth-child(2)").contains(
-      "Contact"
-    );
-    cy.get("#block-mainpagecontent > .grid > :nth-child(2)").contains(
-      "Pecan Pie"
-    );
+    cy.get(":nth-child(1) > .clearfix > .field__label").contains("Contact");
+    cy.get(":nth-child(1) > .clearfix > .field__item").contains("Pecan Pie");
 
     //Registration Button Not sure how to correctly reference the btn
     cy.get("#block-mainpagecontent > .grid > :nth-child(2)").contains(
@@ -65,19 +63,11 @@ describe("Unauthenticated user tests the Events Page", () => {
     //   );
 
     //Event Skill Level
-    cy.get("#block-mainpagecontent > .grid > :nth-child(2)").contains(
-      "Skill Level"
-    );
-    cy.get("#block-mainpagecontent > .grid > :nth-child(2)").contains(
-      "Advanced"
-    );
+    cy.get(":nth-child(3) > .field > .field__label").contains("Skill Level");
+    cy.get(":nth-child(3) > .field > .field__item").contains("Advanced");
 
     //Event Type
-    cy.get("#block-mainpagecontent > .grid > :nth-child(2)").contains(
-      "Event Type"
-    );
-    cy.get("#block-mainpagecontent > .grid > :nth-child(2)").contains(
-      "Training"
-    );
+    cy.get(":nth-child(4) > .field > .field__label").contains("Event Type");
+    cy.get(":nth-child(4) > .field > .field__item").contains("Training");
   });
 });

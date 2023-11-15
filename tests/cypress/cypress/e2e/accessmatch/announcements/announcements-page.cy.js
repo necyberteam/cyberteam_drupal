@@ -11,8 +11,15 @@ describe("Unauthenticated user tests the Announcements Page", () => {
   it("Should test the Announcements page for unauthenticated user", () => {
     cy.visit("/announcements");
 
-    // Look for Ask.CI table
+    // Look for title of the Announcements page
     cy.get(".page-title").contains("Announcements");
+
+    // check breadcrumbs
+    const crumbs = [
+      ["Support", "/"],
+      ["Announcements", null],
+    ];
+    cy.checkBreadcrumbs(crumbs);
 
     //Filter Section on announcements
     cy.get("#edit-field-affiliation-value--2").select("Community"); //Affiliation field
@@ -20,10 +27,14 @@ describe("Unauthenticated user tests the Announcements Page", () => {
     cy.get("#edit-submit-access-news--2").click(); //Filter button
 
     //Created announcement through cypress
-    cy.contains("http://example-0.com").click();
-    cy.contains("login");
-    cy.contains("Affiliation");
-    cy.contains("Community");
+    cy.get(".view-content > :nth-child(1)")
+      .contains("Cypress-Created-Annoucement")
+      .click();
+    cy.get(".field__item > .font-normal").contains("login");
+    cy.get(".field__label").contains("Affiliation");
+    cy.get(".layout__region--second > .block > .field > .field__item").contains(
+      "Community"
+    );
 
     //Testing another announcement
     cy.visit("/announcements");
@@ -31,8 +42,6 @@ describe("Unauthenticated user tests the Announcements Page", () => {
     cy.get(".page-title > .field").contains(
       "Gateways 2023 Call for Participation"
     );
-    cy.get(".clearfix > :nth-child(3)").contains(
-      "https://sciencegateways.org/gateways2023"
-    );
+    cy.get(".clearfix").contains("https://sciencegateways.org/gateways2023");
   });
 });

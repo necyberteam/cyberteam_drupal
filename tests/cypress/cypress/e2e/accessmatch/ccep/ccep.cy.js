@@ -10,7 +10,7 @@ describe("Unauthenticated user tests the CCEP Page", () => {
     cy.visit("/ccep");
 
     //Page Intro paragraph
-    cy.get("#about > .prose").contains(
+    cy.get("#about").contains(
       "CCEP (CSSN Community Engagement Program) gives travel rewards to ANYONE"
     );
     cy.get("#about > :nth-child(2)").contains(
@@ -27,16 +27,18 @@ describe("Unauthenticated user tests the CCEP Page", () => {
     );
 
     //Apply To CCEP Button
-    cy.get(":nth-child(4) > .btn")
+    cy.get(".btn")
       .contains("Apply to CCEP")
       .should("have.attr", "href")
       .and("contain", "https://forms.gle/u4d4kCtsYNQgzxjq5");
 
     //Important Fine Print Section
     cy.visit("/ccep");
-    cy.get("#fine-print > .container > :nth-child(2)").contains(
+    cy.get("#fine-print").contains(
       "CCEP (CSSN Community Engagement Program) gives travel rewards to ANYONE for community engagement, feedback forums,"
     );
+
+    //Testing See All Details click function and Intro text
     cy.get(".container > :nth-child(3) > a")
       .contains("See all the details")
       .click();
