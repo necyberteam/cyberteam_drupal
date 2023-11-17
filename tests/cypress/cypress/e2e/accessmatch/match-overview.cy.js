@@ -28,7 +28,7 @@ describe("Unauthenticated user tests the Match Overview Page", () => {
     cy.get(".btn")
       .should("exist")
       .contains("All Engagements")
-      .should("have.attr", "href", "match/engagements");
+      .should("have.attr", "href", "/match/engagements");
 
     //Individual Match Engagement
     cy.contains("GPU-accelerated ice sheet flow modeling");
