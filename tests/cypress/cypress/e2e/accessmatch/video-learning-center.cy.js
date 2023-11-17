@@ -17,7 +17,7 @@ describe("Unauthenticated user tests the Video Learning Center Page", () => {
     cy.verifyCallToActionBlock(
       "/video-learning-center",
       "ACCESS CI YouTube Channel",
-      "https://www.youtube.com/c/ACCESSforCIs"
+      "https://www.youtube.com/c/ACCESSforCI"
     );
   });
 });
