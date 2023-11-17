@@ -12,6 +12,7 @@ describe("Unauthenticated user tests the Community Overview Page", () => {
     cy.visit("/community/overview");
 
     //Page Title
+    cy.get(".page-title").contains("Community");
 
     //Call to action function
     cy.verifyCallToActionBlock(

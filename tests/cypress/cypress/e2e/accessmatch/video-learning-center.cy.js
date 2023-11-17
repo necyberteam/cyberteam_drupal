@@ -11,7 +11,7 @@ describe("Unauthenticated user tests the Video Learning Center Page", () => {
     cy.visit("/video-learning-center");
 
     //Page Title
-    cy.contains("ACCESS Support Video Learning Center");
+    cy.get(".page-title").contains("ACCESS Support Video Learning Center");
 
     //Call to action function
     cy.verifyCallToActionBlock(

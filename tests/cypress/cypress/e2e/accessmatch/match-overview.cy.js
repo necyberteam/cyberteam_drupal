@@ -12,7 +12,7 @@ describe("Unauthenticated user tests the Match Overview Page", () => {
     cy.visit("/match/overview");
 
     //Page Title
-    cy.contains("Match Services Overview");
+    cy.get(".page-title > .field").contains("Match Services Overview");
 
     //Call to action function
     cy.verifyCallToActionBlock(
@@ -22,7 +22,7 @@ describe("Unauthenticated user tests the Match Overview Page", () => {
     );
 
     //Match Engagements Header
-    cy.contains("MATCH Engagements");
+    cy.get(".m-0").contains("MATCH Engagements");
 
     //Match Engagements Btn
     cy.get(".btn")
@@ -31,8 +31,14 @@ describe("Unauthenticated user tests the Match Overview Page", () => {
       .should("have.attr", "href", "/match/engagements");
 
     //Individual Match Engagement
-    cy.contains("GPU-accelerated ice sheet flow modeling");
-    cy.contains("University of North Dakota");
-    cy.contains("Status: In Progress");
+    cy.get(":nth-child(2) > .card > .card-body").contains(
+      "GPU-accelerated ice sheet flow modeling"
+    );
+    cy.get(":nth-child(2) > .card > .card-body").contains(
+      "University of North Dakota"
+    );
+    cy.get(":nth-child(2) > .card > .card-body").contains(
+      "Status: In Progress"
+    );
   });
 });
