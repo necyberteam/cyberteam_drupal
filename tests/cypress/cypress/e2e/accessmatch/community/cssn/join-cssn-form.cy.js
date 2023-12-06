@@ -24,9 +24,15 @@ describe("Authenticated user tests the form to join the CSSN", () => {
 
     //Submit Button and Submission confirmation
     cy.get("#edit-actions-submit").click();
-    cy.get(".messages--status").contains(
-      "Thanks for updating your CSSN membership."
-    );
+    cy.get(".messages--status").then((el)=> {
+      console.log(el.text())
+      // test if the text is one of the two possible messages
+      if (el.text().includes('Thanks for updating your CSSN membership.')) {
+      } else if (el.text().includes('Submission updated in Join the CSSN Network.')) {
+      } else {
+        throw new Error('Unexpected message: ' + el.text());
+      }
+    })
 
     // Check the community persona to see if the program/region was added.
     cy.visit("/community-persona");

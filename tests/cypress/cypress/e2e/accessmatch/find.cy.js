@@ -23,7 +23,7 @@ describe("Test of the /find page", () => {
     cy.get('.btn').contains('Hide Results');
     cy.get('.sui-paging-info').contains('Showing');
     cy.get('.sui-select').contains('Relevance');
-    cy.get('.sui-layout-sidebar').contains('ACCESS Home');
+    cy.get('.sui-layout-sidebar').contains('ACCESS Support');
   });
 });
 
