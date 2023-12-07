@@ -811,7 +811,7 @@ display:
           settings:
             thousand_separator: ''
             prefix_suffix: false
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -877,7 +877,7 @@ display:
             image_style: landscape__480x220__keep_ratio_
             image_loading:
               attribute: lazy
-          group_column: ''
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -1067,7 +1067,7 @@ display:
           type: text_summary_or_trimmed
           settings:
             trim_length: 600
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -1194,8 +1194,10 @@ display:
           field_api_classes: false
       defaults:
         css_class: false
+        group_by: false
         fields: false
       css_class: ' p-4 mb-6'
+      group_by: true
       exposed_block: true
       display_extenders: {  }
     cache_metadata:

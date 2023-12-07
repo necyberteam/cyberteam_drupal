@@ -16,6 +16,14 @@ targetEntityType: eventinstance
 bundle: default
 mode: default
 content:
+  affinity_group:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 9
+    region: content
   affinity_group_node_ref:
     type: entity_reference_label
     label: above
@@ -29,7 +37,7 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 4
+    weight: 5
     region: content
   content_moderation_control:
     settings: {  }
@@ -38,38 +46,38 @@ content:
     region: content
   date:
     type: daterange_custom
-    label: above
+    label: hidden
     settings:
       timezone_override: ''
       date_format: 'n/j/Y g:i A T'
       separator: '-'
     third_party_settings: {  }
-    weight: 2
+    weight: 3
     region: content
   description:
     type: text_default
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 3
+    weight: 4
     region: content
   event_type:
     type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 9
+    weight: 10
     region: content
   location:
     type: text_default
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 5
+    weight: 6
     region: content
   registration:
     type: link
-    label: above
+    label: hidden
     settings:
       trim_length: 80
       url_only: false
@@ -77,22 +85,22 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 6
+    weight: 7
     region: content
   skill_level:
     type: list_default
-    label: visible
+    label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 58
+    weight: 11
     region: content
   tags:
     type: entity_reference_label
-    label: above
+    label: hidden
     settings:
       link: true
     third_party_settings: {  }
-    weight: 7
+    weight: 1
     region: content
   title:
     type: string
@@ -100,9 +108,8 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 1
+    weight: 2
     region: content
 hidden:
-  affinity_group: true
   body: true
   event_affiliation: true

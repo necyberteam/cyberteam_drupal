@@ -12,6 +12,7 @@ Feature: The Organization Request Form includes fields for
     When I fill in "edit-your-email" with "Test@email.com"
     When I fill in "edit-your-organization" with "Test Organization"
     And I wait 5 seconds
-    When I press "edit-submit"
-    And I wait 5 seconds
-    Then I should see "Thanks for submitting your request"
+    # todo: Don't actually submit the form; sometimes email isn't disabled.
+    #When I press "edit-submit"
+    #And I wait 5 seconds
+    #Then I should see "Thanks for submitting your request"
