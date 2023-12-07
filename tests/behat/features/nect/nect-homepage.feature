@@ -9,7 +9,7 @@ Feature: verify specific links on homepage
     When I am on the homepage
     When I follow "Contact Us"
     Then I should be on "contact/northeast_cyberteam"
-    And I should see ", Northeast Cyberteam • All Rights Reserved • "
+    And I should see ", Northeast Cyberteam "
 
   Scenario: Verify the main logo goes to home page
     Given I am not logged in
@@ -22,7 +22,7 @@ Feature: verify specific links on homepage
     When I am on the homepage
     When I follow "Contact Us"
     Then I should be on "contact/northeast_cyberteam"
-    And I should see ", Northeast Cyberteam • All Rights Reserved • "
+    And I should see ", Northeast Cyberteam "
 
   Scenario: authenticated Verify the main logo goes to home page
     Given I am logged in as a user with the "authenticated" role

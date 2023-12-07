@@ -29,7 +29,7 @@ Link, and Email List Link. Users can submit the form using the "Submit" button.
     And I should see "Q&A Platform"
     And I should see "Provide a link to Ask.CI, StackExchange, or other Q&A platform specific to the Affinity Group."
     And I should see "Github Organization"
-    And I should see "Provide a link to the Github Organization if applicable."
+    And I should see "Provide a link to Github if applicable."
     And I should see "Email List or Contact"
     And I should see "Provide a full URL to your email list or email contact for the Affinity"
     When I fill in "affinity_group_name" with "TEST"
