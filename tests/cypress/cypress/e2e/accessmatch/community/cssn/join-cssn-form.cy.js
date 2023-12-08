@@ -28,7 +28,7 @@ describe("Authenticated user tests the form to join the CSSN", () => {
       console.log(el.text())
       // test if the text is one of the two possible messages
       if (el.text().includes('Thank you for joining the CSSN.')) {
-      } else if (el.text().includes('Submission updated in Join the CSSN Network.')) {
+      } else if (el.text().includes('Submission updated in CSSN.')) {
       } else {
         throw new Error('Unexpected message: ' + el.text());
       }
