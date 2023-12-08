@@ -17,7 +17,7 @@ describe("Authenticated user tests the form to join the CSSN", () => {
     cy.get(".page-title").contains("Join the CSSN Network");
 
     //Selecting a CSSN Role
-    cy.get("#edit-i-am-joining-as-a-general-member").click();
+    cy.get("#edit-i-am-joining-as-a-general-member").check();
 
     // Wait before submitting to avoid honeypot
     cy.wait(2000);
