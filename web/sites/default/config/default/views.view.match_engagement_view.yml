@@ -87,7 +87,7 @@ display:
           click_sort_column: value
           type: list_default
           settings: {  }
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -152,7 +152,7 @@ display:
           type: string
           settings:
             link_to_entity: true
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -218,7 +218,7 @@ display:
             image_style: landscape
             image_loading:
               attribute: lazy
-          group_column: ''
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -281,7 +281,7 @@ display:
           type: string
           settings:
             link_to_entity: false
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -344,7 +344,7 @@ display:
           type: entity_reference_label
           settings:
             link: true
-          group_column: target_id
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -800,9 +800,11 @@ display:
         use_more: false
         use_more_always: false
         use_more_text: false
+        group_by: false
         filters: false
         filter_groups: false
         header: false
+      group_by: true
       display_description: ''
       use_more: false
       use_more_always: false
@@ -1465,10 +1467,12 @@ display:
         use_more: false
         use_more_always: false
         use_more_text: false
+        group_by: false
         fields: true
         filters: false
         filter_groups: false
         footer: false
+      group_by: true
       display_description: ''
       use_more: false
       use_more_always: true
