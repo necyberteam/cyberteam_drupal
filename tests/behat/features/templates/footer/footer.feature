@@ -3,14 +3,14 @@
 @javascript
 
 Feature: test footer
-  Both unauthenticated and authenticated users tests footer for links Connect.CI & Contact us 
+  Both unauthenticated and authenticated users tests footer for links Connect.CI & Contact us
 
   Scenario: User is on the homepage
     Given I am not logged in
     When I am on the homepage
     Then I should see "Funded in part by the National Science Foundation"
     And I should see "Copyright"
-    And I should see "All Rights Reserved"
+    And I should see "Privacy Policy"
     And I should see "Connect.CI"
     And I should see "Contact Us"
 
@@ -19,6 +19,6 @@ Feature: test footer
     When I am on the homepage
     Then I should see "Funded in part by the National Science Foundation"
     And I should see "Copyright"
-    And I should see "All Rights Reserved"
+    And I should see "Privacy Policy"
     And I should see "Connect.CI"
     And I should see "Contact Us"
