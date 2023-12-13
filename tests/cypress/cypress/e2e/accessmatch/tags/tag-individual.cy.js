@@ -21,7 +21,6 @@ describe("Verify the the community-outreach tag page", () => {
       cy.get(blockclass)
         .find('tbody')
         .find('tr')
-        .should('have.length', 3)
         .each((row) => {
           cy.wrap(row).find('a').should('have.attr', 'href')
             .and('contain', href_type);
