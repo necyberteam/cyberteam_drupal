@@ -478,7 +478,15 @@ $update_list");
       $domain_id = '';
     }
     $lando = $this->lando();
-    $domain_get = shell_exec("$lando drush domain:list --format=json");
+    if (!file_exists('blt/md/domains.json')) {
+      $domain_get = shell_exec("$lando drush domain:list --format=json");
+      $this->_exec("touch blt/md/domains.json");
+      $this->_exec("echo $domain_get>>blt/md/domains.json");
+    }
+    else {
+      $domain_get = file_get_contents('blt/md/domains.json');
+      $this->say("-=-=-=-=-Domain list coming from blt/md/domains.json=-=-===-\n");
+    }
     $domains = json_decode($domain_get, TRUE);
     if (empty($domain_id)) {
       foreach ($domains as $key => $domain) {
@@ -501,7 +509,15 @@ $update_list");
    */
   public function mds() {
     $branch = shell_exec("git rev-parse --abbrev-ref HEAD");
-    $domain_get = shell_exec($this->lando() . " drush domain:list --format=json");
+    if (!file_exists('blt/md/domains.json')) {
+      $domain_get = shell_exec($this->lando() . " drush domain:list --format=json");
+      $this->_exec("touch blt/md/domains.json");
+      $this->_exec("echo $domain_get>>blt/md/domains.json");
+    }
+    else {
+      $domain_get = file_get_contents('blt/md/domains.json');
+      $this->say("-=-=-=-=-Domain list coming from blt/md/domains.json=-=-===-\n");
+    }
     $domains = json_decode($domain_get, TRUE);
     foreach ($domains as $key => $domain) {
       $this->say("$key - " . $domain['id']);
