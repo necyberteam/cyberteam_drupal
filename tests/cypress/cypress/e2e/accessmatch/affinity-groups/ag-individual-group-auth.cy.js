@@ -26,9 +26,9 @@ function add_pecan_as_ag_coord() {
     .click();
 
   // add Pecan Pie as a coordinator
-  cy.get('#edit-field-coordinator-2-target-id')
+  cy.get('#edit-field-coordinator-1-target-id')
     .type('Pecan Pie')
-    .get('#ui-id-3')  // this is the dropdown that shows up
+    .get('#ui-id-2')  // this is the dropdown that shows up
     .find('.ui-menu-item') //
     .first() // take the first one
     .click();;
@@ -64,7 +64,7 @@ function remove_pecan_as_ag_coord() {
     .click();
 
   // remove Pecan Pie as a coordinator
-  cy.get('#edit-field-coordinator-2-target-id')
+  cy.get('#edit-field-coordinator-1-target-id')
     .clear();
 
   // submit changes
@@ -82,7 +82,6 @@ function confirm_no_email_view_members() {
   cy.contains("Email Affinity Group")
     .should('not.exist');
 
-  cy.task('log', 'The following is failing (Nov 6, 2023) because the "View Members" button is still appearing for Pecan Pie, even though they are no longer a coordinator. This is a bug in the code, but the test is still useful to show this error.');
   cy.contains("View Members")
     .should('not.exist');
 }
