@@ -64,10 +64,604 @@ dependencies:
     - field.field.node.match_engagement.field_wrap_presentation_date
     - node.type.match_engagement
   module:
+    - access_match_engagement
     - datetime
+    - layout_builder
     - options
     - text
     - user
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_twocol_section
+        layout_settings:
+          label: ''
+          context_mapping: {  }
+          column_widths: 75-25
+          layout_builder_styles_style:
+            mb_10_section: mb_10_section
+            bg_light_teal_overflow_section: 0
+            border_b_2: 0
+            border_gray: 0
+            mt_4_section: 0
+            pt_20: 0
+        components:
+          9b9e3a18-0f13-4359-9d74-f5e0b5ead14d:
+            uuid: 9b9e3a18-0f13-4359-9d74-f5e0b5ead14d
+            region: first
+            configuration:
+              id: 'field_block:node:match_engagement:field_tags'
+              label: Tags
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: hidden
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 0
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          48c6c497-ac56-4f4b-b744-e3e69365acd2:
+            uuid: 48c6c497-ac56-4f4b-b744-e3e69365acd2
+            region: first
+            configuration:
+              id: 'field_block:node:match_engagement:body'
+              label: Description
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 1
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          c8895b8c-3a64-4afc-b5cf-a1189bef2e41:
+            uuid: c8895b8c-3a64-4afc-b5cf-a1189bef2e41
+            region: first
+            configuration:
+              id: 'field_block:node:match_engagement:field_hpc_resources_needed'
+              label: 'HPC Resources Needed'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional:
+              layout_builder_styles_style:
+                mb_5: mb_5
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          bbb1fdb8-c76b-4180-a97d-d3fe97abc8ff:
+            uuid: bbb1fdb8-c76b-4180-a97d-d3fe97abc8ff
+            region: first
+            configuration:
+              id: 'field_block:node:match_engagement:field_project_deliverables'
+              label: 'Project Deliverables'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 3
+            additional:
+              layout_builder_styles_style:
+                mb_5: mb_5
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          8544ba7e-1932-467d-95f5-7ac76614f5d1:
+            uuid: 8544ba7e-1932-467d-95f5-7ac76614f5d1
+            region: second
+            configuration:
+              id: 'field_block:node:match_engagement:field_project_image'
+              label: 'Project Image'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: image
+                label: hidden
+                settings:
+                  image_link: ''
+                  image_style: landscape__480x220__keep_ratio_
+                  image_loading:
+                    attribute: lazy
+                third_party_settings: {  }
+            weight: 0
+            additional:
+              layout_builder_styles_style:
+                mb_5: mb_5
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          2764f31f-3669-4bf0-8c91-4be259eaecb0:
+            uuid: 2764f31f-3669-4bf0-8c91-4be259eaecb0
+            region: second
+            configuration:
+              id: 'field_block:node:match_engagement:field_researcher'
+              label: Researcher(s)
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 1
+            additional:
+              layout_builder_styles_style:
+                mb_5: mb_5
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          54c8a0f5-f5ee-4fa5-927b-be03a4b8b9c3:
+            uuid: 54c8a0f5-f5ee-4fa5-927b-be03a4b8b9c3
+            region: second
+            configuration:
+              id: 'field_block:node:match_engagement:field_institution'
+              label: Institution
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 2
+            additional:
+              layout_builder_styles_style:
+                mb_5: mb_5
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          d19c893a-c457-4a1a-9851-0d69fafd296d:
+            uuid: d19c893a-c457-4a1a-9851-0d69fafd296d
+            region: second
+            configuration:
+              id: 'field_block:node:match_engagement:field_status'
+              label: Status
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: list_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 3
+            additional:
+              layout_builder_styles_style:
+                mb_5: mb_5
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          357289d2-16f7-4c73-865d-106affd3408d:
+            uuid: 357289d2-16f7-4c73-865d-106affd3408d
+            region: second
+            configuration:
+              id: 'field_block:node:match_engagement:field_preferred_semester'
+              label: 'Preferred Semester'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: list_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 4
+            additional:
+              layout_builder_styles_style:
+                mb_5: mb_5
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          5157902d-cecd-413a-9f5d-dde40b2e5ba6:
+            uuid: 5157902d-cecd-413a-9f5d-dde40b2e5ba6
+            region: second
+            configuration:
+              id: 'field_block:node:match_engagement:field_qualifications'
+              label: 'Preferred Student Attributes'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 5
+            additional:
+              layout_builder_styles_style:
+                mb_5: mb_5
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          5ef36355-534a-4752-9881-a20058055e54:
+            uuid: 5ef36355-534a-4752-9881-a20058055e54
+            region: second
+            configuration:
+              id: 'field_block:node:match_engagement:field_programming_skill_level'
+              label: 'Programming Skill Level'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: list_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 6
+            additional:
+              layout_builder_styles_style:
+                mb_5: mb_5
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          865d0be5-efe5-416b-8a99-810eb64f58e0:
+            uuid: 865d0be5-efe5-416b-8a99-810eb64f58e0
+            region: second
+            configuration:
+              id: 'field_block:node:match_engagement:field_mentor'
+              label: Mentor(s)
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 7
+            additional:
+              layout_builder_styles_style:
+                mb_5: mb_5
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          6b7c4c9b-a2d0-498a-b8a2-eada2c1119eb:
+            uuid: 6b7c4c9b-a2d0-498a-b8a2-eada2c1119eb
+            region: second
+            configuration:
+              id: 'field_block:node:match_engagement:field_students'
+              label: Student(s)
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 8
+            additional:
+              layout_builder_styles_style:
+                mb_5: mb_5
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          f98ff28f-d26d-4e0d-8f9c-999d46e9ef22:
+            uuid: f98ff28f-d26d-4e0d-8f9c-999d46e9ef22
+            region: content
+            configuration:
+              id: 'extra_field_block:node:match_engagement:content_moderation_control'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+            weight: 0
+            additional: {  }
+          d7d70c68-0575-4b84-bf0a-cddd3ae231ae:
+            uuid: d7d70c68-0575-4b84-bf0a-cddd3ae231ae
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_institution'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          45aab4c0-8392-4348-a9c0-cbb09c01700b:
+            uuid: 45aab4c0-8392-4348-a9c0-cbb09c01700b
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_status'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: list_default
+                label: inline
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          e3cd2717-09d4-4094-ab6b-d38d8ee674e8:
+            uuid: e3cd2717-09d4-4094-ab6b-d38d8ee674e8
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_urgency'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: list_default
+                label: inline
+                settings: {  }
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+          1786a17d-62ac-48b2-8621-fb634eecd895:
+            uuid: 1786a17d-62ac-48b2-8621-fb634eecd895
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_researcher'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: inline
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 4
+            additional: {  }
+          059370d9-7f1e-449e-b8f5-4ea9b34746ca:
+            uuid: 059370d9-7f1e-449e-b8f5-4ea9b34746ca
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_preferred_semester'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: list_default
+                label: inline
+                settings: {  }
+                third_party_settings: {  }
+            weight: 5
+            additional: {  }
+          8188a4b0-ec44-4cc7-a921-6a190ae2fdfd:
+            uuid: 8188a4b0-ec44-4cc7-a921-6a190ae2fdfd
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_requested_engagement'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: list_default
+                label: inline
+                settings: {  }
+                third_party_settings: {  }
+            weight: 6
+            additional: {  }
+          439f020c-84f1-47e5-9f34-c8930c41113d:
+            uuid: 439f020c-84f1-47e5-9f34-c8930c41113d
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_completion_date_goal_1'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: datetime_custom
+                label: inline
+                settings:
+                  timezone_override: ''
+                  date_format: n/j/Y
+                third_party_settings: {  }
+            weight: 7
+            additional: {  }
+          e1dd2df4-ba8f-4f6f-b06f-89021681ca0a:
+            uuid: e1dd2df4-ba8f-4f6f-b06f-89021681ca0a
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 8
+            additional: {  }
+          f30c7aec-69d1-46ec-a945-3e18491425cf:
+            uuid: f30c7aec-69d1-46ec-a945-3e18491425cf
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_hpc_resources_needed'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 9
+            additional: {  }
+          3b8e54a2-4729-4975-adbd-47085519c9be:
+            uuid: 3b8e54a2-4729-4975-adbd-47085519c9be
+            region: content
+            configuration:
+              id: 'field_block:node:match_engagement:field_project_deliverables'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 10
+            additional: {  }
+          59ae805e-0f83-49d1-bfaa-4649befdc2eb:
+            uuid: 59ae805e-0f83-49d1-bfaa-4649befdc2eb
+            region: second
+            configuration:
+              id: match_node_block
+              label: 'Access Match Node Block'
+              label_display: '0'
+              provider: access_match_engagement
+              context_mapping: {  }
+            weight: 9
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+        third_party_settings: {  }
 id: node.match_engagement.default
 targetEntityType: node
 bundle: match_engagement

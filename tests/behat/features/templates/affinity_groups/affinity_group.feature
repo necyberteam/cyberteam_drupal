@@ -42,6 +42,7 @@ Feature: Feature: test an Affinity Groups page
   Scenario: Unauthenticated user tests an individual Affinity Group page
     Given I am not logged in
     When I am on "/affinity-groups/cloud-computing"
+    And I wait for the page to be loaded
     Then I should see an image with alt text "A blue cloud"
     Then I should see "People who use or are considering the use of cloud resources"
     # follow a Tags
@@ -70,22 +71,23 @@ Feature: Feature: test an Affinity Groups page
     Given I am not logged in
     When I am on "/affinity-groups/access-support"
     Then I should see "Events"
-    Then I should see "[4/04/2023 7:00 PM EDT]"
-    Then link "How to Write a Successful" should contain "/events/6593"
+    # TODO need a future event for the following
+    # Then I should see "[4/04/2023 7:00 PM EDT]"
+    # Then link "How to Write a Successful" should contain "/events/6593"
     # TODO - once able to add a CI Link to this AG, uncomment the following
     #Then I should see "ci-link-for-user-200"
     Then link "Changing my user profile name on the" should contain "/t/changing-my-user-profile-name-on-the-access-support-portal/2479"
-    When I click "How to Write a Successful"
-    Then I should be on "/events/6593"
+    #When I click "How to Write a Successful"
+    #Then I should be on "/events/6593"
 
 
   Scenario: Unauthenticated user tests an AG with an announcement
     Given I am not logged in
     When I am on "/affinity-groups/anvil"
     Then I should see "Announcements"
-    Then I should see "[12/16/2022]"
+    Then I should see "12/16/22"
     When I click "2022 - 2023 Holiday Support Schedule for Anvil"
-    Then I should be on "/node/403"
+    Then I should be on "/announcements/2022-2023-holiday-support-schedule-anvil"
 
 
   Scenario: Unauthenticated user tests an AG with a github link
@@ -97,10 +99,7 @@ Feature: Feature: test an Affinity Groups page
   Scenario: Unauthenticated user tests an AG with a github link
     Given I am not logged in
     When I am on "/affinity-groups/anvil"
-    Then I should see "Announcements"
-    Then I should see "[12/16/2022]"
-    When I click "2022 - 2023 Holiday Support Schedule for Anvil"
-    Then I should be on "/node/403"
+    #todo: test for the GitHub link.
 
 
   Scenario: Unauthenticated user tests another AG with recommended resources
@@ -123,7 +122,7 @@ Feature: Feature: test an Affinity Groups page
     When I go to "/affinity-groups/delta"
     Then I should see an image with alt text "Delta ACCESS Affinity Group logo"
     Then I should see "DELTA is a dedicated, ACCESS-allocated resource designed by HPE and NCSA"
-    Then I should see "Allocated CiDeR Resources"
+    Then I should see "Associated Resources"
     Then I should see "NCSA Delta GPU (Delta GPU)"
     Then I should not see "The Delta GPU resource comprises 4 different node configurations"
     When I press "NCSA Delta GPU (Delta GPU)"

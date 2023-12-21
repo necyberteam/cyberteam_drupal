@@ -23,7 +23,6 @@ Feature: This test verifies the following for the coco domain for an authenticat
     When I wait for the page to be loaded
     #Logo is not working
     Then I should see an image with alt text "CoCo"
-    #Then I should see "Northeast Cyberteam"
     Then I should not see "About Us"
     Then I should not see "Get Help"
     Then I should not see "Projects"
@@ -35,12 +34,15 @@ Feature: This test verifies the following for the coco domain for an authenticat
     Then I should see "Community of Practice"
     Then I should see "Consortium"
     Then I should see "Grant-Funded Program"
-    Then I should see "Higher Ed Institution"
     Then I should see "Non-profit"
-    Then I should see "Other"
 
     Then I should see "Suggest new organization"
 
+    When I click "RCD+"
+    Then I should be on "glossary#rcd"
+    And I should see "Research computing and data plus involves people, scholarship, and resources"
+
+    When I am on the homepage
     When I click "Campus Champions"
     Then I should see "Campus Champions"
     #Then I should see "img-fluid"

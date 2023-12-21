@@ -43,7 +43,7 @@ Feature: Tests for the Tags page with unauthenticated user.  Verify "Request Tag
       And I should be on "tags/hierarchal"
       When I click "ACCESS RPs"
     # want to test clicking the down arrow - following isn't right
-      #Then I should see "access-acount"
+      #Then I should see "access-account"
       When I go to "tags/hierarchal"
       When I follow "List View"
       Then I should be on "/tags"

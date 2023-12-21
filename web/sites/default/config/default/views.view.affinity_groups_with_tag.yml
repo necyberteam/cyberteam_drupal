@@ -41,11 +41,11 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: field
-          label: ''
+          label: Logo
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '<div class="[&_img]--object-contain [&_img]--h-auto [&_img]--m-0 w-24">{{ field_image }}</div>'
             make_link: false
             path: ''
             absolute: false
@@ -237,8 +237,8 @@ display:
           label: Tags
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '<div class="m-2 [&_a]--border [&_a]--font-normal [&_a]--no-underline [&_a]--px-2 [&_a]--py-1 [&_a]--mx-2 [&_a]--my-1 [&_a]--hover--border-dark-teal [&_a]--whitespace-nowrap">{{ field_tags }}</div>'
             make_link: false
             path: ''
             absolute: false
@@ -388,7 +388,7 @@ display:
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: false
-          empty: '<a href="/user/login?destination={{ view_node }}" class="btn btn-sm btn-primary"><small>Login to join</small></a>'
+          empty: '<a href="/user/login?destination={{ view_node }}" class="btn btn-sm btn-primary whitespace-nowrap"><small>Login to join</small></a>'
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
@@ -425,7 +425,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning">There are no [view:title] associated with this topic. View <a href="/affinity-groups">All Affinity Groups</a>.</div>'
+            value: '<div class="alert alert-warning pb-4">There are no [view:title] associated with this topic. View <a href="/affinity-groups">All Affinity Groups</a>.</div>'
             format: full_no_editor
           tokenize: false
       sorts:
@@ -575,12 +575,23 @@ display:
         options:
           grouping: {  }
           row_class: ''
-          default_row_class: true
+          default_row_class: false
           columns:
+            field_image: field_image
             title: title
+            body: body
             field_tags: field_tags
+            view_node: view_node
+            link_flag: link_flag
           default: '-1'
           info:
+            field_image:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             title:
               sortable: false
               default_sort_order: asc
@@ -588,7 +599,28 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
+            body:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             field_tags:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            view_node:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            link_flag:
+              sortable: false
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
@@ -644,8 +676,8 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<h2 class="card-title">[view:title]</h2>'
-            format: basic_html
+            value: '<h2>[view:title]</h2>'
+            format: full_no_editor
           tokenize: false
       footer: {  }
       display_extenders: {  }
@@ -688,7 +720,7 @@ display:
         - 'config:field.storage.node.field_tags'
   block_2:
     id: block_2
-    display_title: 'Affinity Groups with Tag '
+    display_title: 'ASP: Affinity Groups with Tag '
     display_plugin: block
     position: 1
     display_options:
@@ -737,8 +769,8 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<h2>Affinity Groups</h2>'
-            format: basic_html
+            value: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">Affinity Groups</h2>'
+            format: full_html
           tokenize: false
       display_extenders:
         simple_sitemap_display_extender: {  }
@@ -1087,13 +1119,10 @@ display:
             title: All
           title_enable: true
           title: '  Affinity Groups tagged {{ arguments.tid }}'
-          default_argument_type: taxonomy_tid
+          default_argument_type: raw
           default_argument_options:
-            term_page: '1'
-            node: false
-            limit: false
-            vids: {  }
-            anyall: ','
+            index: 1
+            use_alias: false
           default_argument_skip_url: false
           summary_options:
             base_path: ''
@@ -1122,7 +1151,7 @@ display:
       header: {  }
       display_extenders:
         simple_sitemap_display_extender: {  }
-      path: tag/%taxonomy_term/affinity-groups
+      path: tags/%/affinity-groups
     cache_metadata:
       max-age: 0
       contexts:

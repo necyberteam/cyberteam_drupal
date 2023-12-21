@@ -40,8 +40,10 @@ DRUPAL_HASH_SALT=$hash
 AMP_UID=$uid
 GITHUB_TOKEN=$token'>.env");
     $this->say("❗️ Environment vars setup, now starting lando. ❗️");
+    $this->_exec("lando blt blt:telemetry:disable --no-interaction");
     $this->_exec("lando start");
     $this->_exec("lando blt blt:telemetry:disable --no-interaction");
+    $this->_exec("lando composer config --global github-protocols https");
     $this->_exec("lando xdebug-off");
     $this->_exec("lando composer config -g github-oauth.github.com $token");
     if (!file_exists($db_backup)) {
@@ -118,12 +120,15 @@ GITHUB_TOKEN=$token'>.env");
       $snap_option .= $key . " - Branch: " . $snap_name[$key][1] . " Name: " . $snap_name[$key][2] . "\n";
     }
     $snap_selected = $this->ask("Which Snapshots would you like to restore? \n" . $snap_option);
+    $snap_deploy = $this->ask("Would you like to run deploy? (Y/n)");
     $this->_exec("git checkout " . $snap_name[$snap_selected][1]);
     $this->say("Restored Branch: " . $snap_name[$snap_selected][1]);
     $this->_exec($this->lando() . "composer install");
     $this->_exec($this->lando() . "db-import backups/snapshots/" . $snap_name[$snap_selected][0] . "_" . $snap_name[$snap_selected][1] . "_" . $snap_name[$snap_selected][2] . ".sql.gz");
     $this->say("Restored Snapshot: " . $snap_name[$snap_selected][2]);
-    $this->_exec($this->lando() . "drush deploy");
+    if ($snap_deploy != 'n') {
+      $this->_exec($this->lando() . "drush deploy");
+    }
   }
 
   /**
@@ -394,9 +399,11 @@ GITHUB_TOKEN=$token'>.env");
     if (!empty($domain_id)) {
       $this->_exec($this->lando() . "blt amp:ds $domain_id");
     }
+    else {
+      $this->_exec("sleep 2");
+      $this->_exec($this->lando() . "drush cr");
+    }
     $this->_exec($this->lando() . "blt amp:uli");
-    $this->_exec("sleep 2");
-    $this->_exec($this->lando() . "drush cr");
   }
 
   /**
@@ -471,7 +478,15 @@ $update_list");
       $domain_id = '';
     }
     $lando = $this->lando();
-    $domain_get = shell_exec("$lando drush domain:list --format=json");
+    if (!file_exists('blt/md/domains.json')) {
+      $domain_get = shell_exec("$lando drush domain:list --format=json");
+      $this->_exec("touch blt/md/domains.json");
+      $this->_exec("echo $domain_get>>blt/md/domains.json");
+    }
+    else {
+      $domain_get = file_get_contents('blt/md/domains.json');
+      $this->say("-=-=-=-=-Domain list coming from blt/md/domains.json=-=-===-\n");
+    }
     $domains = json_decode($domain_get, TRUE);
     if (empty($domain_id)) {
       foreach ($domains as $key => $domain) {
@@ -481,7 +496,9 @@ $update_list");
     }
     $default_domain = $domains[$domain_id]['id'];
     $this->_exec("$lando drush domain:default $default_domain");
+    $this->_exec("$lando drush cr");
     $this->say("Setting $default_domain as default");
+    $this->_exec("$lando drush cr");
   }
 
   /**
@@ -492,7 +509,15 @@ $update_list");
    */
   public function mds() {
     $branch = shell_exec("git rev-parse --abbrev-ref HEAD");
-    $domain_get = shell_exec($this->lando() . " drush domain:list --format=json");
+    if (!file_exists('blt/md/domains.json')) {
+      $domain_get = shell_exec($this->lando() . " drush domain:list --format=json");
+      $this->_exec("touch blt/md/domains.json");
+      $this->_exec("echo $domain_get>>blt/md/domains.json");
+    }
+    else {
+      $domain_get = file_get_contents('blt/md/domains.json');
+      $this->say("-=-=-=-=-Domain list coming from blt/md/domains.json=-=-===-\n");
+    }
     $domains = json_decode($domain_get, TRUE);
     foreach ($domains as $key => $domain) {
       $this->say("$key - " . $domain['id']);

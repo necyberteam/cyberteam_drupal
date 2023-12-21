@@ -500,11 +500,11 @@ display:
         type: html_list
         options:
           grouping: {  }
-          row_class: ''
+          row_class: 'list-none p-0 m-1'
           default_row_class: false
           type: ul
           wrapper_class: add-skill-list
-          class: ''
+          class: 'flex flex-wrap p-0 m-0'
       row:
         type: fields
         options:
@@ -1005,7 +1005,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: "<script>\r\nlet flags = document.querySelectorAll('.flag-tag');\r\nflags.forEach( flag => {\r\n    flag.addEventListener('click', e => {\r\n      // simulate click\r\n      const target = e.currentTarget;\r\n      if (target.classList.value.includes('bg-secondary')) {\r\n        target.classList.remove('bg-secondary', 'text-white');\r\n        target.classList.add('bg-white');\r\n      } else {\r\n        target.classList.add('bg-secondary', 'text-white');\r\n        target.classList.remove('bg-white');\r\n      }\r\n      target.querySelector('.flag > a').click();\r\n      target.classList.toggle('flagged')\r\n    })\r\n})\r\n</script>"
+            value: "<script>\r\nlet flags = document.querySelectorAll('.flag-tag');\r\nflags.forEach( flag => {\r\n    flag.addEventListener('click', e => {\r\n      // simulate click\r\n      const target = e.currentTarget;\r\n      if (target.classList.value.includes('flagged')) {\r\n        target.classList.remove('bg-secondary', 'bg-dark-teal',  'text-white', 'border-dark-teal', 'hover--text-white',  'hover--opacity-80');\r\n        target.classList.add('bg-white', 'border-black', 'hover--text-dark-teal');\r\n      } else {\r\n        target.classList.add('bg-secondary', 'bg-dark-teal',  'text-white', 'border-dark-teal', 'hover--text-white', 'hover--opacity-80');\r\n        target.classList.remove('bg-white', 'border-black', 'hover--text-dark-teal');\r\n      }\r\n      target.querySelector('.flag > a').click();\r\n      target.classList.toggle('flagged')\r\n    })\r\n})\r\n</script>"
             format: full_no_editor
           tokenize: false
       display_extenders:
@@ -1015,7 +1015,7 @@ display:
           changefreq: ''
           arguments: {  }
           max_links: 100
-      path: add-skill
+      path: community-persona/add-skill
     cache_metadata:
       max-age: -1
       contexts:
@@ -1081,8 +1081,8 @@ display:
           empty_zero: false
           hide_alter_empty: true
           type: custom
-          type_custom_true: 'bg-secondary text-white'
-          type_custom_false: bg-white
+          type_custom_true: 'flagged bg-secondary bg-dark-teal border-dark-teal text-white hover--text-white hover--opacity-80'
+          type_custom_false: 'bg-white border-black hover--border-dark-teal hover--text-dark-teal'
           not: 0
         link_flag:
           id: link_flag
@@ -1148,7 +1148,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"d-inline-flex flag-tag {{ flagged }} border border-black m-1 p-1\">\r\n<div class=\"flag-element-name\">{{ name }}</div>\r\n<div class=\"d-none\">{{ link_flag }}</div>\r\n</div>"
+            text: "<div class=\"d-inline-flex flag-tag {{ flagged }} px-2 py-1 border cursor-pointer\">\r\n<div class=\"flag-element-name\">{{ name }}</div>\r\n<div class=\"d-none hidden\">{{ link_flag }}</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false

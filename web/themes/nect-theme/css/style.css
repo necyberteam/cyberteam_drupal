@@ -1458,7 +1458,7 @@ table.sticky-header th {
   box-shadow: none;
 }
 
-.square-tags a {
+.square-tags a, .tags-select a {
   display: inline-block;
   border: 1px solid var(--text);
   margin: 2px;
@@ -1469,7 +1469,7 @@ table.sticky-header th {
   font-weight: 400;
 }
 
-.square-tags a:hover {
+.square-tags a:hover, .tags-select a:hover {
   border: 1px solid var(--primary);
   color: var(--primary);
 }
@@ -1499,4 +1499,64 @@ table.sticky-header th {
 
 .fs-1 {
   font-size: 2.5rem !important
+}
+
+.\[\&\_div\]--flex div {
+  display: flex;
+}
+
+.\[\&\_div\]--flex-wrap div {
+  flex-wrap: wrap;
+}
+
+/* people card views */
+.people {
+  display: flex;
+  flex-wrap: wrap;
+}
+.people header {
+  width: 100%;
+  padding-bottom: 0;
+}
+.people .p-4 {
+  padding: 0.5rem !important;
+}
+.people .me-3 {
+  margin-right: 0.25rem;
+}
+.people .views-row > .views-field {
+  border: 1px solid var(--secondary);
+  padding: 12px;
+}
+.people .mb-5 {
+  margin-bottom: 12px !important;
+}
+.people .my-3 {
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+}
+.people h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 4px !important;
+}
+.people .ms-3 {
+  margin-left: auto;
+}
+.square-tags .d-inline-flex {
+  padding-right: 0px !important;
+}
+.people nav {
+  width: 100%;
+}
+.people nav ul li {
+  display: inline;
+}
+.square-tags.views-field {
+  display: flex;
+  flex-wrap: wrap;
+}
+.square-tags.views-field .m-2 {
+  margin: 0 0.25rem 0.25rem 0 !important;
 }

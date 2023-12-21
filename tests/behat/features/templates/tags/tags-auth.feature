@@ -46,12 +46,8 @@ The "Tree View" button is grayed out.
     When I follow "Tree View"
     Then I should see "Please select the"
     When I click "ACCESS RPs"
-    # want to test clicking the down arrow - following isn't right
-    #And I wait 5 seconds
-    #Then I should see "DNS"
-    And I should be on "/tags/access-rps"
-    When I go to "/tags/hierarchal"
+    And I should be on "/tags/hierarchal"
     When I follow "List View"
     Then I should see "login"
     Then I should be on "/tags"
-    When I select "Contains all words" from "edit-name-op--2"
+    When I select "Contains all words" from "edit-name-op"

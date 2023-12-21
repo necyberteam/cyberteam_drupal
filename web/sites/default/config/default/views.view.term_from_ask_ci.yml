@@ -37,7 +37,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '{{ name|split(''('')|first|trim|replace({'' '':''-''}) }}'
+            text: "{{ name|split('(')|first|trim|replace({' ':'-'}) }}"
             make_link: false
             path: ''
             absolute: false
@@ -204,6 +204,7 @@ display:
           query_tags: {  }
           contextual_filters_or: false
       relationships: {  }
+      css_class: py-4
       header:
         area:
           id: area
@@ -215,7 +216,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<h6 class="card-title">[view:title]</h6>'
+            value: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">[view:title]</h2>'
             format: full_no_editor
           tokenize: false
       footer: {  }

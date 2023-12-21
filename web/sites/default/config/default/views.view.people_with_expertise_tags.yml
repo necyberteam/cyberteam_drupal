@@ -30,7 +30,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'People with expertise'
+      title: 'People with Expertise'
       fields:
         uid:
           id: uid
@@ -454,7 +454,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"d-flex\">\r\n  <div class=\"me-3 w-60\">\r\n  <h4>{{ realname }}</h4>\r\n  <p class=\"text-break\">{{ field_institution }}</p>\r\n  {% if field_region %}\r\n    <strong>Programs</strong>\r\n    <p>{{ field_region }}</p>\r\n  {% endif %}\r\n  {% if roles_target_id %}\r\n    <strong>Roles</strong>\r\n    <p>{{ roles_target_id }}</p>\r\n  {% endif %}\r\n  </div>\r\n  <div class=\"ms-auto minw-35\">\r\n  {{ user_picture }}\r\n</div>\r\n</div>\r\n<strong>Expertise</strong>\r\n{{ view }}"
+            text: "  <div class=\"d-flex flex justify-between\">\r\n    <div class=\"w-60 me-3\">\r\n    <h3 class=\"text-lg m-0\">{{ realname }}</h3>\r\n    <p class=\"text-break mwpx-200 mb-5\">{{ field_institution }}</p>\r\n    {% if field_region %}\r\n      <h4 class=\"font-medium uppercase text-sm m-0\">Programs</h4>\r\n      <p class=\"mb-5\">{{ field_region }}</p>\r\n    {% endif %}\r\n    {% if roles_target_id %}\r\n      <h4 class=\"font-medium uppercase text-sm m-0\">Roles</h4>\r\n      <p class=\"mb-5\">{{ roles_target_id }}</p>\r\n    {% endif %}\r\n    </div>\r\n    <div class=\"ms-3 minw-35 max-w-[150px]\">\r\n    {{ user_picture }}\r\n  </div>\r\n  </div>\r\n   <h4 class=\"font-medium uppercase text-sm m-0 mb-2\">Expertise</h4>\r\n  <div class=\"flex square-tags\">{{ view }}</div>"
             make_link: false
             path: ''
             absolute: false
@@ -485,7 +485,7 @@ display:
           element_label_class: ''
           element_label_colon: false
           element_wrapper_type: ''
-          element_wrapper_class: 'h-100 p-3'
+          element_wrapper_class: h-100
           element_default_classes: true
           empty: ''
           hide_empty: false
@@ -636,7 +636,7 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: 'col-md-4 col-12 my-3'
+          row_class: 'col-md-4 col-12 my-3 my-3 bg-light-teal p-4 mb-6 person-card'
           default_row_class: true
       row:
         type: fields
@@ -673,7 +673,7 @@ display:
           entity_field: uid
           plugin_id: standard
           required: true
-      css_class: my-3
+      css_class: 'my-3 py-4 people'
       use_more: true
       use_more_always: false
       use_more_text: 'more people'
@@ -705,11 +705,42 @@ display:
         options:
           offset: 0
           items_per_page: 3
+      sorts:
+        random:
+          id: random
+          table: views
+          field: random
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: random
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
       defaults:
         pager: false
+        fields: true
+        sorts: false
+        header: false
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">[view:title]</h2>'
+            format: full_no_editor
+          tokenize: false
       display_extenders: {  }
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -729,16 +760,22 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: 'col-md-4 col-12'
+          row_class: 'col-md-4 col-12 my-3 my-3 bg-light-teal p-4 mb-6'
           default_row_class: true
       row:
         type: fields
         options: {  }
       defaults:
+        use_more: false
+        use_more_always: false
+        use_more_text: false
         style: false
         row: false
+      use_more: false
+      use_more_always: false
+      use_more_text: 'more people'
       display_extenders: {  }
-      path: tags/people/expertise
+      path: tags/%/people-with-expertise
     cache_metadata:
       max-age: -1
       contexts:
