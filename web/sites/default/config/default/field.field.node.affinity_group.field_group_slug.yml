@@ -1,0 +1,19 @@
+uuid: f498b5a4-9719-4c62-a89f-5b516609a24a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_group_slug
+    - node.type.affinity_group
+id: node.affinity_group.field_group_slug
+field_name: field_group_slug
+entity_type: node
+bundle: affinity_group
+label: 'Short Name'
+description: "Shortened name with lower-care alphanumeric characters and dash only,\r\nfrom 4 - 10 characters.\r\nFor use in mailing list addresses, for example.\r\nMust be unique among affinity groups."
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,28 @@
+uuid: d90dc2b7-c758-4391-bf38-7adc67bc97f9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_use_mailgun_list
+    - node.type.affinity_group
+  module:
+    - label_help
+third_party_settings:
+  label_help:
+    label_help_description: "If this is checked, an email mailing list will be created and all members of this group will be added to the list.  The list name will  use the Short Name field.\r\nIf you uncheck and a list has been created, the list will be deleted. "
+id: node.affinity_group.field_use_mailgun_list
+field_name: field_use_mailgun_list
+entity_type: node
+bundle: affinity_group
+label: 'Use the integrated Affinity Group email list'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
