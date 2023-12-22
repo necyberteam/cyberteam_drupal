@@ -61,31 +61,31 @@ describe("Admin user uses form to create a CI Link", () => {
     // verify submission looks good
     cy.contains("cypress-ci-link-for-testing");
     cy.contains("Dummy description for ci-link 'cypress-ci-link-for-testing'");
-    cy.contains("title for ci-link link 0").should(
+    cy.get('.item-list').contains("title for ci-link link 0").should(
       "have.attr",
       "href",
       "http://example-0.com"
     );
-    cy.contains("title for ci-link link 1").should(
+    cy.get('.item-list').contains("title for ci-link link 1").should(
       "have.attr",
       "href",
       "http://example-1.com"
     );
-    cy.contains("title for ci-link link 2").should(
+    cy.get('.item-list').contains("title for ci-link link 2").should(
       "have.attr",
       "href",
       "http://example-2.com"
     );
-    cy.contains("access-account")
+    cy.get('.form-item-tags').contains("access-account")
       .should("have.attr", "href")
       .and("contains", "/tags/access-account");
-    cy.contains("finite-element-analysis")
+    cy.get('.form-item-tags').contains("finite-element-analysis")
       .should("have.attr", "href")
       .and("contains", "/tags/finite-element-analysis");
-    cy.contains("Beginner")
+    cy.get('.form-item-skill-level').contains("Beginner")
       .should("have.attr", "href")
       .and("contains", "/skill-level/beginner");
-    cy.contains("Intermediate")
+    cy.get('.form-item-skill-level').contains("Intermediate")
       .should("have.attr", "href")
       .and("contains", "/skill-level/intermediate");
   });
