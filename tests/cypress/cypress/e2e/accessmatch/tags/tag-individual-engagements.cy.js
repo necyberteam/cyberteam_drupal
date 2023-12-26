@@ -55,7 +55,7 @@ describe("Verify a tag's page list of engagements", () => {
       cy.get(".tags").click();
       // select community-outreach tag
       cy.get(".tags-select").contains("community-outreach").click();
-      cy.get('#edit-moderation-state-0-state').select('Submitted');
+      // Send for Review
       cy.get('#edit-submit').click();
       cy.contains('Thank you for submitting your project.');
 
