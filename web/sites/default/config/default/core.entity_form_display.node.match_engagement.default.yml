@@ -66,6 +66,7 @@ dependencies:
     - node.type.match_engagement
     - workflows.workflow.match_engagement
   module:
+    - ai_auto_reference
     - content_moderation
     - datetime
     - field_group
@@ -636,7 +637,9 @@ content:
     weight: 14
     region: content
     settings: {  }
-    third_party_settings: {  }
+    third_party_settings:
+      ai_auto_reference:
+        view_mode: default
   field_what_is_the_impact_on_othe:
     type: string_textarea
     weight: 42
