@@ -7,6 +7,7 @@ dependencies:
     - workflows.workflow.match_engagement
   module:
     - content_moderation
+    - file
     - node
 id: match_pm
 label: 'MATCH PM'
@@ -15,6 +16,7 @@ is_admin: null
 permissions:
   - 'create match_engagement content'
   - 'delete any match_engagement content'
+  - 'delete own files'
   - 'delete own match_engagement content'
   - 'edit any match_engagement content'
   - 'edit own match_engagement content'
