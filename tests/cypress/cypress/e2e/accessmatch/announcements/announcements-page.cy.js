@@ -28,7 +28,7 @@ describe("Unauthenticated user tests the Announcements Page", () => {
 
     //Created announcement through cypress
     cy.get(".view-content > :nth-child(1)")
-      .contains("Cypress-Created-Annoucement")
+      .contains("Cypress-Created-Announcement")
       .click();
     cy.get(".field__item > .font-normal").contains("login");
     cy.get(".field__label").contains("Affiliation");

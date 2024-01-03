@@ -7,6 +7,7 @@ dependencies:
     - workflows.workflow.match_engagement
   module:
     - content_moderation
+    - file
     - node
 id: match_sc
 label: 'Match SC'
@@ -14,6 +15,7 @@ weight: 22
 is_admin: null
 permissions:
   - 'access content overview'
+  - 'delete own files'
   - 'edit any match_engagement content'
   - 'revert match_engagement revisions'
   - 'use match_engagement transition complete_engagement'

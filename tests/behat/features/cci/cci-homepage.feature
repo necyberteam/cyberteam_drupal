@@ -63,7 +63,7 @@ Feature: verify specific items on CCI homepage
     When I am on the homepage
     When I follow "Contact Us"
     Then I should be on "contact/connect_ci"
-    And I should see "Page not found"
+    And I should see "Your name"
 
   # TODO - currently broken
   Scenario: Authenticated User is on the homepage and follows contact us
@@ -71,4 +71,4 @@ Feature: verify specific items on CCI homepage
     When I am on the homepage
     When I follow "Contact Us"
     Then I should be on "contact/connect_ci"
-    And I should see "Page not found"
+    And I should see "Your name"
