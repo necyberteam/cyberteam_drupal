@@ -16,14 +16,6 @@ targetEntityType: eventinstance
 bundle: default
 mode: default
 content:
-  affinity_group:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 9
-    region: content
   affinity_group_node_ref:
     type: entity_reference_label
     label: above
@@ -66,7 +58,7 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 10
+    weight: 9
     region: content
   location:
     type: text_default
@@ -92,7 +84,7 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 11
+    weight: 10
     region: content
   tags:
     type: entity_reference_label
@@ -111,5 +103,6 @@ content:
     weight: 2
     region: content
 hidden:
+  affinity_group: true
   body: true
   event_affiliation: true
