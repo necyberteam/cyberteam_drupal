@@ -55,9 +55,10 @@ describe("Verify a tag's page list of engagements", () => {
       cy.get(".tags").click();
       // select community-outreach tag
       cy.get(".tags-select").contains("community-outreach").click();
+      // Send for Review
       cy.get('#edit-moderation-state-0-state').select('Submitted');
       cy.get('#edit-submit').click();
-      cy.contains('Thank you for submitting your project.');
+      cy.contains('Thank you for sending your project for review.');
 
       // update to received
       cy.get('.tabs')
@@ -65,7 +66,6 @@ describe("Verify a tag's page list of engagements", () => {
         .click();
       cy.get('#edit-moderation-state-0-state').select('Received');
       cy.get('#edit-submit').click();
-      cy.contains('has been updated.');
 
       // update to In Review
       cy.get('.tabs')

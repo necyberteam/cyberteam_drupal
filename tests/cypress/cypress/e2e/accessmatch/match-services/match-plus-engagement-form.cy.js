@@ -29,24 +29,26 @@ describe("Authenticated user tests the MATCH+ Engagement Form", () => {
     cy.visit("/node/add/match_engagement?type=plus");
 
     //Title Field
-    cy.get("#edit-title-0-value").type("http://example-0.com");
+    cy.get("#edit-title-0-value").type("Title of a Test Engagement");
 
     //Institution Field
     cy.get("#edit-field-institution-0-value").type("Example University");
 
-    //Description field does not actually type anything in (Below two lines are for the description field)
-    // cy.get("p").type("Testing");
-    // cy.get(".ck-editor__main > .ck").type("Testing");
+    //Description field
+    cy.get('.field--name-body .ck-content').then(el => {
+      const editor = el[0].ckeditorInstance
+      editor.setData('Typing some stuff')
+    })
 
-    //Trouble with selecting tags setcion
-    //cy.get("#edit-field-tags-wrapper").click();
-    //cy.get("Login").click();
-    //cy.get("#edit-title-0-value").type("http://example-0.com");
+    // Tags field
+    cy.get('.tags summary').click()
+    // tid 733 is the tag "access-account"
+    cy.get('.tags-select[data-tid=733]').click()
 
     //Preffered Semester Field
     cy.get('[name="field_preferred_semester"]').select("Summer");
 
-    //Save As Field
-    cy.get('[name="moderation_state[0][state]"]').select("Submitted");
+    // Send for Review
+    cy.get('#edit-submit').click();
   });
 });
