@@ -47,5 +47,11 @@ describe("Authenticated user tests the Announcement Form without adding an Affin
     cy.contains(
       "ACCESS Announcements Cypress-Created-Announcement has been created."
     );
+
+    // test announcement appears on the Announcements page in My Announcements box
+    cy.visit("/announcements");
+    cy.get('.view-access-news').contains("My Announcements");
+    cy.get('.view-access-news').contains("Cypress-Created-Announcement");
+
   });
 });
