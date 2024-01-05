@@ -92,6 +92,13 @@ third_party_settings:
         open: false
         description: ''
         required_fields: true
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
     group_milestone_2:
       children:
         - field_milestone_description_2
@@ -246,11 +253,12 @@ third_party_settings:
       region: content
       parent_name: ''
       weight: 19
-      format_type: fieldset
+      format_type: details
       format_settings:
         classes: ''
         show_empty_fields: false
         id: milestones_fieldset
+        open: true
         description: ''
         required_fields: false
     group_first_milestone_fs:
@@ -262,12 +270,13 @@ third_party_settings:
       region: content
       parent_name: group_milestones_set
       weight: 41
-      format_type: fieldset
+      format_type: details
       format_settings:
         classes: ''
         show_empty_fields: false
         id: milestone1_fieldset
-        description: 'Please enter as many as five milestones for this engagement.  Only the first milestone is required.'
+        open: true
+        description: "<p>Please enter as many as five milestones for this engagement.  Only the first milestone is required.</p>\r\n\r\n<p>Example of a first milestone (see more example milestones in the <a href=\"/match/overview\">MATCH FAQ</a>):</p>\r\n\r\n<ul>\r\n<li>Ramp Up</li>\r\n<li>Discuss meeting schedules (weekly, monthly, etc.)</li>\r\n<li>Tutorials (Intro to GPU computing)</li>\r\n<li>Jetstream accounts setup, access/navigation</li>\r\n<li>Test run ice sheet flow simulations on GPUs, view results</li>\r\n</ul>"
         required_fields: true
 id: node.match_engagement.default
 targetEntityType: node
