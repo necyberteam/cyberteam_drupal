@@ -211,7 +211,6 @@ GITHUB_TOKEN=$token'>.env");
         'asp',
         'champ',
         'coco',
-        // 'rmacc',  // no such testing folder
         'usrse',
         // These domains get all the templated tests copied to them.
         'careers',
@@ -225,14 +224,10 @@ GITHUB_TOKEN=$token'>.env");
     $exceptions_to_template_copies = [
       'templates',
       'wip',
-      'Jasper',
-      'Hannah',
-      'Mackenzie',
       'asp',
       'cci',
       'champ',
       'coco',
-      // 'rmacc',  // no such testing folder
       'usrse',
     ];
 
