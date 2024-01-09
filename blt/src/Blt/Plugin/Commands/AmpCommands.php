@@ -211,7 +211,6 @@ GITHUB_TOKEN=$token'>.env");
         'asp',
         'champ',
         'coco',
-        // 'rmacc',  // no such testing folder
         'usrse',
         // These domains get all the templated tests copied to them.
         'careers',
@@ -225,14 +224,10 @@ GITHUB_TOKEN=$token'>.env");
     $exceptions_to_template_copies = [
       'templates',
       'wip',
-      'Jasper',
-      'Hannah',
-      'Mackenzie',
       'asp',
       'cci',
       'champ',
       'coco',
-      // 'rmacc',  // no such testing folder
       'usrse',
     ];
 
@@ -385,7 +380,8 @@ GITHUB_TOKEN=$token'>.env");
     else {
       $this->_exec("drush sql-drop -y &&
         cp backups/site.sql.gz lando-import.sql.gz &&
-        gunzip lando-import.sql.gz
+        rm lando-import.sql &&
+        gunzip lando-import.sql.gz &&
         drush sqlc < lando-import.sql &&
         rm -fR lando-import.sql
       ");
