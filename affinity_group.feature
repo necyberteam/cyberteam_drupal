@@ -32,7 +32,7 @@ Feature: Feature: test an Affinity Group page
     When I fill in "Display CI Links on your Affinity Group" with "ci-link-for-user-200"
     And I wait 1 seconds
     When I press "Save"
-    And I /tests/behat
+    And I wait 2 seconds
     Then I should see "Affinity Group ACCESS Support has been updated."
     When I follow "ci-link-for-user-200"
     And I wait 1 seconds
@@ -143,7 +143,7 @@ Feature: Feature: test an Affinity Group page
     Given I am logged in as a user with the "authenticated" role
     When I am on "/affinity-groups/cloud-computing"
     When I follow "Join"
-    And I /tests/behat
+    And I wait 2 seconds
     Then I should see "You have joined this affinity group"
     And I wait 10 seconds
     When I follow "Leave"
