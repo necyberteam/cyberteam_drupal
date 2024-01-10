@@ -378,7 +378,6 @@ GITHUB_TOKEN=$token'>.env");
     else {
       $this->_exec("drush sql-drop -y &&
         cp backups/site.sql.gz lando-import.sql.gz &&
-        rm lando-import.sql &&
         gunzip lando-import.sql.gz &&
         drush sqlc < lando-import.sql &&
         rm -fR lando-import.sql
