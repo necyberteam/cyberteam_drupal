@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9fdf5557ef6e32ac76b1873752b2176b",
+    "content-hash": "246df58189b92e637ca3bc6480ac573d",
     "packages": [
         {
             "name": "access/drupal_seamless_cilogon",
@@ -2437,6 +2437,67 @@
             "homepage": "https://www.drupal.org/project/access_by_ref",
             "support": {
                 "source": "https://git.drupalcode.org/project/access_by_ref"
+            }
+        },
+        {
+            "name": "drupal/ai_auto_reference",
+            "version": "1.0.0-alpha2",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/ai_auto_reference.git",
+                "reference": "1.0.0-alpha2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/ai_auto_reference-1.0.0-alpha2.zip",
+                "reference": "1.0.0-alpha2",
+                "shasum": "c4cfe6bafc0b19ef3ed6eff282e5521a9c1ba44f"
+            },
+            "require": {
+                "drupal/core": "^9 || ^10",
+                "gioni06/gpt3-tokenizer": "^1.2",
+                "openai-php/client": "^0.4.1"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.0.0-alpha2",
+                    "datestamp": "1699859956",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Alpha releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Scott Euser",
+                    "homepage": "https://scotteuser.com",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Andrii Sakhaniuk",
+                    "homepage": "https://dev-branch.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Automatically sets or suggests references to other content entities in the site.",
+            "homepage": "https://www.drupal.org/project/ai_auto_reference",
+            "keywords": [
+                "AI content",
+                "GPT-3",
+                "GPT-4",
+                "content generation",
+                "content moderation",
+                "gpt",
+                "openai"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/ai_auto_reference"
             }
         },
         {
@@ -21958,6 +22019,7 @@
         "access/infrastructure_news": 20,
         "access/operations_cider": 20,
         "amp/access": 20,
+        "drupal/ai_auto_reference": 15,
         "drupal/auditfiles": 10,
         "drupal/datalayer": 5,
         "drupal/domain": 10,
