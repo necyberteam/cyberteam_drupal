@@ -272,4 +272,45 @@ handlers:
       theme_name: ''
       parameters: {  }
       debug: false
+  email_to_submitter:
+    id: email
+    handler_id: email_to_submitter
+    label: 'Email to Submitter'
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 0
+    settings:
+      states:
+        - completed
+      to_mail: '[webform_submission:values:email:raw]'
+      to_options: {  }
+      bcc_mail: ''
+      bcc_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      from_mail: _default
+      from_options: {  }
+      from_name: _default
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      subject: 'Thank you for joining the CCMNet!'
+      body: "Dear {{ webform_token('[webform_submission:values:name]', webform_submission, [], options) }}\r\n\r\nThank you for your interest in the Cyberinfrastructure Community-wide Mentorship Network (CCMNet) and for joining our mentorship program! We are building the framework for community interaction, leveraging existing community platforms, and tailoring them to our vision of CCMNet’s community mentorship initiative.\r\n \r\nWe will provide occasional progress updates via email and welcome your input, experience, and ideas to help foster growth within our mentorship program. We will announce our official launch when our platform is ready, and we are poised to begin mentor-matching services.\r\n \r\nWe look forward to working together in the very near future!\r\n \r\nSincerely,\r\nThe CCMNet Team\r\n\r\nhttps://ccmnet.org/"
+      excluded_elements:
+        name: name
+        email: email
+        institution: institution
+        roles: roles
+      ignore_access: false
+      exclude_empty: true
+      exclude_empty_checkbox: false
+      exclude_attachments: false
+      html: true
+      attachments: false
+      twig: true
+      theme_name: ''
+      parameters: {  }
+      debug: false
 variants: {  }
