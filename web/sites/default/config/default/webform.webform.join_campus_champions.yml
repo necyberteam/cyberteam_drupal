@@ -101,27 +101,14 @@ elements: |-
     mentor_name:
       '#type': entity_autocomplete
       '#title': 'Mentor Name'
-      '#description': 'Type the mentor&#39;s name and select them from the dropdown list. The mentor must be a Campus Champion. The mentor must have agreed that they are willing and able to mentor the student - it is the student&rsquo;s responsibility to confirm that with the mentor.'
+      '#description': "<p>Type the mentor's name and select them from the dropdown list. The mentor must be a Campus Champion. The mentor must have agreed that they are willing and able to mentor the student - it is the student’s responsibility to confirm that with the mentor.</p>"
       '#required': true
       '#target_type': user
       '#selection_handler': 'default:user'
       '#selection_settings':
-        include_anonymous: true
+        include_anonymous: false
         filter:
-          type: role
-          role:
-            mentor: mentor
-            student: 0
-            professional_mentor: 0
-            researcher: 0
-            sc: 0
-            ra: 0
-            representative: 0
-            administrator: 0
-            masquerade: 0
-            regional_expert: 0
-            campuschampionsadmin: 0
-            exportpeople: 0
+          type: _none
     mentor_email:
       '#type': email
       '#title': 'Mentor Email'
@@ -158,7 +145,7 @@ elements: |-
             unchecked: true
   i_can_t_find_my_carnegie_code:
     '#type': checkbox
-    '#title': 'I can''t find my Carnegie Code'
+    '#title': "I can't find my Carnegie Code"
   user_institution:
     '#type': webform_section
     '#title': Institution
