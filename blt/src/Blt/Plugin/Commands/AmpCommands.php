@@ -40,23 +40,21 @@ DRUPAL_HASH_SALT=$hash
 AMP_UID=$uid
 GITHUB_TOKEN=$token'>.env");
     $this->say("❗️ Environment vars setup, now starting lando. ❗️");
-    $this->_exec("lando blt blt:telemetry:disable --no-interaction");
-    $this->_exec("lando start");
-    $this->_exec("lando blt blt:telemetry:disable --no-interaction");
-    $this->_exec("lando composer config --global github-protocols https");
-    $this->_exec("lando xdebug-off");
-    $this->_exec("lando composer config -g github-oauth.github.com $token");
+    $this->_exec($this->lando() . " start");
+    $this->_exec($this->lando() . " composer config --global github-protocols https");
+    $this->_exec($this->lando() . " xdebug-off");
+    $this->_exec($this->lando() . " composer config -g github-oauth.github.com $token");
     if (!file_exists($db_backup)) {
       $this->_exec("mkdir backups");
-      $this->_exec("lando blt gh:pulldb");
+      $this->_exec($this->lando() . " blt gh:pulldb");
     }
     if (!file_exists($files)) {
-      $this->_exec("lando blt gh:pullfiles");
+      $this->_exec($this->lando() . " blt gh:pullfiles");
     }
-    $this->_exec("lando blt amp:did");
-    $this->_exec("lando drush deploy");
+    $this->_exec($this->lando() . " blt amp:did");
+    $this->_exec($this->lando() . " drush deploy");
     if (!file_exists($theme_node)) {
-      $this->_exec("cd web/themes/custom/accesstheme && lando npm install && lando npm run build:sass");
+      $this->_exec("cd web/themes/custom/accesstheme && " . $this->lando() . " npm install && " . $this->lando() . " npm run build:sass");
     }
   }
 
@@ -211,7 +209,6 @@ GITHUB_TOKEN=$token'>.env");
         'asp',
         'champ',
         'coco',
-        // 'rmacc',  // no such testing folder
         'usrse',
         // These domains get all the templated tests copied to them.
         'careers',
@@ -225,14 +222,10 @@ GITHUB_TOKEN=$token'>.env");
     $exceptions_to_template_copies = [
       'templates',
       'wip',
-      'Jasper',
-      'Hannah',
-      'Mackenzie',
       'asp',
       'cci',
       'champ',
       'coco',
-      // 'rmacc',  // no such testing folder
       'usrse',
     ];
 
@@ -385,7 +378,7 @@ GITHUB_TOKEN=$token'>.env");
     else {
       $this->_exec("drush sql-drop -y &&
         cp backups/site.sql.gz lando-import.sql.gz &&
-        gunzip lando-import.sql.gz
+        gunzip lando-import.sql.gz &&
         drush sqlc < lando-import.sql &&
         rm -fR lando-import.sql
       ");

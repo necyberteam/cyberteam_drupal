@@ -143,7 +143,7 @@ Feature: Feature: test an Affinity Group page
     Given I am logged in as a user with the "authenticated" role
     When I am on "/affinity-groups/cloud-computing"
     When I follow "Join"
-    Wait 2 seconds
+    And I wait 2 seconds
     Then I should see "You have joined this affinity group"
     And I wait 10 seconds
     When I follow "Leave"
