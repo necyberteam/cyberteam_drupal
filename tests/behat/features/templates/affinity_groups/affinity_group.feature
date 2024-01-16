@@ -151,7 +151,7 @@ Feature: Feature: test an Affinity Group page
 
 
   Scenario: AG Coordinator can see & download & email members
-    Given I am logged in with uid "952"
+    Given I am logged in with uid "5620"
     And I wait 10 seconds
     When I am on "/affinity-groups/cloud-computing"
     When I follow "View Members"
