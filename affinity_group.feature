@@ -1,8 +1,8 @@
-@asp
+@templates
 @api
 @javascript
 
-Feature: Feature: test an Affinity Groups page
+Feature: Feature: test an Affinity Group page
   An Affinity Group page should display the title, logo, description, and tags.
   Groups that have specified an optional Slack, Q&A, GitHub, or email link should
   display a button with the appropriate link.
@@ -22,6 +22,7 @@ Feature: Feature: test an Affinity Groups page
   # The UI does not allow me to add an existing CI Link to the AG.
   # The name of the CI Link gets appended with a variable suffix (like "ci-link-for-user-200 (5)")
   # but I'm haven't figured out what that number should be ahead of time.
+  # Screenshot showing error on https://cyberteam-projects.slack.com/archives/C047PFB6UKE/p1694214896487699
   #Scenario: Admin user adds a CI Link to the AG ACCESS Support
     Given I am logged in as a user with the "administrator" role
     # add a CI-Link to an AG
@@ -41,6 +42,7 @@ Feature: Feature: test an Affinity Groups page
   Scenario: Unauthenticated user tests an individual Affinity Group page
     Given I am not logged in
     When I am on "/affinity-groups/cloud-computing"
+    And I wait for the page to be loaded
     Then I should see an image with alt text "A blue cloud"
     Then I should see "People who use or are considering the use of cloud resources"
     # follow a Tags
@@ -85,7 +87,7 @@ Feature: Feature: test an Affinity Groups page
     Then I should see "Announcements"
     Then I should see "12/16/22"
     When I click "2022 - 2023 Holiday Support Schedule for Anvil"
-    Then I should be on "/node/403"
+    Then I should be on "/announcements/2022-2023-holiday-support-schedule-anvil"
 
 
   Scenario: Unauthenticated user tests an AG with a github link
@@ -97,10 +99,7 @@ Feature: Feature: test an Affinity Groups page
   Scenario: Unauthenticated user tests an AG with a github link
     Given I am not logged in
     When I am on "/affinity-groups/anvil"
-    Then I should see "Announcements"
-    Then I should see "12/16/22"
-    When I click "2022 - 2023 Holiday Support Schedule for Anvil"
-    Then I should be on "/node/403"
+    #todo: test for the GitHub link.
 
 
   Scenario: Unauthenticated user tests another AG with recommended resources
@@ -111,13 +110,10 @@ Feature: Feature: test an Affinity Groups page
     When I go to "/affinity-groups/ai-institutes-cyberinfrastructure"
     Then I should see "NCSA Delta GPU (Delta GPU)"
     Then I should not see "The Delta GPU resource comprises 4 different node configurations"
-    # TODO -- the UI for ASP for the recommended resources is not the same as the UI for
-    # the cyberteams domains -- the following does not work.  Not sure how to test
-    # these accordion elements.
-    #When I press "NCSA Delta GPU (Delta GPU)"
-    #Then I should see "The Delta GPU resource comprises 4 different node configurations"
-    #When I press "NCSA Delta GPU (Delta GPU)"
-    #Then I should not see "The Delta GPU resource comprises 4 different node configurations"
+    When I press "NCSA Delta GPU (Delta GPU)"
+    Then I should see "The Delta GPU resource comprises 4 different node configurations"
+    When I press "NCSA Delta GPU (Delta GPU)"
+    Then I should not see "The Delta GPU resource comprises 4 different node configurations"
 
 
   Scenario: Unauthenticated user tests another AG with Allocated CiDeR Resources
@@ -126,16 +122,13 @@ Feature: Feature: test an Affinity Groups page
     When I go to "/affinity-groups/delta"
     Then I should see an image with alt text "Delta ACCESS Affinity Group logo"
     Then I should see "DELTA is a dedicated, ACCESS-allocated resource designed by HPE and NCSA"
-    Then I should see "Allocated CiDeR Resources"
+    Then I should see "Associated Resources"
     Then I should see "NCSA Delta GPU (Delta GPU)"
     Then I should not see "The Delta GPU resource comprises 4 different node configurations"
-    # TODO -- the UI for ASP for the recommended resources is not the same as the UI for
-    # the cyberteams domains -- the following does not work.  Not sure how to test
-    # these accordion elements.
-    #When I press "NCSA Delta GPU (Delta GPU)"
-    #Then I should see "The Delta GPU resource comprises 4 different node configurations"
-    #When I press "NCSA Delta GPU (Delta GPU)"
-    #Then I should not see "The Delta GPU resource comprises 4 different node configurations"
+    When I press "NCSA Delta GPU (Delta GPU)"
+    Then I should see "The Delta GPU resource comprises 4 different node configurations"
+    When I press "NCSA Delta GPU (Delta GPU)"
+    Then I should not see "The Delta GPU resource comprises 4 different node configurations"
 
 
   Scenario: Unauthenticated user tests Ask.CI Recent Topics
@@ -150,16 +143,17 @@ Feature: Feature: test an Affinity Groups page
     Given I am logged in as a user with the "authenticated" role
     When I am on "/affinity-groups/cloud-computing"
     When I follow "Join"
-    Wait 2 seconds
+    And I wait 2 seconds
     Then I should see "You have joined this affinity group"
+    And I wait 10 seconds
     When I follow "Leave"
     Then I should see "You have left this affinity group"
 
 
   Scenario: AG Coordinator can see & download & email members
     Given I am logged in with uid "952"
+    And I wait 10 seconds
     When I am on "/affinity-groups/cloud-computing"
-    And I wait 6 seconds
     When I follow "View Members"
     Then I should be on "/affinity-groups/571/users/Cloud%20Computing?nid=189"
     And I should see "Download CSV"
