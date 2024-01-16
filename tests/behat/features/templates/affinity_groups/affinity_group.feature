@@ -55,11 +55,11 @@ Feature: Feature: test an Affinity Group page
     Then I should see the ".affinity-group-buttons .btn.disabled" button is disabled
     Then link "Slack" should contain "https://campuschampions.slack.com"
     Then link "Q&A" should contain "https://ask.cyberinfrastructure.org/c/cloud-computing/66"
-    Then link "Email" should contain "mailto:j_fossot@uncg.edu"
+    Then link "Email" should contain "mailto:jfossot@ncsu.edu"
     Then I should see "Coordinators"
     When I follow "Jacob Fosso Tande"
-    Then I should be on "/community-persona/952"
-    Then I should see "Cloud Computing"
+    Then I should be on "/community-persona/5620"
+    Then I should see "research-facilitation"
     Then I should see "Affinity Groups"
     When I am on "/affinity-groups/cloud-computing"
     Then link "How is storage performance for high I/O HPC jobs affected by running in the cloud?" should contain "https://ask.cyberinfrastructure.org/t/how-is-storage-performance-for-high-i-o-hpc-jobs-affected-by-running-in-the-cloud/797"
@@ -151,7 +151,7 @@ Feature: Feature: test an Affinity Group page
 
 
   Scenario: AG Coordinator can see & download & email members
-    Given I am logged in with uid "952"
+    Given I am logged in with uid "5620"
     And I wait 10 seconds
     When I am on "/affinity-groups/cloud-computing"
     When I follow "View Members"
