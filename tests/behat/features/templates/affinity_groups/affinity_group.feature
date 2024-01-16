@@ -55,7 +55,7 @@ Feature: Feature: test an Affinity Group page
     Then I should see the ".affinity-group-buttons .btn.disabled" button is disabled
     Then link "Slack" should contain "https://campuschampions.slack.com"
     Then link "Q&A" should contain "https://ask.cyberinfrastructure.org/c/cloud-computing/66"
-    Then link "Email" should contain "mailto:j_fossot@uncg.edu"
+    Then link "Email" should contain "mailto:jfossot@ncsu.edu"
     Then I should see "Coordinators"
     When I follow "Jacob Fosso Tande"
     Then I should be on "/community-persona/5620"
