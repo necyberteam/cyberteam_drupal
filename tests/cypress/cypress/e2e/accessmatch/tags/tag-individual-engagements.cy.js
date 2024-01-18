@@ -44,12 +44,10 @@ describe("Verify a tag's page list of engagements", () => {
       // create an engagement
       cy.visit("/node/add/match_engagement?type=plus");
       cy.get("#edit-title-0-value").type("dummy engagement for tag community-outreach number " + num);
-      // Had trouble adding engagenent description  unless the CK Editor format
-      // type is set to "Full no editor".
-      cy.get('#edit-body-0-format--2')
-        .select('Full no editor');
-      cy.get('#edit-body-0-value')
-        .type("dummy engagement description");
+      cy.get('.field--name-body .ck-content').then(el => {
+        const editor = el[0].ckeditorInstance
+        editor.setData('dummy engagement description')
+      })
 
       // open tags section
       cy.get(".tags").click();
