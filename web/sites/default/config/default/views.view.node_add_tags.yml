@@ -353,7 +353,7 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: ''
+          row_class: 'text-sm leading-5'
           default_row_class: false
       row:
         type: fields
@@ -1208,7 +1208,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<span class="tags-select" data-tid="{{ tid }}">{{ name }}</span>'
+            text: '<span id="tag-{{ name }}" class="tags-select" data-tid="{{ tid }}">{{ name }}</span>'
             make_link: false
             path: ''
             absolute: false
