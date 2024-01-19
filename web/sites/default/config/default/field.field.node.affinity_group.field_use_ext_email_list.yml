@@ -1,0 +1,23 @@
+uuid: 272aead9-cf82-49af-8007-df82f1ca367a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_use_ext_email_list
+    - node.type.affinity_group
+id: node.affinity_group.field_use_ext_email_list
+field_name: field_use_ext_email_list
+entity_type: node
+bundle: affinity_group
+label: 'Enable email discussion list'
+description: 'Check to enable a discussion email list. The email list will be created using the Slug for the address.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

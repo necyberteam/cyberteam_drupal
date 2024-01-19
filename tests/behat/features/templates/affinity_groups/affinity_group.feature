@@ -31,6 +31,7 @@ Feature: Feature: test an Affinity Group page
     # this CI link is created by amp_dev.install
     When I fill in "Display CI Links on your Affinity Group" with "ci-link-for-user-200"
     And I wait 1 seconds
+    And I fill in "Slug" with "access-support"
     When I press "Save"
     And I wait 2 seconds
     Then I should see "Affinity Group ACCESS Support has been updated."
