@@ -71,7 +71,7 @@ describe('Anonymous user visit the outages page', () => {
     // 4. verify Type is Full or Partial
     cy.get('@first-row')
       .find('td').eq(3)
-      .contains(/full|partial/i);
+      .contains(/full|partial|reconfiguration/i);
 
     // 5. verify Start is a string
     cy.get('@first-row')
