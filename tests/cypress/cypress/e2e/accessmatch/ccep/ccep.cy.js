@@ -42,7 +42,7 @@ describe("Unauthenticated user tests the CCEP Page", () => {
     cy.get(".container > :nth-child(3) > a")
       .contains("See all the details")
       .click();
-    cy.get(".clearfix > ul > :nth-child(1)").contains(
+    cy.get(".field--name-body ul > li:first-of-type").contains(
       "All CSSN members (students, faculty, staff"
     );
   });
