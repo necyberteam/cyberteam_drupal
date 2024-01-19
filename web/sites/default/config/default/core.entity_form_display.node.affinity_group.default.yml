@@ -14,7 +14,9 @@ dependencies:
     - field.field.node.affinity_group.field_domain_access
     - field.field.node.affinity_group.field_domain_all_affiliates
     - field.field.node.affinity_group.field_domain_source
+    - field.field.node.affinity_group.field_ext_email_list
     - field.field.node.affinity_group.field_github_organization
+    - field.field.node.affinity_group.field_group_slug
     - field.field.node.affinity_group.field_image
     - field.field.node.affinity_group.field_list_id
     - field.field.node.affinity_group.field_mailing_list
@@ -22,6 +24,7 @@ dependencies:
     - field.field.node.affinity_group.field_resources_entity_reference
     - field.field.node.affinity_group.field_slack
     - field.field.node.affinity_group.field_tags
+    - field.field.node.affinity_group.field_use_ext_email_list
     - image.style.thumbnail
     - node.type.affinity_group
   module:
@@ -125,6 +128,14 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_ext_email_list:
+    type: string_textfield
+    weight: 29
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_github_organization:
     type: link_default
     weight: 6
@@ -132,6 +143,14 @@ content:
     settings:
       placeholder_url: ''
       placeholder_title: ''
+    third_party_settings: {  }
+  field_group_slug:
+    type: string_textfield
+    weight: 30
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_image:
     type: image_image
@@ -208,6 +227,13 @@ content:
     weight: 3
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_use_ext_email_list:
+    type: boolean_checkbox
+    weight: 28
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
