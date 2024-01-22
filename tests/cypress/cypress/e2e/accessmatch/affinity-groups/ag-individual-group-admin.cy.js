@@ -38,6 +38,9 @@ describe("Admin user tests the Individual Affinity Groups", () => {
     cy.get('#edit-field-cider-resources-0-target-id').clear();
     cy.get('#edit-field-cider-resources-0-target-id').type('UD DARWIN Storage (DARWIN Storage) (366)');
 
+    // Set the slug to something unique
+    cy.get('#edit-field-group-slug-0-value').clear().type('access-support');
+
     // submit changes
     cy.get('#edit-submit').click();
 

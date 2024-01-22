@@ -52,7 +52,7 @@ elements: |-
 css: ''
 javascript: ''
 settings:
-  ajax: false
+  ajax: true
   ajax_scroll_top: form
   ajax_progress_type: ''
   ajax_effect: ''
@@ -297,7 +297,7 @@ handlers:
       sender_mail: ''
       sender_name: ''
       subject: 'Thank you for joining the CCMNet!'
-      body: "Dear {{ webform_token('[webform_submission:values:name]', webform_submission, [], options) }}\r\n\r\nThank you for your interest in the Cyberinfrastructure Community-wide Mentorship Network (CCMNet) and for joining our mentorship program! We are building the framework for community interaction, leveraging existing community platforms, and tailoring them to our vision of CCMNet’s community mentorship initiative.\r\n \r\nWe will provide occasional progress updates via email and welcome your input, experience, and ideas to help foster growth within our mentorship program. We will announce our official launch when our platform is ready, and we are poised to begin mentor-matching services.\r\n \r\nWe look forward to working together in the very near future!\r\n \r\nSincerely,\r\nThe CCMNet Team\r\n\r\nhttps://ccmnet.org/"
+      body: "<p>Dear {{ webform_token('[webform_submission:values:name]', webform_submission, [], options) }},</p>\r\n\r\n<p>Thank you for your interest in the Cyberinfrastructure Community-wide Mentorship Network (CCMNet) and for joining our mentorship program! We are building the framework for community interaction, leveraging existing community platforms, and tailoring them to our vision of CCMNet’s community mentorship initiative.</p>\r\n \r\n<p>We will provide occasional progress updates via email and welcome your input, experience, and ideas to help foster growth within our mentorship program. We will announce our official launch when our platform is ready, and we are poised to begin mentor-matching services.</p>\r\n \r\n<p>We look forward to working together in the very near future!</p>\r\n \r\n<p>Sincerely,<br/>\r\nThe CCMNet Team</p>\r\n\r\n<p><a href=\"https://ccmnet.org/\">https://ccmnet.org/</a></p>"
       excluded_elements:
         name: name
         email: email

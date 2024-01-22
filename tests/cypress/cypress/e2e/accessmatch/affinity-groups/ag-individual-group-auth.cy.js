@@ -67,7 +67,10 @@ function remove_pecan_as_ag_coord() {
   cy.get('#edit-field-coordinator-1-target-id')
     .clear();
 
-  // submit changes
+  // Set the slug to something unique
+  cy.get('#edit-field-group-slug-0-value').clear().type('access-support');
+  
+    // submit changes
   cy.get('#edit-submit').click();
   cy.contains('has been updated');
   cy.get('.block-field-blocknodeaffinity-groupfield-coordinator').should('not.include.text', 'Pecan')
