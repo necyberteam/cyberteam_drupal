@@ -17,7 +17,7 @@ describe("Verify the tags page", () => {
 
     // each h2 is a tag category -- verify each h2 with the each() function
     cy.get('.block-system-main-block')
-      .find('h2.mt-10')
+      .find('h2.mt-5')
       .each(($el) => {
 
         // cy.task('log', 'h2: ' + $el.text());
