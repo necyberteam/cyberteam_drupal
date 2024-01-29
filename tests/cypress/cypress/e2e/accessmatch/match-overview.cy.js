@@ -32,7 +32,7 @@ describe("Unauthenticated user tests the Match Overview Page", () => {
 
     //Individual Match Engagement
     cy.get(":nth-child(2) > .card > .card-body").contains(
-      "GPU-accelerated ice sheet flow modeling"
+      "GPU-accelerated Ice Sheet Flow Modeling"
     );
     cy.get(":nth-child(2) > .card > .card-body").contains(
       "University of North Dakota"
