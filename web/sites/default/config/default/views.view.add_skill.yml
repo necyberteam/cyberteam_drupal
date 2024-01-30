@@ -500,7 +500,7 @@ display:
         type: html_list
         options:
           grouping: {  }
-          row_class: 'list-none p-0 m-1'
+          row_class: 'list-none p-0 mb-1 me-1'
           default_row_class: false
           type: ul
           wrapper_class: add-skill-list
@@ -536,6 +536,7 @@ display:
           required: false
           flag: skill
           user_scope: current
+      css_class: ''
       header: {  }
       footer: {  }
       display_extenders: {  }
@@ -617,7 +618,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<h2 class="text-dark border-bottom my-3 pb-1">{{ name }}</h2>'
+            text: '<div class="prose mt-5"><h2 class="text-dark border-bottom my-3 pb-1">{{ name }}</h2></div>'
             make_link: false
             path: ''
             absolute: false
@@ -1148,7 +1149,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"d-inline-flex flag-tag {{ flagged }} px-2 py-1 border cursor-pointer\">\r\n<div class=\"flag-element-name\">{{ name }}</div>\r\n<div class=\"d-none hidden\">{{ link_flag }}</div>\r\n</div>"
+            text: "<div class=\"d-inline-flex flag-tag {{ flagged }} px-2 py-1 border cursor-pointer\">\r\n<div class=\"flag-element-name text-menu\">{{ name }}</div>\r\n<div class=\"d-none hidden\">{{ link_flag }}</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false

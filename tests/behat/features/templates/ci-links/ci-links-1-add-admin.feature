@@ -21,7 +21,7 @@ Feature: test CI Link form
     And I should see "Link Title"
     And I should see "Link URL"
     And I should see "Add"
-    When I fill in "title" with "TEST"
+    When I fill in "title" with "Test CI Link Title"
     When I select "learning" from "category"
     When I check "Approved"
     # login tag
@@ -31,7 +31,7 @@ Feature: test CI Link form
     When I fill in "Link Title" with "Test"
     When I fill in "Link URL" with "http://example.com"
     When I press "Submit"
-    Then I should see "TEST"
+    Then I should see "Test CI Link Title"
     And I should see "Submission information"
     And I should see "View"
     And I should see "Edit"

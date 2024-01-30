@@ -11,9 +11,9 @@ with links redirecting to their respective addresses.
     Given I am logged in as a user with the "authenticated" role
     When I go to "/resources"
     And I wait 2 seconds
-    Then I should see "Test"
-    When I click "TEST"
-    Then I should see "TEST"
+    Then I should see "Test CI Link Title"
+    When I click "Test CI Link Title"
+    Then I should see "Test CI Link Title"
     Then I should see "login"
     Then I should see an image with alt text "Beginner"
     Then I should see "Test"

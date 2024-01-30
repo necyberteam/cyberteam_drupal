@@ -219,7 +219,7 @@ function nect_preprocess_page(&$variables) {
   $variables['amp_front_text'] = theme_get_setting('amp_front_text');
   $variables['coco_front_text'] = theme_get_setting('coco_front_text');
   $variables['usrse_front_text'] = theme_get_setting('usrse_front_text');
- 
+
   $domain = \Drupal::config('domain.settings');
   $token = \Drupal::token();
   $domainName = t('[domain:name]');
@@ -237,3 +237,30 @@ function nect_preprocess_node__organization(&$variables) {
   $variables['field_type'] = $node->field_type->view();
   $variables['field_organization_tags'] = $node->field_organization_tags->view();
 }
+
+/**
+ * Implements hook_theme_suggestions_container_alter().
+ */
+function nect_theme_suggestions_container_alter(&$suggestions, array $variables) {
+  $element = $variables['element'];
+
+  // Get the current path.
+  $current_path = \Drupal::service('path.current')->getPath();
+  // Explode the path by '/' to get an array of parts.
+  $path_parts = explode('/', $current_path);
+  // Get the last part of the array (the last segment of the URL).
+  $last_part = end($path_parts);
+
+  $suggestions[] = 'container__' . $last_part;
+
+
+  if (isset($element['#type']) && $element['#type'] == 'view') {
+    $suggestions[] = 'container__' . $element['#name'];
+    $suggestions[] = 'container__' . $element['#name'] . '__' . $element['#display_id'];
+  }
+
+  if (isset($element['#type']) && $element['#type'] == 'container' && isset($element['children']['#type'])) {
+    $suggestions[] = 'container__' . $element['children']['#type'];
+  }
+}
+
