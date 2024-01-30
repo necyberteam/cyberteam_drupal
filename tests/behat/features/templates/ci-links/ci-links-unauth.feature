@@ -20,9 +20,9 @@ results are shown in a table with columns for "Votes", "CI Links Title", "Catego
     Then I should be on "/user/login?destination=/form/resource"
 
     When I go to "/ci-links"
-    When I fill in "edit-search--2" with "test"
+    When I fill in "edit-search--2" with "Test CI Link Title"
     Then I should see "These CI links have been crowd-sourced from the ConnectCI"
-    Then I should see "test"
+    Then I should see "Test CI Link Title"
     Then I should see "Title"
     Then I should see "Description"
     Then I should see "Category"
