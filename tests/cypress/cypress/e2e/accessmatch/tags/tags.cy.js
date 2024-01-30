@@ -30,7 +30,7 @@ describe("Verify the tags page", () => {
         // each category should have a bunch of tags - get an alias to that element
         cy.get('.block-system-main-block')
           .get('[id="' + $el.text() + '"]')
-          .next() // in the DOM, this gets the element containing all the tags
+          .parent().siblings('div') // in the DOM, this gets the element containing all the tags
           .as('tag-list');
 
         // verify there are more than 0 tags per category
