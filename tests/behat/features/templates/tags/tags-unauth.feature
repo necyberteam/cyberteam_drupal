@@ -11,7 +11,6 @@ Feature: Tests for the Tags page with unauthenticated user.  Verify "Request Tag
       Then I should see "Tags"
       And I should see "Contains any word"
       And I should see "Search"
-      And I should see "Tree View"
       And I should see "login"
       And I should see "osg"
       And I should see "ACCESS RPs"
@@ -35,15 +34,3 @@ Feature: Tests for the Tags page with unauthenticated user.  Verify "Request Tag
       Then I should be on "tags/login"
       And I should see "Blog Entries"
 
-    Scenario: Unauthenticated user examines tree view and list view of tags
-      Given I am not logged in
-      When I go to "/tags"
-      When I follow "Tree View"
-      Then I should see "Please select the"
-      And I should be on "tags/hierarchal"
-      When I click "ACCESS RPs"
-    # want to test clicking the down arrow - following isn't right
-      #Then I should see "access-account"
-      When I go to "tags/hierarchal"
-      When I follow "List View"
-      Then I should be on "/tags"
