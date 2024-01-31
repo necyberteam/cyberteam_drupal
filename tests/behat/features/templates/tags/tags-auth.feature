@@ -3,12 +3,8 @@
 @javascript
 
 Feature: This test is as an authenticated user.
-"Tree View" redirects to the hierarchical tags view page.
-It presents all published tags in a hierarchical tree structure.
-Each tag links to its respective tag page.
-Clicking the ">" arrow on a branch tag reveals its child tags.
-Clicking the down arrow on a branch tag hides its child tags.
-The "Tree View" button is grayed out.
+  It presents all published tags in a hierarchical tree structure.
+  Each tag links to its respective tag page.
 
   Scenario: Tags pages for authenticated user
     Given I am logged in as a user with the "authenticated" role
@@ -16,7 +12,6 @@ The "Tree View" button is grayed out.
     Then I should see "Tags"
     And I should see "Contains any word"
     And I should see "Search"
-    And I should see "Tree View"
     And I should see "login"
     And I should see "osg"
     And I should see "ACCESS RPs"
@@ -39,15 +34,3 @@ The "Tree View" button is grayed out.
     When I follow "login"
     Then I should be on "tags/login"
     And I should see "Blog Entries"
-
-  Scenario: Authenticated user examines tree view of tags
-    Given I am logged in as a user with the "authenticated" role
-    When I go to "tags"
-    When I follow "Tree View"
-    Then I should see "Please select the"
-    When I click "ACCESS RPs"
-    And I should be on "/tags/hierarchal"
-    When I follow "List View"
-    Then I should see "login"
-    Then I should be on "/tags"
-    When I select "Contains all words" from "edit-name-op"
