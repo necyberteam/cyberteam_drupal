@@ -1140,7 +1140,15 @@ table.sticky-header th {
   font-size: 0.8rem;
   text-transform: uppercase;
 }
-.type-outline > a {
+.coco #edit-card-filter--2 ul {
+  padding-left: 0;
+}
+.coco #edit-card-filter--2 li {
+  list-style: none;
+  display: inline-block;
+  margin-right: 8px;
+}
+.type-outline > a, .coco #edit-card-filter--2 a {
   background-color: lavender;
   color: #1e1e99;
   padding: 3px 6px;
@@ -1153,9 +1161,13 @@ table.sticky-header th {
   border-radius: 12px;
   font-size: 0.8rem;
 }
-.coco .type-outline > a {
+.coco .type-outline > a, .coco #edit-card-filter--2 a {
   background-color: #781346;
   color: #ffffff;
+}
+.coco #edit-card-filter--2 a.bef-link--selected {
+  background-color: var(--primary);
+
 }
 /* AMP styles */
 #amp-logo-text {
