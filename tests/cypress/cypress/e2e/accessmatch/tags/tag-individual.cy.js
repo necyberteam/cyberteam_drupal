@@ -8,16 +8,15 @@ describe("Verify the the community-outreach tag page", () => {
 
     checkTitleAndBreadcrumbs();
     checkSectionAffinityGroups();
-    checkSectionAnnouncementsEvents('.view-id-tagged_news_block', '/announcements/');
-    checkSectionAnnouncementsEvents('.view-id-recurring_events_event_instances', '/events/');
+    checkSectionAnnouncements('.view-id-tagged_news_block', '/announcements/');
+    checkSectionEvents('.view-id-recurring_events_event_instances', '/events/');
     checkSectionInterestedSkilled('.view-people-with-expertise-tags', 'expertise');
     checkSectionInterestedSkilled('.view-people-with-interest-tags', 'interest');
     checkSectionCILinks();
 
     /////////////////////////////////////////////////////////////////////////
 
-    function checkSectionAnnouncementsEvents(blockclass, href_type) {
-
+    function checkSectionAnnouncements(blockclass, href_type) {
       cy.get(blockclass)
         .find('tbody')
         .find('tr')
@@ -27,6 +26,25 @@ describe("Verify the the community-outreach tag page", () => {
           cy.wrap(row).find('.view-field-published-date-table-column')
             .should('not.be.empty');
         });
+    }
+
+    /////////////////////////////////////////////////////////////////////////
+
+    function checkSectionEvents(blockclass, href_type) {
+
+      cy.get('body').then(($body) => {
+        if (!$body.text().includes('No events or trainings are currently scheduled.')) {
+          cy.get(blockclass)
+            .find('tbody')
+            .find('tr')
+            .each((row) => {
+              cy.wrap(row).find('a').should('have.attr', 'href')
+                .and('contain', href_type);
+              cy.wrap(row).find('.view-field-published-date-table-column')
+                .should('not.be.empty');
+            });
+        } 
+      })
     }
 
     /////////////////////////////////////////////////////////////////////////
