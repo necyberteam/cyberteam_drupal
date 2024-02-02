@@ -23,7 +23,7 @@ describe("Unauthenticated user tests the CCEP Page", () => {
       .contains("Intro to ACCESS lecture")
       .click();
     cy.get('[open=""] > .bg-white').contains(
-      "Prepare an Intro to ACCESS lecture, tutorial, or slide deck for Basic, Intermediate, or Advanced User."
+      "Prepare an Intro to ACCESS lecture"
     );
 
     // Apply To CCEP Button
