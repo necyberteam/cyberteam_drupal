@@ -1,0 +1,31 @@
+uuid: 167c03b7-46ae-48f5-bab5-d63403638d00
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.eventinstance.field_video
+    - media.type.remote_video
+    - media.type.video
+    - recurring_events.eventinstance_type.default
+id: eventinstance.default.field_video
+field_name: field_video
+entity_type: eventinstance
+bundle: default
+label: Video
+description: 'Link or or upload to a video recording of your event.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      remote_video: remote_video
+      video: video
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: true
+    auto_create_bundle: video
+field_type: entity_reference

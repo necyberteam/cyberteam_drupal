@@ -3,9 +3,13 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.eventinstance.default.field_video
     - recurring_events.eventinstance_type.default
+    - workflows.workflow.editorial
   module:
+    - content_moderation
     - datetime_range
+    - media_library
     - text
 id: eventinstance.default.default
 targetEntityType: eventinstance
@@ -14,7 +18,7 @@ mode: default
 content:
   body:
     type: text_textarea
-    weight: -4
+    weight: 0
     region: content
     settings:
       rows: 5
@@ -22,16 +26,29 @@ content:
     third_party_settings: {  }
   date:
     type: daterange_datelist
-    weight: -4
+    weight: 1
     region: content
     settings:
       increment: 15
       date_order: YMD
       time_type: '12'
     third_party_settings: {  }
+  field_video:
+    type: media_library_widget
+    weight: 2
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 12
+    weight: 3
     region: content
     settings:
       display_label: true

@@ -4,9 +4,11 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.eventinstance.rollup_list
+    - field.field.eventinstance.default.field_video
     - recurring_events.eventinstance_type.default
   module:
     - datetime_range
+    - options
     - text
 _core:
   default_config_hash: lFFUFIZPBUZQjrIYYvP6U1hzVLGjKMl0DYK93zPM_80
@@ -33,6 +35,20 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
+  event_affiliation:
+    type: list_default
+    label: visible
+    settings: {  }
+    third_party_settings: {  }
+    weight: 54
+    region: content
+  event_type:
+    type: list_default
+    label: visible
+    settings: {  }
+    third_party_settings: {  }
+    weight: 55
+    region: content
   location:
     type: text_trimmed
     label: inline
@@ -41,12 +57,20 @@ content:
     third_party_settings: {  }
     weight: 2
     region: content
+  skill_level:
+    type: list_default
+    label: visible
+    settings: {  }
+    third_party_settings: {  }
+    weight: 58
+    region: content
 hidden:
   affinity_group: true
   affinity_group_node_ref: true
   body: true
   contact: true
   content_moderation_control: true
+  field_video: true
   registration: true
   tags: true
   title: true

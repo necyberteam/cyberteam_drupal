@@ -4,10 +4,12 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.eventinstance.list
+    - field.field.eventinstance.default.field_video
     - recurring_events.eventinstance_type.default
   module:
     - datetime_range
     - link
+    - options
     - text
 _core:
   default_config_hash: ynM97GAGTtZBjg1uuiiRFaP8WTq766yoANHsZJ41__4
@@ -24,6 +26,14 @@ content:
     third_party_settings: {  }
     weight: 50
     region: content
+  affinity_group_node_ref:
+    type: entity_reference_label
+    label: visible
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 51
+    region: content
   contact:
     type: string
     label: above
@@ -31,6 +41,11 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 51
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
     region: content
   date:
     type: daterange_custom
@@ -49,6 +64,20 @@ content:
       trim_length: 200
     third_party_settings: {  }
     weight: 2
+    region: content
+  event_affiliation:
+    type: list_default
+    label: visible
+    settings: {  }
+    third_party_settings: {  }
+    weight: 54
+    region: content
+  event_type:
+    type: list_default
+    label: visible
+    settings: {  }
+    third_party_settings: {  }
+    weight: 55
     region: content
   location:
     type: string
@@ -70,6 +99,13 @@ content:
     third_party_settings: {  }
     weight: 54
     region: content
+  skill_level:
+    type: list_default
+    label: visible
+    settings: {  }
+    third_party_settings: {  }
+    weight: 58
+    region: content
   tags:
     type: entity_reference_label
     label: above
@@ -88,3 +124,4 @@ content:
     region: content
 hidden:
   body: true
+  field_video: true

@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.eventinstance.default.field_video
     - recurring_events.eventinstance_type.default
   module:
     - datetime_range
@@ -53,12 +54,28 @@ content:
     third_party_settings: {  }
     weight: 4
     region: content
+  event_affiliation:
+    type: list_key
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 12
+    region: content
   event_type:
     type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
     weight: 9
+    region: content
+  field_video:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 11
     region: content
   location:
     type: text_default
@@ -69,7 +86,7 @@ content:
     region: content
   registration:
     type: link
-    label: above
+    label: visually_hidden
     settings:
       trim_length: 80
       url_only: false
@@ -105,4 +122,3 @@ content:
 hidden:
   affinity_group: true
   body: true
-  event_affiliation: true
