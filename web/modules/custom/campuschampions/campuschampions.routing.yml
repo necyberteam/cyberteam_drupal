@@ -6,3 +6,10 @@ campuschampions.autocomplete:
     requirements:
         _access: 'TRUE'
 
+campuschampions.removeChampion:
+    path: '/remove-champion'
+    defaults:
+        _form: '\Drupal\campuschampions\Form\RemoveChampionForm'
+        _title: 'Remove a Campus Champion'
+    requirements:
+        _role: 'administrator+campuschampionsadmin'
