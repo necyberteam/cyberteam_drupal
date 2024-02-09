@@ -23,14 +23,14 @@ describe("Unauthenticated user tests the Announcements Page", () => {
 
     //Filter Section on announcements
     cy.get("#edit-field-affiliation-value--2").select("Community"); //Affiliation field
-    cy.get("#edit-tid--2").select("login"); //Tag field
+    cy.get("#edit-tid--2").select("ai"); //Tag field
     cy.get("#edit-submit-access-news--2").click(); //Filter button
 
     //Created announcement through cypress
     cy.get(".view-content .views-field-title")
       .contains("Cypress-Created-Announcement")
       .click();
-    cy.get(".field__item > .font-normal").contains("login");
+    cy.get(".field__item > .font-normal").contains("ai");
     cy.get(".field__label").contains("Affiliation");
     cy.get(".layout__region--second > .block > .field > .field__item").contains(
       "Community"

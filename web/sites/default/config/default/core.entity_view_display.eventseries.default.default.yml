@@ -16,6 +16,7 @@ dependencies:
     - recurring_events.eventseries_type.default
   module:
     - link
+    - options
     - recurring_events
     - text
 _core:
@@ -46,6 +47,13 @@ content:
       separator: ' - '
     third_party_settings: {  }
     weight: 3
+    region: content
+  field_affiliation:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 9
     region: content
   field_affinity_group_node:
     type: entity_reference_label
@@ -81,6 +89,13 @@ content:
     third_party_settings: {  }
     weight: 5
     region: content
+  field_skill_level:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
+    region: content
   field_tags:
     type: entity_reference_label
     label: above
@@ -102,11 +117,10 @@ hidden:
   custom_date: true
   daily_recurring_date: true
   event_registration: true
-  field_affiliation: true
   field_affinity_group: true
   field_broadcast_affinity_groups: true
   field_event_type: true
-  field_skill_level: true
   monthly_recurring_date: true
   recur_type: true
   weekly_recurring_date: true
+  yearly_recurring_date: true
