@@ -1985,7 +1985,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{% if view |render|striptags('<a>')|trim|length > 0 %}\r\n<div class=\"prose\">{{ name }}</div>\r\n<div class=\"[&_div]--flex [&_div]--flex-wrap\">{{ view }}</div>\r\n{% endif %}"
+            text: "{% if view |render|striptags('<a>')|trim|length > 0 %}\r\n<div class=\"prose mt-10\">{{ name }}<span></span></div>\r\n<div class=\"[&_div]--flex [&_div]--flex-wrap\">{{ view }}</div>\r\n{% endif %}"
             make_link: false
             path: ''
             absolute: false
