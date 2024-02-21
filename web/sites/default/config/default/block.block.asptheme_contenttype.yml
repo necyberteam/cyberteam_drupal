@@ -1,29 +1,29 @@
-uuid: 709c9c94-f07f-4006-a429-a73f8d0e8047
+uuid: 214952cf-9082-4d16-9419-c5775d707f58
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.tags
+    - facets.facet.content_type
   module:
     - facets
     - system
   theme:
     - aspTheme
-id: asptheme_tags
+id: asptheme_contenttype
 theme: aspTheme
 region: sidebar_first
-weight: -16
+weight: -15
 provider: null
-plugin: 'facet_block:tags'
+plugin: 'facet_block:content_type'
 settings:
-  id: 'facet_block:tags'
-  label: Tags
+  id: 'facet_block:content_type'
+  label: 'Content Type'
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: asptheme_tags
+  block_id: asptheme_contenttype
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: '/*'
+    pages: /search-ci-links

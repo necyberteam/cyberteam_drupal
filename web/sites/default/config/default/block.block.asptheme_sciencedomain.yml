@@ -1,0 +1,29 @@
+uuid: 99a789ce-1c3a-444c-8426-133e652ecf14
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.science_domain
+  module:
+    - facets
+    - system
+  theme:
+    - aspTheme
+id: asptheme_sciencedomain
+theme: aspTheme
+region: sidebar_first
+weight: -17
+provider: null
+plugin: 'facet_block:science_domain'
+settings:
+  id: 'facet_block:science_domain'
+  label: 'Science Domain'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_sciencedomain
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /search-ci-links
