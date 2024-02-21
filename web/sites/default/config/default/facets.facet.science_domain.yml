@@ -1,4 +1,4 @@
-uuid: b170cbf5-115c-40da-83f0-644ce5e143ff
+uuid: 0c7f4f36-9cff-4569-b452-7a6b1846ba77
 langcode: en
 status: true
 dependencies:
@@ -7,13 +7,13 @@ dependencies:
     - views.view.search_ci_links
   module:
     - search_api
-id: tags
-name: Tags
+id: science_domain
+name: 'Science Domain'
 weight: 0
 min_count: 1
 missing: false
 missing_label: others
-url_alias: tags
+url_alias: science-domain
 facet_source_id: 'search_api:views_page__search_ci_links__page_1'
 field_identifier: webform_submission_tags
 query_operator: or
@@ -30,10 +30,10 @@ widget:
   type: checkbox
   config:
     show_numbers: true
-    soft_limit: 20
-    show_reset_link: true
+    soft_limit: 5
+    show_reset_link: false
     reset_text: 'Show all'
-    hide_reset_when_no_selection: true
+    hide_reset_when_no_selection: false
     soft_limit_settings:
       show_less_label: 'Show less'
       show_more_label: 'Show more'
@@ -61,6 +61,19 @@ processor_configs:
       sort: 40
     settings:
       sort: ASC
+  exclude_specified_items:
+    processor_id: exclude_specified_items
+    weights:
+      build: 50
+    settings:
+      exclude: 'astrophysics,bioinformatics,biology,computational-chemistry,data-science,genomics,gravitational-waves,materials-science,oceanography,particle-physics,physiology,psychology,quantum-computing,quantum-mechanics'
+      regex: false
+      invert: true
+  hide_non_narrowing_result_processor:
+    processor_id: hide_non_narrowing_result_processor
+    weights:
+      build: 40
+    settings: {  }
   hierarchy_processor:
     processor_id: hierarchy_processor
     weights:

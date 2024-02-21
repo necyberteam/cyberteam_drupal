@@ -1,4 +1,4 @@
-uuid: b170cbf5-115c-40da-83f0-644ce5e143ff
+uuid: 03a386a7-fa06-4430-be3b-c5e2129ee07b
 langcode: en
 status: true
 dependencies:
@@ -7,8 +7,8 @@ dependencies:
     - views.view.search_ci_links
   module:
     - search_api
-id: tags
-name: Tags
+id: programming_language
+name: 'Programming Language'
 weight: 0
 min_count: 1
 missing: false
@@ -31,9 +31,9 @@ widget:
   config:
     show_numbers: true
     soft_limit: 20
-    show_reset_link: true
+    show_reset_link: false
     reset_text: 'Show all'
-    hide_reset_when_no_selection: true
+    hide_reset_when_no_selection: false
     soft_limit_settings:
       show_less_label: 'Show less'
       show_more_label: 'Show more'
@@ -61,6 +61,14 @@ processor_configs:
       sort: 40
     settings:
       sort: ASC
+  exclude_specified_items:
+    processor_id: exclude_specified_items
+    weights:
+      build: 50
+    settings:
+      exclude: 'python,bash,c++,fortran'
+      regex: false
+      invert: true
   hierarchy_processor:
     processor_id: hierarchy_processor
     weights:
