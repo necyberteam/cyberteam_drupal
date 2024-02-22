@@ -13,7 +13,7 @@ Feature: Tests for the Tags page with unauthenticated user.  Verify "Request Tag
       And I should see "Search"
       And I should see "login"
       And I should see "osg"
-      And I should see "ACCESS RPs"
+      And I should see "ACCESS Resources"
       And I should see "xsede"
 
     Scenario: Tags pages does not show "Request Tag" when logged out

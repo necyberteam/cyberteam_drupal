@@ -15,7 +15,7 @@ An email is sent to the NECT mailing list upon submission.
     And I should see "Tag Request Name"
     And I should see "Suggested Parent Tag"
     When I fill in "Tag Request Name" with "TEST"
-    # this specifies ACCESS RPs as the parent
+    # this specifies ACCESS Resources as the parent
     When I select "684" from "Suggested Parent Tag"
     And I wait 2 seconds
     When I press "Submit"
