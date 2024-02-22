@@ -144,7 +144,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: 'prose py-2'
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
@@ -199,7 +199,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: 'prose py-2'
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
@@ -252,7 +252,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: 'prose py-2'
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
@@ -275,7 +275,7 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: search_api
-          label: 'Content Type'
+          label: Type
           exclude: false
           alter:
             alter_text: false
@@ -305,7 +305,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: 'prose py-2'
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
@@ -476,6 +476,57 @@ display:
           fields: {  }
       style:
         type: table
+        options:
+          grouping: {  }
+          row_class: 'border-b border-gray'
+          default_row_class: true
+          columns:
+            sid: sid
+            webform_submission_title: webform_submission_title
+            webform_submission_description: webform_submission_description
+            webform_submission_tags: webform_submission_tags
+            webform_submission_category: webform_submission_category
+          default: '-1'
+          info:
+            sid:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            webform_submission_title:
+              sortable: false
+              default_sort_order: asc
+              align: views-align-left
+              separator: ''
+              empty_column: false
+              responsive: ''
+            webform_submission_description:
+              sortable: false
+              default_sort_order: asc
+              align: views-align-left
+              separator: ''
+              empty_column: false
+              responsive: ''
+            webform_submission_tags:
+              sortable: false
+              default_sort_order: asc
+              align: views-align-left
+              separator: ''
+              empty_column: false
+              responsive: ''
+            webform_submission_category:
+              sortable: false
+              default_sort_order: asc
+              align: views-align-left
+              separator: ''
+              empty_column: false
+              responsive: ''
+          override: true
+          sticky: false
+          summary: ''
+          empty_table: false
+          caption: ''
+          description: ''
       row:
         type: fields
       query:
