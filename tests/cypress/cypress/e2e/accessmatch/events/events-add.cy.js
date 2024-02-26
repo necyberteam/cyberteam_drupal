@@ -17,13 +17,13 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
     cy.visit("/events/add");
 
-    //Page Title
+    // Page Title
     cy.get("#block-claro-page-title").contains("Create ACCESS Event");
 
-    //User filling out form title
+    // User filling out form title
     cy.get("#edit-title-0-value").type("example-event");
 
-    //Date and Time of Event
+    // Date and Time of Event
     cy.get("#edit-recur-type-custom").click();
     cy.get("#custom-date-values > thead > tr > .field-label").contains(
       "Custom Date(s) and Time(s)"
@@ -33,19 +33,19 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.get("#edit-custom-date-0-value-time").type("04:30:00");
     cy.get("#edit-custom-date-0-end-value-time").type("04:30:00");
 
-    //Event Location
+    // Event Location
     cy.get("#edit-field-location-0-value").type("Zoom");
 
-    //Event Contact
+    // Event Contact
     cy.get("#edit-field-contact-0-value").type("Pecan Pie");
 
-    //Registration Link
+    // Registration Link
     cy.get("#edit-field-registration-0-uri").type(
       "https://test-accessmatch.pantheonsite.io/"
     );
 
-    //Event Tag
-    cy.get("#edit-field-tags-0-target-id").type("login (682)");
+    // Event Tag
+    cy.get("details.tags summary").click().get("#tag-login").click();
 
     //Save As Selection
     cy.get("#edit-moderation-state-0-state").select("Published");
