@@ -19,12 +19,13 @@ describe("Verify the tags page", () => {
     cy.get('.block-system-main-block')
       .find('h2.mt-5')
       .each(($el) => {
-
+        // idText is the id of the h2, but with & replaced by &amp;
+        const idText = $el.text().replace(/&/g, '&amp;');
         // cy.task('log', 'h2: ' + $el.text());
 
         // verify there's a block with the id of the h2 text
         cy.get('.block-system-main-block')
-          .get('[id="' + $el.text() + '"]')
+          .get('[id="' + idText + '"]')
           .contains($el.text());
 
         // each category should have a bunch of tags - get an alias to that element
