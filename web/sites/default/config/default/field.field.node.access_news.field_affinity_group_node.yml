@@ -1,0 +1,29 @@
+uuid: 637c6395-47a9-4552-81d6-6e2ba234bc66
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_affinity_group_node
+    - node.type.access_news
+    - node.type.affinity_group
+id: node.access_news.field_affinity_group_node
+field_name: field_affinity_group_node
+entity_type: node
+bundle: access_news
+label: 'Affinity Group'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      affinity_group: affinity_group
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

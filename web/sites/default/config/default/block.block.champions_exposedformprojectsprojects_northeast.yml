@@ -1,0 +1,37 @@
+uuid: 86785b4d-63d4-4db5-8ecf-d2eacf9b1007
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.projects
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_exposedformprojectsprojects_northeast
+theme: champions
+region: exposed_filters
+weight: 10
+provider: null
+plugin: 'views_exposed_filter_block:projects-projects_northeast'
+settings:
+  id: 'views_exposed_filter_block:projects-projects_northeast'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      nectd8_wpi_edu: nectd8_wpi_edu
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /projects

@@ -1,0 +1,169 @@
+diff --git a/css/taxonomy_manager.css b/css/taxonomy_manager.css
+index f2b3259..2ba6945 100644
+--- a/css/taxonomy_manager.css
++++ b/css/taxonomy_manager.css
+@@ -16,7 +16,3 @@
+ .taxonomy-managervocabulary-terms-form #edit-export {
+   display: none;
+ }
+-
+-.taxonomy-managervocabulary-terms-form #edit-move {
+-  display: none;
+-}
+diff --git a/src/Form/MoveTermsForm.php b/src/Form/MoveTermsForm.php
+index 9433e4e..f218ff9 100644
+--- a/src/Form/MoveTermsForm.php
++++ b/src/Form/MoveTermsForm.php
+@@ -4,7 +4,7 @@ namespace Drupal\taxonomy_manager\Form;
+ 
+ use Drupal\Core\Form\FormBase;
+ use Drupal\Core\Form\FormStateInterface;
+-use Drupal\taxonomy\TermStorage;
++use Drupal\taxonomy\TermStorageInterface;
+ use Drupal\Core\Messenger\MessengerTrait;
+ use Drupal\taxonomy\VocabularyInterface;
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+@@ -17,7 +17,7 @@ class MoveTermsForm extends FormBase {
+   use MessengerTrait;
+ 
+   /**
+-   * The current request.
++   * The taxonomy term storage.
+    *
+    * @var \Drupal\taxonomy\TermStorageInterface
+    */
+@@ -26,10 +26,10 @@ class MoveTermsForm extends FormBase {
+   /**
+    * MoveTermsForm constructor.
+    *
+-   * @param \Drupal\taxonomy\TermStorage $termStorage
+-   *   Object with convenient methods to manage terms.
++   * @param \Drupal\taxonomy\TermStorageInterface $termStorage
++   *   The taxonomy term storage.
+    */
+-  public function __construct(TermStorage $termStorage) {
++  public function __construct(TermStorageInterface $termStorage) {
+     $this->termStorage = $termStorage;
+   }
+ 
+@@ -72,6 +72,29 @@ class MoveTermsForm extends FormBase {
+       '#title' => $this->t('Selected terms to move:'),
+     ];
+ 
++    $form['target_voc'] = [
++      '#type' => 'entity_autocomplete',
++      '#title' => $this->t('Vocabulary to move the term to'),
++      '#target_type' => 'taxonomy_vocabulary',
++      '#description' => $this->t('Enter a vocabulary you want the selected term(s) to move to. Keep blank to select current vocabulary'),
++      '#maxlength' => 1024,
++      '#tags' => TRUE,
++    ];
++
++    $form['parents'] = array(
++      '#type' => 'entity_autocomplete',
++      '#title' => $this->t('Parent term(s)'),
++      '#target_type' => $this->termStorage->getEntityType()->id(),
++      '#selection_handler' => 'default',
++      '#selection_settings' => [
++        'target_bundles' => [$taxonomy_vocabulary->id()]
++      ],
++      '#description' => $this->t('Enter a term name. Separate multiple parent terms with commas. Leave empty to move terms to the root of vocabulary.'),
++      '#maxlength' => 1024,
++      '#tags' => TRUE,
++    );
++
++
+     $form['keep_old_parents'] = [
+       '#type' => 'checkbox',
+       '#title' => $this->t('Keep old parents and add new ones (multi-parent). Otherwise old parents get replaced.'),
+@@ -84,15 +107,88 @@ class MoveTermsForm extends FormBase {
+     return $form;
+   }
+ 
++  /**
++   * {@inheritdoc}
++   */
++  public function validateForm(array &$form, FormStateInterface $form_state) {
++    parent::validateForm($form, $form_state);
++
++    $parents = $form_state->getValue('parents');
++    if (is_array($parents)) {
++      $parents = array_map(function($item) {
++        return $item['target_id'];
++      }, $parents);
++
++      // Make sure no terms becomes parent of itself.
++      if (count(array_intersect($form_state->getValue('selected_terms'), $parents)) > 0) {
++        $form_state->setError($form['parents'], $this->t('You are requesting to make a term parent of itself.'));
++      }
++
++      // Make sure no circular hierarchy would be introduced with this change.
++      $all_parents = [];
++      foreach ($parents as $parent) {
++        foreach ($this->termStorage->loadAllParents($parent) as $all_parent) {
++          $all_parents[] = $all_parent->id();
++        }
++      }
++      if (count(array_intersect($form_state->getValue('selected_terms'), $all_parents)) > 0) {
++        $form_state->setError($form['parents'], $this->t('The resulting hierarchy would contain circles, which is not allowed. A term cannot be a parent of itself.'));
++      }
++    }
++  }
++
+   /**
+    * {@inheritdoc}
+    */
+   public function submitForm(array &$form, FormStateInterface $form_state) {
++    /**
++     * @var VocabularyInterface
++     */
+     $taxonomy_vocabulary = $form_state->getValue('voc');
+ 
+-    $this->messenger()->addError($this->t('Move operation not yet implemented.'));
+-    $form_state->setRedirect('taxonomy_manager.admin_vocabulary', ['taxonomy_vocabulary' => $taxonomy_vocabulary->id()]);
++    $selected_terms = $this->termStorage->loadMultiple($form_state->getValue('selected_terms'));
++    $keep_old_parents = $form_state->getValue('keep_old_parents');
++    $parents = $form_state->getValue('parents');
++    $target_vocabulary = $form_state->getValue('target_voc');
++    if (!is_array($parents)) {
++      $parents = [['target_id' => 0]];
++    }
++
++    $is_multi_parents = FALSE;
++
++    foreach ($selected_terms as $term) {
++      if ($keep_old_parents) {
++        foreach ($this->termStorage->loadParents($term->id()) as $existing_parent) {
++          $term->parent[] = $existing_parent->id();
++        }
++        if (empty($term->parent)) {
++          $term->parent[] = 0;
++        }
++      } else {
++          $term->parent = [];
++      }
++
++      foreach ($parents as $parent) {
++        $term->parent[] = $parent['target_id'];
++      }
++
++      if (count($term->parent) > 1) {
++        $is_multi_parents = TRUE;
++      }
++
++      if ($target_vocabulary) {
++        $term->set('vid', $target_vocabulary[0]['target_id']);
++      }
++
++      $term->save();
++    }
++
++    if ($is_multi_parents) {
++      $taxonomy_vocabulary->setHierarchy(TAXONOMY_HIERARCHY_MULTIPLE)
++        ->save();
++    }
+ 
++    $form_state->setRedirect('taxonomy_manager.admin_vocabulary', array('taxonomy_vocabulary' => $taxonomy_vocabulary->id()));
+   }
+ 
+   /**

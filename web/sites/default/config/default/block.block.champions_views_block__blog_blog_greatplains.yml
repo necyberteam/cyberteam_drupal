@@ -1,0 +1,39 @@
+uuid: 4e50ddf2-2d31-44e8-902b-53dc058a7111
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.blog
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__blog_blog_greatplains
+theme: champions
+region: blog_page
+weight: -55
+provider: null
+plugin: 'views_block:blog-blog_greatplains'
+settings:
+  id: 'views_block:blog-blog_greatplains'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      greatplains_wpi_edu: greatplains_wpi_edu
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /blog

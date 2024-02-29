@@ -1,0 +1,23 @@
+uuid: 90ae22a2-6b5d-467a-a31a-ed5fbc3e1572
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.eventseries.field_registration
+    - recurring_events.eventseries_type.default
+  module:
+    - link
+id: eventseries.default.field_registration
+field_name: field_registration
+entity_type: eventseries
+bundle: default
+label: Registration
+description: 'Optional link to registration for your event.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 0
+  link_type: 16
+field_type: link

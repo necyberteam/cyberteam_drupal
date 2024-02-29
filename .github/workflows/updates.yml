@@ -1,0 +1,37 @@
+name: (M) Composer Updates
+run-name: Update ${{ github.event.inputs.drupal_update }}
+on:
+  workflow_dispatch:
+    inputs:
+      drupal_update:
+        description: 'core or module to update'
+        required: true
+        default: 'drupal/core'
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+jobs:
+  build:
+    name: Run updates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - uses: ./.github/actions/dingorunner
+        env:
+          runner: composer_update
+          blt: ./vendor/bin/blt
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+          drupal_update: ${{ github.event.inputs.drupal_update }}
+          username: ${{ github.actor }}
+          email: github.actions@necyberteam.org
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request
+        run: |
+          touch prnum.txt
+          gh pr create --title "[Composer] $drupal_update" --body "$(git log -1 --pretty=%B)" | sed 's/https:\/\/github.com\/necyberteam\/cyberteam_drupal\/pull\///g' > prnum.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
+          drupal_update: ${{ github.event.inputs.drupal_update }}

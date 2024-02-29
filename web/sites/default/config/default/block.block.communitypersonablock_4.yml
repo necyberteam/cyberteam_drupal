@@ -1,0 +1,25 @@
+uuid: 9af20f83-5855-47f5-9816-65805c24dfc5
+langcode: en
+status: true
+dependencies:
+  module:
+    - cssn
+    - system
+  theme:
+    - aspTheme
+id: communitypersonablock_4
+theme: aspTheme
+region: sidebar_first
+weight: 0
+provider: null
+plugin: cssn_block
+settings:
+  id: cssn_block
+  label: 'Community persona block'
+  label_display: '0'
+  provider: cssn
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/community-persona\r\n/community-persona/*"

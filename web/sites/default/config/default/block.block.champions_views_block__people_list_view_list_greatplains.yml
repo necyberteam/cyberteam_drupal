@@ -1,0 +1,31 @@
+uuid: 19a46dc8-56e6-4be1-9e01-352290805e30
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__people_list_view_list_greatplains
+theme: champions
+region: people_page_list
+weight: 0
+provider: null
+plugin: 'views_block:people_list_view-list_greatplains'
+settings:
+  id: 'views_block:people_list_view-list_greatplains'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list/great-plains

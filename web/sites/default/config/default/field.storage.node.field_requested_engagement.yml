@@ -1,0 +1,37 @@
+uuid: 453c8295-6134-44ad-a11e-e0e6e8d05b9b
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - node
+    - options
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: node.field_requested_engagement
+field_name: field_requested_engagement
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: '3'
+      label: '3 Months'
+    -
+      value: '6'
+      label: '6 Months'
+    -
+      value: '12'
+      label: '12 Months'
+    -
+      value: '18'
+      label: '18 Months'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

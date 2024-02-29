@@ -1,0 +1,34 @@
+uuid: 322f4cc8-fe2a-472a-aeab-0facd9f62f79
+langcode: en
+status: true
+dependencies:
+  module:
+    - domain
+    - system
+  theme:
+    - champions
+_core:
+  default_config_hash: 9EoWV2Lot6FVSr50t4hoKgiz1LIXYWNG-IIPYsWxBqo
+id: champions_responsive_system_main
+theme: champions
+region: content
+weight: 2
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "!/taxonomy/term/*\r\n!/project/*"
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains: {  }

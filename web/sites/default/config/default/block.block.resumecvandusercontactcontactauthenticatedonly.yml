@@ -1,0 +1,46 @@
+uuid: 05794da6-d5f7-4071-b757-6e1fdd7eee4b
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:0e35f495-dd1b-461d-bf46-0ab8c8480b91'
+  module:
+    - block_content
+    - domain
+    - system
+    - user
+  theme:
+    - nect
+id: resumecvandusercontactcontactauthenticatedonly
+theme: nect
+region: third_footer
+weight: 0
+provider: null
+plugin: 'block_content:0e35f495-dd1b-461d-bf46-0ab8c8480b91'
+settings:
+  id: 'block_content:0e35f495-dd1b-461d-bf46-0ab8c8480b91'
+  label: 'resume-cv and user contact contact authenticated only'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains: {  }
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '/user/*'
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

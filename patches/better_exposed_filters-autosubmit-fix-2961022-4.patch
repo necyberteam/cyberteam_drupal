@@ -1,0 +1,13 @@
+diff --git a/js/auto_submit.js b/js/auto_submit.js
+index b28f63a..64fa2cc 100644
+--- a/js/auto_submit.js
++++ b/js/auto_submit.js
+@@ -71,7 +71,7 @@
+
+       // The change event bubbles so we only need to bind it to the outer form
+       // in case of a full form, or a single element when specified explicitly.
+-      $(selectors, context).addBack(selectors).once('bef-auto-submit').on('change keyup keypress', function (e) {
++      $(selectors).addBack(selectors).once('bef-auto-submit').on('change keyup keypress', function (e) {
+         var $target = $(e.target);
+
+         // Don't submit on changes to excluded elements or a submit element.

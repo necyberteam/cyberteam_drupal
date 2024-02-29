@@ -1,0 +1,98 @@
+{#
+/**
+ * @file
+ * Default theme implementation for main view template.
+ *
+ * Available variables:
+ * - attributes: Remaining HTML attributes for the element.
+ * - css_name: A css-safe version of the view name.
+ * - css_class: The user-specified classes names, if any.
+ * - header: The optional header.
+ * - footer: The optional footer.
+ * - rows: The results of the view query, if any.
+ * - empty: The content to display if there are no rows.
+ * - pager: The optional pager next/prev links to display.
+ * - exposed: Exposed widget form/info to display.
+ * - feed_icons: Optional feed icons to display.
+ * - more: An optional link to the next page of results.
+ * - title: Title of the view, only used when displaying in the admin preview.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the view title.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the view title.
+ * - attachment_before: An optional attachment view to be displayed before the
+ *   view content.
+ * - attachment_after: An optional attachment view to be displayed after the
+ *   view content.
+ * - dom_id: Unique id for every view being printed to give unique class for
+ *   Javascript.
+ *
+ * @see template_preprocess_views_view()
+ *
+ * @ingroup themeable
+ */
+#}
+
+<div{{ attributes.addClass('card mb-3') }}>
+  <div class="card-body">
+  <style>
+    iframe {
+      width: 100% !important;
+    }
+    d-topics-list { display: none; }
+  </style>
+  {{ title }}
+
+  {% if header %}
+    <header>
+      {{ header }}
+    </header>
+  {% endif %}
+
+  {{ exposed }}
+  {{ attachment_before }}
+  <script src="https://ask.cyberinfrastructure.org/javascripts/embed-topics.js"></script>
+  {% set escdiv = 'div' %}
+  {% apply spaceless %}
+  {%- if rows -%}
+    <d-topics-list discourse-url="https://ask.cyberinfrastructure.org" category="" per-page="15" tags="{% apply spaceless %}{{- rows -}}{% endapply %}></d-topics-list>
+    <div id="ask-ci-topics" class="d-none"><i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i> Loading topics from Ask.CI ...</div>
+<script>
+$(document).ready(function() {
+  var iframeSrc = $("d-topics-list iframe").attr('src');
+  $.get(iframeSrc, function(data, statusText, statusCode) {
+    if (statusCode.readyState == 4 && statusCode.status == 200 ){
+    if (data.indexOf('<div class=') > -1) {
+      var items = data.substring(data.indexOf('<div class='));
+    } else {
+      var items = "<div class='alert alert-warning'>There are no Ask.CI topics associated with this tag.</div>";
+    }
+    $("#ask-ci-topics").html(items);
+    $("#ask-ci-topics .topics-list").addClass("list-group list-group-flush");
+    $("#ask-ci-topics .topics-list .topic-list-item").addClass("list-group-item py-1");
+    $("#ask-ci-topics a").attr('target','_blank');
+    $("#ask-ci-topics").removeClass('d-none');
+  }}).fail(function(){
+    var failure = "<div class='alert alert-danger'>Error fetching.</div>";
+    $("#ask-ci-topics").html(failure);
+    $("#ask-ci-topics").removeClass('d-none');
+  });
+});
+</script>
+  {%- elseif empty -%}
+    {{ empty }}
+  {%- endif -%}
+  {% endapply %}
+  {{ pager }}
+
+  {{ attachment_after }}
+  {{ more }}
+
+  {% if footer %}
+    <footer>
+      {{ footer }}
+    </footer>
+  {% endif %}
+
+  </div>
+</div>

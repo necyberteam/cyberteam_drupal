@@ -1,0 +1,15 @@
+uuid: a5089d88-1576-444a-881b-d13df129d98d
+langcode: en
+status: true
+dependencies:
+  config:
+    - flag.flag.upvote
+  module:
+    - flag
+id: flag_action.upvote_unflag
+label: 'Voted <i class="fa fa-check"></i>'
+type: webform_submission
+plugin: 'flag_action:upvote_unflag'
+configuration:
+  flag_id: upvote
+  flag_action: unflag

@@ -1,0 +1,39 @@
+uuid: 44abb9b9-f865-4c81-afdb-bb8c516cdab9
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.help_desk
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__help_desk_helpdesk_mines
+theme: champions
+region: help_desk
+weight: -93
+provider: null
+plugin: 'views_block:help_desk-helpdesk_mines'
+settings:
+  id: 'views_block:help_desk-helpdesk_mines'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      mines_cyberinfrastructure_org: mines_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /help-desk

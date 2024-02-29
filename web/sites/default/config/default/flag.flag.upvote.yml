@@ -1,0 +1,30 @@
+uuid: 2c7eb66a-7350-48a8-8800-18d2928d9447
+langcode: en
+status: true
+dependencies:
+  module:
+    - webform
+id: upvote
+label: Upvote
+bundles:
+  - resource
+entity_type: webform_submission
+global: false
+flag_short: '<img class="mr-2 me-2" src="/modules/custom/access/modules/access_cilink/img/thumbs-up.png" /> Vote for this CI Link'
+flag_long: upvote
+flag_message: 'Thanks! Your vote has been recorded.'
+unflag_short: '<img class="me-2" src="/modules/custom/access/modules/access_cilink/img/no-thumbs-up.png" /> Remove your vote for this CI Link'
+unflag_long: 'Remove vote.'
+unflag_message: 'Your vote has been removed.'
+unflag_denied_text: ''
+weight: 0
+flag_type: 'entity:webform_submission'
+link_type: reload
+flagTypeConfig:
+  show_in_links: {  }
+  show_as_field: true
+  show_on_form: false
+  show_contextual_link: false
+  extra_permissions:
+    owner: '0'
+linkTypeConfig: {  }

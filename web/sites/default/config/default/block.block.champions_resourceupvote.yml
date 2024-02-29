@@ -1,0 +1,46 @@
+uuid: 238e66e3-e085-4e8f-8839-9234359df873
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:dec5a2ef-8b08-4462-9859-1a0a71b7f89a'
+  module:
+    - block_content
+    - domain
+    - system
+    - user
+  theme:
+    - champions
+id: champions_resourceupvote
+theme: champions
+region: third_footer
+weight: 0
+provider: null
+plugin: 'block_content:dec5a2ef-8b08-4462-9859-1a0a71b7f89a'
+settings:
+  id: 'block_content:dec5a2ef-8b08-4462-9859-1a0a71b7f89a'
+  label: 'resource upvote'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains: {  }
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /resources
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

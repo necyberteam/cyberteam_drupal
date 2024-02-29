@@ -1,0 +1,31 @@
+uuid: 59acbeaf-1b19-4769-9a8d-6e1fc5666ee8
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.help_desk
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__help_desk_helpdesk_atlarge
+theme: champions
+region: help_desk
+weight: -89
+provider: null
+plugin: 'views_block:help_desk-helpdesk_atlarge'
+settings:
+  id: 'views_block:help_desk-helpdesk_atlarge'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /help-desk

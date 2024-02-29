@@ -1,0 +1,301 @@
+uuid: 539c8937-dc76-48f2-ae96-22fc4a35e086
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.affinity_group.body
+    - field.field.node.affinity_group.field_affinity_announcements
+    - field.field.node.affinity_group.field_affinity_events
+    - field.field.node.affinity_group.field_affinity_group
+    - field.field.node.affinity_group.field_affinity_group_category
+    - field.field.node.affinity_group.field_ask_ci_locale
+    - field.field.node.affinity_group.field_cider_resources
+    - field.field.node.affinity_group.field_coordinator
+    - field.field.node.affinity_group.field_domain_access
+    - field.field.node.affinity_group.field_domain_all_affiliates
+    - field.field.node.affinity_group.field_domain_source
+    - field.field.node.affinity_group.field_ext_email_list
+    - field.field.node.affinity_group.field_github_organization
+    - field.field.node.affinity_group.field_group_slug
+    - field.field.node.affinity_group.field_image
+    - field.field.node.affinity_group.field_list_id
+    - field.field.node.affinity_group.field_mailing_list
+    - field.field.node.affinity_group.field_recommended_access_res
+    - field.field.node.affinity_group.field_resources_entity_reference
+    - field.field.node.affinity_group.field_slack
+    - field.field.node.affinity_group.field_tags
+    - field.field.node.affinity_group.field_use_ext_email_list
+    - image.style.thumbnail
+    - node.type.affinity_group
+  module:
+    - content_moderation
+    - image
+    - inline_entity_form
+    - link
+    - path
+    - text
+id: node.affinity_group.default
+targetEntityType: node
+bundle: affinity_group
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 8
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 11
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_affinity_announcements:
+    type: entity_reference_autocomplete
+    weight: 26
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_affinity_events:
+    type: entity_reference_autocomplete
+    weight: 27
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_affinity_group_category:
+    type: options_select
+    weight: 20
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_ask_ci_locale:
+    type: link_default
+    weight: 5
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_cider_resources:
+    type: entity_reference_autocomplete
+    weight: 22
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_coordinator:
+    type: entity_reference_autocomplete
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_domain_access:
+    type: options_buttons
+    weight: 15
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_domain_all_affiliates:
+    type: boolean_checkbox
+    weight: 16
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_domain_source:
+    type: options_select
+    weight: 17
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_ext_email_list:
+    type: string_textfield
+    weight: 29
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_github_organization:
+    type: link_default
+    weight: 6
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_group_slug:
+    type: string_textfield
+    weight: 30
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_image:
+    type: image_image
+    weight: 2
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_list_id:
+    type: string_textfield
+    weight: 23
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_mailing_list:
+    type: string_textfield
+    weight: 7
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_recommended_access_res:
+    type: inline_entity_form_complex
+    weight: 24
+    region: content
+    settings:
+      form_mode: default
+      override_labels: true
+      label_singular: resource
+      label_plural: resources
+      auto_open: true
+      allow_new: true
+      allow_existing: false
+      allow_edit: true
+      match_operator: CONTAINS
+      allow_duplicate: false
+      hide_fieldset: false
+      hide_title: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
+      config_labels_button: complex_label
+      labels:
+        label_singular_recommended_cider: Recommendation
+        label_plural_recommended_cider: Recommendations
+      add_existing_widget: autocomplete
+      auto_open_edit_form: 0
+    third_party_settings: {  }
+  field_resources_entity_reference:
+    type: entity_reference_autocomplete
+    weight: 9
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 0
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_slack:
+    type: link_default
+    weight: 4
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_tags:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_use_ext_email_list:
+    type: boolean_checkbox
+    weight: 28
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 21
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 14
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 12
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 18
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 13
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 10
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 19
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_affinity_group: true
+  field_resources_placeholder: true

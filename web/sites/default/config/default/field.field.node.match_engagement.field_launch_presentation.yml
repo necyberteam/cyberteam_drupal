@@ -1,0 +1,27 @@
+uuid: 80e2d215-cffb-4957-a50a-30414998d6dd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_launch_presentation
+    - node.type.match_engagement
+  module:
+    - file
+id: node.match_engagement.field_launch_presentation
+field_name: field_launch_presentation
+entity_type: node
+bundle: match_engagement
+label: 'Launch Presentation'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: 'match_engagement/[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'ppt pptx'
+  max_filesize: 25mb
+  description_field: false
+field_type: file

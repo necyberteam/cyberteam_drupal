@@ -1,0 +1,29 @@
+uuid: f2a69e1e-2374-420f-8775-b1c0da83ecff
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.eventseries.field_affinity_group_node
+    - node.type.affinity_group
+    - recurring_events.eventseries_type.default
+id: eventseries.default.field_affinity_group_node
+field_name: field_affinity_group_node
+entity_type: eventseries
+bundle: default
+label: 'Affinity Group'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      affinity_group: affinity_group
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

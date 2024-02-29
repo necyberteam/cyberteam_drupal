@@ -1,0 +1,76 @@
+uuid: a6bd5212-b558-4640-8c0c-dae47f37fb4c
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.eventinstance.rollup_list
+    - field.field.eventinstance.default.field_video
+    - recurring_events.eventinstance_type.default
+  module:
+    - datetime_range
+    - options
+    - text
+_core:
+  default_config_hash: lFFUFIZPBUZQjrIYYvP6U1hzVLGjKMl0DYK93zPM_80
+id: eventinstance.default.rollup_list
+targetEntityType: eventinstance
+bundle: default
+mode: rollup_list
+content:
+  date:
+    type: daterange_custom
+    label: inline
+    settings:
+      timezone_override: ''
+      date_format: 'n/j/Y g:i A T'
+      separator: '-'
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  description:
+    type: text_trimmed
+    label: hidden
+    settings:
+      trim_length: 200
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  event_affiliation:
+    type: list_default
+    label: visible
+    settings: {  }
+    third_party_settings: {  }
+    weight: 54
+    region: content
+  event_type:
+    type: list_default
+    label: visible
+    settings: {  }
+    third_party_settings: {  }
+    weight: 55
+    region: content
+  location:
+    type: text_trimmed
+    label: inline
+    settings:
+      trim_length: 100
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  skill_level:
+    type: list_default
+    label: visible
+    settings: {  }
+    third_party_settings: {  }
+    weight: 58
+    region: content
+hidden:
+  affinity_group: true
+  affinity_group_node_ref: true
+  body: true
+  contact: true
+  content_moderation_control: true
+  field_video: true
+  registration: true
+  tags: true
+  title: true

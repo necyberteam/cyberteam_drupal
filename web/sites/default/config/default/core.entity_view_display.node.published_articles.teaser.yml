@@ -1,0 +1,44 @@
+uuid: 50a5ef4b-4a17-4b81-aff8-96159aa1f6cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.published_articles.body
+    - field.field.node.published_articles.field_author
+    - field.field.node.published_articles.field_community
+    - field.field.node.published_articles.field_domain_access
+    - field.field.node.published_articles.field_domain_all_affiliates
+    - field.field.node.published_articles.field_domain_source
+    - field.field.node.published_articles.field_publication
+    - field.field.node.published_articles.field_published_date
+    - node.type.published_articles
+  module:
+    - text
+    - user
+id: node.published_articles.teaser
+targetEntityType: node
+bundle: published_articles
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_author: true
+  field_community: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  field_publication: true
+  field_published_date: true

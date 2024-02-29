@@ -1,0 +1,31 @@
+uuid: 6379a395-9cb6-4dd2-911d-1a9c3d3747ea
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__people_card_view_card_greatplains
+theme: champions
+region: people_page_card
+weight: 0
+provider: null
+plugin: 'views_block:people_card_view-card_greatplains'
+settings:
+  id: 'views_block:people_card_view-card_greatplains'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people_card_greatplains\r\n/people/card/great-plains"

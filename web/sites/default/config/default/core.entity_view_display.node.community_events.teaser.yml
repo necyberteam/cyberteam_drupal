@@ -1,0 +1,46 @@
+uuid: 616026bd-168d-4b17-9a56-fc345abfd3b2
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.community_events.body
+    - field.field.node.community_events.field_community
+    - field.field.node.community_events.field_domain_access
+    - field.field.node.community_events.field_domain_all_affiliates
+    - field.field.node.community_events.field_domain_source
+    - field.field.node.community_events.field_end_date
+    - field.field.node.community_events.field_location
+    - field.field.node.community_events.field_start_date
+    - field.field.node.community_events.field_track
+    - node.type.community_events
+  module:
+    - text
+    - user
+id: node.community_events.teaser
+targetEntityType: node
+bundle: community_events
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_community: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  field_end_date: true
+  field_location: true
+  field_start_date: true
+  field_track: true

@@ -1,0 +1,29 @@
+uuid: eec9245a-3579-4fe0-a7c9-968cb1951548
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_students
+    - node.type.match_engagement
+id: node.match_engagement.field_students
+field_name: field_students
+entity_type: node
+bundle: match_engagement
+label: Student(s)
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: _none
+    include_anonymous: false
+field_type: entity_reference

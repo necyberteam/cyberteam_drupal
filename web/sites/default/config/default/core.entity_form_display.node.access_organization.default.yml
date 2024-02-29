@@ -1,0 +1,125 @@
+uuid: d905cb20-424a-4e03-ad46-9b0b0d6a9193
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.access_organization.field_carnegie_code
+    - field.field.node.access_organization.field_country
+    - field.field.node.access_organization.field_domain_access
+    - field.field.node.access_organization.field_domain_all_affiliates
+    - field.field.node.access_organization.field_domain_source
+    - field.field.node.access_organization.field_is_active
+    - field.field.node.access_organization.field_is_msi
+    - field.field.node.access_organization.field_latitude
+    - field.field.node.access_organization.field_longitude
+    - field.field.node.access_organization.field_org_type
+    - field.field.node.access_organization.field_organization_abbrev
+    - field.field.node.access_organization.field_organization_id
+    - field.field.node.access_organization.field_organization_name
+    - field.field.node.access_organization.field_organization_phone
+    - field.field.node.access_organization.field_organization_url
+    - field.field.node.access_organization.field_state
+    - node.type.access_organization
+  module:
+    - content_moderation
+    - path
+id: node.access_organization.default
+targetEntityType: node
+bundle: access_organization
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_domain_access:
+    type: options_buttons
+    weight: 40
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_domain_all_affiliates:
+    type: boolean_checkbox
+    weight: 41
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_domain_source:
+    type: options_select
+    weight: 42
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 15
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 120
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 16
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_carnegie_code: true
+  field_country: true
+  field_is_active: true
+  field_is_msi: true
+  field_latitude: true
+  field_longitude: true
+  field_org_type: true
+  field_organization_abbrev: true
+  field_organization_id: true
+  field_organization_name: true
+  field_organization_phone: true
+  field_organization_url: true
+  field_state: true
