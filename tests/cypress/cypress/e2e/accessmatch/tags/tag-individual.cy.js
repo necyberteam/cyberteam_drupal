@@ -68,8 +68,8 @@ describe("Verify the the community-outreach tag page", () => {
 
           // check there is at least one square tags
           cy.wrap(block)
-            .find('.flex.square-tags')
-            .find('.d-inline-flex').should('have.length.gt', 0)
+            .find('.square-tags')
+            .find('.view-content > div').should('have.length.gt', 0)
             .each((e) => cy.wrap(e)
               .find('a').should('have.attr', 'href'));
           // sometimes contains terms not tags - but can't get regex to work
