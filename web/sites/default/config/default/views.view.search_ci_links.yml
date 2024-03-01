@@ -746,29 +746,31 @@ display:
         type: table
         options:
           grouping: {  }
-          row_class: 'border-b border-gray'
+          row_class: 'border-solid border-t-4 border-t-dark-teal border-spacing-2'
           default_row_class: true
           columns:
-            sid: sid
+            sid_1: sid_1
+            sid_2: sid_2
             webform_submission_title: webform_submission_title
-            webform_submission_description: webform_submission_description
             webform_submission_tags: webform_submission_tags
+            sid: sid
+            webform_submission_description: webform_submission_description
             webform_submission_category: webform_submission_category
+            webform_submission_skill_level: webform_submission_skill_level
+            nothing: nothing
           default: '-1'
           info:
-            sid:
+            sid_1:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            sid_2:
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
             webform_submission_title:
-              sortable: false
-              default_sort_order: asc
-              align: views-align-left
-              separator: ''
-              empty_column: false
-              responsive: ''
-            webform_submission_description:
               sortable: false
               default_sort_order: asc
               align: views-align-left
@@ -782,10 +784,34 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
+            sid:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            webform_submission_description:
+              sortable: false
+              default_sort_order: asc
+              align: views-align-left
+              separator: ''
+              empty_column: false
+              responsive: ''
             webform_submission_category:
               sortable: false
               default_sort_order: asc
               align: views-align-left
+              separator: ''
+              empty_column: false
+              responsive: ''
+            webform_submission_skill_level:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            nothing:
+              align: ''
               separator: ''
               empty_column: false
               responsive: ''
