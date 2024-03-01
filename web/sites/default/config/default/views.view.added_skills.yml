@@ -789,7 +789,7 @@ display:
           label: ''
           exclude: false
           alter:
-            alter_text: true
+            alter_text: false
             text: '<div class="[&_a]--border [&_a]--hover--border-dark-teal mb-2 me-2 [&_a]--font-normal [&_a]--no-underline [&_a]--px-2 [&_a]--py-1">{{ name }}</div>'
             make_link: false
             path: ''
@@ -843,10 +843,9 @@ display:
           field_api_classes: false
           convert_spaces: false
       pager:
-        type: some
+        type: none
         options:
           offset: 0
-          items_per_page: 5
       filters:
         status:
           id: status
