@@ -33,6 +33,10 @@ field_settings:
     label: 'Submission Title'
     property_path: search_api_webform_submission_title
     type: text
+  webform_submission_vote_count:
+    label: 'Vote Count'
+    property_path: search_api_webform_submission_vote_count
+    type: string
 datasource_settings:
   'entity:webform_submission':
     bundles:
@@ -66,6 +70,7 @@ processor_settings:
       - webform_submission_skill_level
       - webform_submission_tags
       - webform_submission_title
+      - webform_submission_vote_count
     title: true
     alt: true
     tags:
@@ -85,6 +90,7 @@ processor_settings:
       - webform_submission_skill_level
       - webform_submission_tags
       - webform_submission_title
+      - webform_submission_vote_count
   language_with_fallback: {  }
   rendered_item: {  }
   stopwords:
@@ -136,6 +142,7 @@ processor_settings:
   webform_submission_skill_level: {  }
   webform_submission_tags: {  }
   webform_submission_title: {  }
+  webform_submission_vote_count: {  }
 tracker_settings:
   default:
     indexing_order: fifo

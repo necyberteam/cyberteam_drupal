@@ -661,7 +661,20 @@ display:
             value: 'No matches for these criteria.'
             format: basic_html
           tokenize: false
-      sorts: {  }
+      sorts:
+        webform_submission_vote_count:
+          id: webform_submission_vote_count
+          table: search_api_index_ci_links
+          field: webform_submission_vote_count
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api
+          order: DESC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
       arguments: {  }
       filters:
         search_api_fulltext:
