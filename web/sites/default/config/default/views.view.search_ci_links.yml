@@ -23,172 +23,6 @@ display:
     display_options:
       title: 'Search CI Links'
       fields:
-        sid_1:
-          id: sid_1
-          table: search_api_datasource_ci_links_entity_webform_submission
-          field: sid
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: webform_submission
-          plugin_id: search_api_field
-          label: ''
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: number_integer
-          settings:
-            thousand_separator: ''
-            prefix_suffix: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          field_rendering: true
-          fallback_handler: search_api_numeric
-          fallback_options:
-            set_precision: false
-            precision: 0
-            decimal: .
-            separator: ','
-            format_plural: false
-            format_plural_string: !!binary MQNAY291bnQ=
-            prefix: ''
-            suffix: ''
-            link_to_item: false
-            use_highlighting: false
-            multi_type: separator
-            multi_separator: ', '
-            format_plural_values:
-              - '1'
-              - '@count'
-        sid_2:
-          id: sid_2
-          table: search_api_datasource_ci_links_entity_webform_submission
-          field: sid
-          relationship: none
-          group_type: group
-          admin_label: 'CI Links'
-          entity_type: webform_submission
-          plugin_id: search_api_field
-          label: ''
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: number_integer
-          settings:
-            thousand_separator: ''
-            prefix_suffix: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          field_rendering: true
-          fallback_handler: search_api_numeric
-          fallback_options:
-            set_precision: false
-            precision: 0
-            decimal: .
-            separator: ','
-            format_plural: false
-            format_plural_string: !!binary MQNAY291bnQ=
-            prefix: ''
-            suffix: ''
-            link_to_item: false
-            use_highlighting: false
-            multi_type: separator
-            multi_separator: ', '
-            format_plural_values:
-              - '1'
-              - '@count'
         webform_submission_title:
           id: webform_submission_title
           table: search_api_index_ci_links
@@ -389,10 +223,10 @@ display:
           entity_field: null
           plugin_id: search_api
           label: ''
-          exclude: false
+          exclude: true
           alter:
             alter_text: true
-            text: "{{ sid_2 }}\r\n<details class=\"relative pe-10\">\r\n  <summary class=\"font-bold\">{{ webform_submission_title }}</summary>\r\n  <div class=\"p-4\">\r\n    <div>{{ webform_submission_description }}</div>\r\n    <div class=\"[&_a]--inline-block [&_a]--no-underline [&_a]--font-normal [&_a]--my-1 [&_a]--me-1 [&_a]--mr-1 [&_a]--px-2 [&_a]--py-1 [&_a]--hover--border-dark-teal [&_a]--border [&_a]--whitespace-nowrap\">\r\n      {{ webform_submission_tags }}\r\n    </div>\r\n  </div>\r\n</details>"
+            text: ''
             make_link: false
             path: ''
             absolute: false
@@ -539,19 +373,20 @@ display:
           use_highlighting: false
           multi_type: separator
           multi_separator: ', '
-        nothing:
-          id: nothing
-          table: views
-          field: nothing
+        sid_3:
+          id: sid_3
+          table: search_api_datasource_ci_links_entity_webform_submission
+          field: sid
           relationship: none
           group_type: group
-          admin_label: ''
-          plugin_id: custom
+          admin_label: 'Details submission id'
+          entity_type: webform_submission
+          plugin_id: search_api_field
           label: ''
           exclude: false
           alter:
-            alter_text: true
-            text: '{"skill":"{{ webform_submission_skill_level }}","sid":"{{ sid_1 }}"}'
+            alter_text: false
+            text: ''
             make_link: false
             path: ''
             absolute: false
@@ -587,7 +422,40 @@ display:
           empty: ''
           hide_empty: false
           empty_zero: false
-          hide_alter_empty: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: false
+          fallback_handler: search_api_numeric
+          fallback_options:
+            set_precision: false
+            precision: 0
+            decimal: .
+            separator: ''
+            format_plural: false
+            format_plural_string: !!binary MQNAY291bnQ=
+            prefix: ''
+            suffix: ''
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+            format_plural_values:
+              - '1'
+              - '@count'
       pager:
         type: full
         options:
@@ -756,84 +624,11 @@ display:
           min_length: null
           fields: {  }
       style:
-        type: table
+        type: default
         options:
           grouping: {  }
-          row_class: 'border-solid border-t-4 border-t-dark-teal border-spacing-2'
+          row_class: ''
           default_row_class: true
-          columns:
-            sid_1: sid_1
-            sid_2: sid_2
-            webform_submission_title: webform_submission_title
-            webform_submission_tags: webform_submission_tags
-            sid: sid
-            webform_submission_description: webform_submission_description
-            webform_submission_category: webform_submission_category
-            webform_submission_skill_level: webform_submission_skill_level
-            nothing: nothing
-          default: '-1'
-          info:
-            sid_1:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            sid_2:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            webform_submission_title:
-              sortable: false
-              default_sort_order: asc
-              align: views-align-left
-              separator: ''
-              empty_column: false
-              responsive: ''
-            webform_submission_tags:
-              sortable: false
-              default_sort_order: asc
-              align: views-align-left
-              separator: ''
-              empty_column: false
-              responsive: ''
-            sid:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            webform_submission_description:
-              sortable: false
-              default_sort_order: asc
-              align: views-align-left
-              separator: ''
-              empty_column: false
-              responsive: ''
-            webform_submission_category:
-              sortable: false
-              default_sort_order: asc
-              align: views-align-left
-              separator: ''
-              empty_column: false
-              responsive: ''
-            webform_submission_skill_level:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            nothing:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-          override: true
-          sticky: false
-          summary: ''
-          empty_table: false
-          caption: ''
-          description: ''
       row:
         type: fields
       query:
