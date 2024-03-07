@@ -21,10 +21,13 @@ dependencies:
     - field.field.user.user.field_institution
     - field.field.user.user.field_is_cc
     - field.field.user.user.field_region
+    - field.field.user.user.field_user_bio
     - field.field.user.user.field_user_first_name
     - field.field.user.user.field_user_last_name
+    - field.field.user.user.field_user_preferred_pronouns
     - field.field.user.user.user_picture
   module:
+    - text
     - user
 _core:
   default_config_hash: V51QPCKkgNREKtSmB9Iu2wmAMEpktVpnzklWaZV8UYo
@@ -32,7 +35,22 @@ id: user.user.default
 targetEntityType: user
 bundle: user
 mode: default
-content: {  }
+content:
+  field_user_bio:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_user_preferred_pronouns:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
 hidden:
   field_academic_status: true
   field_access_organization: true
