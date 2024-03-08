@@ -5,14 +5,22 @@ dependencies:
   config:
     - search_api.server.default_server
   module:
+    - webform
     - search_api
     - webform_submission_search_api
-    - webform
 id: ci_links
 name: 'CI Links'
 description: ''
 read_only: false
 field_settings:
+  sid:
+    label: 'Submission ID'
+    datasource_id: 'entity:webform_submission'
+    property_path: sid
+    type: integer
+    dependencies:
+      module:
+        - webform
   webform_submission_category:
     label: Category
     property_path: search_api_webform_submission_category
