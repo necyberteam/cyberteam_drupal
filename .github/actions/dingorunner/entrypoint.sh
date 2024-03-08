@@ -53,6 +53,9 @@ then
   rm -fR files_live/private/.keys
   rm -fR files_live/private/styles/*
   rm -fR files_live/private/webform/*
+  mv files_live files
+  tar -czvf files.tar.gz files
+  rm files
 fi
 
 if [ "$runner" = update ];
