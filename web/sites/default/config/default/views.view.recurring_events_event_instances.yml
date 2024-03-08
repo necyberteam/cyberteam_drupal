@@ -3248,6 +3248,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: 'No events or trainings match these criteria.'
+            format: basic_html
+          tokenize: false
       filters:
         status:
           id: status
@@ -3590,6 +3604,7 @@ display:
           relationship: none
           view_mode: list
       defaults:
+        empty: false
         title: false
         style: false
         row: false
