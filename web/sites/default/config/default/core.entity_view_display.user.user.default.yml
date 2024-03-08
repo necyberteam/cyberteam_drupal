@@ -27,7 +27,6 @@ dependencies:
     - field.field.user.user.field_user_preferred_pronouns
     - field.field.user.user.user_picture
   module:
-    - text
     - user
 _core:
   default_config_hash: V51QPCKkgNREKtSmB9Iu2wmAMEpktVpnzklWaZV8UYo
@@ -35,22 +34,7 @@ id: user.user.default
 targetEntityType: user
 bundle: user
 mode: default
-content:
-  field_user_bio:
-    type: text_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 0
-    region: content
-  field_user_preferred_pronouns:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 1
-    region: content
+content: {  }
 hidden:
   field_academic_status: true
   field_access_organization: true
@@ -70,8 +54,10 @@ hidden:
   field_institution: true
   field_is_cc: true
   field_region: true
+  field_user_bio: true
   field_user_first_name: true
   field_user_last_name: true
+  field_user_preferred_pronouns: true
   masquerade: true
   member_for: true
   realname: true
