@@ -20,7 +20,7 @@ permissions:
 jobs:
   asp:
     name: Run cypress tests in 'accessmatch' directory
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@main
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3
     if: contains(github.event.inputs.sites, 'asp') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}

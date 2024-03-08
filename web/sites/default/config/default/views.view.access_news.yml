@@ -1193,7 +1193,22 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: '<p class="font-bold">No announcements.</p>'
+            format: basic_html
+          tokenize: false
       defaults:
+        empty: false
         css_class: false
         group_by: false
         fields: false

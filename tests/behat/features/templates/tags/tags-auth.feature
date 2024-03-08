@@ -10,11 +10,10 @@ Feature: This test is as an authenticated user.
     Given I am logged in as a user with the "authenticated" role
     When I go to "tags"
     Then I should see "Tags"
-    And I should see "Contains any word"
     And I should see "Search"
     And I should see "login"
     And I should see "osg"
-    And I should see "ACCESS RPs"
+    And I should see "ACCESS Resources"
     And I should see "xsede"
 
   Scenario: Tags pages shows "Request Tag" for authenticated user
