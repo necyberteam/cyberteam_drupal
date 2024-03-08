@@ -45,8 +45,8 @@ class GhCommands extends BltTasks {
    * @description Pulls latest database artifact from Github.
    */
   public function pullfiles() {
-    $this->_exec("mkdir files");
-    $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-file-backup -D files");
+    $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-file-backup");
+    $this->_exec("tar -xzvf files.tar.gz && rm files.tar.gz");
     $prev_files = 'web/sites/default/files';
     if (file_exists($prev_files)) {
       $this->_exec("rm -fR $prev_files");
