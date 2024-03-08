@@ -30,9 +30,7 @@ class GhCommands extends BltTasks {
    * @description Pulls latest database artifact from Github.
    */
   public function pulldb() {
-    $location_url = $this->grabLocation('amp-daily-backup');
-    $this->_exec("wget -O daily_backup.zip '$location_url'");
-    $this->_exec("unzip daily_backup.zip && rm daily_backup.zip");
+    $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-daily-backup");
     $prev_backup = 'backups/site.sql.gz';
     if (file_exists($prev_backup)) {
       $this->_exec("rm $prev_backup");
@@ -47,9 +45,8 @@ class GhCommands extends BltTasks {
    * @description Pulls latest database artifact from Github.
    */
   public function pullfiles() {
-    $location_url = $this->grabLocation('amp-file-backup');
-    $this->_exec("wget -O gh_files.zip '$location_url'");
-    $this->_exec("mkdir files && unzip gh_files.zip -d files && rm gh_files.zip");
+    $this->_exec("mkdir files");
+    $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-file-backup -D files");
     $prev_files = 'web/sites/default/files';
     if (file_exists($prev_files)) {
       $this->_exec("rm -fR $prev_files");

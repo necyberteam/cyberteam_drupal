@@ -1,5 +1,6 @@
 name: (A) Files to artifact
 on:
+  workflow_dispatch:
   schedule:
     - cron:  '16 00 * * *'
 jobs:
@@ -21,5 +22,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: amp-file-backup
-          path: files_live
+          path: files.tar.gz
           retention-days: 5
