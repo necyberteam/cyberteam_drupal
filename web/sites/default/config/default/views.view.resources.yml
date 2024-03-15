@@ -765,8 +765,8 @@ display:
       use_more: false
       use_more_always: false
       use_more_text: 'View all CI Links with this tag'
-      link_display: page_2
-      link_url: /
+      link_display: custom_url
+      link_url: '/tags/{{ raw_arguments.webform_submission_value }}/ci-links'
       header:
         area:
           id: area
@@ -840,7 +840,6 @@ display:
             limit: false
             vids: {  }
             anyall: ','
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1247,7 +1246,6 @@ display:
           default_argument_options:
             index: 0
             use_alias: false
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1454,7 +1452,6 @@ display:
             limit: false
             vids: {  }
             anyall: +
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -3475,7 +3472,6 @@ display:
           default_argument_options:
             index: 1
             use_alias: false
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
