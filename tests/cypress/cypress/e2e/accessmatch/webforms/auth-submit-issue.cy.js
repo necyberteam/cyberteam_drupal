@@ -20,7 +20,7 @@ describe('Authenticated user fills out the enter ticket form', () => {
     cy.get('[name="details"]').type('TEST');
     // select a couple tags
     cy.get('#edit-tags3-733').check();
-    cy.get('#edit-tags3-734').check();
+    cy.get('#edit-tags3-690').check();
     cy.contains('Submit').click();
     cy.contains('Thank you! Your ticket has been submitted! We\'ll be in touch soon.');
   });
