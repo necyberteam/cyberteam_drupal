@@ -13,11 +13,17 @@ name: 'Full HTML'
 format: full_html
 weight: 1
 filters:
-  filter_htmlcorrector:
-    id: filter_htmlcorrector
+  editor_file_reference:
+    id: editor_file_reference
+    provider: editor
+    status: false
+    weight: -45
+    settings: {  }
+  filter_align:
+    id: filter_align
     provider: filter
     status: false
-    weight: -49
+    weight: -44
     settings: {  }
   filter_autop:
     id: filter_autop
@@ -25,13 +31,6 @@ filters:
     status: false
     weight: -50
     settings: {  }
-  filter_url:
-    id: filter_url
-    provider: filter
-    status: true
-    weight: -47
-    settings:
-      filter_url_length: 72
   filter_caption:
     id: filter_caption
     provider: filter
@@ -53,6 +52,31 @@ filters:
     status: false
     weight: -42
     settings: {  }
+  filter_html_image_secure:
+    id: filter_html_image_secure
+    provider: filter
+    status: false
+    weight: -38
+    settings: {  }
+  filter_htmlcorrector:
+    id: filter_htmlcorrector
+    provider: filter
+    status: false
+    weight: -49
+    settings: {  }
+  filter_image_lazy_load:
+    id: filter_image_lazy_load
+    provider: filter
+    status: true
+    weight: -44
+    settings: {  }
+  filter_url:
+    id: filter_url
+    provider: filter
+    status: true
+    weight: -47
+    settings:
+      filter_url_length: 72
   obfuscate_email:
     id: obfuscate_email
     provider: obfuscate_email
@@ -61,6 +85,12 @@ filters:
     settings:
       click: '0'
       click_label: 'Click here to show mail address'
+  rel_to_abs:
+    id: rel_to_abs
+    provider: rel_to_abs
+    status: true
+    weight: -46
+    settings: {  }
   shortcode:
     id: shortcode
     provider: shortcode
@@ -70,39 +100,9 @@ filters:
       accordion: '1'
       cta_block: '1'
       icon_block: '1'
-  editor_file_reference:
-    id: editor_file_reference
-    provider: editor
-    status: false
-    weight: -45
-    settings: {  }
-  filter_html_image_secure:
-    id: filter_html_image_secure
-    provider: filter
-    status: false
-    weight: -38
-    settings: {  }
-  filter_align:
-    id: filter_align
-    provider: filter
-    status: false
-    weight: -44
-    settings: {  }
-  rel_to_abs:
-    id: rel_to_abs
-    provider: rel_to_abs
-    status: true
-    weight: -46
-    settings: {  }
   shortcode_corrector:
     id: shortcode_corrector
     provider: shortcode
     status: false
     weight: -40
-    settings: {  }
-  filter_image_lazy_load:
-    id: filter_image_lazy_load
-    provider: filter
-    status: true
-    weight: -44
     settings: {  }
