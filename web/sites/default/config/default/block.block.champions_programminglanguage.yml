@@ -1,0 +1,32 @@
+uuid: 9e2abbbd-e6cb-459d-9023-3d5a4830640d
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.programming_language
+  module:
+    - domain
+    - facets
+  theme:
+    - champions
+id: champions_programminglanguage
+theme: champions
+region: primary_sidebar
+weight: 2
+provider: null
+plugin: 'facet_block:programming_language'
+settings:
+  id: 'facet_block:programming_language'
+  label: 'Programming Language'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: champions_programminglanguage
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
