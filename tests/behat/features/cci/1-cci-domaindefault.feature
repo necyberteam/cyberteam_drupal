@@ -17,5 +17,5 @@ Feature: test cci domain
     When I am on the homepage
     Then I should get a "200" HTTP response
     And I wait 3 seconds
-    Then I should see "Connect.Cybinfrastructure is a family of portals"
+    Then I should see "Connect.Cyberinfrastructure is a family of portals"
 
