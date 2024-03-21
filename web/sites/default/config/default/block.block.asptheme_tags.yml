@@ -1,29 +1,29 @@
-uuid: e6307bae-c1cb-4362-bc01-2d9df0a0667e
+uuid: 68bf26c2-326d-4844-b7e3-12f9369e21b2
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.skill_level
+    - facets.facet.tags
   module:
     - facets
     - system
   theme:
     - aspTheme
-id: asptheme_skilllevel
+id: asptheme_tags
 theme: aspTheme
 region: sidebar_first
-weight: -14
+weight: -17
 provider: null
-plugin: 'facet_block:skill_level'
+plugin: 'facet_block:tags'
 settings:
-  id: 'facet_block:skill_level'
-  label: 'Skill Level'
+  id: 'facet_block:tags'
+  label: Topics
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: asptheme_skilllevel
+  block_id: asptheme_tags
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: "/search-ci-links\r\n/knowledge-base/ci-links"
+    pages: /knowledge-base/ci-links
