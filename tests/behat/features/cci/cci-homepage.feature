@@ -24,7 +24,7 @@ Feature: verify specific items on CCI homepage
     When I am on the homepage
     Then I should see "Welcome to Connect Cyberinfrastructure"
     And I should see "A landing page for all our affiliated sites."
-    And I should see "Connect.Cybinfrastructure is a family of portals"
+    And I should see "Connect.Cyberinfrastructure is a family of portals"
     And I should see "Card View"
     And I should see "List View"
     And I should see "CAREERS Cyberteam"
