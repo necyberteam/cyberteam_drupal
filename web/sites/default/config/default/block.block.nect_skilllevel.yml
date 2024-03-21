@@ -6,12 +6,13 @@ dependencies:
     - facets.facet.skill_level
   module:
     - facets
+    - system
   theme:
     - nect
 id: nect_skilllevel
 theme: nect
 region: primary_sidebar
-weight: 4
+weight: 5
 provider: null
 plugin: 'facet_block:skill_level'
 settings:
@@ -21,4 +22,8 @@ settings:
   provider: facets
   context_mapping: {  }
   block_id: nect_skilllevel
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links

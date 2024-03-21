@@ -5,6 +5,7 @@ dependencies:
   config:
     - views.view.search_ci_links
   module:
+    - system
     - views
   theme:
     - nect
@@ -20,4 +21,8 @@ settings:
   label_display: '0'
   provider: views
   views_label: ''
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links

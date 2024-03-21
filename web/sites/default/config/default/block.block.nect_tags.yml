@@ -6,19 +6,24 @@ dependencies:
     - facets.facet.tags
   module:
     - facets
+    - system
   theme:
     - nect
 id: nect_tags
 theme: nect
 region: primary_sidebar
-weight: 5
+weight: 2
 provider: null
 plugin: 'facet_block:tags'
 settings:
   id: 'facet_block:tags'
-  label: 'Content Type'
+  label: Topics
   label_display: visible
   provider: facets
   context_mapping: {  }
   block_id: nect_tags
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links

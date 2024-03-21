@@ -6,12 +6,13 @@ dependencies:
     - facets.facet.science_domain
   module:
     - facets
+    - system
   theme:
     - nect
 id: nect_sciencedomain
 theme: nect
 region: primary_sidebar
-weight: 3
+weight: 4
 provider: null
 plugin: 'facet_block:science_domain'
 settings:
@@ -21,4 +22,8 @@ settings:
   provider: facets
   context_mapping: {  }
   block_id: nect_sciencedomain
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links

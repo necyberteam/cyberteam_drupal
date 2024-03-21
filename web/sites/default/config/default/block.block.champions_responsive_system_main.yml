@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   module:
-    - domain
     - system
   theme:
     - champions
@@ -26,9 +25,3 @@ visibility:
     negate: false
     context_mapping: {  }
     pages: "!/taxonomy/term/*\r\n!/project/*"
-  domain:
-    id: domain
-    negate: null
-    context_mapping:
-      domain: '@domain.current_domain_context:domain'
-    domains: {  }

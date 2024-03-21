@@ -5,7 +5,6 @@ dependencies:
   config:
     - views.view.peoplebuttonblocks
   module:
-    - domain
     - system
     - views
   theme:
@@ -25,12 +24,6 @@ settings:
   items_per_page: none
   exposed: {  }
 visibility:
-  domain:
-    id: domain
-    negate: null
-    context_mapping:
-      domain: '@domain.current_domain_context:domain'
-    domains: {  }
   request_path:
     id: request_path
     negate: false

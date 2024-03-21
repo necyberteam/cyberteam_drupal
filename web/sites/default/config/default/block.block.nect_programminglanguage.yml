@@ -6,12 +6,13 @@ dependencies:
     - facets.facet.programming_language
   module:
     - facets
+    - system
   theme:
     - nect
 id: nect_programminglanguage
 theme: nect
 region: primary_sidebar
-weight: 2
+weight: 3
 provider: null
 plugin: 'facet_block:programming_language'
 settings:
@@ -21,4 +22,8 @@ settings:
   provider: facets
   context_mapping: {  }
   block_id: nect_programminglanguage
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links

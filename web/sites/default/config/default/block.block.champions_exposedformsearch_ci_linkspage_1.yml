@@ -6,6 +6,7 @@ dependencies:
     - views.view.search_ci_links
   module:
     - domain
+    - system
     - views
   theme:
     - champions
@@ -29,3 +30,7 @@ visibility:
       domain: '@domain.current_domain_context:domain'
     domains:
       campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links
