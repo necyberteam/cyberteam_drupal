@@ -45,26 +45,26 @@ Feature: test people page Card view w/ filters
     When I fill in "Search the people database" with " "
     And I wait 4 seconds
 
-    When I fill in "edit-roles-target-id--2" with "Student-facilitator"
+    When I fill in "edit-roles-target-id" with "Student-facilitator"
     And I wait 10 seconds
     Then I should see "Student-facilitator"
 
-    When I fill in "edit-roles-target-id--2" with "Mentor"
+    When I fill in "edit-roles-target-id" with "Mentor"
     And I wait 10 seconds
     Then I should see "Mentor"
 
-    When I fill in "edit-roles-target-id--2" with "Researcher/Educator"
+    When I fill in "edit-roles-target-id" with "Researcher/Educator"
     And I wait 10 seconds
     Then I should see "Researcher/Educator"
 
-    When I fill in "edit-roles-target-id--2" with "Steering Committee"
+    When I fill in "edit-roles-target-id" with "Steering Committee"
     And I wait 10 seconds
     Then I should see "Steering Committee"
 
-    When I fill in "edit-roles-target-id--2" with "Regional Facilitator"
+    When I fill in "edit-roles-target-id" with "Regional Facilitator"
     And I wait 10 seconds
     Then I should see "Regional Facilitator"
 
-    When I fill in "edit-roles-target-id--2" with "Student-facilitator"
+    When I fill in "edit-roles-target-id" with "Student-facilitator"
     And I wait 10 seconds
     Then I should see "Student-facilitator"
