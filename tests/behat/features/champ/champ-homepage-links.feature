@@ -11,7 +11,7 @@ Feature: verify specific links on homepage
     And I wait 4 seconds
     # TODO - next lines fails with 'Current page is "/", but "/regions" expected.' - https://cyberteamportal.atlassian.net/browse/D8-1775
     #Then I should be on "/regions"
-    And I should see "Connect.Cybinfrastructure is a family of portals, each representing a program"
+    And I should see "Connect.Cyberinfrastructure is a family of portals, each representing a program"
 
   Scenario: Verify the main logo goes to home page
     Given I am not logged in
@@ -26,7 +26,7 @@ Feature: verify specific links on homepage
     And I wait 4 seconds
     # TODO - next lines fails with 'Current page is "/", but "/regions" expected.' - https://cyberteamportal.atlassian.net/browse/D8-1775
     #Then I should be on "/regions"
-    And I should see "Connect.Cybinfrastructure is a family of portals, each representing a program"
+    And I should see "Connect.Cyberinfrastructure is a family of portals, each representing a program"
 
 
   Scenario: authenticated Verify the main logo goes to home page
