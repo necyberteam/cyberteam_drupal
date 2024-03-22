@@ -11,8 +11,10 @@ dependencies:
     - field.storage.user.field_hpc_experience
     - field.storage.user.field_institution
     - field.storage.user.field_region
+    - field.storage.user.field_user_bio
     - field.storage.user.field_user_first_name
     - field.storage.user.field_user_last_name
+    - field.storage.user.field_user_preferred_pronouns
     - field.storage.user.user_picture
     - taxonomy.vocabulary.region
   module:
@@ -20,6 +22,7 @@ dependencies:
     - image
     - options
     - taxonomy
+    - text
     - user
     - views_field_view
 id: user_profile
@@ -1237,12 +1240,12 @@ display:
         options:
           query_comment: ''
           disable_sql_rewrite: false
-          distinct: false
+          distinct: true
           replica: false
           query_tags: {  }
           contextual_filters_or: false
       relationships: {  }
-      css_class: ''
+      css_class: user-profile-view
       header: {  }
       footer: {  }
       display_extenders: {  }
@@ -2443,6 +2446,193 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        field_user_bio:
+          id: field_user_bio
+          table: user__field_user_bio
+          field: field_user_bio
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: text_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_user_bio_1:
+          id: field_user_bio_1
+          table: user__field_user_bio
+          field: field_user_bio
+          relationship: none
+          group_type: group
+          admin_label: 'Bio Trimmed'
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 450
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: true
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: text_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_user_preferred_pronouns:
+          id: field_user_preferred_pronouns
+          table: user__field_user_preferred_pronouns
+          field: field_user_preferred_pronouns
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         name:
           id: name
           table: users_field_data
@@ -2457,7 +2647,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"row\">\r\n\t<div class=\"col-md-3 col-12 mx-auto mb-3\">\r\n\t\t{% if user_picture %}<img src=\"{{ user_picture }}\" alt=\"Headshot of {{ field_user_first_name }} {{ field_user_last_name }}\" class=\"img-fluid img-thumbnail w-100\">{% else %}<img src=\"/themes/nect-theme/img/default-user.png\" alt=\"Placeholder headshot\" class=\"img-fluid img-thumbnail w-100\">{% endif %}\r\n\t\t{% if field_cv_resume %}<a class=\"btn btn-primary btn-block mt-2 d-none\" href=\"{{ field_cv_resume }}\" target=\"_blank\" id=\"cv_resume\"><i class=\"fa fa-download\"></i> CV / Resume</a>{% endif %}\r\n                {% if view_4 %}{{ view_4 }}{% else %}<a class=\"btn btn-primary btn-block mt-2 d-none\" href=\"/user/{{ uid }}/contact\" id=\"contact_user\">Contact</a>{% endif %}\r\n\t</div>\r\n\t<div class=\"col-md-9 col-12 mx-auto\">\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h1 class=\"card-title\">{{ name }}</h1>\r\n\t\t\t\t<h5 class=\"card-subtitle\">{{ field_institution }}</h5>\r\n\t\t\t\t<p class=\"card-text\">\r\n                                        {% if ('student' in roles_target_id|render) %}<i> {{ field_academic_status}} </i><br> {% endif %}\r\n{# --- probably going away soon -- see https://cyberteamportal.atlassian.net/browse/D8-1462\r\n\t\t\t\t\t{% if field_current_degree_program %}<strong>Current Degree Program: </strong> {{ field_current_degree_program }}<br> {% endif %}\r\n\t\t\t\t\t{% if field_degree %}<strong>Degree: </strong> {{ field_degree }}<br>{% endif %}\r\n\t\t\t\t\t{% if field_current_occupation %}<strong>Current Occupation: </strong> {{ field_current_occupation }}<br>{% endif %}\r\n#}\r\n\t\t\t\t\t{% if roles_target_id%}{{ roles_target_id}}{% endif %}\r\n\r\n\t\t\t\t</p>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% if field_hpc_experience %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">HPC Experience</h4>\r\n\t\t\t\t<p class=\"card-text\">\r\n\t\t\t\t\t{{ field_hpc_experience }}\r\n\t\t\t\t</p>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t\t\r\n\t\t{% if view %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Interests</h4>\r\n\t\t\t\t{{ view }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t\t\r\n\t\t{% if view_1 %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Skills</h4>\r\n\t\t\t\t{{ view_1 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n                {% elseif view_5 %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Skills</h4>\r\n\t\t\t\t{{ view_5 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t\t{% if view_2 or view_3 %}\r\n\t\t<div class=\"card mb-3 user-profile-projects\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Projects</h4>\r\n\t\t\t\t{{ view_2 }}\r\n\t\t\t\t{{ view_3 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t\t{% if view_6 %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Affinity Groups</h4>\r\n\t\t\t\t{{ view_6 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t</div>\r\n</div>"
+            text: "<div class=\"row mt-4\">\r\n\t<div class=\"col-md-3 col-12 mx-auto mb-3\">\r\n\t\t{% if user_picture %}<img src=\"{{ user_picture }}\" alt=\"Headshot of {{ field_user_first_name }} {{ field_user_last_name }}\" class=\"img-fluid img-thumbnail w-100\">{% else %}<img src=\"/themes/nect-theme/img/default-user.png\" alt=\"Placeholder headshot\" class=\"img-fluid img-thumbnail w-100\">{% endif %}\r\n\t\t{% if field_cv_resume %}<a class=\"btn btn-primary btn-block mt-2 d-none\" href=\"{{ field_cv_resume }}\" target=\"_blank\" id=\"cv_resume\"><i class=\"fa fa-download\"></i> CV / Resume</a>{% endif %}\r\n                {% if view_4 %}{{ view_4 }}{% else %}<a class=\"btn btn-primary btn-block mt-2 d-none\" href=\"/user/{{ uid }}/contact\" id=\"contact_user\">Contact</a>{% endif %}\r\n\t</div>\r\n\t<div class=\"col-md-9 col-12 mx-auto\">\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h1 class=\"card-title mb-0\">{{ name }}</h1>\r\n\t\t\t\t<p class=\"\">{{ field_user_preferred_pronouns }}</p>\r\n\t\t\t\t<h5 class=\"card-subtitle\">{{ field_institution }}</h5>\r\n\t\t\t\t<p class=\"card-text\">\r\n                                        {% if ('student' in roles_target_id|render) %}<i> {{ field_academic_status}} </i><br> {% endif %}\r\n{# --- probably going away soon -- see https://cyberteamportal.atlassian.net/browse/D8-1462\r\n\t\t\t\t\t{% if field_current_degree_program %}<strong>Current Degree Program: </strong> {{ field_current_degree_program }}<br> {% endif %}\r\n\t\t\t\t\t{% if field_degree %}<strong>Degree: </strong> {{ field_degree }}<br>{% endif %}\r\n\t\t\t\t\t{% if field_current_occupation %}<strong>Current Occupation: </strong> {{ field_current_occupation }}<br>{% endif %}\r\n#}\r\n\t\t\t\t\t{% if roles_target_id%}{{ roles_target_id}}{% endif %}\r\n\r\n\t\t\t\t</p>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% if field_hpc_experience %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">HPC Experience</h4>\r\n\t\t\t\t<p class=\"card-text\">\r\n\t\t\t\t\t{{ field_hpc_experience }}\r\n\t\t\t\t</p>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\r\n\t\t{% if view %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Interests</h4>\r\n\t\t\t\t{{ view }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\r\n\t\t{% if field_user_bio %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Bio</h4>\r\n        <div id=\"bio-summary\" aria-hidden=\"TRUE\">\r\n          {{ field_user_bio_1 }}\r\n        </div>\r\n        <div id=\"full-bio\" class=\"sr-only\">\r\n          {{ field_user_bio }}\r\n        </div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\r\n\t\t{% if view_1 %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Skills</h4>\r\n\t\t\t\t{{ view_1 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n                {% elseif view_5 %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Skills</h4>\r\n\t\t\t\t{{ view_5 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t\t{% if view_2 or view_3 %}\r\n\t\t<div class=\"card mb-3 user-profile-projects\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Projects</h4>\r\n\t\t\t\t{{ view_2 }}\r\n\t\t\t\t{{ view_3 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t\t{% if view_6 %}\r\n\t\t<div class=\"card mb-3\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<h4 class=\"card-title\">Affinity Groups</h4>\r\n\t\t\t\t{{ view_6 }}\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t{% endif %}\r\n\t</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -2530,6 +2720,8 @@ display:
         - 'config:field.storage.user.field_hpc_experience'
         - 'config:field.storage.user.field_institution'
         - 'config:field.storage.user.field_region'
+        - 'config:field.storage.user.field_user_bio'
         - 'config:field.storage.user.field_user_first_name'
         - 'config:field.storage.user.field_user_last_name'
+        - 'config:field.storage.user.field_user_preferred_pronouns'
         - 'config:field.storage.user.user_picture'
