@@ -6,7 +6,6 @@ dependencies:
     - 'block_content:basic:0e35f495-dd1b-461d-bf46-0ab8c8480b91'
   module:
     - block_content
-    - domain
     - system
     - user
   theme:
@@ -26,12 +25,6 @@ settings:
   info: ''
   view_mode: full
 visibility:
-  domain:
-    id: domain
-    negate: null
-    context_mapping:
-      domain: '@domain.current_domain_context:domain'
-    domains: {  }
   request_path:
     id: request_path
     negate: false

@@ -1,0 +1,29 @@
+uuid: 6b5f553c-5f1d-4c8d-b28f-4e0425951479
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.programming_language
+  module:
+    - facets
+    - system
+  theme:
+    - aspTheme
+id: asptheme_programminglanguage
+theme: aspTheme
+region: sidebar_first
+weight: -16
+provider: null
+plugin: 'facet_block:programming_language'
+settings:
+  id: 'facet_block:programming_language'
+  label: 'Programming Language'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_programminglanguage
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/search-ci-links\r\n/knowledge-base/ci-links"

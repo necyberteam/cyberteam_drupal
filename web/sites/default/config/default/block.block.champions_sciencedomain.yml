@@ -1,0 +1,37 @@
+uuid: f27f96bf-5a09-4b14-bc47-ebc44b277994
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.science_domain
+  module:
+    - domain
+    - facets
+    - system
+  theme:
+    - champions
+id: champions_sciencedomain
+theme: champions
+region: primary_sidebar
+weight: 4
+provider: null
+plugin: 'facet_block:science_domain'
+settings:
+  id: 'facet_block:science_domain'
+  label: 'Science Domain'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: champions_sciencedomain
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links

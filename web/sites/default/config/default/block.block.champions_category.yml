@@ -1,0 +1,29 @@
+uuid: f100086c-29de-4778-844c-c0f47e55cdfc
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.content_type
+  module:
+    - facets
+    - system
+  theme:
+    - champions
+id: champions_category
+theme: champions
+region: primary_sidebar
+weight: 6
+provider: null
+plugin: 'facet_block:content_type'
+settings:
+  id: 'facet_block:content_type'
+  label: 'Content Type'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: champions_category
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links
