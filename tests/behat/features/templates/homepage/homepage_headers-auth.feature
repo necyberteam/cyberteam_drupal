@@ -36,7 +36,7 @@ Feature: For an authenticated user, the Headers include:
   Scenario: Verify the Search field works as expected
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
-    When I fill in "keys" with "asdfasdfasdf"
+    When I fill in "edit-keys" with "asdfasdfasdf"
     When I press "Search"
     Then I should be on "search/node"
     And I should see "asdfasdfasdf"
