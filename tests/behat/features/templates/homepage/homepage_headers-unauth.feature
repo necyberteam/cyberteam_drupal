@@ -25,7 +25,7 @@ Feature: verify headers for non-authenticated user
   Scenario: Verify the Search field works as expected
     Given I am not logged in
     When I am on the homepage
-    When I fill in "Search" with "asdfasdfasdf"
+    When I fill in "keys" with "asdfasdfasdf"
     When I press "Search"
     Then I should be on "search/node"
     And I should see "asdfasdfasdf"
