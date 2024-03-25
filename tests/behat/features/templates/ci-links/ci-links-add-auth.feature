@@ -10,7 +10,7 @@ Resource with Link Title and Link URL (must include https).
 
   Scenario: Authenticated user fills out the resource form
     Given I am logged in as a user with the "authenticated" role
-    When I go to "/ci-links"
+    When I got to "knowledge-base/ci-links"
     When I follow "Add new CI link"
     Then I should be on "form/ci-link"
     And I should see "Title"

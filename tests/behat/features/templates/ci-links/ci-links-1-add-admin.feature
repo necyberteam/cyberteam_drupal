@@ -8,7 +8,7 @@ Feature: test CI Link form
 
   Scenario: Administrator user fills out the CI Link form
     Given I am logged in as a user with the "administrator" role
-    When I go to "/ci-links"
+    When I got to "knowledge-base/ci-links"
     When I follow "Add new CI link"
     Then I should be on "/form/ci-link"
     And I should see "Title"
@@ -62,7 +62,7 @@ Feature: test CI Link form
   Scenario: Administrator creates a simple ci-link
     Given I am logged in as a user with the "administrator" role
     When I go to homepage
-    When I go to "/ci-links"
+    When I got to "knowledge-base/ci-links"
     When I follow "Add new CI link"
     Then I should be on "form/ci-link"
     Then I should see "Add"

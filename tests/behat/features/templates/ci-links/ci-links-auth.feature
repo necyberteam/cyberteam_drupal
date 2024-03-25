@@ -9,7 +9,7 @@ descriptions, categories, tags (first 3 linked), skill levels, and affinity grou
 
   Scenario: Authenticated user Test the resource page
     Given I am logged in as a user with the "authenticated" role
-    When I go to "/ci-links"
+    When I got to "knowledge-base/ci-links"
     Then I should see "Add New CI link"
     Then I should see "These CI Links have been crowd-sourced"
     # edit-skill-level-306--2 is the Advanced radio button

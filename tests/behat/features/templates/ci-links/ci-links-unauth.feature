@@ -12,14 +12,14 @@ results are shown in a table with columns for "Votes", "CI Links Title", "Catego
 
   Scenario: Unauthenticated user tests the CI Links page
     Given I am not logged in
-    When I go to "/ci-links"
+    When I got to "knowledge-base/ci-links"
     Then I should see "CI Links"
     Then I should see "These CI links have been crowd-sourced from the ConnectCI community"
     Then I should see "Add new CI link"
     When I click "Add new CI link"
     Then I should be on "/user/login?destination=/form/resource"
 
-    When I go to "/ci-links"
+    When I got to "knowledge-base/ci-links"
     When I fill in "edit-search--2" with "Test CI Link Title"
     Then I should see "These CI links have been crowd-sourced from the ConnectCI"
     Then I should see "Test CI Link Title"
@@ -44,13 +44,13 @@ results are shown in a table with columns for "Votes", "CI Links Title", "Catego
     Then I should see "Learning"
     Then I should see "login"
 
-    When I go to "/ci-links"
+    When I got to "knowledge-base/ci-links"
      When I fill in "edit-search--2" with "test"
      And I wait 4 seconds
      When I click "test-login-resource"
      Then I should get a "200" HTTP response
 
-    When I go to "/ci-links"
+    When I got to "knowledge-base/ci-links"
     When I click "List View"
     And I fill in "edit-search--2" with "test"
     And I wait 4 seconds
