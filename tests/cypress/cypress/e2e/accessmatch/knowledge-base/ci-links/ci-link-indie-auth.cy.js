@@ -21,7 +21,7 @@ describe("Authenticated user tests a ci link", () => {
         //cy.get(".flag > .flex > .me-2").click();
         //cy.contains("Thanks! Your vote has been recorded.");
         //Flag Feature.When one of the selections in the dropdown is clicked I am brough to an access denied page. Section is disabled for now
-        cy.contains("Flag as").click();
+        cy.contains("Flag as")
         cy.get(".view-search-ci-links details .md--col-span-1 ul li:nth-of-type(2) a").contains("Not useful");
       });
   });
