@@ -1,0 +1,29 @@
+uuid: 68bf26c2-326d-4844-b7e3-12f9369e21b2
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.tags
+  module:
+    - facets
+    - system
+  theme:
+    - aspTheme
+id: asptheme_tags
+theme: aspTheme
+region: sidebar_first
+weight: -17
+provider: null
+plugin: 'facet_block:tags'
+settings:
+  id: 'facet_block:tags'
+  label: Topics
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_tags
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links

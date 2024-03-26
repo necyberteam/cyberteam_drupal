@@ -13,7 +13,7 @@ Feature: test people page Card view w/ filters
     Mentor restricts search results to accounts with the mentor role
     Researcher/Educator restricts search results to accounts with the researcher/educator role
     Steering Committee restricts search results to accounts with the steering committee role
-    Regional Facilitator restricts search results to accounts with the regional facilitator role 
+    Regional Facilitator restricts search results to accounts with the regional facilitator role
 
   Scenario: Unauthenticated user tests the people page in Card View and filters
     Given I am not logged in
@@ -42,21 +42,21 @@ Feature: test people page Card view w/ filters
     Then I should see "Northeast"
     When I fill in "Search the people database" with " "
     And I wait 4 seconds
-    When I fill in "edit-roles-target-id--2" with "Student-facilitator"
+    When I fill in "edit-roles-target-id" with "Student-facilitator"
     And I wait 4 seconds
     Then I should see "Student-facilitator"
-    When I fill in "edit-roles-target-id--2" with "Mentor"
+    When I fill in "edit-roles-target-id" with "Mentor"
     And I wait 4 seconds
     Then I should see "Mentor"
-    When I fill in "edit-roles-target-id--2" with "Researcher/Educator"
+    When I fill in "edit-roles-target-id" with "Researcher/Educator"
     And I wait 4 seconds
     Then I should see "Researcher/Educator"
-    When I fill in "edit-roles-target-id--2" with "Steering Committee"
+    When I fill in "edit-roles-target-id" with "Steering Committee"
     And I wait 4 seconds
     Then I should see "Steering Committee"
-    When I fill in "edit-roles-target-id--2" with "Regional Facilitator"
+    When I fill in "edit-roles-target-id" with "Regional Facilitator"
     And I wait 4 seconds
     Then I should see "Regional Facilitator"
-    When I fill in "edit-roles-target-id--2" with "Student-facilitator"
+    When I fill in "edit-roles-target-id" with "Student-facilitator"
     And I wait 4 seconds
     Then I should see "Student-facilitator"

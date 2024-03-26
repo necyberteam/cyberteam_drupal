@@ -1,0 +1,28 @@
+uuid: 337851da-53c7-4d50-b16d-8b32535f6dbb
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.search_ci_links
+  module:
+    - system
+    - views
+  theme:
+    - aspTheme
+id: asptheme_exposedformsearch_ci_linkspage_1
+theme: aspTheme
+region: sidebar_first
+weight: -18
+provider: null
+plugin: 'views_exposed_filter_block:search_ci_links-page_1'
+settings:
+  id: 'views_exposed_filter_block:search_ci_links-page_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/search-ci-links\r\n/knowledge-base/ci-links"

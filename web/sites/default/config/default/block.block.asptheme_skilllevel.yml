@@ -1,0 +1,29 @@
+uuid: e6307bae-c1cb-4362-bc01-2d9df0a0667e
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.skill_level
+  module:
+    - facets
+    - system
+  theme:
+    - aspTheme
+id: asptheme_skilllevel
+theme: aspTheme
+region: sidebar_first
+weight: -14
+provider: null
+plugin: 'facet_block:skill_level'
+settings:
+  id: 'facet_block:skill_level'
+  label: 'Skill Level'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_skilllevel
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/search-ci-links\r\n/knowledge-base/ci-links"

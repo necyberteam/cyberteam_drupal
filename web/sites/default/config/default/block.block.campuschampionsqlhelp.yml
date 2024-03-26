@@ -6,7 +6,6 @@ dependencies:
     - 'block_content:basic:774a4e8e-a353-4062-9fd8-7c6fb3823e29'
   module:
     - block_content
-    - domain
     - system
   theme:
     - nect
@@ -25,12 +24,6 @@ settings:
   info: ''
   view_mode: full
 visibility:
-  domain:
-    id: domain
-    negate: null
-    context_mapping:
-      domain: '@domain.current_domain_context:domain'
-    domains: {  }
   request_path:
     id: request_path
     negate: false

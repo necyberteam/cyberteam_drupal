@@ -6,7 +6,6 @@ dependencies:
     - 'block_content:basic:b557d8f8-0e53-483b-8154-b071c01927bc'
   module:
     - block_content
-    - domain
     - node
   theme:
     - champions
@@ -25,12 +24,6 @@ settings:
   info: ''
   view_mode: full
 visibility:
-  domain:
-    id: domain
-    negate: null
-    context_mapping:
-      domain: '@domain.current_domain_context:domain'
-    domains: {  }
   'entity_bundle:node':
     id: 'entity_bundle:node'
     negate: false

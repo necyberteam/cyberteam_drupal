@@ -1,0 +1,37 @@
+uuid: 8fcd0ad4-65ef-4db7-900b-92430c642d6f
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.tags
+  module:
+    - domain
+    - facets
+    - system
+  theme:
+    - champions
+id: champions_tags
+theme: champions
+region: primary_sidebar
+weight: 2
+provider: null
+plugin: 'facet_block:tags'
+settings:
+  id: 'facet_block:tags'
+  label: Topics
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: champions_tags
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links
