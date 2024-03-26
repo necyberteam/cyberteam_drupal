@@ -7,7 +7,11 @@ dependencies:
     - filter.format.basic_html
     - node.type.mentorship_engagement
   module:
+    - label_help
     - text
+third_party_settings:
+  label_help:
+    label_help_description: "What would you like to achieve or take away from this experience? Please be as specific as possible.\r\nSummary is required and always displayed."
 _core:
   default_config_hash: SCodio-P5pyJvguBpJwmdeTuLGunFZpTmnHIktowS4U
 id: node.mentorship_engagement.body
@@ -15,10 +19,14 @@ field_name: body
 entity_type: node
 bundle: mentorship_engagement
 label: Description
-description: "What would you like to achieve or take away from this experience? Please be as specific as possible.\r\nSummary is required and always displayed."
+description: ''
 required: true
 translatable: true
-default_value: {  }
+default_value:
+  -
+    value: ''
+    summary: ''
+    format: basic_html
 default_value_callback: ''
 settings:
   display_summary: true
