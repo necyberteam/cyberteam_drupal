@@ -1,0 +1,161 @@
+uuid: 06ee1ff5-091e-4cda-a6c2-9dcedf407581
+langcode: en
+status: true
+dependencies:
+  config:
+    - search_api.server.default_server
+  module:
+    - webform
+    - search_api
+    - webform_submission_search_api
+id: ci_links
+name: 'CI Links'
+description: ''
+read_only: false
+field_settings:
+  sid:
+    label: 'Submission ID'
+    datasource_id: 'entity:webform_submission'
+    property_path: sid
+    type: integer
+    dependencies:
+      module:
+        - webform
+  webform_submission_category:
+    label: Category
+    property_path: search_api_webform_submission_category
+    type: string
+  webform_submission_description:
+    label: Description
+    property_path: search_api_webform_submission_description
+    type: text
+  webform_submission_skill_level:
+    label: 'Skill Level'
+    property_path: search_api_webform_submission_skill_level
+    type: string
+  webform_submission_tags:
+    label: Tags
+    property_path: search_api_webform_submission_tags
+    type: string
+  webform_submission_title:
+    label: 'Submission Title'
+    property_path: search_api_webform_submission_title
+    type: text
+  webform_submission_vote_count:
+    label: 'Vote Count'
+    property_path: search_api_webform_submission_vote_count
+    type: string
+datasource_settings:
+  'entity:webform_submission':
+    bundles:
+      default: false
+      selected:
+        - resource
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  custom_value: {  }
+  entity_type: {  }
+  highlight:
+    weights:
+      postprocess_query: 0
+    prefix: '<strong>'
+    suffix: '</strong>'
+    excerpt: true
+    excerpt_always: false
+    excerpt_length: 256
+    exclude_fields: {  }
+    highlight: always
+    highlight_partial: false
+  html_filter:
+    weights:
+      preprocess_index: -15
+      preprocess_query: -15
+    all_fields: true
+    fields:
+      - webform_submission_category
+      - webform_submission_description
+      - webform_submission_skill_level
+      - webform_submission_tags
+      - webform_submission_title
+      - webform_submission_vote_count
+    title: true
+    alt: true
+    tags:
+      b: 2
+      h1: 5
+      h2: 3
+      h3: 2
+      strong: 2
+  ignorecase:
+    weights:
+      preprocess_index: -20
+      preprocess_query: -20
+    all_fields: true
+    fields:
+      - webform_submission_category
+      - webform_submission_description
+      - webform_submission_skill_level
+      - webform_submission_tags
+      - webform_submission_title
+      - webform_submission_vote_count
+  language_with_fallback: {  }
+  rendered_item: {  }
+  stopwords:
+    weights:
+      preprocess_index: -5
+      preprocess_query: -2
+    all_fields: true
+    fields:
+      - webform_submission_description
+      - webform_submission_title
+    stopwords:
+      - a
+      - an
+      - and
+      - are
+      - as
+      - at
+      - be
+      - but
+      - by
+      - for
+      - if
+      - in
+      - into
+      - is
+      - it
+      - 'no'
+      - not
+      - of
+      - 'on'
+      - or
+      - s
+      - such
+      - t
+      - that
+      - the
+      - their
+      - then
+      - there
+      - these
+      - they
+      - this
+      - to
+      - was
+      - will
+      - with
+  webform_submission_category: {  }
+  webform_submission_description: {  }
+  webform_submission_skill_level: {  }
+  webform_submission_tags: {  }
+  webform_submission_title: {  }
+  webform_submission_vote_count: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  cron_limit: 50
+  index_directly: true
+  track_changes_in_references: true
+server: default_server

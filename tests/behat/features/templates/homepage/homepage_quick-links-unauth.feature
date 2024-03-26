@@ -14,7 +14,7 @@ Feature: test quick links on home page
     Then I should be on "https://ask.cyberinfrastructure.org/"
     When I am on the homepage
     When I click "Find Learning Resources"
-    Then I should be on "/ci-links"
+    Then I should be on "/knowledge-base/ci-links"
     When I am on the homepage
     Then I should see the link "Join as Student"
     When I click "Join as Student"

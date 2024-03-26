@@ -13,6 +13,30 @@ name: 'Basic HTML'
 format: basic_html
 weight: 0
 filters:
+  editor_file_reference:
+    id: editor_file_reference
+    provider: editor
+    status: true
+    weight: -45
+    settings: {  }
+  filter_align:
+    id: filter_align
+    provider: filter
+    status: true
+    weight: -49
+    settings: {  }
+  filter_autop:
+    id: filter_autop
+    provider: filter
+    status: false
+    weight: -42
+    settings: {  }
+  filter_caption:
+    id: filter_caption
+    provider: filter
+    status: true
+    weight: -48
+    settings: {  }
   filter_html:
     id: filter_html
     provider: filter
@@ -22,17 +46,11 @@ filters:
       allowed_html: '<br> <p> <h2> <h3> <h4> <h5> <h6> <strong> <em> <pre> <code class="language-*"> <s> <sub> <sup> <blockquote> <a href> <ul> <ol start> <li> <hr> <table> <tr> <td rowspan colspan> <th rowspan colspan> <thead> <tbody> <tfoot> <caption> <img src alt height width data-entity-uuid data-entity-type data-caption data-align>'
       filter_html_help: false
       filter_html_nofollow: false
-  filter_align:
-    id: filter_align
+  filter_html_escape:
+    id: filter_html_escape
     provider: filter
-    status: true
-    weight: -49
-    settings: {  }
-  filter_caption:
-    id: filter_caption
-    provider: filter
-    status: true
-    weight: -48
+    status: false
+    weight: -43
     settings: {  }
   filter_html_image_secure:
     id: filter_html_image_secure
@@ -40,31 +58,17 @@ filters:
     status: true
     weight: -47
     settings: {  }
-  editor_file_reference:
-    id: editor_file_reference
-    provider: editor
-    status: true
-    weight: -45
-    settings: {  }
   filter_htmlcorrector:
     id: filter_htmlcorrector
     provider: filter
     status: true
     weight: -46
     settings: {  }
-  obfuscate_email:
-    id: obfuscate_email
-    provider: obfuscate_email
-    status: false
-    weight: -40
-    settings:
-      click: '0'
-      click_label: 'Click here to show mail address'
-  filter_autop:
-    id: filter_autop
+  filter_image_lazy_load:
+    id: filter_image_lazy_load
     provider: filter
-    status: false
-    weight: -42
+    status: true
+    weight: -44
     settings: {  }
   filter_url:
     id: filter_url
@@ -73,23 +77,19 @@ filters:
     weight: -41
     settings:
       filter_url_length: 72
-  filter_html_escape:
-    id: filter_html_escape
-    provider: filter
+  obfuscate_email:
+    id: obfuscate_email
+    provider: obfuscate_email
     status: false
-    weight: -43
-    settings: {  }
+    weight: -40
+    settings:
+      click: '0'
+      click_label: 'Click here to show mail address'
   rel_to_abs:
     id: rel_to_abs
     provider: rel_to_abs
     status: true
     weight: -44
-    settings: {  }
-  shortcode_corrector:
-    id: shortcode_corrector
-    provider: shortcode
-    status: false
-    weight: -38
     settings: {  }
   shortcode:
     id: shortcode
@@ -98,9 +98,9 @@ filters:
     weight: -39
     settings:
       icon_block: '1'
-  filter_image_lazy_load:
-    id: filter_image_lazy_load
-    provider: filter
-    status: true
-    weight: -44
+  shortcode_corrector:
+    id: shortcode_corrector
+    provider: shortcode
+    status: false
+    weight: -38
     settings: {  }

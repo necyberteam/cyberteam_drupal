@@ -1572,3 +1572,85 @@ table.sticky-header th {
 .square-tags.views-field .m-2 {
   margin: 0 0.25rem 0.25rem 0 !important;
 }
+
+.block-facet--checkbox ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.block-facet--checkbox ul input {
+  margin: 0 0.25rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.views-element-container .details-wrap {
+  position: relative;
+}
+
+.views-element-container details {
+  margin: 1rem 0;
+}
+
+.views-element-container summary {
+  display: flex;
+  align-items: center;
+  background: var(--light);
+}
+
+.views-element-container .grid .bg-light-teal {
+  background: var(--light);
+}
+
+.views-element-container .grid-cols-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.views-element-container .md--col-span-4 {
+  grid-column: span 4;
+}
+
+.views-element-container .linkcount {
+  margin-left: auto;
+  border-radius: 9999px;
+}
+
+.views-element-container details {
+  background: var(--light-text);
+}
+
+.views-element-container details summary {
+  padding: 0 1rem;
+}
+
+.views-element-container details ul {
+  list-style: none;
+  padding: 0;
+  margin: .5rem 0 0 0;
+}
+
+button.copyclip {
+  background: var(--light);
+  position: absolute;
+  z-index: 10;
+  right: 7rem;
+  top: 1rem;
+  border-width: 0;
+}
+
+button.copyclip:has(+ details.search-ci-links summary) {
+  display:none;
+}
+
+button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
+  display:block;
+}
+
+#block-nect-cilinkintroblock .p-5 {
+  padding: 15px 15px 0 15px !important;
+}

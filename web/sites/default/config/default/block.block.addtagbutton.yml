@@ -6,7 +6,6 @@ dependencies:
     - 'block_content:basic:a04b64b7-05c1-4846-9621-75fc93707b52'
   module:
     - block_content
-    - domain
     - system
   theme:
     - nect
@@ -30,9 +29,3 @@ visibility:
     negate: false
     context_mapping: {  }
     pages: "/tags\r\n/tags/hierarchal"
-  domain:
-    id: domain
-    negate: null
-    context_mapping:
-      domain: '@domain.current_domain_context:domain'
-    domains: {  }

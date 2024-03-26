@@ -1,0 +1,29 @@
+uuid: e2504c62-735d-453d-819d-cd54fc82f71b
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.tags
+  module:
+    - facets
+    - system
+  theme:
+    - nect
+id: nect_tags
+theme: nect
+region: primary_sidebar
+weight: 2
+provider: null
+plugin: 'facet_block:tags'
+settings:
+  id: 'facet_block:tags'
+  label: Topics
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_tags
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links

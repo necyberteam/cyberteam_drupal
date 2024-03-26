@@ -1,0 +1,37 @@
+uuid: 0c9e02c3-8f9f-40ea-9c62-74c9c15bbd2f
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.skill_level
+  module:
+    - domain
+    - facets
+    - system
+  theme:
+    - champions
+id: champions_skilllevel
+theme: champions
+region: primary_sidebar
+weight: 5
+provider: null
+plugin: 'facet_block:skill_level'
+settings:
+  id: 'facet_block:skill_level'
+  label: 'Skill Level'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: champions_skilllevel
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links

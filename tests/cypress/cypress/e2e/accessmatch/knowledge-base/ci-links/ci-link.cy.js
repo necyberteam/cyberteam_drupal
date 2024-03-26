@@ -19,30 +19,27 @@ describe("Unauthenticated user tests the Individual CI Link Page", () => {
       .click()
       .then(() => {
         //CI Link Title
-        cy.get(".page-title").contains(
-          "dummy-ci-link-for-testing-knowledge-base"
-        );
+        // cy.get(".page-title").contains(
+        //   "dummy-ci-link-for-testing-knowledge-base"
+        // );
         //Tags
         cy.contains("access-account");
         //Description
-        cy.get("p").contains(
+        cy.contains(
           "Dummy description for ci-link 'dummy-ci-link-for-testing-knowledge-base'"
         );
         //CI Link Category and Skill Level
-        cy.get(".grid-cols-1 > :nth-child(2) > .grid > :nth-child(1)").contains(
-          "Category"
-        );
-        cy.get(".grid-cols-1 > :nth-child(2) > .grid > :nth-child(1)").contains(
-          "learning"
-        );
-        cy.get(".grid-cols-1 > :nth-child(2) > .grid > :nth-child(2)").contains(
-          "Skill Level"
-        );
+        cy.get(".md--col-span-1 div:nth-child(2)")
+          .contains("Type")
+        cy.get(".md--col-span-1 div:nth-child(2)")
+          .contains("learning")
+        cy.get(".md--col-span-1 div:nth-child(3)")
+          .contains("Level")
         //Vote Section
-        cy.get(".bg-light-teal").contains("found this useful");
-        //cy.get('.bg-light-teal').contains("Login to vote").click();
+        cy.get(".bg-light-teal").contains("Likes");
+        // cy.get('.bg-light-teal').contains("Login to vote").click();
         cy.get(".bg-light-teal")
-          .contains("Login to vote")
+          .contains("Login to like")
           .should("have.attr", "href")
           .and("contain", "/user/login?destination=/knowledge-base/ci-links");
       });

@@ -1,0 +1,29 @@
+uuid: f58c8c8c-0c07-465d-927f-b443fdb95c96
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.science_domain
+  module:
+    - facets
+    - system
+  theme:
+    - nect
+id: nect_sciencedomain
+theme: nect
+region: primary_sidebar
+weight: 4
+provider: null
+plugin: 'facet_block:science_domain'
+settings:
+  id: 'facet_block:science_domain'
+  label: 'Science Domain'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_sciencedomain
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links
