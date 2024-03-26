@@ -7,7 +7,11 @@ dependencies:
     - filter.format.basic_html
     - node.type.mentorship_engagement
   module:
+    - label_help
     - text
+third_party_settings:
+  label_help:
+    label_help_description: 'Please describe how you will contribute to the Knowledge Base as part of this mentorship engagement. For example, you might contribute <a href="/ci-links">CI Links</a> pointing to resources that were helpful to you or post questions and answers on the <a href="https://ask.ci">Ask.CI discussion forum</a>.'
 _core:
   default_config_hash: _UsDdmLNZ06gZkVl3NNIHbFzhlIblNp_5lK7kP9x_2o
 id: node.mentorship_engagement.field_knowledge_base_contributio
@@ -15,7 +19,7 @@ field_name: field_knowledge_base_contributio
 entity_type: node
 bundle: mentorship_engagement
 label: 'Knowledge Base Contributions'
-description: 'Please describe how you will contribute to the Knowledge Base as part of this mentorship engagement. For example, you might contribute [CI Links](/ci-links) pointing to resources that were helpful to you or post questions and answers on the [Ask.CI discussion forum](https://ask.ci).'
+description: ''
 required: false
 translatable: false
 default_value: {  }
