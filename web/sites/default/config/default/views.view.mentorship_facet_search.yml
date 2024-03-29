@@ -157,14 +157,15 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: text_default
-          settings: {  }
+          type: text_summary_or_trimmed
+          settings:
+            trim_length: 600
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -506,7 +507,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{% set recruiting = '' %}\r\n{% set star = '' %}\r\n{% set color = 'purple' %}\r\n\r\n{% if field_me_state == 'Recruiting' %}\r\n  {% set star = '<img src=\"/modules/custom/access/modules/ccmnet/images/star-w.png\" alt=\"star\" />' %}\r\n{% endif %}\r\n{% if field_mentee is empty %}\r\n  {% set recruiting = 'Mentee' %}\r\n  {% set color = 'red' %}\r\n{% endif %}\r\n{% if field_mentor is empty %}\r\n  {% set recruiting = 'Mentor' %}\r\n  {% set color = 'teal' %}\r\n{% endif %}\r\n\r\n<div class=\"position-relative rounded-bottom-left mb-3 border border-ccmnet-blue\">\r\n  <div class=\"bg-{{ color }} px-3 py-2 text-white align-middle d-flex\">\r\n    {{ star | raw }}\r\n    <div class=\"text-uppercase ml-2\">\r\n      {{ field_me_state }}{% if recruiting is not empty %}: {{ recruiting }}{% endif %}\r\n    </div>\r\n  </div>\r\n  <div class=\"p-3\">\r\n    <h2 class=\"ccmnet-link\">{{ title }}</h2>\r\n    {{ body }}\r\n    <div class=\"square-tags pr-5\">{{ field_tags }}</div>\r\n  </div>\r\n  <a class=\"text-white corner-triangle text-uppercase bg-{{ color }}\" href=\"/node/{{ nid }}\">More</a>\r\n</div>"
+            text: "{% set recruiting = '' %}\r\n{% set star = '' %}\r\n{% set color = 'purple' %}\r\n\r\n{% if field_me_state == 'Recruiting' %}\r\n  {% set star = '<img src=\"/modules/custom/access/modules/ccmnet/images/star-w.png\" alt=\"star\" />' %}\r\n{% endif %}\r\n{% if field_mentee is empty %}\r\n  {% set recruiting = 'Mentee' %}\r\n  {% set color = 'red' %}\r\n{% endif %}\r\n{% if field_mentor is empty %}\r\n  {% set recruiting = 'Mentor' %}\r\n  {% set color = 'teal' %}\r\n{% endif %}\r\n\r\n<div class=\"position-relative rounded-bottom-left mb-3 border border-ccmnet-blue\">\r\n  <div class=\"bg-{{ color }} px-3 py-2 text-white align-middle d-flex\">\r\n    {{ star | raw }}\r\n    <div class=\"text-uppercase ml-2\">\r\n      {{ field_me_state }}{% if recruiting is not empty %}: {{ recruiting }}{% endif %}\r\n    </div>\r\n  </div>\r\n  <div class=\"p-3\">\r\n    <h2 class=\"ccmnet-link\">{{ title }}</h2>\r\n    <p>{{ body }}</p>\r\n    <div class=\"square-tags pr-5\">{{ field_tags }}</div>\r\n  </div>\r\n  <a class=\"text-white corner-triangle text-uppercase bg-{{ color }}\" href=\"/node/{{ nid }}\">More</a>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
