@@ -42,11 +42,27 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_mentee
+  field_mentee_1:
+    label: Mentee
+    datasource_id: 'entity:node'
+    property_path: field_mentee
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_mentee
   field_mentor:
     label: Mentor
     datasource_id: 'entity:node'
     property_path: field_mentor
     type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_mentor
+  field_mentor_1:
+    label: Mentor
+    datasource_id: 'entity:node'
+    property_path: field_mentor
+    type: text
     dependencies:
       config:
         - field.storage.node.field_mentor
