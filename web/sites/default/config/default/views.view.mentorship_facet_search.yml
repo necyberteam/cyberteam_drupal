@@ -9,6 +9,13 @@ dependencies:
     - field.storage.node.field_mentor
     - field.storage.node.field_tags
     - search_api.index.mentorship_engagement
+    - taxonomy.vocabulary.state
+  content:
+    - 'taxonomy_term:state:15d01816-b1fb-4b21-b903-fe90622d9d87'
+    - 'taxonomy_term:state:59f2b982-02a6-4ec9-a8a0-0edc7712a72d'
+    - 'taxonomy_term:state:8ab9550e-09d5-4497-b569-8fcdae223861'
+    - 'taxonomy_term:state:c9e785ea-0c3c-458c-9c62-cfda0bcd7125'
+    - 'taxonomy_term:state:d6654f23-f653-4f6b-9470-59f296742554'
   module:
     - better_exposed_filters
     - search_api
@@ -741,6 +748,56 @@ display:
           parse_mode: terms
           min_length: null
           fields: {  }
+        field_me_state:
+          id: field_me_state
+          table: search_api_index_mentorship_engagement
+          field: field_me_state
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_term
+          operator: or
+          value:
+            809: 809
+            810: 810
+            811: 811
+            812: 812
+            813: 813
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: state
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
       style:
         type: default
       row:
