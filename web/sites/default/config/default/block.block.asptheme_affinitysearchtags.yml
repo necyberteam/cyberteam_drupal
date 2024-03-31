@@ -1,0 +1,29 @@
+uuid: e7ec5842-f088-414a-a728-54190f29f0ec
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.affinity_search_tags
+  module:
+    - facets
+    - system
+  theme:
+    - aspTheme
+id: asptheme_affinitysearchtags
+theme: aspTheme
+region: sidebar_first
+weight: 0
+provider: null
+plugin: 'facet_block:affinity_search_tags'
+settings:
+  id: 'facet_block:affinity_search_tags'
+  label: Tags
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_affinitysearchtags
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /affinity_groups
