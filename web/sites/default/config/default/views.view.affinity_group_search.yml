@@ -477,7 +477,7 @@ display:
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
-          empty: '<a href="/user/login?destination={{ view_node }}" class="btn btn-sm btn-secondary-outline btn-md-teal" title="Login to join"><small>Login</small></a>'
+          empty: ''
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
@@ -558,7 +558,33 @@ display:
         type: none
         options: {  }
       empty: {  }
-      sorts: {  }
+      sorts:
+        field_affinity_group_category:
+          id: field_affinity_group_category
+          table: search_api_index_affinity_groups
+          field: field_affinity_group_category
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api
+          order: ASC
+          expose:
+            label: 'Affinity Group Category'
+            field_identifier: field_affinity_group_category
+          exposed: true
+        title:
+          id: title
+          table: search_api_index_affinity_groups
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
       arguments: {  }
       filters:
         search_api_fulltext:
@@ -717,6 +743,8 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - 'url.query_args:sort_by'
+        - 'url.query_args:sort_order'
         - 'user.node_grants:view'
       tags:
         - 'config:field.storage.node.body'
@@ -739,6 +767,8 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - 'url.query_args:sort_by'
+        - 'url.query_args:sort_order'
         - 'user.node_grants:view'
       tags:
         - 'config:field.storage.node.body'
