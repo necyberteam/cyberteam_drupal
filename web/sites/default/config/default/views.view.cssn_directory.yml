@@ -416,7 +416,7 @@ display:
             trim_whitespace: false
             alt: ''
             rel: ''
-            link_class: 'no-underline font-normal mb-1 me-1 mr-1 px-2 py-1 hover--border-dark-teal border'
+            link_class: 'text-truncate no-underline font-normal mb-1 me-1 mr-1 px-2 py-1 hover--border-dark-teal border'
             prefix: ''
             suffix: ''
             target: ''
@@ -553,7 +553,33 @@ display:
         type: none
         options: {  }
       empty: {  }
-      sorts: {  }
+      sorts:
+        field_user_first_name:
+          id: field_user_first_name
+          table: search_api_index_cssn_directory
+          field: field_user_first_name
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
+        field_user_last_name_1:
+          id: field_user_last_name_1
+          table: search_api_index_cssn_directory
+          field: field_user_last_name_1
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
       arguments: {  }
       filters:
         field_region:
