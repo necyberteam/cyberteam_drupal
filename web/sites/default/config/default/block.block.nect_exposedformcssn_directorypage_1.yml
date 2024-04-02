@@ -1,0 +1,28 @@
+uuid: 74ddc7a2-5918-459f-9658-53cd037d6b53
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.cssn_directory
+  module:
+    - system
+    - views
+  theme:
+    - nect
+id: nect_exposedformcssn_directorypage_1
+theme: nect
+region: primary_sidebar
+weight: 0
+provider: null
+plugin: 'views_exposed_filter_block:cssn_directory-page_1'
+settings:
+  id: 'views_exposed_filter_block:cssn_directory-page_1'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory

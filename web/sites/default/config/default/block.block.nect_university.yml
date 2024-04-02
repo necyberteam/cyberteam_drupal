@@ -1,0 +1,29 @@
+uuid: ece89b9d-ca3e-4f63-bdb0-7c30f20e9246
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.university
+  module:
+    - facets
+    - system
+  theme:
+    - nect
+id: nect_university
+theme: nect
+region: primary_sidebar
+weight: 0
+provider: null
+plugin: 'facet_block:university'
+settings:
+  id: 'facet_block:university'
+  label: University
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_university
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory

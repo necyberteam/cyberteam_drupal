@@ -1,0 +1,132 @@
+uuid: dd63836b-c6ee-449e-b6e5-51b665e021d4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_user_bio
+    - field.storage.user.field_user_first_name
+    - field.storage.user.field_institution
+    - field.storage.user.field_user_last_name
+    - field.storage.user.field_region
+    - search_api.server.default_server
+  module:
+    - user
+    - search_api
+    - cssn
+    - webform_submission_search_api
+id: cssn_directory
+name: 'CSSN Directory'
+description: ''
+read_only: false
+field_settings:
+  field_institution:
+    label: Institution
+    datasource_id: 'entity:user'
+    property_path: field_institution
+    type: string
+    dependencies:
+      config:
+        - field.storage.user.field_institution
+  field_institution_1:
+    label: Institution
+    datasource_id: 'entity:user'
+    property_path: field_institution
+    type: text
+    dependencies:
+      config:
+        - field.storage.user.field_institution
+  field_region:
+    label: Program
+    datasource_id: 'entity:user'
+    property_path: field_region
+    type: integer
+    dependencies:
+      config:
+        - field.storage.user.field_region
+  field_user_bio:
+    label: bio
+    datasource_id: 'entity:user'
+    property_path: field_user_bio
+    type: text
+    dependencies:
+      config:
+        - field.storage.user.field_user_bio
+  field_user_first_name:
+    label: 'First Name'
+    datasource_id: 'entity:user'
+    property_path: field_user_first_name
+    type: string
+    dependencies:
+      config:
+        - field.storage.user.field_user_first_name
+  field_user_first_name_1:
+    label: 'First Name'
+    datasource_id: 'entity:user'
+    property_path: field_user_first_name
+    type: text
+    dependencies:
+      config:
+        - field.storage.user.field_user_first_name
+  field_user_last_name:
+    label: 'Last Name'
+    datasource_id: 'entity:user'
+    property_path: field_user_last_name
+    type: string
+    dependencies:
+      config:
+        - field.storage.user.field_user_last_name
+  field_user_last_name_1:
+    label: 'Last Name'
+    datasource_id: 'entity:user'
+    property_path: field_user_last_name
+    type: text
+    dependencies:
+      config:
+        - field.storage.user.field_user_last_name
+  name:
+    label: Name
+    datasource_id: 'entity:user'
+    property_path: name
+    type: string
+    dependencies:
+      module:
+        - user
+  roles:
+    label: Roles
+    datasource_id: 'entity:user'
+    property_path: roles
+    type: string
+    dependencies:
+      module:
+        - user
+  user_skills:
+    label: 'User Skills'
+    property_path: search_api_user_skills
+    type: string
+datasource_settings:
+  'entity:user':
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  custom_value: {  }
+  entity_type: {  }
+  language_with_fallback: {  }
+  rendered_item: {  }
+  user_skills: {  }
+  webform_submission_category: {  }
+  webform_submission_description: {  }
+  webform_submission_skill_level: {  }
+  webform_submission_tags: {  }
+  webform_submission_title: {  }
+  webform_submission_vote_count: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  cron_limit: 50
+  index_directly: true
+  track_changes_in_references: true
+server: default_server
