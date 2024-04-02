@@ -1470,6 +1470,30 @@ table.sticky-header th {
   box-shadow: none;
 }
 
+.cssn-directory-item ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cssn-directory-item li {
+  display: inline-block;
+}
+
+.cssn-directory-item li:nth-of-type(1n+6) {
+  display: none;
+}
+
+.cssn-directory-item ul:has(li:nth-of-type(1n+6)):after {
+  content: '+ Show More';
+  display: block;
+}
+
+.cssn-photo img {
+  height: 100px;
+  width: 90px;
+  object-fit: cover;
+}
+
 .square-tags a, .tags-select a {
   display: inline-block;
   border: 1px solid var(--text);
