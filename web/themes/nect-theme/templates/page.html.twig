@@ -55,35 +55,30 @@
 	<nav class="navbar navbar-expand secondary-nav navbar-light bg-light " id="secondaryNav">
 	{% endif %}
 	  <div class="container">
+      {% if domain_name == "ccmnet" %}
+        <span class="ccmnet-tagline">Cyberinfrastructure Community-wide Mentorship Network</span>
+      {% endif %}
+
 	    <div id="secondaryNavbarResponsive" style="margin-left: auto; margin-right: 0;">
 		  {% if page.secondary_menu and logged_in %}
 			  {{ page.secondary_menu }}
 		  {% else %}
         {{ drupal_block('search_form_block') }}
         <ul class="navbar-nav ml-auto" style="margin-left: auto !important;">
-          {% if domain_name == "campus-champions" %}
-            <li class="nav-item">
-              <a href="/user/login?current={{ path("<current>") }}" class="nav-link" data-drupal-link-system-path="user/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Log in/Join Portal</a>
-            </li>
-            <li class="nav-item">
-              <a href="/form/join-campus-champions" class="nav-link">Join CC</a>
-            </li>
+          {% if domain_name == "coco" %}
+          <li class="nav-item">
+            <a href="/user/register/representative" class="nav-link">Join</a>
+          </li>
+          <li class="nav-item">
+            <a href="/user/login?current=/" class="nav-link" data-drupal-link-system-path="user/login">Log in</a>
+          </li>
           {% else %}
-            {% if domain_name == "coco" %}
-            <li class="nav-item">
-              <a href="/user/register/representative" class="nav-link">Join</a>
-            </li>
-            <li class="nav-item">
-              <a href="/user/login?current=/" class="nav-link" data-drupal-link-system-path="user/login">Log in</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-              <a href="/user/register" class="nav-link" data-drupal-link-system-path="user/register">Join</a>
-            </li>
-            <li class="nav-item">
-              <a href="/user/login?current={{ path("<current>") }}" class="nav-link" data-drupal-link-system-path="user/login">Log in</a>
-            </li>
-            {% endif %}
+          <li class="nav-item">
+            <a href="/user/register" class="nav-link" data-drupal-link-system-path="user/register">Join</a>
+          </li>
+          <li class="nav-item">
+            <a href="/user/login?current={{ path("<current>") }}" class="nav-link" data-drupal-link-system-path="user/login">Log in</a>
+          </li>
           {% endif %}
         </ul>
 		  {% endif %}
@@ -92,6 +87,14 @@
 	</nav>
 	 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow-sm" id="mainNav">
 		  <div class="container">
+      {% if domain_name == "ccmnet" %}
+        <a class="nsf-logo" href="https://www.nsf.gov/" target="_blank" rel="noopener">
+          <img width="82" height="82" src="/themes/contrib/asp-theme/images/logos/NSF_logo.svg">
+        </a>
+        <a class="navbar-brand" href="/">
+          <img src="/themes/nect-theme/img/CCMNet-logo.jpg" class="logo" alt="CCMNet">
+        </a>
+      {% else %}
 			<a class="navbar-brand" href="/">
         {% if domain_name == "northeast-cyberteam" %}
         <img src="/themes/nect-theme/img/logo.png" class="logo" alt="Northeast Cyberteam">
@@ -109,8 +112,6 @@
         <img src="/themes/nect-theme/img/mines.logo.png" class="logo" alt="MINES Cyberteam">
         {% elseif domain_name == "trecis-cyberteam" %}
         <img src="/themes/nect-theme/img/trecis.logo.png" class="logo" alt="TRECIS Cyberteam">
-        {% elseif domain_name == "campus-champions" %}
-        <img src="/themes/nect-theme/img/campuschampions.png" class="logo" alt="Campus Champions">
         {% elseif domain_name == "connect-ci" %}
         <img src="/themes/nect-theme/img/ConnectCI-Logo.jpg" class="logo" alt="Connect CI">
         {% elseif domain_name == "coco" %}
@@ -119,14 +120,20 @@
         <img src="/themes/nect-theme/img/usrse-logo.png" class="logo" alt="USRSE">
         {% endif %}
       </a>
+      {% endif %}
       {% if domain_name != "connect-ci" and domain_name != "coco" and domain_name != "usrse" %}
 			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 			  <i class="fa fa-bars" aria-hidden="true"></i>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 			{% if page.primary_menu %}
-				  {{ page.primary_menu }}
+        {{ page.primary_menu }}
 			{% endif %}
+      {% if not is_front %}
+      <div class="ccmnet-page-title-bg-2 region-specific display-ccmnet"></div>
+      {% endif %}
+      {% endif %}
+      {% if domain_name == "connect-ci" %}
 			</div>
       {% endif %}
       {% if domain_name == "coco" %}
@@ -136,7 +143,7 @@
 	 </nav>
 	 {% endblock %}
 	{% endif %}
-	{% if is_front and domain_name != "campus-champions" %}
+	{% if is_front %}
     {% if domain_name == "northeast-cyberteam" %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
     {% elseif domain_name == "great-plains-cyberteam" %}
@@ -157,6 +164,8 @@
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
     {% elseif domain_name == "coco" %}
     <header class="masthead" style="background-color:#781346">
+    {% elseif domain_name == "ccmnet" %}
+    <header class="masthead" style="background-image: url('/themes/nect-theme/img/people-bg.jpg')">
     {% else %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
     {% endif %}
@@ -187,6 +196,8 @@
                 {{ coco_front_text | raw }}
               {% elseif domain_name == "usrse" %}
                 {{ usrse_front_text | raw }}
+              {% elseif domain_name == "ccmnet" %}
+                {{ ccmnet_front_text | raw }}
               {% endif %}
               </h2>
               <ul class="d-none fa-ul mt-5 mx-auto">
@@ -220,131 +231,142 @@
 
 	{% if is_front %}<div class="w-100 py-3 bg-light">{% endif %}
 
-        {# grey background #}
-        {% if (view_id == 'organization') and (display_id == 'organizations') %}
-        <div class="w-100 py-3 bg-light">
-        {% endif %}
+  {# grey background #}
+  {% if (view_id == 'organization') and (display_id == 'organizations') %}
+  <div class="w-100 py-3 bg-light">
+  {% endif %}
 
-	<div class="container{% if is_front %} main-container mt-3{{ domain_name == "campus-champions" ? ''}}{% else %} mt-4{% endif %}">
-	  {% if domain_name == "campus-champions" and is_front %}
-      {% if page.campus_champions_front_header %}
+  {% if domain_name == "ccmnet" %}
+  <div>
+  {% else %}
+	<div class="container{% if is_front %} main-container mt-3{% else %} mt-4{% endif %}">
+  {% endif %}
+  {% if domain_name != "ccmnet" %}
+    <div class="row">
+    {% if page.primary_sidebar or page.secondary_sidebar %}
+      <div class="order-3 order-lg-3 col-lg-9 col-12 mx-auto">
+        {{ page.page_top }}
+        {{ page.title_area }}
+        {{ page.view_type_buttons }}
+        {{ page.drupal_tabs }}
+        {{ page.exposed_filters }}
+        {{ page.tags_page_resources }}
+        {{ page.tags_page_projects }}
+        {{ page.tags_page_students }}
+        {{ page.tags_page_mentors }}
+        {{ page.tags_page_researchers }}
+        {{ page.tags_page_blog }}
+        {{ page.tags_page_askci }}
+        {{ page.people_page_card }}
+        {{ page.people_page_list }}
+        {{ page.projects_page }}
+        {{ page.resources_page }}
+        {{ page.blog_page }}
+        {{ page.help_desk }}
+        {{ page.user_profile }}
+        {{ page.content }}
+        {{ page.below_main_content }}
+      </div>
+      <div class="order-1 order-lg-1 col-lg-3 col-12 mx-auto">
+        {{ page.primary_sidebar }}
+        {{ page.secondary_sidebar }}
+      </div>
+    {% else %}
+      <div class="col-12 mx-auto">
+        {{ page.page_top }}
+        {{ page.title_area }}
+        {{ page.view_type_buttons }}
+        {{ page.drupal_tabs }}
+        {{ page.exposed_filters }}
+        {{ page.tags_page_mentors }}
+        {{ page.tags_page_askci }}
+        {{ page.tags_page_students }}
+        {{ page.tags_page_researchers }}
+        {{ page.tags_page_resources }}
+        {{ page.tags_page_projects }}
+        {{ page.tags_page_blog }}
+        {{ page.people_page_card }}
+        {{ page.people_page_list }}
+        {{ page.projects_page }}
+        {{ page.resources_page }}
+        {{ page.blog_page }}
+        {{ page.help_desk }}
+        {{ page.user_profile }}
+        {{ page.content }}
+        {{ page.below_main_content }}
+      </div>
+    {% endif %}
+  </div>
+  {% else %}
+    {{ page.page_top }}
+    {% if not is_front %}
+    <div id="ccmnet-page-title">
+      <div class="ccmnet-page-title-bg-1"></div>
+      <div class="container">
         <div class="row">
-          {{ page.campus_champions_front_header }}
-        </div>
-      {% endif %}
-      {% if page.campus_champions_front_quick_links_join or page.campus_champions_front_quick_links_top_tags or page.campus_champions_front_quick_links_least_tags or page.campus_champions_front_quick_links_help %}
-        <div class="row mx-auto border-top py-3 text-center">
-          <div class="cc-heading col-12 my-3"><h3>Quick Links</h3></div>
-          {{ page.campus_champions_front_quick_links_join }}
-          <div class="col-md-4 mb-3">
-          <div class="card h-100">
-            <div class="card-body text-center">
-              <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="tags" class="svg-inline--fa fa-tags w-25 p-3 img-fluid" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"></path></svg>
-              <h5 class="card-title">Tags</h5>
-              <ul class="nav nav-tabs small d-flex justify-content-center" id="tags-tabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <a class="nav-link px-2 py-1 active" id="top-tag-tab" data-toggle="tab" href="#top-tags" role="tab" aria-controls="top-tags" aria-selected="true">Top Used</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <a class="nav-link px-2 py-1" id="least-tag-tab" data-toggle="tab" href="#least-tags" role="tab" aria-controls="least-tags" aria-selected="false">Least Used</a>
-                </li>
-              </ul>
-              <div class="tab-content m-2" id="tags-tabs-content">
-                <div class="tab-pane fade active show" id="top-tags" role="tabpanel" aria-labelledby="top-tag-tab">
-                  {{ page.campus_champions_front_quick_links_top_tags }}
-                </div>
-                <div class="tab-pane fade" id="least-tags" role="tabpanel" aria-labelledby="least-tag-tab">
-                  {{ page.campus_champions_front_quick_links_least_tags }}
-                </div>
-                <a href="/tags" class="mt-3 border border-5 p-2 font-weight-bold">All Tags</a>
-              </div>
-            </div>
+          <div class="col">
+            {{ page.title_area }}
           </div>
         </div>
-          {{ page.campus_champions_front_quick_links_help }}
-        </div>
-      {% endif %}
-      {% if page.campus_champions_front_community_events %}
-        <div class="row mx-auto border-top py-3">
-          <div class="cc-heading col-12 my-3 text-center"><h3>Community Events</h3></div>
-        </div>
-				{{ page.campus_champions_front_community_events }}
-      {% endif %}
-      {% if page.campus_champions_front_blog %}
-        <div class="row mx-auto border-top py-3">
-          <div class="cc-heading col-12 my-3 text-center"><h3>Blog</h3></div>
-          {{ page.campus_champions_front_blog }}
-        </div>
-      {% endif %}
-      {% if page.campus_champions_front_jobs %}
-        <div class="row mx-auto border-top py-3">
-          {{ page.campus_champions_front_jobs }}
-        </div>
-      {% endif %}
-    {% else %}
-      <div class="row">
-  		{% if page.primary_sidebar or page.secondary_sidebar %}
-  			<div class="order-3 order-lg-3 col-lg-8 col-12 mx-auto">
-          {{ page.page_top }}
-          {{ page.title_area }}
-          {{ page.view_type_buttons }}
-          {{ page.drupal_tabs }}
-          {{ page.exposed_filters }}
-          {{ page.tags_page_resources }}
-          {{ page.tags_page_projects }}
-          {{ page.tags_page_students }}
-          {{ page.tags_page_mentors }}
-          {{ page.tags_page_researchers }}
-          {{ page.tags_page_blog }}
-          {{ page.tags_page_askci }}
-          {{ page.people_page_card }}
-          {{ page.people_page_list }}
-          {{ page.projects_page }}
-          {{ page.resources_page }}
-          {{ page.blog_page }}
-          {{ page.help_desk }}
-          {{ page.user_profile }}
-          {{ page.content }}
-          {{ page.below_main_content }}
-  			</div>
-  			<div class="order-1 order-lg-1 col-lg-4 col-12 mx-auto">
-  				{{ page.primary_sidebar }}
-  				{{ page.secondary_sidebar }}
-  			</div>
-  		{% else %}
-  			<div class="col-12 mx-auto">
-          {{ page.page_top }}
-          {{ page.title_area }}
-          {{ page.view_type_buttons }}
-          {{ page.drupal_tabs }}
-          {{ page.exposed_filters }}
-	        {{ page.tags_page_mentors }}
-	        {{ page.tags_page_askci }}
-          {{ page.tags_page_students }}
-          {{ page.tags_page_researchers }}
-	        {{ page.tags_page_resources }}
-          {{ page.tags_page_projects }}
-          {{ page.tags_page_blog }}
-          {{ page.people_page_card }}
-          {{ page.people_page_list }}
-          {{ page.projects_page }}
-          {{ page.resources_page }}
-          {{ page.blog_page }}
-          {{ page.help_desk }}
-          {{ page.user_profile }}
-          {{ page.content }}
-          {{ page.below_main_content }}
-  			</div>
-  		{% endif %}
-  	  </div>
+      </div>
+    </div>
     {% endif %}
+    <div class="container{% if is_front %} main-container mt-3 mt-4{% endif %} py-5">
+      <div class="row">
+        {% if page.primary_sidebar or page.secondary_sidebar %}
+          <div class="order-3 order-lg-3 col-lg-9 col-12 mx-auto">
+            {{ page.view_type_buttons }}
+            {{ page.drupal_tabs }}
+            {{ page.exposed_filters }}
+            {{ page.tags_page_resources }}
+            {{ page.tags_page_projects }}
+            {{ page.tags_page_students }}
+            {{ page.tags_page_mentors }}
+            {{ page.tags_page_researchers }}
+            {{ page.tags_page_blog }}
+            {{ page.tags_page_askci }}
+            {{ page.people_page_card }}
+            {{ page.people_page_list }}
+            {{ page.resources_page }}
+            {{ page.user_profile }}
+            {{ page.content }}
+            {{ page.below_main_content }}
+          </div>
+          <div class="order-1 order-lg-1 col-lg-3 col-12 mx-auto">
+            {{ page.primary_sidebar }}
+            {{ page.secondary_sidebar }}
+          </div>
+        {% else %}
+          <div class="col-12 mx-auto">
+            {{ page.view_type_buttons }}
+            {{ page.drupal_tabs }}
+            {{ page.exposed_filters }}
+            {{ page.tags_page_mentors }}
+            {{ page.tags_page_askci }}
+            {{ page.tags_page_students }}
+            {{ page.tags_page_researchers }}
+            {{ page.tags_page_resources }}
+            {{ page.tags_page_projects }}
+            {{ page.tags_page_blog }}
+            {{ page.people_page_card }}
+            {{ page.people_page_list }}
+            {{ page.projects_page }}
+            {{ page.resources_page }}
+            {{ page.user_profile }}
+            {{ page.content }}
+            {{ page.below_main_content }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
 	</div>
 	{% if is_front %}</div>{% endif %}
 
-        {# end grey background #}
-        {% if (view_id == 'organization') and (display_id == 'organizations') %}
-        <div class="w-100 py-3 bg-light">
-        {% endif %}
+  {# end grey background #}
+  {% if (view_id == 'organization') and (display_id == 'organizations') %}
+  <div class="w-100 py-3 bg-light">
+  {% endif %}
 </div>{# /.wrapper #}
 
 <footer class="footer">
@@ -390,12 +412,50 @@
   <div class="container-fluid footer-sub">
 	<div class="row">
 	  <div class="col-lg-12 col-md-10 mx-auto">
-      <p class="copyright">Funded in part by the <a href="https://nsf.gov" target="_blank" style="color: #fff;">National Science Foundation</a></p>
+      {% if domain_name == "ccmnet" %}
+      <div class="container my-5">
+        <div class="row">
+          <div class="col-2">
+            <a class="nsf-logo" href="https://www.nsf.gov/" target="_blank" rel="noopener">
+              <img width="82" height="82" src="/themes/nect-theme/img/NSF_logo.svg">
+            </a>
+          </div>
+          <div class="col-8">
+            <p class="text-left">
+              CCMNet was developed in response to the NSF
+              <a href="https://new.nsf.gov/funding/opportunities/research-coordination-networks-fostering-nurturing/nsf22-558/solicitation">RCN:CIP solicitation</a>
+              and is funded by NSF Award #2227656. These efforts bring novel structure and consistency to the development of the CIP workforce, enabling a more advanced CIP workforce better able to support today’s research needs, while anticipating future needs.
+            </p>
+          </div>
+          <div class="col-2">
+            <img src="/themes/nect-theme/img/footer-people.png" class="img-fluid" alt="">
+          </div>
+        </div>
+      </div>
+      <p class="copyright">Copyright &copy;
+        {{ 'now'|date('Y') }},
+        {{ site_name }}
+        &bull;
+        <a href="/privacy-policy">Privacy Policy</a>
+        &bull;
+        <a href="/acceptable-use">Acceptable Use</a>
+        &bull;
+        <a href="/code-of-conduct">Code of Conduct</a>
+        &bull;
+        <a href="/regions">Connect.CI</a>
+        &bull;
+        <a href="/contact/ccmnet">Contact Us</a>
+      </p>
+      {% else %}
+      <p class="copyright">Funded in part by the
+        <a href="https://nsf.gov" target="_blank" style="color: #fff;">National Science Foundation</a>
+      </p>
       <p class="copyright">Copyright &copy; {{ 'now'|date('Y') }}, {{ site_name }}
         &bull; <a href="/connectci-privacy-policy">Privacy Policy</a> &bull;
         <a href="/regions" style="color: white;">Connect.CI</a>
-        &bull; <a href={% if domain_name == "campus-champions" %} "mailto:info@campuschampions.org" {% else %} "/contact/{{domain_name|replace({'-':'_'})}}" {% endif %} style="color: white;">Contact Us</a>
+        &bull; <a href="/contact/{{domain_name|replace({'-':'_'})}}" style="color: white;">Contact Us</a>
       </p>
+      {% endif %}
     </div>
 	</div>
   </div>
