@@ -177,6 +177,89 @@ display:
             use_highlighting: false
             multi_type: separator
             multi_separator: ', '
+        uid:
+          id: uid
+          table: search_api_datasource_cssn_directory_entity_user
+          field: uid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: user
+          plugin_id: search_api_field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: false
+          fallback_handler: search_api_numeric
+          fallback_options:
+            set_precision: false
+            precision: 0
+            decimal: .
+            separator: ''
+            format_plural: false
+            format_plural_string: !!binary MQNAY291bnQ=
+            prefix: ''
+            suffix: ''
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+            format_plural_values:
+              - '1'
+              - '@count'
         field_user_last_name:
           id: field_user_last_name
           table: search_api_datasource_cssn_directory_entity_user
@@ -459,7 +542,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"cssn-directory-item\">\r\n  <div class=\"cssn-photo\">\r\n    {{ user_picture }}\r\n    <div class=\"my-3\">\r\n      <div class=\"text-orange\">{{ field_user_first_name }} {{ field_user_last_name }}</div>\r\n      <div class=\"text-dark-teal m-0 font-bold text-lg\">{{ field_institution }}</div>\r\n      research computing facilitator\r\n    </div>\r\n    <div class=\"square-tags\">{{ user_skills }}</div>\r\n  </div>\r\n</div>"
+            text: "<div class=\"cssn-directory-item\">\r\n  <div class=\"cssn-photo\">\r\n    {{ user_picture }}\r\n    <div class=\"my-3\">\r\n      <div class=\"text-orange font-weight-bold\">\r\n         <a class=\"stretched-link text-orange\" href=\"/community-persona/{{ uid }}\">{{ field_user_first_name }} {{ field_user_last_name }}</a>\r\n       </div>\r\n      <div class=\"text-dark-teal m-0 font-bold text-lg\">{{ field_institution }}</div>\r\n      research computing facilitator\r\n    </div>\r\n    <div class=\"square-tags ontop-links\">{{ user_skills }}</div>\r\n    <div class=\"count\"></div>\r\n  </div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -500,7 +583,7 @@ display:
         type: mini
         options:
           offset: 0
-          items_per_page: 21
+          items_per_page: 24
           total_pages: null
           id: 0
           tags:
@@ -509,7 +592,7 @@ display:
           expose:
             items_per_page: true
             items_per_page_label: 'Items per page'
-            items_per_page_options: '21, 42, 84'
+            items_per_page_options: '24, 48, 96'
             items_per_page_options_all: false
             items_per_page_options_all_label: '- All -'
             offset: false
@@ -552,7 +635,20 @@ display:
       cache:
         type: none
         options: {  }
-      empty: {  }
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: 'No matches found'
+            format: basic_html
+          tokenize: false
       sorts:
         field_user_first_name:
           id: field_user_first_name
@@ -710,7 +806,7 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: 'mb-3 w-32 border border-secondary border-md-teal p-3'
+          row_class: 'mb-3 w-32 border border-3 border-dark-teal p-3 position-relative border-orange-hover'
           default_row_class: false
       row:
         type: fields
