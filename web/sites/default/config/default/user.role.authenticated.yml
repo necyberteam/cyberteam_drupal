@@ -10,6 +10,7 @@ dependencies:
     - node.type.blog_post
     - node.type.blog_post_region_
     - node.type.match_engagement
+    - node.type.mentorship_engagement
     - taxonomy.vocabulary.tags
     - workflows.workflow.editorial
     - workflows.workflow.match_engagement
@@ -18,12 +19,12 @@ dependencies:
     - comment
     - contact
     - content_moderation
+    - devel
     - domain
     - domain_access
     - filter
     - flag
     - login_disable
-    - media
     - node
     - recurring_events
     - search
@@ -40,6 +41,7 @@ is_admin: false
 permissions:
   - 'access comments'
   - 'access content'
+  - 'access devel information'
   - 'access eventinstance overview'
   - 'access eventseries overview'
   - 'access node by reference'
@@ -55,6 +57,7 @@ permissions:
   - 'create blog_post_region_ content'
   - 'create blog_post_region_ content on assigned domains'
   - 'create match_engagement content'
+  - 'create mentorship_engagement content'
   - 'create terms in tags'
   - 'delete access_news revisions'
   - 'delete own access_news content'
@@ -69,6 +72,7 @@ permissions:
   - 'edit own eventinstance entity'
   - 'edit own eventseries entity'
   - 'edit own match_engagement content'
+  - 'edit own mentorship_engagement content'
   - 'edit own webform'
   - 'edit own webform submission'
   - 'flag affinity_group'
@@ -86,6 +90,7 @@ permissions:
   - 'search content'
   - 'setup own tfa'
   - 'skip comment approval'
+  - 'switch users'
   - 'unflag affinity_group'
   - 'unflag completed'
   - 'unflag inaccurate'
@@ -121,6 +126,5 @@ permissions:
   - 'view eventinstance entity'
   - 'view eventseries entity'
   - 'view latest version'
-  - 'view media'
   - 'view own unpublished content'
   - 'view own webform submission'
