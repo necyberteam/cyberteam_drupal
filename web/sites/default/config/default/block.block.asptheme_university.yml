@@ -1,27 +1,27 @@
-uuid: bbcbfdb9-ec95-44a2-bc7a-245a7c444082
+uuid: 5a182339-84f7-46cd-8cd0-6e418880e660
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.roles
+    - facets.facet.university
   module:
     - facets
     - system
   theme:
-    - nect
-id: nect_roles
-theme: nect
-region: primary_sidebar
-weight: 2
+    - aspTheme
+id: asptheme_university
+theme: aspTheme
+region: sidebar_first
+weight: -13
 provider: null
-plugin: 'facet_block:roles'
+plugin: 'facet_block:university'
 settings:
-  id: 'facet_block:roles'
-  label: Roles
+  id: 'facet_block:university'
+  label: Organization
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_roles
+  block_id: asptheme_university
 visibility:
   request_path:
     id: request_path

@@ -16,7 +16,7 @@ missing_label: others
 url_alias: roles
 facet_source_id: 'search_api:views_page__cssn_directory__page_1'
 field_identifier: roles
-query_operator: and
+query_operator: or
 hard_limit: 0
 exclude: false
 use_hierarchy: false
@@ -48,7 +48,7 @@ processor_configs:
     weights:
       sort: 20
     settings:
-      sort: DESC
+      sort: ASC
   count_widget_order:
     processor_id: count_widget_order
     weights:
@@ -69,6 +69,11 @@ processor_configs:
       exclude: 'student, mentor, cip, consultant'
       regex: false
       invert: true
+  hide_non_narrowing_result_processor:
+    processor_id: hide_non_narrowing_result_processor
+    weights:
+      build: 40
+    settings: {  }
   hierarchy_processor:
     processor_id: hierarchy_processor
     weights:

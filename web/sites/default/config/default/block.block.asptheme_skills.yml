@@ -1,27 +1,27 @@
-uuid: bbcbfdb9-ec95-44a2-bc7a-245a7c444082
+uuid: 1cf98c32-5503-427f-b424-804b03df73e8
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.roles
+    - facets.facet.skills
   module:
     - facets
     - system
   theme:
-    - nect
-id: nect_roles
-theme: nect
-region: primary_sidebar
-weight: 2
+    - aspTheme
+id: asptheme_skills
+theme: aspTheme
+region: sidebar_first
+weight: -14
 provider: null
-plugin: 'facet_block:roles'
+plugin: 'facet_block:skills'
 settings:
-  id: 'facet_block:roles'
-  label: Roles
+  id: 'facet_block:skills'
+  label: Skills
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_roles
+  block_id: asptheme_skills
 visibility:
   request_path:
     id: request_path
