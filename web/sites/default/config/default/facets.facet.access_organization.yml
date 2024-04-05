@@ -1,4 +1,4 @@
-uuid: c1716058-65e6-4f12-b5dd-31db5d97397d
+uuid: df901309-d95a-4527-9651-9724146b3f7d
 langcode: en
 status: true
 dependencies:
@@ -7,15 +7,15 @@ dependencies:
     - views.view.cssn_directory
   module:
     - search_api
-id: skills
-name: Skills
+id: access_organization
+name: 'ACCESS Organization'
 weight: 0
 min_count: 1
 missing: false
 missing_label: others
-url_alias: skills
+url_alias: access_organization
 facet_source_id: 'search_api:views_page__cssn_directory__page_1'
-field_identifier: user_skills
+field_identifier: field_access_organization
 query_operator: and
 hard_limit: 0
 exclude: false
@@ -30,7 +30,7 @@ widget:
   type: checkbox
   config:
     show_numbers: true
-    soft_limit: 10
+    soft_limit: 5
     show_reset_link: true
     reset_text: All
     hide_reset_when_no_selection: true
@@ -49,12 +49,6 @@ processor_configs:
       sort: 20
     settings:
       sort: ASC
-  count_widget_order:
-    processor_id: count_widget_order
-    weights:
-      sort: 30
-    settings:
-      sort: DESC
   display_value_widget_order:
     processor_id: display_value_widget_order
     weights:
@@ -65,6 +59,11 @@ processor_configs:
     processor_id: hierarchy_processor
     weights:
       build: 100
+    settings: {  }
+  translate_entity:
+    processor_id: translate_entity
+    weights:
+      build: 5
     settings: {  }
   url_processor_handler:
     processor_id: url_processor_handler
