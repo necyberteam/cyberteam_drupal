@@ -61,10 +61,20 @@ processor_configs:
       sort: 40
     settings:
       sort: ASC
+  hide_1_result_facet:
+    processor_id: hide_1_result_facet
+    weights:
+      build: 50
+    settings: {  }
   hierarchy_processor:
     processor_id: hierarchy_processor
     weights:
       build: 100
+    settings: {  }
+  list_item:
+    processor_id: list_item
+    weights:
+      build: 5
     settings: {  }
   url_processor_handler:
     processor_id: url_processor_handler
