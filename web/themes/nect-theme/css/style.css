@@ -34,6 +34,15 @@
   --ccmnet-navy: #04376F;
   --ccmnet-lightblue: #06A9E5;
   --ccmnet-hero: #283F72CC;
+  --ccmnet-red: #d93c19;
+  --ccmnet-var-red: var(--ccmnet-red);
+  --ccmnet-green: #28A588;
+  --teal: var(--ccmnet-green);
+  --ccmnet-orange: #E82E18;
+  --ccmnet-purple: #24599C;
+  --purple: var(--ccmnet-purple);
+  --ccmnet-blue: #1DA9E5;
+  --ccmnet-blue-rollover: var(--ccmnet-blue);
 }
 
 body.campus-champions{
@@ -1656,4 +1665,48 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
 
 #block-nect-cilinkintroblock .p-5 {
   padding: 15px 15px 0 15px !important;
+}
+
+.rounded-bottom-left {
+  border-bottom-left-radius: 0.8rem;
+}
+
+.bg-red {
+  background-color: var(--ccmnet-var-red);
+}
+
+.bg-teal {
+  background-color: var(--teal);
+}
+
+.bg-purple {
+  background-color: var(--purple);
+}
+
+.border-ccmnet-blue {
+  border-color: var(--ccmnet-blue-rollover) !important;
+}
+
+.ccmnet-link a {
+  color: var(--text) !important;
+}
+
+.ccmnet-link a:hover {
+  color: var(--ccmnet-blue-rollover) !important;
+}
+
+.corner-triangle {
+  aspect-ratio: 1;
+  clip-path: polygon(0 100%,100% 0,100% 100%);
+  height: 75px;
+  display: block;
+  padding: 3rem 0 0 2rem;
+  width: 85px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.corner-triangle:hover {
+  background-color: var(--ccmnet-blue-rollover);
 }

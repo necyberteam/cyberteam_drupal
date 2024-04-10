@@ -12,6 +12,7 @@ dependencies:
   module:
     - node
     - search_api
+    - ccmnet
     - webform_submission_search_api
 id: mentorship_engagement
 name: 'Mentorship Engagement'
@@ -58,6 +59,10 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_tags
+  mentee_name:
+    label: 'Mentee Name'
+    property_path: search_api_mentee_name
+    type: string
   node_grants:
     label: 'Node access information'
     property_path: search_api_node_grants
@@ -129,6 +134,7 @@ processor_settings:
     all_fields: false
     fields: {  }
   language_with_fallback: {  }
+  mentee_name: {  }
   rendered_item: {  }
   stopwords:
     weights:
