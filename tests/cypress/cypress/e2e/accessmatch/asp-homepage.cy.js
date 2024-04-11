@@ -38,7 +38,7 @@ describe("Unauthenticated user tests the ASP Homepage", () => {
     cy.verifyCallToActionBlock(
       "/",
       "Find useful resources now",
-      "https://support.access-ci.org/knowledge-base/ci-links"
+      "/knowledge-base/ci-links"
     );
   });
 });
