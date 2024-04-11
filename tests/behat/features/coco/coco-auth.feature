@@ -1,4 +1,4 @@
-@wip
+@coco
 @api
 @javascript
 Feature: This test verifies the following for the coco domain for an authenticated user:
