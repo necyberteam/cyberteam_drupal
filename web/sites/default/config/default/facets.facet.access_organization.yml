@@ -1,23 +1,23 @@
-uuid: b170cbf5-115c-40da-83f0-644ce5e143ff
+uuid: df901309-d95a-4527-9651-9724146b3f7d
 langcode: en
 status: true
 dependencies:
   config:
-    - search_api.index.ci_links
-    - views.view.search_ci_links
+    - search_api.index.cssn_directory
+    - views.view.cssn_directory
   module:
     - search_api
-id: tags
-name: Tags
+id: access_organization
+name: 'ACCESS Organization'
 weight: 0
 min_count: 1
 missing: false
 missing_label: others
-url_alias: tags
-facet_source_id: 'search_api:views_page__search_ci_links__page_1'
-field_identifier: webform_submission_tags
+url_alias: access_organization
+facet_source_id: 'search_api:views_page__cssn_directory__page_1'
+field_identifier: field_access_organization
 query_operator: and
-hard_limit: 30
+hard_limit: 0
 exclude: false
 use_hierarchy: false
 keep_hierarchy_parents_active: false
@@ -30,9 +30,9 @@ widget:
   type: checkbox
   config:
     show_numbers: true
-    soft_limit: 10
+    soft_limit: 5
     show_reset_link: true
-    reset_text: 'Show all'
+    reset_text: All
     hide_reset_when_no_selection: true
     soft_limit_settings:
       show_less_label: 'Show less'
@@ -49,30 +49,21 @@ processor_configs:
       sort: 20
     settings:
       sort: ASC
-  count_widget_order:
-    processor_id: count_widget_order
-    weights:
-      sort: 30
-    settings:
-      sort: DESC
   display_value_widget_order:
     processor_id: display_value_widget_order
     weights:
       sort: 40
     settings:
       sort: ASC
-  exclude_specified_items:
-    processor_id: exclude_specified_items
-    weights:
-      build: 50
-    settings:
-      exclude: 'python,bash,c++,fortran,astrophysics,bioinformatics,biology,computational-chemistry,data-science,genomics,gravitational-waves,materials-science,oceanography,particle-physics,physiology,psychology,quantum-computing,quantum-mechanics'
-      regex: false
-      invert: false
   hierarchy_processor:
     processor_id: hierarchy_processor
     weights:
       build: 100
+    settings: {  }
+  translate_entity:
+    processor_id: translate_entity
+    weights:
+      build: 5
     settings: {  }
   url_processor_handler:
     processor_id: url_processor_handler
