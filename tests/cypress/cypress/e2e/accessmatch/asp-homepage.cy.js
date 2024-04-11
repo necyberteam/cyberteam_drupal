@@ -37,8 +37,8 @@ describe("Unauthenticated user tests the ASP Homepage", () => {
     //Call to action function
     cy.verifyCallToActionBlock(
       "/",
-      "Try the ACCESS Resource Advisor",
-      "https://access-ara.ccs.uky.edu:8080"
+      "Find useful resources now",
+      "https://support.access-ci.org/knowledge-base/ci-links"
     );
   });
 });
