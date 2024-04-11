@@ -1,29 +1,29 @@
-uuid: f58c8c8c-0c07-465d-927f-b443fdb95c96
+uuid: bbcbfdb9-ec95-44a2-bc7a-245a7c444082
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.science_domain
+    - facets.facet.roles
   module:
     - facets
     - system
   theme:
     - nect
-id: nect_sciencedomain
+id: nect_roles
 theme: nect
 region: primary_sidebar
-weight: 8
+weight: 2
 provider: null
-plugin: 'facet_block:science_domain'
+plugin: 'facet_block:roles'
 settings:
-  id: 'facet_block:science_domain'
-  label: 'Science Domain'
+  id: 'facet_block:roles'
+  label: Roles
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_sciencedomain
+  block_id: nect_roles
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/resources
+    pages: /community/cssn/directory

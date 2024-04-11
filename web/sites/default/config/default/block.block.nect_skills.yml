@@ -1,29 +1,29 @@
-uuid: f58c8c8c-0c07-465d-927f-b443fdb95c96
+uuid: 3f1be01a-b790-4f96-9f4a-e5c2fd8a2297
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.science_domain
+    - facets.facet.skills
   module:
     - facets
     - system
   theme:
     - nect
-id: nect_sciencedomain
+id: nect_skills
 theme: nect
 region: primary_sidebar
-weight: 8
+weight: 3
 provider: null
-plugin: 'facet_block:science_domain'
+plugin: 'facet_block:skills'
 settings:
-  id: 'facet_block:science_domain'
-  label: 'Science Domain'
+  id: 'facet_block:skills'
+  label: Skills
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_sciencedomain
+  block_id: nect_skills
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/resources
+    pages: /community/cssn/directory

@@ -1,29 +1,29 @@
-uuid: 99a789ce-1c3a-444c-8426-133e652ecf14
+uuid: 1904698f-0316-423e-bd24-d1e5139ba82a
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.science_domain
+    - facets.facet.roles
   module:
     - facets
     - system
   theme:
     - aspTheme
-id: asptheme_sciencedomain
+id: asptheme_roles
 theme: aspTheme
 region: sidebar_first
-weight: -19
+weight: -15
 provider: null
-plugin: 'facet_block:science_domain'
+plugin: 'facet_block:roles'
 settings:
-  id: 'facet_block:science_domain'
-  label: 'Science Domain'
+  id: 'facet_block:roles'
+  label: Roles
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: asptheme_sciencedomain
+  block_id: asptheme_roles
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/resources
+    pages: /community/cssn/directory
