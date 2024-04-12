@@ -46,12 +46,12 @@ describe("Admin user tests the Individual Affinity Groups", () => {
 
     // verify the added ci-link appears
     cy.get('.block-resources-for-affinity-group')
-      .contains('CI Links');
+      .contains('Resources');
 
     cy.get('#ci-links')
       .contains('access-support-ci-link-for-testing')
       .should('have.attr', 'href')
-      .and('contain', '/ci-link');
+      .and('contain', '/resources');
 
     // verify the added cider resource appears
     cy.get('.node--type-access-active-resources-from-cid')
