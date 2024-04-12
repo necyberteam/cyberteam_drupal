@@ -1,29 +1,29 @@
-uuid: e2504c62-735d-453d-819d-cd54fc82f71b
+uuid: 3f1be01a-b790-4f96-9f4a-e5c2fd8a2297
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.tags
+    - facets.facet.skills
   module:
     - facets
     - system
   theme:
     - nect
-id: nect_tags
+id: nect_skills
 theme: nect
 region: primary_sidebar
-weight: 6
+weight: 3
 provider: null
-plugin: 'facet_block:tags'
+plugin: 'facet_block:skills'
 settings:
-  id: 'facet_block:tags'
-  label: Topics
+  id: 'facet_block:skills'
+  label: Skills
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_tags
+  block_id: nect_skills
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/ci-links
+    pages: /community/cssn/directory

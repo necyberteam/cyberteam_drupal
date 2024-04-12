@@ -1,23 +1,23 @@
-uuid: b170cbf5-115c-40da-83f0-644ce5e143ff
+uuid: 99b371dc-b07e-441d-be62-e9c5d947201e
 langcode: en
 status: true
 dependencies:
   config:
-    - search_api.index.ci_links
-    - views.view.search_ci_links
+    - search_api.index.cssn_directory
+    - views.view.cssn_directory
   module:
     - search_api
-id: tags
-name: Tags
+id: roles
+name: Roles
 weight: 0
 min_count: 1
 missing: false
 missing_label: others
-url_alias: tags
-facet_source_id: 'search_api:views_page__search_ci_links__page_1'
-field_identifier: webform_submission_tags
-query_operator: and
-hard_limit: 30
+url_alias: roles
+facet_source_id: 'search_api:views_page__cssn_directory__page_1'
+field_identifier: roles
+query_operator: or
+hard_limit: 0
 exclude: false
 use_hierarchy: false
 keep_hierarchy_parents_active: false
@@ -30,9 +30,9 @@ widget:
   type: checkbox
   config:
     show_numbers: true
-    soft_limit: 10
+    soft_limit: 5
     show_reset_link: true
-    reset_text: 'Show all'
+    reset_text: All
     hide_reset_when_no_selection: true
     soft_limit_settings:
       show_less_label: 'Show less'
@@ -66,9 +66,14 @@ processor_configs:
     weights:
       build: 50
     settings:
-      exclude: 'python,bash,c++,fortran,astrophysics,bioinformatics,biology,computational-chemistry,data-science,genomics,gravitational-waves,materials-science,oceanography,particle-physics,physiology,psychology,quantum-computing,quantum-mechanics'
+      exclude: 'student, mentor, cip, consultant'
       regex: false
-      invert: false
+      invert: true
+  hide_non_narrowing_result_processor:
+    processor_id: hide_non_narrowing_result_processor
+    weights:
+      build: 40
+    settings: {  }
   hierarchy_processor:
     processor_id: hierarchy_processor
     weights:
