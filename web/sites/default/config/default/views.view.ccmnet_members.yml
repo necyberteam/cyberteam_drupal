@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.user.field_access_organization
     - field.storage.user.field_current_occupation
+    - field.storage.user.field_institution
     - field.storage.user.field_user_first_name
     - field.storage.user.field_user_last_name
     - field.storage.user.user_picture
@@ -12,7 +13,7 @@ dependencies:
     - search_api.index.cssn_directory
     - taxonomy.vocabulary.region
   content:
-    - 'taxonomy_term:region:6136e7e2-0052-4dc7-8c42-50f162d0a5a1'
+    - 'taxonomy_term:region:745ff882-6bfc-41da-971a-eeb043cc7b62'
   module:
     - better_exposed_filters
     - image
@@ -78,7 +79,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: '<img src="/modules/custom/access/modules/cssn/images/profile.gif" height="100" width="90" alt="general profile image" />'
           hide_empty: false
           empty_zero: false
@@ -152,7 +153,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -223,7 +224,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -306,7 +307,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -377,7 +378,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -448,7 +449,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -522,7 +523,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -656,6 +657,77 @@ display:
           use_highlighting: false
           multi_type: ul
           multi_separator: ' '
+        field_institution:
+          id: field_institution
+          table: search_api_datasource_cssn_directory_entity_user
+          field: field_institution
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: user
+          plugin_id: search_api_field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: false
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
         nothing:
           id: nothing
           table: views
@@ -668,7 +740,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"cssn-directory-item\">\r\n  <div class=\"cssn-photo\">\r\n    {{ user_picture }}\r\n  </div>\r\n  <div class=\"my-1.5 leading-5\">\r\n    <a class=\"stretched-link text-dark-teal hover--text-orange no-underline text-xl font-bold\" href=\"/community-persona/{{ uid }}\">{{ field_user_first_name }} {{ field_user_last_name }}</a>\r\n  </div>\r\n  <div class=\"m-0 font-semibold text-lg leading-5\">\r\n    {{ field_access_organization }}\r\n  </div>\r\n  <div class=\"mb-3\">\r\n    {{ field_current_occupation }}\r\n  </div>\r\n  <div class=\"square-tags ontop-links [&_ul]--list-none [&_li]--inline-block [&_li]--ms-0 [&_li]--mb-3 [&_li]--me-1 [&_li]--relative [&_li]--z-10\"> \r\n    {{ user_skills }}\r\n  </div>\r\n</div>"
+            text: "  <div class=\"nect-cc-people card h-100\">\r\n  <div class=\"p-2\">\r\n      <div class=\"cssn-directory-item\">\r\n        <div class=\"cssn-photo\">\r\n          {{ user_picture }}\r\n        </div>\r\n        <div class=\"my-1.5 leading-5\">\r\n          <a class=\"stretched-link text-dark-teal hover--text-orange no-underline text-xl font-bold\" href=\"/community-persona/{{ uid }}\">{{ field_user_first_name }} {{ field_user_last_name }}</a>\r\n        </div>\r\n        <div class=\"m-0 font-semibold text-lg leading-5\">\r\n          {{ field_institution }}\r\n        </div>\r\n        <div class=\"mb-3\">\r\n          {{ field_current_occupation }}\r\n        </div>\r\n        <div class=\"square-tags ontop-links [&_ul]--list-none [&_li]--inline-block [&_li]--ms-0 [&_li]--mb-3 [&_li]--me-1 [&_li]--relative [&_li]--z-10\"> \r\n          {{ user_skills }}\r\n        </div>\r\n      </div>\r\n   </div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -817,7 +889,7 @@ display:
           plugin_id: search_api_term
           operator: or
           value:
-            780: 780
+            827: 827
           group: 1
           exposed: false
           expose:
@@ -935,12 +1007,12 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: 'mb-3 w-32 border border-3 border-4 border-dark-teal p-3 position-relative border-orange-hover relative hover--border-orange'
+          row_class: 'col-11 col-sm-6 col-md-4 mb-4 mx-auto'
           default_row_class: false
       row:
         type: fields
         options:
-          default_field_elements: true
+          default_field_elements: false
           inline: {  }
           separator: ''
           hide_empty: false
@@ -967,6 +1039,7 @@ display:
       tags:
         - 'config:field.storage.user.field_access_organization'
         - 'config:field.storage.user.field_current_occupation'
+        - 'config:field.storage.user.field_institution'
         - 'config:field.storage.user.field_user_first_name'
         - 'config:field.storage.user.field_user_last_name'
         - 'config:field.storage.user.user_picture'
@@ -991,6 +1064,7 @@ display:
       tags:
         - 'config:field.storage.user.field_access_organization'
         - 'config:field.storage.user.field_current_occupation'
+        - 'config:field.storage.user.field_institution'
         - 'config:field.storage.user.field_user_first_name'
         - 'config:field.storage.user.field_user_last_name'
         - 'config:field.storage.user.user_picture'

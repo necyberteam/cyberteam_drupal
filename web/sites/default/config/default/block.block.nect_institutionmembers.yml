@@ -1,29 +1,29 @@
-uuid: 23bc7852-ea3b-4f93-b2a1-2ab7e5e60809
+uuid: 9bd71d2d-9a8f-40e0-83ac-df7253b8044e
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.skill_level
+    - facets.facet.institution_members
   module:
     - facets
     - system
   theme:
     - nect
-id: nect_skilllevel
+id: nect_institutionmembers
 theme: nect
 region: primary_sidebar
-weight: 14
+weight: 5
 provider: null
-plugin: 'facet_block:skill_level'
+plugin: 'facet_block:institution_members'
 settings:
-  id: 'facet_block:skill_level'
-  label: 'Skill Level'
+  id: 'facet_block:institution_members'
+  label: Institution
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_skilllevel
+  block_id: nect_institutionmembers
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/ci-links
+    pages: /members

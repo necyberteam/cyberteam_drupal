@@ -1,29 +1,29 @@
-uuid: f100086c-29de-4778-844c-c0f47e55cdfc
+uuid: c617d6b8-050e-4f22-898f-f4917474b895
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.content_type
+    - facets.facet.institution_members
   module:
     - facets
     - system
   theme:
     - champions
-id: champions_category
+id: champions_institutionmembers
 theme: champions
 region: primary_sidebar
-weight: 12
+weight: 6
 provider: null
-plugin: 'facet_block:content_type'
+plugin: 'facet_block:institution_members'
 settings:
-  id: 'facet_block:content_type'
-  label: 'Content Type'
+  id: 'facet_block:institution_members'
+  label: Institution
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: champions_category
+  block_id: champions_institutionmembers
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/ci-links
+    pages: /members

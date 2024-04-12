@@ -1,22 +1,22 @@
-uuid: f50a0632-ea06-4861-8f94-2e1eb7c6d111
+uuid: d035679a-f7b4-495a-8d2c-52ee10022845
 langcode: en
 status: true
 dependencies:
   config:
     - search_api.index.cssn_directory
-    - views.view.nect_cc_people
+    - views.view.ccmnet_members
   module:
     - search_api
-id: program_people_page
-name: 'Program (people page)'
+id: institution_members
+name: 'Institution (/members)'
 weight: 0
 min_count: 1
 missing: false
 missing_label: others
-url_alias: program_people_page
-facet_source_id: 'search_api:views_page__nect_cc_people__page_1'
-field_identifier: field_region
-query_operator: and
+url_alias: institution_members
+facet_source_id: 'search_api:views_page__ccmnet_members__page_1'
+field_identifier: field_institution
+query_operator: or
 hard_limit: 0
 exclude: false
 use_hierarchy: false
@@ -30,7 +30,7 @@ widget:
   type: checkbox
   config:
     show_numbers: true
-    soft_limit: 0
+    soft_limit: 5
     show_reset_link: true
     reset_text: All
     hide_reset_when_no_selection: true
@@ -61,20 +61,10 @@ processor_configs:
       sort: 40
     settings:
       sort: ASC
-  hide_non_narrowing_result_processor:
-    processor_id: hide_non_narrowing_result_processor
-    weights:
-      build: 40
-    settings: {  }
   hierarchy_processor:
     processor_id: hierarchy_processor
     weights:
       build: 100
-    settings: {  }
-  translate_entity:
-    processor_id: translate_entity
-    weights:
-      build: 5
     settings: {  }
   url_processor_handler:
     processor_id: url_processor_handler

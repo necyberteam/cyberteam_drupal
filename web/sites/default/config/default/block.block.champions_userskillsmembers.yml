@@ -1,29 +1,29 @@
-uuid: f100086c-29de-4778-844c-c0f47e55cdfc
+uuid: 157ad39b-c541-44af-ac28-8583b1cac4ec
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.content_type
+    - facets.facet.user_skills_members
   module:
     - facets
     - system
   theme:
     - champions
-id: champions_category
+id: champions_userskillsmembers
 theme: champions
 region: primary_sidebar
-weight: 12
+weight: 5
 provider: null
-plugin: 'facet_block:content_type'
+plugin: 'facet_block:user_skills_members'
 settings:
-  id: 'facet_block:content_type'
-  label: 'Content Type'
+  id: 'facet_block:user_skills_members'
+  label: Skills
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: champions_category
+  block_id: champions_userskillsmembers
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/ci-links
+    pages: /members

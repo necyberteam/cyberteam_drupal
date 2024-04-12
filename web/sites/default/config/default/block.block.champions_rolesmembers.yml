@@ -1,29 +1,29 @@
-uuid: bbcbfdb9-ec95-44a2-bc7a-245a7c444082
+uuid: 6136b0ca-9955-408c-9cae-04673cbff236
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.roles
+    - facets.facet.roles_members
   module:
     - facets
     - system
   theme:
-    - nect
-id: nect_roles
-theme: nect
+    - champions
+id: champions_rolesmembers
+theme: champions
 region: primary_sidebar
-weight: 7
+weight: 4
 provider: null
-plugin: 'facet_block:roles'
+plugin: 'facet_block:roles_members'
 settings:
-  id: 'facet_block:roles'
+  id: 'facet_block:roles_members'
   label: Roles
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_roles
+  block_id: champions_rolesmembers
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /community/cssn/directory
+    pages: /members
