@@ -1,29 +1,29 @@
-uuid: 68bf26c2-326d-4844-b7e3-12f9369e21b2
+uuid: 1904698f-0316-423e-bd24-d1e5139ba82a
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.tags
+    - facets.facet.roles
   module:
     - facets
     - system
   theme:
     - aspTheme
-id: asptheme_tags
+id: asptheme_roles
 theme: aspTheme
 region: sidebar_first
-weight: -21
+weight: -15
 provider: null
-plugin: 'facet_block:tags'
+plugin: 'facet_block:roles'
 settings:
-  id: 'facet_block:tags'
-  label: Topics
+  id: 'facet_block:roles'
+  label: Roles
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: asptheme_tags
+  block_id: asptheme_roles
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/ci-links
+    pages: /community/cssn/directory
