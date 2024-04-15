@@ -43,7 +43,7 @@ describe('Anonymous user visit the affinity-group page', () => {
 
     // 5. verify the join button is "Login to join" for anonymous
     cy.get('@af-row')
-      .get('[href="/user/login?destination=/affinity-groups/access-facilitators"]')
+      .get('[href="/user/login?destination=/affinity-groups"]')
       .invoke('attr', 'title')
       .should('eq', 'Login to join');
   });
