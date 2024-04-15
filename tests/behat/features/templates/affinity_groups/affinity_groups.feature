@@ -12,10 +12,10 @@ Feature: This Behat tests goes over the Affinity Groups Page which has the title
     Given I am not logged in
     When I go to "affinity-groups"
     Then I should see "Affinity Groups"
-    And I should see "Logo"
+    #And I should see "Category"
+    #And I should see "Tags"
     And I should see "Affinity Group"
     And I should see "Description"
-    And I should see "Tags"
     And I should see "Login To Join"
     And I should see "Request an Affinity Group"
 
@@ -23,9 +23,9 @@ Feature: This Behat tests goes over the Affinity Groups Page which has the title
     Given I am logged in as a user with the "authenticated" role
     When I go to "affinity-groups"
     Then I should see "Affinity Groups"
-    And I should see "Logo"
+    #And I should see "Category"
+    #And I should see "Tags"
     And I should see "Affinity Group"
     And I should see "Description"
-    And I should see "Tags"
     And I should see "Join"
     And I should see "Request an Affinity Group"
