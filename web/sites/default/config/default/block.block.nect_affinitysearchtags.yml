@@ -1,0 +1,29 @@
+uuid: ef12012b-67c5-4f4d-9ee4-5ba9d97446fd
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.affinity_search_tags
+  module:
+    - facets
+    - system
+  theme:
+    - nect
+id: nect_affinitysearchtags
+theme: nect
+region: primary_sidebar
+weight: 0
+provider: null
+plugin: 'facet_block:affinity_search_tags'
+settings:
+  id: 'facet_block:affinity_search_tags'
+  label: Tags
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_affinitysearchtags
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/affinity_groups\r\n/affinity-groups"

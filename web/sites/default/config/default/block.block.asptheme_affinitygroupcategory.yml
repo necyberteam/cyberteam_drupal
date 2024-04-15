@@ -1,0 +1,29 @@
+uuid: 2f4f9225-e61b-4d7c-a1b0-a657fe10e8ec
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.affinity_group_category
+  module:
+    - facets
+    - system
+  theme:
+    - aspTheme
+id: asptheme_affinitygroupcategory
+theme: aspTheme
+region: sidebar_first
+weight: 0
+provider: null
+plugin: 'facet_block:affinity_group_category'
+settings:
+  id: 'facet_block:affinity_group_category'
+  label: Category
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_affinitygroupcategory
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/affinity_groups\r\n/affinity-groups"

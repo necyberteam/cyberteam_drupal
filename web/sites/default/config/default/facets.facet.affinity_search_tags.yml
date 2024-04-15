@@ -1,23 +1,23 @@
-uuid: b170cbf5-115c-40da-83f0-644ce5e143ff
+uuid: 5b8456fe-18cd-4ce9-9810-5f44b597886a
 langcode: en
 status: true
 dependencies:
   config:
-    - search_api.index.ci_links
-    - views.view.search_ci_links
+    - search_api.index.affinity_groups
+    - views.view.affinity_group_search
   module:
     - search_api
-id: tags
-name: Tags
+id: affinity_search_tags
+name: 'Affinity Search Tags'
 weight: 0
 min_count: 1
 missing: false
 missing_label: others
-url_alias: tags
-facet_source_id: 'search_api:views_page__search_ci_links__page_1'
-field_identifier: webform_submission_tags
+url_alias: affinity_search_tags
+facet_source_id: 'search_api:views_page__affinity_group_search__page_1'
+field_identifier: field_tags
 query_operator: and
-hard_limit: 30
+hard_limit: 0
 exclude: false
 use_hierarchy: false
 keep_hierarchy_parents_active: false
@@ -31,9 +31,9 @@ widget:
   config:
     show_numbers: true
     soft_limit: 10
-    show_reset_link: true
+    show_reset_link: false
     reset_text: 'Show all'
-    hide_reset_when_no_selection: true
+    hide_reset_when_no_selection: false
     soft_limit_settings:
       show_less_label: 'Show less'
       show_more_label: 'Show more'
@@ -61,18 +61,25 @@ processor_configs:
       sort: 40
     settings:
       sort: ASC
-  exclude_specified_items:
-    processor_id: exclude_specified_items
+  hide_1_result_facet:
+    processor_id: hide_1_result_facet
     weights:
       build: 50
-    settings:
-      exclude: 'python,bash,c++,fortran,astrophysics,bioinformatics,biology,computational-chemistry,data-science,genomics,gravitational-waves,materials-science,oceanography,particle-physics,physiology,psychology,quantum-computing,quantum-mechanics'
-      regex: false
-      invert: false
+    settings: {  }
+  hide_non_narrowing_result_processor:
+    processor_id: hide_non_narrowing_result_processor
+    weights:
+      build: 40
+    settings: {  }
   hierarchy_processor:
     processor_id: hierarchy_processor
     weights:
       build: 100
+    settings: {  }
+  translate_entity:
+    processor_id: translate_entity
+    weights:
+      build: 5
     settings: {  }
   url_processor_handler:
     processor_id: url_processor_handler
