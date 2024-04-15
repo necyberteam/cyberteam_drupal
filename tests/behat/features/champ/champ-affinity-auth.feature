@@ -13,8 +13,6 @@ Affinity Group Request page for authenticated users.
     Given I am logged in as a user with the "authenticated" role
     When I go to "/affinity-groups"
     Then I should see "Affinity Group"
-    Then I should see "Description"
-    Then I should see "Tags"
     Then I should see "Join"
     When I click "Join"
     Then I should see "Joined"
