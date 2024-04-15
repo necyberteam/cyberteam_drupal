@@ -4,7 +4,7 @@
 describe('Anonymous user visit the affinity-group page', () => {
   it('should find expected stuff', () => {
 
-    cy.visit('/affinity_groups');
+    cy.visit('/affinity-groups');
 
     // Verify the request a group button is present and has the correct href
     cy.contains('Request a group')
