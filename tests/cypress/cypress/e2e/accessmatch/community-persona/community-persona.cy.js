@@ -129,6 +129,7 @@ function user200_edit_self() {
   }).then(() => {
     cy.get('[name="files[user_picture_0]"]').click();
     cy.get('[name="files[user_picture_0]"]').selectFile('cypress/fixtures/dummy-image.png');
+    cy.get('[data-drupal-selector="edit-field-access-organization-0-target-id"]').type('MGHPCC');
     cy.get('[data-drupal-selector="edit-user-picture-0-alt"]').type('pic_alt_txt');
     cy.get('[name="files[field_cv_resume_0]"]').click();
     cy.get('[name="files[field_cv_resume_0]"]').selectFile('cypress/fixtures/dummy-resume.txt');
