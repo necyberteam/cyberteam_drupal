@@ -36,7 +36,7 @@
   --navbar-dropdown-hover: var(--navbar-link);
 
   --ccmnet-navy: #04376F;
-  --ccmnet-lightblue: #06A9E5;
+  --ccmnet-lightblue: #19A9E5;
   --ccmnet-hero: #283F72CC;
   --ccmnet-red: #d93c19;
   --ccmnet-var-red: var(--ccmnet-red);
@@ -152,6 +152,7 @@ body.trecis-cyberteam{
 
 body.ccmnet{
   --primary: var(--ccmnet-lightblue);
+  --text: #000000;
   --link: var(--primary);
   --link-hover: var(--ccmnet-lightblue);
   --navbar-background: #ffffff;
@@ -209,7 +210,7 @@ body {
   flex-direction: column;
 }
 body.ccmnet {
-  font-family: 'dm-sans', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 18px;
 }
 @media screen and (min-width: 992px) {
@@ -225,10 +226,10 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.02em;
 }
 .ccmnet h1, .ccmnet h2, .ccmnet h3, .ccmnet h4, .ccmnet h5, .ccmnet h6 {
-  font-family: 'dm-sans', sans-serif;
+  font-family: 'DM Sans', sans-serif;
 }
 h1, h2 { font-size: 1.5rem; }
-h3, h4 { font-size: 1.2rem; }
+h3, .h3, h4, .h4 { font-size: 1.2rem; }
 h5, h6 { font-size: 1rem; }
 a {
   color: var(--link);
@@ -285,6 +286,9 @@ img::-moz-selection {
   font-family: 'museo-sans', sans-serif;
   margin-bottom: 10px;
 }
+.ccmnet .btn {
+  font-family: 'DM Sans';
+}
 @media screen and (max-width: 575.98px) {
   .btn-sm-block {
     display: block;
@@ -297,15 +301,25 @@ img::-moz-selection {
   font-size: 16px;
   padding: 25px 35px;
 }
-.btn-primary {
+.btn-primary, .ccmnet .btn-outline-dark {
   color: var(--light-text);
   background-color: var(--primary);
   border-color: var(--primary);
 }
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+.ccmnet .btn-primary, .ccmnet .btn-outline-dark, .ccmnet .btn-secondary {
+  border-radius: 20px;
+  text-transform: none;
+  font-weight: 500;
+  padding: 4px 24px !important;
+}
+.ccmnet .btn-secondary:hover {
+  text-decoration: none !important;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .ccmnet .btn-outline-dark:hover {
   color: var(--light-text);
   background-color: var(--primary-hover) !important;
   border-color: var(--primary-hover) !important;
+  text-decoration: none !important;
 }
 .btn-success {
   color: var(--light-text);
@@ -382,7 +396,7 @@ img::-moz-selection {
   font-family: 'museo-sans', sans-serif;
 }
 .ccmnet .navbar {
-    font-family: 'dm-sans', sans-serif;
+    font-family: 'DM Sans', sans-serif;
 }
 .navbar .container {
   max-width: 100% !important;
@@ -393,7 +407,7 @@ img::-moz-selection {
   font-weight: 400;
 }
 .ccmenet .navbar-brand > * {
-  font-family: 'dm-sans', sans-serif !important;
+  font-family: 'DM Sans', sans-serif !important;
 }
 .navbar-brand h1 {
   font-size: 2rem;
@@ -488,7 +502,7 @@ li.dropdown-item a.nav-link:active {
   border-radius: 0 !important;
   box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
-.fixed-top { position: relative; z-index:50; }
+.fixed-top { position: relative; z-index:55; }
 .fixed-top.scrolled { position: fixed; }
 
 /* People Page Dropdown */
@@ -1568,21 +1582,22 @@ table.sticky-header th {
   object-fit: cover;
 }
 
-.square-tags a, .tags-select a {
+.square-tags a, .tags-select a, .hover--border-dark-teal {
   display: inline-block;
-  border: 1px solid var(--text);
+  border: 1px solid var(--text) !important;
   margin: 2px;
   padding: 2px 5px;
-  color: var(--text);
+  color: var(--text) !important;
   white-space: nowrap;
   text-decoration: none;
   font-weight: 400;
   font-size: 14px;
 }
 
-.square-tags a:hover, .tags-select a:hover {
-  border: 1px solid var(--primary);
-  color: var(--primary);
+.square-tags a:hover, .tags-select a:hover, .hover--border-dark-teal:hover {
+  border: 1px solid var(--primary) !important;
+  color: var(--primary) !important;
+  text-decoration: none !important;
 }
 
 .ci-links table {
@@ -1784,6 +1799,7 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
 
 .ccmnet #secondaryNav.navbar {
   background-color: var(--ccmnet-navy) !important;
+  z-index: 100;
 }
 
 .ccmnet #secondaryNav.navbar .ccmnet-tagline {
@@ -1838,16 +1854,20 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
 @media screen and (min-width: 769px) {
   .ccmnet-page-title-bg-2 {
     position: absolute;
-    top: 82%;
+    top: 67%;
     right: 20%;
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     background-image: url('../img/header-people.png');
     background-size: contain;
     background-repeat: no-repeat;
   }
 }
 
+.ccmnet .border-md-teal .bg-md-teal {
+  background-color: var(--ccmnet-purple) !important;
+  padding: 0.5rem 1rem !important;
+}
 .corner-triangle {
   aspect-ratio: 1;
   clip-path: polygon(0 100%,100% 0,100% 100%);
@@ -1896,4 +1916,10 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
 .ontop-links a {
   z-index: 10;
   position: relative;
+}
+
+.persona img {
+  width: 100%;
+  aspect-ratio: .9;
+  object-fit: cover;
 }
