@@ -1,4 +1,4 @@
-@wip
+@templates
 @api
 @javascript
 
@@ -27,6 +27,10 @@ Feature: add a test project via the form
     When I check "mentor"
     When I check "student-facilitator"
     When I check "researcher/educator"
+    # save so that the academic status field is visible.
+    When I press "op"
+    And I wait 2 seconds
+    When I go to "/user/1998/edit"
     When I select "1st year undergraduate" from "edit-field-academic-status"
     # "op" is the name of the submit button.
     When I press "op"
