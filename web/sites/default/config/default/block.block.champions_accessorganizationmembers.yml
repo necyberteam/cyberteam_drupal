@@ -1,27 +1,27 @@
-uuid: 157ad39b-c541-44af-ac28-8583b1cac4ec
+uuid: db70f392-5a4c-4537-9da3-77adbe46c7db
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.user_skills_members
+    - facets.facet.access_organization_members
   module:
     - facets
     - system
   theme:
     - champions
-id: champions_userskillsmembers
+id: champions_accessorganizationmembers
 theme: champions
 region: primary_sidebar
-weight: 4
+weight: 5
 provider: null
-plugin: 'facet_block:user_skills_members'
+plugin: 'facet_block:access_organization_members'
 settings:
-  id: 'facet_block:user_skills_members'
-  label: Skills
+  id: 'facet_block:access_organization_members'
+  label: Organization
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: champions_userskillsmembers
+  block_id: champions_accessorganizationmembers
 visibility:
   request_path:
     id: request_path
