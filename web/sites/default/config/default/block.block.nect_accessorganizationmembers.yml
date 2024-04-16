@@ -1,27 +1,27 @@
-uuid: e10cc7d6-399e-4eb1-b6bc-05a959371261
+uuid: 451e725c-2d62-418f-a177-1a9968537cb8
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.access_organization
+    - facets.facet.access_organization_members
   module:
     - facets
     - system
   theme:
     - nect
-id: nect_accessorganization_2
+id: nect_accessorganizationmembers
 theme: nect
 region: primary_sidebar
 weight: 5
 provider: null
-plugin: 'facet_block:access_organization'
+plugin: 'facet_block:access_organization_members'
 settings:
-  id: 'facet_block:access_organization'
+  id: 'facet_block:access_organization_members'
   label: Organization
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_accessorganization_2
+  block_id: nect_accessorganizationmembers
 visibility:
   request_path:
     id: request_path
