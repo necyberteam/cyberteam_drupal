@@ -40,7 +40,7 @@ Cypress.Commands.add("verifyImage", { prevSubject: true }, ($img) => {
  * Example:
  *  const crumbs = [
  *     ['Support', '/'],
- *     ['Affinity Groups', '/affinity_groups'],
+ *     ['Affinity Groups', '/affinity-groups'],
  *     ['ACCESS Support', null]
  *   ];
  *   cy.checkBreadcrumbs(crumbs);

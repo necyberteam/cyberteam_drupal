@@ -4,7 +4,7 @@
 describe('Anonymous user visit the affinity-group page', () => {
   it('should find expected stuff', () => {
 
-    cy.visit('/affinity_groups');
+    cy.visit('/affinity-groups');
 
     // Verify the request a group button is present and has the correct href
     cy.contains('Request a group')
@@ -43,7 +43,7 @@ describe('Anonymous user visit the affinity-group page', () => {
 
     // 5. verify the join button is "Login to join" for anonymous
     cy.get('@af-row')
-      .get('[href="/user/login?destination=/affinity-groups/access-facilitators"]')
+      .get('[href="/user/login?destination=/affinity-groups"]')
       .invoke('attr', 'title')
       .should('eq', 'Login to join');
   });

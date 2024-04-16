@@ -133,7 +133,7 @@ describe("Verify the the community-outreach tag page", () => {
       // check more button
       cy.get('.view-resources')
         .contains('All CI Links with this tag')
-        .should('have.attr', 'href', '/tags/340/ci-links');
+        .should('have.attr', 'href', '/tags/340/resources');
     }
 
     /////////////////////////////////////////////////////////////////////////
