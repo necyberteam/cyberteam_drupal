@@ -1,0 +1,29 @@
+uuid: abd610ae-a680-461e-9886-d142c9c7d247
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_exposedformpeople_list_viewlist_greatplains
+theme: ccmnet
+region: exposed_filters
+weight: 29
+provider: null
+plugin: 'views_exposed_filter_block:people_list_view-list_greatplains'
+settings:
+  id: 'views_exposed_filter_block:people_list_view-list_greatplains'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list/great-plains

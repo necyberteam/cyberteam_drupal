@@ -1,0 +1,29 @@
+uuid: 25f480a6-82d8-45bf-a830-dd8db5e7c8d9
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_exposedformpeople_card_viewcard_rmacc
+theme: ccmnet
+region: exposed_filters
+weight: 22
+provider: null
+plugin: 'views_exposed_filter_block:people_card_view-card_rmacc'
+settings:
+  id: 'views_exposed_filter_block:people_card_view-card_rmacc'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people_card_rmacc\r\n/people/card/rmacc"

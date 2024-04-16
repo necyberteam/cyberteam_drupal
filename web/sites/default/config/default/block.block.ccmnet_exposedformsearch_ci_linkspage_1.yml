@@ -1,0 +1,28 @@
+uuid: c700a5df-1343-4e9d-b0b0-b4b0ba57b1af
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.search_ci_links
+  module:
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_exposedformsearch_ci_linkspage_1
+theme: ccmnet
+region: primary_sidebar
+weight: 5
+provider: null
+plugin: 'views_exposed_filter_block:search_ci_links-page_1'
+settings:
+  id: 'views_exposed_filter_block:search_ci_links-page_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links

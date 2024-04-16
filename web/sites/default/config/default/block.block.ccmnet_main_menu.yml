@@ -1,0 +1,35 @@
+uuid: 16c1dbe2-f3cf-4d0c-8962-fee34ff30da0
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - domain
+    - system
+  theme:
+    - ccmnet
+_core:
+  default_config_hash: rx9IrdDv7Ldc4kpalZAxdhIPZfYIeOMh1N-qKoQZwHo
+id: ccmnet_main_menu
+theme: ccmnet
+region: primary_menu
+weight: -6
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  domain:
+    id: domain
+    negate: true
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org

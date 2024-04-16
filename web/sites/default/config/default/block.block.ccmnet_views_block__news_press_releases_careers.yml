@@ -1,0 +1,39 @@
+uuid: 1e373838-bb3f-469e-a8a9-7e70c9f338bd
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.news
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_views_block__news_press_releases_careers
+theme: ccmnet
+region: content
+weight: 11
+provider: null
+plugin: 'views_block:news-press_releases_careers'
+settings:
+  id: 'views_block:news-press_releases_careers'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /news

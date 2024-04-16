@@ -1,0 +1,39 @@
+uuid: 08f2a1fa-478d-4980-9226-910f75bc8cf3
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.tag_usage
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_views_block__tag_usage_top_used
+theme: ccmnet
+region: campus_champions_front_quick_links_top_tags
+weight: -72
+provider: null
+plugin: 'views_block:tag_usage-top_used'
+settings:
+  id: 'views_block:tag_usage-top_used'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '<front>'

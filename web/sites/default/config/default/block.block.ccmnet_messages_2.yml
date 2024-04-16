@@ -1,0 +1,27 @@
+uuid: 6fbaa8d3-2ba1-47e4-bc08-d67e45436826
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - ccmnet
+_core:
+  default_config_hash: KHQIJ7Vfl25lTjzIc7qIvnuistt-Mw2O0kG4jCofmkI
+id: ccmnet_messages_2
+theme: ccmnet
+region: title_area
+weight: 1
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: visible
+  provider: system
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    context_mapping: {  }
+    pages: ''

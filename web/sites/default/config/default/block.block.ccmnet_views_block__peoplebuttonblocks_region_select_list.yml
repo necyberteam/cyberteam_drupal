@@ -1,0 +1,31 @@
+uuid: 8636eb99-7c9a-4e73-bf96-d24d8baeda81
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.peoplebuttonblocks
+  module:
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_views_block__peoplebuttonblocks_region_select_list
+theme: ccmnet
+region: exposed_filters
+weight: 3
+provider: null
+plugin: 'views_block:peoplebuttonblocks-region_select_list'
+settings:
+  id: 'views_block:peoplebuttonblocks-region_select_list'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people/list\r\n/people/list/*"

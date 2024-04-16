@@ -1,0 +1,29 @@
+uuid: f88efd46-e835-4abe-9ae5-12250d396415
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.access_organization
+  module:
+    - facets
+    - system
+  theme:
+    - ccmnet
+id: ccmnet_accessorganization
+theme: ccmnet
+region: primary_sidebar
+weight: 4
+provider: null
+plugin: 'facet_block:access_organization'
+settings:
+  id: 'facet_block:access_organization'
+  label: Organization
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_accessorganization
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory

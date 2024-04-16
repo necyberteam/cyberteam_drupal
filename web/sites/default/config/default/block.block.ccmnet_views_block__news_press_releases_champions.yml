@@ -1,0 +1,39 @@
+uuid: 7981ab64-d0bc-41bc-a84f-335d6d910f30
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.news
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_views_block__news_press_releases_champions
+theme: ccmnet
+region: content
+weight: 20
+provider: null
+plugin: 'views_block:news-press_releases_champions'
+settings:
+  id: 'views_block:news-press_releases_champions'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /news

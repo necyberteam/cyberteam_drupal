@@ -1,0 +1,37 @@
+uuid: 8833be69-95ab-4a2c-897f-2931e2abdce6
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.projects
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_exposedformprojectsprojects_northeast
+theme: ccmnet
+region: exposed_filters
+weight: 10
+provider: null
+plugin: 'views_exposed_filter_block:projects-projects_northeast'
+settings:
+  id: 'views_exposed_filter_block:projects-projects_northeast'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      nectd8_wpi_edu: nectd8_wpi_edu
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /projects

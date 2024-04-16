@@ -1,0 +1,29 @@
+uuid: 929fec76-d600-4f7d-a7ce-94d700ef677a
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.tags
+  module:
+    - facets
+    - system
+  theme:
+    - ccmnet
+id: ccmnet_tags
+theme: ccmnet
+region: primary_sidebar
+weight: 6
+provider: null
+plugin: 'facet_block:tags'
+settings:
+  id: 'facet_block:tags'
+  label: Topics
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_tags
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links

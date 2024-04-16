@@ -1,0 +1,39 @@
+uuid: 2eefa012-8ad8-4ac3-88c2-f64a20196923
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.news
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_views_block__news_press_releases_sweeter
+theme: ccmnet
+region: content
+weight: 26
+provider: null
+plugin: 'views_block:news-press_releases_sweeter'
+settings:
+  id: 'views_block:news-press_releases_sweeter'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      sweeter_cyberinfrastructure_org: sweeter_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /news

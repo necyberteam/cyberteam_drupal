@@ -1,0 +1,31 @@
+uuid: 7d7882e3-d26f-40c4-b090-19f8e2a06874
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_views_block__people_card_view_card_careers
+theme: ccmnet
+region: people_page_card
+weight: 0
+provider: null
+plugin: 'views_block:people_card_view-card_careers'
+settings:
+  id: 'views_block:people_card_view-card_careers'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people_card_careers\r\n/people/card/careers"

@@ -1,0 +1,29 @@
+uuid: 9dfad2b9-568f-4b5e-99fc-d491c1ebc935
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.content_type
+  module:
+    - facets
+    - system
+  theme:
+    - ccmnet
+id: ccmnet_category
+theme: ccmnet
+region: primary_sidebar
+weight: 10
+provider: null
+plugin: 'facet_block:content_type'
+settings:
+  id: 'facet_block:content_type'
+  label: 'Content Type'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_category
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links

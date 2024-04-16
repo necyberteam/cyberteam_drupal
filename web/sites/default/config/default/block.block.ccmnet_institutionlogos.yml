@@ -1,0 +1,33 @@
+uuid: 493dc016-705b-4ace-982f-7fcb4dca13b4
+langcode: en
+status: false
+dependencies:
+  content:
+    - 'block_content:basic:9267aa5d-89c5-4442-814a-47fd6724442d'
+  module:
+    - block_content
+    - domain
+  theme:
+    - ccmnet
+id: ccmnet_institutionlogos
+theme: ccmnet
+region: third_footer
+weight: 0
+provider: null
+plugin: 'block_content:9267aa5d-89c5-4442-814a-47fd6724442d'
+settings:
+  id: 'block_content:9267aa5d-89c5-4442-814a-47fd6724442d'
+  label: 'CAREERS Institution Logos'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org

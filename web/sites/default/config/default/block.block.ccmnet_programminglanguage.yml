@@ -1,0 +1,29 @@
+uuid: c7eba59d-616a-4f78-852c-aaffc40ff726
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.programming_language
+  module:
+    - facets
+    - system
+  theme:
+    - ccmnet
+id: ccmnet_programminglanguage
+theme: ccmnet
+region: primary_sidebar
+weight: 7
+provider: null
+plugin: 'facet_block:programming_language'
+settings:
+  id: 'facet_block:programming_language'
+  label: 'Programming Language'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_programminglanguage
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links

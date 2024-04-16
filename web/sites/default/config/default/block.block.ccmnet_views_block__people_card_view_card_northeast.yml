@@ -1,0 +1,31 @@
+uuid: d4a809f9-54d1-4cc3-bf00-754c7e9edb8f
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_views_block__people_card_view_card_northeast
+theme: ccmnet
+region: people_page_card
+weight: 0
+provider: null
+plugin: 'views_block:people_card_view-card_northeast'
+settings:
+  id: 'views_block:people_card_view-card_northeast'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/card/northeast

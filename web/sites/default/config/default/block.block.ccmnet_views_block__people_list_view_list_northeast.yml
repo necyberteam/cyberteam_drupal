@@ -1,0 +1,31 @@
+uuid: c5156e5a-d8d8-476d-98d3-ecbcca8781c9
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_views_block__people_list_view_list_northeast
+theme: ccmnet
+region: people_page_list
+weight: 0
+provider: null
+plugin: 'views_block:people_list_view-list_northeast'
+settings:
+  id: 'views_block:people_list_view-list_northeast'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list/northeast

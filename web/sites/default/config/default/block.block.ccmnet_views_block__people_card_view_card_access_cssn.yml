@@ -1,0 +1,30 @@
+uuid: 083e116d-ea4c-4ad4-80ea-49f0e32fde03
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_views_block__people_card_view_card_access_cssn
+theme: ccmnet
+region: people_page_card
+weight: 0
+provider: null
+plugin: 'views_block:people_card_view-card_access_cssn'
+settings:
+  id: 'views_block:people_card_view-card_access_cssn'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people/card/access-cssn

@@ -1,0 +1,28 @@
+uuid: 2f97b293-3d54-4973-a9e6-ea156bf56f0a
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.cssn_directory
+  module:
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_exposedformcssn_directorypage_1
+theme: ccmnet
+region: primary_sidebar
+weight: 1
+provider: null
+plugin: 'views_exposed_filter_block:cssn_directory-page_1'
+settings:
+  id: 'views_exposed_filter_block:cssn_directory-page_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory

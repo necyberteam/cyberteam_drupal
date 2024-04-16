@@ -1,0 +1,29 @@
+uuid: bfdd821f-54af-4dbc-80e2-5997c61f0686
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.resources
+  module:
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_exposedformresourcespage_1
+theme: ccmnet
+region: exposed_filters
+weight: 4
+provider: null
+plugin: 'views_exposed_filter_block:resources-page_1'
+settings:
+  id: 'views_exposed_filter_block:resources-page_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /ci-links

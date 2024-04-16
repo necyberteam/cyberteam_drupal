@@ -1,0 +1,29 @@
+uuid: 93a13988-9ee4-4a5d-bb6f-6e4eeb54da69
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.roles
+  module:
+    - facets
+    - system
+  theme:
+    - ccmnet
+id: ccmnet_roles
+theme: ccmnet
+region: primary_sidebar
+weight: 2
+provider: null
+plugin: 'facet_block:roles'
+settings:
+  id: 'facet_block:roles'
+  label: Roles
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_roles
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory

@@ -1,0 +1,31 @@
+uuid: 882a99b3-3a4e-4f14-90e3-ff44f532bfbe
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_views_block__people_list_view_list_careers
+theme: ccmnet
+region: people_page_list
+weight: 0
+provider: null
+plugin: 'views_block:people_list_view-list_careers'
+settings:
+  id: 'views_block:people_list_view-list_careers'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list/careers

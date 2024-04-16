@@ -1,0 +1,39 @@
+uuid: 1e95cc0a-a519-427b-905b-b3ac67a7b46c
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.news
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_views_block__news_press_releases_kentucky
+theme: ccmnet
+region: content
+weight: 22
+provider: null
+plugin: 'views_block:news-press_releases_kentucky'
+settings:
+  id: 'views_block:news-press_releases_kentucky'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      kycyberteam_cyberinfrastructure_org: kycyberteam_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /news

@@ -1,0 +1,29 @@
+uuid: de8d504f-19cc-4c16-a470-bde221a6f880
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.skill_level
+  module:
+    - facets
+    - system
+  theme:
+    - ccmnet
+id: ccmnet_skilllevel
+theme: ccmnet
+region: primary_sidebar
+weight: 9
+provider: null
+plugin: 'facet_block:skill_level'
+settings:
+  id: 'facet_block:skill_level'
+  label: 'Skill Level'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_skilllevel
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links

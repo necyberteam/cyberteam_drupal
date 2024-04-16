@@ -1,0 +1,28 @@
+uuid: 5deb2a04-c43a-4324-90d7-af9d7e522fb1
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_exposedformpeople_card_viewcard_access_cssn
+theme: ccmnet
+region: exposed_filters
+weight: 15
+provider: null
+plugin: 'views_exposed_filter_block:people_card_view-card_access_cssn'
+settings:
+  id: 'views_exposed_filter_block:people_card_view-card_access_cssn'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/people/card/access-cssn\r\n/people_card_access-cssn"

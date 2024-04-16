@@ -1,0 +1,31 @@
+uuid: 7c920193-b9f9-4697-8a73-514cc5109ec0
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:643652f7-98a3-4db4-8af9-07b1fd536a30'
+  module:
+    - block_content
+    - system
+  theme:
+    - ccmnet
+id: ccmnet_sorttagsalpha
+theme: ccmnet
+region: third_footer
+weight: 0
+provider: null
+plugin: 'block_content:643652f7-98a3-4db4-8af9-07b1fd536a30'
+settings:
+  id: 'block_content:643652f7-98a3-4db4-8af9-07b1fd536a30'
+  label: 'sort tags alpha'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/form/*\r\n/webform/*/submissions/*/edit"

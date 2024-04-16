@@ -1,0 +1,29 @@
+uuid: e7d99c33-8ebe-4bba-9ec2-2649d842ee4e
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.affinity_group_category
+  module:
+    - facets
+    - system
+  theme:
+    - ccmnet
+id: ccmnet_affinitygroupcategory
+theme: ccmnet
+region: primary_sidebar
+weight: 0
+provider: null
+plugin: 'facet_block:affinity_group_category'
+settings:
+  id: 'facet_block:affinity_group_category'
+  label: Category
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_affinitygroupcategory
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/affinity_groups\r\n/affinity-groups"

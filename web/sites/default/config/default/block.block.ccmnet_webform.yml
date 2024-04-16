@@ -1,0 +1,32 @@
+uuid: ec6d9769-3694-41f2-b6c0-2da064d5236d
+langcode: en
+status: true
+dependencies:
+  config:
+    - webform.webform.amp_newsletter
+  module:
+    - system
+    - webform
+  theme:
+    - ccmnet
+id: ccmnet_webform
+theme: ccmnet
+region: content
+weight: 39
+provider: null
+plugin: webform_block
+settings:
+  id: webform_block
+  label: 'Get updates about AMP'
+  label_display: visible
+  provider: webform
+  webform_id: amp_newsletter
+  default_data: ''
+  redirect: false
+  lazy: false
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /amp-front-page

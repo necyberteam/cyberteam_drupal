@@ -1,0 +1,39 @@
+uuid: 492cc8b1-f851-45de-a116-f1830012ee56
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.help_desk
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_views_block__help_desk_helpdesk_careers
+theme: ccmnet
+region: help_desk
+weight: -96
+provider: null
+plugin: 'views_block:help_desk-helpdesk_careers'
+settings:
+  id: 'views_block:help_desk-helpdesk_careers'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /help-desk

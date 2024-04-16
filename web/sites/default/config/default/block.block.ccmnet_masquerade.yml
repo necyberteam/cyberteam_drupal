@@ -1,0 +1,29 @@
+uuid: c9968985-7c34-455c-a4f3-c161785d9e72
+langcode: en
+status: true
+dependencies:
+  module:
+    - masquerade
+    - user
+  theme:
+    - ccmnet
+id: ccmnet_masquerade
+theme: ccmnet
+region: third_footer
+weight: 0
+provider: null
+plugin: masquerade
+settings:
+  id: masquerade
+  label: Masquerade
+  label_display: visible
+  provider: masquerade
+  show_unmasquerade_link: false
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      masquerade: masquerade

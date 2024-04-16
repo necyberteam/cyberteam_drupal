@@ -1,0 +1,29 @@
+uuid: 59834d50-d6c4-418f-a8d0-3bc62e56050a
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - ccmnet
+id: ccmnet_exposedformpeople_list_viewlist_sweeter
+theme: ccmnet
+region: exposed_filters
+weight: 34
+provider: null
+plugin: 'views_exposed_filter_block:people_list_view-list_sweeter'
+settings:
+  id: 'views_exposed_filter_block:people_list_view-list_sweeter'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list/sweeter
