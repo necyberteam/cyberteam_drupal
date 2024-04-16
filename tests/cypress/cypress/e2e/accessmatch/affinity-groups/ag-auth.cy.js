@@ -9,12 +9,12 @@ describe('Anonymous user visit the affinity-group page', () => {
   it('should find expected stuff', () => {
 
     cy.loginAs('authenticated@amptesting.com', '6%l7iF}6(4tI');
-    cy.visit('/affinity_groups');
+    cy.visit('/affinity-groups');
 
     cy.get('.js-flag-affinity-group-568')
       .find(':contains("Join")')
       .invoke('attr', 'href')
-      .should('contain', '/flag/flag/affinity_group/568?destination=/affinity_groups');
+      .should('contain', '/flag/flag/affinity_group/568?destination=/affinity-groups');
 
     cy.get('.js-flag-affinity-group-568')
       .find(':contains("Join")')
@@ -28,12 +28,12 @@ describe('Anonymous user visit the affinity-group page', () => {
       .parent()
       .should('contain', 'ACCESS Facilitators');
 
-    cy.visit('/affinity_groups');
+    cy.visit('/affinity-groups');
 
     cy.get('.js-flag-affinity-group-568')
       .find(':contains("Leave")')
       .invoke('attr', 'href')
-      .should('contain', '/flag/unflag/affinity_group/568?destination=/affinity_groups');
+      .should('contain', '/flag/unflag/affinity_group/568?destination=/affinity-groups');
 
     cy.get('.js-flag-affinity-group-568')
       .find(':contains("Leave")')

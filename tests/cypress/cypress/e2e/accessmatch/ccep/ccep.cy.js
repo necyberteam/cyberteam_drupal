@@ -13,13 +13,13 @@ describe("Unauthenticated user tests the CCEP Page", () => {
     cy.get("#about").contains(
       "CCEP (CSSN Community Engagement Program) gives travel rewards to ANYONE"
     );
-    cy.get("#about > :nth-child(2)").contains(
+    cy.get("#about").contains(
       "Submissions are reviewed once a month"
     );
 
     // Accordion Section
-    cy.get("#about > h2").contains("$3,000");
-    cy.get("section:nth-child(2) > :nth-child(2) > .bg-light-teal")
+    cy.get("h2").contains("$3,000");
+    cy.get("section:nth-child(4) > :nth-child(2) > .bg-light-teal")
       .contains("Intro to ACCESS lecture")
       .click();
     cy.get('[open=""] > .bg-white').contains(

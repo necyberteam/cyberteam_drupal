@@ -14,7 +14,7 @@ describe("Anonymous user tests the Individual Affinity Groups page", () => {
     // check breadcrumbs
     const crumbs = [
       ['Support', '/'],
-      ['Affinity Groups', '/affinity_groups'],
+      ['Affinity Groups', '/affinity-groups'],
       ['ACCESS Support', null]
     ];
     cy.checkBreadcrumbs(crumbs);
