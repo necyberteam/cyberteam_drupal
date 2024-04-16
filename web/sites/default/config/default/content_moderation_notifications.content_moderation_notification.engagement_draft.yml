@@ -1,0 +1,18 @@
+uuid: 81a77dc0-ad7b-4f1c-a330-fd6dde5bb363
+langcode: en
+status: true
+dependencies: {  }
+id: engagement_draft
+workflow: match_engagement
+transitions:
+  create_new_draft: create_new_draft
+roles:
+  match_pm: match_pm
+author: false
+site_mail: false
+emails: ''
+subject: 'MATCH Engagement draft created'
+body:
+  value: '<p>Click on <a href="[node:url:unaliased:relative]/edit">this link</a> to review the engagement draft "[node:title]".</p>'
+  format: full_html
+label: 'Engagement Draft'
