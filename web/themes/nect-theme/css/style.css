@@ -155,6 +155,7 @@ body.ccmnet{
   --text: #000000;
   --link: var(--primary);
   --link-hover: var(--ccmnet-lightblue);
+  --success: var(--ccmnet-lightblue);
   --navbar-background: #ffffff;
   --navbar-link: #000000;
   --navbar-link-hover: var(--text);
@@ -306,7 +307,7 @@ img::-moz-selection {
   background-color: var(--primary);
   border-color: var(--primary);
 }
-.ccmnet .btn-primary, .ccmnet .btn-outline-dark, .ccmnet .btn-secondary {
+.ccmnet .btn-primary, .ccmnet .btn-outline-dark, .ccmnet .btn-secondary, .ccmnet .btn-success {
   border-radius: 20px;
   text-transform: none;
   font-weight: 500;
@@ -315,7 +316,7 @@ img::-moz-selection {
 .ccmnet .btn-secondary:hover {
   text-decoration: none !important;
 }
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .ccmnet .btn-outline-dark:hover {
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .ccmnet .btn-outline-dark:hover, .ccmnet .btn-success:hover {
   color: var(--light-text);
   background-color: var(--primary-hover) !important;
   border-color: var(--primary-hover) !important;
@@ -773,7 +774,12 @@ form summary,
 form .fieldset-legend {
   font-weight: 600;
 }
-
+.form-check label {
+  margin: 0 0 0 5px;
+}
+.form-submit {
+  margin-bottom: 0;
+}
 /* card overrides */
 .card-header .fa {
   transition: .3s transform ease-in-out;
@@ -1582,7 +1588,7 @@ table.sticky-header th {
   object-fit: cover;
 }
 
-.square-tags a, .tags-select a, .hover--border-dark-teal {
+.square-tags a, .tags-select, .hover--border-dark-teal {
   display: inline-block;
   border: 1px solid var(--text) !important;
   margin: 2px;
@@ -1594,7 +1600,7 @@ table.sticky-header th {
   font-size: 14px;
 }
 
-.square-tags a:hover, .tags-select a:hover, .hover--border-dark-teal:hover {
+.square-tags a:hover, .tags-select:hover, .hover--border-dark-teal:hover {
   border: 1px solid var(--primary) !important;
   color: var(--primary) !important;
   text-decoration: none !important;
@@ -1922,4 +1928,17 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
   width: 100%;
   aspect-ratio: .9;
   object-fit: cover;
+}
+#edit-field-suggest {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+details.tags {
+  border: 1px solid;
+}
+details.tags summary {
+  padding: 0 10px;
+}
+details.tags label {
+  margin: 0;
 }
