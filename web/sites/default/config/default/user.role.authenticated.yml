@@ -10,6 +10,7 @@ dependencies:
     - node.type.blog_post
     - node.type.blog_post_region_
     - node.type.match_engagement
+    - node.type.mentorship_engagement
     - taxonomy.vocabulary.tags
     - workflows.workflow.editorial
     - workflows.workflow.match_engagement
@@ -20,6 +21,7 @@ dependencies:
     - content_moderation
     - domain
     - domain_access
+    - field_permissions
     - filter
     - flag
     - login_disable
@@ -55,6 +57,7 @@ permissions:
   - 'create blog_post_region_ content'
   - 'create blog_post_region_ content on assigned domains'
   - 'create match_engagement content'
+  - 'create mentorship_engagement content'
   - 'create terms in tags'
   - 'delete access_news revisions'
   - 'delete own access_news content'
@@ -69,6 +72,7 @@ permissions:
   - 'edit own eventinstance entity'
   - 'edit own eventseries entity'
   - 'edit own match_engagement content'
+  - 'edit own mentorship_engagement content'
   - 'edit own webform'
   - 'edit own webform submission'
   - 'flag affinity_group'
@@ -120,7 +124,9 @@ permissions:
   - 'view any unpublished content'
   - 'view eventinstance entity'
   - 'view eventseries entity'
+  - 'view field_access_organization'
   - 'view latest version'
   - 'view media'
+  - 'view own field_access_organization'
   - 'view own unpublished content'
   - 'view own webform submission'

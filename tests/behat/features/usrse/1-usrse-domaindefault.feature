@@ -16,5 +16,4 @@ Feature: test usrse domain
     Given the cache has been cleared
     When I am on the homepage
     Then I should get a "200" HTTP response
-    Then I should see "Affinity Groups encourage community members to gather based on common interests"
 

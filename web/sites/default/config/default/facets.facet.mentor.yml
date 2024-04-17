@@ -1,0 +1,74 @@
+uuid: c73a28f1-0e8f-4443-ae77-d4c688192017
+langcode: en
+status: true
+dependencies:
+  config:
+    - search_api.index.mentorship_engagement
+    - views.view.mentorship_facet_search
+  module:
+    - search_api
+id: mentor
+name: Mentor
+weight: 0
+min_count: 1
+missing: true
+missing_label: 'Recruiting Mentor'
+url_alias: mentor
+facet_source_id: 'search_api:views_page__mentorship_facet_search__page_1'
+field_identifier: field_mentor
+query_operator: and
+hard_limit: 0
+exclude: false
+use_hierarchy: false
+keep_hierarchy_parents_active: false
+hierarchy:
+  type: taxonomy
+  config: {  }
+expand_hierarchy: false
+enable_parent_when_child_gets_disabled: true
+widget:
+  type: checkbox
+  config:
+    show_numbers: true
+    soft_limit: 5
+    show_reset_link: false
+    reset_text: 'Show all'
+    hide_reset_when_no_selection: false
+    soft_limit_settings:
+      show_less_label: 'Show less'
+      show_more_label: 'Show more'
+empty_behavior:
+  behavior: none
+only_visible_when_facet_source_is_visible: true
+show_only_one_result: false
+show_title: false
+processor_configs:
+  exclude_specified_items:
+    processor_id: exclude_specified_items
+    weights:
+      build: 50
+    settings:
+      exclude: 'Recruiting Mentor'
+      regex: false
+      invert: true
+  hide_non_narrowing_result_processor:
+    processor_id: hide_non_narrowing_result_processor
+    weights:
+      build: 40
+    settings: {  }
+  hierarchy_processor:
+    processor_id: hierarchy_processor
+    weights:
+      build: 100
+    settings: {  }
+  translate_entity:
+    processor_id: translate_entity
+    weights:
+      build: 5
+    settings: {  }
+  url_processor_handler:
+    processor_id: url_processor_handler
+    weights:
+      pre_query: 50
+      build: 15
+    settings: {  }

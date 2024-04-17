@@ -1,0 +1,29 @@
+uuid: 3f1be01a-b790-4f96-9f4a-e5c2fd8a2297
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.skills
+  module:
+    - facets
+    - system
+  theme:
+    - nect
+id: nect_skills
+theme: nect
+region: primary_sidebar
+weight: 3
+provider: null
+plugin: 'facet_block:skills'
+settings:
+  id: 'facet_block:skills'
+  label: Skills
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_skills
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory

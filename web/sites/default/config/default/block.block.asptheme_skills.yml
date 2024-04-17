@@ -1,0 +1,29 @@
+uuid: 1cf98c32-5503-427f-b424-804b03df73e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.skills
+  module:
+    - facets
+    - system
+  theme:
+    - aspTheme
+id: asptheme_skills
+theme: aspTheme
+region: sidebar_first
+weight: -14
+provider: null
+plugin: 'facet_block:skills'
+settings:
+  id: 'facet_block:skills'
+  label: Skills
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_skills
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory

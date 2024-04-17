@@ -13,6 +13,13 @@ name: 'CI Links'
 description: ''
 read_only: false
 field_settings:
+  role_access:
+    label: 'Role-based access information'
+    property_path: search_api_role_access
+    type: string
+    indexed_locked: true
+    type_locked: true
+    hidden: true
   sid:
     label: 'Submission ID'
     datasource_id: 'entity:webform_submission'
@@ -101,6 +108,9 @@ processor_settings:
       - webform_submission_vote_count
   language_with_fallback: {  }
   rendered_item: {  }
+  role_access:
+    weights:
+      preprocess_query: -30
   stopwords:
     weights:
       preprocess_index: -5

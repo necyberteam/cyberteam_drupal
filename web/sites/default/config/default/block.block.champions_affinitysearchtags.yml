@@ -1,0 +1,29 @@
+uuid: e06dc7b5-ac4e-4c1b-a198-749ed67b8162
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.affinity_search_tags
+  module:
+    - facets
+    - system
+  theme:
+    - champions
+id: champions_affinitysearchtags
+theme: champions
+region: primary_sidebar
+weight: 0
+provider: null
+plugin: 'facet_block:affinity_search_tags'
+settings:
+  id: 'facet_block:affinity_search_tags'
+  label: Tags
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: champions_affinitysearchtags
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /affinity-groups

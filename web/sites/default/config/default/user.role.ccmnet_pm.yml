@@ -2,8 +2,11 @@ uuid: c90bd7d6-7325-4b09-aa71-ec3d01549b52
 langcode: en
 status: true
 dependencies:
+  config:
+    - node.type.mentorship_engagement
   module:
     - file
+    - node
     - shortcut
     - toolbar
 id: ccmnet_pm
@@ -14,3 +17,4 @@ permissions:
   - 'access shortcuts'
   - 'access toolbar'
   - 'delete own files'
+  - 'edit any mentorship_engagement content'

@@ -4,7 +4,7 @@
 describe('Anonymous user visit the affinity-group page', () => {
   it('should find expected stuff', () => {
 
-    cy.visit('/affinity_groups');
+    cy.visit('/affinity-groups');
 
     cy.url().then((url) => {
       cy.log('Current URL is: ' + url)
