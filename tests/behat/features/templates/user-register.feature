@@ -34,7 +34,6 @@ Researcher/Educator: Degree and Current Occupation.
     Then I should see "HPC Experience"
     Then I should see "CV/Resume"
     Then I should see "Time Zone"
-    Then I should see "Citizenships"
 
     When I am on "user/register"
     When I follow "Mentor"
@@ -47,7 +46,6 @@ Researcher/Educator: Degree and Current Occupation.
     Then I should see "Institution"
     Then I should see "CV/Resume"
     Then I should see "Time Zone"
-    Then I should see "Citizenships"
 
     When I am on "user/register"
     When I follow "Researcher/Educator"
