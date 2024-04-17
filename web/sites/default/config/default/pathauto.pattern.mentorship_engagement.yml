@@ -1,0 +1,22 @@
+uuid: 88d77f74-b0db-4020-90ad-f98988c14840
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: mentorship_engagement
+label: 'Mentorship Engagement'
+type: 'canonical_entities:node'
+pattern: 'mentorships/[node:title]'
+selection_criteria:
+  0f919e39-7728-4c83-9953-fc4db32055d5:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 0f919e39-7728-4c83-9953-fc4db32055d5
+    context_mapping:
+      node: node
+    bundles:
+      mentorship_engagement: mentorship_engagement
+selection_logic: and
+weight: -5
+relationships: {  }

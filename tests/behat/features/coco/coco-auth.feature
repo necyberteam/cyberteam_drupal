@@ -72,8 +72,7 @@ Feature: This test verifies the following for the coco domain for an authenticat
     When I fill in "Username" with "Test231"
     When I fill in "First Name" with "Test"
     When I fill in "Last Name" with "Test"
-    When I fill in "Institution" with "Test"
-    When I fill in "Citizenships" with "Test"
+    When I fill in "Organization" with "MGHPCC"
     When I press "edit-submit"
 
 
