@@ -45,6 +45,6 @@ describe('Anonymous user visit the affinity-group page', () => {
     cy.get('@af-row')
       .get('[href="/user/login?destination=/affinity-groups"]')
       .invoke('attr', 'title')
-      .should('eq', 'Login to Join');
+      .should('eq', 'Login to join');
   });
 })
