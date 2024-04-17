@@ -1588,7 +1588,7 @@ table.sticky-header th {
   object-fit: cover;
 }
 
-.square-tags a, .tags-select, .hover--border-dark-teal {
+.square-tags a, details.tags .tags-select, .tags-select a, .hover--border-dark-teal {
   display: inline-block;
   border: 1px solid var(--text) !important;
   margin: 2px;
@@ -1600,7 +1600,7 @@ table.sticky-header th {
   font-size: 14px;
 }
 
-.square-tags a:hover, .tags-select:hover, .hover--border-dark-teal:hover {
+.square-tags a:hover, details.tags .tags-select:hover, .tags-select a:hover, .hover--border-dark-teal:hover {
   border: 1px solid var(--primary) !important;
   color: var(--primary) !important;
   text-decoration: none !important;
@@ -1929,16 +1929,34 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
   aspect-ratio: .9;
   object-fit: cover;
 }
+#edit-field-me-looking-for-wrapper {
+  margin-bottom: 1rem;
+}
+
+#edit-field-me-looking-for .form-group {
+  margin-bottom: 0;
+}
 #edit-field-suggest {
   margin: 0 !important;
   padding: 0 !important;
 }
+#field-tags-replace {
+  margin-bottom: 1rem;
+}
+#tag-suggestions > div {
+  padding: 1rem 0 !important;
+  margin: 0 !important;
+}
 details.tags {
   border: 1px solid;
+  margin-bottom: 1rem !important;
 }
 details.tags summary {
   padding: 0 10px;
 }
 details.tags label {
   margin: 0;
+}
+#edit-group-deliverables {
+  margin: 1rem 0;
 }
