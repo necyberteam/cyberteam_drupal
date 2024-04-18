@@ -1,29 +1,29 @@
-uuid: 1904698f-0316-423e-bd24-d1e5139ba82a
+uuid: f7813066-1da0-4d58-a0b3-26390bbc450d
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.roles
+    - facets.facet.user_skills_members
   module:
     - facets
     - system
   theme:
     - aspTheme
-id: asptheme_roles
+id: asptheme_userskillsmembers
 theme: aspTheme
 region: sidebar_first
-weight: -18
+weight: -12
 provider: null
-plugin: 'facet_block:roles'
+plugin: 'facet_block:user_skills_members'
 settings:
-  id: 'facet_block:roles'
-  label: Roles
+  id: 'facet_block:user_skills_members'
+  label: Skills
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: asptheme_roles
+  block_id: asptheme_userskillsmembers
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /community/cssn/directory
+    pages: /members
