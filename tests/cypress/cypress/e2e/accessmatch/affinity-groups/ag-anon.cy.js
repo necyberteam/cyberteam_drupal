@@ -41,7 +41,7 @@ describe('Anonymous user visit the affinity-group page', () => {
       .invoke('attr', 'href')
       .should('contain', '/tags/research-facilitation');
 
-    // 5. verify the join button is "Login to join" for anonymous
+    // 5. verify the join button for anonymous
     cy.get('@af-row')
       .get('[href="/user/login?destination=/affinity-groups"]')
       .invoke('attr', 'title')

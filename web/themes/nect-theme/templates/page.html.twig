@@ -244,7 +244,7 @@
   {% if domain_name != "ccmnet" %}
     <div class="row">
     {% if page.primary_sidebar or page.secondary_sidebar %}
-      <div class="order-1 order-lg-2 col-lg-8 col-12 mx-auto">
+      <div class="order-1 order-lg-2 col-lg-9 col-12 mx-auto">
         {{ page.page_top }}
         {{ page.title_area }}
         {{ page.view_type_buttons }}
@@ -268,11 +268,11 @@
         {{ page.below_main_content }}
       </div>
       {% if page.primary_sidebar %}
-        <div class="order-2 order-lg-1 col-lg-4 col-12 mx-auto">
+        <div class="order-2 order-lg-1 col-lg-3 col-12 mx-auto">
           {{ page.primary_sidebar }}
         </div>
       </div>{% endif %}{% if page.secondary_sidebar %}
-      <div class="order-3 order-lg-3 col-lg-4 col-12 mx-auto">
+      <div class="order-3 order-lg-3 col-lg-3 col-12 mx-auto">
         {{ page.secondary_sidebar }}
       </div>{% endif %}
     {% else %}
@@ -318,7 +318,7 @@
     <div class="container{% if is_front %} main-container mt-3 mt-4{% endif %} py-5">
       <div class="row">
         {% if page.primary_sidebar or page.secondary_sidebar %}
-          <div class="order-1 order-lg-2 col-lg-8 col-12 mx-auto">
+          <div class="order-1 order-lg-2 col-lg-9 col-12 mx-auto">
             {{ page.view_type_buttons }}
             {{ page.drupal_tabs }}
             {{ page.exposed_filters }}
@@ -337,11 +337,11 @@
             {{ page.below_main_content }}
           </div>
           {% if page.primary_sidebar %}
-            <div class="order-2 order-lg-1 col-lg-4 col-12 mx-auto">
+            <div class="order-2 order-lg-1 col-lg-3 col-12 mx-auto">
               {{ page.primary_sidebar }}
             </div>
           </div>{% endif %}{% if page.secondary_sidebar %}
-          <div class="order-3 order-lg-3 col-lg-4 col-12 mx-auto">
+          <div class="order-3 order-lg-3 col-lg-3 col-12 mx-auto">
             {{ page.secondary_sidebar }}
           </div>{% endif %}
         {% else %}
