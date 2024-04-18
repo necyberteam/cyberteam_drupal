@@ -51,7 +51,7 @@
 		{%- if items -%}
 			<{{list_type}}{{attributes.addClass(['ps-0', 'mb-0'])}}>
 				{%- for item in items -%}
-				<li{{item.attributes.addClass('list-none')}}>{{ item.value }}</li>
+				<li{{item.attributes.addClass('list-none', 'd-flex', 'align-items-start')}}>{{ item.value }}</li>
 				{%- endfor -%}
 			</{{list_type}}>
 		{%- else -%}
