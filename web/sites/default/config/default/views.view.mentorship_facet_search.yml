@@ -1468,13 +1468,40 @@ display:
         type: fields
         options: {  }
       defaults:
-        css_class: true
+        css_class: false
         pager: false
         style: false
         row: false
         fields: false
         filters: false
         filter_groups: false
+        header: false
+        footer: false
+      css_class: 'bg-ccmnet-navy px-3 py-5'
+      header:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: false
+          content: '<h2 class="text-white text-center mb-5">Featured Mentorships</h2>'
+          tokenize: false
+      footer:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: false
+          content: '<a class="btn btn-rounded bg-ccmnet-lightblue text-white m-0 text-decoration-none mt-5 px-5" href="/mentorships">See All</a>'
+          tokenize: false
       display_extenders: {  }
     cache_metadata:
       max-age: -1
