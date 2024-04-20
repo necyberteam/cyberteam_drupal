@@ -37,6 +37,8 @@
 
   --ccmnet-navy: #04376F;
   --ccmnet-lightblue: #19A9E5;
+  --ccmnet-lighterblue: #e9f4f8;
+  --ccmnet-lightishblue: #a3dff7;
   --ccmnet-hero: #283F72CC;
   --ccmnet-red: #d93c19;
   --ccmnet-var-red: var(--ccmnet-red);
@@ -161,6 +163,7 @@ body.ccmnet{
   --navbar-dropdown: var(--text);
   --navbar-dropdown-hover: var(--navbar-link);
   --footer-link-hover: var(--ccmnet-lightblue);
+  overflow-x: hidden;
 }
 
 .campus-champions .region-specific:not(.display-campus-champions) { display: none !important; }
@@ -274,6 +277,9 @@ img::-moz-selection {
 }
 .bg-ccmnet-lightblue {
   background: var(--ccmnet-lightblue) !important;
+}
+.bg-red {
+  background: var(--ccmnet-red);
 }
 .mt-n25 {
   margin-top: -2.5rem !important;
@@ -690,6 +696,10 @@ header.masthead .site-heading {
 header.masthead .page-heading,
 header.masthead .site-heading {
   text-align: center;
+}
+.ccmnet header.masthead .page-heading,
+.ccmnet header.masthead .site-heading {
+  text-align: left;
 }
 header.masthead .page-heading h1,
 header.masthead .site-heading h1 {
@@ -1357,7 +1367,7 @@ table.sticky-header th {
 .ccmnet .masthead h2 {
   margin-left: 0 !important;
   padding: 50px;
-  max-width: 680px;
+  max-width: 720px;
   background-color: var(--ccmnet-hero);
   font-size: 2rem;
   line-height: 1.4;
@@ -1392,6 +1402,18 @@ table.sticky-header th {
 }
 .ccmnet img {
   max-width: 100%;
+}
+.ccmnet .next-steps img {
+  max-width: 120px;
+}
+.ccmnet .next-steps .rounded {
+  border-radius: 1rem !important;
+}
+.ccmnet .guided-callout.rounded {
+  border-radius: 1rem !important;
+}
+.ccmnet .next-steps .border {
+  border-width: 3px !important;
 }
 @media only screen and (max-width: 480px) {
   .ccmnet .masthead h2 {
@@ -1574,7 +1596,7 @@ table.sticky-header th {
   display: inline-block;
 }
 
-#mentor-slider .square-tags a:nth-of-type(1n+10),
+#mentor-slider .square-tags a:nth-of-type(1n+5),
 .cssn-directory-item li:nth-of-type(1n+6) {
   display: none;
 }
@@ -1918,8 +1940,23 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
   border-color: var(--dark-teal) !important;
 }
 
+.border-blue {
+  border-color: var(--ccmnet-blue) !important;
+}
+
+.border-light-blue {
+  border-color: var(--ccmnet-lightishblue) !important;
+}
+.hover--bg-light-blue:hover {
+  background-color: var(--ccmnet-lighterblue) !important;
+}
+
 .border-3 {
-    border-width:3px !important;
+  border-width:3px !important;
+}
+
+.h-100 {
+  height: 100%;
 }
 
 .ontop-links a {
@@ -1969,4 +2006,17 @@ details.tags label {
 .full-width-bg {
   margin: 0px -50%;
   padding: 0px 50%;
+}
+.text-small a,
+.text-small {
+  font-size: 0.8rem;
+}
+.text-large {
+  font-size: 1.8em;
+  line-height: 1.6em;
+}
+.list-blue li::marker {
+  color: var(--ccmnet-blue);
+  font-size: 1.5em;
+  line-height: .9em;
 }
