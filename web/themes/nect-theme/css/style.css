@@ -47,6 +47,8 @@
   --purple: var(--ccmnet-purple);
   --ccmnet-blue: #1DA9E5;
   --ccmnet-blue-rollover: var(--ccmnet-blue);
+  --ccmnet-lighterblue: #DDF6FF;
+
 }
 
 body.careers-cyberteam{
@@ -1387,6 +1389,15 @@ table.sticky-header th {
 .ccmnet .bg-ccmnet-lightblue #joinModal .description {
   margin-bottom: 12px;
 }
+
+.ccmnet .rounded-light-bg {
+  background: var(--ccmnet-lighterblue);
+  border-radius: 20px;
+}
+.ccmnet .bg-lighterblue {
+  background: var(--ccmnet-lighterblue);
+}
+
 .ccmnet img {
   max-width: 100%;
 }
@@ -1854,7 +1865,9 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
   background-size: contain;
   background-repeat: no-repeat;
   background-color: var(--ccmnet-lightblue);
-
+}
+.ccmnet-subtitle {
+  color: var(--ccmnet-purple);
 }
 @media screen and (min-width: 769px) {
   .ccmnet-page-title-bg-2 {
