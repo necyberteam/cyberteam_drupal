@@ -89,6 +89,26 @@ Cypress.Commands.add("loginAs", (username, password) => {
 });
 
 /**
+ * User login command for default /user/login route. 
+ * 
+ * Requires valid username and password.
+ *
+ * @param {string} username
+ *   The username with which to log in.
+ * @param {string} password
+ *   The password for the user's account.
+ */
+Cypress.Commands.add("loginWith", (username, password) => {
+  cy.drupalLogout();
+  cy.visit("/user/login");
+  cy.get("#edit-name").type(username);
+  cy.get("#edit-pass").type(password, {
+    log: false,
+  });
+  cy.get(".form-submit").contains("Log in").click();
+});
+
+/**
  * Logs a user in by their uid via drush uli.
  */
 Cypress.Commands.add("loginUserByUid", (uid) => {
