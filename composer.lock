@@ -18213,29 +18213,29 @@
         },
         {
             "name": "drupal/devel",
-            "version": "5.1.2",
+            "version": "5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/devel.git",
-                "reference": "5.1.2"
+                "reference": "5.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/devel-5.1.2.zip",
-                "reference": "5.1.2",
-                "shasum": "9b35e38bf2043bf87f88585b3d9100f38da8f07f"
+                "url": "https://ftp.drupal.org/files/projects/devel-5.2.0.zip",
+                "reference": "5.2.0",
+                "shasum": "9b7baa45a3caea3908643ef22882205ec2ed0da1"
             },
             "require": {
                 "doctrine/common": "^2.7 || ^3.4",
-                "drupal/core": "^9 || ^10",
-                "php": ">=7.4",
+                "drupal/core": ">=10.0 <12.0.0-stable",
+                "php": ">=8.1",
                 "symfony/var-dumper": "^4 || ^5 || ^6"
             },
             "conflict": {
                 "kint-php/kint": "<3"
             },
             "require-dev": {
-                "drush/drush": "^11"
+                "drush/drush": "^12.5.1"
             },
             "suggest": {
                 "kint-php/kint": "Kint provides an informative display of arrays/objects. Useful for debugging and developing."
@@ -18243,16 +18243,11 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "5.1.2",
-                    "datestamp": "1686161028",
+                    "version": "5.2.0",
+                    "datestamp": "1711280160",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
-                    }
-                },
-                "drush": {
-                    "services": {
-                        "drush.services.yml": "^9 || ^10 || ^11"
                     }
                 }
             },
@@ -18261,10 +18256,6 @@
                 "GPL-2.0-or-later"
             ],
             "authors": [
-                {
-                    "name": "drupalspoons",
-                    "homepage": "https://www.drupal.org/user/3647684"
-                },
                 {
                     "name": "moshe weitzman",
                     "homepage": "https://www.drupal.org/user/23"
@@ -18280,28 +18271,28 @@
         },
         {
             "name": "drupal/devel_kint_extras",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/devel_kint_extras.git",
-                "reference": "1.1.0"
+                "reference": "1.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/devel_kint_extras-1.1.0.zip",
-                "reference": "1.1.0",
-                "shasum": "c9f485f6f2562710d2bd2c62f0073aa0049f5c8c"
+                "url": "https://ftp.drupal.org/files/projects/devel_kint_extras-1.1.1.zip",
+                "reference": "1.1.1",
+                "shasum": "92c9ba78cd9f3a455789f9c1272a113c1231f112"
             },
             "require": {
                 "drupal/core": "^9 || ^10",
                 "drupal/devel": "^4.0 || ^5.0",
-                "kint-php/kint": "^3.3 || ^4.0"
+                "kint-php/kint": "^3.3 || ^4.0 || ^5.0"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "1.1.0",
-                    "datestamp": "1663760998",
+                    "version": "1.1.1",
+                    "datestamp": "1708936996",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -18757,28 +18748,28 @@
         },
         {
             "name": "kint-php/kint",
-            "version": "4.2.3",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kint-php/kint.git",
-                "reference": "7601bfd95ccc50a1b903c2764b31d00919e8edd9"
+                "reference": "128303461092734a1e3cb4beb1eea9afe7a5a0ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kint-php/kint/zipball/7601bfd95ccc50a1b903c2764b31d00919e8edd9",
-                "reference": "7601bfd95ccc50a1b903c2764b31d00919e8edd9",
+                "url": "https://api.github.com/repos/kint-php/kint/zipball/128303461092734a1e3cb4beb1eea9afe7a5a0ee",
+                "reference": "128303461092734a1e3cb4beb1eea9afe7a5a0ee",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6"
+                "php": ">=7.1"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.0",
+                "friendsofphp/php-cs-fixer": "^3",
                 "phpspec/prophecy-phpunit": "^2",
-                "phpunit/phpunit": "^9.0",
-                "seld/phar-utils": "^1.0",
-                "symfony/finder": "^3.0 || ^4.0 || ^5.0",
-                "vimeo/psalm": "^4.0"
+                "phpunit/phpunit": "^9",
+                "seld/phar-utils": "^1",
+                "symfony/finder": ">=4.0",
+                "vimeo/psalm": "^5"
             },
             "suggest": {
                 "kint-php/kint-helpers": "Provides extra helper functions",
@@ -18816,9 +18807,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kint-php/kint/issues",
-                "source": "https://github.com/kint-php/kint/tree/4.2.3"
+                "source": "https://github.com/kint-php/kint/tree/5.1.0"
             },
-            "time": "2022-10-01T20:16:33+00:00"
+            "time": "2023-11-16T06:04:49+00:00"
         },
         {
             "name": "mglaman/drupal-check",
