@@ -21,6 +21,8 @@ function nect_preprocess_html(&$variables) {
   $path_args = explode('/', $path);
   if (isset($path_args[1]) && isset($path_args[2]) && ($path_args[1] == 'node') && (is_numeric($path_args[2]))) {
     $variables['attributes']['class'][] = 'page-node-' . $path_args[2];
+  } else {
+    $variables['attributes']['class'][] = 'page' . implode('-', $path_args);
   }
 }
 
