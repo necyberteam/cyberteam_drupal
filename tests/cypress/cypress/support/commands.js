@@ -52,6 +52,7 @@ Cypress.Commands.add("verifyImage", { prevSubject: true }, ($img) => {
 Cypress.Commands.add("checkBreadcrumbs", (crumbs) => {
   var crumb, href;
   for ([crumb, href] of crumbs) {
+    crumb = crumb.charAt(0).toUpperCase() + crumb.slice(1)
     if (href) {
       cy.get(".breadcrumb")
         .contains(crumb)
