@@ -222,28 +222,29 @@ describe("Verify the the community-outreach tag page", () => {
 
                 // cy.task('log', 'row: ' + rowIndex + ' cell: ' + cellIndex + ' text: ' + cell.text());
 
+                cy.wrap(cell).as('cell')
                 switch (cellIndex) {
                   case 0:
-                    cy.wrap(cell).find('a').should('have.attr', 'href', $href);
-                    cy.wrap(cell).find('img').verifyImage();
+                    cy.get('@cell').find('a').should('have.attr', 'href', $href);
+                    cy.get('@cell').find('img').verifyImage();
                     break;
                   case 1:
-                    cy.wrap(cell).find('a').should('have.attr', 'href', $href);
+                    cy.get('@cell').find('a').should('have.attr', 'href', $href);
                     break;
                   case 2:
-                    cy.wrap(cell).should('not.be.empty');
+                    cy.get('@cell').should('not.be.empty');
                     break;
                   case 3:
                     // tags - there should be at least one tag, and not more than 3
-                    cy.wrap(cell).find('a').should('have.length.gt', 0);
-                    cy.wrap(cell).find('a').should('have.length.lt', 4);
-                    cy.wrap(cell).find('a').each((a) =>
+                    cy.get('@cell').find('a').should('have.length.gt', 0);
+                    cy.get('@cell').find('a').should('have.length.lt', 4);
+                    cy.get('@cell').find('a').each((a) =>
                       cy.wrap(a).should('have.attr', 'href')
                         .and('contain', '/tags/'));
                     break;
                   case 4:
-                    cy.wrap(cell).find('a').contains('Login to join');
-                    cy.wrap(cell).find('a').should('have.attr', 'href')
+                    cy.get('@cell').find('a').contains('Login to join');
+                    cy.get('@cell').find('a').should('have.attr', 'href')
                       .and('contain', '/user/login?destination=' + $href);
                     break;
                 }
