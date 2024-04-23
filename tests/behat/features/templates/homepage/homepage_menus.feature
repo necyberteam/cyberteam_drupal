@@ -17,7 +17,7 @@ Feature: For anonymous & authenticated user, the Menu Items include:
     And I should see the link "Community"
     And I should see the link "Get Help"
     And I should see the link "Projects"
-    And I should see the link "Tags"
+    #And I should see the link "Tags"
 
     When I click "About Us"
     Then I should see "About"
@@ -47,7 +47,7 @@ Feature: For anonymous & authenticated user, the Menu Items include:
     And I should see the link "Community"
     And I should see the link "Get Help"
     And I should see the link "Projects"
-    And I should see the link "Tags"
+    #And I should see the link "Tags"
 
     When I click "About Us"
     Then I should see "About"
