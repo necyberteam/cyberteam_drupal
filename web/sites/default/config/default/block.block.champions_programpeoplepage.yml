@@ -1,29 +1,29 @@
-uuid: e06dc7b5-ac4e-4c1b-a198-749ed67b8162
+uuid: 31bd3c20-51cd-44f5-8b33-046ffed692a3
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.affinity_search_tags
+    - facets.facet.program_people_page
   module:
     - facets
     - system
   theme:
     - champions
-id: champions_affinitysearchtags
+id: champions_programpeoplepage
 theme: champions
 region: primary_sidebar
-weight: 2
+weight: 5
 provider: null
-plugin: 'facet_block:affinity_search_tags'
+plugin: 'facet_block:program_people_page'
 settings:
-  id: 'facet_block:affinity_search_tags'
-  label: Tags
+  id: 'facet_block:program_people_page'
+  label: Program
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: champions_affinitysearchtags
+  block_id: champions_programpeoplepage
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /affinity-groups
+    pages: /people

@@ -1649,6 +1649,10 @@ table.sticky-header th {
   text-decoration: none !important;
 }
 
+.square-tags ul {
+  margin-bottom: 0;
+}
+
 .ci-links table {
   table-layout: fixed;
 }
@@ -1742,8 +1746,13 @@ table.sticky-header th {
   margin: 0;
 }
 
+.facet-item {
+  display: flex;
+  align-items: start;
+}
+
 .block-facet--checkbox ul input {
-  margin: 0 0.25rem;
+  margin: 7px 6px
 }
 
 .font-bold {
@@ -1834,8 +1843,16 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
   background-color: var(--purple);
 }
 
+.border-purple {
+  border-color: var(--purple);
+}
+
 .border-ccmnet-blue {
   border-color: var(--ccmnet-blue-rollover) !important;
+}
+
+.hover--border-ccmnet-blue:hover {
+  border-color: var(--ccmnet-blue) !important;
 }
 
 .ccmnet-link a {
@@ -1844,6 +1861,14 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
 
 .ccmnet-link a:hover {
   color: var(--ccmnet-blue-rollover) !important;
+}
+
+.text-purple {
+  color: var(--purple) !important;
+}
+
+.hover--ccmnet-blue:hover {
+  color: var(--ccmnet-blue) !important;
 }
 
 .ccmnet #secondaryNav.navbar {
@@ -1989,6 +2014,22 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
   position: relative;
 }
 
+.nect-cc-people .square-tags a:nth-of-type(1n+5) {
+  display: none;
+}
+
+#block-nect-exposedformccmnet-memberspage-1 .form-item-items-per-page,
+#block-nect-exposedformccmnet-memberspage-1-2 .form-item-search-api-fulltext {
+  display: none;
+}
+.cssn-directory-item ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+.cssn-directory-item li {
+  line-height: 1;
+  display: flex;
+}
 .persona img {
   width: 100%;
   aspect-ratio: .9;

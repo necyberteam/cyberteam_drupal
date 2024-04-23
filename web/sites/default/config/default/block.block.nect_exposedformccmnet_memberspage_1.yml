@@ -1,22 +1,22 @@
-uuid: db0002a3-b710-4d12-a992-5de886c5181f
+uuid: 937c1eff-6a28-4df7-93b0-0db4fef8d32d
 langcode: en
 status: true
 dependencies:
   config:
-    - views.view.search_ci_links
+    - views.view.ccmnet_members
   module:
     - system
     - views
   theme:
     - nect
-id: nect_exposedformsearch_ci_linkspage_1
+id: nect_exposedformccmnet_memberspage_1
 theme: nect
 region: primary_sidebar
-weight: 16
+weight: 3
 provider: null
-plugin: 'views_exposed_filter_block:search_ci_links-page_1'
+plugin: 'views_exposed_filter_block:ccmnet_members-page_1'
 settings:
-  id: 'views_exposed_filter_block:search_ci_links-page_1'
+  id: 'views_exposed_filter_block:ccmnet_members-page_1'
   label: ''
   label_display: '0'
   provider: views
@@ -25,4 +25,4 @@ visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/ci-links
+    pages: /members
