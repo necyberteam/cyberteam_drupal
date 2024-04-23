@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - system.menu.main
     - taxonomy.vocabulary.tags
   module:
     - better_exposed_filters
@@ -513,11 +512,10 @@ display:
           max_links: 100
       path: tags
       menu:
-        type: normal
+        type: none
         title: Tags
         description: ''
         weight: -43
-        enabled: true
         expanded: true
         menu_name: main
         parent: ''
