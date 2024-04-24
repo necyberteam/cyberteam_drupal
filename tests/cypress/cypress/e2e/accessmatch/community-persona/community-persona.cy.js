@@ -100,7 +100,7 @@ function user200_verify_self_cp() {
 
   cy.contains('Update interests')
     .should('have.attr', 'href', "/community-persona/add-interest");
-  cy.contains('Update expertise')
+  cy.contains('Update skills')
     .should('have.attr', 'href', "/community-persona/add-skill");
   cy.contains('All Affinity Groups')
     .should('have.attr', 'href', "/affinity-groups");
