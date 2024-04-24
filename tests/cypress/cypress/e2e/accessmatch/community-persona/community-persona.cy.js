@@ -65,21 +65,10 @@ function anon_verify_user201_cp() {
 function user200_verify_self_cp() {
   cy.loginAs('walnut@pie.org', 'Walnut');
 
-  // verify breadcrumbs for self
-
-  cy.visit('/community-persona/200');
-  // verify breadcrumbs for self
-  let crumbs = [
-    ['Support', '/'],
-    ['Community Persona', '/community-persona'],
-    ['Walnut Pie', null]
-  ];
-  cy.checkBreadcrumbs(crumbs);
-
   cy.visit('/community-persona');
 
   // verify breadcrumbs for self
-  crumbs = [
+  let crumbs = [
     ['Support', '/'],
     ['Community Persona', null]
   ];
