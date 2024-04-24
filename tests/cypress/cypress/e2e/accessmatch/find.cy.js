@@ -11,7 +11,7 @@ describe("Test of the /find page", () => {
     // check breadcrumbs
     const crumbs = [
       ['Support', '/'],
-      ['Find Information about ACCESS', null]
+      ['Find Information About ACCESS', null]
     ];
     cy.checkBreadcrumbs(crumbs);
 
