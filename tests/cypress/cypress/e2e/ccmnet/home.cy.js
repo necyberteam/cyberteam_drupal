@@ -7,7 +7,7 @@ describe("Unauthenticated user tests the CCMNet Homepage", () => {
   
       // Site heading
       cy.get(".site-heading").contains(
-        "A peer-to-peer program for CI professionals to make connections and exchange knowledge"
+        "Participate in mentorships to make connections and exchange knowledge"
       );
       
     });
