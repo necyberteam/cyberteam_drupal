@@ -34,9 +34,9 @@ Feature: For anonymous & authenticated user, the Menu Items include:
     When I click "Projects"
     Then I should see "Project"
 
-    #When I am on the homepage
-    #When I click "Tags"
-    #Then I should see "Tags"
+    When I am on the homepage
+    When I click "Tags"
+    Then I should see "Tags"
 
   Scenario: Authenticated user navigates through navigation menus
     Given I am logged in as a user with the "authenticated" role
@@ -64,7 +64,7 @@ Feature: For anonymous & authenticated user, the Menu Items include:
     When I click "Projects"
     Then I should see "Project"
 
-    #When I am on the homepage
-    #When I click "Tags"
-    #Then I should see "Tags"
+    When I am on the homepage
+    When I click "Tags"
+    Then I should see "Tags"
 
