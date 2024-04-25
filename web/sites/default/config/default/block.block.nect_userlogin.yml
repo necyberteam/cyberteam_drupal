@@ -1,0 +1,33 @@
+uuid: 31003c86-6c74-4d9e-bc82-7d1bb24e95ed
+langcode: en
+status: true
+dependencies:
+  module:
+    - domain
+    - system
+    - user
+  theme:
+    - nect
+id: nect_userlogin
+theme: nect
+region: below_main_content
+weight: 0
+provider: null
+plugin: user_login_block
+settings:
+  id: user_login_block
+  label: ConnectCI
+  label_display: visible
+  provider: user
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      ccmnet_org: ccmnet_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: /user/register

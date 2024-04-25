@@ -13,7 +13,7 @@ Feature: verify headers for non-authenticated user
     Then I should not see "My Profile"
     When I click "Log in"
     Then I should be on "user/login"
-    And I should see "Please login with your Cyberteam account below"
+    And I should see "Login with your Campus Champion or Cyberteam account."
 
   Scenario: Verify the Join button links to join
     Given I am not logged in
