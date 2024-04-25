@@ -21,7 +21,8 @@ function nect_preprocess_html(&$variables) {
   $path_args = explode('/', $path);
   if (isset($path_args[1]) && isset($path_args[2]) && ($path_args[1] == 'node') && (is_numeric($path_args[2]))) {
     $variables['attributes']['class'][] = 'page-node-' . $path_args[2];
-  } else {
+  }
+  else {
     $variables['attributes']['class'][] = 'page' . implode('-', $path_args);
   }
 }
@@ -131,19 +132,19 @@ function nect_form_alter(&$form, FormStateInterface $form_state, $form_id) {
     $form['field_region']['#description_display'] = 'before';
   }
   if ($form_id == 'user_login_form') {
-    $form['name']['#prefix'] = '<div class="col-lg-6 col-md-8 mx-auto text-center card my-4"><div class="card-body"><p>Please login with your Cyberteam account below or <a href="/user/register">Join the Team</a>.</p><div class="control-group form-group">';
-    $form['name']['#suffix'] = '</div>';
+    $form['name']['#prefix'] = '<div class="col-lg-6 col-md-8 mx-auto text-center card my-4"><div class="card-body"><p>Login with your Campus Champion or Cyberteam account.</p><div class="control-group form-group">';
     $form['name']['#attributes']['placeholder'][] = $form['name']['#title'] . '*';
     $form['name']['#attributes']['class'][] = 'form-control';
     $form['name']['#title_display'] = 'invisible';
+    $form['name']['#suffix'] = '</div>';
     $form['pass']['#prefix'] = '<div class="control-group form-group">';
     $form['pass']['#suffix'] = '</div>';
     $form['pass']['#attributes']['placeholder'][] = $form['pass']['#title'] . '*';
     $form['pass']['#attributes']['class'][] = 'form-control';
     $form['pass']['#title_display'] = 'invisible';
     $form['actions']['#prefix'] = '<div class="success">';
-    $form['actions']['#suffix'] = '<a class="btn btn-secondary mx-1" href="/user/password">Forgot Password</a></div></div></div>';
-    $form['actions']['submit']['#attributes']['class'][] = 'btn btn-success mx-1';
+    $form['actions']['#suffix'] = '<a class="btn btn-secondary m-1" href="/user/password">Forgot Password</a></div></div></div>';
+    $form['actions']['submit']['#attributes']['class'][] = 'btn btn-success m-1';
     unset($form['name']['#description']);
     unset($form['pass']['#description']);
   }
