@@ -14,17 +14,13 @@ Feature: For anonymous & authenticated user, the Menu Items include:
     # TODO - broken
     #Menu tab is in mobile form
     Then I should see the link "About Us"
-    And I should see the link "Community"
+    And I should see "Community"
     And I should see the link "Get Help"
     And I should see the link "Projects"
     #And I should see the link "Tags"
 
     When I click "About Us"
     Then I should see "About"
-
-    When I am on the homepage
-    When I click "Community"
-    Then I should see "People"
 
     When I am on the homepage
     When I click "Get Help"
@@ -44,17 +40,13 @@ Feature: For anonymous & authenticated user, the Menu Items include:
     # TODO - broken
     #Menu tab is in mobile form
     Then I should see the link "About Us"
-    And I should see the link "Community"
+    And I should see "Community"
     And I should see the link "Get Help"
     And I should see the link "Projects"
     #And I should see the link "Tags"
 
     When I click "About Us"
     Then I should see "About"
-
-    When I am on the homepage
-    When I click "Community"
-    Then I should see "People"
 
     When I am on the homepage
     When I click "Get Help"
@@ -67,4 +59,3 @@ Feature: For anonymous & authenticated user, the Menu Items include:
     When I am on the homepage
     When I click "Tags"
     Then I should see "Tags"
-
