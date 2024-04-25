@@ -1776,6 +1776,31 @@ table.sticky-header th {
   background: var(--light);
 }
 
+.ccmnet .views-element-container summary {
+  background: none;
+}
+.ccmnet .views-element-container details {
+  border-top: 1px solid var(--ccmnet-lightblue);
+}
+.ccmnet.page-knowledge-base-ci-links-mentorship .views-element-container {
+  border-bottom: 1px solid var(--ccmnet-lightblue);
+}
+.ccmnet.page-knowledge-base-ci-links-mentorship .views-element-container .flag-upvote a {
+  color: var(--dark-teal);
+}
+.ccmnet.page-knowledge-base-ci-links details > summary .fa-chevron-down,
+.ccmnet.page-knowledge-base-ci-links-mentorship details > summary .fa-chevron-down {
+  display: none;
+}
+.ccmnet.page-knowledge-base-ci-links details[open] > summary .fa-chevron-down,
+.ccmnet.page-knowledge-base-ci-links-mentorship details[open] > summary .fa-chevron-down {
+  display: inline-block;
+}
+.ccmnet.page-knowledge-base-ci-links details[open] > summary .fa-chevron-up,
+.ccmnet.page-knowledge-base-ci-links-mentorship details[open] > summary .fa-chevron-up {
+  display: none;
+}
+
 .views-element-container .grid .bg-light-teal {
   background: var(--light);
 }
@@ -1817,7 +1842,10 @@ button.copyclip {
   top: 1rem;
   border-width: 0;
 }
-
+.ccmnet button.copyclip {
+  background: none;
+  right: 8rem;
+}
 button.copyclip:has(+ details.search-ci-links summary) {
   display:none;
 }
@@ -1983,6 +2011,10 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
 
 .text-orange {
   color: var(--orange) !important;
+}
+
+.text-dark-teal {
+  color: var(--dark-teal) !important;
 }
 
 .text-orange a:hover {
