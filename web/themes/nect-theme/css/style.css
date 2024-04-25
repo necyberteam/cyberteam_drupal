@@ -164,6 +164,7 @@ body.ccmnet{
   --navbar-toggler: var(--navbar-link);
   --navbar-dropdown: var(--text);
   --navbar-dropdown-hover: var(--navbar-link);
+  --secondary-navbar-background: var(--ccmnet-navy);
   --footer-link-hover: var(--ccmnet-lightblue);
   overflow-x: hidden;
 }
@@ -446,6 +447,9 @@ img::-moz-selection {
   font-weight: 800;
   letter-spacing: 1px;
   text-transform: uppercase;
+}
+.ccmnet .navbar .dropdown-item {
+  text-transform: none;
 }
 .logo {
   max-height: 125px;
@@ -1377,6 +1381,11 @@ table.sticky-header th {
   border: 0;
   padding: 0;
 }
+.page-affinity-groups .views-field-nothing .text-dark-teal a,
+.page-knowledge-base-ci-links .list-image-link a {
+  color: var(--selected-tag);
+  font-weight: 500;
+}
 .ccmnet .masthead h2 {
   margin-left: 0 !important;
   padding: 50px;
@@ -1882,7 +1891,15 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
 .ccmnet #secondaryNav.navbar .ccmnet-tagline {
   color: white;
 }
-
+@media screen and (max-width: 768px) {
+  .ccmnet #secondaryNav.navbar .ccmnet-tagline {
+    display: none;
+  }
+.ccmnet #secondaryNavbarResponsive {
+  width: 100%;
+  justify-content: space-evenly;
+}
+}
 .ccmnet .navbar li.nav-item a.nav-link, .ccmnet .navbar li.nav-item span.nav-link {
   font-size: 18px;
   font-weight: 800;
