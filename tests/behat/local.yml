@@ -27,14 +27,14 @@ local:
       browser_name: chrome
       javascript_session: default
       # set default command for "Show last response" step.
-      show_cmd: "open %s"      
+      show_cmd: "open %s"
       selenium2:
         wd_host: ${behat.selenium.url}
         browser: chrome
       sessions:
         default:
           chrome:
-            api_url: "http://localhost:9222"          
+            api_url: "http://localhost:9222"
     Drupal\DrupalExtension:
       drupal:
         # This must be an absolute path.
@@ -42,7 +42,7 @@ local:
       drush:
         alias: '@self'
       text:
-        username_field: "Login by username/email address"
+        username_field: "Username or email"
         password_field: "Password"
         log_out: "Log out"
         log_in: "Log in"
