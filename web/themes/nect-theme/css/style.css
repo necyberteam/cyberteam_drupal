@@ -1496,6 +1496,13 @@ table.sticky-header th {
 
 .ccmnet .q.collapsed .svg-inline--fa {
   transform: rotate(180deg);
+
+}
+.ccmnet .search-ci-links .svg-inline--fa {
+  transition: 0.3s;
+}
+.ccmnet .search-ci-links details[open] .svg-inline--fa, .ccmnet details[open].search-ci-links > summary .svg-inline--fa {
+  transform: rotate(180deg);
 }
 
 .ccmnet a:hover {
@@ -1778,9 +1785,39 @@ table.sticky-header th {
 
 .ccmnet .views-element-container summary {
   background: none;
+  padding: 0.5rem !important;
+}
+.ccmnet .views-element-container summary + div.grid {
+  padding-top: 0 !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+.ccmnet .views-element-container details ul {
+  margin-bottom: 8px !important;
+}
+.ccmnet .views-element-container summary + div.grid .square-tags {
+  margin-top: 8px;
 }
 .ccmnet .views-element-container details {
   border-top: 1px solid var(--ccmnet-lightblue);
+  margin: 0px;
+}
+.ccmnet .views-element-container details .grid .md--col-span-1 {
+  background-color: var(--ccmnet-lighterblue);
+  padding: 1rem;
+}
+.ccmnet .views-element-container .details-wrap .default-message {
+  font-size: 14px;
+  display: block;
+  line-height: 18px;
+  background: #fff;
+  padding: 0.25rem;
+  border: 1px solid var(--ccmnet-lighterblue);
+  border-radius: 8px;
+}
+.ccmnet .views-element-container .details-wrap .default-message:hover {
+  background: var(--ccmnet-navy);
+  color: white !important;
 }
 .ccmnet.page-knowledge-base-ci-links-mentorship .views-element-container {
   border-bottom: 1px solid var(--ccmnet-lightblue);
@@ -1788,8 +1825,8 @@ table.sticky-header th {
 .ccmnet.page-knowledge-base-ci-links-mentorship .views-element-container .flag-upvote a {
   color: var(--dark-teal);
 }
-.ccmnet.page-knowledge-base-ci-links details > summary .fa-chevron-down,
-.ccmnet.page-knowledge-base-ci-links-mentorship details > summary .fa-chevron-down {
+/* .ccmnet.page-knowledge-base-ci-links .details-wrap > details > summary .fa-chevron-down,
+.ccmnet.page-knowledge-base-ci-links-mentorship .details-wrap > details > summary .fa-chevron-down {
   display: none;
 }
 .ccmnet.page-knowledge-base-ci-links details[open] > summary .fa-chevron-down,
@@ -1799,7 +1836,7 @@ table.sticky-header th {
 .ccmnet.page-knowledge-base-ci-links details[open] > summary .fa-chevron-up,
 .ccmnet.page-knowledge-base-ci-links-mentorship details[open] > summary .fa-chevron-up {
   display: none;
-}
+} */
 
 .views-element-container .grid .bg-light-teal {
   background: var(--light);
@@ -1810,11 +1847,16 @@ table.sticky-header th {
   grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
 }
-
-.views-element-container .md--col-span-4 {
-  grid-column: span 4;
+@media only screen and (max-width: 768px) {
+  .views-element-container .col-span-5 {
+    grid-column: span 5;
+  }
 }
-
+@media only screen and (min-width: 769px) {
+  .views-element-container .md--col-span-4 {
+    grid-column: span 4;
+  }
+}
 .views-element-container .linkcount {
   margin-left: auto;
   border-radius: 9999px;
@@ -1839,19 +1881,22 @@ button.copyclip {
   position: absolute;
   z-index: 10;
   right: 7rem;
-  top: 1rem;
+  top: 0.5rem;
   border-width: 0;
 }
 .ccmnet button.copyclip {
   background: none;
-  right: 8rem;
+  transition: 0.2s;
 }
 button.copyclip:has(+ details.search-ci-links summary) {
-  display:none;
+  visibility: hidden;
+  opacity: 0;
 }
 
 button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
-  display:block;
+  visibility: visible;
+  opacity: 1;
+  transition-delay:1s;
 }
 
 #block-nect-cilinkintroblock .p-5 {
