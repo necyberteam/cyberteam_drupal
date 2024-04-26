@@ -49,7 +49,7 @@ Feature: test individual projects page
     Then I should see "Login to Add New Project"
     When I follow "Login to Add New Project"
     Then I should be on "user/login"
-    And I should see "Please login"
+    And I should see "Login with"
 
 
   Scenario: Auth user does not need to login to create a project
