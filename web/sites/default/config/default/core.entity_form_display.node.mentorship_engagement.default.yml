@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.mentorship_engagement.body
+    - field.field.node.mentorship_engagement.field_ccmnet_approved
     - field.field.node.mentorship_engagement.field_domain_access
     - field.field.node.mentorship_engagement.field_domain_all_affiliates
     - field.field.node.mentorship_engagement.field_domain_source
@@ -93,6 +94,13 @@ content:
     weight: 1
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_ccmnet_approved:
+    type: boolean_checkbox
+    weight: 27
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_knowledge_base_contributio:
     type: text_textarea

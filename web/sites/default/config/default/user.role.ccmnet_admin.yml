@@ -1,9 +1,16 @@
 uuid: 5355eaac-f263-47a4-b9cc-c79ea510018b
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - field_permissions
 id: ccmnet_admin
 label: 'CCMNet Admin'
 weight: 26
 is_admin: null
-permissions: {  }
+permissions:
+  - 'create field_ccmnet_approved'
+  - 'edit field_ccmnet_approved'
+  - 'edit own field_ccmnet_approved'
+  - 'view field_ccmnet_approved'
+  - 'view own field_ccmnet_approved'
