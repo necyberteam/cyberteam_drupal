@@ -51,6 +51,9 @@ elements: |-
         ':input[name="i_am_joining_as_a_[Student-Facilitator]"]':
           checked: true
     '#states_clear': false
+  cssn_member:
+    '#type': hidden
+    '#title': 'Cssn Member'
   actions:
     '#type': webform_actions
     '#title': 'Submit button(s)'
@@ -269,6 +272,46 @@ handlers:
       sender_name: ''
       subject: 'Join the CSSN Submission'
       body: _default
+      excluded_elements: {  }
+      ignore_access: false
+      exclude_empty: true
+      exclude_empty_checkbox: false
+      exclude_attachments: false
+      html: true
+      attachments: false
+      twig: false
+      theme_name: ''
+      parameters: {  }
+      debug: false
+  email:
+    id: email
+    handler_id: email
+    label: 'Welcome to CSSN'
+    notes: ''
+    status: true
+    conditions:
+      enabled:
+        ':input[name="cssn_member"]':
+          value: '0'
+    weight: 0
+    settings:
+      states:
+        - completed
+      to_mail: '[current-user:mail]'
+      to_options: {  }
+      bcc_mail: ''
+      bcc_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      from_mail: _default
+      from_options: {  }
+      from_name: _default
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      subject: _default
+      body: '<p>Welcome to the CSSN!</p>'
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true
