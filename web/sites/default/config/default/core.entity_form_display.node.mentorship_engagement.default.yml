@@ -29,6 +29,7 @@ dependencies:
     - field_group
     - file
     - path
+    - select2
     - text
 third_party_settings:
   field_group:
@@ -134,14 +135,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_me_ccmnet_leadership:
-    type: entity_reference_autocomplete
+    type: select2_entity_reference
     weight: 14
     region: content
     settings:
+      width: 100%
+      autocomplete: false
       match_operator: CONTAINS
       match_limit: 10
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_me_looking_for:
     type: options_buttons
