@@ -21,8 +21,7 @@ function nect_preprocess_html(&$variables) {
   $path_args = explode('/', $path);
   if (isset($path_args[1]) && isset($path_args[2]) && ($path_args[1] == 'node') && (is_numeric($path_args[2]))) {
     $variables['attributes']['class'][] = 'page-node-' . $path_args[2];
-  }
-  else {
+  } else {
     $variables['attributes']['class'][] = 'page' . implode('-', $path_args);
   }
 }
@@ -132,7 +131,10 @@ function nect_form_alter(&$form, FormStateInterface $form_state, $form_id) {
     $form['field_region']['#description_display'] = 'before';
   }
   if ($form_id == 'user_login_form') {
-    $form['name']['#prefix'] = '<div class="col-lg-6 col-md-8 mx-auto text-center card my-4"><div class="card-body"><p>Login with your Campus Champion or Cyberteam account.</p><div class="control-group form-group">';
+    $form['name']['#prefix'] = '<div class="col-lg-6 col-md-8 mx-auto text-center card my-4"><div class="card-body">
+                                <div class="hide-ccmnet"><p>Login with your Campus Champion or Cyberteam account.</p></div>
+                                <div class="region-specific display-ccmnet mb-2">Login with your CCMNet account or <a href="/user/register/ccmnet">join CCMNet</a>.</div>
+                                <div class="control-group form-group">';
     $form['name']['#attributes']['placeholder'][] = $form['name']['#title'] . '*';
     $form['name']['#attributes']['class'][] = 'form-control';
     $form['name']['#title_display'] = 'invisible';
