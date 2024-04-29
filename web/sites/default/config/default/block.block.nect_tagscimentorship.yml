@@ -1,29 +1,29 @@
-uuid: 3f1be01a-b790-4f96-9f4a-e5c2fd8a2297
+uuid: f89f9683-854f-4f53-bc38-de2be119be76
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.skills
+    - facets.facet.tags_ci_mentorship
   module:
     - facets
     - system
   theme:
     - nect
-id: nect_skills
+id: nect_tagscimentorship
 theme: nect
 region: primary_sidebar
-weight: 17
+weight: 3
 provider: null
-plugin: 'facet_block:skills'
+plugin: 'facet_block:tags_ci_mentorship'
 settings:
-  id: 'facet_block:skills'
-  label: Skills
+  id: 'facet_block:tags_ci_mentorship'
+  label: Tags
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_skills
+  block_id: nect_tagscimentorship
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /community/cssn/directory
+    pages: /knowledge-base/ci-links/mentorship
