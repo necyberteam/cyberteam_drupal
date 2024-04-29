@@ -36,7 +36,7 @@ Feature: For anonymous & authenticated user, the Menu Items include:
     When I am on the homepage
     # TODO - broken
     #Menu tab is in mobile form
-    Then I should "About Us"
+    Then I should see "About Us"
     And I should see "Community"
     And I should see the link "Get Help"
     And I should see the link "Projects"
