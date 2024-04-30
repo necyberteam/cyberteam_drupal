@@ -29,6 +29,11 @@ describe("Authenticated user tests a ci link", () => {
 // helper function to create a ci-link
 function create_dummy_ci_link() {
   cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
+  // Clear search api index
+  cy.visit("/admin/config/search/search-api/index/ci_links")
+  cy.get("#edit-clear").click()
+  cy.get("#edit-submit").click()
+
   cy.visit("/form/ci-link");
   cy.get("#edit-approved").check();
   cy.get("#edit-title").type("dummy-ci-link-for-testing-knowledge-base");

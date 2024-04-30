@@ -65,21 +65,10 @@ function anon_verify_user201_cp() {
 function user200_verify_self_cp() {
   cy.loginAs('walnut@pie.org', 'Walnut');
 
-  // verify breadcrumbs for self
-
-  cy.visit('/community-persona/200');
-  // verify breadcrumbs for self
-  let crumbs = [
-    ['Support', '/'],
-    ['Community Persona', '/community-persona'],
-    ['Walnut Pie', null]
-  ];
-  cy.checkBreadcrumbs(crumbs);
-
   cy.visit('/community-persona');
 
   // verify breadcrumbs for self
-  crumbs = [
+  let crumbs = [
     ['Support', '/'],
     ['Community Persona', null]
   ];
@@ -100,10 +89,10 @@ function user200_verify_self_cp() {
 
   cy.contains('Update interests')
     .should('have.attr', 'href', "/community-persona/add-interest");
-  cy.contains('Update expertise')
+  cy.contains('Update skills')
     .should('have.attr', 'href', "/community-persona/add-skill");
   cy.contains('All Affinity Groups')
-    .should('have.attr', 'href', "/affinity_groups");
+    .should('have.attr', 'href', "/affinity-groups");
   cy.contains('Add Resource')
     .should('have.attr', 'href', "/form/resource");
   cy.contains('See engagements')
@@ -129,6 +118,7 @@ function user200_edit_self() {
   }).then(() => {
     cy.get('[name="files[user_picture_0]"]').click();
     cy.get('[name="files[user_picture_0]"]').selectFile('cypress/fixtures/dummy-image.png');
+    cy.get('[data-drupal-selector="edit-field-access-organization-0-target-id"]').type('MGHPCC');
     cy.get('[data-drupal-selector="edit-user-picture-0-alt"]').type('pic_alt_txt');
     cy.get('[name="files[field_cv_resume_0]"]').click();
     cy.get('[name="files[field_cv_resume_0]"]').selectFile('cypress/fixtures/dummy-resume.txt');

@@ -1,0 +1,29 @@
+uuid: 91857a5a-d219-454f-b7b8-19af7200e572
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.state
+  module:
+    - facets
+    - system
+  theme:
+    - nect
+id: nect_state
+theme: nect
+region: primary_sidebar
+weight: 15
+provider: null
+plugin: 'facet_block:state'
+settings:
+  id: 'facet_block:state'
+  label: Status
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_state
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /mentorships

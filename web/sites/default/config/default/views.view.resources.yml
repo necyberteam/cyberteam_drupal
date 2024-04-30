@@ -766,7 +766,7 @@ display:
       use_more_always: false
       use_more_text: 'View all Resources with this tag'
       link_display: custom_url
-      link_url: '/tags/{{ raw_arguments.webform_submission_value }}/ci-links'
+      link_url: '/tags/{{ raw_arguments.webform_submission_value }}/resources'
       header:
         area:
           id: area
@@ -793,7 +793,7 @@ display:
       tags: {  }
   block_1:
     id: block_1
-    display_title: 'Resources (CI Links) by Tag'
+    display_title: 'Resources by Tag'
     display_plugin: block
     position: 2
     display_options:
@@ -3564,7 +3564,7 @@ display:
       header: {  }
       display_extenders:
         simple_sitemap_display_extender: {  }
-      path: tags/%/ci-links
+      path: tags/%/resources
     cache_metadata:
       max-age: -1
       contexts:

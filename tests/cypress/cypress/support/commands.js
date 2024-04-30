@@ -40,7 +40,7 @@ Cypress.Commands.add("verifyImage", { prevSubject: true }, ($img) => {
  * Example:
  *  const crumbs = [
  *     ['Support', '/'],
- *     ['Affinity Groups', '/affinity_groups'],
+ *     ['Affinity Groups', '/affinity-groups'],
  *     ['ACCESS Support', null]
  *   ];
  *   cy.checkBreadcrumbs(crumbs);
@@ -52,6 +52,7 @@ Cypress.Commands.add("verifyImage", { prevSubject: true }, ($img) => {
 Cypress.Commands.add("checkBreadcrumbs", (crumbs) => {
   var crumb, href;
   for ([crumb, href] of crumbs) {
+    crumb = crumb.charAt(0).toUpperCase() + crumb.slice(1)
     if (href) {
       cy.get(".breadcrumb")
         .contains(crumb)
@@ -81,6 +82,26 @@ Cypress.Commands.add("drupalLogout", () => {
 Cypress.Commands.add("loginAs", (username, password) => {
   cy.drupalLogout();
   cy.visit("/f64816be-34ca-4d5b-975a-687cb374ddf7");
+  cy.get("#edit-name").type(username);
+  cy.get("#edit-pass").type(password, {
+    log: false,
+  });
+  cy.get(".form-submit").contains("Log in").click();
+});
+
+/**
+ * User login command for default /user/login route. 
+ * 
+ * Requires valid username and password.
+ *
+ * @param {string} username
+ *   The username with which to log in.
+ * @param {string} password
+ *   The password for the user's account.
+ */
+Cypress.Commands.add("loginWith", (username, password) => {
+  cy.drupalLogout();
+  cy.visit("/user/login");
   cy.get("#edit-name").type(username);
   cy.get("#edit-pass").type(password, {
     log: false,

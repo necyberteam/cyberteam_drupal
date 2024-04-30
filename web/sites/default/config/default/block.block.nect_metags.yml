@@ -1,0 +1,29 @@
+uuid: 5efb51e7-25db-4c53-a6ad-a33de1cc3628
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.me_tags
+  module:
+    - facets
+    - system
+  theme:
+    - nect
+id: nect_metags
+theme: nect
+region: primary_sidebar
+weight: 18
+provider: null
+plugin: 'facet_block:me_tags'
+settings:
+  id: 'facet_block:me_tags'
+  label: Tags
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_metags
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /mentorships

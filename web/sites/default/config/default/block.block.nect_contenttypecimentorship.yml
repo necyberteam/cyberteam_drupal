@@ -1,0 +1,29 @@
+uuid: a29bce35-0727-4fa0-8b2a-f6f1de6fa047
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.content_type_mentorship
+  module:
+    - facets
+    - system
+  theme:
+    - nect
+id: nect_contenttypecimentorship
+theme: nect
+region: primary_sidebar
+weight: 2
+provider: null
+plugin: 'facet_block:content_type_mentorship'
+settings:
+  id: 'facet_block:content_type_mentorship'
+  label: 'Content Type'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_contenttypecimentorship
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/ci-links/mentorship

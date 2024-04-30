@@ -23,10 +23,15 @@ Feature: add a test project via the form
     When I go to "/user/1998/edit"
     When I fill in "First Name" with "Test"
     When I fill in "Last Name" with "Smith"
+    When I fill in "Organization" with "MGHPCC"
     When I check "mentor"
     When I check "student-facilitator"
     When I check "researcher/educator"
-    #When I select "1st year undergraduate" from "edit-field-academic-status"
+    # save so that the academic status field is visible.
+    When I press "op"
+    And I wait 2 seconds
+    When I go to "/user/1998/edit"
+    When I select "1st year undergraduate" from "edit-field-academic-status"
     # "op" is the name of the submit button.
     When I press "op"
     And I wait 2 seconds

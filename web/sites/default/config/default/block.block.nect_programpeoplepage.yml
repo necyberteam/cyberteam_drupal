@@ -1,0 +1,29 @@
+uuid: c7d843f1-cfc6-403c-94d9-3f95356c8e77
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.program_people_page
+  module:
+    - facets
+    - system
+  theme:
+    - nect
+id: nect_programpeoplepage
+theme: nect
+region: primary_sidebar
+weight: 8
+provider: null
+plugin: 'facet_block:program_people_page'
+settings:
+  id: 'facet_block:program_people_page'
+  label: Program
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_programpeoplepage
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people

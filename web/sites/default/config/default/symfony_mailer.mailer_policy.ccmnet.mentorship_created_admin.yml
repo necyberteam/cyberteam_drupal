@@ -1,0 +1,19 @@
+uuid: e8a91872-d474-4ba4-a726-7cf9178020ec
+langcode: en
+status: true
+dependencies:
+  module:
+    - ccmnet
+id: ccmnet.mentorship_created_admin
+configuration:
+  email_bcc:
+    addresses:
+      -
+        value: andrew+ccmnet@elytra.net
+        display: 'Andrew Pasquale'
+  email_body:
+    content:
+      value: '<p>A new CCMNet mentorship has been requested. Approve it <a href="{{ url }}">{{ title }}</a></p>'
+      format: basic_html
+  email_subject:
+    value: 'New Mentorship Created'

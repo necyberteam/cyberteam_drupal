@@ -1,0 +1,122 @@
+uuid: 0e07da46-f0af-4d5e-be3e-216515b8253c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_affinity_group_category
+    - field.storage.node.body
+    - field.storage.node.field_image
+    - field.storage.node.field_tags
+    - search_api.server.default_server
+  module:
+    - node
+    - search_api
+    - webform_submission_search_api
+id: affinity_groups
+name: 'Affinity Groups'
+description: ''
+read_only: false
+field_settings:
+  body:
+    label: Description
+    datasource_id: 'entity:node'
+    property_path: body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.body
+  field_affinity_group_category:
+    label: 'Affinity Group Category'
+    datasource_id: 'entity:node'
+    property_path: field_affinity_group_category
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_affinity_group_category
+  field_image:
+    label: Logo
+    datasource_id: 'entity:node'
+    property_path: field_image
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_image
+  field_tags:
+    label: Tags
+    datasource_id: 'entity:node'
+    property_path: field_tags
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_tags
+  title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: string
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - affinity_group
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  custom_value: {  }
+  entity_type: {  }
+  highlight:
+    weights:
+      postprocess_query: 0
+    prefix: '<strong>'
+    suffix: '</strong>'
+    excerpt: true
+    excerpt_always: false
+    excerpt_length: 256
+    exclude_fields: {  }
+    highlight: always
+    highlight_partial: false
+  html_filter:
+    weights:
+      preprocess_index: -15
+      preprocess_query: -15
+    all_fields: false
+    fields: {  }
+    title: true
+    alt: true
+    tags:
+      b: 2
+      em: 1
+      h1: 5
+      h2: 3
+      h3: 2
+      strong: 2
+      u: 1
+  ignorecase:
+    weights:
+      preprocess_index: -20
+      preprocess_query: -20
+    all_fields: false
+    fields: {  }
+  language_with_fallback: {  }
+  rendered_item: {  }
+  webform_submission_category: {  }
+  webform_submission_description: {  }
+  webform_submission_skill_level: {  }
+  webform_submission_tags: {  }
+  webform_submission_title: {  }
+  webform_submission_vote_count: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  cron_limit: 50
+  index_directly: true
+  track_changes_in_references: true
+server: default_server

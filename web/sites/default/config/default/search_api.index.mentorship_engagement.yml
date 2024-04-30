@@ -1,0 +1,223 @@
+uuid: a620b6ad-044f-4db6-bdd1-882b2623b4c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ccmnet_approved
+    - field.storage.node.body
+    - field.storage.node.field_mentee
+    - field.storage.node.field_mentor
+    - field.storage.node.field_me_state
+    - field.storage.node.field_tags
+    - search_api.server.default_server
+  module:
+    - node
+    - search_api
+    - ccmnet
+    - cssn
+    - webform_submission_search_api
+id: mentorship_engagement
+name: 'Mentorship Engagement'
+description: ''
+read_only: false
+field_settings:
+  body:
+    label: Description
+    datasource_id: 'entity:node'
+    property_path: body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.body
+  field_ccmnet_approved:
+    label: Approved
+    datasource_id: 'entity:node'
+    property_path: field_ccmnet_approved
+    type: boolean
+    dependencies:
+      config:
+        - field.storage.node.field_ccmnet_approved
+  field_me_state:
+    label: State
+    datasource_id: 'entity:node'
+    property_path: field_me_state
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_me_state
+  field_mentee:
+    label: Mentee
+    datasource_id: 'entity:node'
+    property_path: field_mentee
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_mentee
+  field_mentor:
+    label: Mentor
+    datasource_id: 'entity:node'
+    property_path: field_mentor
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_mentor
+  field_tags:
+    label: Tags
+    datasource_id: 'entity:node'
+    property_path: field_tags
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_tags
+  mentee_name:
+    label: 'Mentee Name'
+    property_path: search_api_mentee_name
+    type: string
+  node_grants:
+    label: 'Node access information'
+    property_path: search_api_node_grants
+    type: string
+    indexed_locked: true
+    type_locked: true
+    hidden: true
+  status:
+    label: status
+    datasource_id: 'entity:node'
+    property_path: status
+    type: boolean
+    indexed_locked: true
+    type_locked: true
+    dependencies:
+      module:
+        - node
+  title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: string
+    dependencies:
+      module:
+        - node
+  title_1:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    dependencies:
+      module:
+        - node
+  uid:
+    label: uid
+    datasource_id: 'entity:node'
+    property_path: uid
+    type: integer
+    indexed_locked: true
+    type_locked: true
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - mentorship_engagement
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  content_access:
+    weights:
+      preprocess_query: -30
+  custom_value: {  }
+  entity_status: {  }
+  entity_type: {  }
+  highlight:
+    weights:
+      postprocess_query: 0
+    prefix: '<strong>'
+    suffix: '</strong>'
+    excerpt: true
+    excerpt_always: false
+    excerpt_length: 256
+    exclude_fields: {  }
+    highlight: always
+    highlight_partial: false
+  ignorecase:
+    weights:
+      preprocess_index: -20
+      preprocess_query: -20
+    all_fields: false
+    fields: {  }
+  language_with_fallback: {  }
+  mentee_name: {  }
+  rendered_item: {  }
+  stopwords:
+    weights:
+      preprocess_index: -5
+      preprocess_query: -2
+    all_fields: false
+    fields: {  }
+    stopwords:
+      - a
+      - an
+      - and
+      - are
+      - as
+      - at
+      - be
+      - but
+      - by
+      - for
+      - if
+      - in
+      - into
+      - is
+      - it
+      - 'no'
+      - not
+      - of
+      - 'on'
+      - or
+      - s
+      - such
+      - t
+      - that
+      - the
+      - their
+      - then
+      - there
+      - these
+      - they
+      - this
+      - to
+      - was
+      - will
+      - with
+  tokenizer:
+    weights:
+      preprocess_index: -6
+      preprocess_query: -6
+    all_fields: false
+    fields: {  }
+    spaces: ''
+    ignored: ._-
+    overlap_cjk: 1
+    minimum_word_size: '3'
+  user_skills: {  }
+  webform_submission_category: {  }
+  webform_submission_description: {  }
+  webform_submission_skill_level: {  }
+  webform_submission_tags: {  }
+  webform_submission_title: {  }
+  webform_submission_vote_count: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  cron_limit: 50
+  index_directly: true
+  track_changes_in_references: true
+server: default_server

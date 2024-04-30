@@ -9,6 +9,11 @@ describe("Admin user tests the Individual Affinity Groups", () => {
 
     cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
+    // Clear search api index
+    cy.visit("/admin/config/search/search-api/index/ci_links")
+    cy.get("#edit-clear").click()
+    cy.get("#edit-submit").click()
+    
     // first create a dummy ci-links so can reference one of them in the AG.
     create_dummy_ci_link();
 

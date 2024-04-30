@@ -8,6 +8,11 @@ Feature: test CI Link form
 
   Scenario: Administrator user fills out the CI Link form
     Given I am logged in as a user with the "administrator" role
+    # Clear Search api index
+    When I go to "/admin/config/search/search-api/index/ci_links"
+    When I click the "#edit-clear" element
+    When I click the "#edit-submit" element
+
     When I go to "/knowledge-base/ci-links"
     When I follow "Add a CI Link"
     Then I should be on "/form/ci-link"
