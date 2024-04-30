@@ -1,0 +1,19 @@
+uuid: 58d06bca-7d55-4466-bf70-56bcd0bd1d61
+langcode: en
+status: true
+dependencies:
+  module:
+    - ccmnet
+id: ccmnet.liaison_mentor_mentee_changed
+configuration:
+  email_bcc:
+    addresses:
+      -
+        value: andrew+ccmnet@elytra.net
+        display: 'Andrew Pasquale'
+  email_body:
+    content:
+      value: '<p>A CCMNet mentor match has been made. Click here to view: <a href="{{ url }}">{{ title }}</a></p>'
+      format: basic_html
+  email_subject:
+    value: 'A new mentorship match'
