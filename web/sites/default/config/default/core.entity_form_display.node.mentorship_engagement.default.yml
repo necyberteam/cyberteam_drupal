@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.mentorship_engagement.body
+    - field.field.node.mentorship_engagement.field_ccmnet_approved
     - field.field.node.mentorship_engagement.field_domain_access
     - field.field.node.mentorship_engagement.field_domain_all_affiliates
     - field.field.node.mentorship_engagement.field_domain_source
@@ -28,6 +29,7 @@ dependencies:
     - field_group
     - file
     - path
+    - select2
     - text
 third_party_settings:
   field_group:
@@ -94,6 +96,13 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_ccmnet_approved:
+    type: boolean_checkbox
+    weight: 27
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   field_knowledge_base_contributio:
     type: text_textarea
     weight: 26
@@ -126,14 +135,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_me_ccmnet_leadership:
-    type: entity_reference_autocomplete
+    type: select2_entity_reference
     weight: 14
     region: content
     settings:
+      width: 100%
+      autocomplete: false
       match_operator: CONTAINS
       match_limit: 10
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_me_looking_for:
     type: options_buttons
