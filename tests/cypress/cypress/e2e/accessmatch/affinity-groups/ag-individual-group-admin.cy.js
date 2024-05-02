@@ -13,7 +13,7 @@ describe("Admin user tests the Individual Affinity Groups", () => {
     cy.visit("/admin/config/search/search-api/index/ci_links")
     cy.get("#edit-clear").click()
     cy.get("#edit-submit").click()
-    
+
     // first create a dummy ci-links so can reference one of them in the AG.
     create_dummy_ci_link();
 
@@ -51,12 +51,12 @@ describe("Admin user tests the Individual Affinity Groups", () => {
 
     // verify the added ci-link appears
     cy.get('.block-resources-for-affinity-group')
-      .contains('CI Links');
+      .contains('Resources');
 
     cy.get('#ci-links')
       .contains('access-support-ci-link-for-testing')
       .should('have.attr', 'href')
-      .and('contain', '/ci-link');
+      .and('contain', '/resources');
 
     // verify the added cider resource appears
     cy.get('.node--type-access-active-resources-from-cid')
@@ -78,10 +78,10 @@ describe("Admin user tests the Individual Affinity Groups", () => {
 
 // helper function to create a ci-link that can be added to the AG
 function create_dummy_ci_link() {
-  cy.visit('/form/ci-link');
+  cy.visit('/form/resource');
   cy.get('#edit-approved').check();
   cy.get('#edit-title').type('access-support-ci-link-for-testing');
-  cy.get('#edit-category').select('Learning');
+  cy.get('#edit-category').select('learning');
   cy.get('#edit-skill-level-304').check();  // beginner level
   cy.get('#edit-description').type("Dummy description for ci-link 'access-support-ci-link-for-testing'");
   // tag "access-account" is selected

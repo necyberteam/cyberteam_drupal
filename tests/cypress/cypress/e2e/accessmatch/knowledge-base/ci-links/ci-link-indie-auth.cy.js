@@ -8,7 +8,7 @@ describe("Authenticated user tests a ci link", () => {
     // login user with the "authenticated" role
     cy.loginAs("authenticated@amptesting.com", "6%l7iF}6(4tI");
     //Navigating to cypress created ci link
-    cy.visit("/knowledge-base/ci-links");
+    cy.visit("/knowledge-base/resources");
     cy.get('.view-search-ci-links details summary > div')
       .contains("dummy-ci-link-for-testing-knowledge-base")
       .click()
@@ -34,7 +34,7 @@ function create_dummy_ci_link() {
   cy.get("#edit-clear").click()
   cy.get("#edit-submit").click()
 
-  cy.visit("/form/ci-link");
+  cy.visit("/form/resource");
   cy.get("#edit-approved").check();
   cy.get("#edit-title").type("dummy-ci-link-for-testing-knowledge-base");
   cy.get("#edit-category").select("Learning");

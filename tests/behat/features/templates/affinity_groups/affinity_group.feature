@@ -25,11 +25,11 @@ Feature: Feature: test an Affinity Group page
   # Screenshot showing error on https://cyberteam-projects.slack.com/archives/C047PFB6UKE/p1694214896487699
   #Scenario: Admin user adds a CI Link to the AG ACCESS Support
     Given I am logged in as a user with the "administrator" role
-    # add a CI-Link to an AG
+    # add a KB Resource to an AG
     When I go to "node/327/edit"
     Then I should see "Edit Affinity Group ACCESS Support"
     # this CI link is created by amp_dev.install
-    When I fill in "Display CI Links on your Affinity Group" with "ci-link-for-user-200"
+    When I fill in "Display Knowledge Base Resources on your Affinity Group" with "ci-link-for-user-200"
     And I wait 1 seconds
     And I fill in "Slug" with "access-support"
     When I press "Save"
