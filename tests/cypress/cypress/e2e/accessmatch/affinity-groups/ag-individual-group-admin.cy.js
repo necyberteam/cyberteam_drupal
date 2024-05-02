@@ -13,7 +13,7 @@ describe("Admin user tests the Individual Affinity Groups", () => {
     cy.visit("/admin/config/search/search-api/index/ci_links")
     cy.get("#edit-clear").click()
     cy.get("#edit-submit").click()
-    
+
     // first create a dummy ci-links so can reference one of them in the AG.
     create_dummy_ci_link();
 
@@ -78,7 +78,7 @@ describe("Admin user tests the Individual Affinity Groups", () => {
 
 // helper function to create a ci-link that can be added to the AG
 function create_dummy_ci_link() {
-  cy.visit('/form/ci-link');
+  cy.visit('/form/resource');
   cy.get('#edit-approved').check();
   cy.get('#edit-title').type('access-support-ci-link-for-testing');
   cy.get('#edit-category').select('Learning');
