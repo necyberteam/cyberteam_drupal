@@ -27,7 +27,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: Resources
+      title: 'Knowledge Base Resources'
       fields:
         sid:
           id: sid
@@ -107,7 +107,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/ci-links/{{ sid }}">{{ webform_submission_value_5 }}</a>'
+            text: '<a href="/knowledge-base/resources/{{ sid }}">{{ webform_submission_value_5 }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -318,7 +318,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: '<a href="/ci-link/{{ sid_1 }}">view</a>'
+            text: '<a href="/knowledge-base/resources/{{ sid_1 }}">view</a>'
             make_link: false
             path: ''
             absolute: false
@@ -532,7 +532,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning mx-3">There are no CI Links at this time. Please check back often as CI Links are added regularly.</div>'
+            value: '<div class="alert alert-warning mx-3">There are no Resources at this time. Please check back often as Resources are added regularly.</div>'
             format: full_no_editor
           tokenize: false
       sorts:
@@ -764,7 +764,7 @@ display:
       group_by: false
       use_more: false
       use_more_always: false
-      use_more_text: 'View all CI Links with this tag'
+      use_more_text: 'View all Resources with this tag'
       link_display: custom_url
       link_url: '/tags/{{ raw_arguments.webform_submission_value }}/resources'
       header:
@@ -778,7 +778,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: '{% if not link_flag %}Log in to vote on CI Links.{% endif %}'
+            value: '{% if not link_flag %}Log in to vote on Resources.{% endif %}'
             format: basic_html
           tokenize: true
       footer: {  }
@@ -814,7 +814,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: "<div class=\"alert alert-warning\">There are no CI Links associated with this topic. View <a href=\"/ci-links\">All CI Links</a>.</div>\r\n"
+            value: "<div class=\"alert alert-warning\">There are no Resources associated with this topic. View <a href=\"/knowledge-base/resources\">All Resources</a>.</div>\r\n"
             format: full_no_editor
           tokenize: false
       arguments:
@@ -924,7 +924,7 @@ display:
       display_description: ''
       use_more: true
       use_more_always: false
-      use_more_text: 'All CI Links with this tag'
+      use_more_text: 'All Resources with this tag'
       header:
         area:
           id: area
@@ -1032,11 +1032,11 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: webform_submission_field
-          label: 'CI Link'
+          label: 'Knowledge Base Resources'
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/ci-link/{{ sid }}">{{ webform_submission_value_5 }}</a>'
+            text: '<a href="/knowledge-base/resources/{{ sid }}">{{ webform_submission_value_5 }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -1194,7 +1194,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning">There are no CI Links associated with this topic. Please check back often as more CI Links are added regularly, or view <a href="/ci-links">CI Links</a>.</div>'
+            value: '<div class="alert alert-warning">There are no Resources associated with this topic. Please check back often as more Resources are added regularly, or view <a href="/knowledge-base/resources">Resources</a>.</div>'
             format: full_html
           tokenize: false
       sorts:
@@ -1389,7 +1389,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<h3 class="border-bottom pb-2">CI Links</h3>'
+            value: '<h3 class="border-bottom pb-2">Resources</h3>'
             format: full_no_editor
           tokenize: false
       display_extenders:
@@ -1406,7 +1406,7 @@ display:
       tags: {  }
   block_3:
     id: block_3
-    display_title: 'CI Links by Tag'
+    display_title: 'Resources by Tag'
     display_plugin: block
     position: 2
     display_options:
@@ -1426,7 +1426,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning">There are no CI Links associated with this topic. View <a href="/ci-links">All CI Links</a>.</div>'
+            value: '<div class="alert alert-warning">There are no Resources associated with this topic. View <a href="/knowledge-base/resources">All Resources</a>.</div>'
             format: full_html
           tokenize: false
       arguments:
@@ -1536,7 +1536,7 @@ display:
       display_description: 'All Resources'
       use_more: true
       use_more_always: false
-      use_more_text: 'All CI Links with this tag'
+      use_more_text: 'All Resources with this tag'
       header:
         area:
           id: area
@@ -1563,11 +1563,11 @@ display:
       tags: {  }
   block_4:
     id: block_4
-    display_title: 'Popular CI Links'
+    display_title: 'Popular Resources'
     display_plugin: block
     position: 7
     display_options:
-      title: 'Popular CI Links'
+      title: 'Popular Resources'
       fields:
         sid:
           id: sid
@@ -1647,7 +1647,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/ci-links/{{ sid }}">{{ webform_submission_value_5 }}</a>'
+            text: '<a href="/knowledge-base/resources/{{ sid }}">{{ webform_submission_value_5 }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -2056,7 +2056,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/ci-links/{{ sid }}">{{ webform_submission_value_5 }}</a>'
+            text: '<a href="/knowledge-base/resources/{{ sid }}">{{ webform_submission_value_5 }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -2137,7 +2137,7 @@ display:
             ellipsis: true
             more_link: true
             more_link_text: ''
-            more_link_path: 'ci-link/{{ sid }}'
+            more_link_path: 'knowledge-base/resources/{{ sid }}'
             strip_tags: false
             trim: true
             preserve_tags: ''
@@ -2390,7 +2390,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{{ webform_submission_value_4 }}\r\n{{ webform_submission_value_7 }}\r\n{{ webform_submission_value_8 }}\r\n{% if webform_submission_value_6 %} <a href=\"/ci-links/{{sid}}\">more</a> {% endif %}"
+            text: "{{ webform_submission_value_4 }}\r\n{{ webform_submission_value_7 }}\r\n{{ webform_submission_value_8 }}\r\n{% if webform_submission_value_6 %} <a href=\"/knowledge-base/resources/{{sid}}\">more</a> {% endif %}"
             make_link: false
             path: ''
             absolute: false
@@ -2498,7 +2498,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: '<a href="/ci-link/{{ sid_1 }}">view</a>'
+            text: '<a href="/knowledge-base/resources/{{ sid_1 }}">view</a>'
             make_link: false
             path: ''
             absolute: false
@@ -2677,7 +2677,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning mx-3">There are no CI Links at this time. Please check back often as CI Links are added regularly.</div>'
+            value: '<div class="alert alert-warning mx-3">There are no Resources at this time. Please check back often as Resources are added regularly.</div>'
             format: full_no_editor
           tokenize: false
       sorts:
@@ -3081,7 +3081,7 @@ display:
       path: ci-links
       menu:
         type: normal
-        title: 'CI Links'
+        title: Resources
         description: ''
         weight: -41
         expanded: true
@@ -3098,7 +3098,7 @@ display:
       tags: {  }
   page_2:
     id: page_2
-    display_title: 'CI Links by Tag Page'
+    display_title: 'Resources by Tag Page'
     display_plugin: page
     position: 2
     display_options:
@@ -3184,7 +3184,7 @@ display:
             alter_text: false
             text: ''
             make_link: true
-            path: '/ci-links/{{ sid }}'
+            path: '/knowledge-base/resources/{{ sid }}'
             absolute: false
             external: false
             replace_spaces: false
@@ -3575,7 +3575,7 @@ display:
       tags: {  }
   page_3:
     id: page_3
-    display_title: 'CI Links Page'
+    display_title: 'Resources Page'
     display_plugin: page
     position: 1
     display_options:
@@ -3820,7 +3820,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/knowledge-base/ci-links/{{ sid }}">{{ webform_submission_value_5 }}</a>'
+            text: '<a href="/knowledge-base/resources/{{ sid }}">{{ webform_submission_value_5 }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -3901,7 +3901,7 @@ display:
             ellipsis: true
             more_link: true
             more_link_text: ''
-            more_link_path: 'ci-link/{{ sid }}'
+            more_link_path: 'knowledge-base/resources/{{ sid }}'
             strip_tags: false
             trim: true
             preserve_tags: ''
@@ -4154,7 +4154,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{{ webform_submission_value_4 }}\r\n{{ webform_submission_value_7 }}\r\n{{ webform_submission_value_8 }}\r\n{% if webform_submission_value_6 %} <a href=\"/knowledge-base/ci-links/{{sid}}\">more</a> {% endif %}"
+            text: "{{ webform_submission_value_4 }}\r\n{{ webform_submission_value_7 }}\r\n{{ webform_submission_value_8 }}\r\n{% if webform_submission_value_6 %} <a href=\"/knowledge-base/resources/{{sid}}\">more</a> {% endif %}"
             make_link: false
             path: ''
             absolute: false
@@ -4262,7 +4262,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: '<a href="/ci-link/{{ sid_1 }}">view</a>'
+            text: '<a href="/knowledge-base/resources/{{ sid_1 }}">view</a>'
             make_link: false
             path: ''
             absolute: false
@@ -4441,7 +4441,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning mx-3">There are no CI Links at this time. Please check back often as CI Links are added regularly.</div>'
+            value: '<div class="alert alert-warning mx-3">There are no Resources at this time. Please check back often as Resources are added regularly.</div>'
             format: full_no_editor
           tokenize: false
       sorts:
@@ -4843,10 +4843,10 @@ display:
               prefix: ''
               separator: ', '
               suffix: ''
-      path: knowledge-base/ci-links
+      path: knowledge-base/resources
       menu:
         type: none
-        title: 'CI Links'
+        title: 'Knowledge Base Resources'
         description: ''
         weight: -41
         expanded: true
@@ -5179,7 +5179,7 @@ display:
             ellipsis: true
             more_link: true
             more_link_text: ''
-            more_link_path: 'ci-link/{{ sid }}'
+            more_link_path: 'knowledge-base/resources/{{ sid }}'
             strip_tags: false
             trim: true
             preserve_tags: ''
@@ -5469,11 +5469,11 @@ display:
           entity_type: webform_submission
           entity_field: sid
           plugin_id: field
-          label: 'View CI Link'
+          label: 'View Knowledge Base Resource'
           exclude: true
           alter:
             alter_text: true
-            text: '<a href="/ci-link/{{ sid_1 }}">view</a>'
+            text: '<a href="/knowledge-base/resources/{{ sid_1 }}">view</a>'
             make_link: false
             path: ''
             absolute: false
@@ -5657,7 +5657,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"card mx-auto align-self-center text-center\" style=\"height: 500px;\">\r\n<div class=\"card-body\">\r\n<h5 class=\"mt-3\"><a href=\"/ci-link/{{ sid }}\">{{ webform_submission_value_5 }}</a></h5>\r\n<hr>\r\n<p>{{ webform_submission_value_1 }}</p>\r\n<p>{{ webform_submission_value }}</p>\r\n<p>{{ webform_submission_value_4 }}   {{ webform_submission_value_7 }}   {{ webform_submission_value_8 }}</p>\r\n<p>{{ webform_submission_value_3 }}</p>\r\n</div>\r\n</div>"
+            text: "<div class=\"card mx-auto align-self-center text-center\" style=\"height: 500px;\">\r\n<div class=\"card-body\">\r\n<h5 class=\"mt-3\"><a href=\"/knowledge-base/resources/{{ sid }}\">{{ webform_submission_value_5 }}</a></h5>\r\n<hr>\r\n<p>{{ webform_submission_value_1 }}</p>\r\n<p>{{ webform_submission_value }}</p>\r\n<p>{{ webform_submission_value_4 }}   {{ webform_submission_value_7 }}   {{ webform_submission_value_8 }}</p>\r\n<p>{{ webform_submission_value_3 }}</p>\r\n</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -5709,7 +5709,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning mx-3">There are no CI Links at this time. Please check back often as CI Links are added regularly.</div>'
+            value: '<div class="alert alert-warning mx-3">There are no Resources at this time. Please check back often as Resources are added regularly.</div>'
             format: full_no_editor
           tokenize: false
       sorts:

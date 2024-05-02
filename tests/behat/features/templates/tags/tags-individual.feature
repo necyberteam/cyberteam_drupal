@@ -64,7 +64,7 @@ Feature: test individual tags page
     # Then I should see "Members get updates about news, events, and outages"
     # And I should see "test-affinity-group"
 
-  Scenario: Verify the "test-login-resource" ci-link shows
+  Scenario: Verify the "test-login-resource" KB Resource shows
     Given I am not logged in
     When I go to "tags/login"
     Then I should see "test-login-resource"
@@ -129,7 +129,7 @@ Feature: test individual tags page
     Given I am not logged in
     When I go to "tags/big-data"
     Then I should see "big-data"
-    Then I should see "CI Links"
+    Then I should see "Knowledge Base Resources"
     Then I should see "Mentors and Regional Facilitators"
     Then I should see "Tony Elam"
     Then I should see "Kentucky"

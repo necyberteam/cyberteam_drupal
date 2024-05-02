@@ -61,7 +61,7 @@ describe("Tests of the knowledge-base page", () => {
 
     cy.get('.btn.btn-primary')
       .contains('FIND LINKS')
-      .should('have.attr', 'href', '/knowledge-base/ci-links');
+      .should('have.attr', 'href', '/knowledge-base/resources');
 
     cy.get('.field--type-text-with-summary')
       .contains('Popular CI Links');
@@ -80,15 +80,15 @@ describe("Tests of the knowledge-base page", () => {
       .should('have.length', 3)
       .each(($a) => cy.wrap($a)
         .should('have.attr', 'href')
-        .and('contain', '/ci-links'));
+        .and('contain', '/knowledge-base/resources'));
 
   });
 });
 
 
-// helper function to create a ci-link that can be added to the AG
+// helper function to create a KB Resource that can be added to the AG
 function create_dummy_ci_link() {
-  cy.visit('/form/ci-link');
+  cy.visit('/form/resource');
   cy.get('#edit-approved').check();
   cy.get('#edit-title').type('dummy-ci-link-for-testing-knowledge-base');
   cy.get('#edit-category').select('Learning');
