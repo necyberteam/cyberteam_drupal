@@ -318,7 +318,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: '<a href="/ci-link/{{ sid_1 }}">view</a>'
+            text: '<a href="/knowledge-base/resources/{{ sid_1 }}">view</a>'
             make_link: false
             path: ''
             absolute: false
@@ -814,7 +814,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: "<div class=\"alert alert-warning\">There are no Resources associated with this topic. View <a href=\"/ci-links\">All Resources</a>.</div>\r\n"
+            value: "<div class=\"alert alert-warning\">There are no Resources associated with this topic. View <a href=\"/knowledge-base/resources\">All Resources</a>.</div>\r\n"
             format: full_no_editor
           tokenize: false
       arguments:
@@ -1032,7 +1032,7 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: webform_submission_field
-          label: 'CI Link'
+          label: 'Knowledge Base Resources'
           exclude: false
           alter:
             alter_text: true
@@ -2390,7 +2390,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{{ webform_submission_value_4 }}\r\n{{ webform_submission_value_7 }}\r\n{{ webform_submission_value_8 }}\r\n{% if webform_submission_value_6 %} <a href=\"/ci-links/{{sid}}\">more</a> {% endif %}"
+            text: "{{ webform_submission_value_4 }}\r\n{{ webform_submission_value_7 }}\r\n{{ webform_submission_value_8 }}\r\n{% if webform_submission_value_6 %} <a href=\"/knowledge-base/resources/{{sid}}\">more</a> {% endif %}"
             make_link: false
             path: ''
             absolute: false
@@ -2498,7 +2498,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: '<a href="/ci-link/{{ sid_1 }}">view</a>'
+            text: '<a href="/knowledge-base/resources/{{ sid_1 }}">view</a>'
             make_link: false
             path: ''
             absolute: false
@@ -3820,7 +3820,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/knowledge-base/ci-links/{{ sid }}">{{ webform_submission_value_5 }}</a>'
+            text: '<a href="/knowledge-base/resources/{{ sid }}">{{ webform_submission_value_5 }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -4154,7 +4154,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{{ webform_submission_value_4 }}\r\n{{ webform_submission_value_7 }}\r\n{{ webform_submission_value_8 }}\r\n{% if webform_submission_value_6 %} <a href=\"/knowledge-base/ci-links/{{sid}}\">more</a> {% endif %}"
+            text: "{{ webform_submission_value_4 }}\r\n{{ webform_submission_value_7 }}\r\n{{ webform_submission_value_8 }}\r\n{% if webform_submission_value_6 %} <a href=\"/knowledge-base/resources/{{sid}}\">more</a> {% endif %}"
             make_link: false
             path: ''
             absolute: false
@@ -4262,7 +4262,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: '<a href="/ci-link/{{ sid_1 }}">view</a>'
+            text: '<a href="/knowledge-base/resources/{{ sid_1 }}">view</a>'
             make_link: false
             path: ''
             absolute: false
@@ -4843,7 +4843,7 @@ display:
               prefix: ''
               separator: ', '
               suffix: ''
-      path: knowledge-base/ci-links
+      path: knowledge-base/resources
       menu:
         type: none
         title: 'Knowledge Base Resources'
@@ -5469,11 +5469,11 @@ display:
           entity_type: webform_submission
           entity_field: sid
           plugin_id: field
-          label: 'View CI Link'
+          label: 'View Knowledge Base Resource'
           exclude: true
           alter:
             alter_text: true
-            text: '<a href="/ci-link/{{ sid_1 }}">view</a>'
+            text: '<a href="/knowledge-base/resources/{{ sid_1 }}">view</a>'
             make_link: false
             path: ''
             absolute: false
