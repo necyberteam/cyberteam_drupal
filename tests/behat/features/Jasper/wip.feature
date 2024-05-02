@@ -35,8 +35,8 @@ Feature: test individual Affinity Group page
 
   #Scenario: Administrator user creates CI Link and adds it to an affinity group
     Given I am logged in as a user with the "administrator" role
-    When I go to "/form/ci-link"
-    Then I should see "CI Link"
+    When I go to "/form/resource"
+    Then I should see "Knowledge Base Resources"
     When I fill in "title" with "dummy-ci-link-for-ag-testing"
     When I select "learning" from "category"
     When I check "Approved"
@@ -48,5 +48,5 @@ Feature: test individual Affinity Group page
     When I fill in "Link URL" with "http://example.com"
     #When I wait 3 seconds
     When I press "Submit"
-    When I go to /ci-links"
+    When I go to /knowledge-base/resources"
     Then I should see "dummy-ci-link-for-ag-testing"

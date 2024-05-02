@@ -9,7 +9,7 @@ with links redirecting to their respective addresses.
 
   Scenario: Authenticated user Test the resource page
     Given I am logged in as a user with the "authenticated" role
-    When I go to "/knowledge-base/ci-links"
+    When I go to "/knowledge-base/resources"
     And I wait 2 seconds
     Then I should see "Test CI Link Title"
     When I click the "summary:nth-child(1) > div:nth-child(1)" element

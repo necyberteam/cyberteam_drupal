@@ -19,8 +19,8 @@ Feature: test get help page
     Then I should see "You must log in to view this page"
 
     When I go to "/get-research-computing-help"
-    Then I click "Join the Regional Slack Discussion"
-    Then I click "Ask a Question of the Community"
+    Then I should see "Join the Regional Slack Discussion"
+    Then I should see  "Ask a Question of the Community"
     When I click "Find Learning Resources"
     And I wait 2 seconds
-    Then I should see "CI Links"
+    Then I should see "Knowledge Base Resources"

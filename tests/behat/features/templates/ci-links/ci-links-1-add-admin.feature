@@ -64,7 +64,7 @@ Feature: test KB Resources form
     When I click "Edit"
     Then I should get a "200" HTTP response
 
-  Scenario: Administrator creates a simple ci-link
+  Scenario: Administrator creates a simple KB Resource
     Given I am logged in as a user with the "administrator" role
     When I go to homepage
     When I go to "/knowledge-base/resources"

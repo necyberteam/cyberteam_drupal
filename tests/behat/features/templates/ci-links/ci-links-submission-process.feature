@@ -24,4 +24,4 @@ Feature: test KB Resource submission page as an administrator user
     #op is the Save button
     When I press "edit-submit"
     And I wait 5 seconds
-    Then I should see "Submission updated in CI Link."
+    Then I should see "Submission updated in Knowledge Base Resources."
