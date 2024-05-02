@@ -2,27 +2,27 @@
 @api
 @javascript
 
-Feature: test CI Link form
-  In order to test the CI Link form
+Feature: test KB Resources form
+  In order to test the KB Resources form
   As a user of the administrator role
 
-  Scenario: Administrator user fills out the CI Link form
+  Scenario: Administrator user fills out the KB Resources form
     Given I am logged in as a user with the "administrator" role
     # Clear Search api index
     When I go to "/admin/config/search/search-api/index/ci_links"
     When I click the "#edit-clear" element
     When I click the "#edit-submit" element
 
-    When I go to "/knowledge-base/ci-links"
-    When I follow "Add a CI Link"
-    Then I should be on "/form/ci-link"
+    When I go to "/knowledge-base/resources"
+    When I follow "Add a Resource"
+    Then I should be on "/form/resource"
     And I should see "Title"
     And I should see "Category"
     And I should see "Tags"
     And I should see "Select one (or more) tags that apply."
     And I should see "Skill Level"
     And I should see "Description"
-    And I should see "Link to CI Link"
+    And I should see "Link to Resource"
     And I should see "Link Title"
     And I should see "Link URL"
     And I should see "Add"
@@ -45,7 +45,7 @@ Feature: test CI Link form
     And I should see "Tags"
     And I should see "Skill Level"
     And I should see "Description"
-    And I should see "Link to CI Link"
+    And I should see "Link to Resource"
     #TODO: Doesnt always work, investigate
     When I press "Submission information"
     Then I should see "Submission Number"
@@ -67,9 +67,9 @@ Feature: test CI Link form
   Scenario: Administrator creates a simple ci-link
     Given I am logged in as a user with the "administrator" role
     When I go to homepage
-    When I go to "/knowledge-base/ci-links"
-    When I follow "Add a CI Link"
-    Then I should be on "form/ci-link"
+    When I go to "/knowledge-base/resources"
+    When I follow "Add a Resource"
+    Then I should be on "form/resource"
     Then I should see "Add"
     When I fill in "title" with "test-login-resource"
     When I select "learning" from "category"
