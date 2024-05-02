@@ -25,7 +25,7 @@ Feature: This Behat test goes over the Get Help Page, when accessed by an unauth
     Then I click "Join the Regional Slack Discussion"
     Then I click "Ask a Question of the Community"
     When I click "Find Learning Resources"
-    Then I should see "CI Links"
+    Then I should see "Knowledge Base Resources"
 
   Scenario: Authenticated user Test the Get Help Page
     Given I am logged in as a user with the "authenticated" role
@@ -43,4 +43,4 @@ Feature: This Behat test goes over the Get Help Page, when accessed by an unauth
     Then I click "Join the Regional Slack Discussion"
     Then I click "Ask a Question of the Community"
     When I click "Find Learning Resources"
-    Then I should see "CI Links"
+    Then I should see "Knowledge Base Resources"

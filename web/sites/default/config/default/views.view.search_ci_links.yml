@@ -8,7 +8,7 @@ dependencies:
     - better_exposed_filters
     - search_api
 id: search_ci_links
-label: 'Search CI Links'
+label: 'Search Knowledge Base Resources'
 module: views
 description: ''
 tag: ''
@@ -37,7 +37,7 @@ display:
             alter_text: false
             text: ''
             make_link: false
-            path: '/ci-links/{{ sid }}'
+            path: '/knowledge-base/resources/{{ sid }}'
             absolute: false
             external: false
             replace_spaces: false
@@ -663,7 +663,7 @@ display:
     display_options:
       exposed_block: true
       display_extenders: {  }
-      path: knowledge-base/ci-links
+      path: knowledge-base/resources
     cache_metadata:
       max-age: -1
       contexts:
@@ -816,7 +816,7 @@ display:
       display_description: ''
       exposed_block: true
       display_extenders: {  }
-      path: knowledge-base/ci-links/mentorship
+      path: knowledge-base/resources/mentorship
     cache_metadata:
       max-age: -1
       contexts:

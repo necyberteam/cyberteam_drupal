@@ -93,7 +93,7 @@ function user200_verify_self_cp() {
     .should('have.attr', 'href', "/community-persona/add-skill");
   cy.contains('All Affinity Groups')
     .should('have.attr', 'href', "/affinity-groups");
-  cy.contains('Add CI Link')
+  cy.contains('Add Resource')
     .should('have.attr', 'href', "/form/resource");
   cy.contains('See engagements')
     .should('have.attr', 'href', "/engagements");
