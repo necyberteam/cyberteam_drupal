@@ -1,10 +1,10 @@
 @templates
 @api
 
-Feature: test ci-link submission page as an administrator user
-  In order to test the ci-links submission page as an administrator user
+Feature: test KB Resource submission page as an administrator user
+  In order to test the KB Resource submission page as an administrator user
 
-  Scenario: Administrator user Test ci links submission page
+  Scenario: Administrator user Test KB Resource submission page
     Given I am logged in as a user with the "administrator" role
     When I go to "/admin/structure/webform/manage/resource/results/submissions"
     Then I should see "Test CI Link Title 2"
@@ -15,7 +15,7 @@ Feature: test ci-link submission page as an administrator user
     Then I should see "User"
     Then I should see "Created"
     Then I should see "Changed"
-    Then I should see "Link to CI link"
+    Then I should see "Link to Resource"
     Then I should see "Operations"
     When I click "Test CI Link Title 2"
     When I click "Edit"
