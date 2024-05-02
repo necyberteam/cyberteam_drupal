@@ -421,7 +421,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '{{ ''recruiting'' in webform_submission_value_5|render|lower ? ''Recruiting'' : webform_submission_value_5 }}'
+            text: "{{ 'recruiting' in webform_submission_value_5|render|lower ? 'Recruiting' : webform_submission_value_5 }}"
             make_link: false
             path: ''
             absolute: false
@@ -934,6 +934,15 @@ display:
             date_format: short
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true

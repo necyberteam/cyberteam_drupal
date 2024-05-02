@@ -1453,6 +1453,9 @@ table.sticky-header th {
 .ccmnet img {
   max-width: 100%;
 }
+.ccmnet .layout__region--first img {
+  height: auto;
+}
 .ccmnet .next-steps img {
   max-width: 120px;
 }
@@ -1691,7 +1694,9 @@ table.sticky-header th {
   color: var(--primary) !important;
   text-decoration: none !important;
 }
-
+.hover--border-dark-teal.text-white {
+  color: #fff !important;
+}
 .square-tags ul {
   margin-bottom: 0;
 }
@@ -1834,6 +1839,9 @@ table.sticky-header th {
 .ccmnet .views-element-container details {
   border-top: 1px solid var(--ccmnet-lightblue);
   margin: 0px;
+}
+.ccmnet details summary::-webkit-details-marker {
+  display:none;
 }
 .ccmnet .views-element-container details .grid .md--col-span-1 {
   background-color: var(--ccmnet-lighterblue);
