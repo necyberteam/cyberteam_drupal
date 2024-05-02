@@ -81,7 +81,7 @@ function create_dummy_ci_link() {
   cy.visit('/form/resource');
   cy.get('#edit-approved').check();
   cy.get('#edit-title').type('access-support-ci-link-for-testing');
-  cy.get('#edit-category').select('Learning');
+  cy.get('#edit-category').select('learning');
   cy.get('#edit-skill-level-304').check();  // beginner level
   cy.get('#edit-description').type("Dummy description for ci-link 'access-support-ci-link-for-testing'");
   // tag "access-account" is selected
