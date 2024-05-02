@@ -14,7 +14,7 @@ Feature: test KB Resources form
     When I click the "#edit-submit" element
 
     When I go to "/knowledge-base/resources"
-    When I follow "Add a Resource"
+    When I follow "Add a CI Link"
     Then I should be on "/form/resource"
     And I should see "Title"
     And I should see "Category"
@@ -68,7 +68,7 @@ Feature: test KB Resources form
     Given I am logged in as a user with the "administrator" role
     When I go to homepage
     When I go to "/knowledge-base/resources"
-    When I follow "Add a Resource"
+    When I follow "Add a CI Link"
     Then I should be on "form/resource"
     Then I should see "Add"
     When I fill in "title" with "test-login-resource"

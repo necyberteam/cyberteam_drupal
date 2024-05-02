@@ -11,7 +11,7 @@ Resource with Link Title and Link URL (must include https).
   Scenario: Authenticated user fills out the resource form
     Given I am logged in as a user with the "authenticated" role
     When I go to "/knowledge-base/resources"
-    When I follow "Add a Resource"
+    When I follow "Add a CI Link"
     Then I should be on "form/resource"
     And I should see "Title"
     And I should see "Category"
