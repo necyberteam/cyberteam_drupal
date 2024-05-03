@@ -1,13 +1,13 @@
 //
-// As an admin user, create a test CI-Link called "cypress-ci-link-for-testing"
+// As an admin user, create a test KB Resource called "cypress-ci-link-for-testing"
 //
-describe("Admin user uses form to create a CI Link", () => {
-  it("should create a CI-Link", () => {
+describe("Admin user uses form to create a KB Resource", () => {
+  it("should create a KB Resource", () => {
     // login user with the "administrator" role
     cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
-    cy.visit("/form/ci-link");
-    cy.contains(" CI Link ");
-    cy.task("log", "logged in as Apple Pie, on add ci-link form");
+    cy.visit("/form/resource");
+    cy.contains(" Resource ");
+    // cy.task("log", "logged in as Apple Pie, on add ci-link form");
 
     // cy.contains('Edit Affinity Group ACCESS Support');
     cy.get("#edit-approved").check();

@@ -111,7 +111,7 @@ describe("Verify the the community-outreach tag page", () => {
                 cy.wrap(cell)
                   .contains('dummy-ci-link-for-testing-community-outreach-tag')
                   .should('have.attr', 'href')
-                  .and('contain', '/ci-links/');
+                  .and('contain', '/knowledge-base/resources');
                 break;
               case 1:
                 cy.wrap(cell)
@@ -260,9 +260,9 @@ describe("Verify the the community-outreach tag page", () => {
 
     /////////////////////////////////////////////////////////////////////////
 
-    // helper function to create a ci-link
+    // helper function to create a KB Resource
     function create_dummy_ci_link() {
-      cy.visit('/form/ci-link');
+      cy.visit('/form/resource');
       cy.get('#edit-approved').check();
       cy.get('#edit-title').type('dummy-ci-link-for-testing-community-outreach-tag');
       cy.get('#edit-category').select('Learning');

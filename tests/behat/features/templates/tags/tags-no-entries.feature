@@ -26,6 +26,6 @@ Feature: for a new tag, verify all blocks display a no entries message
     #Then I should see "There are no Ask.CI entries associated with this topic."
     Then I should see "There are no Affinity Groups associated with this topic."
     Then I should see "There are no Users associated with this topic."
-    Then I should see "There are no CI Links associated with this topic."
+    Then I should see "There are no Resources associated with this topic."
     Then I should see "There are no projects associated with this topic."
     Then I should see "There are no Blog Entries associated with this topic."
