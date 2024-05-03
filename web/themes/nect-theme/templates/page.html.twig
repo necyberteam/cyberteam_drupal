@@ -243,10 +243,17 @@
   {% else %}
 	<div class="container{% if is_front %} main-container mt-3{% else %} mt-4{% endif %}">
   {% endif %}
+  {% block main_wrapper_classes %}
+    {% if sidebar_first_classes is null %}
+      {% set sidebar_first_classes = "order-2 order-lg-1 col-lg-4 col-12 mx-auto" %}
+    {% endif %}
+    {% if main_wrapper_classes is null %}
+      {% set main_wrapper_classes = "order-1 order-lg-2 col-lg-8 col-12 mx-auto" %}
+    {% endif %}
   {% if domain_name != "ccmnet" %}
     <div class="row">
     {% if page.primary_sidebar or page.secondary_sidebar %}
-      <div class="order-1 order-lg-2 col-lg-9 col-12 mx-auto">
+      <div class="{{ main_wrapper_classes }}">
         {{ page.page_top }}
         {{ page.title_area }}
         {{ page.view_type_buttons }}
@@ -270,7 +277,7 @@
         {{ page.below_main_content }}
       </div>
       {% if page.primary_sidebar %}
-        <div class="order-2 order-lg-1 col-lg-3 col-12 mx-auto">
+        <div class="{{ sidebar_first_classes }}">
           {{ page.primary_sidebar }}
         </div>
       </div>{% endif %}{% if page.secondary_sidebar %}
@@ -320,7 +327,7 @@
     <div class="container{% if is_front %} main-container mt-3 mt-4 pt-2 pb-5{% else %} py-5{% endif %}">
       <div class="row">
         {% if page.primary_sidebar or page.secondary_sidebar %}
-          <div class="order-1 order-lg-2 col-lg-9 col-12 mx-auto">
+          <div class="{{ main_wrapper_classes }}">
             {{ page.view_type_buttons }}
             {{ page.drupal_tabs }}
             {{ page.exposed_filters }}
@@ -339,7 +346,7 @@
             {{ page.below_main_content }}
           </div>
           {% if page.primary_sidebar %}
-            <div class="order-2 order-lg-1 col-lg-3 col-12 mx-auto">
+            <div class="{{ sidebar_first_classes }}">
               {{ page.primary_sidebar }}
             </div>
           </div>{% endif %}{% if page.secondary_sidebar %}
@@ -371,6 +378,7 @@
     </div>
   {% endif %}
 	</div>
+  {% endblock %}
 	{% if is_front %}</div>{% endif %}
 
   {# end grey background #}

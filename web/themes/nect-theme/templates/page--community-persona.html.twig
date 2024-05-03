@@ -1,0 +1,6 @@
+{% extends "page.html.twig" %}
+{% block main_wrapper_classes %}
+  {% set sidebar_first_classes = "order-1 col-lg-4 col-12 mx-auto" %}
+  {% set main_wrapper_classes = "order-2 col-lg-8 col-12 mx-auto" %}
+  {{ parent() }}
+{% endblock %}
