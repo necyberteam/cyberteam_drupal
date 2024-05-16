@@ -64,7 +64,7 @@ describe("Tests of the knowledge-base page", () => {
       .should('have.attr', 'href', '/knowledge-base/resources');
 
     cy.get('.field--type-text-with-summary')
-      .contains('Popular CI Links');
+      .contains('Popular Resources');
 
     // verify count of ask-ci links is 10
     cy.get('.block-top-tags-from-askci > .flex-wrap')
