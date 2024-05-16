@@ -11,6 +11,8 @@ dependencies:
   module:
     - node
     - search_api
+    - ccmnet
+    - cssn
     - webform_submission_search_api
 id: affinity_groups
 name: 'Affinity Groups'
@@ -53,7 +55,7 @@ field_settings:
     label: Title
     datasource_id: 'entity:node'
     property_path: title
-    type: string
+    type: text
     dependencies:
       module:
         - node
@@ -105,7 +107,9 @@ processor_settings:
     all_fields: false
     fields: {  }
   language_with_fallback: {  }
+  mentee_name: {  }
   rendered_item: {  }
+  user_skills: {  }
   webform_submission_category: {  }
   webform_submission_description: {  }
   webform_submission_skill_level: {  }
