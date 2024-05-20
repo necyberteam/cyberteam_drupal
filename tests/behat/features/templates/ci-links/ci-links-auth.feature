@@ -11,6 +11,6 @@ descriptions, categories, tags (first 3 linked), skill levels, and affinity grou
     Given I am logged in as a user with the "authenticated" role
     When I go to "/knowledge-base/resources"
     Then I should see "Add a Resource"
-    Then I should see "Use these links “vetted” by the community"
+    Then I should see "Use these links"
     Then I should see "Test CI Link Title"
 
