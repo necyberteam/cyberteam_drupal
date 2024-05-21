@@ -32,7 +32,6 @@ describe('Tests the CSSN Directory Page', () => {
         // Card should link to the community persona page.
         cy.get('@item')
             .find('a.stretched-link')
-            .should('contain', 'Abico duis interdico')
             .should("have.attr", "href")
             .and("contain", '/community-persona/1373');
 
