@@ -8,9 +8,9 @@
     Verifying links load in,
     And CI Links go to the correct page
 */
-describe("Unauthenticated user tests the KB Resources Page", () => {
-  it("Should test the KB Resources page for unauthenticated user", () => {
-    cy.visit("/knowledge-base/resources");
+describe("Unauthenticated user tests the CI Links Page", () => {
+  it("Should test the CI Links page for unauthenticated user", () => {
+    cy.visit("/knowledge-base/ci-links");
     //Likes should be an integer value
     cy.get(".view-search-ci-links details summary .linkcount")
       .invoke('val')
