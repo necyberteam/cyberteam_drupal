@@ -23,7 +23,7 @@ Feature: test individual Affinity Group page
     When I go to "node/327/edit"
     Then I should see "Edit Affinity Group ACCESS Support"
     # this CI link is created by amp_dev.install
-    When I fill in "Display CI Links on your Affinity Group" with "ci-link-for-user-200"
+    When I fill in "Display Knowledge Base Resources on your Affinity Group" with "ci-link-for-user-200"
     And I wait 1 seconds
     When I press "Save"
     And I wait 2 seconds
@@ -33,7 +33,7 @@ Feature: test individual Affinity Group page
     Then I should see "ci-link-for-user-200"
 
 
-  #Scenario: Administrator user creates CI Link and adds it to an affinity group
+  #Scenario: Administrator user creates KB Resource and adds it to an affinity group
     Given I am logged in as a user with the "administrator" role
     When I go to "/form/resource"
     Then I should see "Knowledge Base Resources"

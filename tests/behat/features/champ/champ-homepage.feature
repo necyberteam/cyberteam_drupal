@@ -28,7 +28,7 @@ Feature: For non-authenticated users, Campus Champions Specific Tests encompass 
     Then I should see "About Us"
     Then I should see "Find Champions"
     Then I should see "Affinity Groups"
-    Then I should see "CI Links"
+    Then I should see "Resources"
     Then I should see "Advancing Science"
     Then I should see "Creating Community"
     Then I should see "Building Knowledge"
