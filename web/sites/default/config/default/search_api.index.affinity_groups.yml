@@ -55,7 +55,16 @@ field_settings:
     label: Title
     datasource_id: 'entity:node'
     property_path: title
+    type: string
+    dependencies:
+      module:
+        - node
+  title_1:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
     type: text
+    boost: 0.9
     dependencies:
       module:
         - node
@@ -94,12 +103,10 @@ processor_settings:
     alt: true
     tags:
       b: 2
-      em: 1
       h1: 5
       h2: 3
       h3: 2
       strong: 2
-      u: 1
   ignorecase:
     weights:
       preprocess_index: -20
@@ -109,6 +116,70 @@ processor_settings:
   language_with_fallback: {  }
   mentee_name: {  }
   rendered_item: {  }
+  stemmer:
+    weights:
+      preprocess_index: 0
+      preprocess_query: 0
+    all_fields: false
+    fields:
+      - body
+    exceptions:
+      mexican: mexic
+      texan: texa
+  stopwords:
+    weights:
+      preprocess_index: -5
+      preprocess_query: -2
+    all_fields: false
+    fields:
+      - body
+    stopwords:
+      - a
+      - an
+      - and
+      - are
+      - as
+      - at
+      - be
+      - but
+      - by
+      - for
+      - if
+      - in
+      - into
+      - is
+      - it
+      - 'no'
+      - not
+      - of
+      - 'on'
+      - or
+      - s
+      - such
+      - t
+      - that
+      - the
+      - their
+      - then
+      - there
+      - these
+      - they
+      - this
+      - to
+      - was
+      - will
+      - with
+  tokenizer:
+    weights:
+      preprocess_index: -6
+      preprocess_query: -6
+    all_fields: false
+    fields:
+      - body
+    spaces: ''
+    ignored: ._-
+    overlap_cjk: 1
+    minimum_word_size: '3'
   user_skills: {  }
   webform_submission_category: {  }
   webform_submission_description: {  }
