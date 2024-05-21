@@ -12,7 +12,7 @@ a special message if no results are found.
     Given I am not logged in
     When I go to "/knowledge-base/resources"
     Then I should see "Knowledge Base Resources"
-    Then I should see "Use these links"
+    Then I should see "Cyberinfrastructure professionals"
     Then I should see "Add a Resource"
     Then I should see "Test CI Link Title"
     When I click "Add a Resource"
