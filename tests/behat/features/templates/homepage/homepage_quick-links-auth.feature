@@ -26,7 +26,7 @@ Feature: The Front Page includes a site slogan, which is region-specific,
     When I click "Ask the Community"
     Then I should be on "https://ask.cyberinfrastructure.org/"
     When I am on the homepage
-    When I click "Find CI Links"
+    When I click "Find Knowledge Base Resources"
     Then I should be on "/knowledge-base/resources"
     When I am on the homepage
     Then I should see the link "Project Submission Form"

@@ -82,4 +82,5 @@ $settings['config_exclude_modules'] = [
   'recaptcha',
   'upgrade_status',
   'symfony_mailer',
+  'recaptcha_v3',
 ];

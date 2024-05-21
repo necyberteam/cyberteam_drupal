@@ -43,7 +43,7 @@ describe("Verify the the community-outreach tag page", () => {
               cy.wrap(row).find('.view-field-published-date-table-column')
                 .should('not.be.empty');
             });
-        } 
+        }
       })
     }
 
@@ -132,7 +132,7 @@ describe("Verify the the community-outreach tag page", () => {
 
       // check more button
       cy.get('.view-resources')
-        .contains('All CI Links with this tag')
+        .contains('All Resources with this tag')
         .should('have.attr', 'href', '/tags/340/resources');
     }
 

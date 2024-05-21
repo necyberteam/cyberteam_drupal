@@ -13,19 +13,19 @@ describe("Unauthenticated user tests the ASP Homepage", () => {
 
     //Announcements block section
     cy.get(".block-views-blockaccess-news-latest-news-block").contains(
-      "announcements"
+      "Announcements"
     );
     cy.get(".block-views-blockaccess-news-latest-news-block").contains(
-      "See all announcements"
+      "See all"
     );
 
     //Events block section
     cy.get(
       ".block-views-blockrecurring-events-event-instances-latest-events-block"
-    ).contains("Upcoming Events");
+    ).contains("Training and Events");
     cy.get(
       ".block-views-blockrecurring-events-event-instances-latest-events-block"
-    ).contains("See all events");
+    ).contains("See all");
 
     //Search Access block section and button destination
     cy.get(":nth-child(1) > .mt-0").contains("Search ACCESS");
@@ -38,7 +38,7 @@ describe("Unauthenticated user tests the ASP Homepage", () => {
     cy.verifyCallToActionBlock(
       "/",
       "Find useful resources now",
-      "/knowledge-base/ci-links"
+      "/knowledge-base/resources"
     );
   });
 });

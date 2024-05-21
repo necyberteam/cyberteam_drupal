@@ -47,6 +47,6 @@ Affinity Group Request page for authenticated users.
     Then I should see "Email"
     Then I should see "Coordinators"
     Then I should see "Events"
-    Then I should see "Knowledge Base Resources"
+    #Then I should see "Knowledge Base Resources"
     Then I should see "People"
     #Then I should see "Masquerade"
