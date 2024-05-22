@@ -2081,6 +2081,13 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
   background-color: var(--ccmnet-purple) !important;
   padding: 0.5rem 1rem !important;
 }
+.ccmnet .carousel-item p.text-small {
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
 .corner-triangle {
   aspect-ratio: 1;
   clip-path: polygon(0 100%,100% 0,100% 100%);
