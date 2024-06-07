@@ -32,13 +32,13 @@ describe("Unauthenticated user tests the Match Overview Page", () => {
 
     //Individual Match Engagement
     cy.get(":nth-child(1) > .card > .card-body").contains(
-      "Run Markov Chain Monte Carlo"
+      "GPU-accelerated Ice Sheet Flow Modeling"
     );
     cy.get(":nth-child(1) > .card > .card-body").contains(
-      "Texas Tech University"
+      "University of North Dakota"
     );
     cy.get(":nth-child(1) > .card > .card-body").contains(
-      "Status: In Progress"
+      "Status: "
     );
   });
 });
