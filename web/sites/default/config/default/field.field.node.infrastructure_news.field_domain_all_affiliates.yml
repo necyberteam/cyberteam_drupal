@@ -1,0 +1,21 @@
+uuid: 729871d8-1fdc-4e4a-b840-c23f0cf39fdf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_domain_all_affiliates
+    - node.type.infrastructure_news
+id: node.infrastructure_news.field_domain_all_affiliates
+field_name: field_domain_all_affiliates
+entity_type: node
+bundle: infrastructure_news
+label: 'Send to all affiliates'
+description: 'Make this content available on all domains.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
