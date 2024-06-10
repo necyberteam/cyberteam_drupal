@@ -1,0 +1,32 @@
+uuid: 57af3598-5f27-4fe9-a5b2-da99c0238f95
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+_core:
+  default_config_hash: vF51HjIyrt7TnbDPYK8sFr_zK_remD1ivMsVyR0DqyU
+id: node.field_infrastructure_news_type
+field_name: field_infrastructure_news_type
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: Partial
+      label: Partial
+    -
+      value: Full
+      label: Full
+    -
+      value: Reconfiguration
+      label: Reconfiguration
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

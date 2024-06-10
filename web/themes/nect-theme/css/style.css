@@ -222,6 +222,9 @@ body.ccmnet {
   font-family: 'DM Sans', sans-serif;
   font-size: 18px;
 }
+body.ccmnet .cssn-directory-item i{
+  font-size: .8em;
+}
 @media screen and (min-width: 992px) {
   /* .container.main-container { max-width: 80% !important; } */
 }
@@ -575,6 +578,17 @@ li.dropdown-item a.nav-link:active {
   z-index: 100;
 }
 #secondaryNav.scrolled { min-height: 90px; }
+@media screen and (max-width: 1120px) {
+  .ccmnet #mainNav .navbar-brand .logo {
+    width: auto !important;
+    max-width: auto !important;
+    height: 62px;
+  }
+  .ccmnet .nsf-logo img {
+    width: auto;
+    height: 62px;
+  }
+}
 @media screen and (max-width: 991.98px) {
   .navbar .container { max-width: 100% !important; }
   .navbar-brand .logo {
@@ -583,13 +597,6 @@ li.dropdown-item a.nav-link:active {
   }
   .tagline {
     text-align: left;
-  }
-  @media screen and (max-width: 575.98px) {
-    .navbar-brand { margin-right: -7rem; }
-    .navbar-brand .logo {
-      width: auto !important;
-      max-width: 240px !important;
-    }
   }
   .navbar li.nav-item a.nav-link {
     line-height: initial;
@@ -646,6 +653,22 @@ li.dropdown-item a.nav-link:active {
   #secondaryNav a.dropdown-item {
     color: var(--secondary-navbar-link);
     padding: 0px 25px !important;
+  }
+}
+@media screen and (max-width: 575.98px) {
+  .navbar-brand { margin-right: -7rem; }
+  .navbar-brand .logo {
+    width: auto !important;
+    max-width: 240px !important;
+  }
+  .ccmnet #mainNav .navbar-brand .logo {
+    width: auto !important;
+    max-width: auto !important;
+    height: 55px;
+  }
+  .ccmnet .nsf-logo img {
+    width: auto;
+    height: 55px;
   }
 }
 #secondaryNavbarResponsive {
