@@ -1,0 +1,25 @@
+uuid: ea69376e-5e0f-4481-97dc-4391c55c4e86
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_do_slack
+    - node.type.infrastructure_news
+_core:
+  default_config_hash: 42KUbjM8nYFRbG9oQ1Y-HLDlGVjOTVHJ_9aMFRaoIec
+id: node.infrastructure_news.field_do_slack
+field_name: field_do_slack
+entity_type: node
+bundle: infrastructure_news
+label: 'Post to slack'
+description: 'Not currently implemented'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: '1'
+  off_label: '0'
+field_type: boolean
