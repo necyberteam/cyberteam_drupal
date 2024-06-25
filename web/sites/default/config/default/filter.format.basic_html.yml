@@ -7,6 +7,7 @@ dependencies:
     - obfuscate_email
     - rel_to_abs
     - shortcode
+    - spamspan
 _core:
   default_config_hash: P8ddpAIKtawJDi5SzOwCzVnnNYqONewSTJ6Xn0dW_aQ
 name: 'Basic HTML'
@@ -70,6 +71,20 @@ filters:
     status: true
     weight: -44
     settings: {  }
+  filter_spamspan:
+    id: filter_spamspan
+    provider: spamspan
+    status: true
+    weight: 0
+    settings:
+      spamspan_at: ' [at] '
+      spamspan_use_graphic: false
+      spamspan_dot_enable: false
+      spamspan_dot: ' [dot] '
+      spamspan_use_form: false
+      spamspan_form_pattern: '<a href="%url?goto=%email">%displaytext</a>'
+      spamspan_form_default_url: contact
+      spamspan_form_default_displaytext: 'contact form'
   filter_url:
     id: filter_url
     provider: filter
@@ -97,7 +112,10 @@ filters:
     status: false
     weight: -39
     settings:
+      square: '1'
+      cta_block: '1'
       icon_block: '1'
+      accordion: '1'
   shortcode_corrector:
     id: shortcode_corrector
     provider: shortcode
