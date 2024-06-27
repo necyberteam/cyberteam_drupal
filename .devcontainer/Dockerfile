@@ -16,7 +16,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 RUN wget -O /usr/local/bin/blt https://github.com/acquia/blt-launcher/releases/latest/download/blt.phar && chmod 755 /usr/local/bin/blt
 # Install composer and terminus
 RUN mkdir -p ~/terminus && cd ~/terminus
-RUN curl -L https://github.com/pantheon-systems/terminus/releases/download/3.1.0/terminus.phar --output terminus
+RUN curl -L https://github.com/pantheon-systems/terminus/releases/download/3.5.1/terminus.phar --output terminus
 RUN chmod +x terminus
 RUN ./terminus self:update
 RUN mv terminus /usr/local/bin/terminus && chmod 755 /usr/local/bin/terminus
