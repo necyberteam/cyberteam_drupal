@@ -45,8 +45,5 @@ mkdir -p ~/.lando/cache
 echo '>>> composer install'
 composer install --ignore-platform-reqs -n
 
-echo '>>> telemetry'
-blt blt:telemetry:disable --no-interaction
-
 echo '>>> blt amp:landosetup'
 blt amp:landosetup $GITHUB_TOKEN $AMP_UID

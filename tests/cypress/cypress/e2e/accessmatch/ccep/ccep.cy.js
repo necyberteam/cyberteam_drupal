@@ -19,8 +19,8 @@ describe("Unauthenticated user tests the CCEP Page", () => {
 
     // Accordion Section
     cy.get("h2").contains("$3,000");
-    cy.get("section:nth-child(4) > :nth-child(2) > .bg-light-teal")
-      .contains("Intro to ACCESS lecture")
+    cy.get("section.ccep-accordions")
+      .contains("Intro to ACCESS lecture for domain")
       .click();
     cy.get('[open=""] > .bg-white').contains(
       "Prepare an Intro to ACCESS lecture"

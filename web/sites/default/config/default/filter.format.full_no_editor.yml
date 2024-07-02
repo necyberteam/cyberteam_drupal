@@ -3,20 +3,11 @@ langcode: en
 status: true
 dependencies:
   module:
-    - obfuscate_email
     - shortcode
 name: 'Full no editor'
 format: full_no_editor
 weight: 0
 filters:
-  obfuscate_email:
-    id: obfuscate_email
-    provider: obfuscate_email
-    status: false
-    weight: 0
-    settings:
-      click: '0'
-      click_label: 'Click here to show mail address'
   shortcode:
     id: shortcode
     provider: shortcode

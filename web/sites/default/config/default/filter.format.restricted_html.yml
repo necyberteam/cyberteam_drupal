@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   module:
-    - obfuscate_email
     - rel_to_abs
     - shortcode
 _core:
@@ -34,14 +33,6 @@ filters:
     weight: 0
     settings:
       filter_url_length: 72
-  obfuscate_email:
-    id: obfuscate_email
-    provider: obfuscate_email
-    status: false
-    weight: 0
-    settings:
-      click: '0'
-      click_label: 'Click here to show mail address'
   rel_to_abs:
     id: rel_to_abs
     provider: rel_to_abs
