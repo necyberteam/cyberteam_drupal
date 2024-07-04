@@ -88,7 +88,8 @@ display:
           type: entity_reference_entity_id
           settings: {  }
           group_column: target_id
-          group_columns: {  }
+          group_columns:
+            entity_id: entity_id
           group_rows: true
           delta_limit: 0
           delta_offset: 0
@@ -200,7 +201,8 @@ display:
           settings:
             link_to_entity: false
           group_column: value
-          group_columns: {  }
+          group_columns:
+            value: value
           group_rows: true
           delta_limit: 0
           delta_offset: 0
@@ -263,7 +265,8 @@ display:
           settings:
             link: false
           group_column: target_id
-          group_columns: {  }
+          group_columns:
+            target_id: target_id
           group_rows: true
           delta_limit: 0
           delta_offset: 0
@@ -381,8 +384,9 @@ display:
             image_style: medium
             image_loading:
               attribute: lazy
-          group_column: ''
-          group_columns: {  }
+          group_column: entity_id
+          group_columns:
+            target_id: target_id
           group_rows: true
           delta_limit: 0
           delta_offset: 0
@@ -719,6 +723,7 @@ display:
           plugin_id: standard
           required: true
       css_class: 'my-3 py-4 people'
+      group_by: true
       use_more: true
       use_more_always: false
       use_more_text: 'more people'
@@ -783,7 +788,9 @@ display:
             value: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">[view:title]</h2>'
             format: full_no_editor
           tokenize: false
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
     cache_metadata:
       max-age: 0
       contexts:
