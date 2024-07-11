@@ -24,6 +24,13 @@ then
   terminus remote:drush $site_name.$env -- core-cron -v
 fi
 
+if [ "$runner" = cr ];
+then
+  storeKey
+  terminusApi
+  terminus remote:drush $site_name.$env -- cr
+fi
+
 if [ "$runner" = deploy ];
 then
   storeKey
