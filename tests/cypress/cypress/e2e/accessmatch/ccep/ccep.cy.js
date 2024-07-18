@@ -30,7 +30,7 @@ describe("Unauthenticated user tests the CCEP Page", () => {
     cy.get(".btn")
       .contains("Apply to CCEP")
       .should("have.attr", "href")
-      .and("contain", "https://forms.gle/u4d4kCtsYNQgzxjq5");
+      .and("contain", "https://forms.gle/xNkn6W89Q5b7F45z8");
 
     // Important Fine Print Section
     cy.visit("/ccep");
