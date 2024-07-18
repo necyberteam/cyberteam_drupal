@@ -17,8 +17,8 @@ describe("Unauthenticated user tests the Community Overview Page", () => {
     //Call to action function
     cy.verifyCallToActionBlock(
       "/community/overview",
-      "Join the CSSN",
-      "/user/login?destination=/cssn%23join-cssn"
+      "Explore the Directory",
+      "/community/cssn/directory"
     );
 
     //Popular Tags tested?

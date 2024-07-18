@@ -60,7 +60,7 @@ describe("Tests of the knowledge-base page", () => {
     cy.visit("/knowledge-base");
 
     cy.get('.btn.btn-primary')
-      .contains('FIND LINKS')
+      .contains('FIND RESOURCES')
       .should('have.attr', 'href', '/knowledge-base/resources');
 
     cy.get('.field--type-text-with-summary')

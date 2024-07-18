@@ -38,7 +38,7 @@ jobs:
 
       - name: Composer install
         run: |
-          composer install
+          composer install --no-dev --ignore-platform-reqs
 
       - name: Check if multidev environment exists
         uses: ./.github/actions/dingorunner
