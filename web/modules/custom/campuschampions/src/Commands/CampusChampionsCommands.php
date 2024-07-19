@@ -91,7 +91,8 @@ $report_list . '
      * @usage campuschampions:generateBreakdownStats
      */
     public function generateBreakdownStats($options = array()) {
-        $dir = 'public://';
+        $env = getenv('PANTHEON_ENVIRONMENT');
+        $dir = $env == 'local' ? 'public://' : '/files' ;
         $file = 'cc-breakdown-stats.json';
         $path = $dir . $file;
 
