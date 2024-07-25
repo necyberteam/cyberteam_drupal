@@ -56,8 +56,7 @@ if (isset($env)) {
       break;
 
     case 'local':
-      //$config['config_split.config_split.local']['status'] = TRUE;
-      $config['config_split.config_split.live']['status'] = TRUE;
+      $config['config_split.config_split.local']['status'] = TRUE;
       $config['system.logging']['error_level'] = 'verbose';
       $config['system.performance']['css']['preprocess'] = FALSE;
       $config['system.performance']['js']['preprocess'] = FALSE;
