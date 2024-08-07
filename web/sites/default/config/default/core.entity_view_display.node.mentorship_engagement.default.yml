@@ -17,6 +17,7 @@ dependencies:
     - field.field.node.mentorship_engagement.field_domain_access
     - field.field.node.mentorship_engagement.field_domain_all_affiliates
     - field.field.node.mentorship_engagement.field_domain_source
+    - field.field.node.mentorship_engagement.field_goal_3_description
     - field.field.node.mentorship_engagement.field_knowledge_base_contributio
     - field.field.node.mentorship_engagement.field_launch_presentation
     - field.field.node.mentorship_engagement.field_launch_presentation_date
@@ -32,7 +33,6 @@ dependencies:
     - field.field.node.mentorship_engagement.field_milestone_description
     - field.field.node.mentorship_engagement.field_milestone_description_1
     - field.field.node.mentorship_engagement.field_milestone_description_2
-    - field.field.node.mentorship_engagement.field_milestone_description_3
     - field.field.node.mentorship_engagement.field_milestone_description_4
     - field.field.node.mentorship_engagement.field_notes
     - field.field.node.mentorship_engagement.field_tags
@@ -441,22 +441,6 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 13
             additional: {  }
-          b46c34b4-1525-42e1-ba11-b8043a3f838c:
-            uuid: b46c34b4-1525-42e1-ba11-b8043a3f838c
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_milestone_description_3'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: string
-                label: above
-                settings:
-                  link_to_entity: false
-                third_party_settings: {  }
-            weight: 14
-            additional: {  }
           bdfa8437-99d4-4c34-86ad-197890f36374:
             uuid: bdfa8437-99d4-4c34-86ad-197890f36374
             region: first
@@ -608,6 +592,21 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 23
             additional: {  }
+          2668df38-292a-45ca-9b95-98ed2414d2a0:
+            uuid: 2668df38-292a-45ca-9b95-98ed2414d2a0
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_goal_3_description'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 24
+            additional: {  }
         third_party_settings: {  }
       -
         layout_id: layout_twocol_section
@@ -725,6 +724,13 @@ content:
       format_type: medium
     third_party_settings: {  }
     weight: 132
+    region: first
+  field_goal_3_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 133
     region: first
   field_knowledge_base_contributio:
     type: text_default
@@ -847,14 +853,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 121
-    region: first
-  field_milestone_description_3:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 123
     region: first
   field_milestone_description_4:
     type: basic_string
