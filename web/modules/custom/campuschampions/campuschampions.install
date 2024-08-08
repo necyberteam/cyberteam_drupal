@@ -554,13 +554,14 @@ function campuschampions_update_9000() {
  * @file
  * Set initial stats.
  */
-function campuschampions_update_10000() {
+function campuschampions_update_10001() {
   $stats = [
     'nationwide' => 827,
     'institutions' => 362,
     'epscor' => 87,
     'msi' => 61
   ];
+  $stats = json_encode($stats);
   \Drupal::state()->set('cc_stats',$stats);
 
 }
