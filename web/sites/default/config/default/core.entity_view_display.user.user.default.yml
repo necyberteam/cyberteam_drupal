@@ -21,6 +21,7 @@ dependencies:
     - field.field.user.user.field_institution
     - field.field.user.user.field_is_cc
     - field.field.user.user.field_region
+    - field.field.user.user.field_user_badges
     - field.field.user.user.field_user_bio
     - field.field.user.user.field_user_first_name
     - field.field.user.user.field_user_last_name
@@ -34,7 +35,15 @@ id: user.user.default
 targetEntityType: user
 bundle: user
 mode: default
-content: {  }
+content:
+  field_user_badges:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   field_academic_status: true
   field_access_organization: true

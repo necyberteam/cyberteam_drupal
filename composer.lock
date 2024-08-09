@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a5f2782c4b959384a384cbd00b8bfba",
+    "content-hash": "1a5938ecf57360271e27620726564e29",
     "packages": [
         {
             "name": "access/drupal_seamless_cilogon",
@@ -291,17 +291,16 @@
         },
         {
             "name": "amp/access",
-            "version": "3.0.x-dev",
+            "version": "dev-d8-2178",
             "source": {
                 "type": "git",
                 "url": "https://github.com/necyberteam/access.git",
-                "reference": "86da55b882d9904653d2eec132b51bf8ff901fc6"
+                "reference": "11f609cede32cf2f4cb61162b4b903afaaa8b414"
             },
             "require": {
                 "gioni06/gpt3-tokenizer": "^1.2",
                 "openai-php/client": "^0.4.1"
             },
-            "default-branch": true,
             "type": "drupal-custom-module",
             "license": [
                 "GPL-2.0+"
@@ -317,7 +316,7 @@
                 "issues": "https://github.com/necyberteam/access/issues",
                 "source": "https://github.com/necyberteam/access"
             },
-            "time": "2024-08-09T17:16:51+00:00"
+            "time": "2024-08-08T23:19:36+00:00"
         },
         {
             "name": "arthurkushman/query-path",
@@ -5353,21 +5352,20 @@
         },
         {
             "name": "drupal/inline_entity_form",
-            "version": "2.0.0-rc10",
+            "version": "3.0.0-rc19",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/inline_entity_form.git",
-                "reference": "2.0.0-rc10"
+                "reference": "3.0.0-rc19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/inline_entity_form-2.0.0-rc10.zip",
-                "reference": "2.0.0-rc10",
-                "shasum": "f984e26786c5c5187246e8ee9f54d43f44b0ca53"
+                "url": "https://ftp.drupal.org/files/projects/inline_entity_form-3.0.0-rc19.zip",
+                "reference": "3.0.0-rc19",
+                "shasum": "d8976940dd3f85412ba5e274af15fbcdd22ee27a"
             },
             "require": {
-                "drupal/core": "^9.1 || ^10",
-                "drupal/rat": "^1.0.0@rc",
+                "drupal/core": "^8.8 || ^9 || ^10",
                 "php": ">=7.1"
             },
             "require-dev": {
@@ -5376,8 +5374,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.0-rc10",
-                    "datestamp": "1698919897",
+                    "version": "3.0.0-rc19",
+                    "datestamp": "1704729077",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "RC releases are not covered by Drupal security advisories."
@@ -5402,6 +5400,10 @@
                     "homepage": "https://www.drupal.org/user/99340"
                 },
                 {
+                    "name": "dww",
+                    "homepage": "https://www.drupal.org/user/46549"
+                },
+                {
                     "name": "geek-merlin",
                     "homepage": "https://www.drupal.org/user/229048"
                 },
@@ -5416,10 +5418,6 @@
                 {
                     "name": "oknate",
                     "homepage": "https://www.drupal.org/user/471638"
-                },
-                {
-                    "name": "podarok",
-                    "homepage": "https://www.drupal.org/user/116002"
                 },
                 {
                     "name": "ram4nd",
@@ -7069,39 +7067,6 @@
             }
         },
         {
-            "name": "drupal/rat",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/rat.git",
-                "reference": "28202b02262a39ac8dbbfd43696b67c0c8c46b71"
-            },
-            "require": {
-                "php": "^7.4 || ^8.0"
-            },
-            "require-dev": {
-                "drupal/core": "^9.4",
-                "drupal/core-dev": "^9.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Drupal\\rat\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "gpl-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Merlin",
-                    "email": "merlin@geeks4change.net"
-                }
-            ],
-            "time": "2023-07-19T20:22:22+00:00"
-        },
-        {
             "name": "drupal/readonlymode",
             "version": "1.2.0",
             "source": {
@@ -8585,6 +8550,57 @@
             "support": {
                 "source": "https://cgit.drupalcode.org/superfish",
                 "issues": "https://www.drupal.org/project/superfish"
+            }
+        },
+        {
+            "name": "drupal/svg_image",
+            "version": "3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/svg_image.git",
+                "reference": "3.0.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/svg_image-3.0.2.zip",
+                "reference": "3.0.2",
+                "shasum": "77906ae731878b68a181f82b073617b798e5f110"
+            },
+            "require": {
+                "drupal/core": "^9.3 || ^10",
+                "enshrined/svg-sanitize": ">=0.15 <1.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "3.0.2",
+                    "datestamp": "1698471266",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Yaroslav Lushnikov",
+                    "homepage": "https://www.drupal.org/user/2870933",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "See contributors",
+                    "homepage": "https://www.drupal.org/node/2887125/committers"
+                }
+            ],
+            "description": "Overrides the standard image formatter and widget to support SVG files.",
+            "homepage": "http://drupal.org/project/svg_image",
+            "support": {
+                "source": "http://cgit.drupalcode.org/svg_image",
+                "issues": "http://drupal.org/project/svg_image"
             }
         },
         {
@@ -10310,6 +10326,51 @@
             "time": "2022-02-21T22:40:16+00:00"
         },
         {
+            "name": "enshrined/svg-sanitize",
+            "version": "0.19.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/darylldoyle/svg-sanitizer.git",
+                "reference": "e95cd17be68e45f523cbfb0fe50cdd891b0cf20e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/e95cd17be68e45f523cbfb0fe50cdd891b0cf20e",
+                "reference": "e95cd17be68e45f523cbfb0fe50cdd891b0cf20e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "php": "^5.6 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7 || ^6.5 || ^8.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "enshrined\\svgSanitize\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Daryll Doyle",
+                    "email": "daryll@enshrined.co.uk"
+                }
+            ],
+            "description": "An SVG sanitizer for PHP",
+            "support": {
+                "issues": "https://github.com/darylldoyle/svg-sanitizer/issues",
+                "source": "https://github.com/darylldoyle/svg-sanitizer/tree/0.19.0"
+            },
+            "time": "2024-06-18T10:27:15+00:00"
+        },
+        {
             "name": "friends-of-behat/mink-extension",
             "version": "v2.7.5",
             "source": {
@@ -11886,13 +11947,12 @@
         },
         {
             "name": "necyberteam/asp-theme",
-            "version": "dev-main",
+            "version": "dev-d8-2178",
             "source": {
                 "type": "git",
                 "url": "https://github.com/necyberteam/aspTheme.git",
-                "reference": "9f7f9ed98ef7b2a7b6ef1f7d8b62ab48f573c0cf"
+                "reference": "492e580c5852e17afaab568e907daa0b8a891204"
             },
-            "default-branch": true,
             "type": "drupal-theme",
             "license": [
                 "MIT"
@@ -11908,7 +11968,7 @@
                 "issues": "https://github.com/necyberteam/aspTheme/issues",
                 "source": "https://github.com/necyberteam/aspTheme"
             },
-            "time": "2024-07-18T17:05:19+00:00"
+            "time": "2024-07-26T01:18:34+00:00"
         },
         {
             "name": "necyberteam/campus-champions-theme",
