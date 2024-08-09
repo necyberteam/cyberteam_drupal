@@ -357,3 +357,19 @@ function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, V
     }
   }
 }
+
+/**
+ * Implements hook_cron().
+ */
+function campuschampions_cron() {
+  // Run this cron job every day at 2am.
+  $currentTime = \Drupal::time()->getCurrentTime();
+  $hour = date('H', $currentTime);
+  $min = date('i', $currentTime);
+
+  // Cron runs every 10 minutes
+  if ($hour == 2 && $min < 20) {
+    \Drupal::service('cc.getStats')->setState();
+  }
+}
+
