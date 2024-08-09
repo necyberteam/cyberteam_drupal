@@ -45,7 +45,7 @@ Feature: verify specific items on CCI homepage
     Then link "RMACC" should contain "https://ask.cyberinfrastructure.org/c/rmacc/65"
     Then link "SWEETER Cyberteam" should contain "https://sweeter.cyberinfrastructure.org"
     Then link "TRECIS Cyberteam" should contain "https://trecis.cyberinfrastructure.org"
-    Then link "Campus Champions Region 1" should contain "/affinity-groups/campus-champions-region-1"
+    Then link "Campus Champions" should contain "/affinity-groups/campus-champions"
 
     When I follow "Anvil"
     Then I should be on "affinity-groups/anvil"
