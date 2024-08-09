@@ -2608,7 +2608,22 @@ display:
         fields: false
         filters: false
         filter_groups: false
+        header: false
       display_description: ''
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<div class="my-5"><hr style="border-top-color: #781346"/></div>'
+            format: full_html
+          tokenize: false
       exposed_block: true
       display_extenders:
         simple_sitemap_display_extender: {  }

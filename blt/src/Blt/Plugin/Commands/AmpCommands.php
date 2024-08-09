@@ -42,7 +42,6 @@ GITHUB_TOKEN=$token'>.env");
     $this->say("❗️ Environment vars setup, now starting lando. ❗️");
     $this->_exec($this->lando() . " start");
     $this->_exec($this->lando() . " composer config --global github-protocols https");
-    $this->_exec($this->lando() . " xdebug-off");
     $this->_exec($this->lando() . " composer config -g github-oauth.github.com $token");
     if (!file_exists($db_backup)) {
       $this->_exec("mkdir backups");
