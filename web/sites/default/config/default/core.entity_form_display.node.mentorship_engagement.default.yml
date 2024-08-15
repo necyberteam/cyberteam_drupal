@@ -4,10 +4,19 @@ status: true
 dependencies:
   config:
     - field.field.node.mentorship_engagement.body
+    - field.field.node.mentorship_engagement.field_actual_completion_date_1
+    - field.field.node.mentorship_engagement.field_actual_completion_date_2
+    - field.field.node.mentorship_engagement.field_actual_completion_date_3
+    - field.field.node.mentorship_engagement.field_actual_completion_date_4
     - field.field.node.mentorship_engagement.field_ccmnet_approved
+    - field.field.node.mentorship_engagement.field_completion_date_goal_1
+    - field.field.node.mentorship_engagement.field_completion_date_goal_2
+    - field.field.node.mentorship_engagement.field_completion_date_goal_3
+    - field.field.node.mentorship_engagement.field_completion_date_goal_4
     - field.field.node.mentorship_engagement.field_domain_access
     - field.field.node.mentorship_engagement.field_domain_all_affiliates
     - field.field.node.mentorship_engagement.field_domain_source
+    - field.field.node.mentorship_engagement.field_goal_3_description
     - field.field.node.mentorship_engagement.field_knowledge_base_contributio
     - field.field.node.mentorship_engagement.field_launch_presentation
     - field.field.node.mentorship_engagement.field_launch_presentation_date
@@ -18,6 +27,12 @@ dependencies:
     - field.field.node.mentorship_engagement.field_me_state
     - field.field.node.mentorship_engagement.field_mentee
     - field.field.node.mentorship_engagement.field_mentor
+    - field.field.node.mentorship_engagement.field_milestone_actual_date
+    - field.field.node.mentorship_engagement.field_milestone_completion_date
+    - field.field.node.mentorship_engagement.field_milestone_description
+    - field.field.node.mentorship_engagement.field_milestone_description_1
+    - field.field.node.mentorship_engagement.field_milestone_description_2
+    - field.field.node.mentorship_engagement.field_milestone_description_4
     - field.field.node.mentorship_engagement.field_notes
     - field.field.node.mentorship_engagement.field_tags
     - field.field.node.mentorship_engagement.field_wrap_presentation
@@ -73,6 +88,105 @@ third_party_settings:
         effect: none
         speed: fast
         required_fields: true
+    group_goals:
+      children:
+        - group_goal_1
+        - group_goal_2
+        - group_goal_3
+        - group_goal_4
+        - group_goal_5
+      label: Goals
+      region: content
+      parent_name: ''
+      weight: 17
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
+    group_goal_1:
+      children:
+        - field_milestone_description
+        - field_milestone_completion_date
+        - field_milestone_actual_date
+      label: 'Goal 1'
+      region: content
+      parent_name: group_goals
+      weight: 20
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: ''
+        required_fields: true
+    group_goal_2:
+      children:
+        - field_milestone_description_2
+        - field_completion_date_goal_1
+        - field_actual_completion_date_1
+      label: 'Goal 2'
+      region: content
+      parent_name: group_goals
+      weight: 21
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: ''
+        required_fields: true
+    group_goal_3:
+      children:
+        - field_milestone_description_1
+        - field_completion_date_goal_2
+        - field_actual_completion_date_2
+      label: 'Goal 3'
+      region: content
+      parent_name: group_goals
+      weight: 22
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: ''
+        required_fields: true
+    group_goal_4:
+      children:
+        - field_goal_3_description
+        - field_completion_date_goal_3
+        - field_actual_completion_date_3
+      label: 'Goal 4'
+      region: content
+      parent_name: group_goals
+      weight: 23
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: ''
+        required_fields: true
+    group_goal_5:
+      children:
+        - field_milestone_description_4
+        - field_completion_date_goal_4
+        - field_actual_completion_date_4
+      label: 'Goal 5'
+      region: content
+      parent_name: group_goals
+      weight: 24
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: ''
+        required_fields: true
 _core:
   default_config_hash: L_8gfZweSxzjsshxAY2vhq-h0HnMhy0-9TJPgSJB16s
 id: node.mentorship_engagement.default
@@ -96,16 +210,72 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_actual_completion_date_1:
+    type: datetime_default
+    weight: 24
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_actual_completion_date_2:
+    type: datetime_default
+    weight: 25
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_actual_completion_date_3:
+    type: datetime_default
+    weight: 26
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_actual_completion_date_4:
+    type: datetime_default
+    weight: 27
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_ccmnet_approved:
     type: boolean_checkbox
-    weight: 27
+    weight: 20
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
+  field_completion_date_goal_1:
+    type: datetime_default
+    weight: 23
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_completion_date_goal_2:
+    type: datetime_default
+    weight: 24
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_completion_date_goal_3:
+    type: datetime_default
+    weight: 25
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_completion_date_goal_4:
+    type: datetime_default
+    weight: 26
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_goal_3_description:
+    type: string_textarea
+    weight: 24
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   field_knowledge_base_contributio:
     type: text_textarea
-    weight: 26
+    weight: 22
     region: content
     settings:
       rows: 5
@@ -160,7 +330,7 @@ content:
     third_party_settings: {  }
   field_me_state:
     type: options_select
-    weight: 18
+    weight: 19
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -184,9 +354,53 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_milestone_actual_date:
+    type: datetime_default
+    weight: 23
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_milestone_completion_date:
+    type: datetime_default
+    weight: 22
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_milestone_description:
+    type: string_textarea
+    weight: 21
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_milestone_description_1:
+    type: string_textarea
+    weight: 23
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_milestone_description_2:
+    type: string_textarea
+    weight: 22
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_milestone_description_4:
+    type: string_textarea
+    weight: 25
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   field_notes:
     type: string_textarea
-    weight: 17
+    weight: 18
     region: content
     settings:
       rows: 5

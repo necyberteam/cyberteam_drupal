@@ -14,6 +14,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4.1.1
 
+      - name: Store day of week
+        run: echo "week_day=$(date +%a)" >> $GITHUB_ENV
+
+      - uses: ./.github/actions/dingorunner
+        if: ${{ env.week_day == 'Sun' }}
+        env:
+          runner: cr
+          terminus_api: ${{ secrets.TERMINUS_API }}
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
+          site_name: ${{ secrets.TERMINUS_SITE_NAME }}
+          env: live
+
       - uses: ./.github/actions/dingorunner
         env:
           runner: bkup

@@ -5,10 +5,19 @@ dependencies:
   config:
     - core.base_field_override.node.mentorship_engagement.title
     - field.field.node.mentorship_engagement.body
+    - field.field.node.mentorship_engagement.field_actual_completion_date_1
+    - field.field.node.mentorship_engagement.field_actual_completion_date_2
+    - field.field.node.mentorship_engagement.field_actual_completion_date_3
+    - field.field.node.mentorship_engagement.field_actual_completion_date_4
     - field.field.node.mentorship_engagement.field_ccmnet_approved
+    - field.field.node.mentorship_engagement.field_completion_date_goal_1
+    - field.field.node.mentorship_engagement.field_completion_date_goal_2
+    - field.field.node.mentorship_engagement.field_completion_date_goal_3
+    - field.field.node.mentorship_engagement.field_completion_date_goal_4
     - field.field.node.mentorship_engagement.field_domain_access
     - field.field.node.mentorship_engagement.field_domain_all_affiliates
     - field.field.node.mentorship_engagement.field_domain_source
+    - field.field.node.mentorship_engagement.field_goal_3_description
     - field.field.node.mentorship_engagement.field_knowledge_base_contributio
     - field.field.node.mentorship_engagement.field_launch_presentation
     - field.field.node.mentorship_engagement.field_launch_presentation_date
@@ -19,6 +28,12 @@ dependencies:
     - field.field.node.mentorship_engagement.field_me_state
     - field.field.node.mentorship_engagement.field_mentee
     - field.field.node.mentorship_engagement.field_mentor
+    - field.field.node.mentorship_engagement.field_milestone_actual_date
+    - field.field.node.mentorship_engagement.field_milestone_completion_date
+    - field.field.node.mentorship_engagement.field_milestone_description
+    - field.field.node.mentorship_engagement.field_milestone_description_1
+    - field.field.node.mentorship_engagement.field_milestone_description_2
+    - field.field.node.mentorship_engagement.field_milestone_description_4
     - field.field.node.mentorship_engagement.field_notes
     - field.field.node.mentorship_engagement.field_tags
     - field.field.node.mentorship_engagement.field_wrap_presentation
@@ -217,34 +232,10 @@ third_party_settings:
             configuration:
               id: mentorship_person_block
               label: Mentor
-              label_display: visible
+              label_display: '0'
               provider: ccmnet
               context_mapping: {  }
             weight: 7
-            additional:
-              layout_builder_styles_style:
-                mb_3: mb_3
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-                __div_h_full: 0
-          57ee882d-18f3-4026-b040-3d9f14b20308:
-            uuid: 57ee882d-18f3-4026-b040-3d9f14b20308
-            region: second
-            configuration:
-              id: mentorship_person_block
-              label: Mentee
-              label_display: visible
-              provider: ccmnet
-              context_mapping: {  }
-            weight: 8
             additional:
               layout_builder_styles_style:
                 mb_3: mb_3
@@ -332,7 +323,7 @@ third_party_settings:
                 settings:
                   use_description_as_link_text: true
                 third_party_settings: {  }
-            weight: 9
+            weight: 10
             additional:
               layout_builder_styles_style:
                 mb_5: mb_5
@@ -347,6 +338,275 @@ third_party_settings:
                 pe_3: 0
                 pt_4: 0
                 tags: 0
+          57ee882d-18f3-4026-b040-3d9f14b20308:
+            uuid: 57ee882d-18f3-4026-b040-3d9f14b20308
+            region: second
+            configuration:
+              id: mentorship_person_block
+              label: Mentee
+              label_display: '0'
+              provider: ccmnet
+              context_mapping: {  }
+            weight: 9
+            additional:
+              layout_builder_styles_style:
+                mb_3: mb_3
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          724e4fec-5f6e-4b7e-b97d-51647b0a9e62:
+            uuid: 724e4fec-5f6e-4b7e-b97d-51647b0a9e62
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_milestone_description'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 8
+            additional: {  }
+          f649179d-badc-4ff3-ac19-c717e6b46c82:
+            uuid: f649179d-badc-4ff3-ac19-c717e6b46c82
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_milestone_completion_date'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: datetime_default
+                label: above
+                settings:
+                  timezone_override: ''
+                  format_type: medium
+                third_party_settings: {  }
+            weight: 9
+            additional: {  }
+          60f413df-3648-4ce1-810d-6cc07bce9d30:
+            uuid: 60f413df-3648-4ce1-810d-6cc07bce9d30
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_milestone_actual_date'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: datetime_default
+                label: above
+                settings:
+                  timezone_override: ''
+                  format_type: medium
+                third_party_settings: {  }
+            weight: 10
+            additional: {  }
+          33d2051d-c18b-455c-bdaa-b6b64bdeb006:
+            uuid: 33d2051d-c18b-455c-bdaa-b6b64bdeb006
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_milestone_description_2'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 12
+            additional: {  }
+          da9d4ac1-a536-447e-8c15-2e056d5e1597:
+            uuid: da9d4ac1-a536-447e-8c15-2e056d5e1597
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_milestone_description_1'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 13
+            additional: {  }
+          bdfa8437-99d4-4c34-86ad-197890f36374:
+            uuid: bdfa8437-99d4-4c34-86ad-197890f36374
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_milestone_description_4'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 15
+            additional: {  }
+          b3ed9065-e266-4bae-9526-e84659bb8147:
+            uuid: b3ed9065-e266-4bae-9526-e84659bb8147
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_completion_date_goal_1'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: datetime_custom
+                label: inline
+                settings:
+                  timezone_override: ''
+                  date_format: n/j/Y
+                third_party_settings: {  }
+            weight: 16
+            additional: {  }
+          f6a96e4b-e575-4d8d-917d-f5cd7126e982:
+            uuid: f6a96e4b-e575-4d8d-917d-f5cd7126e982
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_actual_completion_date_1'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: datetime_default
+                label: above
+                settings:
+                  timezone_override: ''
+                  format_type: medium
+                third_party_settings: {  }
+            weight: 17
+            additional: {  }
+          2c81db1c-309b-4020-b1cc-26a70c1cacad:
+            uuid: 2c81db1c-309b-4020-b1cc-26a70c1cacad
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_actual_completion_date_2'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: datetime_default
+                label: above
+                settings:
+                  timezone_override: ''
+                  format_type: medium
+                third_party_settings: {  }
+            weight: 18
+            additional: {  }
+          6089d67d-88c5-4eb3-9c79-449f8824bfc0:
+            uuid: 6089d67d-88c5-4eb3-9c79-449f8824bfc0
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_actual_completion_date_3'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: datetime_default
+                label: above
+                settings:
+                  timezone_override: ''
+                  format_type: medium
+                third_party_settings: {  }
+            weight: 19
+            additional: {  }
+          14f06191-c97a-434e-951b-9b622db75e22:
+            uuid: 14f06191-c97a-434e-951b-9b622db75e22
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_actual_completion_date_4'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: datetime_default
+                label: above
+                settings:
+                  timezone_override: ''
+                  format_type: medium
+                third_party_settings: {  }
+            weight: 20
+            additional: {  }
+          e35deeed-1385-4e9b-85d5-39475751c95c:
+            uuid: e35deeed-1385-4e9b-85d5-39475751c95c
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_completion_date_goal_2'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: datetime_default
+                label: above
+                settings:
+                  timezone_override: ''
+                  format_type: medium
+                third_party_settings: {  }
+            weight: 21
+            additional: {  }
+          a79a90da-a20d-47a4-a1c1-c136ff8bfc7c:
+            uuid: a79a90da-a20d-47a4-a1c1-c136ff8bfc7c
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_completion_date_goal_3'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: datetime_default
+                label: above
+                settings:
+                  timezone_override: ''
+                  format_type: medium
+                third_party_settings: {  }
+            weight: 22
+            additional: {  }
+          25e3db34-4a4d-429c-84f9-e5adea7d5afd:
+            uuid: 25e3db34-4a4d-429c-84f9-e5adea7d5afd
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_completion_date_goal_4'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: datetime_default
+                label: above
+                settings:
+                  timezone_override: ''
+                  format_type: medium
+                third_party_settings: {  }
+            weight: 23
+            additional: {  }
+          2668df38-292a-45ca-9b95-98ed2414d2a0:
+            uuid: 2668df38-292a-45ca-9b95-98ed2414d2a0
+            region: first
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_goal_3_description'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 24
+            additional: {  }
         third_party_settings: {  }
       -
         layout_id: layout_twocol_section
@@ -383,6 +643,42 @@ content:
     third_party_settings: {  }
     weight: 101
     region: content
+  field_actual_completion_date_1:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 126
+    region: first
+  field_actual_completion_date_2:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 127
+    region: first
+  field_actual_completion_date_3:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 128
+    region: first
+  field_actual_completion_date_4:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 129
+    region: first
   field_ccmnet_approved:
     type: boolean
     label: above
@@ -392,6 +688,49 @@ content:
       format_custom_true: ''
     third_party_settings: {  }
     weight: 116
+    region: first
+  field_completion_date_goal_1:
+    type: datetime_custom
+    label: inline
+    settings:
+      timezone_override: ''
+      date_format: n/j/Y
+    third_party_settings: {  }
+    weight: 125
+    region: first
+  field_completion_date_goal_2:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 130
+    region: first
+  field_completion_date_goal_3:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 131
+    region: first
+  field_completion_date_goal_4:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 132
+    region: first
+  field_goal_3_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 133
     region: first
   field_knowledge_base_contributio:
     type: text_default
@@ -475,6 +814,52 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 0
+    region: first
+  field_milestone_actual_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 119
+    region: first
+  field_milestone_completion_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 118
+    region: first
+  field_milestone_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 117
+    region: first
+  field_milestone_description_1:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 122
+    region: first
+  field_milestone_description_2:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 121
+    region: first
+  field_milestone_description_4:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 124
     region: first
   field_notes:
     type: basic_string
