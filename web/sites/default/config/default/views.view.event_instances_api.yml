@@ -148,7 +148,7 @@ display:
           type: entity_reference_label
           settings:
             link: 1
-          group_column: target_id
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -211,7 +211,7 @@ display:
           click_sort_column: value
           type: text_default
           settings: {  }
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -274,7 +274,7 @@ display:
           click_sort_column: value
           type: text_default
           settings: {  }
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -337,7 +337,7 @@ display:
           click_sort_column: value
           type: list_default
           settings: {  }
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -404,7 +404,7 @@ display:
             timezone_override: ''
             format_type: medium
             separator: '-'
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -467,7 +467,7 @@ display:
           click_sort_column: value
           type: list_default
           settings: {  }
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -530,7 +530,7 @@ display:
           click_sort_column: value
           type: text_default
           settings: {  }
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -596,7 +596,7 @@ display:
           settings:
             link_to_entity: false
             native_language: false
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -664,7 +664,7 @@ display:
             url_plain: 0
             rel: 0
             target: 0
-          group_column: ''
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -727,7 +727,7 @@ display:
           click_sort_column: value
           type: list_default
           settings: {  }
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -791,7 +791,7 @@ display:
           type: entity_reference_label
           settings:
             link: 0
-          group_column: target_id
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -855,7 +855,7 @@ display:
           type: string
           settings:
             link_to_entity: 0
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -918,7 +918,7 @@ display:
           type: entity_reference_label
           settings:
             link: true
-          group_column: target_id
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -985,7 +985,7 @@ display:
             timezone_override: ''
             format_type: medium
             separator: '-'
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -1123,6 +1123,7 @@ display:
           admin_label: 'field_tags: Taxonomy term'
           plugin_id: standard
           required: false
+      group_by: true
       header: {  }
       footer: {  }
       display_extenders: {  }
