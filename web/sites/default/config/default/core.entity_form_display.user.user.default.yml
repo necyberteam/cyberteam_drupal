@@ -30,9 +30,9 @@ dependencies:
     - image.style.thumbnail
   module:
     - file
-    - image
     - inline_entity_form
     - path
+    - svg_image
     - text
     - user
 _core:
@@ -68,7 +68,7 @@ content:
     third_party_settings: {  }
   field_access_organization:
     type: entity_reference_autocomplete
-    weight: 6
+    weight: 5
     region: content
     settings:
       match_operator: CONTAINS
@@ -122,7 +122,7 @@ content:
     third_party_settings: {  }
   field_current_occupation:
     type: string_textfield
-    weight: 7
+    weight: 6
     region: content
     settings:
       size: 60
@@ -158,7 +158,7 @@ content:
     third_party_settings: {  }
   field_user_badges:
     type: inline_entity_form_complex
-    weight: 5
+    weight: 8
     region: content
     settings:
       form_mode: default
@@ -172,11 +172,11 @@ content:
       collapsible: false
       collapsed: false
       revision: false
-      removed_reference: optional
+      removed_reference: keep
     third_party_settings: {  }
   field_user_bio:
     type: text_textarea
-    weight: 8
+    weight: 7
     region: content
     settings:
       rows: 5
