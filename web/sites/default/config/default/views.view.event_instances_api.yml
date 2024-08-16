@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.eventinstance.field_video
   module:
+    - datetime
     - datetime_range
     - field_inheritance
     - link
@@ -928,21 +929,21 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        date__end_value:
-          id: date__end_value
+        date__value_1:
+          id: date__value_1
           table: eventinstance_field_data
-          field: date__end_value
+          field: date__value
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: eventinstance
           entity_field: date
           plugin_id: field
-          label: 'Event Date (end_value)'
+          label: 'Event Start Date'
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '{{ date__value_1__value }}'
             make_link: false
             path: ''
             absolute: false
@@ -980,10 +981,75 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: daterange_default
+          type: daterange_plain
           settings:
             timezone_override: ''
-            format_type: medium
+            separator: '-'
+          group_column: entity_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        date__end_value:
+          id: date__end_value
+          table: eventinstance_field_data
+          field: date__end_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventinstance
+          entity_field: date
+          plugin_id: field
+          label: 'Event Date (end_value)'
+          exclude: false
+          alter:
+            alter_text: true
+            text: '{{ date__end_value__end_value }} '
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: daterange_plain
+          settings:
+            timezone_override: ''
             separator: '-'
           group_column: entity_id
           group_columns: {  }
@@ -1030,7 +1096,23 @@ display:
         type: tag
         options: {  }
       empty: {  }
-      sorts: {  }
+      sorts:
+        date__value:
+          id: date__value
+          table: eventinstance_field_data
+          field: date__value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventinstance
+          entity_field: date
+          plugin_id: datetime
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
+          granularity: second
       arguments:
         field_tags_target_id:
           id: field_tags_target_id
@@ -1156,6 +1238,58 @@ display:
             encoding: utf8
             utf8_bom: '0'
             use_serializer_encode_only: false
+      row:
+        type: data_field
+        options:
+          field_options:
+            id:
+              alias: ''
+              raw_output: false
+            affinity_group_node_ref:
+              alias: affinity_group_link
+              raw_output: false
+            description:
+              alias: ''
+              raw_output: false
+            contact:
+              alias: ''
+              raw_output: false
+            event_affiliation:
+              alias: affiliation
+              raw_output: false
+            date__value:
+              alias: date
+              raw_output: false
+            event_type:
+              alias: ''
+              raw_output: false
+            location:
+              alias: ''
+              raw_output: false
+            langcode:
+              alias: ''
+              raw_output: false
+            registration:
+              alias: ''
+              raw_output: false
+            skill_level:
+              alias: ''
+              raw_output: false
+            tags:
+              alias: ''
+              raw_output: false
+            title:
+              alias: ''
+              raw_output: false
+            field_video:
+              alias: video
+              raw_output: false
+            date__value_1:
+              alias: date__start
+              raw_output: false
+            date__end_value:
+              alias: date__end
+              raw_output: false
       display_extenders:
         jsonapi_views:
           enabled: true
