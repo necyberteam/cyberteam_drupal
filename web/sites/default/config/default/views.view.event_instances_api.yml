@@ -943,7 +943,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '{{ date__value_1__value }}'
+            text: '{{ date__value_1__value }}Z'
             make_link: false
             path: ''
             absolute: false
@@ -1009,7 +1009,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '{{ date__end_value__end_value }} '
+            text: '{{ date__end_value__end_value }}Z'
             make_link: false
             path: ''
             absolute: false
@@ -1149,6 +1149,12 @@ display:
           validate_options: {  }
           break_phrase: true
           not: false
+        field_affiliation_value:
+          id: field_affiliation_value
+          table: eventseries__field_affiliation
+          field: field_affiliation_value
+          relationship: eventseries_id
+          plugin_id: string_list_field
       filters:
         status:
           id: status
@@ -1224,6 +1230,42 @@ display:
     display_plugin: data_export
     position: 1
     display_options:
+      arguments:
+        field_tags_target_id:
+          id: field_tags_target_id
+          table: eventseries__field_tags
+          field: field_tags_target_id
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          plugin_id: numeric
+          default_action: default
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: false
+          title: ''
+          default_argument_type: raw
+          default_argument_options:
+            index: 2
+            use_alias: false
+          summary_options:
+            base_path: ''
+            count: true
+            override: false
+            items_per_page: 25
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+          specify_validation: false
+          validate:
+            type: none
+            fail: 'not found'
+          validate_options: {  }
+          break_phrase: true
+          not: false
       style:
         type: data_export
         options:
@@ -1290,10 +1332,147 @@ display:
             date__end_value:
               alias: date__end
               raw_output: false
+      defaults:
+        arguments: false
       display_extenders:
         jsonapi_views:
           enabled: true
       path: api/1.0/events
+      filename: ''
+      automatic_download: false
+      store_in_public_file_directory: false
+      custom_redirect_path: false
+      redirect_to_display: none
+      include_query_params: false
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - request_format
+        - url
+      tags:
+        - 'config:field.storage.eventinstance.field_video'
+  data_export_2:
+    id: data_export_2
+    display_title: 'Events by Affilliation'
+    display_plugin: data_export
+    position: 1
+    display_options:
+      arguments:
+        field_affiliation_value:
+          id: field_affiliation_value
+          table: eventseries__field_affiliation
+          field: field_affiliation_value
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          plugin_id: string_list_field
+          default_action: default
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: false
+          title: ''
+          default_argument_type: raw
+          default_argument_options:
+            index: 4
+            use_alias: false
+          summary_options:
+            base_path: ''
+            count: true
+            override: false
+            items_per_page: 25
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+            human: false
+          specify_validation: false
+          validate:
+            type: none
+            fail: 'not found'
+          validate_options: {  }
+          glossary: false
+          limit: 0
+          case: none
+          path_case: none
+          transform_dash: false
+          break_phrase: false
+      style:
+        type: data_export
+        options:
+          formats:
+            json: json
+          csv_settings:
+            delimiter: ','
+            enclosure: '"'
+            escape_char: \
+            strip_tags: true
+            trim: true
+            encoding: utf8
+            utf8_bom: '0'
+            use_serializer_encode_only: false
+      row:
+        type: data_field
+        options:
+          field_options:
+            id:
+              alias: ''
+              raw_output: false
+            affinity_group_node_ref:
+              alias: affinity_group_link
+              raw_output: false
+            description:
+              alias: ''
+              raw_output: false
+            contact:
+              alias: ''
+              raw_output: false
+            event_affiliation:
+              alias: affiliation
+              raw_output: false
+            date__value:
+              alias: date
+              raw_output: false
+            event_type:
+              alias: ''
+              raw_output: false
+            location:
+              alias: ''
+              raw_output: false
+            langcode:
+              alias: ''
+              raw_output: false
+            registration:
+              alias: ''
+              raw_output: false
+            skill_level:
+              alias: ''
+              raw_output: false
+            tags:
+              alias: ''
+              raw_output: false
+            title:
+              alias: ''
+              raw_output: false
+            field_video:
+              alias: video
+              raw_output: false
+            date__value_1:
+              alias: date__start
+              raw_output: false
+            date__end_value:
+              alias: date__end
+              raw_output: false
+      defaults:
+        arguments: false
+      display_description: ''
+      display_extenders:
+        jsonapi_views:
+          enabled: true
+      path: api/1.0/events/affilliation
       filename: ''
       automatic_download: false
       store_in_public_file_directory: false
