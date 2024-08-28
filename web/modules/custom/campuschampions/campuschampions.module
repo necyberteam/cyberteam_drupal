@@ -368,8 +368,8 @@ function campuschampions_cron() {
   $min = date('i', $currentTime);
 
   // Cron runs every 10 minutes
-  if ($hour == 2 && $min < 20) {
+  //if ($hour == 2 && $min < 20) {
     \Drupal::service('cc.getStats')->setState();
-  }
+  //}
 }
 
