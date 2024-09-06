@@ -275,23 +275,33 @@ function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, V
     if (empty($cc)) {
       $mail = strip_tags((string) $row['mail']);
       $user = user_load_by_mail($mail);
+      $carnegie_code = NULL;
 
-      $institution = $user->get('field_institution')->getValue();
+      // Try to get the ACCESS Organization first.
+      $org = $user->get('field_access_organization')->getValue();
+      if (!empty($org)) {
 
-      if (empty($institution)) {
-        return;
+        $org = Node::load($org[0]['target_id']);
+        $carnegie_code = $org->get('field_carnegie_code')->getValue();
       }
+      else {
+        // If there isn't an ACCESS organization, try the institution field.
+        $institution = $user->get('field_institution')->getValue();
+        if (empty($institution)) {
+          return;
+        }
 
-      // Try to find by institution name.
-      $query = \Drupal::database()
-        ->select('carnegie_codes', 'cc')
-        ->fields('cc', ['UNITID']);
-      $query->condition($query->orConditionGroup()
-        ->condition('NAME', $institution[0]['value'], '=')
-        ->condition('NAME', $institution[0]['value'] . '%', 'LIKE')
-      );
-      $carnegie_code = $query->execute()
-        ->fetchField();
+        // Try to find by institution name.
+        $query = \Drupal::database()
+          ->select('carnegie_codes', 'cc')
+          ->fields('cc', ['UNITID']);
+        $query->condition($query->orConditionGroup()
+          ->condition('NAME', $institution[0]['value'], '=')
+          ->condition('NAME', $institution[0]['value'] . '%', 'LIKE')
+        );
+        $carnegie_code = $query->execute()
+          ->fetchField();
+      }
 
       if (!$carnegie_code) {
         return;
