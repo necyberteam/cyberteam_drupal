@@ -49,7 +49,8 @@ Feature: Feature: test an Affinity Group page
     # follow a Tags
     When I follow "cloud-commercial"
     Then I should be on "/tags/cloud-commercial"
-    When I move backward one page
+
+    When I am on "/affinity-groups/cloud-computing"
     # verify text & links
     Then I should see "People who use or are considering the use of cloud resources"
     # Verify Join button is disabled
