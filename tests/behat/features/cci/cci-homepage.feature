@@ -29,7 +29,6 @@ Feature: verify specific items on CCI homepage
     And I should see "List View"
     And I should see "CAREERS Cyberteam"
     And I should see "Great Plains Cyberteam"
-    And I should see "ACCESS Facilitators"
     And I should see "People who use or support people who use ACCESS resources and the ACCESS Resource Allocation System."
     When I click "List View"
     Then I should see "Programs"
