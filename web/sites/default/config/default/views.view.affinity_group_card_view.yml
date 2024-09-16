@@ -421,7 +421,7 @@ display:
         options:
           query_comment: ''
           disable_sql_rewrite: false
-          distinct: false
+          distinct: true
           replica: false
           query_tags: {  }
           contextual_filters_or: false
@@ -447,7 +447,9 @@ display:
     display_plugin: block
     position: 2
     display_options:
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: false
     cache_metadata:
       max-age: -1
       contexts:
