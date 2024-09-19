@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.user.user.field_academic_status
     - field.field.user.user.field_access_organization
+    - field.field.user.user.field_askci_username
     - field.field.user.user.field_blocked_ag_tax
     - field.field.user.user.field_carnegie_code
     - field.field.user.user.field_cider_resources
@@ -35,7 +36,15 @@ id: user.user.default
 targetEntityType: user
 bundle: user
 mode: default
-content: {  }
+content:
+  field_askci_username:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   field_academic_status: true
   field_access_organization: true
