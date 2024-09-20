@@ -14,7 +14,7 @@ describe('Anonymous user visit the affinity-group page', () => {
     cy.get('.js-flag-affinity-group-618')
       .find(':contains("Join")')
       .invoke('attr', 'href')
-      .should('contain', '/flag/flag/affinity_group/568?destination=/affinity-groups');
+      .should('contain', '/flag/flag/affinity_group/618?destination=/affinity-groups');
 
     cy.get('.js-flag-affinity-group-618')
       .find(':contains("Join")')
