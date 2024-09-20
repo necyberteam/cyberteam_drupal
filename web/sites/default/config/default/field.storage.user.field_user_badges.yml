@@ -1,0 +1,24 @@
+uuid: cf4c50ff-1c16-4cbc-9b9e-5df0b5a4795c
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - taxonomy
+    - user
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: user.field_user_badges
+field_name: field_user_badges
+entity_type: user
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

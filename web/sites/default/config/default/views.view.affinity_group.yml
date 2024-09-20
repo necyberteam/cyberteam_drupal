@@ -4,18 +4,6 @@ status: true
 dependencies:
   config:
     - domain.record.amp_cyberinfrastructure_org
-    - domain.record.campuschampions_cyberinfrastructure_org
-    - domain.record.careersct_cyberinfrastucture_org
-    - domain.record.coco_cyberinfrastructure_org
-    - domain.record.connectcidev_wpi_edu
-    - domain.record.greatplains_wpi_edu
-    - domain.record.kycyberteam_cyberinfrastructure_org
-    - domain.record.mines_cyberinfrastructure_org
-    - domain.record.nectd8_wpi_edu
-    - domain.record.rmacc_wpi_edu
-    - domain.record.sweeter_cyberinfrastructure_org
-    - domain.record.trecis_cyberinfrastructure_org
-    - domain.record.usrse_cyberinfrastructure_org
     - field.storage.node.body
     - field.storage.node.field_affinity_group
     - field.storage.node.field_affinity_group_category
@@ -476,7 +464,7 @@ display:
         options:
           query_comment: ''
           disable_sql_rewrite: false
-          distinct: false
+          distinct: true
           replica: false
           query_tags: {  }
           contextual_filters_or: false
@@ -3400,6 +3388,8 @@ display:
       link_display: '0'
       link_url: ''
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
     cache_metadata:
       max-age: -1
