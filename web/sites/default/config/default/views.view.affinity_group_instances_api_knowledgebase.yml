@@ -133,6 +133,165 @@ display:
           webform_multiple_value: true
           webform_multiple_delta: 0
           webform_check_access: 0
+        webform_submission_value_2:
+          id: webform_submission_value_2
+          table: webform_submission_field_resource_link_to_resource
+          field: webform_submission_value
+          relationship: field_resources_entity_reference
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_field
+          label: 'Link to Resource'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          webform_element_format: raw
+          webform_multiple_value: true
+          webform_multiple_delta: 0
+          webform_check_access: 1
+        webform_submission_value_3:
+          id: webform_submission_value_3
+          table: webform_submission_field_resource_skill_level
+          field: webform_submission_value
+          relationship: field_resources_entity_reference
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_field
+          label: 'Skill Level'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          webform_element_format: link
+          webform_multiple_value: true
+          webform_multiple_delta: 0
+          webform_check_access: 1
+        webform_submission_value_4:
+          id: webform_submission_value_4
+          table: webform_submission_field_resource_tags
+          field: webform_submission_value
+          relationship: field_resources_entity_reference
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_field
+          label: Tags
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          webform_element_format: link
+          webform_multiple_value: true
+          webform_multiple_delta: 0
+          webform_check_access: 1
       pager:
         type: none
         options:
@@ -339,11 +498,20 @@ display:
         type: data_field
         options:
           field_options:
-            webform_submission_value:
-              alias: Description
-              raw_output: false
             webform_submission_value_1:
-              alias: Title
+              alias: title
+              raw_output: false
+            webform_submission_value:
+              alias: description
+              raw_output: false
+            webform_submission_value_2:
+              alias: link
+              raw_output: false
+            webform_submission_value_3:
+              alias: skill_level
+              raw_output: false
+            webform_submission_value_4:
+              alias: tags
               raw_output: false
       display_extenders:
         jsonapi_views:

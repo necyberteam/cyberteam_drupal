@@ -4,16 +4,20 @@ status: true
 dependencies:
   config:
     - field.storage.node.body
+    - field.storage.node.field_affinity_group_category
     - field.storage.node.field_coordinator
+    - field.storage.node.field_ext_email_list
     - field.storage.node.field_logo
     - field.storage.node.field_mailing_list
     - field.storage.node.field_slack
     - field.storage.node.field_tags
+    - field.storage.node.field_use_ext_email_list
     - node.type.affinity_group
   module:
     - image
     - link
     - node
+    - options
     - rest
     - serialization
     - text
@@ -647,6 +651,248 @@ display:
           view: affinity_group_instances_api_knowledgebase
           display: rest_export_1
           arguments: '{{ fields.nid }}'
+        view_1:
+          id: view_1
+          table: views
+          field: view
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: view
+          label: View
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          view: event_instances_api
+          display: data_export_4
+          arguments: '{{ fields.nid }}'
+        field_affinity_group_category:
+          id: field_affinity_group_category
+          table: node__field_affinity_group_category
+          field: field_affinity_group_category
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'Affinity Group Category'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_ext_email_list:
+          id: field_ext_email_list
+          table: node__field_ext_email_list
+          field: field_ext_email_list
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'Email Discussion List Address'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_use_ext_email_list:
+          id: field_use_ext_email_list
+          table: node__field_use_ext_email_list
+          field: field_use_ext_email_list
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'Enable email discussion list'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: boolean
+          settings:
+            format: default
+            format_custom_false: ''
+            format_custom_true: ''
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
       pager:
         type: mini
         options:
@@ -829,11 +1075,14 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.body'
+        - 'config:field.storage.node.field_affinity_group_category'
         - 'config:field.storage.node.field_coordinator'
+        - 'config:field.storage.node.field_ext_email_list'
         - 'config:field.storage.node.field_logo'
         - 'config:field.storage.node.field_mailing_list'
         - 'config:field.storage.node.field_slack'
         - 'config:field.storage.node.field_tags'
+        - 'config:field.storage.node.field_use_ext_email_list'
   data_export_1:
     id: data_export_1
     display_title: 'Data export'
@@ -885,6 +1134,18 @@ display:
             view:
               alias: kb
               raw_output: false
+            view_1:
+              alias: events
+              raw_output: false
+            field_affinity_group_category:
+              alias: ''
+              raw_output: false
+            field_ext_email_list:
+              alias: ''
+              raw_output: false
+            field_use_ext_email_list:
+              alias: ''
+              raw_output: false
       display_extenders:
         jsonapi_views:
           enabled: false
@@ -906,8 +1167,11 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.body'
+        - 'config:field.storage.node.field_affinity_group_category'
         - 'config:field.storage.node.field_coordinator'
+        - 'config:field.storage.node.field_ext_email_list'
         - 'config:field.storage.node.field_logo'
         - 'config:field.storage.node.field_mailing_list'
         - 'config:field.storage.node.field_slack'
         - 'config:field.storage.node.field_tags'
+        - 'config:field.storage.node.field_use_ext_email_list'
