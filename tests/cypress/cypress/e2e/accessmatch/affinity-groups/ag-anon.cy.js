@@ -13,7 +13,7 @@ describe('Anonymous user visit the affinity-group page', () => {
 
     // Verify access-facilitators ag.  First get the table row
     // containing the "access-facilitators" affinity group as an alias:
-    cy.get('[alt="The words Campus Champions ACCESS Facilitators"]')
+    cy.get('[alt="Support ACCESS Affinity Group logo"]')
       .parents('tr')
       .as('af-row');
 
@@ -22,24 +22,24 @@ describe('Anonymous user visit the affinity-group page', () => {
       .find('img')
       .parent()
       .invoke('attr', 'href')
-      .should('contain', '/affinity-groups/access-facilitators');
+      .should('contain', '/affinity-groups/access-support');
 
     // 2. verify the text has the correct href
     cy.get('@af-row')
-      .contains('ACCESS Facilitators')
+      .contains('ACCESS Support')
       .invoke('attr', 'href')
-      .should('contain', '/affinity-groups/access-facilitators');
+      .should('contain', '/affinity-groups/access-support');
 
     // 3. Description: verify text in description
     cy.get('@af-row')
-      .contains('People who use or support people who use ACCESS resources and the ACCESS Resource Allocation System.');
+      .contains('Become an ACCESS Support insider by joining our affinity group.');
 
     // 4. Verify it has the expected tag
     cy.get('@af-row')
       .get('.square-tags')
-      .contains('research-facilitation')
+      .contains('ACCESS-website')
       .invoke('attr', 'href')
-      .should('contain', '/tags/research-facilitation');
+      .should('contain', '/tags/access-website');
 
     // 5. verify the join button for anonymous
     cy.get('@af-row')
