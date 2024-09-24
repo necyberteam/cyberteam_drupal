@@ -7,7 +7,7 @@ dependencies:
     - field.storage.node.field_affinity_group_category
     - field.storage.node.field_coordinator
     - field.storage.node.field_ext_email_list
-    - field.storage.node.field_logo
+    - field.storage.node.field_image
     - field.storage.node.field_mailing_list
     - field.storage.node.field_slack
     - field.storage.node.field_tags
@@ -20,7 +20,6 @@ dependencies:
     - options
     - rest
     - serialization
-    - taxonomy
     - text
     - user
     - views_data_export
@@ -404,15 +403,15 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: false
-        field_logo:
-          id: field_logo
-          table: node__field_logo
-          field: field_logo
+        field_image:
+          id: field_image
+          table: node__field_image
+          field: field_image
           relationship: none
           group_type: group
-          admin_label: ''
+          admin_label: 'AG Logo'
           plugin_id: field
-          label: Logo
+          label: Image
           exclude: false
           alter:
             alter_text: false
@@ -457,7 +456,7 @@ display:
           type: image_url
           settings:
             image_style: ''
-          group_column: entity_id
+          group_column: ''
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -756,10 +755,10 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -957,121 +956,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        term_node_tid:
-          id: term_node_tid
-          table: node_field_data
-          field: term_node_tid
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          plugin_id: taxonomy_index_tid
-          label: 'All taxonomy terms'
-          exclude: false
-          alter:
-            alter_text: true
-            text: '{{ term_node_tid__tid }}'
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          type: separator
-          separator: ', '
-          link_to_taxonomy: false
-          limit: true
-          vids:
-            affinity_groups: affinity_groups
-            organization_type: '0'
-            region: '0'
-            regional_experts: '0'
-            skill_level: '0'
-            state: '0'
-            tags: '0'
-            track: '0'
-        view_2:
-          id: view_2
-          table: views
-          field: view
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: view
-          label: View
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          view: affinity_group_instances_api_flagging
-          display: data_export_1
-          arguments: '{{ fields.nid }}'
       pager:
         type: mini
         options:
@@ -1257,7 +1141,7 @@ display:
         - 'config:field.storage.node.field_affinity_group_category'
         - 'config:field.storage.node.field_coordinator'
         - 'config:field.storage.node.field_ext_email_list'
-        - 'config:field.storage.node.field_logo'
+        - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_mailing_list'
         - 'config:field.storage.node.field_slack'
         - 'config:field.storage.node.field_tags'
@@ -1301,8 +1185,8 @@ display:
             nothing:
               alias: coordinator
               raw_output: false
-            field_logo:
-              alias: logo
+            field_image:
+              alias: ''
               raw_output: false
             field_slack:
               alias: slack_link
@@ -1326,9 +1210,6 @@ display:
               alias: ''
               raw_output: false
             field_use_ext_email_list:
-              alias: ''
-              raw_output: false
-            term_node_tid:
               alias: ''
               raw_output: false
             view_2:
@@ -1358,7 +1239,7 @@ display:
         - 'config:field.storage.node.field_affinity_group_category'
         - 'config:field.storage.node.field_coordinator'
         - 'config:field.storage.node.field_ext_email_list'
-        - 'config:field.storage.node.field_logo'
+        - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_mailing_list'
         - 'config:field.storage.node.field_slack'
         - 'config:field.storage.node.field_tags'
