@@ -444,16 +444,14 @@ display:
           exposed: false
           granularity: second
       arguments:
-        nid:
-          id: nid
-          table: node_field_data
-          field: nid
+        field_group_id_value:
+          id: field_group_id_value
+          table: node__field_group_id
+          field: field_group_id_value
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          entity_field: nid
-          plugin_id: node_nid
+          plugin_id: string
           default_action: default
           exception:
             value: all
@@ -479,8 +477,12 @@ display:
             type: none
             fail: 'not found'
           validate_options: {  }
+          glossary: false
+          limit: 0
+          case: none
+          path_case: none
+          transform_dash: false
           break_phrase: false
-          not: false
       filters:
         status:
           id: status
