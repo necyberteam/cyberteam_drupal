@@ -12,7 +12,7 @@ field_name: field_image
 entity_type: node
 bundle: access_news
 label: 'Featured Image'
-description: 'Image must be 730x350 in size and not to exceed 1mb'
+description: 'Image must be a minimum of 730x350 in size, the image will get scaled and cropped down to this size if the file you upload is larger.'
 required: false
 translatable: true
 default_value: {  }
@@ -23,7 +23,7 @@ settings:
   file_directory: '[date:custom:Y]-[date:custom:m]'
   file_extensions: 'png gif jpg jpeg'
   max_filesize: 1mb
-  max_resolution: 730x350
+  max_resolution: ''
   min_resolution: 730x350
   alt_field: true
   alt_field_required: true
