@@ -13,14 +13,17 @@ dependencies:
     - field.field.node.access_news.field_domain_all_affiliates
     - field.field.node.access_news.field_domain_source
     - field.field.node.access_news.field_image
+    - field.field.node.access_news.field_news_external_link
+    - field.field.node.access_news.field_publish_to_resource_catalo
     - field.field.node.access_news.field_published_date
     - field.field.node.access_news.field_tags
     - node.type.access_news
   module:
     - datetime
-    - image
     - layout_builder
+    - link
     - options
+    - svg_image
     - text
     - user
 third_party_settings:
@@ -267,6 +270,42 @@ third_party_settings:
                 pt_4: 0
                 tags: 0
                 __div_h_full: 0
+          ab8b2e63-642b-4e34-ada7-5d4851393dd6:
+            uuid: ab8b2e63-642b-4e34-ada7-5d4851393dd6
+            region: first
+            configuration:
+              id: 'field_block:node:access_news:field_news_external_link'
+              label: 'External Link'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: link
+                label: hidden
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: '0'
+                  target: '0'
+                third_party_settings: {  }
+            weight: 5
+            additional:
+              layout_builder_styles_style:
+                __div_h_full: 0
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
         third_party_settings: {  }
 id: node.access_news.default
 targetEntityType: node
@@ -311,6 +350,28 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
+  field_news_external_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 7
+    region: first
+  field_publish_to_resource_catalo:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 6
+    region: first
   field_published_date:
     type: datetime_custom
     label: hidden

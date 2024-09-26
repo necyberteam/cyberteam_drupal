@@ -5,8 +5,10 @@ dependencies:
   config:
     - field.storage.node.body
     - field.storage.node.field_image
+    - field.storage.node.field_news_external_link
     - node.type.access_news
   module:
+    - link
     - node
     - rest
     - serialization
@@ -256,6 +258,73 @@ display:
           text: view
           output_url_as_text: true
           absolute: true
+        field_news_external_link_1:
+          id: field_news_external_link_1
+          table: node__field_news_external_link
+          field: field_news_external_link
+          relationship: none
+          group_type: group
+          admin_label: extLinkUri
+          plugin_id: field
+          label: 'External Link'
+          exclude: false
+          alter:
+            alter_text: true
+            text: '{{ field_news_external_link_1__uri }}'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: uri
+          type: link_separate
+          settings:
+            trim_length: null
+            url_only: false
+            url_plain: false
+            rel: '0'
+            target: '0'
+          group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         field_image:
           id: field_image
           table: node__field_image
@@ -464,6 +533,44 @@ display:
           plugin_id: bundle
           value:
             access_news: access_news
+        field_publish_to_resource_catalo_value:
+          id: field_publish_to_resource_catalo_value
+          table: node__field_publish_to_resource_catalo
+          field: field_publish_to_resource_catalo_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: boolean
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       style:
         type: default
         options:
@@ -502,6 +609,7 @@ display:
       tags:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
+        - 'config:field.storage.node.field_news_external_link'
   data_export_1:
     id: data_export_1
     display_title: 'Data export'
@@ -544,6 +652,12 @@ display:
             field_image_1:
               alias: imageAltText
               raw_output: false
+            field_news_external_link:
+              alias: extLinkTitle
+              raw_output: false
+            field_news_external_link_1:
+              alias: extLinkUri
+              raw_output: false
       display_extenders:
         jsonapi_views:
           enabled: false
@@ -565,3 +679,4 @@ display:
       tags:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
+        - 'config:field.storage.node.field_news_external_link'
