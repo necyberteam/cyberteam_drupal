@@ -1,4 +1,4 @@
-/*  
+/*
     This test is focused on the MATCH+ Engagement form tested for an authenticated user.
 
     A MATCH Engagement can be submitted by any authenticated user.
@@ -7,10 +7,10 @@
     The Engagement can be saved as a draft or sent for review.
 
     Users with the MATCH PM role receive an email notification when a MATCH Engagement is submitted.
-    When a MATCH PM saves the engagement as "Received", the user who submitted 
+    When a MATCH PM saves the engagement as "Received", the user who submitted
     the engagement receives an email notification and additional fields are displayed.
     - todo: add tests for additional fields
-    
+
     The author adds additional information and saves the engagement as "In Review".
 
     The MATCH SC receives an email notification when the engagement is saved as "In Review".
@@ -18,7 +18,7 @@
     When in "Recruiting" state, the engagement is displayed on the MATCH Engagements page
     and potential participants can flag interest in the engagement.
 
-    Other states for the engagement include "Reviewing Applicants", "In Progress", 
+    Other states for the engagement include "Reviewing Applicants", "In Progress",
     "Finishing Up", "On Hold", "Halted", and "Complete".
 */
 
@@ -42,7 +42,7 @@ describe("Authenticated user tests the MATCH+ Engagement Form", () => {
 
     // Tags field
     cy.get('.tags summary').click()
-    // tid 733 is the tag "access-account"
+    // tid 733 is the tag "ACCESS-account"
     cy.get('.tags-select[data-tid=733]').click()
 
     //Preffered Semester Field

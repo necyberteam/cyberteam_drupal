@@ -31,7 +31,10 @@ function add_pecan_as_ag_coord() {
     .get('#ui-id-2')  // this is the dropdown that shows up
     .find('.ui-menu-item') //
     .first() // take the first one
-    .click();;
+    .click();
+
+  cy.get('#edit-field-group-id-0-value').clear().type('test.group.id');
+
 
   // submit changes
   cy.get('#edit-submit').click();
@@ -69,7 +72,7 @@ function remove_pecan_as_ag_coord() {
 
   // Set the slug to something unique
   cy.get('#edit-field-group-slug-0-value').clear().type('access-support');
-  
+
     // submit changes
   cy.get('#edit-submit').click();
   cy.contains('has been updated');
