@@ -1025,8 +1025,8 @@ display:
           label: ''
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: "{% if body__summary %}\r\n  <p>{{ body__summary }}</p>\r\n{% else %}\r\n  {{ body }}\r\n{% endif %}"
             make_link: false
             path: ''
             absolute: false
