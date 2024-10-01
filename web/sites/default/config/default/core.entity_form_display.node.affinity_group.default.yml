@@ -16,6 +16,7 @@ dependencies:
     - field.field.node.affinity_group.field_domain_source
     - field.field.node.affinity_group.field_ext_email_list
     - field.field.node.affinity_group.field_github_organization
+    - field.field.node.affinity_group.field_group_id
     - field.field.node.affinity_group.field_group_slug
     - field.field.node.affinity_group.field_image
     - field.field.node.affinity_group.field_list_id
@@ -144,9 +145,17 @@ content:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
-  field_group_slug:
+  field_group_id:
     type: string_textfield
     weight: 29
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_group_slug:
+    type: string_textfield
+    weight: 30
     region: content
     settings:
       size: 60
