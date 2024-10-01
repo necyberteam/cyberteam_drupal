@@ -45,6 +45,7 @@ describe("Admin user tests the Individual Affinity Groups", () => {
 
     // Set the slug to something unique
     cy.get('#edit-field-group-slug-0-value').clear().type('access-support');
+    cy.get('#edit-field-group-id-0-value').clear().type('test.group.id');
 
     // submit changes
     cy.get('#edit-submit').click();
