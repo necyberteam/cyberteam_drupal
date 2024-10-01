@@ -5,8 +5,12 @@ dependencies:
   config:
     - taxonomy.vocabulary.tags
   module:
+    - csv_serialization
+    - rest
+    - serialization
     - taxonomy
     - user
+    - views_data_export
     - views_field_view
 id: terms_used
 label: 'Terms Used'
@@ -90,6 +94,72 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        name_1:
+          id: name_1
+          table: taxonomy_term_field_data
+          field: name
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: taxonomy_term
+          entity_field: name
+          plugin_id: term_name
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          convert_spaces: false
         view:
           id: view
           table: views
@@ -142,13 +212,169 @@ display:
           view: resources
           display: block_1
           arguments: '{{ raw_fields.tid }}'
+        view_6:
+          id: view_6
+          table: views
+          field: view
+          relationship: none
+          group_type: group
+          admin_label: Announcements
+          plugin_id: view
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          view: tagged_news_block
+          display: block_2
+          arguments: '{{ raw_fields.tid }}'
+        view_5:
+          id: view_5
+          table: views
+          field: view
+          relationship: none
+          group_type: group
+          admin_label: Events
+          plugin_id: view
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          view: recurring_events_event_instances
+          display: block_4
+          arguments: '{{ raw_fields.tid }}'
+        view_7:
+          id: view_7
+          table: views
+          field: view
+          relationship: none
+          group_type: group
+          admin_label: 'CSSN Directory - user skill'
+          plugin_id: view
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          view: cssn_directory_by_tag
+          display: block_1
+          arguments: '{{ raw_fields.name_1 }}'
         view_1:
           id: view_1
           table: views
           field: view
           relationship: none
           group_type: group
-          admin_label: Projects
+          admin_label: 'CSSN Directory - user interest'
           plugin_id: view
           label: ''
           exclude: true
@@ -188,19 +414,19 @@ display:
           element_wrapper_class: ''
           element_default_classes: true
           empty: ''
-          hide_empty: true
+          hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: projects
-          display: block_1
-          arguments: '{{ raw_fields.tid }}'
+          view: cssn_directory_by_tag
+          display: block_2
+          arguments: '{{ raw_fields.name_1 }}'
         view_2:
           id: view_2
           table: views
           field: view
           relationship: none
           group_type: group
-          admin_label: Students
+          admin_label: ''
           plugin_id: view
           label: ''
           exclude: true
@@ -240,116 +466,12 @@ display:
           element_wrapper_class: ''
           element_default_classes: true
           empty: ''
-          hide_empty: true
+          hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: users_with_tag
-          display: block_1
-          arguments: '{{ raw_fields.tid}}'
-        view_3:
-          id: view_3
-          table: views
-          field: view
-          relationship: none
-          group_type: group
-          admin_label: Mentors
-          plugin_id: view
-          label: ''
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: true
-          empty_zero: false
-          hide_alter_empty: true
-          view: users_with_tag
-          display: block_2
-          arguments: '{{ raw_fields.tid}}'
-        view_4:
-          id: view_4
-          table: views
-          field: view
-          relationship: none
-          group_type: group
-          admin_label: Researchers
-          plugin_id: view
-          label: ''
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: true
-          empty_zero: false
-          hide_alter_empty: true
-          view: users_with_tag
+          view: affinity_groups_with_tag
           display: block_3
-          arguments: '{{ raw_fields.tid}}'
+          arguments: '{{ raw_fields.tid }}'
         name:
           id: name
           table: taxonomy_term_field_data
@@ -364,7 +486,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"card mb-3\">\r\n<div class=\"card-body\">\r\n<h3 class=\"card-title\">{{name}}</h3>\r\n{{ view }}\r\n{{ view_1 }}\r\n{{ view_2 }}\r\n{{ view_3 }}\r\n{{ view_4 }}\r\n</div>\r\n</div>"
+            text: "<div class=\"card mb-3\">\r\n<div class=\"card-body\">\r\n<h3 class=\"card-title\">{{name}}</h3>\r\n{{ view }}\r\n{{ view_5 }}\r\n{{ view_6 }}\r\n{{ view_7 }}\r\n{{ view_1 }}\r\n{{ view_2 }}\r\n</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false

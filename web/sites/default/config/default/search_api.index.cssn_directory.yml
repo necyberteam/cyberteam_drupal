@@ -14,6 +14,7 @@ dependencies:
   module:
     - user
     - search_api
+    - ccmnet
     - cssn
     - webform_submission_search_api
 id: cssn_directory
@@ -125,6 +126,10 @@ field_settings:
     dependencies:
       module:
         - user
+  user_interest:
+    label: 'User Interest'
+    property_path: search_api_user_interest
+    type: string
   user_skills:
     label: 'User Skills'
     property_path: search_api_user_skills
@@ -179,6 +184,7 @@ processor_settings:
       - roles
       - user_skills
   language_with_fallback: {  }
+  mentee_name: {  }
   rendered_item: {  }
   stemmer:
     weights:
@@ -237,6 +243,7 @@ processor_settings:
       - was
       - will
       - with
+  user_interests: {  }
   user_skills: {  }
   webform_submission_category: {  }
   webform_submission_description: {  }
