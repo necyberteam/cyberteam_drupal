@@ -1,10 +1,10 @@
-/*  
+/*
     This test is specifically focused on the MATCH Premier Engagement form tested for an authenticated user.
     This test checks for major functions like:
-    Page Title, 
+    Page Title,
     Header text,
-    Form Functionality 
-    
+    Form Functionality
+
 */
 
 describe("Authenticated user tests the MATCH Premier Engagement Form", () => {
@@ -27,7 +27,7 @@ describe("Authenticated user tests the MATCH Premier Engagement Form", () => {
 
     // Tags field
     cy.get('.tags summary').click()
-    // tid 733 is the tag "access-account"
+    // tid 733 is the tag "ACCESS-account"
     cy.get('.tags-select[data-tid=733]').click()
 
     //Preffered Semester Field

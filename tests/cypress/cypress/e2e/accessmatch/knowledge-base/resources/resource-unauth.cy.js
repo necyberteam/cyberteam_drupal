@@ -23,7 +23,7 @@ describe("Unauthenticated user tests the Individual KB Resource Page", () => {
         //   "dummy-ci-link-for-testing-knowledge-base"
         // );
         //Tags
-        cy.contains("access-account");
+        cy.contains("ACCESS-account");
         //Description
         cy.contains(
           "Dummy description for ci-link 'dummy-ci-link-for-testing-knowledge-base'"
