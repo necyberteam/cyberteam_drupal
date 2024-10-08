@@ -47,7 +47,7 @@ describe("Admin user uses form to create a KB Resource", () => {
       "http://example-2.com"
     );
 
-    // tag "access-account" is selected
+    // tag "ACCESS-account" is selected
     cy.get('span[data-tid="733"]').click();
 
     // tag "finite-element-analysis" is selected
@@ -76,9 +76,9 @@ describe("Admin user uses form to create a KB Resource", () => {
       "href",
       "http://example-2.com"
     );
-    cy.get('.form-item-tags').contains("access-account")
+    cy.get('.form-item-tags').contains("ACCESS-account")
       .should("have.attr", "href")
-      .and("contains", "/tags/access-account");
+      .and("contains", "/tags/ACCESS-account");
     cy.get('.form-item-tags').contains("finite-element-analysis")
       .should("have.attr", "href")
       .and("contains", "/tags/finite-element-analysis");

@@ -17,6 +17,6 @@ describe("Authenticated user tests the Add Skills without adding an Affinity Gro
     cy.visit("/community-persona/add-skill");
 
     //Adding Tag
-    cy.contains("access-account").click();
+    cy.contains("ACCESS-account").click();
   });
 });
