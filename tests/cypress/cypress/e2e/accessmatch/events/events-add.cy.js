@@ -54,7 +54,7 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.get("#edit-field-event-type").select("Training");
 
     //Event Affiliation
-    cy.get("#edit-field-affiliation").select("Community");
+    cy.get("#edit-field-affiliation-community").click();
 
     //Event Skill Level
     cy.get("#edit-field-skill-level").select("Advanced");
