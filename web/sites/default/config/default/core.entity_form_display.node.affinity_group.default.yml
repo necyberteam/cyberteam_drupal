@@ -16,6 +16,7 @@ dependencies:
     - field.field.node.affinity_group.field_domain_source
     - field.field.node.affinity_group.field_ext_email_list
     - field.field.node.affinity_group.field_github_organization
+    - field.field.node.affinity_group.field_group_id
     - field.field.node.affinity_group.field_group_slug
     - field.field.node.affinity_group.field_image
     - field.field.node.affinity_group.field_list_id
@@ -144,9 +145,17 @@ content:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
-  field_group_slug:
+  field_group_id:
     type: string_textfield
     weight: 29
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_group_slug:
+    type: string_textfield
+    weight: 30
     region: content
     settings:
       size: 60
@@ -185,18 +194,18 @@ content:
       override_labels: true
       label_singular: resource
       label_plural: resources
-      auto_open: true
       allow_new: true
       allow_existing: false
-      allow_edit: true
       match_operator: CONTAINS
       allow_duplicate: false
-      hide_fieldset: false
-      hide_title: false
       collapsible: false
       collapsed: false
       revision: false
       removed_reference: optional
+      auto_open: true
+      allow_edit: true
+      hide_fieldset: false
+      hide_title: false
       config_labels_button: complex_label
       labels:
         label_singular_recommended_cider: Recommendation
