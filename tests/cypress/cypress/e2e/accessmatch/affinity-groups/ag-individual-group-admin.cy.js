@@ -45,6 +45,7 @@ describe("Admin user tests the Individual Affinity Groups", () => {
 
     // Set the slug to something unique
     cy.get('#edit-field-group-slug-0-value').clear().type('access-support');
+    cy.get('#edit-field-group-id-0-value').clear().type('test.group.id');
 
     // submit changes
     cy.get('#edit-submit').click();
@@ -84,7 +85,7 @@ function create_dummy_ci_link() {
   cy.get('#edit-category').select('learning');
   cy.get('#edit-skill-level-304').check();  // beginner level
   cy.get('#edit-description').type("Dummy description for ci-link 'access-support-ci-link-for-testing'");
-  // tag "access-account" is selected
+  // tag "ACCESS-account" is selected
   cy.get('span[data-tid="733"]').click();
   cy.get('#edit-submit').click();
 }
