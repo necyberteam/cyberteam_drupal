@@ -12,8 +12,8 @@ dependencies:
     - taxonomy.vocabulary.tags
   module:
     - flag
-    - image
     - node
+    - svg_image
     - taxonomy
     - text
     - user
@@ -770,6 +770,49 @@ display:
             format: full_html
           tokenize: false
       display_extenders:
+        simple_sitemap_display_extender: {  }
+      block_description: 'Affinity Groups with Tag'
+      block_category: 'Tags Page Affinity Group'
+    cache_metadata:
+      max-age: 0
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:field.storage.node.body'
+        - 'config:field.storage.node.field_image'
+        - 'config:field.storage.node.field_tags'
+  block_3:
+    id: block_3
+    display_title: 'AG with Tag: terms'
+    display_plugin: block
+    position: 1
+    display_options:
+      empty: {  }
+      defaults:
+        empty: false
+        header: false
+      display_description: /terms-used
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">[view:title]</h2>'
+            format: full_no_editor
+          tokenize: false
+      display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       block_description: 'Affinity Groups with Tag'
       block_category: 'Tags Page Affinity Group'
