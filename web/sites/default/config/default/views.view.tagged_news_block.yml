@@ -491,7 +491,64 @@ display:
     display_plugin: block
     position: 1
     display_options:
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:field.storage.node.field_affinity_group_node'
+        - 'config:field.storage.node.field_published_date'
+        - 'config:field.storage.node.field_tags'
+  block_2:
+    id: block_2
+    display_title: 'Terms used block'
+    display_plugin: block
+    position: 1
+    display_options:
+      pager:
+        type: none
+        options:
+          offset: 0
+      empty: {  }
+      defaults:
+        empty: false
+        pager: false
+        use_more: false
+        use_more_always: false
+        use_more_text: false
+        link_display: false
+        link_url: false
+        header: false
+      display_description: /terms-used
+      use_more: false
+      use_more_always: false
+      use_more_text: more
+      link_display: '0'
+      link_url: '/announcements?tid={{ raw_arguments.tid }}'
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">[view:title]</h2>'
+            format: full_no_editor
+          tokenize: false
+      display_extenders:
+        jsonapi_views:
+          enabled: false
     cache_metadata:
       max-age: -1
       contexts:
