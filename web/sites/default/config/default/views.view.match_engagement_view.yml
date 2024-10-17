@@ -12,9 +12,9 @@ dependencies:
     - node.type.match_engagement
     - taxonomy.vocabulary.tags
   module:
-    - image
     - node
     - options
+    - svg_image
     - taxonomy
     - text
     - user
@@ -486,6 +486,7 @@ display:
             offset: false
             offset_label: Offset
           quantity: 9
+          pagination_heading_level: h4
       exposed_form:
         type: basic
         options:
@@ -857,7 +858,7 @@ display:
           admin_label: ''
           entity_type: node
           entity_field: uid
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: default
           exception:
             value: all
@@ -883,6 +884,7 @@ display:
           validate_options: {  }
           break_phrase: false
           not: false
+          target_entity_type_id: user
       defaults:
         cache: false
         title: false
@@ -1527,7 +1529,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: default
           exception:
             value: all
@@ -1559,6 +1561,7 @@ display:
           validate_options: {  }
           break_phrase: false
           not: false
+          target_entity_type_id: taxonomy_term
       filters:
         status:
           id: status
