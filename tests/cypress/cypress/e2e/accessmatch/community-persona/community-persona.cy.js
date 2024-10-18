@@ -138,10 +138,6 @@ function user200_edit_self() {
   cy.visit('/user/200/edit');
   cy.contains('dummy-image');
   cy.contains('dummy-resume')
-  // Remove dummy files.
-  cy.get('#edit-user-picture-0-remove-button').click();
-  cy.get('#edit-field-cv-resume-0-remove-button').click();
-  cy.get('#edit-submit').click();
 }
 
 /**
