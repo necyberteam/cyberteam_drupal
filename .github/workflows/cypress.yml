@@ -31,19 +31,6 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
-  asp2:
-    name: Run cypress tests in 'accessmatch2' directory
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3
-    if: contains(github.event.inputs.sites, 'asp') || github.event_name == 'pull_request'
-    secrets:
-      slack_token: ${{ secrets.SLACK_TOKEN }}
-      site: "accessmatch2"
-      database: ${{ github.event.inputs.database }}
-      prnum: ${{ github.event.inputs.prnum }}
-      gh_token: ${{ secrets.GH_TOKEN_REPO }}
-      LANDO_ENV: ${{ secrets.LANDO_ENV }}
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      REPO: "${{ github.server_url }}/${{ github.repository }}"
   ccmnet:
     name: Run cypress tests in 'ccmnet' directory
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3
