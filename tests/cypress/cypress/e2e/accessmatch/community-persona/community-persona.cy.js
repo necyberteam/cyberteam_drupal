@@ -109,10 +109,10 @@ function user200_edit_self() {
 
   // if there's a pic or resume, remove them - could be leftover from broken tests.
   cy.get('body').then(($body) => {
-    if ($body.text().includes('edit-user-picture-0-remove-button')) {
+    if ($body.find("#edit-user-picture-0-remove-button").length > 0) {
       cy.get('#edit-user-picture-0-remove-button').click();
     }
-    if ($body.text().includes('edit-field-cv-resume-0-remove-button')) {
+    if ($body.find("#edit-field-cv-resume-0-remove-button").length > 0) {
       cy.get('#edit-field-cv-resume-0-remove-button').click();
     }
   }).then(() => {
@@ -138,6 +138,10 @@ function user200_edit_self() {
   cy.visit('/user/200/edit');
   cy.contains('dummy-image');
   cy.contains('dummy-resume')
+  // Remove dummy files.
+  cy.get('#edit-user-picture-0-remove-button').click();
+  cy.get('#edit-field-cv-resume-0-remove-button').click();
+  cy.get('#edit-submit').click();
 }
 
 /**
