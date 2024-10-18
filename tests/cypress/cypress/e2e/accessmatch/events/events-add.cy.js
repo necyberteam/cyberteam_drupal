@@ -15,6 +15,8 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
   it("Should test Events Form for authenticated user", () => {
     // login user with the "authenticated" role
     cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
+    cy.visit("/");
+    cy.get(':nth-child(1) > .views-field-title-2 > .field-content > .block')
     cy.visit("/events/add");
 
     // Page Title
