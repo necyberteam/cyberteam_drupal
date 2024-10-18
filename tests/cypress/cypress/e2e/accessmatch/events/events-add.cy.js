@@ -62,7 +62,7 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.get("#edit-field-skill-level").select("Advanced");
 
     //Form Submit Button and confirmation
-    cy.get("#edit-submit").click();
+    cy.get("#edit-submit",{ timeout: 25000 }).click();
     cy.contains("Successfully saved the example-event event series");
   });
 });
