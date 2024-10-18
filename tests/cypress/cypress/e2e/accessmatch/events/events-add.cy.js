@@ -12,7 +12,14 @@
 */
 
 describe("Authenticated user tests the Events Form without Affinity Group", () => {
-  it("Should test Events Form for authenticated user", () => {
+  it("Should test Events Form for authenticated user",
+    {
+      retries: {
+        runMode: 3,
+        openMode: 1,
+      },
+    },
+    () => {
     // login user with the "authenticated" role
     cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
     cy.visit("/");
@@ -62,7 +69,8 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.get("#edit-field-skill-level").select("Advanced");
 
     //Form Submit Button and confirmation
-    //cy.get("#edit-submit").click();
-    //cy.contains("Successfully saved the example-event event series");
+    cy.config("defaultCommandTimeout", 10000);
+    cy.get("#edit-submit").click();
+    cy.contains("Successfully saved the example-event event series");
   });
 });
