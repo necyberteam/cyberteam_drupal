@@ -95,12 +95,12 @@ describe("Verify the the community-outreach tag page", () => {
       cy.drupalLogout();
       cy.visit("/tags/community-outreach");
 
-      // verify count of ci-links is 3
+      // verify count of ci-links is 4
       // verify each link looks good
 
       cy.get('.view-resources')
         .find('tbody')
-        .find('tr').should('have.length', 3)
+        .find('tr').should('have.length', 4)
         .each((row, rowIndex) => {
           cy.wrap(row).find('td').each((cell, cellIndex) => {
 
