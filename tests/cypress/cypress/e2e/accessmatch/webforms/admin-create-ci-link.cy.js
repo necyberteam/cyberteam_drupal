@@ -78,7 +78,7 @@ describe("Admin user uses form to create a KB Resource", () => {
     );
     cy.get('.form-item-tags').contains("ACCESS-account")
       .should("have.attr", "href")
-      .and("contains", "/tags/ACCESS-account");
+      .and("contains", "/tags/access-account");
     cy.get('.form-item-tags').contains("finite-element-analysis")
       .should("have.attr", "href")
       .and("contains", "/tags/finite-element-analysis");

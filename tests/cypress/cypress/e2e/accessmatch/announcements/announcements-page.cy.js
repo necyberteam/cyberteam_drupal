@@ -32,7 +32,7 @@ describe("Unauthenticated user tests the Announcements Page", () => {
       .click();
     cy.get(".field__item > .font-normal").contains("ai");
     cy.get(".field__label").contains("Affiliation");
-    cy.get(".layout__region--second > .block > .field > .field__item").contains(
+    cy.get(".layout__region--second").contains(
       "Community"
     );
 
