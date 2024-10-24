@@ -6,7 +6,11 @@ dependencies:
     - field.storage.eventseries.field_location
     - recurring_events.eventseries_type.default
   module:
+    - label_help
     - text
+third_party_settings:
+  label_help:
+    label_help_description: 'Provide physical location or specify if the event is virtual.'
 id: eventseries.default.field_location
 field_name: field_location
 entity_type: eventseries
@@ -17,5 +21,6 @@ required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
-settings: {  }
+settings:
+  allowed_formats: {  }
 field_type: text
