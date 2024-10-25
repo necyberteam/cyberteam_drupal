@@ -2,7 +2,7 @@
 * Verify the contact form can be used to send an email.
 *
 */
-describe('user200 visits user201s community-persona page to send email', () => {
+describe('user199 visits user201s community-persona page to send email', () => {
   it('should find expected stuff', () => {
     cy.loginAs('walnut@pie.org', 'Walnut');
     cy.visit('/community-persona/201');

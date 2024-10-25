@@ -8,6 +8,7 @@ dependencies:
     - field.field.eventseries.default.field_affinity_group_node
     - field.field.eventseries.default.field_broadcast_affinity_groups
     - field.field.eventseries.default.field_contact
+    - field.field.eventseries.default.field_event_speakers
     - field.field.eventseries.default.field_event_type
     - field.field.eventseries.default.field_location
     - field.field.eventseries.default.field_registration
@@ -70,6 +71,14 @@ content:
     third_party_settings: {  }
     weight: 6
     region: content
+  field_event_speakers:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 11
+    region: content
   field_location:
     type: text_default
     label: above
@@ -122,5 +131,6 @@ hidden:
   field_event_type: true
   monthly_recurring_date: true
   recur_type: true
+  search_api_excerpt: true
   weekly_recurring_date: true
   yearly_recurring_date: true

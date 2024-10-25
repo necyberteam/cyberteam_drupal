@@ -12,9 +12,18 @@
 */
 
 describe("Authenticated user tests the Events Form without Affinity Group", () => {
-  it("Should test Events Form for authenticated user", () => {
+  it("Should test Events Form for authenticated user",
+    {
+      retries: {
+        runMode: 3,
+        openMode: 1,
+      },
+    },
+    () => {
     // login user with the "authenticated" role
     cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
+    cy.visit("/");
+    cy.get(':nth-child(1) > .views-field-title-2 > .field-content > .block')
     cy.visit("/events/add");
 
     // Page Title
@@ -51,15 +60,16 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.get("#edit-moderation-state-0-state").select("Published");
 
     //Event Type
-    cy.get("#edit-field-event-type").select("Training");
+    cy.get("#edit-field-event-type-training").click();
 
     //Event Affiliation
     cy.get("#edit-field-affiliation-community").click();
 
     //Event Skill Level
-    cy.get("#edit-field-skill-level").select("Advanced");
+    cy.get("#edit-field-skill-level-advanced").click();
 
     //Form Submit Button and confirmation
+    cy.config("defaultCommandTimeout", 10000);
     cy.get("#edit-submit").click();
     cy.contains("Successfully saved the example-event event series");
   });

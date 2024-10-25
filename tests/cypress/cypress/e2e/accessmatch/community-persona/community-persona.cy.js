@@ -10,9 +10,9 @@ describe('Anonymous user visit the community-persona page', () => {
   it('should find expected stuff', () => {
     anon_cp_redirect_login();
     anon_verify_user201_cp();
-    user200_verify_self_cp();
-    user200_edit_self();
-    admin_unedit_user200();
+    user199_verify_self_cp();
+    user199_edit_self();
+    admin_unedit_user199();
   });
 });
 
@@ -60,9 +60,9 @@ function anon_verify_user201_cp() {
 }
 
 /**
- *  user200 user visits their own community-persona page
+ *  user199 user visits their own community-persona page
  */
-function user200_verify_self_cp() {
+function user199_verify_self_cp() {
   cy.loginAs('walnut@pie.org', 'Walnut');
 
   cy.visit('/community-persona');
@@ -83,7 +83,7 @@ function user200_verify_self_cp() {
     $persona.contains('Edit Roles')
       .should('have.attr', 'href', "/form/edit-your-cssn-roles?destination=community-persona");
     $persona.contains('Edit Persona')
-      .should('have.attr', 'href', "/user/200/edit?destination=community-persona");
+      .should('have.attr', 'href', "/user/199/edit?destination=community-persona");
     // todo test this page
   });
 
@@ -100,19 +100,19 @@ function user200_verify_self_cp() {
 }
 
 /**
- * user200 edits their own community-persona page
+ * user199 edits their own community-persona page
  * and verifies the changes.
  */
-function user200_edit_self() {
-  cy.visit('/user/200/edit?destination=community-persona');
+function user199_edit_self() {
+  cy.visit('/user/199/edit?destination=community-persona');
   cy.get('#edit-field-region').contains('Great Plains').click();  // great plains
 
   // if there's a pic or resume, remove them - could be leftover from broken tests.
   cy.get('body').then(($body) => {
-    if ($body.text().includes('edit-user-picture-0-remove-button')) {
+    if ($body.find("#edit-user-picture-0-remove-button").length > 0) {
       cy.get('#edit-user-picture-0-remove-button').click();
     }
-    if ($body.text().includes('edit-field-cv-resume-0-remove-button')) {
+    if ($body.find("#edit-field-cv-resume-0-remove-button").length > 0) {
       cy.get('#edit-field-cv-resume-0-remove-button').click();
     }
   }).then(() => {
@@ -135,18 +135,18 @@ function user200_edit_self() {
     $persona.get('img').should('have.attr', 'src').should('include', 'eclipse')
     $persona.contains('Great Plains');
   });
-  cy.visit('/user/200/edit');
+  cy.visit('/user/199/edit');
   cy.contains('dummy-image');
   cy.contains('dummy-resume')
 }
 
 /**
- * admin user undoes the edits user200 made to their community-persona page
+ * admin user undoes the edits user199 made to their community-persona page
  * and verifies the changes
  */
-function admin_unedit_user200() {
+function admin_unedit_user199() {
   cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
-  cy.visit('/user/200/edit?destination=community-persona');
+  cy.visit('/user/199/edit?destination=community-persona');
   cy.get('#edit-field-region').contains('Northeast').click();
   cy.get('#edit-field-hpc-experience-0-value').clear();
   cy.get('#edit-user-picture-0-remove-button').click();
