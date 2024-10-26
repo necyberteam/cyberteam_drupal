@@ -12,6 +12,10 @@ describe("user tests the crct Hompage", () => {
   it("Verify the main logo goes to home page", () => {
     cy.visit('/');
     cy.get('.logo').click();
+    // Check if baseUrl has a trailing slash and remove it, leads to false negative.
+    if (baseUrl.slice(-1) === '/') {
+      baseUrl = baseUrl.slice(0, -1);
+    }
     cy.url().should('eq', Cypress.config().baseUrl + '/');
   });
 
@@ -27,6 +31,10 @@ describe("user tests the crct Hompage", () => {
     cy.loginUser('authenticated@amptesting.com', '6%l7iF}6(4tI');
     cy.visit('/');
     cy.get('.logo').click();
+    // Check if baseUrl has a trailing slash and remove it, leads to false negative.
+    if (baseUrl.slice(-1) === '/') {
+      baseUrl = baseUrl.slice(0, -1);
+    }
     cy.url().should('eq', Cypress.config().baseUrl + '/');
   });
 
