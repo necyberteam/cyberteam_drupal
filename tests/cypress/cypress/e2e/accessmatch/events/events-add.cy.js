@@ -60,13 +60,13 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.get("#edit-moderation-state-0-state").select("Published");
 
     //Event Type
-    cy.get("#edit-field-event-type").select("Training");
+    cy.get("#edit-field-event-type-training").click();
 
     //Event Affiliation
     cy.get("#edit-field-affiliation-community").click();
 
     //Event Skill Level
-    cy.get("#edit-field-skill-level").select("Advanced");
+    cy.get("#edit-field-skill-level-advanced").click();
 
     //Form Submit Button and confirmation
     cy.config("defaultCommandTimeout", 10000);

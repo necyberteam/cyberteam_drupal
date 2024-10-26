@@ -177,13 +177,13 @@ describe("Verify the the community-outreach tag page", () => {
       cy.get("#edit-moderation-state-0-state").select("Published");
 
       //Event Type
-      cy.get("#edit-field-event-type").select("Training");
+      cy.get("#edit-field-event-type-training").click();
 
       //Event Affiliation
-      cy.get("#edit-field-affiliation").select("Community");
+      cy.get("#edit-field-affiliation-community").click();
 
       //Event Skill Level
-      cy.get("#edit-field-skill-level").select("Advanced");
+      cy.get("#edit-field-skill-level-advanced").click();
 
       //Form Submit Button and confirmation
       cy.get("#edit-submit").click();
