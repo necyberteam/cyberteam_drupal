@@ -31,6 +31,7 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+
   ccmnet:
     name: Run cypress tests in 'ccmnet' directory
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3
@@ -45,6 +46,47 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
 
+  connectci:
+    name: Run cypress tests in 'connectci' directory
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3
+    if: contains(github.event.inputs.sites, 'connectci') || github.event_name == 'pull_request'
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "connectci"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+
+  crct:
+    name: Run cypress tests in 'crct' directory
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3
+    if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request'
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "crct"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+
+  campuschampions:
+    name: Run cypress tests in 'campuschampions' directory
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3
+    if: contains(github.event.inputs.sites, 'campuschampions') || github.event_name == 'pull_request'
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "campuschampions"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
   # success:
   #   name: Actions to run on success
   #   needs: [asp]
@@ -69,7 +111,7 @@ jobs:
 
   fail:
     name: Actions to run on fail
-    needs: [asp, ccmnet]
+    needs: [asp, ccmnet, connectci, crct, campuschampions]
     if:  ${{ failure() }}
     runs-on: ubuntu-latest
     steps:

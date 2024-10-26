@@ -2,14 +2,14 @@
     This test is specifically focused on the CCI Homepage tested for an unauthenticated user.
 */
 describe("Unauthenticated user tests the CCI Hompage", () => {
-  it("Should test the CCI Homepage for unauthenticated user", () => {
-    // Verify the main logo goes to home page
+  it("Verify the main logo goes to home page", () => {
     cy.visit('/');
     cy.url().should('include', '/');
     cy.get('.logo').click();
     cy.url().should('include', '/');
+  });
 
-    // Verify the main page has expected content
+  it("Verify the main page has expected content", () => {
     cy.visit('/'); // Adjust the URL as needed
     cy.contains('Welcome to Connect Cyberinfrastructure').should('be.visible');
     cy.contains('A landing page for all our affiliated sites.').should('be.visible');
@@ -37,6 +37,19 @@ describe("Unauthenticated user tests the CCI Hompage", () => {
     cy.contains('Anvil').click();
     cy.url().should('include', 'affinity-groups/anvil');
     cy.contains('Purdue University is the home of Anvil').should('be.visible');
-
   });
+  it("User is on the homepage and follows contact us", () => {
+    cy.visit('/'); // Adjust the URL as needed
+    cy.contains('Contact Us').click();
+    cy.url().should('include', 'contact/connect_ci');
+    cy.contains('Your name').should('be.visible');
+  });
+  it("Authenticated User is on the homepage and follows contact us", () => {
+    cy.loginUser('authenticated@amptesting.com', '6%l7iF}6(4tI');
+    cy.visit('/');
+    cy.contains('Contact Us').click();
+    cy.url().should('include', 'contact/connect_ci');
+    cy.contains('Your name').should('be.visible');
+  });
+
 });
