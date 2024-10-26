@@ -1,12 +1,10 @@
-/*
-    This test is specifically focused on the CCI Homepage tested for an unauthenticated user.
-*/
 describe("Unauthenticated user tests the CCI Hompage", () => {
+
   it("Verify the main logo goes to home page", () => {
     cy.visit('/');
     cy.url().should('include', '/');
     cy.get('.logo').click();
-    cy.url().should('include', '/');
+    cy.url().should('eq', Cypress.config().baseUrl + '/');
   });
 
   it("Verify the main page has expected content", () => {
@@ -50,6 +48,14 @@ describe("Unauthenticated user tests the CCI Hompage", () => {
     cy.contains('Contact Us').click();
     cy.url().should('include', 'contact/connect_ci');
     cy.contains('Your name').should('be.visible');
+  });
+
+  it("Verify the main logo goes to home page", () => {
+    cy.loginUser('authenticated@amptesting.com', '6%l7iF}6(4tI');
+    cy.visit('/');
+    cy.url().should('include', '/');
+    cy.get('.logo').click();
+    cy.url().should('eq', Cypress.config().baseUrl + '/');
   });
 
 });
