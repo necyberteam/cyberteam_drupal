@@ -20,7 +20,7 @@ permissions:
 jobs:
   asp:
     name: Run cypress tests in 'accessmatch' directory
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.2
     if: contains(github.event.inputs.sites, 'asp') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -34,7 +34,7 @@ jobs:
 
   ccmnet:
     name: Run cypress tests in 'ccmnet' directory
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.2
     if: contains(github.event.inputs.sites, 'ccmnet') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -48,7 +48,7 @@ jobs:
 
   connectci:
     name: Run cypress tests in 'connectci' directory
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.2
     if: contains(github.event.inputs.sites, 'connectci') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -62,7 +62,7 @@ jobs:
 
   crct:
     name: Run cypress tests in 'crct' directory
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.2
     if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -76,7 +76,7 @@ jobs:
 
   campuschampions:
     name: Run cypress tests in 'campuschampions' directory
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.2
     if: contains(github.event.inputs.sites, 'campuschampions') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
