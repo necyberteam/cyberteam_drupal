@@ -124,7 +124,7 @@ jobs:
 
   fail:
     name: Actions to run on fail
-    needs: [asp, ccmnet, connectci, crct, campuschampions]
+    needs: [asp, ccmnet, connectci, crct, campuschampions, coco]
     if:  ${{ failure() }}
     runs-on: ubuntu-latest
     steps:
