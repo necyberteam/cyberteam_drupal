@@ -71,7 +71,7 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     //Form Submit Button and confirmation
     cy.config("defaultCommandTimeout", 10000);
     // Fails on github, but works locally. Accept the failure for now.
-    cy.get("#edit-submit", { failOnNonZeroExit: false }).click();
+    cy.get("#edit-submit", { timeout: 10000 }).click();
     //cy.contains("Successfully saved the example-event event series");
   });
 });
