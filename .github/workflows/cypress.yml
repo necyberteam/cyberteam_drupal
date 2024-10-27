@@ -7,7 +7,7 @@ on:
         description: 'Recent database dump to use (leave blank to use artifact)'
       sites:
         description: 'Specify which sites to test or leave the default to run all tests.'
-        default: 'accessmatch1, accessmatch2, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect'
+        default: 'accessmatch1, accessmatch2, accessmatch3, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect'
         required: true
       prnum:
         description: 'Pull request number — adds a comment to a pull request (nomally empty)'
@@ -41,6 +41,21 @@ jobs:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "accessmatch"
       directory: "accessmatch2"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+
+  accessmatch3:
+    name: accessmatch3
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.2
+    if: contains(github.event.inputs.sites, 'accessmatch3') || github.event_name == 'pull_request'
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "accessmatch"
+      directory: "accessmatch3"
       database: ${{ github.event.inputs.database }}
       prnum: ${{ github.event.inputs.prnum }}
       gh_token: ${{ secrets.GH_TOKEN_REPO }}
@@ -192,7 +207,7 @@ jobs:
 
   fail:
     name: Actions to run on fail
-    needs: [accessmatch1, accessmatch2, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect]
+    needs: [accessmatch1, accessmatch2, accessmatch3, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect]
     if:  ${{ failure() }}
     runs-on: ubuntu-latest
     steps:
