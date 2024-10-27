@@ -12,14 +12,7 @@
 */
 
 describe("Authenticated user tests the Events Form without Affinity Group", () => {
-  it("Should test Events Form for authenticated user",
-    {
-      retries: {
-        runMode: 3,
-        openMode: 1,
-      },
-    },
-    () => {
+  it("Should test Events Form for authenticated user", () => {
     // login user with the "authenticated" role
     cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
     cy.visit("/");
@@ -69,9 +62,8 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.get("#edit-field-skill-level-advanced").click();
 
     //Form Submit Button and confirmation
-    cy.config("defaultCommandTimeout", 10000);
-    // Fails on github, but works locally. Accept the failure for now.
-    cy.get("#edit-submit", { timeout: 10000 }).click();
-    //cy.contains("Successfully saved the example-event event series");
+    cy.config("defaultCommandTimeout", 5000);
+    cy.get("#edit-submit").click();
+    cy.contains("Successfully saved the example-event event series");
   });
 });
