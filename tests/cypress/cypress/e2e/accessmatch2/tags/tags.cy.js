@@ -8,6 +8,33 @@ describe("Verify the tags page", () => {
 
     cy.get(".page-title").contains("Tags");
 
+    const topTags = [
+      'Admin and Support',
+      'AI/ML',
+      'Analysis and Algorithms',
+      'Cloud',
+      'Data Storage',
+      'Debugging and Optimization',
+      'Domain Tools',
+      'Gateways and Portals',
+      'Hardware and Architecture',
+      'Linux and Shell Scripting',
+      'NSF ACCESS',
+      'NSF ACCESS Resources',
+      'Professional Development',
+      'Programming',
+      'Schedulers',
+      'Science Domains',
+      'Security',
+      'Software Installations',
+    ];
+
+    topTags.forEach(function (value) {
+        cy.get('#block-views-block-node-add-tags-block-3')
+          .children()
+          .should('contain', value)
+    });
+
     // check breadcrumbs
     const crumbs = [
       ['Support', '/'],
