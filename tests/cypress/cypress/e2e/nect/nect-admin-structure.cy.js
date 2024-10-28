@@ -1,6 +1,6 @@
 describe("Test Structure admin page", () => {
   it("check block layout", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/structure/block');
     cy.get('h1').should('contain', 'Block layout');
@@ -114,7 +114,7 @@ describe("Test Structure admin page", () => {
   });
 
   it("Block types, comment types", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/structure/block-content');
     cy.get('h1').should('contain', 'Block types');
@@ -128,7 +128,7 @@ describe("Test Structure admin page", () => {
   });
 
   it("Contact forms", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/structure/contact');
     cy.get('h1').should('contain', 'Contact forms');
@@ -153,7 +153,7 @@ describe("Test Structure admin page", () => {
   });
 
   it("Content types", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/structure/types');
     cy.get('h1').should('contain', 'Content types');
@@ -181,7 +181,7 @@ describe("Test Structure admin page", () => {
   });
 
   it("Display modes", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/structure/display-modes');
     cy.get('h1').should('contain', 'Display modes');
@@ -212,7 +212,7 @@ describe("Test Structure admin page", () => {
   });
 
   it("Events", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/structure/events');
     cy.get('h1').should('contain', 'Events Management');
@@ -235,7 +235,7 @@ describe("Test Structure admin page", () => {
   });
 
   it("Events", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/structure/feeds');
     cy.get('h1').should('contain', 'Feed types');
@@ -245,7 +245,7 @@ describe("Test Structure admin page", () => {
   });
 
   it("Field Inheritance", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/structure/field_inheritance');
     cy.get('h1').should('contain', 'Field inheritance entities');
@@ -268,7 +268,7 @@ describe("Test Structure admin page", () => {
   });
 
   it("Flags", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/structure/flags');
     cy.get('h1').should('contain', 'Flags');
@@ -284,7 +284,7 @@ describe("Test Structure admin page", () => {
   });
 
   it("Media Types", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/structure/media');
     cy.get('h1').should('contain', 'Media types');
@@ -297,7 +297,7 @@ describe("Test Structure admin page", () => {
   });
 
   it("Menus", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/structure/menu');
     cy.get('h1').should('contain', 'Menus');
@@ -315,7 +315,7 @@ describe("Test Structure admin page", () => {
   });
 
   it("Taxonomy", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/structure/taxonomy');
     cy.get('h1').should('contain', 'Taxonomy');
@@ -335,7 +335,7 @@ describe("Test Structure admin page", () => {
   });
 
   it("Views", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/structure/views');
     cy.get('h1').should('contain', 'Views');
@@ -443,7 +443,7 @@ describe("Test Structure admin page", () => {
   });
 
   it("Webforms", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/structure/webform');
     cy.get('h1').should('contain', 'Webforms');

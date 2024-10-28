@@ -1,6 +1,6 @@
 describe("Check admin configuration pages", () => {
   it("People config", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/config/people/accounts');
     cy.get('h1').should('contain', 'Account settings');
@@ -171,7 +171,7 @@ describe("Check admin configuration pages", () => {
   });
 
   it("Content config", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/config/content/fontawesome');
     cy.get('h1').should('contain', 'Font Awesome settings');
@@ -228,7 +228,7 @@ describe("Check admin configuration pages", () => {
   });
 
   it("Check Development pages", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/config/development/performance');
     cy.get('h1').should('contain', 'Performance');
@@ -262,7 +262,7 @@ describe("Check admin configuration pages", () => {
   });
 
   it("Search and Metadata config pages", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/config/search/pages');
     cy.get('h1').should('contain', 'Search pages');
@@ -353,7 +353,7 @@ describe("Check admin configuration pages", () => {
   });
 
   it("Domains config pages", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/config/domain');
     cy.get('h1').should('contain', 'Domains');
@@ -390,7 +390,7 @@ describe("Check admin configuration pages", () => {
   });
 
   it("web services config pages", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/config/services/cilogon-auth');
     cy.get('h1').should('contain', 'CILogon Auth');
@@ -416,7 +416,7 @@ describe("Check admin configuration pages", () => {
   });
 
   it("System config pages", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/config/system/site-information');
     cy.get('h1').should('contain', 'Basic site settings');
@@ -477,7 +477,7 @@ describe("Check admin configuration pages", () => {
   });
 
   it("User Interface config pages", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/config/user-interface/coffee');
     cy.get('h1').should('contain', 'Coffee configuration');
@@ -493,7 +493,7 @@ describe("Check admin configuration pages", () => {
   });
 
   it("Media config pages", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/config/media/file-system');
     cy.get('h1').should('contain', 'File system');
@@ -574,7 +574,7 @@ describe("Check admin configuration pages", () => {
   });
 
   it("Region and language config pages", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/config/regional/settings');
     cy.get('h1').should('contain', 'Regional settings');
@@ -584,7 +584,7 @@ describe("Check admin configuration pages", () => {
   });
 
   it("Social API settings", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/config/social-api/social-auth');
     cy.get('h1').should('contain', 'User authentication');
@@ -593,7 +593,7 @@ describe("Check admin configuration pages", () => {
   });
 
   it("Workflow pages", () => {
-    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
     cy.visit('/admin/config/workflow/workflows');
     cy.get('h1').should('contain', 'Workflows');
