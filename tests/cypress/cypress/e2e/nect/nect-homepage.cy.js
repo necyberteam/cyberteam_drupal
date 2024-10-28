@@ -3,7 +3,7 @@ describe("verify specific links on homepage", () => {
     cy.visit('/');
     cy.contains('Contact Us').click();
     cy.url().should('include', '/contact/northeast_cyberteam');
-    cy.contains('Northeast Cyberteam')
+    cy.contains('Northeast Cyberteam');
   });
 
   it("Verify the main logo goes to home page", () => {
