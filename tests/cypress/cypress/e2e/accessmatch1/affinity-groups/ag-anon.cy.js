@@ -46,5 +46,17 @@ describe('Anonymous user visit the affinity-group page', () => {
       .get('[href="/user/login?destination=/affinity-groups"]')
       .invoke('attr', 'title')
       .should('eq', 'Login to join');
+
+    // Check ai filter
+    cy.get('#affinity-search-tags-271').check();
+    cy.contains('Anvil');
+    cy.contains('ACCESS Support').should('not.exist');
+
+    // Use Search Box
+    cy.get('#affinity-search-tags-271').check();
+    cy.get('#edit-search-api-fulltext--2').type('ACCESS RP Integration');
+    cy.contains('ACCESS RP Integration');
+    cy.contains('Anvil').should('not.exist');
+    cy.contains('ACCESS Support').should('not.exist');
   });
 })
