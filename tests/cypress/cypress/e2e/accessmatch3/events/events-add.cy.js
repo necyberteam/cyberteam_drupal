@@ -11,7 +11,7 @@
     // );
 */
 // Custom command to handle timeouts
-Cypress.Commands.add('clickAndHandleTimeout', (selector, timeout = 10000) => {
+Cypress.Commands.add('clickAndHandleTimeout', (selector, timeout = 2000) => {
   cy.get(selector).click();
   cy.wait(timeout).then(() => {
     cy.log('Form submission timed out, but test will pass.');
@@ -54,7 +54,7 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     );
 
     // Event Tag
-    cy.get('[value="271"]').click();
+    cy.get("details.tags summary").click().get("#tag-login").click();
 
     //Save As Selection
     cy.get("#edit-moderation-state-0-state").select("Published");
@@ -68,6 +68,6 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     //Event Skill Level
     cy.get("#edit-field-skill-level-advanced").click();
 
-    cy.clickAndHandleTimeout("#edit-submit", 5000);
+    cy.clickAndHandleTimeout("#edit-submit");
   });
 });
