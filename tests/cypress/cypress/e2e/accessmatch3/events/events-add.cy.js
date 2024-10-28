@@ -54,7 +54,7 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     );
 
     // Event Tag
-    cy.get("details.tags summary").click().get("#tag-login").click();
+    cy.get('[value="271"]').click();
 
     //Save As Selection
     cy.get("#edit-moderation-state-0-state").select("Published");
