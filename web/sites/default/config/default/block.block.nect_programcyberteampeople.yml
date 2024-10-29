@@ -1,29 +1,29 @@
-uuid: f89f9683-854f-4f53-bc38-de2be119be76
+uuid: 5267809e-da76-4bc2-81af-5c9c1381736e
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.tags_ci_mentorship
+    - facets.facet.program
   module:
     - facets
     - system
   theme:
     - nect
-id: nect_tagscimentorship
+id: nect_programcyberteampeople
 theme: nect
 region: primary_sidebar
-weight: 7
+weight: 3
 provider: null
-plugin: 'facet_block:tags_ci_mentorship'
+plugin: 'facet_block:program'
 settings:
-  id: 'facet_block:tags_ci_mentorship'
-  label: Tags
+  id: 'facet_block:program'
+  label: Program
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_tagscimentorship
+  block_id: nect_programcyberteampeople
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/resources/mentorship
+    pages: '/people/new*'
