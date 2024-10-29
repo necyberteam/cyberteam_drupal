@@ -28,6 +28,7 @@ dependencies:
     - better_exposed_filters
     - search_api
     - svg_image
+    - user
 id: cyberteam_people_facets
 label: 'People Facets'
 module: views
@@ -953,7 +954,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"nect-cc-people card h-100 border-purple hover--border-ccmnet-blue\">\r\n  <div class=\"p-2\">\r\n\r\n    <div class=\"row\">    \r\n      <div class=\"cssn-photo col-6\">      \r\n        {{ user_picture }}  \r\n      </div>\r\n      <div class=\"col-6 z-10 d-flex justify-content-end\">\r\n        {{ user_badges }} \r\n      </div> \r\n    </div>\r\n\r\n    <div class=\"my-1.5 leading-5\">\r\n      <a class=\"stretched-link text-dark-teal hover--text-orange no-underline text-xl font-bold text-purple hover--ccmnet-blue\" href=\"/community-persona/{{ uid }}\">{{ field_user_first_name }} {{ field_user_last_name }}</a>\r\n    </div>\r\n    <div class=\"m-0 font-semibold leading-5 text-lg\">\r\n      {{ field_institution }}\r\n    </div>\r\n    \r\n    <div class=\"small font-weight-bold mt-2\">Programs</div>\r\n\r\n    <div class=\"small \">{{ field_region }}</div>\r\n\r\n    <div class=\"small font-weight-bold mt-2\">Roles</div>\r\n\r\n    <div class=\"small\">\r\n      {% if ('student' in roles|render) %}<span class=\"mr-4\">student facilitator</span>{% endif %}\r\n      {% if ('mentor' in roles|render) %}<span class=\"mr-4\">mentor</span>{% endif %}\r\n      {% if ('regional facilitator' in roles|render) %}<div class=\"d-inline-flex mr-4\">regional facilitator</div>{% endif %}\r\n      {% if ('domain champion' in roles|render) %}<span class=\"badge pl-0 font-weight-normal\">domain champion</span>{% endif %}\r\n      {% if ('researcher/educator' in roles|render) %}<div class=\"d-inline-flex mr-4\">researcher/educator</div>{% endif %}\r\n      {% if ('steering committee' in roles|render) %}<div class=\"d-inline-flex mr-4\">steering committee</div>{% endif %}\r\n      {% if ('ci systems engineer' in roles|render) %}<div class=\"d-inline-flex mr-4\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"CI Systems Engineer\">cise</span></div>{% endif %}\r\n      {% if ('research software engineer' in roles|render) %}<div class=\"d-inline-flex mr-4\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"Research Software Engineer\">rse</span></div>{% endif %}\r\n      {% if ('research computing facilitator' in roles|render) %}<div class=\"d-inline-flex mr-4\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"Research Computing Facilitator\">rcf</span></div>{% endif %}\r\n    </div>\r\n    <div class=\"mb-1 text-sm\">\r\n      <i>{{ field_current_occupation }}</i>\r\n    </div>\r\n\r\n    {%  if user_affinity_groups %}\r\n      <div class=\"small font-weight-bold mt-2\">Affinity Groups</div>\r\n      <div class=\"small z-10\">{{ user_affinity_groups }}</div>\r\n    {% endif %}\r\n\r\n    {%  if user_skills %}\r\n      <div class=\"small font-weight-bold mt-2\">Skills</div>\r\n      <div class=\"small z-10\"> {{ user_skills }}</div>\r\n    {% endif %}\r\n\r\n  </div>\r\n</div>"
+            text: "<div class=\"nect-cc-people card h-100 border-purple hover--border-ccmnet-blue\">\r\n  <div class=\"p-2\">\r\n\r\n    <div class=\"row\">    \r\n      <div class=\"cssn-photo col-6\">      \r\n        {{ user_picture }}  \r\n      </div>\r\n      <div class=\"col-6 z-10 d-flex justify-content-end flex-wrap\">\r\n        {{ user_badges }} \r\n      </div> \r\n    </div>\r\n\r\n    <div class=\"my-1.5 leading-5\">\r\n      <a class=\"stretched-link text-dark-teal hover--text-orange no-underline text-xl font-bold text-purple hover--ccmnet-blue\" href=\"/community-persona/{{ uid }}\">{{ field_user_first_name }} {{ field_user_last_name }}</a>\r\n    </div>\r\n    <div class=\"m-0 font-semibold leading-5 text-lg\">\r\n      {{ field_institution }}\r\n    </div>\r\n    \r\n    <div class=\"small font-weight-bold mt-2\">Programs</div>\r\n\r\n    <div class=\"small \">{{ field_region }}</div>\r\n\r\n    <div class=\"small font-weight-bold mt-2\">Roles</div>\r\n\r\n    <div class=\"small\">\r\n      {% if ('student' in roles|render) %}<span class=\"mr-4\">student facilitator</span>{% endif %}\r\n      {% if ('mentor' in roles|render) %}<span class=\"mr-4\">mentor</span>{% endif %}\r\n      {% if ('regional facilitator' in roles|render) %}<div class=\"d-inline-flex mr-4\">regional facilitator</div>{% endif %}\r\n      {% if ('domain champion' in roles|render) %}<span class=\"badge pl-0 font-weight-normal\">domain champion</span>{% endif %}\r\n      {% if ('researcher/educator' in roles|render) %}<div class=\"d-inline-flex mr-4\">researcher/educator</div>{% endif %}\r\n      {% if ('steering committee' in roles|render) %}<div class=\"d-inline-flex mr-4\">steering committee</div>{% endif %}\r\n      {% if ('ci systems engineer' in roles|render) %}<div class=\"d-inline-flex mr-4\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"CI Systems Engineer\">cise</span></div>{% endif %}\r\n      {% if ('research software engineer' in roles|render) %}<div class=\"d-inline-flex mr-4\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"Research Software Engineer\">rse</span></div>{% endif %}\r\n      {% if ('research computing facilitator' in roles|render) %}<div class=\"d-inline-flex mr-4\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"Research Computing Facilitator\">rcf</span></div>{% endif %}\r\n    </div>\r\n    <div class=\"mb-1 text-sm\">\r\n      <i>{{ field_current_occupation }}</i>\r\n    </div>\r\n\r\n    {%  if user_affinity_groups %}\r\n      <div class=\"small font-weight-bold mt-2\">Affinity Groups</div>\r\n      <div class=\"small z-10\">{{ user_affinity_groups }}</div>\r\n    {% endif %}\r\n\r\n    {%  if user_skills %}\r\n      <div class=\"small font-weight-bold mt-2\">Skills</div>\r\n      <div class=\"small z-10\"> {{ user_skills }}</div>\r\n    {% endif %}\r\n\r\n  </div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -1044,10 +1045,11 @@ display:
                   collapsible: false
                   is_secondary: false
       access:
-        type: none
-        options: {  }
+        type: perm
+        options:
+          perm: 'access content'
       cache:
-        type: search_api_none
+        type: search_api_tag
         options: {  }
       empty:
         area:
@@ -1206,8 +1208,10 @@ display:
               match_sc: '0'
               cip: '0'
               site_developer: '0'
+              ccmnet: '0'
+              ccmnet_admin: '0'
             expose_fields: false
-            placeholder: 'Search this collection'
+            placeholder: 'Search people'
             searched_fields_id: search_api_fulltext_searched_fields
             value_maxlength: 128
           is_grouped: false
@@ -1571,6 +1575,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user.permissions
       tags:
         - 'config:field.storage.user.field_access_organization'
         - 'config:field.storage.user.field_current_occupation'
@@ -1591,7 +1596,7 @@ display:
       display_extenders:
         jsonapi_views:
           enabled: true
-      path: people
+      path: people/new
     cache_metadata:
       max-age: -1
       contexts:
@@ -1599,7 +1604,12 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - url.site
+        - user.permissions
       tags:
+        - 'config:facets.facet.organization_cyberteam_people'
+        - 'config:facets.facet.program'
+        - 'config:facets.facet.user_skills_cyberteam_people'
         - 'config:field.storage.user.field_access_organization'
         - 'config:field.storage.user.field_current_occupation'
         - 'config:field.storage.user.field_institution'
