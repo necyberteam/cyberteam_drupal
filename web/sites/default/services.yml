@@ -180,12 +180,12 @@ parameters:
     # Specify allowed headers, like 'x-allowed-header'.
     allowedHeaders: []
     # Specify allowed request methods, specify ['*'] to allow all possible ones.
-    allowedMethods: []
+    allowedMethods: ['POST, GET, OPTIONS, DELETE, PUT']
     # Configure requests allowed from specific origins.
-    allowedOrigins: ['*']
+    allowedOrigins: ['https://access-ci-org.github.io/', 'https://access-ci.org/', 'https://*.access-ci.org/']
     # Sets the Access-Control-Expose-Headers header.
     exposedHeaders: false
     # Sets the Access-Control-Max-Age header.
-    maxAge: false
+    maxAge: 1000
     # Sets the Access-Control-Allow-Credentials header.
     supportsCredentials: false
