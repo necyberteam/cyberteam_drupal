@@ -1,0 +1,128 @@
+uuid: 680ad557-0a06-49c8-a827-1eb69dacfdad
+langcode: en
+status: true
+dependencies:
+  config:
+    - search_api.server.default_server
+  module:
+    - field_inheritance
+    - recurring_events
+    - search_api
+    - access_misc
+    - ccmnet
+    - cssn
+    - webform_submission_search_api
+id: events
+name: Events
+description: ''
+read_only: false
+field_settings:
+  affinity_group:
+    label: 'Affinity Group'
+    datasource_id: 'entity:eventinstance'
+    property_path: affinity_group
+    type: integer
+    dependencies:
+      module:
+        - field_inheritance
+  custom_event_tags:
+    label: 'Custom Event Tags'
+    property_path: search_api_custom_event_tags
+    type: string
+  date:
+    label: 'Event Date'
+    datasource_id: 'entity:eventinstance'
+    property_path: date
+    type: date
+    dependencies:
+      module:
+        - recurring_events
+  event_affiliation:
+    label: 'Event Affiliation'
+    datasource_id: 'entity:eventinstance'
+    property_path: event_affiliation
+    type: string
+    dependencies:
+      module:
+        - field_inheritance
+  event_type:
+    label: 'Event Type'
+    datasource_id: 'entity:eventinstance'
+    property_path: event_type
+    type: string
+    dependencies:
+      module:
+        - field_inheritance
+  skill_level:
+    label: 'Skill Level'
+    datasource_id: 'entity:eventinstance'
+    property_path: skill_level
+    type: string
+    dependencies:
+      module:
+        - field_inheritance
+  tags:
+    label: Tags
+    datasource_id: 'entity:eventinstance'
+    property_path: tags
+    type: text
+    dependencies:
+      module:
+        - field_inheritance
+  tags_1:
+    label: Tags
+    datasource_id: 'entity:eventinstance'
+    property_path: tags
+    type: integer
+    dependencies:
+      module:
+        - field_inheritance
+  title:
+    label: Title
+    datasource_id: 'entity:eventinstance'
+    property_path: title
+    type: text
+    dependencies:
+      module:
+        - field_inheritance
+  type:
+    label: Type
+    datasource_id: 'entity:eventinstance'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - recurring_events
+datasource_settings:
+  'entity:eventinstance':
+    bundles:
+      default: true
+      selected: {  }
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  custom_value: {  }
+  entity_type: {  }
+  event_tags: {  }
+  language_with_fallback: {  }
+  mentee_name: {  }
+  rendered_item: {  }
+  user_interests: {  }
+  user_skills: {  }
+  webform_submission_category: {  }
+  webform_submission_description: {  }
+  webform_submission_skill_level: {  }
+  webform_submission_tags: {  }
+  webform_submission_title: {  }
+  webform_submission_vote_count: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  cron_limit: 50
+  index_directly: true
+  track_changes_in_references: true
+server: default_server
