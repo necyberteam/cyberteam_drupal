@@ -8,6 +8,7 @@ dependencies:
     - better_exposed_filters
     - datetime_range
     - search_api
+    - user
 id: events_facet
 label: 'Events Facet'
 module: views
@@ -464,8 +465,9 @@ display:
                   collapsible: false
                   is_secondary: false
       access:
-        type: none
-        options: {  }
+        type: perm
+        options:
+          perm: 'access content'
       cache:
         type: search_api_tag
         options: {  }
@@ -702,6 +704,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user.permissions
       tags:
         - 'config:search_api.index.events'
         - 'search_api_list:events'
@@ -725,6 +728,7 @@ display:
         - url
         - url.query_args
         - url.site
+        - user.permissions
       tags:
         - 'config:facets.facet.custom_event_affiliation'
         - 'config:facets.facet.custom_event_skill_level'
@@ -750,6 +754,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user.permissions
       tags:
         - 'config:search_api.index.events'
         - 'search_api_list:events'
@@ -969,7 +974,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: "<div class=\"bg-light-teal flex p-4 mb-2 prose max-w-full items-center\">\r\n  <a class=\"me-4\" href=\"/events\">Upcoming Events</a>\r\n  <h3 class=\"m-0 me-4\">Past Events</h3>\r\n  <a class=\"me-4\" href=\"/\">My Events</a>\r\n  <a href=\"/events/add\" class=\"btn-sm btn-small btn-secondary-outline py-0 px-4 btn btn-md-teal ms-auto\" data-drupal-link-system-path=\"events/add\">+Add Event</a>\r\n</div>"
+            value: "<div class=\"bg-light-teal flex p-4 mb-2 prose max-w-full items-center\">\r\n  <a class=\"me-4\" href=\"/events\">Upcoming Events</a>\r\n  <h3 class=\"m-0 me-4\">Past Events</h3>\r\n  <a class=\"me-4\" href=\"/events/mine\">\r\n    My Events\r\n  </a>\r\n  <a href=\"/events/add\" class=\"btn-sm btn-small btn-secondary-outline py-0 px-4 btn btn-md-teal ms-auto\" data-drupal-link-system-path=\"events/add\">+Add Event</a>\r\n</div>"
             format: full_html
           tokenize: false
       exposed_block: true
@@ -984,6 +989,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user.permissions
       tags:
         - 'config:search_api.index.events'
         - 'search_api_list:events'
