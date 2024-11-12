@@ -1,29 +1,29 @@
-uuid: 99a789ce-1c3a-444c-8426-133e652ecf14
+uuid: 3f4947a2-0227-4983-b7b6-e1a47d37c606
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.science_domain
+    - facets.facet.custom_event_tags
   module:
     - facets
     - system
   theme:
     - aspTheme
-id: asptheme_sciencedomain
+id: asptheme_customeventtags2
 theme: aspTheme
 region: sidebar_first
-weight: -21
+weight: -10
 provider: null
-plugin: 'facet_block:science_domain'
+plugin: 'facet_block:custom_event_tags'
 settings:
-  id: 'facet_block:science_domain'
-  label: 'Science Domain'
+  id: 'facet_block:custom_event_tags'
+  label: Tags
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: asptheme_sciencedomain
+  block_id: asptheme_customeventtags2
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/resources
+    pages: "/events\r\n/events/past"

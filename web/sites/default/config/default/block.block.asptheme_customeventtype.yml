@@ -1,29 +1,29 @@
-uuid: 99a789ce-1c3a-444c-8426-133e652ecf14
+uuid: 93a8dffa-33b7-460b-9b51-cd69cc665341
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.science_domain
+    - facets.facet.custom_event_type
   module:
     - facets
     - system
   theme:
     - aspTheme
-id: asptheme_sciencedomain
+id: asptheme_customeventtype
 theme: aspTheme
 region: sidebar_first
-weight: -21
+weight: -9
 provider: null
-plugin: 'facet_block:science_domain'
+plugin: 'facet_block:custom_event_type'
 settings:
-  id: 'facet_block:science_domain'
-  label: 'Science Domain'
+  id: 'facet_block:custom_event_type'
+  label: 'Event Type'
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: asptheme_sciencedomain
+  block_id: asptheme_customeventtype
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/resources
+    pages: "/events\r\n/events/past"

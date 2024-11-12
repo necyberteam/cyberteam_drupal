@@ -1,4 +1,4 @@
-uuid: 6786e48f-aa5e-447c-a60e-323d428cfe2b
+uuid: 14568c4c-205b-44a7-ab71-e520fc3e4996
 langcode: en
 status: true
 dependencies:
@@ -7,16 +7,16 @@ dependencies:
     - views.view.events_facet
   module:
     - search_api
-id: custom_event_tags
-name: 'Custom Event Tags'
+id: custom_event_affiliation
+name: 'Custom Event Affiliation'
 weight: 0
 min_count: 1
 missing: false
 missing_label: others
-url_alias: custom_event_tags
+url_alias: custom_event_affiliation
 facet_source_id: 'search_api:views_block__events_facet__block_1'
-field_identifier: custom_event_tags
-query_operator: and
+field_identifier: custom_event_affiliation
+query_operator: or
 hard_limit: 0
 exclude: false
 use_hierarchy: false
@@ -30,7 +30,7 @@ widget:
   type: checkbox
   config:
     show_numbers: false
-    soft_limit: 10
+    soft_limit: 0
     show_reset_link: true
     reset_text: All
     hide_reset_when_no_selection: true
@@ -61,11 +61,6 @@ processor_configs:
       sort: 40
     settings:
       sort: ASC
-  hide_1_result_facet:
-    processor_id: hide_1_result_facet
-    weights:
-      build: 50
-    settings: {  }
   hierarchy_processor:
     processor_id: hierarchy_processor
     weights:

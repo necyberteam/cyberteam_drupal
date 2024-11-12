@@ -1,22 +1,22 @@
-uuid: 337851da-53c7-4d50-b16d-8b32535f6dbb
+uuid: e88a3945-16c6-4fc8-9adf-bf79c069eb07
 langcode: en
 status: true
 dependencies:
   config:
-    - views.view.search_ci_links
+    - views.view.events_facet
   module:
     - system
     - views
   theme:
     - aspTheme
-id: asptheme_exposedformsearch_ci_linkspage_1
+id: asptheme_exposedformevents_facetpage_1
 theme: aspTheme
 region: sidebar_first
-weight: -24
+weight: -12
 provider: null
-plugin: 'views_exposed_filter_block:search_ci_links-page_1'
+plugin: 'views_exposed_filter_block:events_facet-page_1'
 settings:
-  id: 'views_exposed_filter_block:search_ci_links-page_1'
+  id: 'views_exposed_filter_block:events_facet-page_1'
   label: ''
   label_display: '0'
   provider: views
@@ -25,4 +25,4 @@ visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/resources
+    pages: "/events\r\n/events/past"
