@@ -26,15 +26,7 @@ class CampusChampionsBlock extends BlockBase {
       'msi' => 61
     ];
 
-    $file = \Drupal::service('file_system')->realpath('public://') . '/cc-breakdown-stats.json';
-
-    if (file_exists($file)) {
-      $contents = file_get_contents($file);
-      $data = json_decode($contents);
-      if (!empty($data)) {
-        $stats = $data;
-      }
-    }
+    $stats = json_decode(\Drupal::state()->get('cc_stats'));
 
     return [
       '#theme' => 'campuschampions_block',
