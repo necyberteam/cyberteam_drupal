@@ -714,6 +714,7 @@ display:
     display_plugin: block
     position: 2
     display_options:
+      enabled: false
       display_description: ''
       exposed_block: true
       display_extenders:
@@ -734,14 +735,16 @@ display:
         - 'config:facets.facet.custom_event_skill_level'
         - 'config:facets.facet.custom_event_tags'
         - 'config:facets.facet.custom_event_type'
+        - 'config:facets.facet.event_type'
         - 'config:search_api.index.events'
         - 'search_api_list:events'
   page_1:
     id: page_1
-    display_title: Page
+    display_title: 'Page :: Upcoming'
     display_plugin: page
     position: 2
     display_options:
+      display_description: ''
       exposed_block: true
       display_extenders:
         jsonapi_views:
@@ -760,7 +763,7 @@ display:
         - 'search_api_list:events'
   page_2:
     id: page_2
-    display_title: Page
+    display_title: 'Page :: Past'
     display_plugin: page
     position: 2
     display_options:
@@ -963,6 +966,7 @@ display:
         filters: false
         filter_groups: false
         header: false
+      display_description: ''
       header:
         area:
           id: area
