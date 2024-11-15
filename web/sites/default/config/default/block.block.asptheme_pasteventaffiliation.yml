@@ -1,0 +1,29 @@
+uuid: 526a689c-5cd8-4ee9-a22f-77420c8e7a2f
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.past_event_affiliation
+  module:
+    - facets
+    - system
+  theme:
+    - aspTheme
+id: asptheme_pasteventaffiliation
+theme: aspTheme
+region: sidebar_first
+weight: -4
+provider: null
+plugin: 'facet_block:past_event_affiliation'
+settings:
+  id: 'facet_block:past_event_affiliation'
+  label: Affiliation
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_pasteventaffiliation
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events/past
