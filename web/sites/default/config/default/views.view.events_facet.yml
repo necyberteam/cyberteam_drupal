@@ -728,14 +728,8 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - url.site
         - user.permissions
       tags:
-        - 'config:facets.facet.custom_event_affiliation'
-        - 'config:facets.facet.custom_event_skill_level'
-        - 'config:facets.facet.custom_event_tags'
-        - 'config:facets.facet.custom_event_type'
-        - 'config:facets.facet.event_type'
         - 'config:search_api.index.events'
         - 'search_api_list:events'
   page_1:
@@ -757,8 +751,14 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - url.site
         - user.permissions
       tags:
+        - 'config:facets.facet.custom_event_affiliation'
+        - 'config:facets.facet.custom_event_affinity_group'
+        - 'config:facets.facet.custom_event_skill_level'
+        - 'config:facets.facet.custom_event_tags'
+        - 'config:facets.facet.custom_event_type'
         - 'config:search_api.index.events'
         - 'search_api_list:events'
   page_2:
@@ -993,7 +993,13 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - url.site
         - user.permissions
       tags:
+        - 'config:facets.facet.past_affinity_group'
+        - 'config:facets.facet.past_event_affiliation'
+        - 'config:facets.facet.past_event_tags'
+        - 'config:facets.facet.past_event_type'
+        - 'config:facets.facet.past_skill_level'
         - 'config:search_api.index.events'
         - 'search_api_list:events'
