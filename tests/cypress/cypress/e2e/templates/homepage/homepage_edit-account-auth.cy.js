@@ -1,0 +1,59 @@
+describe("For an authenticated user tests account, interest/skills pages", () => {
+
+  it("Authenticated user tests the edit account page", () => {
+    cy.loginUser("pecan@pie.org", "wubadubdub");
+    cy.visit('/');
+    cy.contains('My profile');
+    cy.contains('Edit my account').click({ force: true });
+    cy.contains('Pecan Pie');
+    cy.contains('View');
+    cy.contains('Edit');
+    cy.contains('TFA');
+    cy.contains('Program');
+    cy.contains('Email address');
+    cy.get('#edit-mail').should('have.value', 'pecan@pie.org');
+    cy.contains('Password strength');
+    cy.contains('Confirm password');
+    cy.contains('First Name');
+    cy.contains('Last Name');
+    cy.get('#edit-field-user-preferred-pronouns-0-value').should('have.value', 'they/them');
+    cy.get('#edit-field-user-bio-0-value').should('have.value', '<p>I am a pie</p>');
+    cy.contains('Picture');
+    cy.get('#edit-field-access-organization-0-target-id').should('have.value', 'MGHPCC (4300)');
+    cy.contains('CV');
+    cy.contains('Time zone');
+    cy.contains('Citizenships')
+  });
+
+  it("Authenticated user tests the add interest/skills page", () => {
+    cy.loginUser("pecan@pie.org", "wubadubdub");
+    cy.visit('/community-persona');
+    cy.contains('ACCESS-account').should('not.exist');
+
+    cy.visit('/community-persona/add-interest');
+    cy.contains('Add Interest');
+    cy.get('li:nth-child(11) .add-interest-list > .flex > :nth-child(2) > :nth-child(1) > span > .d-inline-flex > .flag-element-name').contains('ACCESS-account').click();
+    cy.wait(500);
+    cy.visit('/community-persona');
+    cy.contains('ACCESS-account');
+
+    cy.visit('/community-persona/add-interest');
+    cy.get('li:nth-child(11) .add-interest-list > .flex > :nth-child(2) > :nth-child(1) > span > .d-inline-flex > .flag-element-name').contains('ACCESS-account').click();
+    cy.wait(500);
+    cy.visit('/community-persona');
+    cy.contains('ACCESS-account').should('not.exist');
+
+    cy.visit('/community-persona/add-skill');
+    cy.get('li:nth-child(11) .add-skill-list > .flex > :nth-child(2) > :nth-child(1) > span > .d-inline-flex > .flag-element-name').contains('ACCESS-account').click();
+    cy.wait(500);
+    cy.visit('/community-persona');
+    cy.contains('ACCESS-account');
+
+    cy.visit('/community-persona/add-skill');
+    cy.get('li:nth-child(11) .add-skill-list > .flex > :nth-child(2) > :nth-child(1) > span > .d-inline-flex > .flag-element-name').contains('ACCESS-account').click();
+    cy.wait(500);
+    cy.visit('/community-persona');
+    cy.contains('ACCESS-account').should('not.exist');
+  });
+
+});
