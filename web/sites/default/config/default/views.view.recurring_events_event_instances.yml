@@ -8,18 +8,14 @@ dependencies:
     - field.storage.eventseries.field_affiliation
     - field.storage.eventseries.field_affinity_group_node
     - field.storage.eventseries.field_event_type
-    - field.storage.eventseries.field_skill_level
     - field.storage.eventseries.field_tags
     - recurring_events.eventinstance_type.default
-    - taxonomy.vocabulary.affinity_groups
-    - taxonomy.vocabulary.tags
   module:
     - datetime
     - datetime_range
     - options
     - recurring_events
     - taxonomy
-    - text
     - user
 _core:
   default_config_hash: nQNal_UIgPlMid6pfV7_iog7HTTqngHkXuZne94_8Hg
@@ -1321,20 +1317,7 @@ display:
           empty: false
           content: '<h2 class="text-white">Training and Events</h2>'
           tokenize: false
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="text-white text-sm uppercase no-underline hover--text-light-teal hover--underline" href="/events">See all</a>'
-            format: full_html
-          tokenize: false
+      footer: {  }
       display_extenders: {  }
     cache_metadata:
       max-age: -1
@@ -2680,11 +2663,11 @@ display:
         header: false
       css_class: py-4
       display_description: ''
-      use_more: true
+      use_more: false
       use_more_always: false
       use_more_text: more
       link_display: custom_url
-      link_url: '/events?tid={{ raw_arguments.tid }}'
+      link_url: /events
       header:
         area_text_custom:
           id: area_text_custom
@@ -2698,7 +2681,9 @@ display:
           content: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">Upcoming Events & Trainings</h2>'
           tokenize: false
       exposed_block: true
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
     cache_metadata:
       max-age: -1
       contexts:
