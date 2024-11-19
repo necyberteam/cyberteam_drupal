@@ -18,7 +18,6 @@ jobs:
         run: echo "week_day=$(date +%a)" >> $GITHUB_ENV
 
       - uses: ./.github/actions/dingorunner
-        if: ${{ env.week_day == 'Sun' }}
         env:
           runner: cr
           terminus_api: ${{ secrets.TERMINUS_API }}
@@ -49,7 +48,7 @@ jobs:
           lando drush updb
           lando drush user-create authenticated_test_user --mail="authenticated@amptesting.com" --password="6%l7iF}6(4tI"
           lando drush user-create administrator_test_user --mail="administrator@amptesting.com" --password="b8QW]X9h7#5n"
-          lando drush user-create administrator_test_user --mail="pecan@pie.org" --password="wubadubdub"
+          lando drush user:password arazavi1 "wubadubdub"
           lando drush user-add-role "administrator" administrator_test_user
           lando drush en amp_dev
           lando drush pmu amp_dev
