@@ -36,7 +36,7 @@ field_settings:
   custom_event_tags:
     label: 'Custom Event Tags'
     property_path: search_api_custom_event_tags
-    type: string
+    type: text
   custom_event_type:
     label: 'Custom Event Type'
     property_path: search_api_custom_event_type
@@ -70,22 +70,6 @@ field_settings:
     datasource_id: 'entity:eventinstance'
     property_path: skill_level
     type: string
-    dependencies:
-      module:
-        - field_inheritance
-  tags:
-    label: Tags
-    datasource_id: 'entity:eventinstance'
-    property_path: tags
-    type: text
-    dependencies:
-      module:
-        - field_inheritance
-  tags_1:
-    label: Tags
-    datasource_id: 'entity:eventinstance'
-    property_path: tags
-    type: integer
     dependencies:
       module:
         - field_inheritance
@@ -158,8 +142,7 @@ processor_settings:
       preprocess_index: 0
       preprocess_query: 0
     all_fields: false
-    fields:
-      - tags
+    fields: {  }
     exceptions:
       mexican: mexic
       texan: texa
@@ -168,8 +151,7 @@ processor_settings:
       preprocess_index: -5
       preprocess_query: -2
     all_fields: false
-    fields:
-      - tags
+    fields: {  }
     stopwords:
       - a
       - an
@@ -211,8 +193,7 @@ processor_settings:
       preprocess_index: -6
       preprocess_query: -6
     all_fields: false
-    fields:
-      - tags
+    fields: {  }
     spaces: ''
     ignored: ._-
     overlap_cjk: 1
