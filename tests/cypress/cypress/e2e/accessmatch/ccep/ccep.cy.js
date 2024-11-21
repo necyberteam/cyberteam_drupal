@@ -11,7 +11,7 @@ describe("Unauthenticated user tests the CCEP Page", () => {
 
     // Page Intro paragraph
     cy.get("#about").contains(
-      "CCEP (CSSN Community Engagement Program) gives travel rewards to ANYONE"
+      "CCEP (CSSN Community Engagement Program) gives travel rewards"
     );
     cy.get("#about").contains(
       "Submissions are reviewed once a month"
