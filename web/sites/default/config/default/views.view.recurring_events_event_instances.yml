@@ -1317,7 +1317,20 @@ display:
           empty: false
           content: '<h2 class="text-white">Training and Events</h2>'
           tokenize: false
-      footer: {  }
+      footer:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<a class="text-white text-sm uppercase no-underline hover--text-light-teal hover--underline" href="/events">See all</a>'
+            format: full_html
+          tokenize: false
       display_extenders: {  }
     cache_metadata:
       max-age: -1
@@ -2661,6 +2674,7 @@ display:
         filters: false
         filter_groups: false
         header: false
+        footer: false
       css_class: py-4
       display_description: ''
       use_more: false
@@ -2680,6 +2694,7 @@ display:
           empty: true
           content: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">Upcoming Events & Trainings</h2>'
           tokenize: false
+      footer: {  }
       exposed_block: true
       display_extenders:
         jsonapi_views:
