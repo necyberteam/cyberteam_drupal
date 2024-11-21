@@ -95,8 +95,9 @@ function user199_verify_self_cp() {
     .should('have.attr', 'href', "/affinity-groups");
   cy.contains('Add Resource')
     .should('have.attr', 'href', "/form/resource");
-  cy.contains('See engagements')
-    .should('have.attr', 'href', "/engagements");
+  // Todo: MATCH Engagements only displayed on people with an Engagement
+  // cy.contains('MATCH Engagements')
+  //   .should('have.attr', 'href', "/engagements");
 }
 
 /**
