@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.region.field_region_connected_domain
     - taxonomy.vocabulary.region
   module:
     - text
@@ -18,4 +19,6 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-hidden: {  }
+hidden:
+  field_region_connected_domain: true
+  search_api_excerpt: true
