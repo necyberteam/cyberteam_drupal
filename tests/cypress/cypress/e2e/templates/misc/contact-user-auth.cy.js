@@ -3,8 +3,9 @@ describe("As an authenticated visitor test the Contact Page", () => {
     cy.loginUser("authenticated@amptesting.com", "6%l7iF}6(4tI");
     cy.visit('/people/list');
     cy.get('#edit-combine').type('Julie Ma');
+    cy.wait(500);
     cy.contains('Julie Ma');
-    cy.contains('Julie').click();
+    cy.get('[headers="view-field-user-first-name-table-column"] > a').contains('Julie').click();
     cy.contains('Julie Ma');
     cy.get('a#contact_user').click();
     cy.url().should('include', '/user/100/contact');
