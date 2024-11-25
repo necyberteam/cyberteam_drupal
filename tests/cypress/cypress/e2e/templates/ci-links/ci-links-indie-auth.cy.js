@@ -10,8 +10,7 @@ describe("On the Individual CI Link Page for authenticated users", () => {
     cy.contains('Test');
     cy.get(':nth-child(1) > .views-field > .field-content > .details-wrap > .search-ci-links > .grid > .md--col-span-4 > .list-none > .list-image-link > .text-dark-teal')
       .contains('Test')
-      .click();
-    cy.request('http://example.com').its('status').should('eq', 200);
+      .should('have.attr', 'href', 'http://example.com');
   });
 
 });

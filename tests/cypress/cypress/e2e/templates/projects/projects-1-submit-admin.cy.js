@@ -1,0 +1,140 @@
+describe("Project test as admin", () => {
+
+  it("Assigning mentor & student facilitator to user 'Test Smith'", () => {
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.visit('/user/1998/edit');
+    cy.get('#edit-field-user-first-name-0-value').clear();
+    cy.get('#edit-field-user-first-name-0-value').type('Test');
+    cy.get('#edit-field-user-last-name-0-value').clear();
+    cy.get('#edit-field-user-last-name-0-value').type('Smith');
+    cy.get('#edit-field-access-organization-0-target-id').type('MGHPCC');
+    cy.get('input[name="roles[mentor]"]').check();
+    cy.get('input[name="roles[student]"]').check();
+    cy.get('input[name="roles[researcher]"]').check();
+    cy.get('input#edit-submit').click();
+    cy.get('#edit-field-academic-status').select('1st year undergraduate');
+    cy.get('input#edit-submit').click();
+    cy.contains('The changes have been saved.');
+  });
+
+  it("Add an 'in-progress' project and verify it is created", () => {
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.visit('/');
+    cy.visit('/projects');
+    cy.contains('Submit New Project').click();
+    cy.get('input[name="approved_milestones"]').check();
+    cy.get('input[name="approved"]').check();
+    cy.get('input[name="project_title"]').type('test-create-project-title');
+    cy.get('input[name="region[345]"]').check();
+    cy.get('input[name="tags[682]"]').check(); // Login tag
+    cy.get('select[name="status"]').select('In Progress');
+    cy.get('input[name="project_leader[first]"]').type('test-first-name');
+    cy.get('input[name="project_leader[last]"]').type('test-last-name');
+    cy.get('input[name="email"]').clear();
+    cy.get('input[name="email"]').type('test@email.com');
+    cy.get('input[name="mobile_phone"]').type('555-1212');
+    cy.get('input[name="work_phone[phone]"]').type('555-1213');
+    cy.get('input[name="work_phone[ext]"]').type('333');
+    cy.get('input[data-drupal-selector="edit-mentor-items-0-item-"]').type('Test Smith (1998)');
+    cy.get('textarea[name="project_description"]').type('test project description');
+    cy.get('select[name="student_facilitator_programming_skill_level[select]"]').select('One programming class');
+    cy.get('input[name="project_institution"]').type('test Project Institution');
+    cy.get('input[name="project_address[address]"]').type('test Address');
+    cy.get('input[name="project_address[address_2]"]').type('test Address 2');
+    cy.get('input[name="project_address[city]"]').type('test City/Town');
+    cy.get('select[name="project_address[state_province]"]').select('Alabama');
+    cy.get('input[name="project_address[postal_code]"]').type('98765');
+    cy.get('select[name="anchor_institution[select]"]').select('CR-Yale', {force: true});
+    cy.get('input[name="preferred_start_date"]').type('10/04/2022');
+    cy.get('input[name="preferred_start_date"]').type('{enter}');
+    cy.get('input[name="start_as_soon_as_possible_"]').check();
+    cy.get('input[name="expected_project_duration_in_months_"]').type('33');
+    cy.get('input[name="project_launch_presentation_date"]').type('10/05/2022');
+    cy.get('input[name="project_launch_presentation_date"]').type('{enter}');
+    cy.get('input[name="wrap_presentation_date"]').type('10/06/2022');
+    cy.get('input[name="wrap_presentation_date"]').type('{enter}');
+    cy.get('input[name="github_contributions_link[url]"]').type('http://test.com');
+    cy.get('textarea[name="planned_portal_contributions_if_any_"]').type('test Planned Portal Contributions');
+    cy.get('textarea[name="planned_publications_if_any_"]').type('test Planned Publications (if any)');
+    cy.get('textarea[name="planned_publications_if_any_"]').type('test What will the Cyberteam program learn');
+    cy.get('textarea[name="hpc_resources_needed_to_complete_this_project_"]').type('test HPC resources needed to complete');
+    cy.get('textarea[name="notes"]').type('test Notes');
+    cy.contains('Final Report').click();
+    cy.get('textarea[name="what_is_the_impact_on_the_development_of_the_principal_disciplin"]').type('test What is the impact on the development');
+    cy.get('input#edit-actions-01-submit').click();
+    cy.contains('test-create-project-title');
+    cy.contains('login');
+    cy.contains('At-Large');
+    cy.contains('In Progress');
+    cy.contains('test@email.com');
+    cy.contains('test Project Institution');
+    cy.contains('test Address');
+    cy.contains('test Address 2');
+    cy.contains('test City/Town');
+    cy.contains('Alabama');
+    cy.contains('98765');
+    cy.contains('test project description');
+    cy.contains('http://test.com');
+    cy.contains('33');
+  });
+
+  it("Add a Recruiting project to verify it is created", () => {
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.visit('/projects');
+    cy.contains('Submit New Project').click();
+    cy.get('input[name="approved_milestones"]').check();
+    cy.get('input[name="approved"]').check();
+    cy.get('input[name="project_title"]').type('test-create-recruiting-project-title');
+    cy.get('input[name="region[345]"]').check(); // At-Large
+    cy.get('input[name="tags[682]"]').check(); // Login tag
+    cy.get('select[name="status"]').select('Recruiting');
+    cy.get('input[name="project_leader[first]"]').type('test-first-name');
+    cy.get('input[name="project_leader[last]"]').type('test-last-name');
+    cy.get('input[name="email"]').clear();
+    cy.get('input[name="email"]').type('test@email.com');
+    cy.get('input[name="mobile_phone"]').type('555-1212');
+    cy.get('input[name="work_phone[phone]"]').type('555-1213');
+    cy.get('input[name="work_phone[ext]"]').type('333');
+    cy.get('textarea[name="project_description"]').type('test project description');
+    cy.get('input[name="project_institution"]').type('test Project Institution');
+    cy.get('input[name="project_address[address]"]').type('test Address');
+    cy.get('input[name="project_address[address_2]"]').type('test Address 2');
+    cy.get('input[name="project_address[city]"]').type('test City/Town');
+    cy.get('select[name="project_address[state_province]"]').select('Alabama');
+    cy.get('input[name="project_address[postal_code]"]').type('98765');
+    cy.get('select[name="anchor_institution[select]"]').select('CR-Yale', {force: true});
+    cy.get('input[name="preferred_start_date"]').type('10/04/2022');
+    cy.get('input[name="preferred_start_date"]').type('{enter}');
+    cy.get('input[name="start_as_soon_as_possible_"]').check();
+    cy.get('input[name="expected_project_duration_in_months_"]').type('33');
+
+    cy.get('input[name="project_launch_presentation_date"]').type('10/05/2022');
+    cy.get('input[name="project_launch_presentation_date"]').type('{enter}');
+    cy.get('input[name="wrap_presentation_date"]').type('10/06/2022');
+    cy.get('input[name="wrap_presentation_date"]').type('{enter}');
+    cy.get('input[name="github_contributions_link[url]"]').type('http://test.com');
+    cy.get('textarea[name="planned_portal_contributions_if_any_"]').type('test Planned Portal Contributions');
+    cy.get('textarea[name="planned_publications_if_any_"]').type('test Planned Publications (if any)');
+    cy.get('textarea[name="what_will_the_cyberteam_program_learn_from_this_project_"]').type('test What will the Cyberteam program learn');
+    cy.get('textarea[name="hpc_resources_needed_to_complete_this_project_"]').type('test HPC resources needed to complete');
+    cy.get('textarea[name="notes"]').type('test Notes');
+    cy.contains('Final Report').click();
+    cy.get('textarea[name="what_is_the_impact_on_the_development_of_the_principal_disciplin"]').type('test What is the impact on the development');
+    cy.get('input#edit-actions-01-submit').click();
+    cy.contains('test-create-recruiting-project-title');
+    cy.contains('login');
+    cy.contains('At-Large');
+    // cy.contains('In Progress'); Not visible
+    cy.contains('test@email.com');
+    cy.contains('test Project Institution');
+    cy.contains('test Address');
+    cy.contains('test Address 2');
+    cy.contains('test City/Town');
+    cy.contains('Alabama');
+    cy.contains('98765');
+    cy.contains('test project description');
+    cy.contains('http://test.com');
+    cy.contains('33');
+  });
+
+});

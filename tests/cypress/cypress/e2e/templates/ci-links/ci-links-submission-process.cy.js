@@ -13,7 +13,7 @@ describe("test KB Resource submission page as an administrator user", () => {
     cy.contains('Changed');
     cy.contains('Link to Resource');
     cy.contains('Operations');
-    cy.get('[data-webform-href="/admin/structure/webform/manage/resource/submission/12"] > :nth-child(2) > a').click();
+    cy.get('table.webform-results-table > tbody > tr:nth-child(1) > :nth-child(2) > a').click();
     cy.get('[data-original-order="1"] > .tabs__link').contains('Edit').click();
     cy.get('#edit-approved').check();
     cy.get('input[name="op"]').contains('Save').click();

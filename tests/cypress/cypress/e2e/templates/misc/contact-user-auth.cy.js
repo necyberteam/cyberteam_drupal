@@ -1,7 +1,7 @@
 describe("As an authenticated visitor test the Contact Page", () => {
   it("Authenticated user tests the contact user page", () => {
     cy.loginUser("authenticated@amptesting.com", "6%l7iF}6(4tI");
-    cy.visit('/people/List');
+    cy.visit('/people/list');
     cy.get('#edit-combine').type('Julie Ma');
     cy.contains('Julie Ma');
     cy.contains('Julie').click();
