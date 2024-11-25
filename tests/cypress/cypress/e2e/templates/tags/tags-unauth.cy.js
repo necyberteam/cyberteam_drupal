@@ -20,8 +20,10 @@ describe("Tests for the Tags page with unauthenticated user.  Verify 'Request Ta
     cy.get('input[name="name"]').type('login'); // Search
     cy.contains('login');
     cy.get('input[name="name"]').clear().type('LOGIN');
+    cy.wait(500);
     cy.contains('login');
     cy.get('input[name="name"]').clear().type('LOGIN');
+    cy.wait(500);
     cy.get('.tags-select > a').contains('login').click();
     cy.url().should('include', '/tags/login');
     cy.contains('Blog Entries');
