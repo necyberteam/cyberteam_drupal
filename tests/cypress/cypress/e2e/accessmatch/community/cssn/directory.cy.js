@@ -46,7 +46,7 @@ describe('Tests the CSSN Directory Page', () => {
             .should('have.length.at.least', 1)
             .find('a')
             .should('have.attr', 'href')
-            .and('contain', '/tags/')
+            .and('contain', '/taxonomy/term/')
 
         // Check roles facet.
         cy.get('#edit-search-api-fulltext--2').clear()
@@ -79,4 +79,4 @@ describe('Tests the CSSN Directory Page', () => {
 
         // todo: '+ X more' tags text is not currently displaying in Cypress tests.
     })
-})  
+})
