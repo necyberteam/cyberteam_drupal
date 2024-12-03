@@ -1,0 +1,29 @@
+uuid: 797ca820-0f8a-4c58-ae5e-54ccf39170fb
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.organization_cyberteam_people
+  module:
+    - facets
+    - system
+  theme:
+    - champions
+id: champions_organizationcyberteampeople
+theme: champions
+region: primary_sidebar
+weight: 3
+provider: null
+plugin: 'facet_block:organization_cyberteam_people'
+settings:
+  id: 'facet_block:organization_cyberteam_people'
+  label: Organization
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: champions_organizationcyberteampeople
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '/people/new*'

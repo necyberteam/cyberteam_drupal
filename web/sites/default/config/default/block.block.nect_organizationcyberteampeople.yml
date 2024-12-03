@@ -1,0 +1,29 @@
+uuid: 5cd2d597-9fd3-432e-9e7f-a2c3cbce74b9
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.organization_cyberteam_people
+  module:
+    - facets
+    - system
+  theme:
+    - nect
+id: nect_organizationcyberteampeople
+theme: nect
+region: primary_sidebar
+weight: 2
+provider: null
+plugin: 'facet_block:organization_cyberteam_people'
+settings:
+  id: 'facet_block:organization_cyberteam_people'
+  label: Organization
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_organizationcyberteampeople
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people
