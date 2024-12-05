@@ -655,7 +655,7 @@ display:
             alter_text: false
             text: ''
             make_link: true
-            path: '/tags/{{ user_skills }}'
+            path: '/tags/{{ user_skills|url_encode }}'
             absolute: false
             external: false
             replace_spaces: false
@@ -685,7 +685,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: false
+          element_default_classes: true
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -693,7 +693,7 @@ display:
           link_to_item: false
           use_highlighting: false
           multi_type: separator
-          multi_separator: '  '
+          multi_separator: ''
         field_institution:
           id: field_institution
           table: search_api_datasource_cssn_directory_entity_user
