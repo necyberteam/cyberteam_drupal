@@ -30,7 +30,7 @@ describe("Unauthenticated user tests the CCEP Page", () => {
     cy.get(".btn")
       .contains("Apply to CCEP")
       .should("have.attr", "href")
-      .and("contain", "https://forms.gle/xNkn6W89Q5b7F45z8");
+      .and("contain", "https://forms.gle/bHYCiaaNnzYVZCt77");
 
     // Important Fine Print Section
     cy.visit("/ccep");
@@ -39,11 +39,11 @@ describe("Unauthenticated user tests the CCEP Page", () => {
     );
 
     // Testing See All Details click function and Intro text of /ccep/ccep-details
-    cy.get(".container > :nth-child(3) > a")
+    cy.get("#fine-print a")
       .contains("See all the details")
       .click();
-    cy.get(".field--name-body ul > li:first-of-type").contains(
-      "All CSSN members (students, faculty, staff"
+    cy.get(".page-title > span").contains(
+      "CCEP Details"
     );
   });
 });
