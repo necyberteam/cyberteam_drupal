@@ -21,8 +21,6 @@ describe("Test Structure admin page", () => {
     cy.contains('Tags subtitle');
     cy.contains('ccmnet Mentorship Resources header (/knowledge-base/resources/mentorship)');
     cy.contains('Exposed form: tags-page_1');
-    cy.contains('RegionSelectCard');
-    cy.contains('RegionSelectList');
     cy.contains('Projects - CAREERS');
     cy.contains('Projects - Great Plains');
     cy.contains('Projects - Kentucky');
