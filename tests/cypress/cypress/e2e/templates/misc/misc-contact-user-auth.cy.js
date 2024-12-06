@@ -2,12 +2,12 @@ describe("As an authenticated visitor test the Contact Page", () => {
   it("Authenticated user tests the contact user page", () => {
     cy.loginUser("authenticated@amptesting.com", "6%l7iF}6(4tI");
     cy.visit('/people/list');
-    cy.get('#edit-combine').type('Julie Ma');
+    cy.get('.order-2 [data-drupal-selector="edit-search-api-fulltext"]').type('Julie Ma');
     cy.wait(500);
     cy.contains('Julie Ma');
-    cy.get('[headers="view-field-user-first-name-table-column"] > a').contains('Julie').click();
+    cy.contains('Julie').click();
     cy.contains('Julie Ma');
-    cy.get('a#contact_user').click();
+    cy.contains('Send Email').click();
     cy.url().should('include', '/user/100/contact');
     cy.contains('Contact Julie Ma');
     cy.get('a[data-drupal-selector="edit-name"]').contains('Julie Ma').click();

@@ -4,7 +4,7 @@ describe("On the Individual CI Link Page for authenticated users", () => {
     cy.loginUser("authenticated@amptesting.com", "6%l7iF}6(4tI");
     cy.visit('/knowledge-base/resources');
     cy.contains('Test CI Link Title');
-    cy.get(':nth-child(1) > .views-field > .field-content > .details-wrap > .search-ci-links > .items-center').click();
+    cy.contains('Test CI Link Title').click();
     cy.contains('login');
     cy.get('img[alt="Beginner"]').should('be.visible');
     cy.contains('Test');
