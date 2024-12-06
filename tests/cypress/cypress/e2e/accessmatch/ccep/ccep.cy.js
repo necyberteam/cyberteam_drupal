@@ -11,7 +11,7 @@ describe("Unauthenticated user tests the CCEP Page", () => {
 
     // Page Intro paragraph
     cy.get("#about").contains(
-      "CCEP (CSSN Community Engagement Program) gives travel rewards to ANYONE"
+      "CCEP (CSSN Community Engagement Program) gives travel rewards"
     );
     cy.get("#about").contains(
       "Submissions are reviewed once a month"
@@ -30,20 +30,20 @@ describe("Unauthenticated user tests the CCEP Page", () => {
     cy.get(".btn")
       .contains("Apply to CCEP")
       .should("have.attr", "href")
-      .and("contain", "https://forms.gle/xNkn6W89Q5b7F45z8");
+      .and("contain", "https://forms.gle/bHYCiaaNnzYVZCt77");
 
     // Important Fine Print Section
     cy.visit("/ccep");
     cy.get("#fine-print").contains(
-      "CCEP (CSSN Community Engagement Program) gives travel rewards to ANYONE for community engagement, feedback forums,"
+      "CCEP (CSSN Community Engagement Program) gives travel rewards for community engagement, feedback forums,"
     );
 
     // Testing See All Details click function and Intro text of /ccep/ccep-details
-    cy.get(".container > :nth-child(3) > a")
+    cy.get("#fine-print a")
       .contains("See all the details")
       .click();
-    cy.get(".field--name-body ul > li:first-of-type").contains(
-      "All CSSN members (students, faculty, staff"
+    cy.get(".page-title > span").contains(
+      "CCEP Details"
     );
   });
 });

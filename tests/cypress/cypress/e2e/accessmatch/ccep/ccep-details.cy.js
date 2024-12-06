@@ -14,14 +14,14 @@ describe("Unauthenticated user tests the CCEP Details Page", () => {
 
     //Verifying page title and paragraph
     cy.get(".page-title > .field").contains("CCEP Details");
-    cy.get("h2 > strong").contains("Important Fine Print:");
-    cy.get(".block-field-blocknodepagebody > .clearfix").contains(
-      "All CSSN members (students, faculty, staff, or CI professionals) seeking CCEP rewards need to be affiliated"
+    cy.get("h2").contains("Important Fine Print:");
+    cy.get(".layout__region--content .prose").contains(
+      "Must be a US citizen or legal permanent resident"
     );
     //Verifying Join CCEP Button
     cy.get(".btn")
       .contains("APPLY TO CCEP")
       .should("have.attr", "href")
-      .and("contain", "https://forms.gle/xNkn6W89Q5b7F45z8");
+      .and("contain", "https://forms.gle/bHYCiaaNnzYVZCt77");
   });
 });
