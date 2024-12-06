@@ -18,7 +18,6 @@ jobs:
         run: echo "week_day=$(date +%a)" >> $GITHUB_ENV
 
       - uses: ./.github/actions/dingorunner
-        if: ${{ env.week_day == 'Sun' }}
         env:
           runner: cr
           terminus_api: ${{ secrets.TERMINUS_API }}

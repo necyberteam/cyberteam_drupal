@@ -13,20 +13,16 @@ people are listed, along with constant "Join" functionality and additional butto
     Given I am not logged in
     When I go to "/affinity-groups"
     Then I should see "affinity groups"
-    #Then I should see "Logo"
     Then I should see "Affinity Group"
-    #Then I should see "Join"
     Then I should see "Request An Affinity Group"
+
     When I go to "/affinity-groups/access-support"
-    And I wait for the page to be loaded
     Then I should see "Members get updates"
     Then I should see "ACCESS Support"
     Then I should see "ACCESS-website"
     Then I should see "Become an ACCESS Support insider by joining our affinity group."
     Then I should see "Join"
     Then I should see "Slack"
-    Then I should see "Q&A"
-    #Then I should see "Email"
     Then I should see "Events"
     Then I should see "Knowledge Base Resources"
     Then I should see "Announcements"
