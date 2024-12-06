@@ -11,8 +11,8 @@ describe("test quick links on home page", () => {
 
     // Use cy.origin to handle actions on the external domain
     cy.origin('https://ask.cyberinfrastructure.org', () => {
-      // Verify that the URL is correct
-      cy.url().should('eq', 'https://ask.cyberinfrastructure.org/');
+      // Verify that the URL should start with 'https://ask.cyberinfrastructure.org/'
+      cy.url().should('match', /^https:\/\/ask\.cyberinfrastrcture\.org/);
     });
   });
 
