@@ -982,6 +982,10 @@ display:
               secondary_label: 'Advanced options'
               secondary_open: false
               reset_button_always_show: false
+            pager:
+              plugin_id: default
+              advanced:
+                is_secondary: false
             filter:
               search_api_fulltext:
                 plugin_id: default
@@ -1175,7 +1179,9 @@ display:
             group_items: {  }
           parse_mode: terms
           min_length: null
-          fields: {  }
+          fields:
+            - field_user_first_name_1
+            - field_user_last_name_1
         roles:
           id: roles
           table: search_api_index_cssn_directory
@@ -1512,7 +1518,7 @@ display:
           contextual_filters_or: false
       relationships: {  }
       css_class: 'd-flex  flex-wrap justify-content-between people-facets'
-      use_ajax: true
+      use_ajax: false
       header: {  }
       footer: {  }
       display_extenders: {  }
