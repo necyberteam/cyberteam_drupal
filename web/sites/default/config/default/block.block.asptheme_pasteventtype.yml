@@ -1,29 +1,29 @@
-uuid: 1904698f-0316-423e-bd24-d1e5139ba82a
+uuid: 799b7b71-22c4-4b32-a1f7-225a68d2db84
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.roles
+    - facets.facet.past_event_type
   module:
     - facets
     - system
   theme:
     - aspTheme
-id: asptheme_roles
+id: asptheme_pasteventtype
 theme: aspTheme
 region: sidebar_first
-weight: -20
+weight: -7
 provider: null
-plugin: 'facet_block:roles'
+plugin: 'facet_block:past_event_type'
 settings:
-  id: 'facet_block:roles'
-  label: Roles
+  id: 'facet_block:past_event_type'
+  label: 'Event Type'
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: asptheme_roles
+  block_id: asptheme_pasteventtype
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /community/cssn/directory
+    pages: /events/past

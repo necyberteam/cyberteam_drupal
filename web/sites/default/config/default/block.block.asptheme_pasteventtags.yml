@@ -1,29 +1,29 @@
-uuid: 1904698f-0316-423e-bd24-d1e5139ba82a
+uuid: 2cdb3f5d-5f6d-4f8d-874b-7e51f4cee72d
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.roles
+    - facets.facet.past_event_tags
   module:
     - facets
     - system
   theme:
     - aspTheme
-id: asptheme_roles
+id: asptheme_pasteventtags
 theme: aspTheme
 region: sidebar_first
-weight: -20
+weight: -6
 provider: null
-plugin: 'facet_block:roles'
+plugin: 'facet_block:past_event_tags'
 settings:
-  id: 'facet_block:roles'
-  label: Roles
+  id: 'facet_block:past_event_tags'
+  label: 'Event Tags'
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: asptheme_roles
+  block_id: asptheme_pasteventtags
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /community/cssn/directory
+    pages: /events/past

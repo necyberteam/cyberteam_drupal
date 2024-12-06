@@ -1,29 +1,29 @@
-uuid: 1904698f-0316-423e-bd24-d1e5139ba82a
+uuid: eb43bdb9-458f-473b-8a84-ce00d45f95e3
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.roles
+    - facets.facet.custom_event_skill_level
   module:
     - facets
     - system
   theme:
     - aspTheme
-id: asptheme_roles
+id: asptheme_upcomingskilllevel
 theme: aspTheme
 region: sidebar_first
-weight: -20
+weight: -10
 provider: null
-plugin: 'facet_block:roles'
+plugin: 'facet_block:custom_event_skill_level'
 settings:
-  id: 'facet_block:roles'
-  label: Roles
+  id: 'facet_block:custom_event_skill_level'
+  label: 'Skill Level'
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: asptheme_roles
+  block_id: asptheme_upcomingskilllevel
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /community/cssn/directory
+    pages: /events
