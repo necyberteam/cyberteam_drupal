@@ -12,25 +12,42 @@ describe('Unauthenticated user tests the Events Page', () => {
   it('Should test the Events page for unauthenticated user', () => {
     cy.visit('/events')
 
-    // Page title and column headers
-    cy.get('.page-title').contains('Events')
-    cy.get('table thead').contains('Event Name')
-    cy.get('table thead').contains('Date')
-    cy.get('#view-body-format-table-column').contains('Description')
+    cy.contains('Upcoming Events')
+    cy.contains('Past Events')
+    cy.contains('My Events')
+    cy.contains('+ Add Event')
 
-    // Filter feature
-    cy.get('#edit-field-affiliation-value--2').select('Community') // Affiliation field
-    cy.get('#edit-field-event-type-value--2').select('Training') // Event Type
-    cy.get('#edit-tid--2').select('login') // Tag field
-    cy.get('#edit-field-skill-level-value--2').select('Advanced') // Skill Level
-    cy.get('#edit-submit-recurring-events-event-instances--2').click() // Submit button
+    cy.get('#custom-event-type-training').check()
+    cy.wait(1000)
+    cy.get('#custom-event-affiliation-community').check()
+    cy.wait(1000)
+    cy.get('#custom-event-skill-level-advanced').check()
+    cy.wait(1000)
+    cy.contains('example-event')
+    cy.contains('Zoom')
+    cy.contains('12/12/26')
+    cy.get('[href="/tags/login"]').contains('login')
 
-    // Testing Cypress Created Event
-    // Event Title
-    cy.get('tbody > tr > .views-field-title-2')
-      .contains('example-event')
-      .click()
-    cy.get('.page-title > .field').contains('example-event')
+    cy.get('#custom-event-type-reset-all').check()
+    cy.wait(1000)
+    cy.get('#custom-event-affiliation-reset-all').check()
+    cy.wait(1000)
+    cy.get('#custom-event-skill-level-reset-all').check()
+
+    cy.get('#edit-search-api-fulltext--2').type('Random string')
+    cy.wait(1000)
+    cy.contains('No Events Found')
+
+    cy.get('#edit-search-api-fulltext--2').clear()
+    cy.wait(1000)
+    cy.get('#edit-search-api-fulltext--2').type('example')
+    cy.wait(1000)
+    cy.contains('example-event')
+    cy.contains('Zoom')
+    cy.contains('12/12/26')
+    cy.get('[href="/tags/login"]').contains('login')
+    cy.contains('example-event').click()
+
 
     // Event Date
     cy.get('.field--name-date').contains(
