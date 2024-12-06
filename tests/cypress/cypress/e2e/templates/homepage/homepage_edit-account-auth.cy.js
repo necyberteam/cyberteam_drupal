@@ -1,7 +1,7 @@
 describe("For an authenticated user tests account, interest/skills pages", () => {
 
   it("Authenticated user tests the edit account page", () => {
-    cy.loginUser("pecan@pie.org", "wubadubdub");
+    cy.loginUser("pecan@pie.org", "Pecan");
     cy.visit('/');
     cy.contains('My profile');
     cy.contains('Edit my account').click({ force: true });
@@ -28,7 +28,7 @@ describe("For an authenticated user tests account, interest/skills pages", () =>
   });
 
   it("Authenticated user tests the add interest/skills page", () => {
-    cy.loginUser("pecan@pie.org", "wubadubdub");
+    cy.loginUser("pecan@pie.org", "Pecan");
     cy.visit('/community-persona');
     cy.contains('ACCESS-account').should('not.exist');
 
