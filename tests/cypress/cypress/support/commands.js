@@ -90,8 +90,26 @@ Cypress.Commands.add("loginAs", (username, password) => {
 });
 
 /**
- * User login command for default /user/login route. 
- * 
+ * Basic user login command. Requires valid username and password.
+ *
+ * @param {string} username
+ *   The username with which to log in.
+ * @param {string} password
+ *   The password for the user's account.
+ */
+Cypress.Commands.add("loginUser", (username, password) => {
+  cy.drupalLogout();
+  cy.visit("/user");
+  cy.get("#edit-name").type(username);
+  cy.get("#edit-pass").type(password, {
+    log: false,
+  });
+  cy.get(".form-submit").contains("Log in").click();
+});
+
+/**
+ * User login command for default /user/login route.
+ *
  * Requires valid username and password.
  *
  * @param {string} username

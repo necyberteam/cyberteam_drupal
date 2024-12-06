@@ -21,7 +21,6 @@ Feature: This test verifies the following for the coco domain for an authenticat
     Given I am logged in as a user with the "authenticated" role
     When I am on the homepage
     When I wait for the page to be loaded
-    #Logo is not working
     Then I should see an image with alt text "CoCo"
     Then I should not see "About Us"
     Then I should not see "Get Help"

@@ -24,8 +24,6 @@ Feature: verify specific links on homepage
     When I am on the homepage
     When I follow "Connect.CI"
     And I wait 4 seconds
-    # TODO - next lines fails with 'Current page is "/", but "/regions" expected.' - https://cyberteamportal.atlassian.net/browse/D8-1775
-    #Then I should be on "/regions"
     And I should see "Connect.Cyberinfrastructure is a family of portals, each representing a program"
 
 
