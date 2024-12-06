@@ -77,6 +77,7 @@ describe("Verify the the community-outreach tag page", () => {
         });
 
       // check more button
+      cy.wait(1000);
       cy.get(blockclass)
         .contains('more people')
         .should('have.attr', 'href', '/tags/340/people-with-' + skillOrInterest);

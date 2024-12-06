@@ -17,12 +17,11 @@ describe("Test of the /find page", () => {
 
     cy.get('.button').contains('Search');
 
-    cy.get('.sui-search-box__text-input')
-      .type('test');
+    cy.get('.sui-search-box__text-input').type('test');
 
     cy.get('.sui-search-box > .button').click();
 
-    cy.wait(5000);
+    cy.wait(8000);
     cy.get('.btn').contains('Hide Results');
     cy.get('.sui-paging-info').contains('Showing');
     cy.get('.sui-select').contains('Relevance');

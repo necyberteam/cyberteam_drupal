@@ -13,9 +13,9 @@ describe('Unauthenticated user tests the Events Page', () => {
     cy.visit('/events')
 
     // Page title and column headers
-    cy.get('.page-title').contains('Events & Trainings')
-    cy.get('#view-title-2-table-column').contains('Title')
-    cy.get('#view-date-value-1-table-column').contains('Event Date')
+    cy.get('.page-title').contains('Events')
+    cy.get('table thead').contains('Event Name')
+    cy.get('table thead').contains('Date')
     cy.get('#view-body-format-table-column').contains('Description')
 
     // Filter feature
