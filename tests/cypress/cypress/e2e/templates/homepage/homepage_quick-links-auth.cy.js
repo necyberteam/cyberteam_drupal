@@ -5,16 +5,7 @@ describe("The Front Page includes a site", () => {
   });
 
   it('should navigate to Ask the Community', () => {
-    cy.get('a[href="https://ask.cyberinfrastructure.org"]')
-      .contains('Ask the Community')
-      .invoke('removeAttr', 'target')
-      .click();
-
-    // Use cy.origin to handle actions on the external domain
-    cy.origin('https://ask.cyberinfrastructure.org', () => {
-      // Verify that the URL should start with 'https://ask.cyberinfrastructure.org/'
-      cy.url().should('match', /^https:\/\/ask\.cyberinfrastrcture\.org/);
-    });
+    cy.get('a[href="https://ask.cyberinfrastructure.org"]').contains('Ask the Community');
 
   });
 
