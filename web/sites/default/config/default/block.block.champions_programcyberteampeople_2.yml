@@ -1,0 +1,29 @@
+uuid: f8e01ca8-3023-4234-8930-31ccf8de08ac
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.program
+  module:
+    - facets
+    - system
+  theme:
+    - champions
+id: champions_programcyberteampeople_2
+theme: champions
+region: primary_sidebar
+weight: 18
+provider: null
+plugin: 'facet_block:program'
+settings:
+  id: 'facet_block:program'
+  label: Program
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: champions_programcyberteampeople_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people

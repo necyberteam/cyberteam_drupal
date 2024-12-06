@@ -126,6 +126,14 @@ field_settings:
     dependencies:
       module:
         - user
+  user_affinity_groups:
+    label: 'User Affinity Groups'
+    property_path: search_api_user_affinity_groups
+    type: string
+  user_badges:
+    label: 'User Badges'
+    property_path: search_api_user_badges
+    type: string
   user_interest:
     label: 'User Interest'
     property_path: search_api_user_interest
@@ -247,6 +255,8 @@ processor_settings:
       - was
       - will
       - with
+  user_affinity_groups: {  }
+  user_badges: {  }
   user_interests: {  }
   user_skills: {  }
   user_skills_id: {  }
