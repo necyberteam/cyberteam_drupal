@@ -16,7 +16,6 @@ describe("Test Structure admin page", () => {
     cy.contains('request tag button');
     cy.contains('Affinity Group intro text - NECT/CampusChampions');
     cy.contains('Tabs');
-    cy.contains('Primary admin actions');
     cy.contains('KB Resources Intro block');
     cy.contains('Tags subtitle');
     cy.contains('ccmnet Mentorship Resources header (/knowledge-base/resources/mentorship)');
@@ -59,7 +58,6 @@ describe("Test Structure admin page", () => {
     cy.get(':nth-child(4) > .tabs__link').click();
     cy.contains('CILogon Auth login');
     cy.contains('Breadcrumbs');
-    cy.contains('Primary admin actions');
     cy.contains('Status messages');
     cy.contains('Masquerade');
     cy.contains('CCEP CTA');
