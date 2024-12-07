@@ -25,7 +25,10 @@ describe("test individual tags page", () => {
     cy.get('input[name="field_group_slug[0][value]"]').type('test-affinity-group');
     cy.get('input[name="field_group_id[0][value]"]').type('test.group.id');
     cy.get('#edit-submit').click();
-    cy.contains('has been created');
+    cy.visit('/admin/content');
+    cy.get('tbody > :nth-child(1) > .views-field-title > a').click();
+    cy.contains('test-affinity-group');
+
   });
 
   it("logged-out: Add a 'test-affinity-group' for login tag and verify it appears", () => {
