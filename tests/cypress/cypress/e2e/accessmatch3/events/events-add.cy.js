@@ -5,18 +5,7 @@
     Header text,
     Form Functionality
 
-
-    // cy.get("#edit-field-affinity-group-node-0-target-id").type(
-    //   "Access Support Testing (413)"
-    // );
 */
-// Custom command to handle timeouts
-Cypress.Commands.add('clickAndHandleTimeout', (selector, timeout = 2000) => {
-  cy.get(selector).click();
-  cy.wait(timeout).then(() => {
-    cy.log('Form submission timed out, but test will pass.');
-  });
-});
 
 describe("Authenticated user tests the Events Form without Affinity Group", () => {
   it("Should test Events Form for authenticated user", () => {
@@ -68,6 +57,6 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     //Event Skill Level
     cy.get("#edit-field-skill-level-advanced").click();
 
-    cy.clickAndHandleTimeout("#edit-submit");
+    cy.get("#edit-submit").click();
   });
 });
