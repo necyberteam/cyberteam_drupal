@@ -1,0 +1,29 @@
+uuid: fa6323f3-c6f5-497e-9657-ce9528c173b3
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.past_affinity_group
+  module:
+    - facets
+    - system
+  theme:
+    - aspTheme
+id: asptheme_pastaffinitygroup
+theme: aspTheme
+region: sidebar_first
+weight: -5
+provider: null
+plugin: 'facet_block:past_affinity_group'
+settings:
+  id: 'facet_block:past_affinity_group'
+  label: 'Affinity Group'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_pastaffinitygroup
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events/past

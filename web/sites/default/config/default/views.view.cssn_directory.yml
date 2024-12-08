@@ -606,10 +606,10 @@ display:
               webform:
                 display_method: label
                 view_mode: default
-        user_skills:
-          id: user_skills
+        user_skills_id:
+          id: user_skills_id
           table: search_api_index_cssn_directory
-          field: user_skills
+          field: user_skills_id
           relationship: none
           group_type: group
           admin_label: ''
@@ -617,10 +617,10 @@ display:
           label: ''
           exclude: true
           alter:
-            alter_text: false
-            text: ''
-            make_link: true
-            path: '/tags/{{ user_skills }}'
+            alter_text: true
+            text: "{% set split_skills = user_skills_id|split(',') %}\r\n<a href=\"/taxonomy/term/{{ split_skills.1 }}\" class=\"text-truncate text-xs no-underline font-normal mb-1 me-1 mr-1 px-2 py-1 hover--border-dark-teal border hover--text-dark-teal\">{{ split_skills.0 }}</a>"
+            make_link: false
+            path: ''
             absolute: false
             external: false
             replace_spaces: false
@@ -628,7 +628,7 @@ display:
             trim_whitespace: false
             alt: ''
             rel: ''
-            link_class: 'text-truncate text-xs no-underline font-normal mb-1 me-1 mr-1 px-2 py-1 hover--border-dark-teal border hover--text-dark-teal'
+            link_class: ''
             prefix: ''
             suffix: ''
             target: ''
@@ -650,7 +650,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: false
+          element_default_classes: true
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -658,7 +658,7 @@ display:
           link_to_item: false
           use_highlighting: false
           multi_type: ul
-          multi_separator: ' '
+          multi_separator: ', '
         field_badge:
           id: field_badge
           table: search_api_entity_taxonomy_term
@@ -841,7 +841,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{{ field_user_badges }}\r\n<div class=\"cssn-directory-item\">\r\n  <div class=\"flex d-flex justify-content-between\">\r\n    <div class=\"cssn-photo\">\r\n      {{ user_picture }}\r\n    </div>\r\n    <div style=\"min-width: 100px;\">\r\n!!!!=-=-= This line is programmatically replaced, if you change anything in this line you'll break badges. See cssn.module to fix any issues =-=-=-=-!!!!\r\n    </div>\r\n  </div>\r\n  <div class=\"my-1.5 mb-0 leading-5\">\r\n    <a class=\"stretched-link text-dark-teal hover--text-orange no-underline text-xl font-bold\" href=\"/community-persona/{{ uid }}\">{{ field_user_first_name }} {{ field_user_last_name }}</a>\r\n  </div>\r\n  <div class=\"m-0 font-semibold text-lg leading-5\">\r\n    {{ field_access_organization }}\r\n  </div>\r\n  <div class=\"mb-3\">\r\n    {{ field_current_occupation }}\r\n  </div>\r\n  <div class=\"square-tags ontop-links [&_ul]--list-none [&_li]--inline-block [&_li]--ms-0 [&_li]--mb-1 [&_li]--relative [&_li]--z-10\"> \r\n    {{ user_skills }}\r\n  </div>\r\n</div>"
+            text: "{{ field_user_badges }}\r\n<div class=\"cssn-directory-item\">\r\n  <div class=\"flex d-flex justify-content-between\">\r\n    <div class=\"cssn-photo\">\r\n      {{ user_picture }}\r\n    </div>\r\n    <div style=\"min-width: 100px;\">\r\n!!!!=-=-= This line is programmatically replaced, if you change anything in this line you'll break badges. See cssn.module to fix any issues =-=-=-=-!!!!\r\n    </div>\r\n  </div>\r\n  <div class=\"my-1.5 mb-0 leading-5\">\r\n    <a class=\"stretched-link text-dark-teal hover--text-orange no-underline text-xl font-bold\" href=\"/community-persona/{{ uid }}\">{{ field_user_first_name }} {{ field_user_last_name }}</a>\r\n  </div>\r\n  <div class=\"m-0 font-semibold text-lg leading-5\">\r\n    {{ field_access_organization }}\r\n  </div>\r\n  <div class=\"mb-3\">\r\n    {{ field_current_occupation }}\r\n  </div>\r\n  <div class=\"square-tags ontop-links [&_ul]--list-none [&_li]--inline-block [&_li]--ms-0 [&_li]--mb-1 [&_li]--relative [&_li]--z-10\"> \r\n    {{ user_skills_id }}\r\n  </div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false

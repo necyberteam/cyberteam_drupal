@@ -1,0 +1,29 @@
+uuid: 74dc701f-a37b-4b41-b831-063ced542f61
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.custom_event_tags
+  module:
+    - facets
+    - system
+  theme:
+    - aspTheme
+id: asptheme_upcomingeventtags
+theme: aspTheme
+region: sidebar_first
+weight: -13
+provider: null
+plugin: 'facet_block:custom_event_tags'
+settings:
+  id: 'facet_block:custom_event_tags'
+  label: Tags
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_upcomingeventtags
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events

@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.region.field_region_connected_domain
     - taxonomy.vocabulary.region
   module:
     - path
@@ -14,10 +15,18 @@ mode: default
 content:
   description:
     type: text_textarea
-    weight: 1
+    weight: 2
     region: content
     settings:
       rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_region_connected_domain:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   name:

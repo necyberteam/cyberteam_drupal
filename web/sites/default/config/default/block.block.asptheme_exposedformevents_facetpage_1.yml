@@ -1,0 +1,28 @@
+uuid: e88a3945-16c6-4fc8-9adf-bf79c069eb07
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.events_facet
+  module:
+    - system
+    - views
+  theme:
+    - aspTheme
+id: asptheme_exposedformevents_facetpage_1
+theme: aspTheme
+region: sidebar_first
+weight: -15
+provider: null
+plugin: 'views_exposed_filter_block:events_facet-page_1'
+settings:
+  id: 'views_exposed_filter_block:events_facet-page_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events
