@@ -1,5 +1,5 @@
 /*
-* Authenticed user visits the affinity-group page.
+* Authenticated user visits the affinity-group page.
 *
 * Includes joining an affinity group, verifying the
 * the ag shows up on the users community-persona page,
@@ -22,7 +22,7 @@ describe('Anonymous user visit the affinity-group page', () => {
 
     cy.contains('You have joined this affinity group.')
 
-    cy.visit('/community-persona')//.then(() => {;
+    cy.visit('/community-persona')
 
     cy.contains("My Affinity Groups")
       .parent()

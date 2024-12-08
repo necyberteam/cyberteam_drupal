@@ -11,8 +11,8 @@ describe('Anonymous user visit the affinity-group page', () => {
       .invoke('attr', 'href')
       .should('eq', '/form/affinity-group-request');
 
-    // Verify access-facilitators ag.  First get the table row
-    // containing the "access-facilitators" affinity group as an alias:
+    // Verify ACCESS Support Affinity Group.  First get the table row
+    // containing the img alt text as an alias:
     cy.get('[alt="Support ACCESS Affinity Group logo"]')
       .parents('tr')
       .as('af-row');
