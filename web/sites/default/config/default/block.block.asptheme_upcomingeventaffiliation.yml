@@ -1,0 +1,29 @@
+uuid: 7b5c000c-dff4-45cb-a439-50ec64b123b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.custom_event_affiliation
+  module:
+    - facets
+    - system
+  theme:
+    - aspTheme
+id: asptheme_upcomingeventaffiliation
+theme: aspTheme
+region: sidebar_first
+weight: -11
+provider: null
+plugin: 'facet_block:custom_event_affiliation'
+settings:
+  id: 'facet_block:custom_event_affiliation'
+  label: 'Event Affiliation'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_upcomingeventaffiliation
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events

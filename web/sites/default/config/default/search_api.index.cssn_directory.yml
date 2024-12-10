@@ -14,6 +14,7 @@ dependencies:
   module:
     - user
     - search_api
+    - ccmnet
     - cssn
     - webform_submission_search_api
 id: cssn_directory
@@ -125,9 +126,25 @@ field_settings:
     dependencies:
       module:
         - user
+  user_affinity_groups:
+    label: 'User Affinity Groups'
+    property_path: search_api_user_affinity_groups
+    type: string
+  user_badges:
+    label: 'User Badges'
+    property_path: search_api_user_badges
+    type: string
+  user_interest:
+    label: 'User Interest'
+    property_path: search_api_user_interest
+    type: string
   user_skills:
     label: 'User Skills'
     property_path: search_api_user_skills
+    type: string
+  user_skills_id:
+    label: 'User Skills Id'
+    property_path: search_api_user_skills_id
     type: string
 datasource_settings:
   'entity:user':
@@ -179,6 +196,7 @@ processor_settings:
       - roles
       - user_skills
   language_with_fallback: {  }
+  mentee_name: {  }
   rendered_item: {  }
   stemmer:
     weights:
@@ -237,7 +255,11 @@ processor_settings:
       - was
       - will
       - with
+  user_affinity_groups: {  }
+  user_badges: {  }
+  user_interests: {  }
   user_skills: {  }
+  user_skills_id: {  }
   webform_submission_category: {  }
   webform_submission_description: {  }
   webform_submission_skill_level: {  }

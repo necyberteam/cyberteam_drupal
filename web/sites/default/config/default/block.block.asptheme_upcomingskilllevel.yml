@@ -1,0 +1,29 @@
+uuid: eb43bdb9-458f-473b-8a84-ce00d45f95e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.custom_event_skill_level
+  module:
+    - facets
+    - system
+  theme:
+    - aspTheme
+id: asptheme_upcomingskilllevel
+theme: aspTheme
+region: sidebar_first
+weight: -10
+provider: null
+plugin: 'facet_block:custom_event_skill_level'
+settings:
+  id: 'facet_block:custom_event_skill_level'
+  label: 'Skill Level'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_upcomingskilllevel
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events

@@ -1,0 +1,220 @@
+uuid: 680ad557-0a06-49c8-a827-1eb69dacfdad
+langcode: en
+status: true
+dependencies:
+  config:
+    - search_api.server.default_server
+  module:
+    - field_inheritance
+    - recurring_events
+    - search_api
+    - access_misc
+    - ccmnet
+    - cssn
+    - webform_submission_search_api
+id: events
+name: Events
+description: ''
+read_only: false
+field_settings:
+  affinity_group:
+    label: 'Affinity Group'
+    datasource_id: 'entity:eventinstance'
+    property_path: affinity_group
+    type: integer
+    dependencies:
+      module:
+        - field_inheritance
+  custom_event_affiliation:
+    label: 'Custom Event Affiliation'
+    property_path: search_api_custom_event_affiliation
+    type: string
+  custom_event_skill_level:
+    label: 'Custom Event Skill Level'
+    property_path: search_api_custom_event_skill_level
+    type: string
+  custom_event_tags:
+    label: 'Custom Event Tags'
+    property_path: search_api_custom_event_tags
+    type: string
+  custom_event_tags_1:
+    label: 'Custom Event Tags'
+    property_path: search_api_custom_event_tags
+    type: text
+  custom_event_type:
+    label: 'Custom Event Type'
+    property_path: search_api_custom_event_type
+    type: string
+  date:
+    label: 'Event Date'
+    datasource_id: 'entity:eventinstance'
+    property_path: date
+    type: date
+    dependencies:
+      module:
+        - recurring_events
+  event_affiliation:
+    label: 'Event Affiliation'
+    datasource_id: 'entity:eventinstance'
+    property_path: event_affiliation
+    type: string
+    dependencies:
+      module:
+        - field_inheritance
+  event_type:
+    label: 'Event Type'
+    datasource_id: 'entity:eventinstance'
+    property_path: event_type
+    type: string
+    dependencies:
+      module:
+        - field_inheritance
+  skill_level:
+    label: 'Skill Level'
+    datasource_id: 'entity:eventinstance'
+    property_path: skill_level
+    type: string
+    dependencies:
+      module:
+        - field_inheritance
+  title:
+    label: Title
+    datasource_id: 'entity:eventinstance'
+    property_path: title
+    type: text
+    dependencies:
+      module:
+        - field_inheritance
+  type:
+    label: Type
+    datasource_id: 'entity:eventinstance'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - recurring_events
+datasource_settings:
+  'entity:eventinstance':
+    bundles:
+      default: true
+      selected: {  }
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  custom_event_affiliation: {  }
+  custom_event_skill_level: {  }
+  custom_event_type: {  }
+  custom_value: {  }
+  entity_status: {  }
+  entity_type: {  }
+  event_tags: {  }
+  highlight:
+    weights:
+      postprocess_query: 0
+    prefix: '<strong>'
+    suffix: '</strong>'
+    excerpt: true
+    excerpt_always: false
+    excerpt_length: 256
+    exclude_fields: {  }
+    highlight: always
+    highlight_partial: false
+  html_filter:
+    weights:
+      preprocess_index: -15
+      preprocess_query: -15
+    all_fields: false
+    fields: {  }
+    title: true
+    alt: true
+    tags:
+      b: 2
+      em: 1
+      h1: 5
+      h2: 3
+      h3: 2
+      strong: 2
+      u: 1
+  language_with_fallback: {  }
+  mentee_name: {  }
+  rendered_item: {  }
+  stemmer:
+    weights:
+      preprocess_index: 0
+      preprocess_query: 0
+    all_fields: false
+    fields: {  }
+    exceptions:
+      mexican: mexic
+      texan: texa
+  stopwords:
+    weights:
+      preprocess_index: -5
+      preprocess_query: -2
+    all_fields: false
+    fields: {  }
+    stopwords:
+      - a
+      - an
+      - and
+      - are
+      - as
+      - at
+      - be
+      - but
+      - by
+      - for
+      - if
+      - in
+      - into
+      - is
+      - it
+      - 'no'
+      - not
+      - of
+      - 'on'
+      - or
+      - s
+      - such
+      - t
+      - that
+      - the
+      - their
+      - then
+      - there
+      - these
+      - they
+      - this
+      - to
+      - was
+      - will
+      - with
+  tokenizer:
+    weights:
+      preprocess_index: -6
+      preprocess_query: -6
+    all_fields: false
+    fields: {  }
+    spaces: ''
+    ignored: ._-
+    overlap_cjk: 1
+    minimum_word_size: '3'
+  user_interests: {  }
+  user_skills: {  }
+  webform_submission_category: {  }
+  webform_submission_description: {  }
+  webform_submission_skill_level: {  }
+  webform_submission_tags: {  }
+  webform_submission_title: {  }
+  webform_submission_vote_count: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  cron_limit: 50
+  index_directly: true
+  track_changes_in_references: true
+server: default_server
