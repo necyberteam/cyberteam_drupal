@@ -8,6 +8,7 @@ dependencies:
     - field.field.eventseries.default.field_affinity_group_node
     - field.field.eventseries.default.field_broadcast_affinity_groups
     - field.field.eventseries.default.field_contact
+    - field.field.eventseries.default.field_event_no_listing
     - field.field.eventseries.default.field_event_speakers
     - field.field.eventseries.default.field_event_type
     - field.field.eventseries.default.field_location
@@ -21,6 +22,8 @@ dependencies:
     - datetime_range
     - link
     - recurring_events
+    - recurring_events_registration
+    - recurring_events_reminders
     - text
 _core:
   default_config_hash: gxaLz3x4MpP2pkxtz9c3I9kCvvDKvhfKG6dOBgvv_w0
@@ -54,6 +57,13 @@ content:
     weight: 4
     region: content
     settings: {  }
+    third_party_settings: {  }
+  event_registration:
+    type: event_registration
+    weight: 10
+    region: content
+    settings:
+      show_enable_waitlist: true
     third_party_settings: {  }
   excluded_dates:
     type: daterange_default
@@ -91,6 +101,13 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_event_no_listing:
+    type: boolean_checkbox
+    weight: 26
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_event_speakers:
     type: string_textfield
@@ -157,6 +174,14 @@ content:
     weight: 2
     region: content
     settings: {  }
+    third_party_settings: {  }
+  registration_reminders:
+    type: registration_reminders
+    weight: 10
+    region: content
+    settings:
+      rows: '5'
+      placeholder: ''
     third_party_settings: {  }
   status:
     type: boolean_checkbox

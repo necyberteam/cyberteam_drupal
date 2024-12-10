@@ -17,42 +17,42 @@ bundle: default
 mode: default
 content:
   email:
+    type: basic_string
     label: above
+    settings: {  }
+    third_party_settings: {  }
     weight: 10
     region: content
-    settings: {  }
-    third_party_settings: {  }
-    type: basic_string
   field_first_name:
-    weight: 1
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 1
     region: content
   field_last_name:
-    weight: 2
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 2
     region: content
   field_phone:
-    weight: 4
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 4
     region: content
   user_id:
-    label: hidden
     type: author
-    weight: 0
-    region: content
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   search_api_excerpt: true
