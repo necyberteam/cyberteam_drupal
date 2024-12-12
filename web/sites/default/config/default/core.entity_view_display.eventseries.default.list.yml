@@ -12,12 +12,14 @@ dependencies:
     - field.field.eventseries.default.field_event_no_listing
     - field.field.eventseries.default.field_event_speakers
     - field.field.eventseries.default.field_event_type
+    - field.field.eventseries.default.field_event_virtual_meeting_link
     - field.field.eventseries.default.field_location
     - field.field.eventseries.default.field_registration
     - field.field.eventseries.default.field_skill_level
     - field.field.eventseries.default.field_tags
     - recurring_events.eventseries_type.default
   module:
+    - recurring_events_ical
     - text
 _core:
   default_config_hash: qgVOKX0HFcT9mXJl4D8tpLQdtI_5GGyVXp7xFZ4rYa8
@@ -38,6 +40,18 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: -20
+    region: content
+  event_ical_link:
+    type: event_ical_link
+    label: hidden
+    settings:
+      trim_length: '80'
+      url_only: ''
+      url_plain: ''
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 10
     region: content
   title:
     type: string
@@ -61,6 +75,7 @@ hidden:
   field_event_no_listing: true
   field_event_speakers: true
   field_event_type: true
+  field_event_virtual_meeting_link: true
   field_location: true
   field_registration: true
   field_skill_level: true
