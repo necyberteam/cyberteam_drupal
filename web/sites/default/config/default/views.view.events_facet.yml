@@ -683,8 +683,8 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: search_api_boolean
-          operator: '='
-          value: '0'
+          operator: '!='
+          value: '1'
           group: 1
           exposed: false
           expose:
@@ -1157,20 +1157,20 @@ display:
           use_highlighting: false
           multi_type: separator
           multi_separator: ''
-        virtual_meeting_link:
-          id: virtual_meeting_link
+        id_1:
+          id: id_1
           table: search_api_datasource_events_entity_eventinstance
-          field: virtual_meeting_link
+          field: id
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: eventinstance
-          plugin_id: search_api
+          plugin_id: search_api_field
           label: ''
           exclude: false
           alter:
-            alter_text: true
-            text: 'Meeting Link: {{ virtual_meeting_link }}'
+            alter_text: false
+            text: ''
             make_link: false
             path: ''
             absolute: false
@@ -1200,17 +1200,46 @@ display:
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
+          element_wrapper_type: div
+          element_wrapper_class: row-span-4
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          link_to_item: false
-          use_highlighting: false
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
           multi_type: separator
-          multi_separator: ', '
+          separator: ', '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api_numeric
+          fallback_options:
+            set_precision: false
+            precision: 0
+            decimal: .
+            separator: ','
+            format_plural: false
+            format_plural_string: !!binary MQNAY291bnQ=
+            prefix: ''
+            suffix: ''
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+            format_plural_values:
+              - '1'
+              - '@count'
       defaults:
         fields: false
       display_description: ''
@@ -1439,8 +1468,8 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: search_api_boolean
-          operator: '='
-          value: '0'
+          operator: '!='
+          value: '1'
           group: 1
           exposed: false
           expose:

@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.field.registrant.default.field_first_name
     - field.field.registrant.default.field_last_name
-    - field.field.registrant.default.field_phone
     - recurring_events_registration.registrant_type.default
   module:
     - user
@@ -38,14 +37,6 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 2
-    region: content
-  field_phone:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 4
     region: content
   user_id:
     type: author

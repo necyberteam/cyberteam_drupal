@@ -1197,7 +1197,20 @@ display:
           entity_field: user_id
           plugin_id: standard
           required: false
-      header: {  }
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<a href="waitlist/approve" class="use-ajax btn btn-primary my-2 ms-0 me-4 mr-4 ml-0">Approve All</a>'
+            format: full_html
+          tokenize: false
       footer: {  }
       display_extenders: {  }
     cache_metadata:
@@ -2058,7 +2071,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '{{ name__value }}'
+            text: "{{ name__value|trim('access-ci.org') }}"
             make_link: false
             path: ''
             absolute: false
@@ -2423,6 +2436,55 @@ display:
           empty_zero: false
           hide_alter_empty: true
           destination: false
+        nothing:
+          id: nothing
+          table: views
+          field: nothing
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: custom
+          label: 'Change Status'
+          exclude: false
+          alter:
+            alter_text: true
+            text: "{% if status == \"Pending\" %}\r\n  <a href=\"waitlist/approve?reg_id={{ id }}\">Approve Attendee</a>\r\n{% else %}\r\n  <a href=\"waitlist/deny?reg_id={{ id }}\">Deny Attendee</a>\r\n{% endif %}"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
       access:
         type: event_registration_list_access
         options: {  }
@@ -2673,7 +2735,9 @@ display:
         arguments: false
         filters: false
         filter_groups: false
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
       path: events/%eventinstance/registrations
       menu:
         type: none
