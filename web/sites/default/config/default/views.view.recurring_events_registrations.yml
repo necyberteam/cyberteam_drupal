@@ -2071,7 +2071,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{{ name__value|trim('access-ci.org') }}"
+            text: "{{ name__value|replace({'@access-ci.org': ''}) }}"
             make_link: false
             path: ''
             absolute: false
