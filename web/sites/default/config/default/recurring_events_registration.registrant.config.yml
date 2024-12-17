@@ -1,0 +1,49 @@
+_core:
+  default_config_hash: MW7PVCao0tUodxHxp35Bw4DQeNeiN3T8tJv2Ixx97WY
+show_capacity: true
+insert_redirect_choice: current
+insert_redirect_other: ''
+use_admin_theme: false
+limit: 10
+date_format: 'F jS, Y h:iA'
+title: '[registrant:email]'
+email_notifications: true
+successfully_registered: 'Registrant successfully created.'
+successfully_registered_waitlist: 'Successfully registered to the waitlist.'
+successfully_updated: 'Registrant successfully updated.'
+successfully_updated_waitlist: 'Successfully updated waitlist registrant.'
+already_registered: 'User already registered for this event.'
+registration_closed: 'Unfortunately, registration is not available at this time.'
+notifications:
+  registration_notification:
+    enabled: true
+    subject: "You've Successfully Registered"
+    body: "Your registration for the [eventinstance:title] [eventinstance:reg_type] was successful.\r\n\r\nModify your registration: [registrant:edit_url]\r\nDelete your registration: [registrant:delete_url]"
+  waitlist_notification:
+    enabled: true
+    subject: "You've Been Added To The Waitlist"
+    body: "You have been added to the waitlist for the [eventinstance:title] [eventinstance:reg_type].\r\n\r\nModify your registration: [registrant:edit_url]\r\nDelete your registration: [registrant:delete_url]"
+  promotion_notification:
+    enabled: true
+    subject: "You've Been Added To The Registration List"
+    body: "You have been promoted from the waitlist to the registration list for the [eventinstance:title] [eventinstance:reg_type].\r\n\r\nModify your registration: [registrant:edit_url]\r\nDelete your registration: [registrant:delete_url]"
+  instance_deletion_notification:
+    enabled: true
+    subject: 'An Event Has Been Deleted'
+    body: 'Unfortunately, the [eventinstance:title] [eventinstance:reg_type] has been deleted. Your registration has been deleted.'
+  series_deletion_notification:
+    enabled: true
+    subject: 'An Event Series Has Been Deleted'
+    body: 'Unfortunately, the [eventinstance:title] [eventinstance:reg_type] has been deleted. Your registration has been deleted.'
+  instance_modification_notification:
+    enabled: true
+    subject: 'An Event Has Been Modified'
+    body: "The [eventinstance:title] [eventinstance:reg_type] has been modified, please check back for details.\r\n\r\nModify your registration: [registrant:edit_url]\r\nDelete your registration: [registrant:delete_url]"
+  series_modification_notification:
+    enabled: true
+    subject: 'An Event Series Has Been Modified'
+    body: 'The [eventinstance:title] [eventinstance:reg_type] has been modified, and all instances have been removed, and your registration has been deleted.'
+  registration_reminder:
+    enabled: true
+    subject: 'Upcoming Event Reminder'
+    body: '[eventseries:reminder_message]'
