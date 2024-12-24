@@ -16,8 +16,8 @@ dependencies:
     - 'taxonomy_term:region:74da98a1-1b10-40e1-8002-0bb52436cd67'
   module:
     - better_exposed_filters
-    - image
     - search_api
+    - svg_image
 id: ccmnet_members
 label: 'CCMNet Members'
 module: views
@@ -615,10 +615,10 @@ display:
           label: ''
           exclude: true
           alter:
-            alter_text: false
-            text: ''
-            make_link: true
-            path: '/tags/{{ user_skills }}'
+            alter_text: true
+            text: '<a href="/tags/{{ user_skills }}" class="text-truncate text-xs no-underline font-normal mb-1 me-1 mr-1 px-2 py-1 hover--border-dark-teal border hover--text-dark-teal">{{ user_skills }}</a>'
+            make_link: false
+            path: ''
             absolute: false
             external: false
             replace_spaces: false
@@ -626,7 +626,7 @@ display:
             trim_whitespace: false
             alt: ''
             rel: ''
-            link_class: 'text-truncate text-xs no-underline font-normal mb-1 me-1 mr-1 px-2 py-1 hover--border-dark-teal border hover--text-dark-teal'
+            link_class: ''
             prefix: ''
             suffix: ''
             target: ''
