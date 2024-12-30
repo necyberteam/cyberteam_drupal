@@ -1,0 +1,21 @@
+uuid: 0f4dcbd3-7e3f-4c74-8615-b2eebfb120c6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.eventseries.field_event_no_listing
+    - recurring_events.eventseries_type.default
+id: eventseries.default.field_event_no_listing
+field_name: field_event_no_listing
+entity_type: eventseries
+bundle: default
+label: 'Do not share this event in the public listing of events'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: Hide
+  off_label: Show
+field_type: boolean
