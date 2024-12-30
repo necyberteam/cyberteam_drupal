@@ -717,8 +717,8 @@ display:
           type: boolean
           settings:
             format: custom
-            format_custom_false: Pending
-            format_custom_true: Complete
+            format_custom_false: Unapproved
+            format_custom_true: Approved
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -1932,8 +1932,8 @@ display:
           type: boolean
           settings:
             format: custom
-            format_custom_false: Pending
-            format_custom_true: Complete
+            format_custom_false: Unapproved
+            format_custom_true: Approved
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -2373,8 +2373,8 @@ display:
           type: boolean
           settings:
             format: custom
-            format_custom_false: Pending
-            format_custom_true: Complete
+            format_custom_false: Unapproved
+            format_custom_true: Approved
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -2448,7 +2448,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{% if status == \"Pending\" %}\r\n  <a href=\"waitlist/approve?reg_id={{ id }}\">Approve Attendee</a>\r\n{% else %}\r\n  <a href=\"waitlist/deny?reg_id={{ id }}\">Deny Attendee</a>\r\n{% endif %}"
+            text: "{% if status == \"Unapproved\" %}\r\n  <a href=\"waitlist/approve?reg_id={{ id }}\">Approve Attendee</a>\r\n{% else %}\r\n  <a href=\"waitlist/unapprove?reg_id={{ id }}\">Unapprove Attendee</a>\r\n{% endif %}"
             make_link: false
             path: ''
             absolute: false
@@ -3320,8 +3320,8 @@ display:
           type: boolean
           settings:
             format: custom
-            format_custom_false: Pending
-            format_custom_true: Complete
+            format_custom_false: Unapproved
+            format_custom_true: Approved
           group_column: value
           group_columns: {  }
           group_rows: true
