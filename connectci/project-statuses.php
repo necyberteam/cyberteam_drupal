@@ -44,7 +44,7 @@
       ?><div class="alert alert-danger"><strong>Connection Error:</strong> Please contact a system administrator.</div><?php
       /*die("Connection failed: " . $conn->connect_error);*/
     }
-    ?><div class="my-3"><a href="./project-statuses-export.php" target="_blank" class="btn btn-primary btn-sm float-right"><i class="fa fa-download"></i> Export Zip</a></div><?php
+    ?><div class="my-3"><a href="./project-statuses-export.php" target="_blank" class="btn btn-primary btn-sm float-right"><i class="bi-download"></i> Export Zip</a></div><?php
     $getProjectStatusesQuery = 'SELECT DISTINCT webform_submission_data.value AS uid, user__field_user_first_name.field_user_first_name_value AS first_name, user__field_user_last_name.field_user_last_name_value AS last_name, users_field_data.mail AS email, users_field_data.created AS created, taxonomy_term_field_data.name AS program FROM webform_submission_data LEFT JOIN user__field_user_first_name ON webform_submission_data.value = user__field_user_first_name.entity_id LEFT JOIN user__field_user_last_name ON webform_submission_data.value = user__field_user_last_name.entity_id LEFT JOIN users_field_data ON webform_submission_data.value = users_field_data.uid LEFT JOIN user__field_region ON webform_submission_data.value = user__field_region.entity_id LEFT JOIN taxonomy_term_field_data ON user__field_region.field_region_target_id = taxonomy_term_field_data.tid WHERE webform_submission_data.name="student" && webform_submission_data.webform_id="project" ORDER BY CAST(webform_submission_data.value AS unsigned) ASC';
     $getProjectStatuses = $conn->prepare($getProjectStatusesQuery);
     $getProjectStatuses->execute();
