@@ -56,7 +56,7 @@
   {% apply spaceless %}
   {%- if rows -%}
     <d-topics-list discourse-url="https://ask.cyberinfrastructure.org" category="" per-page="15" tags="{% apply spaceless %}{{- rows -}}{% endapply %}"></d-topics-list>
-    <div id="ask-ci-topics" class="d-none spinner-border" role="status">Loading topics from Ask.CI ...</div>
+    <div id="ask-ci-topics" class="d-none" role="status">Loading topics from Ask.CI ...</div>
 <script>
 $(document).ready(function() {
   var iframeSrc = $("d-topics-list iframe").attr('src');
