@@ -569,7 +569,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"col-md-4\"><div class=\"card mb-4\">\r\n    <img class=\"card-img-top\" src=\"{% if field_image %}{{ field_image }}{% else %}/themes/nect-theme/img/nect-logo-white.jpg{% endif %}\" alt=\"{{ title__value }}\">\r\n    <div class=\"card-body\">\r\n        <h2 class=\"card-title\">{{ title }}</h2>\r\n        {% if field_tags or field_projects %}<span class=\"small text-muted\"><i class=\"fa fa-tags\"></i> {{ field_tags }} &nbsp; &nbsp; {{ field_project }}</span>{% endif %}\r\n        <div class=\"card-text\">{{ body }}</div>\r\n        <a href=\"{{ view_node }}\" class=\"btn btn-primary\">Read More &rarr;</a>\r\n    </div>\r\n    <div class=\"card-footer text-muted small\">\r\n        Posted on {{ created }} by {{ uid }}\r\n    </div>\r\n</div></div>"
+            text: "<div class=\"col-md-4\"><div class=\"card mb-4\">\r\n    <img class=\"card-img-top\" src=\"{% if field_image %}{{ field_image }}{% else %}/themes/nect-theme/img/nect-logo-white.jpg{% endif %}\" alt=\"{{ title__value }}\">\r\n    <div class=\"card-body\">\r\n        <h2 class=\"card-title\">{{ title }}</h2>\r\n        {% if field_tags or field_projects %}<span class=\"small text-muted\"><i class=\"bi bi-tags\"></i> {{ field_tags }} &nbsp; &nbsp; {{ field_project }}</span>{% endif %}\r\n        <div class=\"card-text\">{{ body }}</div>\r\n        <a href=\"{{ view_node }}\" class=\"btn btn-primary\">Read More &rarr;</a>\r\n    </div>\r\n    <div class=\"card-footer text-muted small\">\r\n        Posted on {{ created }} by {{ uid }}\r\n    </div>\r\n</div></div>"
             make_link: false
             path: ''
             absolute: false
