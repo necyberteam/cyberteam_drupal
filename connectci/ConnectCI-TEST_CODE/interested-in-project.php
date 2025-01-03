@@ -47,7 +47,7 @@
       ?><div class="alert alert-danger"><strong>Connection Error:</strong> Please contact a system administrator.</div><?php
       /*die("Connection failed: " . $conn->connect_error);*/
     }
-    ?><div class="my-3"><a href="./interested-in-project-export.php" target="_blank" class="btn btn-primary btn-sm float-right"><i class="fa fa-download"></i> Export</a></div>
+    ?><div class="my-3"><a href="./interested-in-project-export.php" target="_blank" class="btn btn-primary btn-sm float-right"><i class="bi-download"></i> Export</a></div>
     <div class="table-responsive">
       <table class="table table-sm table-hover" id="interestedTable">
       <thead>
