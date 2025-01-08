@@ -36,6 +36,12 @@ describe("Authenticated user tests the form to join the CSSN", () => {
 
     // Check the community persona to see if the program/region was added.
     cy.visit("/community-persona");
+    const institution = cy.get(".persona .institution")
+    cy.log(institution.text())
+    const d = cy.get(".persona .institution + div")
+    cy.log(d.text())
+    const p = cy.get(".persona .institution + div > p")
+    cy.log(p.text())
     // Check that CSSN member is displayed on community persona.
     cy.get(".persona .institution + div > p > strong").contains("CSSN Member")
     // Check that the affinity group was flagged.
