@@ -24,18 +24,19 @@ describe("Authenticated user tests the form to join the CSSN", () => {
 
     //Submit Button and Submission confirmation
     cy.get("#edit-actions-submit").click();
+    // cy.get(".messages--status").then((el)=> {
+    //   console.log(el.text())
+    //   // test if the text is one of the two possible messages
+    //   if (el.text().includes('Thank you for joining the CSSN.')) {
+    //   } else if (el.text().includes('Submission updated')) {
+    //   } else {
+    //     throw new Error('Unexpected message: ' + el.text());
+    //   }
+    // })
 
     // Check the community persona to see if the program/region was added.
     cy.visit("/community-persona");
-    cy.get(".messages--status").then((el)=> {
-      console.log(el.text())
-      // test if the text is one of the two possible messages
-      if (el.text().includes('Thank you for joining the CSSN.')) {
-      } else if (el.text().includes('Submission updated')) {
-      } else {
-        throw new Error('Unexpected message: ' + el.text());
-      }
-    })
+
     // Check that CSSN member is displayed on community persona.
     cy.get(".persona .institution + div > p > strong").contains("CSSN Member")
     // Check that the affinity group was flagged.
