@@ -24,6 +24,9 @@ describe("Authenticated user tests the form to join the CSSN", () => {
 
     //Submit Button and Submission confirmation
     cy.get("#edit-actions-submit").click();
+
+    // Check the community persona to see if the program/region was added.
+    cy.visit("/community-persona");
     cy.get(".messages--status").then((el)=> {
       console.log(el.text())
       // test if the text is one of the two possible messages
@@ -33,18 +36,9 @@ describe("Authenticated user tests the form to join the CSSN", () => {
         throw new Error('Unexpected message: ' + el.text());
       }
     })
-
-    // Check the community persona to see if the program/region was added.
-    cy.visit("/community-persona");
-    const institution = cy.get(".persona .institution")
-    cy.log(institution.text())
-    const d = cy.get(".persona .institution + div")
-    cy.log(d.text())
-    const p = cy.get(".persona .institution + div > p")
-    cy.log(p.text())
     // Check that CSSN member is displayed on community persona.
     cy.get(".persona .institution + div > p > strong").contains("CSSN Member")
     // Check that the affinity group was flagged.
-    cy.get("#block-mainpagecontent > div:nth-child(3) ul li").contains("CSSN")
+    cy.get("#block-mainpagecontent > div:nth-child(4) ul li").contains("CSSN")
   });
 });
