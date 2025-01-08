@@ -26,13 +26,13 @@ describe("Unauthenticated user tests the Pegaus Page", () => {
     );
 
     // Workflow section
-    cy.get('[open=""] .grid > :nth-child(1) > .mb-0').contains(
+    cy.get('[open=""] .grid > :nth-child(1) .mb-0').contains(
       "REPRODUCIBILITY"
     );
-    cy.get('[open=""] .grid > :nth-child(2) > .mb-0').contains(
+    cy.get('[open=""] .grid > :nth-child(2) .mb-0').contains(
       "AUTOMATION"
     );
-    cy.get('[open=""] .grid > :nth-child(3) > .mb-0').contains(
+    cy.get('[open=""] .grid > :nth-child(3) .mb-0').contains(
       "SCALABILITY"
     );
   });
