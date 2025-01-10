@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - access_misc
     - csv_serialization
     - datetime
     - datetime_range
@@ -2486,7 +2487,7 @@ display:
           empty_zero: false
           hide_alter_empty: false
       access:
-        type: event_registration_list_access
+        type: ViewsRegistrationCustomAccess
         options: {  }
       sorts:
         created:
