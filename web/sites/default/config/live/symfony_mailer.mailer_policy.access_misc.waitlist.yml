@@ -8,7 +8,7 @@ id: access_misc.waitlist
 configuration:
   email_body:
     content:
-      value: '<p dir="ltr">Dear {{ name }},</p><p dir="ltr">Thank you for registering for&nbsp;<strong>{{ title_link|raw }}</strong> on {{ start_date }}. At this time, the session is full, and your registration has been placed on the waitlist.</p><p dir="ltr">If a spot becomes available, we will notify you immediately. {% if contact is not null or contact is not empty %}In the meantime, if you have any questions or wish to withdraw from the waitlist, please contact us at {{ contact }}{% endif %}.</p><p dir="ltr">Thank you for your understanding, and we hope to accommodate you soon!</p><p>Kind regards,<br>ACCESS Support</p>'
+      value: '<p dir="ltr">Dear {{ name }},</p><p dir="ltr">Thank you for registering for&nbsp;<strong>{{ title_link|raw }}</strong> on {{ start_date }}. At this time, the session is full, and your registration has been placed on the waitlist.</p><p dir="ltr">If a spot becomes available, we will notify you immediately. {{ contact }}</p><p dir="ltr">Thank you for your understanding, and we hope to accommodate you soon!</p><p>Kind regards,<br>ACCESS Support</p>'
       format: basic_html
   email_subject:
     value: 'Waitlist Status for {{ title }}'
