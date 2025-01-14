@@ -25,7 +25,7 @@ function anon_cp_redirect_login() {
     followRedirect: false, // turn off following redirects
   }).then((resp) => {
     expect(resp.redirectedToUrl).to.have.string(
-      'user/login?destination=/community-persona');
+      'user/login?redirect=/community-persona');
   })
 }
 
