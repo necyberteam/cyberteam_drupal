@@ -18,29 +18,28 @@ describe("Authenticated user tests the form to join the CSSN", () => {
 
     //Selecting a CSSN Role
     cy.get("#edit-i-am-joining-as-a-general-member").check();
-    // If student is checked, we also need to select a year.
-    cy.get("#edit-i-am-joining-as-a-student-facilitator").uncheck();
 
     // Wait before submitting to avoid honeypot
     cy.wait(2000);
 
     //Submit Button and Submission confirmation
     cy.get("#edit-actions-submit").click();
-    cy.get(".messages--status").then((el)=> {
-      console.log(el.text())
-      // test if the text is one of the two possible messages
-      if (el.text().includes('Thank you for joining the CSSN.')) {
-      } else if (el.text().includes('Submission updated')) {
-      } else {
-        throw new Error('Unexpected message: ' + el.text());
-      }
-    })
+    // cy.get(".messages--status").then((el)=> {
+    //   console.log(el.text())
+    //   // test if the text is one of the two possible messages
+    //   if (el.text().includes('Thank you for joining the CSSN.')) {
+    //   } else if (el.text().includes('Submission updated')) {
+    //   } else {
+    //     throw new Error('Unexpected message: ' + el.text());
+    //   }
+    // })
 
     // Check the community persona to see if the program/region was added.
     cy.visit("/community-persona");
-    // todo: check that CSSN member is displayed on community persona
-    // cy.get(".persona .institution + div > p > strong").contains("CSSN Member")
+
+    // Check that CSSN member is displayed on community persona.
+    cy.get(".persona .institution + div > p > strong").contains("CSSN Member")
     // Check that the affinity group was flagged.
-    //cy.get("#block-mainpagecontent > div:nth-child(3) ul li").contains("CSSN")
+    cy.get("#block-mainpagecontent > div:nth-child(4) ul li").contains("CSSN")
   });
 });

@@ -7,7 +7,7 @@ describe("This test goes over the KB Resources Page, when accessed", () => {
     cy.contains('Add a Resource');
     cy.contains('Test CI Link Title');
     cy.contains('Add a Resource').click();
-    cy.url().should('include', '/user/login?destination=/form/resource');
+    cy.url().should('include', '/user/login?redirect=/form/resource');
   });
 
 });
