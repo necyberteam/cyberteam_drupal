@@ -12,7 +12,8 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && sudo apt update \
     && apt -y install --no-install-recommends \
     php8.2 php8.2-fpm php8.2-common php8.2-mysql php8.2-zip php8.2-gd php8.2-mbstring php8.2-curl php8.2-xml php8.2-bcmath \
-    python3-dev python3-pip python3-setuptools
+    python3-dev python3-pip python3-setuptools \
+    && apt-get -y install libgtk2.0-0t64 libgtk-3-0t64 libgbm-dev libnotify-dev libnss3 libxss1 libasound2t64 libxtst6 xauth xvfb
 RUN wget -O /usr/local/bin/blt https://github.com/acquia/blt-launcher/releases/latest/download/blt.phar && chmod 755 /usr/local/bin/blt
 # Install composer and terminus
 RUN mkdir -p ~/terminus && cd ~/terminus

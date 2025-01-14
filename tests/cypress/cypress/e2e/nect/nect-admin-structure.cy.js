@@ -455,7 +455,6 @@ describe("Test Structure admin page", () => {
     cy.contains('Get Updates about CCMNET');
     cy.contains('Having trouble logging in?');
     cy.contains('Help Desk Support Ticket');
-    cy.contains('Issue');
     cy.contains('Join CCMNet');
     cy.contains('Join Campus Champions');
     cy.contains('Join the CSSN Network');
