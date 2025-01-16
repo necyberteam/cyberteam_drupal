@@ -1,0 +1,50 @@
+uuid: bda6d4be-5200-4dba-9b16-17a3ad200665
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.registrant.default.field_first_name
+    - field.field.registrant.default.field_last_name
+    - recurring_events_registration.registrant_type.default
+  module:
+    - user
+_core:
+  default_config_hash: tVXsjDJ2nvmSF8jgh537kHhigZF_hg04XBdw0bYLMn8
+id: registrant.default.default
+targetEntityType: registrant
+bundle: default
+mode: default
+content:
+  email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_first_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_last_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  user_id:
+    type: author
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_phone: true
+  search_api_excerpt: true
