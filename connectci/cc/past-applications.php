@@ -53,7 +53,7 @@ if(empty($_SESSION["uid"]) || empty($_SESSION['campus_champions_admin'])) {
     if ($conn->connect_error) { ?>
       <div class="alert alert-danger"><strong>Connection Error:</strong> Please contact a system administrator.</div>
     <?php } ?>
-    <div class="my-3"><a href="./campus_champions.php"><i class="fa fa-arrow-left pr-1"></i> back</a></div>
+    <div class="my-3"><a href="./campus_champions.php"><i class="bi-arrow-left pr-1"></i> back</a></div>
     <div class="card mb-3">
       <div class="card-body">
         <h3>Past Applications</h3>
@@ -83,7 +83,7 @@ if(empty($_SESSION["uid"]) || empty($_SESSION['campus_champions_admin'])) {
                     <td><?php echo $row['email']; ?></td>
                     <td><?php echo $row['institution']; ?></td>
                     <td><?php echo date("m/d/Y",$row['completed']); ?></td>
-                    <td><a href="<?php echo str_replace("private://",$drupalUrl."/system/files/",$row['uri']); ?>" target="_blank"><i class="fa fa-download pr-1"></i> Download</a></td>
+                    <td><a href="<?php echo str_replace("private://",$drupalUrl."/system/files/",$row['uri']); ?>" target="_blank"><i class="bi-download pr-1"></i> Download</a></td>
                     <td><a href="./cc-member.php?uid=<?php echo $row['uid']; ?>&application_id=<?php echo $row['sid']; ?>">review</a></td>
                   </tr>
                 <?php }

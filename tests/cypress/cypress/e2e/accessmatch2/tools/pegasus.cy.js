@@ -1,9 +1,9 @@
-/*  
+/*
     This test is specifically focused on the Pegasus page tested for an unauthenticated user.
-    This test checks for major functions like: 
+    This test checks for major functions like:
     Accordion Functionality,
     Headers,
-        
+
 */
 describe("Unauthenticated user tests the Pegaus Page", () => {
   it("Should test the Pegasus page for unauthenticated user", () => {
@@ -25,14 +25,14 @@ describe("Unauthenticated user tests the Pegaus Page", () => {
       "Some reasons you should consider using a system like Pegasus WMS"
     );
 
-    //Workflow section
-    cy.get(":nth-child(1) > .grid > :nth-child(2) > .mb-0").contains(
+    // Workflow section
+    cy.get('[open=""] .grid > :nth-child(1) .mb-0').contains(
       "REPRODUCIBILITY"
     );
-    cy.get(":nth-child(1) > .grid > :nth-child(4) > .mb-0").contains(
+    cy.get('[open=""] .grid > :nth-child(2) .mb-0').contains(
       "AUTOMATION"
     );
-    cy.get(":nth-child(1) > .grid > :nth-child(6) > .mb-0").contains(
+    cy.get('[open=""] .grid > :nth-child(3) .mb-0').contains(
       "SCALABILITY"
     );
   });

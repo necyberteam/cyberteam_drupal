@@ -85,6 +85,8 @@ $settings['config_exclude_modules'] = [
   'recaptcha_v3',
 ];
 
+ini_set('max_execution_time', 300);
+
 // Configure Redis
 
 if (defined(

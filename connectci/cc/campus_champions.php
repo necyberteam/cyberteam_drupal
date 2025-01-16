@@ -85,7 +85,7 @@ if(empty($_SESSION["uid"]) || empty($_SESSION['campus_champions_admin'])) {
                     <td><?php echo $row['email']; ?></td>
                     <td><?php echo $row['institution']; ?></td>
                     <td><?php echo date("m/d/Y",$row['completed']); ?></td>
-                    <td><a href="<?php echo str_replace("private://",$drupalUrl."/system/files/",$row['uri']); ?>" target="_blank"><i class="fa fa-download pr-1"></i> Download</a></td>
+                    <td><a href="<?php echo str_replace("private://",$drupalUrl."/system/files/",$row['uri']); ?>" target="_blank"><i class="bi-download pr-1"></i> Download</a></td>
                     <td><a href="./cc-member.php?uid=<?php echo $row['uid']; ?>&application_id=<?php echo $row['sid']; ?>">approve</a></td>
                   </tr>
                 <?php }
@@ -314,7 +314,7 @@ if(empty($_SESSION["uid"]) || empty($_SESSION['campus_champions_admin'])) {
              body: formData,
 	   });
 	   approvedRequests.push(request);
-        } 
+        }
       }
     }
     // submit the post requests and reload the page when all promises are resolved.
