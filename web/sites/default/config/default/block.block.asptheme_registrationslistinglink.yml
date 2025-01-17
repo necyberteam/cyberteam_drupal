@@ -1,0 +1,25 @@
+uuid: 3579d5b5-59a5-4ff5-978b-73a389e172e3
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_misc
+    - system
+  theme:
+    - aspTheme
+id: asptheme_registrationslistinglink
+theme: aspTheme
+region: content
+weight: -32
+provider: null
+plugin: registrations_listing_link
+settings:
+  id: registrations_listing_link
+  label: 'Registrations Listing Link'
+  label_display: '0'
+  provider: access_misc
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/events/*\r\n!/events/*/*"
