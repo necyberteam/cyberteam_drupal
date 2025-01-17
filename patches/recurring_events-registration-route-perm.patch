@@ -1,0 +1,15 @@
+diff --git a/modules/recurring_events_registration/recurring_events_registration.routing.yml b/modules/recurring_events_registration/recurring_events_registration.routing.yml
+index d5379ef..77af023 100644
+--- a/modules/recurring_events_registration/recurring_events_registration.routing.yml
++++ b/modules/recurring_events_registration/recurring_events_registration.routing.yml
+@@ -174,8 +174,7 @@ entity.registrant.instance_contact:
+     _form: '\Drupal\recurring_events_registration\Form\ContactForm'
+     _title: 'Contact Registrants'
+   requirements:
+-    _permission: 'access registrant overview'
+-    _custom_access:  '\Drupal\recurring_events_registration\Controller\RegistrantController::canContactRegistrants'
++    _custom_access:  '\Drupal\access_misc\Controller\EventWaitlist::isAuthor'
+   options:
+     parameters:
+       eventinstance:
+
