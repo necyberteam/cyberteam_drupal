@@ -1,3 +1,28 @@
+diff --git a/modules/recurring_events_registration/recurring_events_registration.links.task.yml b/modules/recurring_events_registration/recurring_events_registration.links.task.yml
+index 95e3694..7f8f908 100644
+--- a/modules/recurring_events_registration/recurring_events_registration.links.task.yml
++++ b/modules/recurring_events_registration/recurring_events_registration.links.task.yml
+@@ -25,20 +25,6 @@ entity.registrant.delete_form:
+   title: Delete
+   weight: 10
+
+-# Registrant add tab.
+-entity.registrant.add_form:
+-  route_name: entity.registrant.add_form
+-  base_route: entity.eventinstance.canonical
+-  title: 'Register'
+-  weight: 11
+-
+-# Registrant instance listing tab.
+-entity.registrant.instance_listing:
+-  route_name: entity.registrant.instance_listing
+-  base_route: entity.eventinstance.canonical
+-  title: 'Registrations'
+-  weight: 12
+-
+ # Registrant user listing tab.
+ entity.user.registrations:
+   route_name: registrations.user_tab
 diff --git a/modules/recurring_events_registration/recurring_events_registration.routing.yml b/modules/recurring_events_registration/recurring_events_registration.routing.yml
 index d5379ef..77af023 100644
 --- a/modules/recurring_events_registration/recurring_events_registration.routing.yml
