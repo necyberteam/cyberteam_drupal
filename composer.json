@@ -74,6 +74,7 @@
     "drupal/access_by_ref": "^3.0",
     "drupal/advanced_cors": "^1.5",
     "drupal/auditfiles": "^4.1@beta",
+    "drupal/autoban": "^1.10",
     "drupal/better_exposed_filters": "^6.0",
     "drupal/block_exclude_pages": "^2.0",
     "drupal/bootstrap5": "^3.0",
@@ -236,7 +237,10 @@
         "[web-root]/modules/README.txt": false,
         "[web-root]/profiles/README.txt": false,
         "[web-root]/themes/README.txt": false,
-        "[web-root]/INSTALL.txt": false
+        "[web-root]/INSTALL.txt": false,
+        "[web-root]/robots.txt": {
+            "append": "robo/assets/robots-additions.txt"
+        }
       }
     },
     "patches-file": "composer.patches.json",

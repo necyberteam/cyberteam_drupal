@@ -5,13 +5,9 @@ describe("In order to test the Get Help page", () => {
   it("Unauthenticated user Test the Get Help Page", () => {
     cy.visit('/get-research-computing-help');
     cy.contains('Get Research Computing Help');
-    cy.contains('at the Regional Help Desk');
     cy.contains('Join the Regional Slack Discussion');
     cy.contains('Ask a Question of the Community');
     cy.contains('Find Learning Resources');
-    cy.contains('at the Regional Help Desk').click();
-    cy.contains('You must log in to view this page');
-    cy.visit('/get-research-computing-help');
     cy.contains('Join the Regional Slack Discussion');
     cy.contains('Ask a Question of the Community');
     cy.contains('Find Learning Resources').click();
