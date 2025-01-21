@@ -8,8 +8,10 @@ dependencies:
     - field.field.eventseries.default.field_affinity_group_node
     - field.field.eventseries.default.field_broadcast_affinity_groups
     - field.field.eventseries.default.field_contact
+    - field.field.eventseries.default.field_event_no_listing
     - field.field.eventseries.default.field_event_speakers
     - field.field.eventseries.default.field_event_type
+    - field.field.eventseries.default.field_event_virtual_meeting_link
     - field.field.eventseries.default.field_location
     - field.field.eventseries.default.field_registration
     - field.field.eventseries.default.field_skill_level
@@ -19,6 +21,7 @@ dependencies:
     - link
     - options
     - recurring_events
+    - recurring_events_ical
     - text
 _core:
   default_config_hash: fXYvr6TGfMKtN1D9QZvmM9VfKpz22DwkiwGb7irMVd8
@@ -39,9 +42,21 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
+  event_ical_link:
+    type: event_ical_link
+    label: hidden
+    settings:
+      trim_length: '80'
+      url_only: ''
+      url_plain: ''
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 13
+    region: content
   event_instances:
     type: recurring_events_eventinstance_date
-    label: hidden
+    label: above
     settings:
       link: '1'
       date_format: 'F jS, Y h:iA'
@@ -54,7 +69,7 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 9
+    weight: 8
     region: content
   field_affinity_group_node:
     type: entity_reference_label
@@ -62,14 +77,24 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 7
+    weight: 6
     region: content
   field_contact:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 6
+    weight: 5
+    region: content
+  field_event_no_listing:
+    type: boolean
+    label: hidden
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 11
     region: content
   field_event_speakers:
     type: string
@@ -77,16 +102,9 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 11
+    weight: 10
     region: content
-  field_location:
-    type: text_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 4
-    region: content
-  field_registration:
+  field_event_virtual_meeting_link:
     type: link
     label: above
     settings:
@@ -96,14 +114,21 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 5
+    weight: 12
+    region: content
+  field_location:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
     region: content
   field_skill_level:
     type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 10
+    weight: 9
     region: content
   field_tags:
     type: entity_reference_label
@@ -111,7 +136,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 8
+    weight: 7
     region: content
   title:
     type: string
@@ -129,8 +154,10 @@ hidden:
   field_affinity_group: true
   field_broadcast_affinity_groups: true
   field_event_type: true
+  field_registration: true
   monthly_recurring_date: true
   recur_type: true
+  registration_reminders: true
   search_api_excerpt: true
   weekly_recurring_date: true
   yearly_recurring_date: true
