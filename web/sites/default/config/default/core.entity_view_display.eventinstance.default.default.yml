@@ -61,6 +61,18 @@ content:
     third_party_settings: {  }
     weight: 12
     region: content
+  event_ical_link:
+    type: event_ical_link
+    label: hidden
+    settings:
+      trim_length: '80'
+      url_only: ''
+      url_plain: ''
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 10
+    region: content
   event_type:
     type: list_default
     label: above
@@ -84,6 +96,11 @@ content:
     third_party_settings: {  }
     weight: 6
     region: content
+  register_button:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 999
+    region: content
   registration:
     type: link
     label: visually_hidden
@@ -103,6 +120,14 @@ content:
     third_party_settings: {  }
     weight: 10
     region: content
+  speakers:
+    type: string
+    label: visible
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 59
+    region: content
   tags:
     type: entity_reference_label
     label: hidden
@@ -118,6 +143,18 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 2
+    region: content
+  virtual_meeting_link:
+    type: link
+    label: visible
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 62
     region: content
 hidden:
   affinity_group: true
