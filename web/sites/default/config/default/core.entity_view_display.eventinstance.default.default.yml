@@ -8,7 +8,6 @@ dependencies:
   module:
     - datetime_range
     - link
-    - options
     - text
 _core:
   default_config_hash: lFFUFIZPBUZQjrIYYvP6U1hzVLGjKMl0DYK93zPM_80
@@ -17,21 +16,6 @@ targetEntityType: eventinstance
 bundle: default
 mode: default
 content:
-  affinity_group_node_ref:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 8
-    region: content
-  contact:
-    type: text_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 5
-    region: content
   content_moderation_control:
     settings: {  }
     third_party_settings: {  }
@@ -54,20 +38,6 @@ content:
     third_party_settings: {  }
     weight: 4
     region: content
-  event_affiliation:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 12
-    region: content
-  event_type:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 9
-    region: content
   field_video:
     type: entity_reference_entity_view
     label: above
@@ -75,33 +45,27 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
-    weight: 11
+    weight: 6
     region: content
   location:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 6
+    weight: 5
     region: content
-  registration:
-    type: link
-    label: visually_hidden
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    weight: 7
-    region: content
-  skill_level:
-    type: list_default
-    label: above
+  register_button:
     settings: {  }
     third_party_settings: {  }
-    weight: 10
+    weight: 8
+    region: content
+  speakers:
+    type: string
+    label: visible
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 59
     region: content
   tags:
     type: entity_reference_label
@@ -119,7 +83,27 @@ content:
     third_party_settings: {  }
     weight: 2
     region: content
+  virtual_meeting_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 7
+    region: content
 hidden:
   affinity_group: true
+  affinity_group_node_ref: true
   body: true
+  contact: true
+  event_affiliation: true
+  event_ical_link: true
+  event_type: true
+  registration: true
   search_api_excerpt: true
+  skill_level: true
+  speakers: true
