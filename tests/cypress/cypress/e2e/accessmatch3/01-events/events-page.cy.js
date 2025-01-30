@@ -61,19 +61,19 @@ describe('Unauthenticated user tests the Events Page', () => {
     cy.get('.field__item.me-2 a').contains('login')
 
     //Event Contact
-    cy.get('.field--name-contact').contains('Contact')
-    cy.get('.field--name-contact').contains('Pecan Pie')
+    cy.get('#block-asptheme-eventinstancesidebar').contains('Contact')
+    cy.get('#block-asptheme-eventinstancesidebar').contains('Pecan Pie')
 
     // Registration Button Not sure how to correctly reference the btn
     cy.get('.field__item .btn').contains('Register')
       .should('have.attr', 'href')
 
     // Event Skill Level
-    cy.get('.field--name-skill-level').contains('Skill Level')
-    cy.get('.field--name-skill-level img[alt="Advanced"]').should('be.visible')
+    cy.get('#block-asptheme-eventinstancesidebar').contains('Skill Level')
+    cy.get('#block-asptheme-eventinstancesidebar img[alt="Advanced"]').should('be.visible')
 
     // Event Type
-    cy.get('.field--name-event-type').contains('Event Type')
-    cy.get('.field--name-event-type').contains('Training')
+    cy.get('#block-asptheme-eventinstancesidebar').contains('Event Type')
+    cy.get('#block-asptheme-eventinstancesidebar').contains('Training')
   })
 })
