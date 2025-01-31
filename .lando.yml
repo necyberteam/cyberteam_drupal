@@ -26,6 +26,9 @@ services:
       - apt install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth
       - apt install -y xvfb
       - apt update && apt upgrade -y
+      - wget -O gh.deb https://github.com/cli/cli/releases/download/v2.45.0/gh_2.45.0_linux_amd64.deb
+      - dpkg -i gh.deb
+      - rm gh.deb
     run:
       - "cd /app/tests/cypress && npm install && npm_config_no_npx_prompt | npx cypress install"
 proxy:
