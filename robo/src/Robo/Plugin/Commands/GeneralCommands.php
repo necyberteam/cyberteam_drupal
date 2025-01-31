@@ -195,6 +195,17 @@ GITHUB_TOKEN=$token'>.env");
       $this->_exec($this->lando() . 'drush cr');
     }
 
+    $descriptorspec = [
+      // Stdin.
+      0 => ["pipe", "r"],
+      // Stdout.
+      1 => ["pipe", "w"],
+      // Stderr.
+      2 => ["pipe", "w"],
+    ];
+    $pattern = "/failed/i";
+    $error = FALSE;
+
     if ($site == 'accessmatch3') {
       $sub_dirs = [
         'events',
@@ -203,11 +214,75 @@ GITHUB_TOKEN=$token'>.env");
         'api',
       ];
       foreach ($sub_dirs as $dir) {
-        $this->_exec('cd tests/cypress && ' . $this->lando() . 'cypress run --config baseUrl=https://' . $domain . '-local.cnctci.lndo.site --spec "cypress/e2e/' . $site . '/' . $dir . '/*.js"');
+        $shell_cmd = 'cd tests/cypress && ' . $this->lando() . 'cypress run --config baseUrl=https://' . $domain . '-local.cnctci.lndo.site --spec "cypress/e2e/' . $site . '/' . $dir . '/*.js"';
+        $process = proc_open($shell_cmd, $descriptorspec, $pipes);
+
+        // Read the output from the command in real-time.
+        while ($line = fgets($pipes[1])) {
+          echo $line;
+          if (preg_match($pattern, $line)) {
+            $error = TRUE;
+          }
+        }
+
       }
     } else {
-      $this->_exec('cd tests/cypress && ' . $this->lando() . 'cypress run --config baseUrl=https://' . $domain . '-local.cnctci.lndo.site --spec "cypress/e2e/' . $site . '/**/*.js"');
+      $shell_cmd = 'cd tests/cypress && ' . $this->lando() . 'cypress run --config baseUrl=https://' . $domain . '-local.cnctci.lndo.site --spec "cypress/e2e/' . $site . '/**/*.js"';
+      $process = proc_open($shell_cmd, $descriptorspec, $pipes);
+
+      // Read the output from the command in real-time.
+      while ($line = fgets($pipes[1])) {
+        echo $line;
+        if (preg_match($pattern, $line)) {
+          $error = TRUE;
+        }
+      }
+
     }
+
+    // Close the pipes and the process.
+    fclose($pipes[0]);
+    fclose($pipes[1]);
+    fclose($pipes[2]);
+    proc_close($process);
+
+    if ($error) {
+      $this->say("❗ Cypress tests failed. ❗");
+      throw new \Exception('Failed cypress tests');
+    }
+    else {
+      $this->say("✅ Cypress tests passed. ✅");
+    }
+  }
+
+  /**
+   * Check for cypress error.
+   */
+  private function cypress_error($process, $pipes) {
+    $error = FALSE;
+
+    // Read the output from the command in real-time.
+    while ($line = fgets($pipes[1])) {
+      echo $line;
+      $pattern = "/failed/i";
+      if (preg_match($pattern, $line)) {
+        // Close the pipes and the process.
+        fclose($pipes[0]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        proc_close($process);
+        $error = TRUE;
+      }
+    }
+
+    // Close the pipes and the process.
+    fclose($pipes[0]);
+    fclose($pipes[1]);
+    fclose($pipes[2]);
+    proc_close($process);
+
+
+    return $error;
   }
 
   /**
