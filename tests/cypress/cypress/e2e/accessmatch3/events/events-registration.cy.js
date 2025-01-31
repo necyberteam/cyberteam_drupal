@@ -6,7 +6,9 @@ describe('Test the registration feature', () => {
     cy.wait(1000)
     cy.contains('cypress-example-event').click()
     cy.contains('Register').click()
+
     cy.get('#edit-submit').click()
+
     cy.contains('You will receive an email after your registration is approved')
     cy.contains('Approved: No')
   })
