@@ -222,13 +222,14 @@ GITHUB_TOKEN=$token'>.env");
           echo $line;
           if (preg_match($pattern, $line)) {
             $error = TRUE;
-            // Close the pipes and the process.
-            fclose($pipes[0]);
-            fclose($pipes[1]);
-            fclose($pipes[2]);
-            proc_close($process);
           }
         }
+
+        // Close the pipes and the process.
+        fclose($pipes[0]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        proc_close($process);
 
       }
     } else {

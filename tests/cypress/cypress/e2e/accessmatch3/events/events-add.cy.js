@@ -37,11 +37,6 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     // Event Contact
     cy.get("#edit-field-contact-0-value").type("Pecan Pie");
 
-    // Registration Link
-    cy.get("#edit-field-registration-0-uri").type(
-      "https://test-accessmatch.pantheonsite.io/"
-    );
-
     // Event Tag
     cy.get("details.tags summary").click().get("#tag-login").click();
 
