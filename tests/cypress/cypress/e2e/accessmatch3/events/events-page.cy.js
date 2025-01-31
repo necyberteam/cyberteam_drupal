@@ -73,7 +73,7 @@ describe('Unauthenticated user tests the Events Page', () => {
     cy.get('#block-asptheme-eventinstancesidebar img[alt="Advanced"]').should('be.visible')
 
     // Event Type
-    cy.get('#block-asptheme-eventinstancesidebar').contains('Event Type')
+    cy.get('#block-asptheme-eventinstancesidebar').contains('Event Type - inserting breaking change')
     cy.get('#block-asptheme-eventinstancesidebar').contains('Training')
   })
 })
