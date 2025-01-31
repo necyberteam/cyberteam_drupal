@@ -23,7 +23,7 @@ describe('Unauthenticated user tests the Events Page', () => {
     cy.wait(1000)
     cy.get('#custom-event-skill-level-advanced').check()
     cy.wait(1000)
-    cy.contains('example-event')
+    cy.contains('cypress-example-event')
     cy.contains('Zoom')
     cy.contains('12/12/26')
     cy.get('[href="/tags/login"]').contains('login')
@@ -42,11 +42,11 @@ describe('Unauthenticated user tests the Events Page', () => {
     cy.wait(1000)
     cy.get('#edit-search-api-fulltext--2').type('example')
     cy.wait(1000)
-    cy.contains('example-event')
+    cy.contains('cypress-example-event')
     cy.contains('Zoom')
     cy.contains('12/12/26')
     cy.get('[href="/tags/login"]').contains('login')
-    cy.contains('example-event').click()
+    cy.contains('cypress-example-event').click()
 
 
     // Event Date

@@ -19,7 +19,7 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.get("#block-claro-page-title").contains("Create ACCESS Event");
 
     // User filling out form title
-    cy.get("#edit-title-0-value").type("example-event");
+    cy.get("#edit-title-0-value").type("cypress-example-event");
 
     // Date and Time of Event
     cy.get("#edit-recur-type-custom").click();
