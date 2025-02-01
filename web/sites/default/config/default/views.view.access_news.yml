@@ -16,9 +16,9 @@ dependencies:
   module:
     - content_moderation
     - datetime
-    - image
     - node
     - options
+    - svg_image
     - taxonomy
     - text
     - user
@@ -1429,6 +1429,11 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: true
+      pager:
+        type: some
+        options:
+          offset: 0
+          items_per_page: 5
       empty:
         area_text_custom:
           id: area_text_custom
@@ -1527,6 +1532,7 @@ display:
           hide_empty: false
       defaults:
         empty: false
+        pager: false
         style: false
         row: false
         fields: false
@@ -1549,7 +1555,9 @@ display:
             value: '<h2 class="border-bottom pb-2 text-xl text-white-er font-semibold mt-0">Announcements</h2>'
             format: full_html
           tokenize: false
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
       block_hide_empty: true
     cache_metadata:
       max-age: -1
