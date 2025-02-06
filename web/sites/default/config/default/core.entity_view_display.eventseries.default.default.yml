@@ -8,6 +8,7 @@ dependencies:
     - field.field.eventseries.default.field_affinity_group_node
     - field.field.eventseries.default.field_broadcast_affinity_groups
     - field.field.eventseries.default.field_contact
+    - field.field.eventseries.default.field_event_allocation_grant
     - field.field.eventseries.default.field_event_no_listing
     - field.field.eventseries.default.field_event_speakers
     - field.field.eventseries.default.field_event_type
@@ -85,6 +86,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 5
+    region: content
+  field_event_allocation_grant:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 14
     region: content
   field_event_no_listing:
     type: boolean
