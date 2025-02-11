@@ -749,9 +749,9 @@ display:
         link_display: false
         link_url: false
         header: false
+        footer: false
       display_description: 'Short List'
-      use_more: true
-      use_more_always: false
+      use_more: false
       use_more_text: 'All Affinity Group with this tag'
       link_display: custom_url
       link_url: '/tags/{{ raw_arguments.tid }}/affinity-groups'
@@ -769,7 +769,10 @@ display:
             value: '<h2 class="text-white-er text-xl font-semibold border-bottom pb-2 bg-dark-teal py-2 px-4">Affinity Groups</h2>'
             format: full_html
           tokenize: false
+      footer: {  }
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       block_description: 'Affinity Groups with Tag'
       block_category: 'Tags Page Affinity Group'
