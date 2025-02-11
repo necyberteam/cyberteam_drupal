@@ -184,14 +184,13 @@ if (isset($_SERVER['QUERY_STRING']) && (strpos($_SERVER['QUERY_STRING'], 'f[') !
 
 
 // Below configuration uses a redis backend and will limit each
-// crawler / bot (identified by User-Agent string) to a maximum of 30
-// requests every 60 seconds.
+// crawler / bot (identified by User-Agent string) to a maximum of 300
+// requests every 600 seconds.
 //
 // Regular traffic (human visitors and bots not openly identifying as bots)
-// will be limited to a maximum of 60 requests per visitor
-// (identified by IP address + User-Agent string) every 60 seconds.
+// will be limited to a maximum of 600 requests per visitor
+// (identified by IP address + User-Agent string) every 600 seconds.
 //
-// ASN is not currently enabled.
 // Regular traffic will additionally be limited at the ASN-level to a
 // maximum of 600 requests per ASN every 600 seconds.
 // See https://en.wikipedia.org/wiki/Autonomous_system_(Internet)
@@ -213,11 +212,11 @@ else {
 // crawlers / bots). Required.
 $settings['crawler_rate_limit.settings']['bot_traffic'] = [
   // Time interval in seconds. Must be whole number greater than zero.
-  'interval' => 60,
+  'interval' => 600,
   // Number of requests allowed in the given time interval per crawler or
   // bot (identified by User-Agent string). Must be a whole number greater
   // than zero.
-  'requests' => 30,
+  'requests' => 300,
 ];
 
 // Limits for regular website traffic (visitors that don't openly identify
@@ -226,24 +225,24 @@ $settings['crawler_rate_limit.settings']['bot_traffic'] = [
 // limit.
 $settings['crawler_rate_limit.settings']['regular_traffic'] = [
   // Time interval in seconds. Must be whole number greater than zero.
-  'interval' => 60,
+  'interval' => 600,
   // Number of requests allowed in the given time interval per regular
   // visitor (identified by combination of IP address + User-Agent string).
-  'requests' => 60,
+  'requests' => 600,
 ];
 // Autonomous system-level (ASN) regular traffic rate limit.
 // Requires geoip2/geoip2 and associated ASN Database.
 // See https://github.com/maxmind/GeoIP2-php
 // See https://dev.maxmind.com/geoip/docs/databases/asn#binary-database
-// $settings['crawler_rate_limit.settings']['regular_traffic_asn'] = [
-//   // Time interval in seconds. Must be whole number greater than zero.
-//   'interval' => 600,
-//   // Number of requests allowed in the given time interval per autonomous
-//   // system number (ASN).
-//   'requests' => 600,
-//   // Absolute path to the local ASN Database file. Must be an up-to-date,
-//   // GeoLite2/GeoIP2 binary ASN Database. Consider updating automatically
-//   // via GeoIP Update or cron.
-//   // See https://dev.maxmind.com/geoip/updating-databases
-//   'database' => '/var/www/example.com/private/geoip2/GeoLite2-ASN.mmdb',
-// ];.
+$settings['crawler_rate_limit.settings']['regular_traffic_asn'] = [
+  // Time interval in seconds. Must be whole number greater than zero.
+  'interval' => 600,
+  // Number of requests allowed in the given time interval per autonomous
+  // system number (ASN).
+  'requests' => 600,
+  // Absolute path to the local ASN Database file. Must be an up-to-date,
+  // GeoLite2/GeoIP2 binary ASN Database. Consider updating automatically
+  // via GeoIP Update or cron.
+  // See https://dev.maxmind.com/geoip/updating-databases
+  'database' => '/app/web/sites/default/files/private/geoip2/GeoLite2-ASN.mmdb',
+];
