@@ -114,3 +114,5 @@ $settings['rebuild_access'] = FALSE;
  * directory.
  */
 $settings['skip_permissions_hardening'] = TRUE;
+
+$settings['crawler_rate_limit.settings']['enabled'] = FALSE;
