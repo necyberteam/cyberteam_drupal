@@ -216,7 +216,7 @@ $settings['crawler_rate_limit.settings']['bot_traffic'] = [
   // Number of requests allowed in the given time interval per crawler or
   // bot (identified by User-Agent string). Must be a whole number greater
   // than zero.
-  'requests' => 300,
+  'requests' => 100,
 ];
 
 // Limits for regular website traffic (visitors that don't openly identify
@@ -228,7 +228,7 @@ $settings['crawler_rate_limit.settings']['regular_traffic'] = [
   'interval' => 600,
   // Number of requests allowed in the given time interval per regular
   // visitor (identified by combination of IP address + User-Agent string).
-  'requests' => 600,
+  'requests' => 300,
 ];
 // Autonomous system-level (ASN) regular traffic rate limit.
 // Requires geoip2/geoip2 and associated ASN Database.
@@ -239,7 +239,7 @@ $settings['crawler_rate_limit.settings']['regular_traffic_asn'] = [
   'interval' => 600,
   // Number of requests allowed in the given time interval per autonomous
   // system number (ASN).
-  'requests' => 600,
+  'requests' => 300,
   // Absolute path to the local ASN Database file. Must be an up-to-date,
   // GeoLite2/GeoIP2 binary ASN Database. Consider updating automatically
   // via GeoIP Update or cron.
