@@ -6,13 +6,14 @@ id: live
 label: live
 description: ''
 weight: 0
+stackable: false
+no_patching: false
+storage: folder
 folder: sites/default/config/live
 module:
   drupal_seamless_cilogon: 0
 theme: {  }
-blacklist:
+complete_list:
   - access_affinitygroup.settings
   - user_profiles.settings
-graylist: {  }
-graylist_dependents: true
-graylist_skip_equal: true
+partial_list: {  }
