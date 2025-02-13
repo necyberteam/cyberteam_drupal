@@ -44,6 +44,10 @@ field_settings:
     label: 'Custom Event Tags'
     property_path: search_api_custom_event_tags
     type: text
+  custom_event_title:
+    label: 'Event Title'
+    property_path: search_api_custom_event_title
+    type: text
   custom_event_type:
     label: 'Custom Event Type'
     property_path: search_api_custom_event_type
@@ -85,6 +89,7 @@ field_settings:
     datasource_id: 'entity:eventinstance'
     property_path: title
     type: text
+    boost: 1.2
     dependencies:
       module:
         - field_inheritance
@@ -110,8 +115,8 @@ processor_settings:
   custom_event_affiliation: {  }
   custom_event_no_show: {  }
   custom_event_skill_level: {  }
+  custom_event_title: {  }
   custom_event_type: {  }
-  custom_event_virtual_meeting_link: {  }
   custom_value: {  }
   entity_status: {  }
   entity_type: {  }
