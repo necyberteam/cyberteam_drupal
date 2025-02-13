@@ -87,7 +87,7 @@ $settings['config_exclude_modules'] = [
   'recaptcha_v3',
 ];
 
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 60);
 
 // Configure Redis.
 if (defined(
@@ -164,6 +164,11 @@ if (defined(
 
 // Block bots from faceted navigation pages.
 if (isset($_SERVER['QUERY_STRING']) && (strpos($_SERVER['QUERY_STRING'], 'f[') !== FALSE || strpos($_SERVER['QUERY_STRING'], 'f%5B') !== FALSE)) {
+
+  // Block all faceted navigation for now
+  header("HTTP/1.1 403 Forbidden");
+  exit();
+
   // List of bots to block.
   $blocked_bots = [
     'AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot', 'PetalBot', 'BLEXBot', 'YandexBot',
