@@ -6,6 +6,7 @@ dependencies:
     - views.view.events_facet
   module:
     - system
+    - user
     - views
   theme:
     - aspTheme
@@ -26,3 +27,10 @@ visibility:
     id: request_path
     negate: false
     pages: /events/past
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated
