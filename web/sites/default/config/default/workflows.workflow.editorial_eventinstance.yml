@@ -1,16 +1,15 @@
-uuid: 638efb02-4aad-4416-b1a5-ef3c935bec4c
+uuid: 44bd02ea-3d39-4b0a-9682-e9570417f611
 langcode: en
 status: true
 dependencies:
   config:
-    - node.type.access_news
-    - recurring_events.eventseries_type.default
+    - recurring_events.eventinstance_type.default
   module:
     - content_moderation
 _core:
   default_config_hash: T7gMMyFbTYLalxpIOnzJebvek2OW0b1RgLVE9I2y228
-id: editorial
-label: Editorial
+id: editorial_eventinstance
+label: 'Editorial Workflow for Event Instances'
 type: content_moderation
 type_settings:
   states:
@@ -90,8 +89,6 @@ type_settings:
       to: ready_for_review
       weight: 5
   entity_types:
-    eventseries:
+    eventinstance:
       - default
-    node:
-      - access_news
   default_moderation_state: draft
