@@ -1081,6 +1081,7 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
+          pagination_heading_level: h4
       exposed_form:
         type: basic
         options:
@@ -1123,7 +1124,7 @@ display:
           relationship: eventseries_id
           group_type: group
           admin_label: ''
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: default
           exception:
             value: all
@@ -1151,6 +1152,7 @@ display:
           validate_options: {  }
           break_phrase: true
           not: false
+          target_entity_type_id: taxonomy_term
         field_affiliation_value:
           id: field_affiliation_value
           table: eventseries__field_affiliation
@@ -1287,7 +1289,7 @@ display:
           relationship: eventseries_id
           group_type: group
           admin_label: ''
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: default
           exception:
             value: all
@@ -1315,6 +1317,7 @@ display:
           validate_options: {  }
           break_phrase: true
           not: false
+          target_entity_type_id: taxonomy_term
       style:
         type: data_export
         options:
@@ -2645,7 +2648,7 @@ display:
           relationship: eventseries_id
           group_type: group
           admin_label: ''
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: default
           exception:
             value: all
@@ -2673,6 +2676,7 @@ display:
           validate_options: {  }
           break_phrase: true
           not: false
+          target_entity_type_id: taxonomy_term
       style:
         type: data_export
         options:
