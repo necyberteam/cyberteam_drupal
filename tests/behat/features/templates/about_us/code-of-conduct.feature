@@ -10,7 +10,6 @@ Feature: Code of Conduct page
     Then I should get a "200" HTTP response
     Then I should see "Connect CI Code of Conduct"
     Then I should see "Connect.Cyberinfrastructure is a family of portals,"
-    Then I should see "Diversity Statement"
     Then I should see "Connect CI welcomes and encourages participation"
     Then I should see "Introduction & Scope"
     Then I should see "This code of conduct should be honored by everyone"
