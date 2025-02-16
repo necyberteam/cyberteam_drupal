@@ -15,7 +15,7 @@ describe("Unauthenticated user tests the CCI Hompage", () => {
     cy.get('a[href="https://support.access-ci.org/"]').should('contain', 'ACCESS Support');
     cy.get('a[href="https://careers-ct.cyberinfrastructure.org/"]').should('contain', 'CAREERS Cyberteam');
     cy.get('a[href="https://greatplains.cyberinfrastructure.org/"]').should('contain', 'Great Plains Cyberteam');
-    cy.get('a[href="https://necyberteam.org/"] h5').should('contain', 'Northeast Cyberteam');
+    cy.get('a[href="https://necyberteam.org/"]').should('contain', 'Northeast Cyberteam');
     cy.get('a[href="https://campuschampions.cyberinfrastructure.org/"]').should('contain', 'Campus Champions');
   });
   it("User is on the homepage and follows contact us", () => {
