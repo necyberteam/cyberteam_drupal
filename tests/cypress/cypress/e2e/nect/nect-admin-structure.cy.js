@@ -30,7 +30,7 @@ describe("Test Structure admin page", () => {
     cy.contains('Projects - TRECIS');
 
     // Campus Champions block check - truncated for memory
-    cy.get(':nth-child(4) > .tabs__link').click();
+    cy.get(':nth-child(3) > .tabs__link').click();
     cy.contains('CC - Promotional message');
     cy.contains('Main navigation');
     cy.contains('CC Main menu');
@@ -55,7 +55,7 @@ describe("Test Structure admin page", () => {
     cy.contains('CC - Front - Community');
 
     // Access support blocks
-    cy.get(':nth-child(3) > .tabs__link').click();
+    cy.get(':nth-child(4) > .tabs__link').click();
     cy.contains('CILogon Auth login');
     cy.contains('Breadcrumbs');
     cy.contains('Status messages');
