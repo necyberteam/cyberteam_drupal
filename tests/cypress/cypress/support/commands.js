@@ -72,8 +72,8 @@ Cypress.Commands.add('drupalLogout', () => {
 
   // Deal with logout confirmation form.
   cy.get('body').then(($body) => {
-    if ($body.find('#edit-submit').length) {
-      cy.get('#edit-submit').click()
+    if ($body.find('#user-logout-confirm #edit-submit').length) {
+      cy.get('#user-logout-confirm #edit-submit').click()
     }
   })
 });
