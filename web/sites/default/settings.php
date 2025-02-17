@@ -163,29 +163,29 @@ if (defined(
 }
 
 // Block bots from faceted navigation pages.
-//if (isset($_SERVER['QUERY_STRING']) && (strpos($_SERVER['QUERY_STRING'], 'f[') !== FALSE || strpos($_SERVER['QUERY_STRING'], 'f%5B') !== FALSE)) {
-//
-//  // Block all faceted navigation for now
-//  header("HTTP/1.1 403 Forbidden");
-//  exit();
-//
-//  // List of bots to block.
-//  $blocked_bots = [
-//    'AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot', 'PetalBot', 'BLEXBot', 'YandexBot',
-//    'Go-http-client', 'Googlebot', 'bingbot', 'Baiduspider', 'Sogou', 'Exabot', 'facebot',
-//    'MJ12bot',
-//  ];
-//
-//  if (isset($_SERVER['HTTP_USER_AGENT'])) {
-//    foreach ($blocked_bots as $bot) {
-//      if (stripos($_SERVER['HTTP_USER_AGENT'], $bot) !== FALSE) {
-//        // Send 403 Forbidden response.
-//        header("HTTP/1.1 403 Forbidden");
-//        exit();
-//      }
-//    }
-//  }
-//}
+if (isset($_SERVER['QUERY_STRING']) && (strpos($_SERVER['QUERY_STRING'], 'f[') !== FALSE || strpos($_SERVER['QUERY_STRING'], 'f%5B') !== FALSE)) {
+
+  // Block all faceted navigation for now.
+  header("HTTP/1.1 403 Forbidden");
+  exit();
+
+  // List of bots to block.
+  $blocked_bots = [
+    'AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot', 'PetalBot', 'BLEXBot', 'YandexBot',
+    'Go-http-client', 'Googlebot', 'bingbot', 'Baiduspider', 'Sogou', 'Exabot', 'facebot',
+    'MJ12bot',
+  ];
+
+  if (isset($_SERVER['HTTP_USER_AGENT'])) {
+    foreach ($blocked_bots as $bot) {
+      if (stripos($_SERVER['HTTP_USER_AGENT'], $bot) !== FALSE) {
+        // Send 403 Forbidden response.
+        header("HTTP/1.1 403 Forbidden");
+        exit();
+      }
+    }
+  }
+}
 
 
 // Below configuration uses a redis backend and will limit each
