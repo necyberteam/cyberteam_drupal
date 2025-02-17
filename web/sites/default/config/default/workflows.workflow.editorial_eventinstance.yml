@@ -1,0 +1,94 @@
+uuid: 44bd02ea-3d39-4b0a-9682-e9570417f611
+langcode: en
+status: true
+dependencies:
+  config:
+    - recurring_events.eventinstance_type.default
+  module:
+    - content_moderation
+_core:
+  default_config_hash: T7gMMyFbTYLalxpIOnzJebvek2OW0b1RgLVE9I2y228
+id: editorial_eventinstance
+label: 'Editorial Workflow for Event Instances'
+type: content_moderation
+type_settings:
+  states:
+    archived:
+      label: Archived
+      weight: 5
+      published: false
+      default_revision: true
+    draft:
+      label: Draft
+      weight: -5
+      published: false
+      default_revision: false
+    needs_adjustment:
+      label: 'Needs Adjustment'
+      weight: 7
+      published: false
+      default_revision: true
+    published:
+      label: Published
+      weight: 0
+      published: true
+      default_revision: true
+    ready_for_review:
+      label: 'Ready for Review'
+      weight: 6
+      published: false
+      default_revision: false
+  transitions:
+    archive:
+      label: Archive
+      from:
+        - published
+      to: archived
+      weight: 2
+    archived_draft:
+      label: 'Restore to Draft'
+      from:
+        - archived
+        - needs_adjustment
+      to: draft
+      weight: 3
+    archived_published:
+      label: Restore
+      from:
+        - archived
+      to: published
+      weight: 4
+    create_new_draft:
+      label: 'Create New Draft'
+      from:
+        - draft
+        - published
+        - ready_for_review
+      to: draft
+      weight: 0
+    publish:
+      label: Publish
+      from:
+        - draft
+        - published
+        - ready_for_review
+      to: published
+      weight: 1
+    request_adjustment:
+      label: 'Request Adjustment'
+      from:
+        - published
+        - ready_for_review
+      to: needs_adjustment
+      weight: 6
+    send_for_review:
+      label: 'Send for Review'
+      from:
+        - draft
+        - needs_adjustment
+      to: ready_for_review
+      weight: 5
+  entity_types:
+    eventinstance:
+      - default
+  default_moderation_state: draft
