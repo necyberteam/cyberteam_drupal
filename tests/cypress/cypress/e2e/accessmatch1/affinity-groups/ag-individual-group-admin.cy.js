@@ -33,7 +33,7 @@ describe("Admin user tests the Individual Affinity Groups", () => {
     // the first the dropdown the shows up.
     cy.get('#edit-field-resources-entity-reference-0-target-id').clear();
     cy.get('#edit-field-resources-entity-reference-0-target-id')
-      .type('access-support-ci-link-for-testing')
+      .type('dummy-ci-link-for-testing-knowledge-base')
       .get('#ui-id-3')  // this is the dropdown that shows up
       .find('.ui-menu-item') //
       .first() // take the first one
