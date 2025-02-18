@@ -87,7 +87,7 @@ $settings['config_exclude_modules'] = [
   'recaptcha_v3',
 ];
 
-ini_set('max_execution_time', 60);
+ini_set('max_execution_time', 360);
 
 // Configure Redis.
 if (defined(
@@ -163,7 +163,7 @@ if (defined(
 }
 
 // Block bots from faceted navigation pages.
-//if (isset($_SERVER['QUERY_STRING']) && (strpos($_SERVER['QUERY_STRING'], 'f[') !== FALSE || strpos($_SERVER['QUERY_STRING'], 'f%5B') !== FALSE)) {
+// if (isset($_SERVER['QUERY_STRING']) && (strpos($_SERVER['QUERY_STRING'], 'f[') !== FALSE || strpos($_SERVER['QUERY_STRING'], 'f%5B') !== FALSE)) {
 //
 //  // Block all faceted navigation for now
 //  header("HTTP/1.1 403 Forbidden");
@@ -185,9 +185,7 @@ if (defined(
 //      }
 //    }
 //  }
-//}
-
-
+// }
 // Below configuration uses a redis backend and will limit each
 // crawler / bot (identified by User-Agent string) to a maximum of 300
 // requests every 600 seconds.

@@ -67,8 +67,15 @@ Cypress.Commands.add("checkBreadcrumbs", (crumbs) => {
 /**
  * Logs out the user.
  */
-Cypress.Commands.add("drupalLogout", () => {
-  cy.visit("/user/logout");
+Cypress.Commands.add('drupalLogout', () => {
+  cy.visit('/user/logout');
+
+  // Deal with logout confirmation form.
+  cy.get('body').then(($body) => {
+    if ($body.find('#user-logout-confirm #edit-submit').length) {
+      cy.get('#user-logout-confirm #edit-submit').click()
+    }
+  })
 });
 
 /**

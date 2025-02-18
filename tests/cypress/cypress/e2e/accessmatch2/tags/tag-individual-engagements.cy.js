@@ -69,11 +69,12 @@ describe("Verify a tag's page list of engagements", () => {
       cy.get('.tabs')
         .contains('Edit')
         .click();
-      cy.get("#edit-field-milestone-description-0-value")
-        .clear()
-        .type('dummy milestone description');
-      cy.get('#edit-field-milestone-completion-date-0-value-date')
-        .type('2025-12-12');
+      // Milestones are now collapsed by default and not required.
+      // cy.get("#edit-field-milestone-description-0-value")
+      //   .clear()
+      //   .type('dummy milestone description');
+      // cy.get('#edit-field-milestone-completion-date-0-value-date')
+      //   .type('2025-12-12');
       cy.get('#edit-moderation-state-0-state').select('In Review');
       cy.get('#edit-submit').click();
       cy.contains('has been updated.');
