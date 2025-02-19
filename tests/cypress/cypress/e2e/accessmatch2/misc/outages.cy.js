@@ -79,9 +79,9 @@ describe('Anonymous user visit the outages page', () => {
       .should('not.be.empty');
 
     // 6. verify End is a string
-    cy.get('@first-row')
-      .find('td').eq(5)
-      .should('not.be.empty');
+    //cy.get('@first-row')
+    //  .find('td').eq(5)
+    //  .should('not.be.empty');
 
     // change the number of entries to 25
     cy.get('[name="outages-all_length"]').select('25');

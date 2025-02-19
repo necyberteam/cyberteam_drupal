@@ -196,7 +196,10 @@ GITHUB_TOKEN=$token'>.env");
     }
 
     $error = FALSE;
-    $this->_exec('mkdir /tmp/screenshots');
+
+    if (!file_exists('/tmp/screenshots')) {
+      $this->_exec('mkdir /tmp/screenshots');
+    }
 
     if ($site == 'accessmatch3') {
       $sub_dirs = [
