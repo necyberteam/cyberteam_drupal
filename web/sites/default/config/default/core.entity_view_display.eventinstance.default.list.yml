@@ -10,6 +10,7 @@ dependencies:
     - datetime_range
     - link
     - options
+    - recurring_events_ical
     - text
 _core:
   default_config_hash: ynM97GAGTtZBjg1uuiiRFaP8WTq766yoANHsZJ41__4
@@ -54,6 +55,7 @@ content:
       timezone_override: ''
       date_format: 'n/j/Y g:i A T'
       separator: '-'
+      from_to: both
     third_party_settings: {  }
     weight: 1
     region: content
@@ -72,6 +74,18 @@ content:
     third_party_settings: {  }
     weight: 54
     region: content
+  event_ical_link:
+    label: hidden
+    weight: 10
+    region: content
+    settings:
+      trim_length: '80'
+      url_only: ''
+      url_plain: ''
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: event_ical_link
   event_type:
     type: list_default
     label: visible
@@ -86,6 +100,11 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 53
+    region: content
+  register_button:
+    weight: 999
+    settings: {  }
+    third_party_settings: {  }
     region: content
   registration:
     type: link
@@ -106,6 +125,14 @@ content:
     third_party_settings: {  }
     weight: 58
     region: content
+  speakers:
+    label: visible
+    weight: 59
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
   tags:
     type: entity_reference_label
     label: above
@@ -122,6 +149,19 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
+  virtual_meeting_link:
+    label: visible
+    weight: 62
+    region: content
+    settings:
+      trim_length: '80'
+      url_only: ''
+      url_plain: ''
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
 hidden:
   body: true
   field_video: true
+  search_api_excerpt: true

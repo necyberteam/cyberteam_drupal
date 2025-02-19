@@ -6,9 +6,14 @@
  */
 describe("Authenticated user tests the Individual Affinity Groups", () => {
   it("Should test the Individual Affinity Groups page", () => {
-
     add_pecan_as_ag_coord();
     confirm_email_view_members();
+  });
+});
+
+// Having weird logout issues, so splitting out.
+describe("Authenticated user tests the Individual Affinity Groups", () => {
+  it("Should test the Individual Affinity Groups page", () => {
     remove_pecan_as_ag_coord();
     confirm_no_email_view_members();
   });
@@ -26,6 +31,7 @@ function add_pecan_as_ag_coord() {
     .click();
 
   // add Pecan Pie as a coordinator
+  cy.get('#edit-field-coordinator-1-target-id').clear();
   cy.get('#edit-field-coordinator-1-target-id')
     .type('Pecan Pie')
     .get('#ui-id-2')  // this is the dropdown that shows up
