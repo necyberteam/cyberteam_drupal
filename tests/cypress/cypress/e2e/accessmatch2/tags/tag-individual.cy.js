@@ -255,7 +255,7 @@ describe("Verify the the community-outreach tag page", () => {
         });
 
       cy.get('.view-affinity-groups-with-tag.view-display-id-block_2')
-        .contains('All Affinity Group with this tag')
+        .contains('All Affinity Groups with this tag')
         .should('have.attr', 'href', "/tags/340/affinity-groups");
     }
 

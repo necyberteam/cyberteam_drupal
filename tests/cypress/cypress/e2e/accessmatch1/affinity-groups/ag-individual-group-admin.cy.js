@@ -33,11 +33,18 @@ describe("Admin user tests the Individual Affinity Groups", () => {
     // the first the dropdown the shows up.
     cy.get('#edit-field-resources-entity-reference-0-target-id').clear();
     cy.get('#edit-field-resources-entity-reference-0-target-id')
-      .type('access-support-ci-link-for-testing')
+      .type('dummy-ci-link-for-testing-knowledge-base')
+      .wait(1000)
       .get('#ui-id-3')  // this is the dropdown that shows up
       .find('.ui-menu-item') //
       .first() // take the first one
       .click();
+
+    cy.get('#edit-field-resources-entity-reference-1-target-id').clear();
+    cy.get('#edit-field-resources-entity-reference-1-target-id')
+      .type('access-support-ci-link-for-testing')
+      .wait(1000)
+      .type('{downarrow}{enter}');
 
     // Add a cider resource
     cy.get('#edit-field-cider-resources-0-target-id').clear();

@@ -27,10 +27,11 @@ describe("Unauthenticated user tests the CCEP Page", () => {
     );
 
     // Apply To CCEP Button
-    cy.get(".btn")
-      .contains("Apply to CCEP")
-      .should("have.attr", "href")
-      .and("contain", "https://forms.gle/bHYCiaaNnzYVZCt77");
+    // Applications not currently being accepted
+    //cy.get(".btn")
+    //  .contains("Apply to CCEP")
+    //  .should("have.attr", "href")
+    //  .and("contain", "https://forms.gle/bHYCiaaNnzYVZCt77");
 
     // Important Fine Print Section
     cy.visit("/ccep");

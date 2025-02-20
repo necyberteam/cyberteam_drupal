@@ -19,7 +19,7 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.get("#block-claro-page-title").contains("Create ACCESS Event");
 
     // User filling out form title
-    cy.get("#edit-title-0-value").type("example-event");
+    cy.get("#edit-title-0-value").type("cypress-example-event");
 
     // Date and Time of Event
     cy.get("#edit-recur-type-custom").click();
@@ -37,13 +37,11 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     // Event Contact
     cy.get("#edit-field-contact-0-value").type("Pecan Pie");
 
-    // Registration Link
-    cy.get("#edit-field-registration-0-uri").type(
-      "https://test-accessmatch.pantheonsite.io/"
-    );
-
     // Event Tag
     cy.get("details.tags summary").click().get("#tag-login").click();
+
+    // Registration
+    cy.get('input[data-drupal-selector="edit-event-registration-0-registration"]').check();
 
     //Save As Selection
     cy.get("#edit-moderation-state-0-state").select("Published");
