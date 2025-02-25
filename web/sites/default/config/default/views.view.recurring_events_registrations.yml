@@ -1158,7 +1158,7 @@ display:
         type: table
         options:
           grouping: {  }
-          row_class: ''
+          row_class: 'border-x-0 border-b border-t-0 border-black border-solid'
           default_row_class: true
           columns:
             id: id
@@ -1167,11 +1167,12 @@ display:
             email: email
             nothing_2: nothing_2
             waitlist: waitlist
+            status_1: status_1
             status: status
-            operations: operations
             nothing: nothing
             field_event_allocation_grant: field_event_allocation_grant
             nothing_1: nothing_1
+            operations: operations
           default: '-1'
           info:
             id:
@@ -1214,14 +1215,16 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            status:
+            status_1:
               sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            operations:
+            status:
+              sortable: false
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
@@ -1239,6 +1242,11 @@ display:
               empty_column: false
               responsive: ''
             nothing_1:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            operations:
               align: ''
               separator: ''
               empty_column: false
@@ -1293,6 +1301,7 @@ display:
           entity_field: user_id
           plugin_id: standard
           required: false
+      css_class: 'prose max-w-full'
       header:
         area:
           id: area
@@ -2421,7 +2430,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<p><strong>ID:</strong> {{ id }}</p>\r\n<p><strong>Access ID:</strong> {{ name }}</p>\r\n<p><strong>Attendee:</strong> {{ user_id }}</p>\r\n<p><strong>Email:</strong> {{ email }}</p>"
+            text: "<span><strong>Access ID:</strong> {{ name }}</span><br />\r\n<span><strong>Attendee:</strong> {{ user_id }}</span><br />\r\n<span><strong>Email:</strong> {{ email }}</span>"
             make_link: false
             path: ''
             absolute: false
@@ -2606,7 +2615,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<p>{{ status }}</p>\r\n<p><strong>Waitlist:</strong> {{ waitlist }}</p>\r\n"
+            text: "<span>{{ status }}</span><br />\r\n<span><strong>Waitlist:</strong> {{ waitlist }}</span>\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -2659,57 +2668,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        operations:
-          id: operations
-          table: registrant
-          field: operations
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: registrant
-          plugin_id: entity_operations
-          label: Operations
-          exclude: false
-          alter:
-            alter_text: true
-            text: '<div class="ms-4">{{ operations }}</div>'
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          destination: false
         nothing:
           id: nothing
           table: views
@@ -2830,7 +2788,7 @@ display:
           group_type: group
           admin_label: 'spState on Grant'
           plugin_id: custom
-          label: spState
+          label: 'Status on Allocation'
           exclude: false
           alter:
             alter_text: true
@@ -2871,6 +2829,57 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: false
+        operations:
+          id: operations
+          table: registrant
+          field: operations
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: registrant
+          plugin_id: entity_operations
+          label: Operations
+          exclude: false
+          alter:
+            alter_text: true
+            text: '<div class="ms-4">{{ operations }}</div>'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          destination: false
       access:
         type: ViewsRegistrationCustomAccess
         options: {  }
