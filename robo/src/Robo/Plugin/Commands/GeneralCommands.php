@@ -133,7 +133,7 @@ GITHUB_TOKEN=$token'>.env");
     foreach ($security_updates as $value) {
       $name = $value[0]['packageName'];
       $this->say("Sending update to GitHub composer action for $name");
-      $this->_exec("gh workflow run updates.yml --ref main --repo github.com/UCBoulder/oit_dingo -f drupal_update=$name");
+      $this->_exec("gh workflow run updates.yml --ref main --repo github.com/necyberteam/cyberteam_drupal -f drupal_update=$name");
     }
   }
 
