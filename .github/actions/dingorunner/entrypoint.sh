@@ -87,7 +87,7 @@ then
   git config --global user.name \"$username\"
   composer config -g github-oauth.github.com $gh_token
   composer install --no-dev --ignore-platform-reqs
-  $blt amp:ciupdate "$drupal_update" --no-interaction --verbose
+  $robo ciupdate "$drupal_update" --no-interaction --verbose
   git push origin $drupal_update
 fi
 
@@ -106,7 +106,7 @@ then
   terminusApi
   branch="${GITHUB_REF#refs/heads/}"
   touch md_check.txt
-  vendor/bin/blt pmd:check $branch --no-interaction >> md_check.txt
+  vendor/bin/robo pmd:check $branch --no-interaction >> md_check.txt
 fi
 
 if [ "$runner" = md_create ];
@@ -114,7 +114,7 @@ then
   storeKey
   terminusApi
   branch="${GITHUB_REF#refs/heads/}"
-  vendor/bin/blt pmd:create $branch --no-interaction
+  vendor/bin/robo pmd:create $branch --no-interaction
 fi
 
 if [ "$runner" = md_file_commands ];
@@ -122,7 +122,7 @@ then
   storeKey
   terminusApi
   branch="${GITHUB_REF#refs/heads/}"
-  commands=$(cat blt/md/$branch)
+  commands=$(cat robo/assets/md/$branch)
   echo $commands
   terminus remote:drush accessmatch.$branch -- domain:default $commands
 fi
