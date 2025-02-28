@@ -22,6 +22,8 @@ describe('Test the registration feature', () => {
     cy.wait(1000)
     cy.contains('cypress-example-event').click()
 
+    cy.wait(1000)
+    cy.screenshot()
     cy.contains('Approved: Yes')
   })
 
