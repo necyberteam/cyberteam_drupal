@@ -405,16 +405,25 @@ GITHUB_TOKEN=$token'>.env");
    * @description Updates through CI.
    */
   public function ciupdate(array $args) {
-    $arrrrgs = implode($args);
+    $module = array_key_exists(0, $args) ? $args[0] : '';
+    $version = array_key_exists(1, $args) ? $args[1] : '';
 
     $this->_exec("touch log.txt");
-    if ($arrrrgs == 'drupal/core') {
-      $this->_exec("composer update drupal/core drupal/core-composer-scaffold drupal/core-dev drupal/core-recommended drupal/core-project-message -W --ignore-platform-req=ext-gd >log.txt 2>&1");
-      $this->composer_updates('/Upgrading (drupal)\/core \((.* \=\> .*)\)$/mU');
+    if ($module == 'drupal/core') {
+      $this->say("Updating Drupal core");
+      $this->_exec("composer update drupal/core-recommended drupal/core-composer-scaffold drupal/core-dev --ignore-platform-reqs -W >log.txt 2>&1");
+      $this->composer_updates('/Upgrading (drupal)\/core \((.* \=\> .*)\)$/mU', TRUE);
     }
-    elseif (!empty($arrrrgs)) {
-      $this->_exec("composer update $arrrrgs --no-scripts --ignore-platform-req=ext-gd >log.txt 2>&1");
-      $this->_exec("cat log.txt");
+    elseif (!empty($module)) {
+      echo $version;
+      if (!empty($version)) {
+        $this->say("Updating $module to $version");
+        $this->_exec("composer require $module $version -W --no-scripts --ignore-platform-reqs >log.txt 2>&1");
+      }
+      else {
+        $this->say("Updating $module minor release");
+        $this->_exec("composer update $module --no-scripts --ignore-platform-reqs >log.txt 2>&1");
+      }
       $this->composer_updates('/Upgrading .*\/(.*)\((.* \=\> .*)\)$/m');
     }
   }
