@@ -116,7 +116,7 @@ then
   echo 'Github repo'
   git config --get remote.origin.url
   rm -fR .git
-  mv backups/oit/.git .
+  mv backups/accessmatch/.git .
   echo 'Switched Pantheon repo'
   git branch
   git config --get remote.origin.url
