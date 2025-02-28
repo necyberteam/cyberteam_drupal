@@ -122,7 +122,10 @@ then
   git config --get remote.origin.url
 
   echo 'Remove some dev files/folders'
+  # Remove all .txt files.
   find . -type f -name "*.txt" -delete
+  # Remove all .github directories.
+  find . -mindepth 1 -type f -name "*.txt" -not -path "*/.github/*" -delete
   rm -fR .devcontainer
   rm -fR .editorconfig
   rm -fR .github
