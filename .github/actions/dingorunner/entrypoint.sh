@@ -122,17 +122,20 @@ then
   git config --get remote.origin.url
 
   echo 'Remove some dev files/folders'
+  find . -type f -name "*.txt" -delete
   rm -fR .devcontainer
   rm -fR .editorconfig
   rm -fR .github
-  rm -fR .lando.yml
+  rm -fR .lando.*
   rm -fR README.md
   rm -fR backups
   rm -fR robo
+  rm -fR blt
   rm -fR docroot/.editorconfig
   rm -fR docroot/sites/example.settings.local.php
   rm -fR docroot/sites/example.sites.php
   rm -fR tests
+  rm -fR web/themes/contrib/bootstrap5/dist/bootstrap/5.2.3/.github/
 
   git checkout .gitignore
 
