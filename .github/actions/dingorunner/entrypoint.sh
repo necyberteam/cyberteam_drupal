@@ -133,7 +133,6 @@ then
   rm -fR README.md
   rm -fR backups
   rm -fR robo
-  rm -fR blt
   rm -fR docroot/.editorconfig
   rm -fR docroot/sites/example.settings.local.php
   rm -fR docroot/sites/example.sites.php
