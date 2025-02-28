@@ -89,7 +89,7 @@ then
   mkdir backups
   cd backups
   echo 'Cloning Pantheon repo'
-  git clone --verbose $PANTHEON_GIT_REPO -b master accessmatch
+  git clone $PANTHEON_GIT_REPO -b master accessmatch
 
   cd accessmatch
   # Check if the branch exists (locally or remotely)
