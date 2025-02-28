@@ -68,13 +68,74 @@ fi
 if [ "$runner" = update ];
 then
   storeKey
+  git config --global --add safe.directory /github/workspace
+
+  COMPOSER_IGNORE_PLATFORM_REQS=1
+
+  git config --global user.email "$git_email"
+  git config --global user.name "$git_name"
+
+  original_directory=$(pwd)
+
   sh -c "composer config -g github-oauth.github.com $gh_token"
+
   composer install --no-dev --ignore-platform-reqs
+
   branch="${GITHUB_REF#refs/heads/}"
   if [ "$branch" = "main" ]; then
     branch="master"
   fi
-  GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" $blt artifact:deploy --commit-msg "$message" --branch "$branch" --ignore-dirty --ignore-platform-reqs --no-interaction --verbose
+
+  mkdir backups
+  cd backups
+  git clone --verbose $PANTHEON_GIT_REPO -b master accessmatch
+
+  cd accessmatch
+  # Check if the branch exists (locally or remotely)
+  if git show-ref --verify --quiet "refs/heads/$branch" || git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+    echo "Branch '$branch' exists. Checking it out..."
+    git checkout "$branch"
+  else
+    echo "Branch '$branch' does not exist. Creating and checking it out..."
+    git checkout -b "$branch"
+  fi
+  echo 'Pantheon repo'
+  git config --get remote.origin.url
+
+  cd $original_directory
+  echo 'Github repo'
+  git config --get remote.origin.url
+  rm -fR .git
+  mv backups/oit/.git .
+  echo 'Switched Pantheon repo'
+  git branch
+  git config --get remote.origin.url
+
+  echo 'Remove some dev files/folders'
+  rm -fR .devcontainer
+  rm -fR .editorconfig
+  rm -fR .github
+  rm -fR .lando.yml
+  rm -fR README.md
+  rm -fR backups
+  rm -fR robo
+  rm -fR docroot/.editorconfig
+  rm -fR docroot/sites/example.settings.local.php
+  rm -fR docroot/sites/example.sites.php
+  rm -fR tests
+
+  git checkout .gitignore
+
+  echo 'Git status check'
+  git status
+#  echo 'Add new files'
+#  git add .
+#  echo 'Commit changes'
+#  git commit -m "$message"
+#  echo 'status'
+#  git status
+#  echo 'push'
+#  git push origin $branch
 fi
 
 if [ "$runner" = composer_update ];
