@@ -88,6 +88,7 @@ then
 
   mkdir backups
   cd backups
+  echo 'Cloning Pantheon repo'
   git clone --verbose $PANTHEON_GIT_REPO -b master accessmatch
 
   cd accessmatch
