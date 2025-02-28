@@ -9,7 +9,16 @@ storeKey () {
   echo "$SSH_PRIVATE_KEY" > ~/.ssh/private.key
   chmod 0600 ~/.ssh/private.key
   ssh-add ~/.ssh/private.key
+  touch /root/.ssh/known_hosts
+  chmod 600 /root/.ssh/known_hosts
+  echo "Host *.drush.in" > /root/.ssh/config
+  echo "    StrictHostKeyChecking no" >> /root/.ssh/config
+  chmod 600 /root/.ssh/config
+  cat /root/.ssh/config
+
+  ssh-add -l
   git config --global --add safe.directory "*"
+  git config --global --add safe.directory /github/workspace
 }
 
 terminusApi () {
