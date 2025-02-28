@@ -144,14 +144,14 @@ then
 
   echo 'Git status check'
   git status
-#  echo 'Add new files'
-#  git add .
-#  echo 'Commit changes'
-#  git commit -m "$message"
-#  echo 'status'
-#  git status
-#  echo 'push'
-#  git push origin $branch
+  echo 'Add new files'
+  git add .
+  echo 'Commit changes'
+  git commit -m "$message"
+  echo 'status'
+  git status
+  echo 'push'
+  git push origin $branch
 fi
 
 if [ "$runner" = composer_update ];
