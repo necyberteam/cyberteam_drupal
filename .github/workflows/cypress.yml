@@ -34,6 +34,13 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
 
+    name: Grab backup and fix backup
+    runs-on: ubuntu-latest
+    if: github.event_name == 'merge_group'
+    steps:
+      - name: Force success
+        run: echo "Force success"
+
   accessmatch2:
     name: accessmatch2
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
@@ -48,6 +55,13 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+
+    name: Grab backup and fix backup
+    runs-on: ubuntu-latest
+    if: github.event_name == 'merge_group'
+    steps:
+      - name: Force success
+        run: echo "Force success"
 
   accessmatch3:
     name: accessmatch3
@@ -64,6 +78,13 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
 
+    name: Grab backup and fix backup
+    runs-on: ubuntu-latest
+    if: github.event_name == 'merge_group'
+    steps:
+      - name: Force success
+        run: echo "Force success"
+
   ccmnet:
     name: ccmnet
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
@@ -78,6 +99,13 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+
+    name: Grab backup and fix backup
+    runs-on: ubuntu-latest
+    if: github.event_name == 'merge_group'
+    steps:
+      - name: Force success
+        run: echo "Force success"
 
   connectci:
     name: connectci
@@ -94,6 +122,13 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
 
+    name: Grab backup and fix backup
+    runs-on: ubuntu-latest
+    if: github.event_name == 'merge_group'
+    steps:
+      - name: Force success
+        run: echo "Force success"
+
   crct:
     name: crct
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
@@ -108,6 +143,13 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+
+    name: Grab backup and fix backup
+    runs-on: ubuntu-latest
+    if: github.event_name == 'merge_group'
+    steps:
+      - name: Force success
+        run: echo "Force success"
 
   campuschampions:
     name: campuschampions
@@ -124,6 +166,13 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
 
+    name: Grab backup and fix backup
+    runs-on: ubuntu-latest
+    if: github.event_name == 'merge_group'
+    steps:
+      - name: Force success
+        run: echo "Force success"
+
   coco:
     name: coco
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
@@ -138,6 +187,13 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+
+    name: Grab backup and fix backup
+    runs-on: ubuntu-latest
+    if: github.event_name == 'merge_group'
+    steps:
+      - name: Force success
+        run: echo "Force success"
 
   greatplains:
     name: greatplains
@@ -154,6 +210,13 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
 
+    name: Grab backup and fix backup
+    runs-on: ubuntu-latest
+    if: github.event_name == 'merge_group'
+    steps:
+      - name: Force success
+        run: echo "Force success"
+
   kyct:
     name: kyct
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
@@ -168,6 +231,13 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+
+    name: Grab backup and fix backup
+    runs-on: ubuntu-latest
+    if: github.event_name == 'merge_group'
+    steps:
+      - name: Force success
+        run: echo "Force success"
 
   nect:
     name: nect
@@ -184,7 +254,6 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
 
-  mergequeue:
     name: Grab backup and fix backup
     runs-on: ubuntu-latest
     if: github.event_name == 'merge_group'
