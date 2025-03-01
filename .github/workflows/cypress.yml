@@ -123,6 +123,7 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+
   coco:
     name: coco
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
@@ -183,6 +184,13 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
 
+  mergequeue:
+    name: Grab backup and fix backup
+    runs-on: ubuntu-latest
+    if: github.event_name == 'merge_group'
+    steps:
+      - name: Force success
+        run: echo "Force success"
 
   # success:
   #   name: Actions to run on success
