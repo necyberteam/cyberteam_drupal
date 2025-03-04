@@ -120,6 +120,8 @@
         <img src="/themes/nect-theme/img/coco-logo.jpg" class="logo" alt="CoCo">
         {% elseif domain_name == "usrse" %}
         <img src="/themes/nect-theme/img/usrse-logo.png" class="logo" alt="USRSE">
+        {% elseif domain_name == "open-ondemand" %}
+        <img src="/themes/nect-theme/img/ood-logo.png" class="logo" alt="Open OnDemand Community Portal">
         {% endif %}
       </a>
       {% endif %}
@@ -166,6 +168,8 @@
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
     {% elseif domain_name == "coco" %}
     <header class="masthead" style="background-color:#781346">
+    {% elseif domain_name == "open-ondemand" %}
+    <header class="masthead" style="background-color:#ca1236">
     {% elseif domain_name == "ccmnet" %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/people-bg.jpg')">
     {% else %}
@@ -200,6 +204,8 @@
                 {{ usrse_front_text | raw }}
               {% elseif domain_name == "ccmnet" %}
                 {{ ccmnet_front_text | raw }}
+              {% elseif domain_name == "open-ondemand" %}
+                {{ ood_front_text | raw }}
               {% endif %}
               </h2>
               <ul class="d-none bi-list mt-5 mx-auto">
