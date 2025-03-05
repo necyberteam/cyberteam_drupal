@@ -1,6 +1,7 @@
 name: (M) Cypress Tests
 on:
   pull_request:
+  merge_group:
   workflow_dispatch:
     inputs:
       database:
@@ -21,7 +22,7 @@ jobs:
   accessmatch1:
     name: accessmatch1
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
-    if: contains(github.event.inputs.sites, 'accessmatch1') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'accessmatch1') ||  github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "accessmatch"
@@ -51,7 +52,7 @@ jobs:
   accessmatch3:
     name: accessmatch3
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
-    if: contains(github.event.inputs.sites, 'accessmatch3') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'accessmatch3') ||  github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "accessmatch"
@@ -81,7 +82,7 @@ jobs:
   connectci:
     name: connectci
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
-    if: contains(github.event.inputs.sites, 'connectci') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'connectci') ||  github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "connectci"
@@ -122,6 +123,7 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+
   coco:
     name: coco
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
@@ -181,29 +183,6 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
-
-
-  # success:
-  #   name: Actions to run on success
-  #   needs: [asp]
-  #   if: ${{ success() || ( always() && ! cancelled() && ! failure() ) }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Comment on pull request
-  #       if: "${{ env.prnum  != '' }}"
-  #       run: |
-  #         gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Cypress Test was Successful -=-=-=- 🤖"
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         prnum: ${{ github.event.inputs.prnum }}
-  #         REPO: "${{ github.server_url }}/${{ github.repository }}"
-  #     - name: Slack Notification Success
-  #       uses: rtCamp/action-slack-notify@v2
-  #       env:
-  #         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-  #         SLACK_MESSAGE: '🤖 -=-=-=- Cypress Test Succeeded -=-=-=- 🤖'
-  #         SLACK_TITLE: "Cypress tests passed"
-  #         SLACK_CHANNEL: cypress-git-notifications
 
   fail:
     name: Actions to run on fail
