@@ -176,6 +176,13 @@ then
   terminus multidev:delete --delete-branch --yes -- accessmatch.$branch
 fi
 
+if [ "$runner" = sync ];
+then
+  storeKey
+  terminusApi
+  terminus env:clone-content "$site_name".live dev --yes --no-interaction
+fi
+
 if [ "$runner" = md_check ];
 then
   storeKey
