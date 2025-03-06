@@ -50,7 +50,7 @@ class GhCommands extends Tasks {
    * @description Pulls latest database artifact from Github.
    */
   public function pulldb() {
-    $this->_exec("gh run download -R github.com/UCBoulder/oit_dingo -n oit-daily-backup");
+    $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-daily-backup");
     $prev_backup = 'backups/site.sql.gz';
     if (file_exists($prev_backup)) {
       $this->_exec("rm $prev_backup");
@@ -65,7 +65,7 @@ class GhCommands extends Tasks {
    * @description Pulls latest database artifact from Github.
    */
   public function pullfiles() {
-    $this->_exec("gh run download -R github.com/UCBoulder/oit_dingo -n oit-file-backup");
+    $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-file-backup");
     $prev_files = 'docroot/sites/default/files';
     if (file_exists($prev_files)) {
       $this->_exec("rm -fR $prev_files");

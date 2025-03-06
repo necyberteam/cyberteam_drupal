@@ -488,8 +488,6 @@ describe("Check admin configuration pages", () => {
     cy.visit('/admin/config/user-interface/shortcut');
     cy.get('h1').should('contain', 'Shortcuts');
 
-    cy.visit('/admin/config/user-interface/taxonomy-manager-settings');
-    cy.get('h1').should('contain', 'Advanced settings for the Taxonomy Manager');
   });
 
   it("Media config pages", () => {

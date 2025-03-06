@@ -31,7 +31,7 @@ jobs:
       - uses: ./.github/actions/dingorunner
         env:
           runner: composer_update
-          blt: ./vendor/bin/blt
+          robo: ./vendor/bin/robo
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
           drupal_update: ${{ github.event.inputs.drupal_update }}
           version: ${{ github.event.inputs.version }}
