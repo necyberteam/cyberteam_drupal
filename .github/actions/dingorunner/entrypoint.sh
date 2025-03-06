@@ -87,7 +87,7 @@ then
   git config --global user.name \"$username\"
   composer config -g github-oauth.github.com $gh_token
   composer install --no-dev --ignore-platform-reqs
-  $blt amp:ciupdate "$drupal_update" --no-interaction --verbose
+  $blt amp:ciupdate "$drupal_update" $version --no-interaction --verbose
   git push origin $drupal_update
 fi
 
@@ -98,6 +98,13 @@ then
   storeKey
   terminusApi
   terminus multidev:delete --delete-branch --yes -- accessmatch.$branch
+fi
+
+if [ "$runner" = sync ];
+then
+  storeKey
+  terminusApi
+  terminus env:clone-content "$site_name".live dev --yes --no-interaction
 fi
 
 if [ "$runner" = md_check ];
