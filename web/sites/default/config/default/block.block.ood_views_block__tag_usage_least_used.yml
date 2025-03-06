@@ -1,0 +1,39 @@
+uuid: b63a24b9-476c-43d7-ae23-a84b149c0378
+langcode: en
+status: false
+dependencies:
+  config:
+    - views.view.tag_usage
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - ood
+id: ood_views_block__tag_usage_least_used
+theme: ood
+region: primary_menu
+weight: -72
+provider: null
+plugin: 'views_block:tag_usage-least_used'
+settings:
+  id: 'views_block:tag_usage-least_used'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '<front>'
