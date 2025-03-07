@@ -21,7 +21,7 @@ permissions:
 jobs:
   accessmatch1:
     name: accessmatch1
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.4
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
     if: contains(github.event.inputs.sites, 'accessmatch1') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -33,10 +33,11 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   accessmatch2:
     name: accessmatch2
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.4
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
     if: contains(github.event.inputs.sites, 'accessmatch2') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -48,10 +49,11 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   accessmatch3:
     name: accessmatch3
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.4
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
     if: contains(github.event.inputs.sites, 'accessmatch3') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -63,10 +65,11 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   ccmnet:
     name: ccmnet
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.4
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
     if: contains(github.event.inputs.sites, 'ccmnet') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -78,10 +81,11 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   connectci:
     name: connectci
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.4
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
     if: contains(github.event.inputs.sites, 'connectci') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -93,10 +97,11 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   crct:
     name: crct
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.4
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
     if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -108,10 +113,11 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   campuschampions:
     name: campuschampions
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.4
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
     if: contains(github.event.inputs.sites, 'campuschampions') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -123,10 +129,11 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   coco:
     name: coco
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.4
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
     if: contains(github.event.inputs.sites, 'coco') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -138,10 +145,11 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   greatplains:
     name: greatplains
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.4
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
     if: contains(github.event.inputs.sites, 'greatplains') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -153,10 +161,11 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   kyct:
     name: kyct
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.4
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
     if: contains(github.event.inputs.sites, 'kyct') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -168,10 +177,11 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   nect:
     name: nect
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.4
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
     if: contains(github.event.inputs.sites, 'nect') || github.event_name == 'pull_request'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
@@ -183,6 +193,7 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   fail:
     name: Actions to run on fail
