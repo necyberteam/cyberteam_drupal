@@ -4,7 +4,6 @@
  * Local development override configuration feature.
  */
 
-use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Component\Assertion\Handle;
 
 $settings['hash_salt'] = $_ENV['DRUPAL_HASH_SALT'];
@@ -26,8 +25,8 @@ $databases['default']['default'] = [
 ];
 
 // Use development service parameters.
-$settings['container_yamls'][] = EnvironmentDetector::getRepoRoot() . '/docroot/sites/development.services.yml';
-$settings['container_yamls'][] = EnvironmentDetector::getRepoRoot() . '/docroot/sites/blt.development.services.yml';
+$settings['container_yamls'][] = DRUPAL_ROOT . '/docroot/sites/development.services.yml';
+$settings['container_yamls'][] = DRUPAL_ROOT . '/docroot/sites/blt.development.services.yml';
 
 // Allow access to update.php.
 $settings['update_free_access'] = TRUE;
