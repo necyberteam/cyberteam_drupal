@@ -45,6 +45,8 @@
  * @ingroup themeable
  */
 #}
+{% set front_div = front_div|default("w-100 py-3 bg-light") %}
+
 <div class="wrapper">
 	<a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
 	{% if page.primary_menu %}
@@ -237,7 +239,10 @@
 
 	{{ page.header }}
 
-	{% if is_front %}<div class="w-100 py-3 bg-light">{% endif %}
+	{% if is_front %}
+    {# Add front_div variable to class_ #}
+    <div class="{{ front_div }}">
+  {% endif %}
 
   {# grey background #}
   {% if (view_id == 'organization') and (display_id == 'organizations') %}
