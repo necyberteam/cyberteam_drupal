@@ -59,4 +59,73 @@
 		</div>
 	 </nav>
 {% endblock %}
+
+{% block footer %}
+<footer class="footer">
+  {% if page.first_footer or page.second_footer or page.third_footer %}
+  <div class="container-fluid footer-main pt-3">
+	<div class="row mx-auto">
+	  {% if page.first_footer %}
+	  {% if page.second_footer and page.third_footer %}
+	  <div class="col-md-4 mx-auto">
+	  {% elseif (page.second_footer and not page.third_footer) or (page.third_footer and not page.second_footer) %}
+	  <div class="col-md-6 mx-auto">
+	  {% else %}
+	  <div class="col-12 mx-auto">
+	  {% endif %}
+		{{ page.first_footer }}
+	  </div>
+	  {% endif %}
+	  {% if page.second_footer %}
+	  {% if page.first_footer and page.third_footer %}
+	  <div class="col-md-4 mx-auto">
+	  {% elseif (page.first_footer and not page.third_footer) or (page.third_footer and not page.first_footer) %}
+	  <div class="col-md-6 mx-auto">
+	  {% else %}
+	  <div class="col-12 mx-auto">
+	  {% endif %}
+		{{ page.second_footer }}
+	  </div>
+	  {% endif %}
+	  {% if page.third_footer %}
+	  {% if page.first_footer and page.second_footer %}
+	  <div class="col-md-4 mx-auto">
+	  {% elseif (page.first_footer and not page.second_footer) or (page.second_footer and not page.first_footer) %}
+	  <div class="col-md-6 mx-auto">
+	  {% else %}
+	  <div class="col-12 mx-auto">
+	  {% endif %}
+		{{ page.third_footer }}
+	  </div>
+	  {% endif %}
+	</div>
+  </div>
+  {% endif %}
+  <div class="container-fluid footer-sub">
+	  <div class="col-lg-12 col-md-10 mx-auto">
+      <div class="d-flex">
+        <a class="nsf-logo" href="https://www.nsf.gov/" target="_blank" rel="noopener">
+          <img width="120" height="120" src="/themes/nect-theme/img/NSF_logo.svg">
+        </a>
+        <div>
+          <p class="nsf-text">This material is based upon work supported by the
+            <a href="https://nsf.gov" target="_blank">National Science Foundation</a>
+            under grant numbers
+          </p>
+          <p>
+            1534949, 1835725, 2138286, 2303692, and 2411375.
+          </p>
+        </div>
+      </div>
+      <p class="copyright">Copyright &copy; {{ 'now'|date('Y') }},
+        <a href="https://openondemand.org/">openondemand.org</a> |
+        <a href="/connectci-privacy-policy">Privacy Policy</a> |
+        <a href="/regions">Connect.CI</a> |
+        <a href="/contact/{{domain_name|replace({'-':'_'})}}">Contact Us</a>
+      </p>
+    </div>
+  </div>
+</footer>
+{% endblock %}
+
 {% extends "themes/custom/ood/templates/default/page.html.twig" %}

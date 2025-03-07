@@ -398,6 +398,7 @@
   {% endif %}
 </div>{# /.wrapper #}
 
+{% block footer %}
 <footer class="footer">
   {% if page.first_footer or page.second_footer or page.third_footer %}
   <div class="container-fluid footer-main pt-3">
@@ -494,3 +495,4 @@
 	</div>
   </div>
 </footer>
+{% endblock %}

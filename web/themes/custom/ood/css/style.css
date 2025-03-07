@@ -105,6 +105,31 @@
     }
   }
 
+  .navbar {
+    background-color: var(--header-gray) !important;
+    .container {
+      align-items: end;
+    }
+    .navbar-collapse {
+      flex-grow: 0;
+    }
+  }
+
+  [id="block-ood-oodprimarymenu"] {
+    ul {
+      display: flex;
+      margin-bottom: 0;
+    }
+    li {
+      list-style: none;
+      padding: 0 1em;
+    }
+    a {
+      font-weight: bold;
+      color: #000;
+    }
+  }
+
   .masthead {
     position: relative;
     overflow: hidden;
@@ -150,6 +175,27 @@
   }
   a:hover .link-circle {
     border-color: #000;
+  }
+
+  .footer-sub {
+    background-color: var(--header-gray);
+    .nsf-text {
+      margin-top: 2.5em;
+    }
+    p {
+      font-size: 1em !important;
+      color: #000;
+      text-align: left;
+    }
+    a {
+      color: #000;
+    }
+    .nsf-logo {
+      margin-right: 50px;
+    }
+    .copyright {
+      margin: 2em 0 0 3em;
+    }
   }
 }
 
