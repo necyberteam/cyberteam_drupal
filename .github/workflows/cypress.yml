@@ -22,7 +22,7 @@ jobs:
   accessmatch1:
     name: accessmatch1
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
-    if: contains(github.event.inputs.sites, 'accessmatch1') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'accessmatch1') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "accessmatch"
@@ -38,7 +38,7 @@ jobs:
   accessmatch2:
     name: accessmatch2
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
-    if: contains(github.event.inputs.sites, 'accessmatch2') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'accessmatch2') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "accessmatch"
@@ -54,7 +54,7 @@ jobs:
   accessmatch3:
     name: accessmatch3
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
-    if: contains(github.event.inputs.sites, 'accessmatch3') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'accessmatch3') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "accessmatch"
@@ -70,7 +70,7 @@ jobs:
   ccmnet:
     name: ccmnet
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
-    if: contains(github.event.inputs.sites, 'ccmnet') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'ccmnet') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "ccmnet"
@@ -86,7 +86,7 @@ jobs:
   connectci:
     name: connectci
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
-    if: contains(github.event.inputs.sites, 'connectci') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'connectci') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "connectci"
@@ -102,7 +102,7 @@ jobs:
   crct:
     name: crct
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
-    if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "crct"
@@ -118,7 +118,7 @@ jobs:
   campuschampions:
     name: campuschampions
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
-    if: contains(github.event.inputs.sites, 'campuschampions') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'campuschampions') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "campuschampions"
@@ -134,7 +134,7 @@ jobs:
   coco:
     name: coco
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
-    if: contains(github.event.inputs.sites, 'coco') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'coco') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "coco"
@@ -150,7 +150,7 @@ jobs:
   greatplains:
     name: greatplains
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
-    if: contains(github.event.inputs.sites, 'greatplains') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'greatplains') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "greatplains"
@@ -166,7 +166,7 @@ jobs:
   kyct:
     name: kyct
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
-    if: contains(github.event.inputs.sites, 'kyct') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'kyct') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "kyct"
@@ -182,7 +182,7 @@ jobs:
   nect:
     name: nect
     uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.5
-    if: contains(github.event.inputs.sites, 'nect') || github.event_name == 'pull_request'
+    if: contains(github.event.inputs.sites, 'nect') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "nect"
