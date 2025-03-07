@@ -1,6 +1,7 @@
 @import url("../../../nect-theme/css/style.css");
 :root {
   --ood-red: #ca1236;
+  --header-gray: #dddee0;
 }
 
 .page-node-10418 {
@@ -47,6 +48,63 @@
 
 .open-ondemand {
   font-size: 1.15em;
+
+  #secondaryNav.navbar {
+    background-color: var(--header-gray) !important;
+    padding: 0;
+    .container {
+      padding: 0;
+    }
+  }
+
+  #secondaryNavbarResponsive {
+    justify-content: space-between;
+    margin-left: inherit;
+    width: 100%;
+
+    .top-left-menu {
+      position: relative;
+      background-color: #000;
+      padding: .5rem 1rem;
+      width: 80%;
+      overflow: hidden;
+      .nav-item a {
+        color: #fff;
+        padding-left: 1.5em;
+      }
+      li {
+        position: relative;
+      }
+      li:before {
+        content: "";
+        position: absolute;
+        left: 7px;
+        top: 7px;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        border-left:8px solid var(--ood-red);
+      }
+    }
+
+    .top-left-menu:after {
+      content: "";
+      position: absolute;
+      right: -76px;
+      top: 0;
+      border-left: 75px solid transparent;
+      border-right: 75px solid transparent;
+      border-bottom: 75px solid var(--header-gray);
+    }
+
+    .navbar-nav {
+      padding: .5rem 1rem;
+      a {
+        font-size: .7em;
+        color: #000;
+      }
+    }
+  }
+
   .masthead {
     position: relative;
     overflow: hidden;
