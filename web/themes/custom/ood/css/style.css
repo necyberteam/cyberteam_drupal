@@ -1,0 +1,201 @@
+@import url("../../../nect-theme/css/style.css");
+:root {
+  --ood-red: #ca1236;
+  --header-gray: #dddee0;
+}
+
+.page-node-10418 {
+  .layout--twocol-section .layout__region--first > div {
+    margin-right: 5em;
+    h2 {
+      font-size: 1.8em;
+    }
+  }
+  .layout--threecol-section .layout__region div {
+    border-left: 2px solid #000;
+    padding-left: 1.5em;
+    margin-left: 1.5em;
+    margin-right: 1.5em;
+    margin-top: 150px;
+  }
+  .layout--threecol-section .layout__region:first-child div {
+    margin-left: 0;
+  }
+  .layout--threecol-section .layout__region:last-child div {
+    margin-right: 0;
+  }
+  .layout--threecol-section {
+    .layout__region {
+      position: relative;
+    }
+    img {
+      top: 35px;
+      left: 1em;
+      position: absolute;
+      width: 85px;
+      height: 85px;
+    }
+    a {
+      color: #000;
+      font-weight: bold;
+    }
+    .layout__region:nth-child(2) img,
+    .layout__region:nth-child(3) img {
+      left: 3em;
+    }
+  }
+}
+
+.open-ondemand {
+  font-size: 1.15em;
+
+  #secondaryNav.navbar {
+    background-color: var(--header-gray) !important;
+    padding: 0;
+    .container {
+      padding: 0;
+    }
+  }
+
+  #secondaryNavbarResponsive {
+    justify-content: space-between;
+    margin-left: inherit;
+    width: 100%;
+
+    .top-left-menu {
+      position: relative;
+      background-color: #000;
+      padding: .5rem 1rem;
+      width: 80%;
+      overflow: hidden;
+      .nav-item a {
+        color: #fff;
+        padding-left: 1.5em;
+      }
+      li {
+        position: relative;
+      }
+      li:before {
+        content: "";
+        position: absolute;
+        left: 7px;
+        top: 7px;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        border-left:8px solid var(--ood-red);
+      }
+    }
+
+    .top-left-menu:after {
+      content: "";
+      position: absolute;
+      right: -76px;
+      top: 0;
+      border-left: 75px solid transparent;
+      border-right: 75px solid transparent;
+      border-bottom: 75px solid var(--header-gray);
+    }
+
+    .navbar-nav {
+      padding: .5rem 1rem;
+      a {
+        font-size: .7em;
+        color: #000;
+      }
+    }
+  }
+
+  .navbar {
+    background-color: var(--header-gray) !important;
+    .container {
+      align-items: end;
+    }
+    .navbar-collapse {
+      flex-grow: 0;
+    }
+  }
+
+  [id="block-ood-oodprimarymenu"] {
+    ul {
+      display: flex;
+      margin-bottom: 7px;
+    }
+    li {
+      list-style: none;
+      padding: 0 1em;
+    }
+    a {
+      font-weight: bold;
+      color: #000;
+    }
+  }
+
+  .masthead {
+    position: relative;
+    overflow: hidden;
+    .container {
+      margin: 0 15px;
+      max-width: 100%;
+    }
+    .site-heading {
+      padding: 30px 0;
+    }
+
+    h2 {
+      font-size: 1.8em;
+      text-align: left;
+    }
+  }
+  .masthead:after {
+    content: "";
+    position: absolute;
+    right: -205px;
+    top: -50px;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-bottom: 150px solid #fff;
+  }
+
+  img {
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .btn-rounded {
+    border-radius: 5px;
+  }
+  .bg-ood-red {
+    background: var(--ood-red) !important;
+  }
+  .link-circle {
+    border: 1px solid var(--ood-red);
+    padding: 0 5px;
+    margin-right: .3em;
+    border-radius: 50%;
+  }
+  a:hover .link-circle {
+    border-color: #000;
+  }
+
+  .footer-sub {
+    background-color: var(--header-gray);
+    .nsf-text {
+      margin-top: 2.5em;
+    }
+    p {
+      font-size: 1em !important;
+      color: #000;
+      text-align: left;
+    }
+    a {
+      color: #000;
+    }
+    .nsf-logo {
+      margin-right: 50px;
+    }
+    .copyright {
+      margin: 2em 0 0 3em;
+    }
+  }
+}
+

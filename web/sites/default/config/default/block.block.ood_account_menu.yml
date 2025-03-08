@@ -1,0 +1,35 @@
+uuid: 39c70f9a-d3f8-404e-a889-6d8d4b51db23
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.account
+  module:
+    - domain
+    - system
+  theme:
+    - ood
+_core:
+  default_config_hash: DweBpscQZdG0-fHkSpUzdYucrNH45G_KF7Z82V-oyQM
+id: ood_account_menu
+theme: ood
+region: secondary_menu
+weight: 0
+provider: null
+plugin: 'system_menu_block:account'
+settings:
+  id: 'system_menu_block:account'
+  label: 'User account menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: true
+visibility:
+  domain:
+    id: domain
+    negate: true
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org

@@ -1,0 +1,29 @@
+uuid: df0d8241-8564-416e-90b3-0570f3e9f69e
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.resources
+  module:
+    - system
+    - views
+  theme:
+    - ood
+id: ood_exposedformresourcesresource_card
+theme: ood
+region: exposed_filters
+weight: 5
+provider: null
+plugin: 'views_exposed_filter_block:resources-resource_card'
+settings:
+  id: 'views_exposed_filter_block:resources-resource_card'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /resources_card

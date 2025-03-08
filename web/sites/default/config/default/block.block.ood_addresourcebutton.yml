@@ -1,0 +1,31 @@
+uuid: e1131e4f-18b4-4f67-b85e-5faaffeb85a8
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:01c27d44-d42d-4a7d-b73a-b66f98b0f769'
+  module:
+    - block_content
+    - system
+  theme:
+    - ood
+id: ood_addresourcebutton
+theme: ood
+region: view_type_buttons
+weight: 10
+provider: null
+plugin: 'block_content:01c27d44-d42d-4a7d-b73a-b66f98b0f769'
+settings:
+  id: 'block_content:01c27d44-d42d-4a7d-b73a-b66f98b0f769'
+  label: 'add resource button'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/ci-links\r\n/ci-links-card"
