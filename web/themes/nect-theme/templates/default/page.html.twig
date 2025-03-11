@@ -237,7 +237,9 @@
 		{% endif %}
 	{% endif %}
 
-	{{ page.header }}
+  {% block headersection %}
+    {{ page.header }}
+  {% endblock %}
 
 	{% if is_front %}
     {# Add front_div variable to class_ #}
