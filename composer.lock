@@ -4285,29 +4285,26 @@
         },
         {
             "name": "drupal/flag",
-            "version": "4.0.0-beta4",
+            "version": "dev-4.x",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/flag.git",
-                "reference": "8.x-4.0-beta4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/flag-8.x-4.0-beta4.zip",
-                "reference": "8.x-4.0-beta4",
-                "shasum": "2779804f23685e1bb68a2a7b9517932dde3b1d4e"
+                "reference": "9e12a609"
             },
             "require": {
-                "drupal/core": "^9.1 || ^10"
+                "drupal/core": "^10.3 || ^11"
             },
             "type": "drupal-module",
             "extra": {
+                "branch-alias": {
+                    "dev-4.x": "4.x-dev"
+                },
                 "drupal": {
-                    "version": "8.x-4.0-beta4",
-                    "datestamp": "1670487892",
+                    "version": "8.x-4.0-beta6+5-dev",
+                    "datestamp": "1741175203",
                     "security-coverage": {
                         "status": "not-covered",
-                        "message": "Beta releases are not covered by Drupal security advisories."
+                        "message": "Dev releases are not covered by Drupal security advisories."
                     }
                 }
             },
@@ -4317,7 +4314,7 @@
             ],
             "authors": [
                 {
-                    "name": "Berdir",
+                    "name": "berdir",
                     "homepage": "https://www.drupal.org/user/214652"
                 },
                 {
@@ -4329,16 +4326,16 @@
                     "homepage": "https://www.drupal.org/user/761344"
                 },
                 {
+                    "name": "ivnish",
+                    "homepage": "https://www.drupal.org/user/3547706"
+                },
+                {
                     "name": "joachim",
                     "homepage": "https://www.drupal.org/user/107701"
                 },
                 {
-                    "name": "merlinofchaos",
-                    "homepage": "https://www.drupal.org/user/26979"
-                },
-                {
-                    "name": "mooffie",
-                    "homepage": "https://www.drupal.org/user/78454"
+                    "name": "mandclu",
+                    "homepage": "https://www.drupal.org/user/52136"
                 },
                 {
                     "name": "quicksketch",
@@ -7483,26 +7480,26 @@
         },
         {
             "name": "drupal/shortcode",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/shortcode.git",
-                "reference": "2.0.2"
+                "reference": "2.0.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/shortcode-2.0.2.zip",
-                "reference": "2.0.2",
-                "shasum": "3e2351c8b50ba06b8b1b364c27826bbec71c1982"
+                "url": "https://ftp.drupal.org/files/projects/shortcode-2.0.3.zip",
+                "reference": "2.0.3",
+                "shasum": "d6f06ab744d7265587f93972a208203c91604095"
             },
             "require": {
-                "drupal/core": "^9.3 || ^10"
+                "drupal/core": "^9.3 || ^10 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.2",
-                    "datestamp": "1690014464",
+                    "version": "2.0.3",
+                    "datestamp": "1722254972",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -8483,26 +8480,26 @@
         },
         {
             "name": "drupal/user_current_paths",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/user_current_paths.git",
-                "reference": "2.0.3"
+                "reference": "2.0.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/user_current_paths-2.0.3.zip",
-                "reference": "2.0.3",
-                "shasum": "04d0d40c5d6d7e8caed1f0bf5dbb971ee080f7c8"
+                "url": "https://ftp.drupal.org/files/projects/user_current_paths-2.0.4.zip",
+                "reference": "2.0.4",
+                "shasum": "a67c99fbaa71a0d6772682968aaa6ed94165a5bc"
             },
             "require": {
-                "drupal/core": "^8.9 || ^9 || ^10"
+                "drupal/core": "^8.9 || ^9 || ^10 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.3",
-                    "datestamp": "1658137543",
+                    "version": "2.0.4",
+                    "datestamp": "1724320626",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -8515,11 +8512,11 @@
             ],
             "authors": [
                 {
-                    "name": "Anybody",
+                    "name": "anybody",
                     "homepage": "https://www.drupal.org/user/291091"
                 },
                 {
-                    "name": "Grevil",
+                    "name": "grevil",
                     "homepage": "https://www.drupal.org/user/3668491"
                 },
                 {
@@ -22230,7 +22227,7 @@
         "drupal/email_change_verification": 10,
         "drupal/feeds": 20,
         "drupal/filter_perms": 15,
-        "drupal/flag": 10,
+        "drupal/flag": 20,
         "drupal/inline_entity_form": 5,
         "drupal/label_help": 10,
         "drupal/masquerade": 10,

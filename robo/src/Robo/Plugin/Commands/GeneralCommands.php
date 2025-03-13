@@ -273,6 +273,62 @@ GITHUB_TOKEN=$token'>.env");
   }
 
   /**
+   * Composer updates.
+   */
+  private function composer_updates($regex, $ci = FALSE) {
+    $log = file_get_contents("log.txt");
+    $log = preg_match_all($regex, $log, $update_matches);
+    $this->say("-=-=-=-=-Log Message=-=-===-\n$log");
+    $update_list = '';
+    foreach ($update_matches[1] as $key => $update_match) {
+      $seperator = $key > 0 ? ' — ' : '';
+      $version = $update_matches[2][$key];
+      $update_list .= "$seperator$update_match: $version";
+    }
+    if ($ci) {
+      $this->say("Skipping updates");
+    }
+    else {
+      $this->_exec("lando drush updatedb -y");
+      $this->_exec("lando drush cr");
+    }
+    if ($log > 0) {
+      $this->say("\n The following updated:
+        $update_list");
+      if (!$ci) {
+        $cypress = $this->ask("Run Cypress tests now (Y/n)");
+      }
+      else {
+        $cypress = 'no';
+        $this->_exec("git add composer.*");
+        $this->_exec("git commit -m\"$update_list\"");
+      }
+      if ($cypress == 'y' || $cypress == 'Y' || $cypress == '') {
+        $this->_exec("lando robo cypress");
+        if (!$ci) {
+          $commit = $this->ask("Commit with the following message?
+            $update_list (Y/n)");
+        }
+        else {
+          $commit = 'y';
+        }
+        if ($commit == 'y' || $commit == 'Y' || $commit == '') {
+          $this->_exec("git add composer.*");
+          $this->_exec("git commit -m\"$update_list\"");
+        }
+      }
+    }
+    else {
+      $log = file_get_contents("log.txt");
+      $this->say("\n $log
+        This update may have failed, try running:
+        composer why-not drupal/module_name \n");
+    }
+    $this->_exec("rm log.txt");
+  }
+
+
+  /**
    * Drush Deploy.
    *
    * @command deploy
