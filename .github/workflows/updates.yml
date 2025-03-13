@@ -7,6 +7,16 @@ on:
         description: 'core or module to update'
         required: true
         default: 'drupal/core'
+      version:
+        description: 'Require version'
+      no-build:
+        type: boolean
+        description: 'Skip build'
+        default: false
+      sync:
+        type: boolean
+        description: 'Sync Pantheon'
+        default: false
 permissions:
   actions: write
   contents: write
@@ -21,17 +31,38 @@ jobs:
       - uses: ./.github/actions/dingorunner
         env:
           runner: composer_update
-          blt: ./vendor/bin/blt
+          robo: ./vendor/bin/robo
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
           drupal_update: ${{ github.event.inputs.drupal_update }}
+          version: ${{ github.event.inputs.version }}
           username: ${{ github.actor }}
           email: github.actions@necyberteam.org
           gh_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Pull Request
+        if: github.event.inputs.no-build == 'false' && github.event.inputs.sync == 'false'
         run: |
-          touch prnum.txt
-          gh pr create --title "[Composer] $drupal_update" --body "$(git log -1 --pretty=%B)" | sed 's/https:\/\/github.com\/necyberteam\/cyberteam_drupal\/pull\///g' > prnum.txt
+          gh pr create --title "[Composer] $drupal_update" --body "$(git log -1 --pretty=%B)"
+          gh pr merge --auto --merge
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
           drupal_update: ${{ github.event.inputs.drupal_update }}
+
+      - name: Create Pull Request (no build)
+        if: github.event.inputs.no-build == 'true'
+        run: |
+          gh pr create --title "[Composer] $drupal_update #nobuild" --body "$(git log -1 --pretty=%B)"
+          gh pr merge --auto --merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
+          drupal_update: ${{ github.event.inputs.drupal_update }}
+
+      - name: Create pull request (Sync Pantheon)
+        if: github.event.inputs.sync == 'true'
+        run: |
+          gh pr create --title "[Composer] $drupal_update #sync" --body "$(git log -1 --pretty=%B)"
+          gh pr merge --auto --merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
+          drupal_update: ${{ github.event.inputs.drupal_update }}
+          site_name: ${{ secrets.TERMINUS_SITE_NAME }}
