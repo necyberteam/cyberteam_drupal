@@ -59,6 +59,45 @@
       display: none !important;
   }
 
+  .user-register-form {
+    max-width: 32rem;
+    margin: 0 auto;
+  }
+
+  .cilogon-auth-login-form {
+    padding: 1.25rem;
+    margin: 0 auto;
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: .25rem;
+  }
+
+  .user-login-form .form-control {
+    max-width: 30ch;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .cilogon-auth-login-form {
+      -ms-flex: 0 0 66.666667%;
+      flex: 0 0 66.666667%;
+      max-width: 66.666667%;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .cilogon-auth-login-form {
+      -ms-flex: 0 0 50%;
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+  }
+
+  #cilogon-auth-login-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
   font-size: 1.15em;
 
   .graybox {

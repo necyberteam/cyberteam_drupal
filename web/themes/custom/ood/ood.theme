@@ -59,8 +59,8 @@ function ood_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   }
   if ($form_id == 'user_login_form') {
     $form['name']['#prefix'] = '<div class="col-lg-6 col-md-8 mx-auto text-center card my-4"><div class="card-body">
-                                <div class="hide-ccmnet"><p>Login with your Campus Champion or Cyberteam account.</p></div>
-                                <div class="region-specific display-ccmnet mb-2">Login with your CCMNet account or <a href="/user/register/ccmnet">join CCMNet</a>.</div>
+                                <div><p>Use your ConnectCI account (OnDemand, Campus Champion, CCMNet, Cyberteams).
+                                <a href="/user/register/ondemand">Or create an account</a>.</div>
                                 <div class="control-group form-group">';
     $form['name']['#attributes']['placeholder'][] = $form['name']['#title'] . '*';
     $form['name']['#attributes']['class'][] = 'form-control';
