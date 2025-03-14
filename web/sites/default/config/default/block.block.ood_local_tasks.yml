@@ -1,0 +1,37 @@
+uuid: 7b3b29dc-c554-4b58-9691-4b5e904cd5c5
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - user
+  theme:
+    - ood
+_core:
+  default_config_hash: X9I1OB0W3WlWtrK-CNcg6hNWwa8wficanpH8pYnDZDE
+id: ood_local_tasks
+theme: ood
+region: drupal_tabs
+weight: -38
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    context_mapping: {  }
+    pages: "/form/*\r\n/taxonomy/term/*\r\n/user/*\r\n!/user/*/*\r\n/node/24\r\n/webform/project/submissions/*\r\n/webform/project/submissions/*/edit\r\n/node/117\r\n/node/48"
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated
