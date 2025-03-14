@@ -1,0 +1,55 @@
+uuid: 09cacc2c-e412-4597-a007-759008e516b0
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:4bce14b9-7ae8-4341-b9d6-8917fda2bba4'
+  module:
+    - block_content
+    - domain
+    - system
+    - user
+  theme:
+    - ood
+id: ood_frontbuttons
+theme: ood
+region: projects_page
+weight: 3
+provider: null
+plugin: 'block_content:4bce14b9-7ae8-4341-b9d6-8917fda2bba4'
+settings:
+  id: 'block_content:4bce14b9-7ae8-4341-b9d6-8917fda2bba4'
+  label: 'Front Buttons '
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '<front>'
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      anonymous: anonymous
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      nectd8_wpi_edu: nectd8_wpi_edu
+      greatplains_wpi_edu: greatplains_wpi_edu
+      rmacc_wpi_edu: rmacc_wpi_edu
+      kycyberteam_cyberinfrastructure_org: kycyberteam_cyberinfrastructure_org
+      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
+      sweeter_cyberinfrastructure_org: sweeter_cyberinfrastructure_org
+      mines_cyberinfrastructure_org: mines_cyberinfrastructure_org
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+      trecis_cyberinfrastructure_org: trecis_cyberinfrastructure_org
