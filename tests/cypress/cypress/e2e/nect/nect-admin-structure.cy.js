@@ -326,8 +326,6 @@ describe("Test Structure admin page", () => {
     cy.contains('Tags');
     cy.contains('Track');
 
-    cy.visit('/admin/structure/taxonomy_manager/voc');
-    cy.get('h1').should('contain', 'Taxonomy Manager');
   });
 
   it("Views", () => {

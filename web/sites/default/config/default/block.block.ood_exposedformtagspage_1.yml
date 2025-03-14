@@ -1,0 +1,28 @@
+uuid: 4b988e21-bc3b-4979-87b3-7e39951d9a5b
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.tags
+  module:
+    - system
+    - views
+  theme:
+    - ood
+id: ood_exposedformtagspage_1
+theme: ood
+region: exposed_filters
+weight: 1
+provider: null
+plugin: 'views_exposed_filter_block:tags-page_1'
+settings:
+  id: 'views_exposed_filter_block:tags-page_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /tags

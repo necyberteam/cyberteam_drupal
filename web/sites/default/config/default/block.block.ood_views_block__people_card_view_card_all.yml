@@ -1,0 +1,31 @@
+uuid: 97fa22dd-615f-47ab-a4b9-a10d367ff92e
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - ood
+id: ood_views_block__people_card_view_card_all
+theme: ood
+region: people_page_card
+weight: 0
+provider: null
+plugin: 'views_block:people_card_view-card_all'
+settings:
+  id: 'views_block:people_card_view-card_all'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people_card_all\r\n/people/card"

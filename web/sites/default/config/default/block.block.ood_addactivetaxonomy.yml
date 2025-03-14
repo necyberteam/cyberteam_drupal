@@ -1,0 +1,31 @@
+uuid: b14cfa45-dcbe-457a-b75d-0764edf5d182
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:7843e706-1417-4767-b9b7-fc3cd07508ee'
+  module:
+    - block_content
+    - system
+  theme:
+    - ood
+id: ood_addactivetaxonomy
+theme: ood
+region: third_footer
+weight: 0
+provider: null
+plugin: 'block_content:7843e706-1417-4767-b9b7-fc3cd07508ee'
+settings:
+  id: 'block_content:7843e706-1417-4767-b9b7-fc3cd07508ee'
+  label: 'add active taxonomy'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '/taxonomy/term/*'
