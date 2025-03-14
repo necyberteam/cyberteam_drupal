@@ -94,6 +94,7 @@ function create_dummy_ci_link() {
   cy.get('#edit-description').type("Dummy description for ci-link 'access-support-ci-link-for-testing'");
   // tag "ACCESS-account" is selected
   cy.get('span[data-tid="733"]').click();
+  cy.get('.form-item-domain').find('input').type('ACCESS{enter}');
   cy.get('#edit-submit').click();
 }
 

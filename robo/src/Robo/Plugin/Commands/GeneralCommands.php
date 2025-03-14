@@ -515,39 +515,4 @@ GITHUB_TOKEN=$token'>.env");
     $this->_exec($this->lando() . "robo uli");
   }
 
-  /**
-   * Create github pull request.
-   *
-   * @command github-pullrequest
-   * @alias ghpr
-   * @description Create a pull request.
-   */
-  public function ghpr() {
-    $branch = shell_exec("git rev-parse --abbrev-ref HEAD");
-
-    $branch = explode("-", $branch);
-
-    $issue_number = $branch[1];
-
-    $ask_description = $this->ask("Describe context / purpose for this PR");
-
-    $template = "## Describe context / purpose for this PR
-$ask_description
-## Issue link
-https://cyberteamportal.atlassian.net/browse/D8-$issue_number
-## Any other related PRs?
--
-## Link to MultiDev instance
-http://md-$issue_number-accessmatch.pantheonsite.io
-
-## Checklist for PR author
-- [ ] I have checked that the PR is ready to be merged
-- [ ] I have reviewed the DIFF and checked that the changes are as expected
-- [ ] I have assigned myself or someone else to review the PR";
-
-    $this->say("Creating PR for D8-$issue_number");
-
-    $this->_exec("gh pr create --title 'D8-$issue_number' --body '$template'");
-  }
-
 }

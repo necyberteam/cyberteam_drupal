@@ -1,0 +1,33 @@
+uuid: 1818dbbf-52b4-4753-8a09-46fb8737e483
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.organization
+  module:
+    - taxonomy
+    - views
+  theme:
+    - ood
+id: ood_views_block__organization_block_2_3
+theme: ood
+region: tags_page_blog
+weight: 0
+provider: null
+plugin: 'views_block:organization-block_2'
+settings:
+  id: 'views_block:organization-block_2'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles:
+      tags: tags
