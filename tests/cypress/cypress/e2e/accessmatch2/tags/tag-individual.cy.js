@@ -270,6 +270,7 @@ describe("Verify the the community-outreach tag page", () => {
       cy.get('#edit-skill-level-304').check();  // beginner level
       cy.get('#edit-description').type("Dummy description for ci-link 'dummy-ci-link-for-testing-community-outreach-tag'");
       cy.get('.tags').contains('community-outreach').click();
+      cy.get('.form-item-domain').find('input').type('ACCESS{enter}');
       cy.get('#edit-submit').click();
     }
   });

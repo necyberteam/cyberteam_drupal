@@ -27,6 +27,7 @@ describe("test KB Resources form", () => {
     cy.get('textarea[name="description"]').type('Test');
     cy.get('input[name="link_to_resource[items][0][_item_][title]"]').type('Test');
     cy.get('input[name="link_to_resource[items][0][_item_][url]"]').type('http://example.com');
+    cy.get('.form-item-domain').find('input').type('Careers{enter}');
     cy.get('input[name="op"]').contains('Submit').click();
     cy.contains('Test CI Link Title');
     cy.contains('Submission information');
@@ -67,6 +68,7 @@ describe("test KB Resources form", () => {
     cy.get('select[name="category"]').select('learning');
     cy.get('input[name="approved"]').check();
     cy.get('[data-tid="682"]').contains('login').click();
+    cy.get('.form-item-domain').find('input').type('Careers{enter}');
     cy.get('input[name="op"]').contains('Submit').click();
     cy.contains('test-login-resource');
   });
