@@ -11,8 +11,8 @@ describe("Test login page", () => {
     cy.contains('Use your ConnectCI account');
 
     // verify username and password fields are present
-    cy.get('#user-login-form input[name="edit-name"]').should('exist');
-    cy.get('#user-login-form input[name="edit-pass"]').should('exist');
+    cy.get('#user-login-form input[name="name"]').should('exist');
+    cy.get('#user-login-form input[name="pass"]').should('exist');
     cy.get('#user-login-form input[type="submit"]').should('exist');
 
     // verify ACCESS login button is present
