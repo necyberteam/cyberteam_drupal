@@ -434,7 +434,7 @@ GITHUB_TOKEN=$token'>.env");
    * Domain Switch.
    *
    * @command domain-switch
-   * @alias ds
+   * @command ds
    * @description Set domain for site.
    */
   public function ds(array $args) {
@@ -444,9 +444,8 @@ GITHUB_TOKEN=$token'>.env");
     }
     $lando = $this->lando();
     if (!file_exists('robo/assets/domains.json')) {
-      $domain_get = shell_exec("$lando drush domain:list --format=json");
       $this->_exec("touch robo/assets/domains.json");
-      $this->_exec("echo '$domain_get' >> robo/assets/domains.json");
+      $this->_exec("$lando drush domain:list --format=json > robo/assets/domains.json");
     }
     else {
       $domain_get = file_get_contents('robo/assets/domains.json');

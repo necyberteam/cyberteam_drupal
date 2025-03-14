@@ -87,6 +87,7 @@ class GhCommands extends Tasks {
     $branch = explode("-", $branch);
 
     $issue_number = $branch[1];
+    $issue_number = str_replace(array("\n", "\r"), '', $issue_number);
 
     $ask_description = $this->ask("Describe context / purpose for this PR");
 
