@@ -2,8 +2,6 @@ uuid: 0121f73d-8878-4bc0-a47d-7f732b6bfffd
 langcode: en
 status: true
 dependencies:
-  config:
-    - user.role.authenticated
   module:
     - access_misc
     - csv_serialization
@@ -3267,10 +3265,8 @@ display:
           separator: ', '
           field_api_classes: false
       access:
-        type: role
-        options:
-          role:
-            authenticated: authenticated
+        type: views_user_registration_custom_access
+        options: {  }
       sorts:
         date__value:
           id: date__value
@@ -3544,5 +3540,4 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user.roles
       tags: {  }
