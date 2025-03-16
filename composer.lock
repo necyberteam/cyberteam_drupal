@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3821fb20223ed11951fcff4f1b6a70de",
+    "content-hash": "fd59e6d36223de34914a27bd0ed2d31e",
     "packages": [
         {
             "name": "access/drupal_seamless_cilogon",
@@ -98,17 +98,16 @@
         },
         {
             "name": "amp/access",
-            "version": "3.0.x-dev",
+            "version": "dev-d8-2375a",
             "source": {
                 "type": "git",
                 "url": "https://github.com/necyberteam/access.git",
-                "reference": "8a22bad027ee24f3d0d101597df7e29a79de2feb"
+                "reference": "745020568fcea776534760e3e0185e505619b7d4"
             },
             "require": {
                 "gioni06/gpt3-tokenizer": "^1.2",
                 "openai-php/client": "^0.4.1"
             },
-            "default-branch": true,
             "type": "drupal-custom-module",
             "license": [
                 "GPL-2.0+"
@@ -124,7 +123,7 @@
                 "issues": "https://github.com/necyberteam/access/issues",
                 "source": "https://github.com/necyberteam/access"
             },
-            "time": "2025-03-15T00:53:36+00:00"
+            "time": "2025-03-16T20:38:08+00:00"
         },
         {
             "name": "arthurkushman/query-path",
@@ -1706,6 +1705,62 @@
                 }
             ],
             "time": "2024-02-05T11:35:39+00:00"
+        },
+        {
+            "name": "drupal/acb",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/acb.git",
+                "reference": "2.0.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/acb-2.0.1.zip",
+                "reference": "2.0.1",
+                "shasum": "5b8e3b47ad39da8c0a170aaa6076396dace1c367"
+            },
+            "require": {
+                "drupal/core": "^9.5 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.0.1",
+                    "datestamp": "1694182764",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "i-trokhanenko",
+                    "homepage": "https://www.drupal.org/user/3546872"
+                },
+                {
+                    "name": "jigish.addweb",
+                    "homepage": "https://www.drupal.org/user/3147853"
+                },
+                {
+                    "name": "svendecabooter",
+                    "homepage": "https://www.drupal.org/user/35369"
+                },
+                {
+                    "name": "tarik.cipix",
+                    "homepage": "https://www.drupal.org/user/2758287"
+                }
+            ],
+            "description": "Bridge module linking Access Control modules so their access permissions work happily together.",
+            "homepage": "https://www.drupal.org/project/acb",
+            "support": {
+                "source": "https://git.drupalcode.org/project/acb"
+            }
         },
         {
             "name": "drupal/access_by_ref",
@@ -6010,26 +6065,29 @@
         },
         {
             "name": "drupal/nodeaccess",
-            "version": "dev-1.x",
+            "version": "2.0.0-alpha2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/nodeaccess.git",
-                "reference": "9933a1cc592fc7a6804b83dd0536ce98805a4178"
+                "reference": "2.0.0-alpha2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/nodeaccess-2.0.0-alpha2.zip",
+                "reference": "2.0.0-alpha2",
+                "shasum": "535962616aa353873cb50e35b76db81532da6c9e"
             },
             "require": {
-                "drupal/core": "^8 || ^9 || ^10"
+                "drupal/core": "^8.8 || ^9 || ^10"
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
-                    "version": "8.x-1.1+3-dev",
-                    "datestamp": "1666194488",
+                    "version": "2.0.0-alpha2",
+                    "datestamp": "1676128517",
                     "security-coverage": {
                         "status": "not-covered",
-                        "message": "Dev releases are not covered by Drupal security advisories."
+                        "message": "Alpha releases are not covered by Drupal security advisories."
                     }
                 }
             },
@@ -6047,16 +6105,16 @@
                     "homepage": "https://www.drupal.org/user/3569773"
                 },
                 {
+                    "name": "doxigo",
+                    "homepage": "https://www.drupal.org/user/1331334"
+                },
+                {
                     "name": "jungle",
                     "homepage": "https://www.drupal.org/user/2919723"
                 },
                 {
-                    "name": "Kushal Bansal",
+                    "name": "kushal bansal",
                     "homepage": "https://www.drupal.org/user/3478917"
-                },
-                {
-                    "name": "LeDucDuBleuet",
-                    "homepage": "https://www.drupal.org/user/103166"
                 },
                 {
                     "name": "waspper",
@@ -21991,6 +22049,7 @@
         "drupal/inline_entity_form": 5,
         "drupal/label_help": 10,
         "drupal/masquerade": 10,
+        "drupal/nodeaccess": 15,
         "drupal/realname": 10,
         "drupal/search_exclude": 10,
         "drupal/views_data_export": 5,
