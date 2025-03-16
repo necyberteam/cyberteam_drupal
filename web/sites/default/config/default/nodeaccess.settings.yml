@@ -1,5 +1,3277 @@
 _core:
   default_config_hash: Zno4MMkbreZeJZgnY0DXCPksXkuYye3MyIFlVuh-xLc
+allowed_grant_operations:
+  grant_view: true
+  grant_update: true
+  grant_delete: true
+bundles_roles_grants:
+  access_active_resources_from_cid:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  access_news:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  access_organization:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  affinity_group:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  article:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  blog_post:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  blog_post_region_:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  community_events:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  infrastructure_news:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  match_engagement:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  mentorship_engagement:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  organization:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  page:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  peoplecardview:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  peoplelistview:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  press_release:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  published_articles:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  recommended_cider:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  regional_about:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+  webform:
+    anonymous:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    professional_mentor:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    researcher:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    authenticated:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    representative:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    administrator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    masquerade:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    regional_expert:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    campuschampionsadmin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    exportpeople:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_computing_facilitator:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    research_software_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ci_systems_engineer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    mentee:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    student_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    domain_champion:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cssn:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    affinity_group_leader:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    lt:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ra:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    coco_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cnctci_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    news_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    kb_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    careers_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_pm:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    consultant:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    match_sc:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    cip:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    site_developer:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ccmnet_admin:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    ondemand:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+    author:
+      grant_view: 0
+      grant_update: 0
+      grant_delete: 0
+grants_tab_availability:
+  access_active_resources_from_cid: false
+  access_news: false
+  access_organization: false
+  affinity_group: false
+  article: false
+  blog_post: false
+  blog_post_region_: false
+  community_events: false
+  infrastructure_news: false
+  match_engagement: false
+  mentorship_engagement: false
+  organization: false
+  page: false
+  peoplecardview: false
+  peoplelistview: false
+  press_release: false
+  published_articles: false
+  recommended_cider: false
+  regional_about: false
+  webform: false
+roles_settings:
+  anonymous:
+    display_name: 'anonymous user'
+    name: 'anonymous user'
+    weight: 0
+    selected: true
+  student:
+    display_name: student-facilitator
+    name: student-facilitator
+    weight: 0
+    selected: true
+  mentor:
+    display_name: mentor
+    name: mentor
+    weight: 0
+    selected: true
+  professional_mentor:
+    display_name: 'regional facilitator'
+    name: 'regional facilitator'
+    weight: 0
+    selected: true
+  researcher:
+    display_name: researcher/educator
+    name: researcher/educator
+    weight: 0
+    selected: true
+  authenticated:
+    display_name: 'authenticated user'
+    name: 'authenticated user'
+    weight: 0
+    selected: true
+  representative:
+    display_name: representative
+    name: representative
+    weight: 0
+    selected: false
+  administrator:
+    display_name: administrator
+    name: administrator
+    weight: 0
+    selected: true
+  masquerade:
+    display_name: Masquerade
+    name: Masquerade
+    weight: 0
+    selected: false
+  regional_expert:
+    display_name: 'regional expert'
+    name: 'regional expert'
+    weight: 0
+    selected: true
+  campuschampionsadmin:
+    display_name: CampusChampionsAdmin
+    name: CampusChampionsAdmin
+    weight: 0
+    selected: true
+  exportpeople:
+    display_name: ExportPeople
+    name: ExportPeople
+    weight: 0
+    selected: false
+  research_computing_facilitator:
+    display_name: 'research computing facilitator'
+    name: 'research computing facilitator'
+    weight: 0
+    selected: false
+  research_software_engineer:
+    display_name: 'research software engineer'
+    name: 'research software engineer'
+    weight: 0
+    selected: false
+  ci_systems_engineer:
+    display_name: 'ci systems engineer'
+    name: 'ci systems engineer'
+    weight: 0
+    selected: false
+  mentee:
+    display_name: mentee
+    name: mentee
+    weight: 0
+    selected: false
+  student_champion:
+    display_name: 'student champion'
+    name: 'student champion'
+    weight: 0
+    selected: false
+  domain_champion:
+    display_name: 'domain champion'
+    name: 'domain champion'
+    weight: 0
+    selected: false
+  cssn:
+    display_name: cssn
+    name: cssn
+    weight: 0
+    selected: false
+  affinity_group_leader:
+    display_name: 'Affinity Group Leader'
+    name: 'Affinity Group Leader'
+    weight: 0
+    selected: false
+  match_pm:
+    display_name: 'MATCH PM'
+    name: 'MATCH PM'
+    weight: 0
+    selected: false
+  sc:
+    display_name: 'steering committee'
+    name: 'steering committee'
+    weight: 0
+    selected: false
+  lt:
+    display_name: 'leadership team'
+    name: 'leadership team'
+    weight: 0
+    selected: false
+  ra:
+    display_name: 'regional admin'
+    name: 'regional admin'
+    weight: 0
+    selected: false
+  coco_pm:
+    display_name: 'Coco PM'
+    name: 'Coco PM'
+    weight: 0
+    selected: false
+  cnctci_pm:
+    display_name: 'ConnectCi PM'
+    name: 'ConnectCi PM'
+    weight: 0
+    selected: false
+  news_pm:
+    display_name: 'News PM'
+    name: 'News PM'
+    weight: 0
+    selected: false
+  kb_pm:
+    display_name: 'KB PM'
+    name: 'KB PM'
+    weight: 0
+    selected: false
+  careers_sc:
+    display_name: 'Careers SC'
+    name: 'Careers SC'
+    weight: 0
+    selected: true
+  ccmnet_pm:
+    display_name: 'CCMNet PM'
+    name: 'CCMNet PM'
+    weight: 0
+    selected: true
+  consultant:
+    display_name: Consultant
+    name: Consultant
+    weight: 0
+    selected: false
+  match_sc:
+    display_name: 'Match SC'
+    name: 'Match SC'
+    weight: 0
+    selected: false
+  cip:
+    display_name: CIP
+    name: CIP
+    weight: 0
+    selected: false
+  site_developer:
+    display_name: 'Site Developer'
+    name: 'Site Developer'
+    weight: 0
+    selected: false
+  ccmnet:
+    display_name: CCMNet
+    name: CCMNet
+    weight: 0
+    selected: false
+  ccmnet_admin:
+    display_name: 'CCMNet Admin'
+    name: 'CCMNet Admin'
+    weight: 0
+    selected: true
+  ondemand:
+    display_name: OnDemand
+    name: OnDemand
+    weight: 0
+    selected: false
 grants:
   view: 1
   edit: 1
