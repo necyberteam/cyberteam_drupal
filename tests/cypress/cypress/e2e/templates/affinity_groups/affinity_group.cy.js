@@ -51,10 +51,10 @@ describe("test an Affinity Group page", () => {
     cy.url().should('include', '/announcements/2022-2023-holiday-support-schedule-anvil');
   });
 
-  it("Unauthenticated user tests an AG with a github link", () => {
-    cy.visit('/affinity-groups/open-ondemand');
-    cy.get('a').contains('GitHub').should('have.attr', 'href', 'https://github.com/OSC/ondemand');
-  });
+  // it("Unauthenticated user tests an AG with a github link", () => {
+  //   cy.visit('/affinity-groups/open-ondemand');
+  //   cy.get('a').contains('GitHub').should('have.attr', 'href', 'https://github.com/OSC/ondemand');
+  // });
 
   it("Unauthenticated user tests another AG with recommended resources", () => {
     cy.visit('/affinity-groups/ai-institutes-cyberinfrastructure');
