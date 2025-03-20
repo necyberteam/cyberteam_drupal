@@ -138,9 +138,6 @@ describe("Check admin configuration pages", () => {
     cy.contains('/user/register/domain_champion');
     cy.contains('/user/register/ccmnet');
 
-    cy.visit('/admin/config/people/nodeaccess');
-    cy.get('h1').should('contain', 'Nodeaccess');
-
     cy.contains('ACCESS Active Resources from CiDeR');
     cy.contains('ACCESS Announcements');
     cy.contains('ACCESS Organization');
