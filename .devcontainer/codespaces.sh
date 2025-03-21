@@ -45,4 +45,4 @@ mkdir -p ~/.lando/cache
 echo '>>> composer install'
 composer install --ignore-platform-reqs -n
 
-robo landosetup $GITHUB_TOKEN $AMP_UID
+vendor/bin/robo landosetup $GITHUB_TOKEN $AMP_UID
