@@ -10,8 +10,8 @@ dependencies:
     - search_api.index.affinity_groups
   module:
     - better_exposed_filters
-    - image
     - search_api
+    - svg_image
     - text
 id: affinity_group_search
 label: 'Affinity Group search'
@@ -568,7 +568,20 @@ display:
         type: search_api_none
         options: {  }
       empty: {  }
-      sorts: {  }
+      sorts:
+        title:
+          id: title
+          table: search_api_index_affinity_groups
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
       arguments: {  }
       filters:
         search_api_fulltext:
