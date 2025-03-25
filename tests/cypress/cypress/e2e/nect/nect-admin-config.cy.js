@@ -368,7 +368,7 @@ describe("Check admin configuration pages", () => {
     cy.contains('Campus Champions');
     cy.contains('TRECIS Cyberteam');
     cy.contains('Connect CI');
-    cy.contains('Access Support');
+    cy.contains('ACCESS Support');
     cy.contains('CoCo');
     cy.contains('USRSE');
     cy.contains('CCMNet');
