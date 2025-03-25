@@ -1,0 +1,33 @@
+uuid: 3eb072fb-af2b-4aaf-a681-da9e84db5cc4
+langcode: en
+status: true
+dependencies:
+  module:
+    - domain
+    - system
+    - user
+  theme:
+    - ood
+id: ood_userlogin
+theme: ood
+region: below_main_content
+weight: -42
+provider: null
+plugin: user_login_block
+settings:
+  id: user_login_block
+  label: ConnectCI
+  label_display: visible
+  provider: user
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      ccmnet_org: ccmnet_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: /user/register

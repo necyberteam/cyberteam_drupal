@@ -1,0 +1,39 @@
+uuid: 037dec75-0a18-40cf-9492-072e2328a14b
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.organization
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - ood
+id: ood_views_block__organization_organization_card
+theme: ood
+region: content
+weight: -36
+provider: null
+plugin: 'views_block:organization-organization_card'
+settings:
+  id: 'views_block:organization-organization_card'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/organizations\r\n<front>\r\n/organizations*"
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      coco_cyberinfrastructure_org: coco_cyberinfrastructure_org

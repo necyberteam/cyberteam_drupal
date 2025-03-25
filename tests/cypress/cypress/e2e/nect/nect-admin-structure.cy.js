@@ -164,7 +164,7 @@ describe("Test Structure admin page", () => {
     cy.contains('Blog post (region)');
     cy.contains('Community Events');
     cy.contains('Infrastructure News');
-    cy.contains('MATCH+ Engagement');
+    cy.contains('MATCH Engagement');
     cy.contains('Mentorship Engagement');
     cy.contains('Organization');
     cy.contains('PeopleCardView');

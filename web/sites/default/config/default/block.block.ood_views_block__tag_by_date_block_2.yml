@@ -1,0 +1,41 @@
+uuid: e8d12aee-390b-4767-99c4-12ab31214d20
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.tag_by_date
+  module:
+    - system
+    - user
+    - views
+  theme:
+    - ood
+id: ood_views_block__tag_by_date_block_2
+theme: ood
+region: content
+weight: -38
+provider: null
+plugin: 'views_block:tag_by_date-block_2'
+settings:
+  id: 'views_block:tag_by_date-block_2'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /tag-by-date
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      administrator: administrator
+      researcher: researcher
+      representative: representative
