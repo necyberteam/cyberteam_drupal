@@ -1,28 +1,30 @@
-uuid: e88a3945-16c6-4fc8-9adf-bf79c069eb07
+uuid: 91fc3b26-c78a-48a1-ad34-e75939e3ec55
 langcode: en
 status: true
 dependencies:
   config:
-    - views.view.events_facet
+    - views.view.badges
   module:
     - system
     - views
   theme:
     - aspTheme
-id: asptheme_exposedformevents_facetpage_1
+id: asptheme_views_block__badges_block_1
 theme: aspTheme
-region: sidebar_first
-weight: -18
+region: content
+weight: 0
 provider: null
-plugin: 'views_exposed_filter_block:events_facet-page_1'
+plugin: 'views_block:badges-block_1'
 settings:
-  id: 'views_exposed_filter_block:events_facet-page_1'
+  id: 'views_block:badges-block_1'
   label: ''
   label_display: '0'
   provider: views
   views_label: ''
+  items_per_page: none
+  exposed: {  }
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /events
+    pages: /community/badges

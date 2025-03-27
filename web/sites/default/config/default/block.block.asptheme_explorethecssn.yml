@@ -1,0 +1,30 @@
+uuid: ff517c89-aa83-405f-a2d8-343571753e76
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:095c6405-fa00-4bc8-b976-ce92128e7a34'
+  module:
+    - block_content
+    - system
+  theme:
+    - aspTheme
+id: asptheme_explorethecssn
+theme: aspTheme
+region: sidebar_second
+weight: -30
+provider: null
+plugin: 'block_content:095c6405-fa00-4bc8-b976-ce92128e7a34'
+settings:
+  id: 'block_content:095c6405-fa00-4bc8-b976-ce92128e7a34'
+  label: 'Explore the CSSN'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/badges
