@@ -1,0 +1,30 @@
+uuid: 0993f433-95af-49c0-8a67-017ede43e221
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:095c6405-fa00-4bc8-b976-ce92128e7a34'
+  module:
+    - block_content
+    - system
+  theme:
+    - champions
+id: champions_explorethecssn
+theme: champions
+region: secondary_sidebar
+weight: 1
+provider: null
+plugin: 'block_content:095c6405-fa00-4bc8-b976-ce92128e7a34'
+settings:
+  id: 'block_content:095c6405-fa00-4bc8-b976-ce92128e7a34'
+  label: 'Explore the CSSN'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/badges
