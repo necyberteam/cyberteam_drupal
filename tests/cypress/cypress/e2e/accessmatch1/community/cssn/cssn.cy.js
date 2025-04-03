@@ -26,7 +26,7 @@ describe('Tests the CSSN Page', () => {
 
     // Authenticated user should be able to join the CSSN.
     cy.get('#edit-actions-submit').click();
-    cy.contains('Thanks for updating your CSSN membership')
+    cy.contains('Thank you for joining the CSSN.')
   })
 })
 
