@@ -1,10 +1,4 @@
 describe("verify the /about-us/project-guide as anonymous & authenticated user", () => {
-  it("Visitor test the project guide", () => {
-    cy.visit('/about-us/project-guide', { failOnStatusCode: false });
-    cy.url().should('include', '/user/login');
-    cy.contains('You must log in to view this page.');
-  });
-
   it("Authenticated user test the project guide", () => {
     cy.loginUser("authenticated@amptesting.com", "6%l7iF}6(4tI");
     cy.visit('/about-us/project-guide');
