@@ -16,7 +16,7 @@ missing_label: others
 url_alias: me_tags
 facet_source_id: 'search_api:views_page__mentorship_facet_search__page_1'
 field_identifier: field_tags
-query_operator: or
+query_operator: and
 hard_limit: 0
 exclude: false
 use_hierarchy: false
@@ -31,15 +31,15 @@ widget:
   config:
     show_numbers: true
     soft_limit: 5
-    show_reset_link: false
+    show_reset_link: true
     reset_text: 'Show all'
-    hide_reset_when_no_selection: false
+    hide_reset_when_no_selection: true
     soft_limit_settings:
       show_less_label: 'Show less'
       show_more_label: 'Show more'
 empty_behavior:
   behavior: none
-only_visible_when_facet_source_is_visible: true
+only_visible_when_facet_source_is_visible: false
 show_only_one_result: false
 show_title: false
 processor_configs:
@@ -48,7 +48,7 @@ processor_configs:
     weights:
       sort: 20
     settings:
-      sort: DESC
+      sort: ASC
   count_widget_order:
     processor_id: count_widget_order
     weights:
@@ -61,11 +61,6 @@ processor_configs:
       sort: 40
     settings:
       sort: ASC
-  hide_non_narrowing_result_processor:
-    processor_id: hide_non_narrowing_result_processor
-    weights:
-      build: 40
-    settings: {  }
   hierarchy_processor:
     processor_id: hierarchy_processor
     weights:

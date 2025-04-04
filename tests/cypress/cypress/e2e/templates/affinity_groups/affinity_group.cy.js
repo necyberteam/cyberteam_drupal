@@ -28,7 +28,7 @@ describe("test an Affinity Group page", () => {
     cy.get('a').contains('Email').should('have.attr', 'href', 'mailto:jfossot@ncsu.edu');
     cy.contains('Coordinators');
     cy.contains('Jacob Fosso Tande').click();
-    cy.url().should('include', '/community-persona/5620');
+    cy.url().should('include', '/community-persona/4295');
     cy.contains('research-facilitation');
     cy.contains('Affinity Groups');
     cy.visit('/affinity-groups/cloud-computing');

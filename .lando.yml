@@ -11,6 +11,7 @@ services:
   database:
     api: 3
     portforward: 3300
+    healthcheck: mysql --defaults-extra-file=/app/.lando/mysql.cnf --silent --execute "SHOW DATABASES;"
   appserver:
     api: 3
     type: php:8.2

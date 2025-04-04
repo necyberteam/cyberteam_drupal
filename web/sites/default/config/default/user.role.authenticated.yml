@@ -7,10 +7,16 @@ dependencies:
     - filter.format.filtered_html
     - node.type.access_news
     - node.type.affinity_group
+    - node.type.article
     - node.type.blog_post
     - node.type.blog_post_region_
+    - node.type.community_events
     - node.type.match_engagement
     - node.type.mentorship_engagement
+    - node.type.page
+    - node.type.press_release
+    - node.type.published_articles
+    - node.type.regional_about
     - taxonomy.vocabulary.tags
     - workflows.workflow.editorial
     - workflows.workflow.match_engagement
@@ -21,7 +27,6 @@ dependencies:
     - content_moderation
     - domain
     - domain_access
-    - field_permissions
     - filter
     - flag
     - login_disable
@@ -63,19 +68,31 @@ permissions:
   - 'create terms in tags'
   - 'delete access_news revisions'
   - 'delete own access_news content'
+  - 'delete own affinity_group content'
+  - 'delete own article content'
   - 'delete own blog_post content'
   - 'delete own blog_post_region_ content'
+  - 'delete own community_events content'
   - 'delete own eventinstance entity'
   - 'delete own eventseries entity'
+  - 'delete own page content'
+  - 'delete own press_release content'
+  - 'delete own published_articles content'
+  - 'delete own regional_about content'
   - 'delete own registrant entities'
   - 'edit own access_news content'
   - 'edit own affinity_group content'
+  - 'edit own article content'
   - 'edit own blog_post content'
   - 'edit own blog_post_region_ content'
+  - 'edit own community_events content'
   - 'edit own eventinstance entity'
   - 'edit own eventseries entity'
   - 'edit own match_engagement content'
   - 'edit own mentorship_engagement content'
+  - 'edit own page content'
+  - 'edit own press_release content'
+  - 'edit own regional_about content'
   - 'edit own registrant entities'
   - 'edit own webform'
   - 'edit own webform submission'
