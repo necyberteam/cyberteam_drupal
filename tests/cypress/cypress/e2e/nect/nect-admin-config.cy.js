@@ -150,7 +150,7 @@ describe("Check admin configuration pages", () => {
     cy.contains('Blog post (region)');
     cy.contains('Community Events');
     cy.contains('Infrastructure News');
-    cy.contains('MATCH+ Engagement');
+    cy.contains('MATCH Engagement');
     cy.contains('Mentorship Engagement');
     cy.contains('Organization');
     cy.contains('Basic page');
@@ -368,7 +368,7 @@ describe("Check admin configuration pages", () => {
     cy.contains('Campus Champions');
     cy.contains('TRECIS Cyberteam');
     cy.contains('Connect CI');
-    cy.contains('Access Support');
+    cy.contains('ACCESS Support');
     cy.contains('CoCo');
     cy.contains('USRSE');
     cy.contains('CCMNet');
