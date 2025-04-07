@@ -8,7 +8,7 @@ describe("Test registration page", () => {
 describe("Test login page", () => {
   it("Verify the login page has normal login and ACCESS methods", () => {
     cy.visit('/user/login');
-    cy.contains('Use your ConnectCI account');
+    cy.contains('Create account');
 
     // verify username and password fields are present
     cy.get('#user-login-form input[name="name"]').should('exist');
