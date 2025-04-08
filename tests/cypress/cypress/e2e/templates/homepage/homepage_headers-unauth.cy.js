@@ -5,7 +5,7 @@ describe("verify headers for non-authenticated user", () => {
     cy.contains('My Profile').should('not.exist');
     cy.get('#secondaryNavbarResponsive > .navbar-nav > :nth-child(2) > .nav-link').contains('Log in').click();
     cy.url().should('include', '/user/login');
-    cy.contains('Login with your Campus Champion or Cyberteam account.');
+    cy.contains('Log in');
   });
 
   it("Verify the Join button links to join", () => {

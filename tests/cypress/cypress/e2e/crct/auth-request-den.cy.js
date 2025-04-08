@@ -3,7 +3,7 @@
 //
 describe('Authenticated user tests the Distributed Experts Network form', () => {
   it('should submit the form successfully', () => {
-    cy.loginAs('authenticated@amptesting.com', '6%l7iF}6(4tI');
+    cy.loginUser('authenticated@amptesting.com', '6%l7iF}6(4tI');
     cy.visit('/distributed-experts-network');
     cy.get('.btn').contains('REQUEST A CONSULT')
       .should('have.attr', 'href')
