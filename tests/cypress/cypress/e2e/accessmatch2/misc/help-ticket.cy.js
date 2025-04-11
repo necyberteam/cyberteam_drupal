@@ -24,6 +24,6 @@ describe("Verify the buttons on the Help Ticket page update the form action to g
       .click();
     cy.get('#ticket-choice-form')
       .invoke('attr', 'action')
-      .should('equal', '/open-a-ticket')
+      .should('equal', '/open-a-ticket/17')
   });
 });
