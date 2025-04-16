@@ -64,6 +64,9 @@ body.careers-cyberteam{
   --navbar-dropdown-hover: var(--navbar-link);
   --selected-tag: var(--primary);
 }
+body:not(.careers-cyberteam) .careers-cyberteam {
+  display: none !important;
+}
 body.great-plains-cyberteam{
   --link: var(--primary);
   --link-hover: var(--default-hover);
@@ -112,6 +115,9 @@ body.northeast-cyberteam{
   --navbar-dropdown: var(--text);
   --navbar-dropdown-hover: var(--navbar-link);
   --selected-tag: var(--primary);
+}
+body:not(.northeast-cyberteam) .northeast-cyberteam {
+  display: none !important;
 }
 body.rmacc-cyberteam{
   --link: var(--primary);
@@ -168,6 +174,15 @@ body.ccmnet{
   --secondary-navbar-background: var(--ccmnet-navy);
   --footer-link-hover: var(--ccmnet-lightblue);
   overflow-x: hidden;
+}
+body:not(.ccmnet) .ccmnet {
+  display: none !important;
+}
+body:not(.campus-champions) .campus-champions{
+  display: none !important;
+}
+body:not(.open-ondemand) .open-ondemand {
+  display: none !important;
 }
 html:has(body.ccmnet) {
   overflow-x: hidden;
@@ -2386,7 +2401,7 @@ details.tags label {
 
 #block-nect-joinccmnet {
   width: 100%;
-  margin: 0 1rem;
+  margin: 0;
 }
 
 #cilogon-auth-login-prefix img {
