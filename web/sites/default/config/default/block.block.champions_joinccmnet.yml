@@ -1,4 +1,4 @@
-uuid: 2257ec0b-c9ad-45b3-b46b-702da1029ffc
+uuid: 829137df-aab4-4938-869d-0bdae9e65a0f
 langcode: en
 status: true
 dependencies:
@@ -6,36 +6,24 @@ dependencies:
     - 'block_content:basic:06fd0027-5665-4663-a27d-05803e8f50d1'
   module:
     - block_content
-    - domain
     - system
   theme:
-    - nect
-id: nect_joinccmnet
-theme: nect
+    - champions
+id: champions_joinccmnet
+theme: champions
 region: content
 weight: 0
 provider: null
 plugin: 'block_content:06fd0027-5665-4663-a27d-05803e8f50d1'
 settings:
   id: 'block_content:06fd0027-5665-4663-a27d-05803e8f50d1'
-  label: 'Join CCMnet'
+  label: 'Login or Join'
   label_display: '0'
   provider: block_content
   status: true
   info: ''
   view_mode: full
 visibility:
-  domain:
-    id: domain
-    negate: false
-    context_mapping:
-      domain: '@domain.current_domain_context:domain'
-    domains:
-      nectd8_wpi_edu: nectd8_wpi_edu
-      greatplains_wpi_edu: greatplains_wpi_edu
-      kycyberteam_cyberinfrastructure_org: kycyberteam_cyberinfrastructure_org
-      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
-      ccmnet_org: ccmnet_org
   request_path:
     id: request_path
     negate: false
