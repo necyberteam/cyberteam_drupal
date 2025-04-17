@@ -5219,26 +5219,29 @@
         },
         {
             "name": "drupal/label_help",
-            "version": "2.0.0-rc1",
+            "version": "2.0.0-rc2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/label_help.git",
-                "reference": "2.0.0-rc1"
+                "reference": "2.0.0-rc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/label_help-2.0.0-rc1.zip",
-                "reference": "2.0.0-rc1",
-                "shasum": "6885703b359292a34738a2479658b79ab064db42"
+                "url": "https://ftp.drupal.org/files/projects/label_help-2.0.0-rc2.zip",
+                "reference": "2.0.0-rc2",
+                "shasum": "07e40ee57955959aa8eda2b7815a40edb8ee27bc"
             },
             "require": {
-                "drupal/core": "^8 || ^9 || ^10"
+                "drupal/core": "^8 || ^9 || ^10 || ^11"
+            },
+            "require-dev": {
+                "drush/drush": "*"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.0-rc1",
-                    "datestamp": "1683039862",
+                    "version": "2.0.0-rc2",
+                    "datestamp": "1740522414",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "RC releases are not covered by Drupal security advisories."
@@ -5247,26 +5250,27 @@
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
-                "GPL-2.0-or-later"
+                "GPL-2.0+"
             ],
             "authors": [
                 {
-                    "name": "joelpittet",
-                    "homepage": "https://www.drupal.org/user/160302"
+                    "name": "See contributors",
+                    "homepage": "https://www.drupal.org/node/1812408/committers"
                 },
                 {
                     "name": "jwilson3",
                     "homepage": "https://www.drupal.org/user/220177"
                 },
                 {
-                    "name": "Sheldon Rampton",
+                    "name": "sheldon rampton",
                     "homepage": "https://www.drupal.org/user/13085"
                 }
             ],
-            "description": "Creates the help text directly below the label in form fields",
+            "description": "Add help text under form element labels.",
             "homepage": "https://www.drupal.org/project/label_help",
             "support": {
-                "source": "https://git.drupalcode.org/project/label_help"
+                "source": "https://git.drupalcode.org/project/label_help",
+                "issues": "https://www.drupal.org/project/issues/label_help"
             }
         },
         {
@@ -22003,7 +22007,6 @@
         "access/infrastructure_news": 20,
         "access/operations_cider": 20,
         "amp/access": 20,
-        "amp/amp_dev": 20,
         "drupal/auditfiles": 10,
         "drupal/crawler_rate_limit": 10,
         "drupal/datalayer": 5,
@@ -22029,11 +22032,12 @@
         "drupal_fork/domain_adv": 20,
         "necyberteam/asp-theme": 20,
         "necyberteam/campus-champions-theme": 20,
-        "necyberteam/webform_submission_search_api": 20
+        "necyberteam/webform_submission_search_api": 20,
+        "amp/amp_dev": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": {},
-    "platform-dev": {},
+    "platform": [],
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }
