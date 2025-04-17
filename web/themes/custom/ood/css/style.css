@@ -574,7 +574,14 @@ body {
   }
 }
 
-.page-events {
+form label,
+.form-item .label,
+form #tag-suggestions strong {
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.page-events,
+.page-events-past {
   .views-field-date-1 {
     max-width: fit-content;
   }
@@ -590,5 +597,18 @@ body {
   }
   .row-span-4 {
     grid-row: span 4 / span 4;
+  }
+  .border-b {
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+  }
+  .border-solid {
+    border-style: solid;
+  }
+  .text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
   }
 }
