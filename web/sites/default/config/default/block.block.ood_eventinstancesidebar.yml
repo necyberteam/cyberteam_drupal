@@ -1,0 +1,25 @@
+uuid: a9a89c14-d05b-4c4d-a16c-593f5c9fecb1
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_events
+    - system
+  theme:
+    - ood
+id: ood_eventinstancesidebar
+theme: ood
+region: secondary_sidebar
+weight: 0
+provider: null
+plugin: event_instance_sidebar
+settings:
+  id: event_instance_sidebar
+  label: 'Event Instance Sidebar'
+  label_display: '0'
+  provider: access_events
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/events/*\r\n!/events/*/*\r\n!/events/past\r\n!/events/mine"
