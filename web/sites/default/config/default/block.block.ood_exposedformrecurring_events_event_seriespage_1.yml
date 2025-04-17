@@ -1,0 +1,28 @@
+uuid: 7e2abebc-a5fc-435f-9623-5da49e88cd58
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.recurring_events_event_series
+  module:
+    - system
+    - views
+  theme:
+    - ood
+id: ood_exposedformrecurring_events_event_seriespage_1
+theme: ood
+region: content
+weight: 0
+provider: null
+plugin: 'views_exposed_filter_block:recurring_events_event_series-page_1'
+settings:
+  id: 'views_exposed_filter_block:recurring_events_event_series-page_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events/mine

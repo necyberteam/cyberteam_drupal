@@ -1,29 +1,29 @@
-uuid: 7ad60d39-31e3-49ef-abc9-fdc45c712127
+uuid: d7511b9a-e8a1-4502-b1d8-10f1a38e83fc
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.mentor
+    - facets.facet.past_event_type
   module:
     - facets
     - system
   theme:
     - ood
-id: ood_mentor
+id: ood_pasteventtype
 theme: ood
 region: primary_sidebar
-weight: -21
+weight: -13
 provider: null
-plugin: 'facet_block:mentor'
+plugin: 'facet_block:past_event_type'
 settings:
-  id: 'facet_block:mentor'
-  label: Mentor
+  id: 'facet_block:past_event_type'
+  label: 'Event Type'
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_mentor
+  block_id: ood_pasteventtype
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /mentorships
+    pages: /events/past

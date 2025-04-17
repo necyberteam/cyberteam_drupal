@@ -1,0 +1,29 @@
+uuid: 7d4175ae-f2d6-42d5-8a30-b8055a924fd6
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.custom_event_affiliation
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_upcomingeventaffiliation
+theme: ood
+region: primary_sidebar
+weight: -44
+provider: null
+plugin: 'facet_block:custom_event_affiliation'
+settings:
+  id: 'facet_block:custom_event_affiliation'
+  label: 'Event Affiliation'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: ood_upcomingeventaffiliation
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events
