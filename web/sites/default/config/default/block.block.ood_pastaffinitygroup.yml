@@ -1,29 +1,29 @@
-uuid: 7ad60d39-31e3-49ef-abc9-fdc45c712127
+uuid: 885e0842-e74d-456b-ab65-4cbfb22b6fae
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.mentor
+    - facets.facet.past_affinity_group
   module:
     - facets
     - system
   theme:
     - ood
-id: ood_mentor
+id: ood_pastaffinitygroup
 theme: ood
 region: primary_sidebar
-weight: -21
+weight: -11
 provider: null
-plugin: 'facet_block:mentor'
+plugin: 'facet_block:past_affinity_group'
 settings:
-  id: 'facet_block:mentor'
-  label: Mentor
+  id: 'facet_block:past_affinity_group'
+  label: 'Affinity Group'
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_mentor
+  block_id: ood_pastaffinitygroup
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /mentorships
+    pages: /events/past

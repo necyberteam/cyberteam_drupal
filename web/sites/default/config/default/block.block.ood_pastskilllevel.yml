@@ -1,29 +1,29 @@
-uuid: 7ad60d39-31e3-49ef-abc9-fdc45c712127
+uuid: c1dc83f9-cae4-4732-b99f-bd6a82ad3817
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.mentor
+    - facets.facet.past_skill_level
   module:
     - facets
     - system
   theme:
     - ood
-id: ood_mentor
+id: ood_pastskilllevel
 theme: ood
 region: primary_sidebar
-weight: -21
+weight: -9
 provider: null
-plugin: 'facet_block:mentor'
+plugin: 'facet_block:past_skill_level'
 settings:
-  id: 'facet_block:mentor'
-  label: Mentor
+  id: 'facet_block:past_skill_level'
+  label: 'Skill Level'
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_mentor
+  block_id: ood_pastskilllevel
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /mentorships
+    pages: /events/past
