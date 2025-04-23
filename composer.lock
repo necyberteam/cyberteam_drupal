@@ -102,7 +102,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/necyberteam/access.git",
-                "reference": "af2f2ecb1620daee057a16f02aec43f3b588d9a8"
+                "reference": "5afc8e0334d7679783195fe41114524e73c9b74f"
             },
             "require": {
                 "gioni06/gpt3-tokenizer": "^1.2",
@@ -124,7 +124,7 @@
                 "issues": "https://github.com/necyberteam/access/issues",
                 "source": "https://github.com/necyberteam/access"
             },
-            "time": "2025-04-21T10:29:03+00:00"
+            "time": "2025-04-22T18:59:38+00:00"
         },
         {
             "name": "arthurkushman/query-path",
@@ -7927,29 +7927,29 @@
         },
         {
             "name": "drupal/symfony_mailer",
-            "version": "1.4.1",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/symfony_mailer.git",
-                "reference": "1.4.1"
+                "reference": "1.5.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/symfony_mailer-1.4.1.zip",
-                "reference": "1.4.1",
-                "shasum": "2f62cd93e84b0c294ca9dfa01e8bfefa3e3d7fa1"
+                "url": "https://ftp.drupal.org/files/projects/symfony_mailer-1.5.0.zip",
+                "reference": "1.5.0",
+                "shasum": "dbec446b7112ac2e50580ceda9e80ea806498047"
             },
             "require": {
-                "drupal/core": "^9.4 || ^10",
+                "drupal/core": "^10.3 || ^11",
                 "html2text/html2text": "^4.0.1",
-                "symfony/mailer": "^5.3 || ^6.0",
+                "symfony/mailer": "^6.0 || ^7.0",
                 "tijsverkoyen/css-to-inline-styles": "^2.2"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "1.4.1",
-                    "datestamp": "1705236306",
+                    "version": "1.5.0",
+                    "datestamp": "1723739690",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -7967,7 +7967,7 @@
             ],
             "authors": [
                 {
-                    "name": "AdamPS",
+                    "name": "adamps",
                     "homepage": "https://www.drupal.org/user/2650563"
                 }
             ],
@@ -8399,26 +8399,26 @@
         },
         {
             "name": "drupal/views_aggregator",
-            "version": "2.0.2",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/views_aggregator.git",
-                "reference": "2.0.2"
+                "reference": "2.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/views_aggregator-2.0.2.zip",
-                "reference": "2.0.2",
-                "shasum": "390b1f2c7924e3af36cf95a0c20bc13b9da5f30c"
+                "url": "https://ftp.drupal.org/files/projects/views_aggregator-2.1.1.zip",
+                "reference": "2.1.1",
+                "shasum": "0cd3b6d6d54d7d3fb7ed4bad8d88a719a6d26177"
             },
             "require": {
-                "drupal/core": "^9.2 || ^10"
+                "drupal/core": "^10.3 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.2",
-                    "datestamp": "1678561594",
+                    "version": "2.1.1",
+                    "datestamp": "1731102084",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -8431,15 +8431,15 @@
             ],
             "authors": [
                 {
-                    "name": "JordiK",
+                    "name": "jordik",
                     "homepage": "https://www.drupal.org/user/3472907"
                 },
                 {
-                    "name": "RdeBoer",
+                    "name": "rdeboer",
                     "homepage": "https://www.drupal.org/user/404007"
                 },
                 {
-                    "name": "TR",
+                    "name": "tr",
                     "homepage": "https://www.drupal.org/user/202830"
                 }
             ],
@@ -8525,41 +8525,38 @@
         },
         {
             "name": "drupal/views_bulk_operations",
-            "version": "4.2.6",
+            "version": "4.3.4",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/views_bulk_operations.git",
-                "reference": "4.2.6"
+                "reference": "4.3.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/views_bulk_operations-4.2.6.zip",
-                "reference": "4.2.6",
-                "shasum": "20c6f77c0cebda75edfa570a8dc53fb133d6283a"
+                "url": "https://ftp.drupal.org/files/projects/views_bulk_operations-4.3.4.zip",
+                "reference": "4.3.4",
+                "shasum": "c0974356f26d49ad9e99450e9db9650de94c6010"
             },
             "require": {
-                "drupal/core": "^9.4 || ^10",
-                "php": ">=7.4.0"
+                "drupal/core": "^10.3 || ^11"
+            },
+            "conflict": {
+                "drush/drush": "<12.5.1"
             },
             "require-dev": {
-                "drush/drush": "^12"
+                "drush/drush": "^12 || ^13"
             },
             "suggest": {
-                "drush/drush": "^11 || ^12"
+                "drush/drush": "^12 || ^13"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "4.2.6",
-                    "datestamp": "1704281842",
+                    "version": "4.3.4",
+                    "datestamp": "1741604495",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
-                    }
-                },
-                "drush": {
-                    "services": {
-                        "drush.services.yml": "^10 || ^11"
                     }
                 }
             },
@@ -8573,7 +8570,7 @@
                     "homepage": "https://www.drupal.org/u/graber"
                 },
                 {
-                    "name": "Graber",
+                    "name": "graber",
                     "homepage": "https://www.drupal.org/user/1599440"
                 },
                 {
@@ -8584,9 +8581,9 @@
             "description": "Adds an ability to perform bulk operations on selected entities from view results. Provides an API to create such operations.",
             "homepage": "https://www.drupal.org/project/views_bulk_operations",
             "support": {
-                "source": "https://git.drupalcode.org/project/views_bulk_operations/-/tree/8.x-3.x",
-                "issues": "https://www.drupal.org/project/issues/views_bulk_operations?version=8.x",
-                "docs": "https://www.drupal.org/docs/8/modules/views-bulk-operations-vbo"
+                "source": "https://git.drupalcode.org/project/views_bulk_operations",
+                "issues": "https://www.drupal.org/project/issues/views_bulk_operations?version=any_4.",
+                "docs": "https://www.drupal.org/docs/contributed-modules/views-bulk-operations-vbo"
             }
         },
         {
@@ -8764,26 +8761,26 @@
         },
         {
             "name": "drupal/views_filters_populate",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/views_filters_populate.git",
-                "reference": "2.1.0"
+                "reference": "2.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/views_filters_populate-2.1.0.zip",
-                "reference": "2.1.0",
-                "shasum": "3ad9d0a7c3251276158c786394311672b1b1a9a1"
+                "url": "https://ftp.drupal.org/files/projects/views_filters_populate-2.2.0.zip",
+                "reference": "2.2.0",
+                "shasum": "8a18d2f6af47e01a2e6dee5d2306411bb2ad5fa9"
             },
             "require": {
-                "drupal/core": "^9 || ^10"
+                "drupal/core": "^10 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.1.0",
-                    "datestamp": "1692305050",
+                    "version": "2.2.0",
+                    "datestamp": "1741769746",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -8796,7 +8793,7 @@
             ],
             "authors": [
                 {
-                    "name": "Eli-T",
+                    "name": "eli-t",
                     "homepage": "https://www.drupal.org/user/516878"
                 },
                 {
