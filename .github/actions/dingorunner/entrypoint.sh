@@ -190,7 +190,7 @@ then
   terminusApi
   branch="${GITHUB_REF#refs/heads/}"
   touch md_check.txt
-  vendor/bin/robo pmd:check $branch --no-interaction >> md_check.txt
+  vendor/bin/robo pmd:check $branch --no-interaction | grep -o "FALSE\|TRUE" > md_check.txt
 fi
 
 if [ "$runner" = md_create ];
