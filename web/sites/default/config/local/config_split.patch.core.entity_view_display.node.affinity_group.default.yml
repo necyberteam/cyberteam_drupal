@@ -36,8 +36,12 @@ adding:
 removing:
   dependencies:
     config:
+      - field.field.node.affinity_group.field_ag_private
+      - field.field.node.affinity_group.field_ag_private_users
       - field.field.node.affinity_group.field_group_id
     module:
       - svg_image
   hidden:
+    field_ag_private: true
+    field_ag_private_users: true
     field_group_id: true
