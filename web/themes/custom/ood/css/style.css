@@ -307,6 +307,7 @@ body {
     position: relative;
     overflow: hidden;
     background-color: var(--ood-red);
+    max-height: 100px;
     .container {
       margin: 0 15px;
       max-width: 100%;
@@ -542,4 +543,29 @@ body {
 .page-events span.event-tags {
   display: flex;
   flex-wrap: wrap;
+
+  a {
+    margin-top: 0.5em;
+    border-color: #232323 !important;
+  }
+}
+
+.field__label {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.75rem;
+  margin-top: 1.5rem;
+}
+
+#views-exposed-form-recurring-events-registrations-event-registrant-list {
+  display: flex;
+  align-items: center;
+
+  > div {
+    margin-right: 1em;
+  }
+
+  #edit-actions {
+    margin-top: 1.2em;
+  }
 }
