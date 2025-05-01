@@ -3,9 +3,10 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.eventinstance.default.domain_access
     - field.field.eventinstance.default.field_video
     - recurring_events.eventinstance_type.default
-    - workflows.workflow.editorial
+    - workflows.workflow.editorial_eventinstance
   module:
     - content_moderation
     - datetime_range
@@ -32,6 +33,12 @@ content:
       increment: 15
       date_order: YMD
       time_type: '12'
+    third_party_settings: {  }
+  domain_access:
+    type: options_buttons
+    weight: 26
+    region: content
+    settings: {  }
     third_party_settings: {  }
   field_video:
     type: media_library_widget
