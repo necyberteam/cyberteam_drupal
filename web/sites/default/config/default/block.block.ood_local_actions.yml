@@ -2,6 +2,8 @@ uuid: 1076a15e-06d9-48ae-8542-43f33a5d7d92
 langcode: en
 status: true
 dependencies:
+  module:
+    - system
   theme:
     - ood
 _core:
@@ -17,4 +19,8 @@ settings:
   label: 'Primary admin actions'
   label_display: '0'
   provider: core
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: "/events/*/registrations\r\n/events"
