@@ -17,6 +17,7 @@ dependencies:
     - 'taxonomy_term:state:5713b9d3-d1c8-48dd-a2e3-1253e04c4d00'
     - 'taxonomy_term:state:700f4aab-439e-4b79-b7d3-5be9f3b5aa4c'
     - 'taxonomy_term:state:9ddeb3e3-9e9f-44b3-b426-63f27148b55e'
+    - 'taxonomy_term:state:fa0f6108-e5a8-48c8-9856-16a3d29a7b67'
   module:
     - better_exposed_filters
     - node
@@ -457,6 +458,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 10
           total_pages: null
           id: 0
@@ -471,7 +473,6 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          pagination_heading_level: h4
       exposed_form:
         type: bef
         options:
@@ -568,6 +569,7 @@ display:
             828: 828
             829: 829
             830: 830
+            886: 886
           group: 1
           exposed: true
           expose:
@@ -618,6 +620,8 @@ display:
               cip: '0'
               site_developer: '0'
               ccmnet: '0'
+              ccmnet_admin: '0'
+              ondemand: '0'
             reduce: false
           is_grouped: false
           group_info:
