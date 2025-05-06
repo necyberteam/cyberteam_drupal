@@ -25,7 +25,8 @@ describe('Unauthenticated user tests the Events Page', () => {
     cy.wait(1000)
     cy.contains('cypress-example-event')
     cy.contains('Zoom')
-    cy.contains('12/12/26')
+    cy.get('div.text-center.text-4xl').should('have.text', '12');
+    cy.get('div.text-center.text-xl').should('have.text', 'Dec');
     cy.get('[href="/tags/login"]').contains('login')
 
     cy.get('#custom-event-type-reset-all').check()
