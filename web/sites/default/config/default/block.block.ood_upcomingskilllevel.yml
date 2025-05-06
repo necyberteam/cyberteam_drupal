@@ -1,0 +1,29 @@
+uuid: 6c7bc051-63c7-48bc-84a0-2799d1d907dd
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.custom_event_skill_level
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_upcomingskilllevel
+theme: ood
+region: primary_sidebar
+weight: -43
+provider: null
+plugin: 'facet_block:custom_event_skill_level'
+settings:
+  id: 'facet_block:custom_event_skill_level'
+  label: 'Skill Level'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: ood_upcomingskilllevel
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events

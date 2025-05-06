@@ -1,0 +1,21 @@
+uuid: 124645cd-b40d-4d92-b38e-0a0caa7b0c1e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.eventinstance.domain_access
+    - recurring_events.eventinstance_type.default
+id: eventinstance.default.domain_access
+field_name: domain_access
+entity_type: eventinstance
+bundle: default
+label: 'Domain Access'
+description: 'Select the affiliate domain(s). If nothing was selected: Affiliated to all domains.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: domain_entity_field_default_domains
+settings:
+  handler: 'default:domain'
+  handler_settings: {  }
+field_type: entity_reference

@@ -1,0 +1,29 @@
+uuid: e26d4570-5f07-40e9-b4ba-ad1dff7d2ba1
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.past_event_tags
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_pasteventtags
+theme: ood
+region: primary_sidebar
+weight: -12
+provider: null
+plugin: 'facet_block:past_event_tags'
+settings:
+  id: 'facet_block:past_event_tags'
+  label: 'Event Tags'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: ood_pasteventtags
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events/past

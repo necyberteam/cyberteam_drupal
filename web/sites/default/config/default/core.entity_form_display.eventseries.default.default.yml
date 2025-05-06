@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.eventseries.default.domain_access
     - field.field.eventseries.default.field_affiliation
     - field.field.eventseries.default.field_affinity_group
     - field.field.eventseries.default.field_affinity_group_node
@@ -58,6 +59,12 @@ content:
   daily_recurring_date:
     type: daily_recurring_date
     weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  domain_access:
+    type: options_buttons
+    weight: 29
     region: content
     settings: {  }
     third_party_settings: {  }
