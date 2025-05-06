@@ -8,6 +8,8 @@ dependencies:
     - field.field.node.affinity_group.field_affinity_events
     - field.field.node.affinity_group.field_affinity_group
     - field.field.node.affinity_group.field_affinity_group_category
+    - field.field.node.affinity_group.field_ag_private
+    - field.field.node.affinity_group.field_ag_private_users
     - field.field.node.affinity_group.field_ask_ci_locale
     - field.field.node.affinity_group.field_cider_resources
     - field.field.node.affinity_group.field_coordinator
@@ -30,10 +32,10 @@ dependencies:
     - node.type.affinity_group
   module:
     - content_moderation
-    - image
     - inline_entity_form
     - link
     - path
+    - svg_image
     - text
 id: node.affinity_group.default
 targetEntityType: node
@@ -81,6 +83,23 @@ content:
     weight: 20
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_ag_private:
+    type: boolean_checkbox
+    weight: 31
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_ag_private_users:
+    type: entity_reference_autocomplete
+    weight: 32
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_ask_ci_locale:
     type: link_default
