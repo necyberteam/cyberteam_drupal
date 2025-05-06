@@ -15,7 +15,7 @@ categories: {  }
 elements: |-
   approved:
     '#type': checkbox
-    '#title': Published
+    '#title': Approved
     '#access_create_roles':
       - administrator
       - affinity_group_leader
@@ -25,6 +25,16 @@ elements: |-
       - ra
     '#access_update_roles':
       - administrator
+      - match_pm
+      - sc
+      - lt
+      - ra
+  resource_allowed_on_affinity_group:
+    '#type': checkbox
+    '#title': 'Resource allowed on Affinity Group'
+    '#access_create_roles':
+      - administrator
+      - affinity_group_leader
       - match_pm
       - sc
       - lt
@@ -86,7 +96,6 @@ elements: |-
   affinity_group:
     '#type': webform_term_select
     '#title': 'Affinity Group'
-    '#multiple': true
     '#select2': true
     '#vocabulary': affinity_groups
 css: ''
