@@ -650,7 +650,7 @@ display:
         type: none
         options: {  }
       cache:
-        type: search_api_none
+        type: search_api_tag
         options: {  }
       empty: {  }
       sorts:
@@ -1603,7 +1603,9 @@ display:
     position: 1
     display_options:
       exposed_block: true
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
       path: mentorships
     cache_metadata:
       max-age: -1
@@ -1612,8 +1614,13 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - url.site
         - 'user.node_grants:view'
       tags:
+        - 'config:facets.facet.me_tags'
+        - 'config:facets.facet.mentee'
+        - 'config:facets.facet.mentor'
+        - 'config:facets.facet.state'
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_me_state'
         - 'config:field.storage.node.field_mentee'
