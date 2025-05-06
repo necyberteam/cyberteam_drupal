@@ -15,25 +15,32 @@ Cypress.Commands.add("verifyImages", () => {
  *       .verifyImage();
  */
 Cypress.Commands.add("verifyImage", { prevSubject: true }, ($img) => {
-  // Check if it's an inline SVG
-  if ($img[0]?.tagName?.toLowerCase() === 'svg') {
-    // For inline SVGs, just verify they exist in the DOM
+  const tagName = $img[0]?.tagName?.toLowerCase();
+
+  if (tagName === 'svg') {
+    // Inline SVG
     expect($img[0]).to.exist;
-    return cy.wrap($img); // Return the element for chaining
+    return cy.wrap($img);
   }
 
-  // For regular images, check src or srcset
   const url = $img[0]?.src || $img[0]?.srcset;
-  if (url) {
-    return cy.request(url).then((response) => {
-      // verify the image response is 200, and has a non-zero length body
-      expect(response.status).to.eq(200);
-      expect(response.body.length).to.be.greaterThan(0);
-      return cy.wrap($img); // Return the element for chaining
-    });
-  } else {
-    throw new Error(`Found an image with no url src`);
+
+  if (!url) {
+    throw new Error(`Found an image with no src or srcset`);
   }
+
+  if (url.startsWith('data:image')) {
+    // Data URI: check it exists and isn't empty
+    expect(url.length).to.be.greaterThan(10); // crude check
+    return cy.wrap($img);
+  }
+
+  // Regular image URL
+  return cy.request(url).then((response) => {
+    expect(response.status).to.eq(200);
+    expect(response.body.length).to.be.greaterThan(0);
+    return cy.wrap($img);
+  });
 });
 
 /**
