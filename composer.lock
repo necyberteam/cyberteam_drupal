@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c2d13d87e842a9916779ea6915a3a0b9",
+    "content-hash": "bfebb9589eac841e7e1c24bc3db98b93",
     "packages": [
         {
             "name": "access/drupal_seamless_cilogon",
@@ -1712,26 +1712,29 @@
         },
         {
             "name": "drupal/access_by_ref",
-            "version": "3.0.3",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/access_by_ref.git",
-                "reference": "3.0.3"
+                "reference": "4.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/access_by_ref-3.0.3.zip",
-                "reference": "3.0.3",
-                "shasum": "5d239e94aeec7cdbc4f879e870d50689ad915c51"
+                "url": "https://ftp.drupal.org/files/projects/access_by_ref-4.0.0.zip",
+                "reference": "4.0.0",
+                "shasum": "76c20bac372b737a09b60a33cc59a132fd13008c"
             },
             "require": {
-                "drupal/core": "^9.2 || ^10"
+                "drupal/core": "^10.3 || ^11"
+            },
+            "require-dev": {
+                "drupal/paragraphs": "*"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "3.0.3",
-                    "datestamp": "1709636698",
+                    "version": "4.0.0",
+                    "datestamp": "1745863195",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -1744,18 +1747,23 @@
             ],
             "authors": [
                 {
-                    "name": "Cayenne",
+                    "name": "cayenne",
                     "homepage": "https://www.drupal.org/user/92993"
                 },
                 {
-                    "name": "Marceldeb",
+                    "name": "marceldeb",
                     "homepage": "https://www.drupal.org/user/1572532"
+                },
+                {
+                    "name": "smustgrave",
+                    "homepage": "https://www.drupal.org/user/3252890"
                 }
             ],
-            "description": "Provide CRUD access to nodes based on user or access in a referenced field",
+            "description": "Lightweight module that extends read, update or delete permissions to a user in the following cases.",
             "homepage": "https://www.drupal.org/project/access_by_ref",
             "support": {
-                "source": "https://git.drupalcode.org/project/access_by_ref"
+                "source": "https://git.drupalcode.org/project/access_by_ref",
+                "issues": "https://www.drupal.org/project/issues/access_by_ref"
             }
         },
         {
