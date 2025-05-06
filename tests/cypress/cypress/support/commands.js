@@ -15,15 +15,21 @@ Cypress.Commands.add("verifyImages", () => {
  *       .verifyImage();
  */
 Cypress.Commands.add("verifyImage", { prevSubject: true }, ($img) => {
+  // Check if it's an inline SVG
+  if ($img[0]?.tagName?.toLowerCase() === 'svg') {
+    // For inline SVGs, just verify they exist in the DOM
+    expect($img[0]).to.exist;
+    return cy.wrap($img); // Return the element for chaining
+  }
+
+  // For regular images, check src or srcset
   const url = $img[0]?.src || $img[0]?.srcset;
   if (url) {
-    cy.request(url).then((response) => {
+    return cy.request(url).then((response) => {
       // verify the image response is 200, and has a non-zero length body
-      // I was logging each image, but this seemed to verbose, so I commented it out.
-      // cy.task('log', 'verifying image "' + url + '"').then(() => {
       expect(response.status).to.eq(200);
       expect(response.body.length).to.be.greaterThan(0);
-      // });
+      return cy.wrap($img); // Return the element for chaining
     });
   } else {
     throw new Error(`Found an image with no url src`);
