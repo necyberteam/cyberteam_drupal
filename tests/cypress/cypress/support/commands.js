@@ -15,19 +15,32 @@ Cypress.Commands.add("verifyImages", () => {
  *       .verifyImage();
  */
 Cypress.Commands.add("verifyImage", { prevSubject: true }, ($img) => {
-  const url = $img[0]?.src || $img[0]?.srcset;
-  if (url) {
-    cy.request(url).then((response) => {
-      // verify the image response is 200, and has a non-zero length body
-      // I was logging each image, but this seemed to verbose, so I commented it out.
-      // cy.task('log', 'verifying image "' + url + '"').then(() => {
-      expect(response.status).to.eq(200);
-      expect(response.body.length).to.be.greaterThan(0);
-      // });
-    });
-  } else {
-    throw new Error(`Found an image with no url src`);
+  const tagName = $img[0]?.tagName?.toLowerCase();
+
+  if (tagName === 'svg') {
+    // Inline SVG
+    expect($img[0]).to.exist;
+    return cy.wrap($img);
   }
+
+  const url = $img[0]?.src || $img[0]?.srcset;
+
+  if (!url) {
+    throw new Error(`Found an image with no src or srcset`);
+  }
+
+  if (url.startsWith('data:image')) {
+    // Data URI: check it exists and isn't empty
+    expect(url.length).to.be.greaterThan(10); // crude check
+    return cy.wrap($img);
+  }
+
+  // Regular image URL
+  return cy.request(url).then((response) => {
+    expect(response.status).to.eq(200);
+    expect(response.body.length).to.be.greaterThan(0);
+    return cy.wrap($img);
+  });
 });
 
 /**
