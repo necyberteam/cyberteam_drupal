@@ -1,0 +1,29 @@
+uuid: a6eed312-1cfe-4b74-a4eb-a8cb10089990
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_mentorship_program
+    - node.type.mentorship_engagement
+    - taxonomy.vocabulary.mentorship_programs
+id: node.mentorship_engagement.field_mentorship_program
+field_name: field_mentorship_program
+entity_type: node
+bundle: mentorship_engagement
+label: 'Mentorship Program'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      mentorship_programs: mentorship_programs
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

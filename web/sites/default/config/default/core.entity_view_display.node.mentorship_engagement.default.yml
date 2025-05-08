@@ -28,6 +28,7 @@ dependencies:
     - field.field.node.mentorship_engagement.field_me_state
     - field.field.node.mentorship_engagement.field_mentee
     - field.field.node.mentorship_engagement.field_mentor
+    - field.field.node.mentorship_engagement.field_mentorship_program
     - field.field.node.mentorship_engagement.field_milestone_actual_date
     - field.field.node.mentorship_engagement.field_milestone_completion_date
     - field.field.node.mentorship_engagement.field_milestone_description
@@ -235,7 +236,7 @@ third_party_settings:
               label_display: '0'
               provider: ccmnet
               context_mapping: {  }
-            weight: 7
+            weight: 8
             additional:
               layout_builder_styles_style:
                 mb_3: mb_3
@@ -291,7 +292,7 @@ third_party_settings:
                 settings:
                   link: false
                 third_party_settings: {  }
-            weight: 6
+            weight: 7
             additional:
               layout_builder_styles_style:
                 mb_3: mb_3
@@ -362,6 +363,22 @@ third_party_settings:
                 pt_4: 0
                 tags: 0
                 __div_h_full: 0
+          1ead222c-7d5c-477e-98f2-6192415f85c8:
+            uuid: 1ead222c-7d5c-477e-98f2-6192415f85c8
+            region: second
+            configuration:
+              id: 'field_block:node:mentorship_engagement:field_mentorship_program'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 6
+            additional: {  }
         third_party_settings: {  }
       -
         layout_id: layout_twocol_section
@@ -569,6 +586,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 0
+    region: first
+  field_mentorship_program:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 134
     region: first
   field_milestone_actual_date:
     type: datetime_default

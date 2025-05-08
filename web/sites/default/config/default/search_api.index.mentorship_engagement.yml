@@ -8,6 +8,7 @@ dependencies:
     - field.storage.node.field_me_state
     - field.storage.node.field_mentee
     - field.storage.node.field_mentor
+    - field.storage.node.field_mentorship_program
     - field.storage.node.field_tags
     - search_api.server.default_server
   module:
@@ -61,6 +62,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_mentor
+  field_mentorship_program:
+    label: 'Mentorship Program'
+    datasource_id: 'entity:node'
+    property_path: field_mentorship_program
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_mentorship_program
   field_tags:
     label: Tags
     datasource_id: 'entity:node'
