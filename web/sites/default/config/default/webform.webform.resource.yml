@@ -20,21 +20,9 @@ elements: |-
       - administrator
       - affinity_group_leader
       - match_pm
-      - sc
       - lt
-      - ra
     '#access_update_roles':
       - administrator
-      - match_pm
-      - sc
-      - lt
-      - ra
-  resource_allowed_on_affinity_group:
-    '#type': checkbox
-    '#title': 'Resource allowed on Affinity Group'
-    '#access_create_roles':
-      - administrator
-      - affinity_group_leader
       - match_pm
       - sc
       - lt
@@ -100,7 +88,21 @@ elements: |-
     '#type': webform_term_select
     '#title': 'Affinity Group'
     '#select2': true
+    '#states':
+      disabled:
+        ':input[name="approved"]':
+          checked: true
     '#vocabulary': affinity_groups
+  resource_allowed_on_affinity_group:
+    '#type': checkbox
+    '#title': 'Resource allowed on Affinity Group'
+    '#access_create_roles':
+      - administrator
+      - affinity_group_leader
+      - match_pm
+      - sc
+      - lt
+      - ra
   private:
     '#type': checkbox
     '#title': Private
@@ -340,6 +342,47 @@ handlers:
     settings:
       states:
         - completed
+      to_mail: '[webform_role:kb_pm]'
+      to_options: {  }
+      bcc_mail: ''
+      bcc_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      from_mail: _default
+      from_options: {  }
+      from_name: _default
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      subject: _default
+      body: _default
+      excluded_elements: {  }
+      ignore_access: false
+      exclude_empty: true
+      exclude_empty_checkbox: false
+      exclude_attachments: false
+      html: true
+      attachments: false
+      twig: false
+      theme_name: ''
+      parameters: {  }
+      debug: false
+  email_1:
+    id: email
+    handler_id: email_1
+    label: Email
+    notes: ''
+    status: true
+    conditions:
+      enabled:
+        ':input[name="approved"]':
+          unchecked: true
+    weight: 0
+    settings:
+      states:
+        - completed
+        - updated
       to_mail: '[webform_role:kb_pm]'
       to_options: {  }
       bcc_mail: ''
