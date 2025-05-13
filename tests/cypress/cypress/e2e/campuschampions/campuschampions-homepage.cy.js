@@ -22,7 +22,7 @@ describe("verify specific links on homepage", () => {
   it("authenticated Verify the main logo goes to home page", () => {
     cy.loginUser('authenticated@amptesting.com', '6%l7iF}6(4tI');
     cy.visit('/');
-    cy.contains('Campus Champions').click();
+    cy.get('.brand > a').click();
     cy.url().should('eq', Cypress.config().baseUrl + '/');
   });
 
