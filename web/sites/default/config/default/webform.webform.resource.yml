@@ -96,6 +96,14 @@ elements: |-
   resource_allowed_on_affinity_group:
     '#type': checkbox
     '#title': 'Resource allowed on Affinity Group'
+    '#required': true
+    '#states':
+      invisible:
+        - ':input[name="affinity_group"]':
+            empty: true
+        - or
+        - ':input[name="approved"]':
+            checked: true
     '#access_create_roles':
       - administrator
       - affinity_group_leader
