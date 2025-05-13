@@ -92,6 +92,9 @@ elements: |-
     '#multiple': true
     '#select2': true
     '#required': true
+    '#access_create_roles':
+      - administrator
+      - kb_pm
     '#vocabulary': region
   affinity_group:
     '#type': webform_term_select
@@ -102,6 +105,10 @@ elements: |-
     '#type': checkbox
     '#title': Private
     '#description': "<p>This resource won't be listed in the main public resource page.</p>"
+    '#states':
+      invisible:
+        ':input[name="affinity_group"]':
+          empty: true
 css: ''
 javascript: ''
 settings:
