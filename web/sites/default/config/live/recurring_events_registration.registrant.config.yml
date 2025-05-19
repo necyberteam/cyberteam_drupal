@@ -13,11 +13,11 @@ notifications:
   registration_notification:
     enabled: false
     subject: 'Registration Confirmed for [registrant:eventinstance:title]'
-    body: "Dear [registrant:field_first_name] [registrant:field_last_name],\r\nCongratulations! Your registration for [registrant:eventinstance:title] [registrant:eventinstance:url] on [registrant:eventinstance:date] has been confirmed.\r\nHere are the details:\r\nLocation (if applicable): [registrant:eventseries:field_location]\r\nTime: [registrant:eventinstance:date] - [registrant:eventinstance:end_date]\r\nWe are glad you are going to attend! If you have questions or need to update your registration, please contact us at [registrant:eventseries:field_contact].\r\nKind regards,\r\nACCESS Support\r\n"
+    body: "Dear [registrant:field_first_name] [registrant:field_last_name],\r\nCongratulations! Your registration for [registrant:eventinstance:title] [registrant:eventinstance:url] on [registrant:eventinstance:date] has been confirmed.\r\nHere are the details:\r\nLocation (if applicable): [registrant:eventseries:field_location]\r\nTime: [registrant:eventinstance:date] - [registrant:eventinstance:end_date]\r\nWe are glad you are going to attend! If you have questions or need to update your registration, please contact us at [registrant:eventseries:field_contact]."
   waitlist_notification:
     enabled: false
     subject: 'Waitlist Status for [registrant:eventinstance:title]'
-    body: "Dear [registrant:field_first_name] [registrant:field_last_name],\r\n\r\nThank you for registering for [registrant:eventinstance:title] on [registrant:eventinstance:date]. At this time, the session is full, and your registration has been placed on the waitlist.\r\nIf a spot becomes available, we will notify you immediately. In the meantime, if you have any questions or wish to withdraw from the waitlist, please contact us at [registrant:eventseries:field_contact].\r\nThank you for your understanding, and we hope to accommodate you soon!\r\nKind regards,\r\nACCESS Support"
+    body: "Dear [registrant:field_first_name] [registrant:field_last_name],\r\n\r\nThank you for registering for [registrant:eventinstance:title] on [registrant:eventinstance:date]. At this time, the session is full, and your registration has been placed on the waitlist.\r\nIf a spot becomes available, we will notify you immediately. In the meantime, if you have any questions or wish to withdraw from the waitlist, please contact us at [registrant:eventseries:field_contact].\r\nThank you for your understanding, and we hope to accommodate you soon!"
   promotion_notification:
     enabled: false
     subject: "You've Been Added To The Registration List"
@@ -41,7 +41,7 @@ notifications:
   registration_reminder:
     enabled: true
     subject: 'Reminder for Event [registrant:eventinstance:title]'
-    body: "Dear [registrant:field_first_name] [registrant:field_last_name],\r\n\r\nThank you for registering for [registrant:eventinstance:title] ([eventinstance:url]) on [registrant:eventinstance:date]. \r\n\r\nHere are the details:\r\nLocation (if applicable): [registrant:eventseries:field_location]\r\nTime: [registrant:eventinstance:date] - [registrant:eventinstance:end_date]\r\n\r\nKind regards,\r\nACCESS Support"
+    body: "Dear [registrant:field_first_name] [registrant:field_last_name],\r\n\r\nThank you for registering for [registrant:eventinstance:title] ([eventinstance:url]) on [registrant:eventinstance:date]. \r\n\r\nHere are the details:\r\nLocation (if applicable): [registrant:eventseries:field_location]\r\nTime: [registrant:eventinstance:date] - [registrant:eventinstance:end_date]"
 successfully_registered: 'Your registration was received. You will receive an email after your registration is approved.'
 successfully_registered_waitlist: 'Successfully registered to the waitlist.'
 successfully_updated: 'Registrant successfully updated.'
