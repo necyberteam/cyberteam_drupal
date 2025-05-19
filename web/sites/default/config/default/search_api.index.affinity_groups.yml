@@ -7,6 +7,7 @@ dependencies:
     - field.storage.node.field_affinity_group_category
     - field.storage.node.field_ag_private
     - field.storage.node.field_ag_private_users
+    - field.storage.node.field_coordinator
     - field.storage.node.field_domain_access
     - field.storage.node.field_image
     - field.storage.node.field_tags
@@ -54,6 +55,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_ag_private_users
+  field_coordinator:
+    label: Coordinator
+    datasource_id: 'entity:node'
+    property_path: field_coordinator
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_coordinator
   field_domain_access:
     label: 'Domain Access'
     datasource_id: 'entity:node'
