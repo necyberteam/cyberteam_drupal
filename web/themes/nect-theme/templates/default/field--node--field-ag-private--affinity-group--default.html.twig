@@ -55,7 +55,12 @@
     {% for item in items %}
       <div{{ attributes }}>
         {% if item.content['#markup'] == 'private' %}
-          <img class='private pr-3' src="/modules/custom/access/modules/access_affinitygroup/img/private-corner.gif" alt="Private Group" data-toggle="tooltip" data-placement="top" title="Private Group" />
+        <div class="position-relative mr-3">
+          <div class="private bg" data-toggle="tooltip" data-placement="top" title="Private Group"/></div>
+          <div class="private icon" >
+            <i class="bi bi-lock-fill text-white"></i>
+          </div>
+        </div>
         {% endif %}
       </div>
     {% endfor %}

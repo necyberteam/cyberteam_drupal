@@ -264,7 +264,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"ag_img\">\r\n{% if field_ag_private == 'Private' %}\r\n  <img class='private' src=\"/modules/custom/access/modules/access_affinitygroup/img/private-corner.gif\" alt=\"Private Group\" title=\"Private Group\" />\r\n{% endif %}\r\n\r\n{{ field_image }}\r\n</div>"
+            text: "<div class=\"ag_img\">\r\n{% if field_ag_private == 'Private' %}\r\n<div class=\"position-relative\"><div class=\"private bg\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Private Group\"/></div><div class=\"private icon\"><i class=\"bi bi-lock-fill text-white\"></i></div></div>\r\n{% endif %}\r\n{{ field_image }}\r\n</div>"
             make_link: false
             path: ''
             absolute: false
