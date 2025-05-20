@@ -565,7 +565,7 @@ display:
         type: none
         options: {  }
       cache:
-        type: search_api_none
+        type: search_api_tag
         options: {  }
       empty: {  }
       sorts:
@@ -755,7 +755,9 @@ display:
     position: 1
     display_options:
       exposed_block: true
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
       path: affinity-groups
     cache_metadata:
       max-age: -1
@@ -763,8 +765,12 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - url.query_args
+        - url.site
         - 'user.node_grants:view'
       tags:
+        - 'config:facets.facet.affinity_group_category'
+        - 'config:facets.facet.affinity_search_tags'
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_tags'

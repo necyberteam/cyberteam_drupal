@@ -1,29 +1,29 @@
-uuid: e2504c62-735d-453d-819d-cd54fc82f71b
+uuid: 00cbe561-4245-4388-ab8a-a53ea1b13185
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.tags
+    - facets.facet.mentorship_program
   module:
     - facets
     - system
   theme:
     - nect
-id: nect_tags
+id: nect_mentorshipprogram
 theme: nect
 region: primary_sidebar
-weight: 27
+weight: 23
 provider: null
-plugin: 'facet_block:tags'
+plugin: 'facet_block:mentorship_program'
 settings:
-  id: 'facet_block:tags'
-  label: Topics
+  id: 'facet_block:mentorship_program'
+  label: 'Mentorship Program'
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_tags
+  block_id: nect_mentorshipprogram
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/resources
+    pages: /mentorships
