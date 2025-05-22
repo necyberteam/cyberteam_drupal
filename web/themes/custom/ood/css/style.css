@@ -111,6 +111,15 @@ body {
     margin: 0 auto;
   }
 
+  @media (max-width: 992px) {
+    #secondaryNavbarResponsive {
+      font-size: 0.8rem;
+    }
+
+    #secondaryNavbarResponsive .top-left-menu {
+      width: 50% !important;
+    }
+  }
   @media (min-width: 768px) {
     .cilogon-auth-login-form {
       -ms-flex: 0 0 66.666667%;
@@ -155,14 +164,21 @@ body {
       align-items: center;
     }
 
-    .nav-item:not(:first-of-type) {
-      display: none;
-    }
     @media screen and (min-width: 1024px) {
       .nav-item {
         display: flex !important;
       }
     }
+  }
+
+  #secondaryNavbarResponsive .top-left-menu .nav-item:not(:first-of-type) {
+    display: none;
+  }
+
+  #block-ood-account-menu .navbar-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
   }
 
   #secondaryNav.navbar .nav-item .nav-link {

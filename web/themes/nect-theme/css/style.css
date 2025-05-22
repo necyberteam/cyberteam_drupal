@@ -551,6 +551,18 @@ li.dropdown-item a.nav-link:active {
   top: 90%;
 }
 @media screen and (max-width: 991.98px) {
+  .navbar-nav .dropdown .dropdown-menu {
+      position: absolute;
+      top: 30px;
+      background: var(--dark);
+      padding: 1rem 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0,.1);
+  }
+  .navbar-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+  }
   #block-views-block-peoplebuttonblocks-region-select-card .dropdown-menu {
     position: absolute;
     background-color: #FFFFFF;
@@ -2436,6 +2448,9 @@ form .label-description {
 }
 .form-item {
   margin: 1.5rem 0;
+}
+#search-block-form .form-item{
+  margin: 0;
 }
 .form-item .field-label {
   padding: 0.25rem 0 0.25rem 0;
