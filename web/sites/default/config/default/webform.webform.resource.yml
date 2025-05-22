@@ -16,18 +16,13 @@ elements: |-
   approved:
     '#type': checkbox
     '#title': Approved
+    '#description': '<p>Resources must be approved by an administrator to be displayed in the KB Resource list</p>'
     '#help': '<p><span style="-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(41, 42, 46);display:inline !important;float:none;font-family:&quot;Atlassian Sans&quot;, ui-sans-serif, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, Ubuntu, &quot;Helvetica Neue&quot;, sans-serif;font-size:14px;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:-0.07px;orphans:2;text-align:start;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:pre-wrap;widows:2;word-spacing:0px;">If checked resource will appear in the resource library on the domains indicated and will be available to add to affinity groups</span></p>'
+    '#disabled': true
     '#access_create_roles':
-      - administrator
-      - affinity_group_leader
-      - match_pm
-      - lt
+      - authenticated
     '#access_update_roles':
-      - administrator
-      - match_pm
-      - sc
-      - lt
-      - ra
+      - authenticated
   title:
     '#type': textfield
     '#title': Title
@@ -44,16 +39,6 @@ elements: |-
       video_link: Video
       presentation: Slides
     '#required': true
-  tags:
-    '#type': webform_term_checkboxes
-    '#title': Tags
-    '#vocabulary': tags
-    '#breadcrumb_delimiter': ''
-    '#tree_delimiter': '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-    '#required': true
-  tags_helper:
-    '#type': webform_markup
-    '#markup': '<small class="text-muted"><span style="-webkit-text-stroke-width:0px; background-color:#f8f8f8; color:#1d1c1d; display:inline !important; float:none; font-family:Slack-Lato,appleLogo,sans-serif; font-size:13px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:common-ligatures; font-weight:400; letter-spacing:normal; orphans:2; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-indent:0px; text-transform:none; white-space:normal; widows:2; word-spacing:0px">Select one (or more) tags that apply.</span></small>'
   skill_level:
     '#type': webform_term_checkboxes
     '#title': 'Skill Level'
@@ -67,6 +52,13 @@ elements: |-
     '#type': webform_link
     '#title': 'Link to Resource'
     '#multiple': true
+  tags:
+    '#type': webform_term_checkboxes
+    '#title': Tags
+    '#vocabulary': tags
+    '#breadcrumb_delimiter': ''
+    '#tree_delimiter': '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+    '#required': true
   terms:
     '#type': textfield
     '#title': terms
@@ -87,7 +79,7 @@ elements: |-
     '#vocabulary': region
   affinity_group:
     '#type': webform_term_select
-    '#title': 'Affinity Group'
+    '#title': 'Would you like to associate this resource with an Affinity Group?'
     '#select2': true
     '#states':
       disabled:
@@ -117,7 +109,7 @@ elements: |-
       invisible:
         ':input[name="affinity_group"]':
           empty: true
-css: ''
+css: "button.tabledrag-toggle-weight {\r\n  display: none;\r\n}"
 javascript: ''
 settings:
   ajax: false
@@ -221,10 +213,10 @@ settings:
   draft_loaded_message: ''
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
-  confirmation_type: url
+  confirmation_type: url_message
   confirmation_url: 'webform/resource/submissions/[webform_submission:sid]'
   confirmation_title: ''
-  confirmation_message: ''
+  confirmation_message: '<p><span style="-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(41, 42, 46);display:inline !important;float:none;font-family:&quot;Atlassian Sans&quot;, ui-sans-serif, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, Ubuntu, &quot;Helvetica Neue&quot;, sans-serif;font-size:14px;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:pre-wrap;widows:2;word-spacing:0px;">Your resource will be reviewed by an administrator and you will be notified by email when it is approved.</span></p>'
   confirmation_attributes: {  }
   confirmation_back: true
   confirmation_back_label: ''
@@ -335,13 +327,16 @@ handlers:
       message: ''
       message_type: status
       debug: false
-  email:
+  email_1:
     id: email
-    handler_id: email
+    handler_id: email_1
     label: Email
     notes: ''
     status: true
-    conditions: {  }
+    conditions:
+      enabled:
+        ':input[name="approved"]':
+          unchecked: true
     weight: 0
     settings:
       states:
@@ -372,22 +367,21 @@ handlers:
       theme_name: ''
       parameters: {  }
       debug: false
-  email_1:
+  author_approved:
     id: email
-    handler_id: email_1
-    label: Email
+    handler_id: author_approved
+    label: 'Author approved'
     notes: ''
     status: true
     conditions:
       enabled:
         ':input[name="approved"]':
-          unchecked: true
+          checked: true
     weight: 0
     settings:
       states:
         - completed
-        - updated
-      to_mail: '[webform_role:kb_pm]'
+      to_mail: _default
       to_options: {  }
       bcc_mail: ''
       bcc_options: {  }
@@ -401,8 +395,72 @@ handlers:
       sender_mail: ''
       sender_name: ''
       subject: _default
-      body: _default
-      excluded_elements: {  }
+      body: '<p><span style="-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(41, 42, 46);display:inline !important;float:none;font-family:&quot;Atlassian Sans&quot;, ui-sans-serif, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, Ubuntu, &quot;Helvetica Neue&quot;, sans-serif;font-size:14px;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:pre-wrap;widows:2;word-spacing:0px;">Your [webform_submission:current-page:title]: [current-domain:path]/knowledge-base/resources/[webform_submission:sid] was approved.</span></p>'
+      excluded_elements:
+        approved: approved
+        title: title
+        category: category
+        skill_level: skill_level
+        description: description
+        link_to_resource: link_to_resource
+        tags: tags
+        terms: terms
+        domain: domain
+        affinity_group: affinity_group
+        resource_allowed_on_affinity_group: resource_allowed_on_affinity_group
+        private: private
+      ignore_access: false
+      exclude_empty: true
+      exclude_empty_checkbox: false
+      exclude_attachments: false
+      html: true
+      attachments: false
+      twig: false
+      theme_name: ''
+      parameters: {  }
+      debug: false
+  author_allowed:
+    id: email
+    handler_id: author_allowed
+    label: 'Author allowed'
+    notes: ''
+    status: true
+    conditions:
+      enabled:
+        ':input[name="resource_allowed_on_affinity_group"]':
+          checked: true
+    weight: 3
+    settings:
+      states:
+        - completed
+      to_mail: _default
+      to_options: {  }
+      bcc_mail: ''
+      bcc_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      from_mail: _default
+      from_options: {  }
+      from_name: _default
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      subject: _default
+      body: '<p><span style="-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(41, 42, 46);display:inline !important;float:none;font-family:&quot;Atlassian Sans&quot;, ui-sans-serif, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, Ubuntu, &quot;Helvetica Neue&quot;, sans-serif;font-size:14px;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:pre-wrap;widows:2;word-spacing:0px;">Your [webform_submission:current-page:title]: [current-domain:path]/knowledge-base/resources/[webform_submission:sid] was allowed to be added to [webform:element:affinity_group].</span></p>'
+      excluded_elements:
+        approved: approved
+        title: title
+        category: category
+        skill_level: skill_level
+        description: description
+        link_to_resource: link_to_resource
+        tags: tags
+        terms: terms
+        domain: domain
+        affinity_group: affinity_group
+        resource_allowed_on_affinity_group: resource_allowed_on_affinity_group
+        private: private
       ignore_access: false
       exclude_empty: true
       exclude_empty_checkbox: false
