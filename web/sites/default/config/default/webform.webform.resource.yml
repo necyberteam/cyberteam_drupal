@@ -396,7 +396,7 @@ handlers:
       sender_mail: ''
       sender_name: ''
       subject: 'Your KB Resource is approved'
-      body: '<p>Your [webform_submission:values:title]: [current-domain:path]/knowledge-base/resources/[webform_submission:sid] was approved.</p>'
+      body: '<p>Your &lt;a href="[current-domain:path]/knowledge-base/resources/[webform_submission:sid]"&gt;[webform_submission:values:title]&lt;/a&gt; was approved.</p>'
       excluded_elements:
         approved: approved
         title: title
@@ -449,7 +449,7 @@ handlers:
       sender_mail: ''
       sender_name: ''
       subject: 'Your KB Resources was added to the Affinity Group'
-      body: '<p>Your [webform_submission:values:title]: [current-domain:path]/knowledge-base/resources/[webform_submission:sid] was allowed to be added to [webform_submission:values:affinity_group].</p><p>[access_cilink:webform-affinity-group]</p>'
+      body: '<p>Your <a href="[current-domain:path]/knowledge-base/resources/[webform_submission:sid]">[webform_submission:values:title]</a> was allowed to be added to <a href="[current-domain:path]/node/[access_cilink:webform-affinity-group-nid]">[access_cilink:webform-affinity-group-title]</a>.</p>'
       excluded_elements:
         approved: approved
         title: title
