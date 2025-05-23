@@ -1,0 +1,29 @@
+uuid: db955331-cc77-47a4-8d57-30c3a22da341
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.custom_event_tags
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_upcomingeventtags
+theme: ood
+region: primary_sidebar
+weight: -46
+provider: null
+plugin: 'facet_block:custom_event_tags'
+settings:
+  id: 'facet_block:custom_event_tags'
+  label: Tags
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: ood_upcomingeventtags
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events

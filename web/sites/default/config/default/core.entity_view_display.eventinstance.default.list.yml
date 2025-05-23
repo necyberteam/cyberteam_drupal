@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.eventinstance.list
+    - field.field.eventinstance.default.domain_access
     - field.field.eventinstance.default.field_video
     - recurring_events.eventinstance_type.default
   module:
@@ -54,8 +55,8 @@ content:
     settings:
       timezone_override: ''
       date_format: 'n/j/Y g:i A T'
-      separator: '-'
       from_to: both
+      separator: '-'
     third_party_settings: {  }
     weight: 1
     region: content
@@ -75,9 +76,8 @@ content:
     weight: 54
     region: content
   event_ical_link:
+    type: event_ical_link
     label: hidden
-    weight: 10
-    region: content
     settings:
       trim_length: '80'
       url_only: ''
@@ -85,7 +85,15 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: event_ical_link
+    weight: 10
+    region: content
+  event_summary:
+    type: basic_string
+    label: visible
+    settings: {  }
+    third_party_settings: {  }
+    weight: 55
+    region: content
   event_type:
     type: list_default
     label: visible
@@ -102,9 +110,9 @@ content:
     weight: 53
     region: content
   register_button:
-    weight: 999
     settings: {  }
     third_party_settings: {  }
+    weight: 999
     region: content
   registration:
     type: link
@@ -126,13 +134,13 @@ content:
     weight: 58
     region: content
   speakers:
+    type: string
     label: visible
-    weight: 59
-    region: content
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 59
+    region: content
   tags:
     type: entity_reference_label
     label: above
@@ -150,18 +158,19 @@ content:
     weight: 0
     region: content
   virtual_meeting_link:
+    type: link
     label: visible
-    weight: 62
-    region: content
     settings:
-      trim_length: '80'
-      url_only: ''
-      url_plain: ''
+      trim_length: 80
+      url_only: false
+      url_plain: false
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 62
+    region: content
 hidden:
   body: true
+  domain_access: true
   field_video: true
   search_api_excerpt: true

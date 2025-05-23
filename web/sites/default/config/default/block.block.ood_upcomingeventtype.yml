@@ -1,0 +1,29 @@
+uuid: 1b2bdf07-1d81-4e96-9281-12413562d42c
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.custom_event_type
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_upcomingeventtype
+theme: ood
+region: primary_sidebar
+weight: -47
+provider: null
+plugin: 'facet_block:custom_event_type'
+settings:
+  id: 'facet_block:custom_event_type'
+  label: 'Event Type'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: ood_upcomingeventtype
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events

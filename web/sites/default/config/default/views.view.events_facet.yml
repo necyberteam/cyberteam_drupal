@@ -121,7 +121,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"text-dark-teal flex flex-col justify-items-center font-bold me-7\">\r\n<div class=\"text-center text-xl\">{{ date_1__value|date(\"D\") }}</div>\r\n<div class=\"text-center text-4xl\">{{ date_1__value|date(\"j\") }}</div>\r\n<div class=\"text-center text-xl\">{{ date_1__value|date(\"M\") }}</div>\r\n</div>"
+            text: "<div class=\"text-dark-teal flex flex-col justify-items-center font-bold me-7 mr-5\">\r\n<div class=\"text-center text-xl\">{{ date_1__value|date(\"D\") }}</div>\r\n<div class=\"text-center text-4xl\">{{ date_1__value|date(\"j\") }}</div>\r\n<div class=\"text-center text-xl\">{{ date_1__value|date(\"M\") }}</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -163,6 +163,7 @@ display:
           settings:
             timezone_override: ''
             format_type: html_date
+            from_to: both
             separator: '-'
           group_column: value
           group_columns: {  }
@@ -267,7 +268,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/events/{{ id }}" class="block my-1 text-2xl font-bold leading-none text-dark-teal no-underline">{{ title }}</a>'
+            text: '<a href="/events/{{ id }}" class="block my-1 text-2xl font-bold leading-none text-dark-teal no-underline hover--underline">{{ title }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -400,7 +401,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: event-tags
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
@@ -749,7 +750,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: true
-          content: "<div class=\"bg-light-teal flex p-4 mb-2 prose max-w-full items-center\">\r\n  <h3 class=\"m-0 me-4\">Upcoming Events</h3>\r\n  <a class=\"me-4\" href=\"/events/past\">Past Events</a>\r\n  <a class=\"me-4\" href=\"/events/mine\">\r\n    My Events\r\n  </a>\r\n  <a href=\"/events/add\" class=\"btn-sm btn-small btn-secondary-outline py-0 px-4 btn btn-md-teal ms-auto\" data-drupal-link-system-path=\"events/add\">+ Add Event</a>\r\n</div>"
+          content: "<div class=\"bg-light-teal bg-light d-flex flex p-4 mb-2 prose max-w-full items-center align-items-center\">\r\n  <h3 class=\"m-0 me-4 mr-3 pt-2\">Upcoming Events</h3>\r\n  <a class=\"me-4 mr-3\" href=\"/events/past\">Past Events</a>\r\n  <a class=\"me-4 mr-3\" href=\"/events/mine\">\r\n    My Events\r\n  </a>\r\n  <a href=\"/events/add\" class=\"btn-sm btn-small btn-secondary-outline py-0 px-4 btn btn-md-teal ms-auto ml-auto\" data-drupal-link-system-path=\"events/add\">+ Add Event</a>\r\n</div>"
           tokenize: false
       footer: {  }
       display_extenders: {  }
@@ -867,7 +868,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"text-dark-teal flex flex-col justify-items-center font-bold me-7\">\r\n<div class=\"text-center text-xl\">{{ date_1__value|date(\"D\") }}</div>\r\n<div class=\"text-center text-4xl\">{{ date_1__value|date(\"j\") }}</div>\r\n<div class=\"text-center text-xl\">{{ date_1__value|date(\"M\") }}</div>\r\n</div>"
+            text: "<div class=\"text-dark-teal flex flex-col justify-items-center font-bold me-7 mr-5\">\r\n<div class=\"text-center text-xl\">{{ date_1__value|date(\"D\") }}</div>\r\n<div class=\"text-center text-4xl\">{{ date_1__value|date(\"j\") }}</div>\r\n<div class=\"text-center text-xl\">{{ date_1__value|date(\"M\") }}</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -909,6 +910,7 @@ display:
           settings:
             timezone_override: ''
             format_type: html_date
+            from_to: both
             separator: '-'
           group_column: value
           group_columns: {  }
@@ -982,6 +984,7 @@ display:
           settings:
             timezone_override: ''
             format_type: html_datetime
+            from_to: both
             separator: '::'
           group_column: value
           group_columns: {  }
@@ -1146,7 +1149,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: ''
+          element_class: event-tags
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
@@ -1524,7 +1527,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: "<div class=\"bg-light-teal flex p-4 mb-2 prose max-w-full items-center\">\r\n  <a class=\"me-4\" href=\"/events\">Upcoming Events</a>\r\n  <h3 class=\"m-0 me-4\">Past Events</h3>\r\n  <a class=\"me-4\" href=\"/events/mine\">\r\n    My Events\r\n  </a>\r\n  <a href=\"/events/add\" class=\"btn-sm btn-small btn-secondary-outline py-0 px-4 btn btn-md-teal ms-auto\" data-drupal-link-system-path=\"events/add\">+ Add Event</a>\r\n</div>"
+            value: "<div class=\"bg-light-teal bg-light d-flex flex p-4 mb-2 prose max-w-full items-center align-items-center\">\r\n  <a class=\"me-4 mr-3\" href=\"/events\">Upcoming Events</a>\r\n  <h3 class=\"m-0 me-4 mr-3 pt-2\">Past Events</h3>\r\n  <a class=\"me-4 mr-3\" href=\"/events/mine\">\r\n    My Events\r\n  </a>\r\n  <a href=\"/events/add\" class=\"btn-sm btn-small btn-secondary-outline py-0 px-4 btn btn-md-teal ms-auto ml-auto\" data-drupal-link-system-path=\"events/add\">+ Add Event</a>\r\n</div>"
             format: full_html
           tokenize: false
       exposed_block: true

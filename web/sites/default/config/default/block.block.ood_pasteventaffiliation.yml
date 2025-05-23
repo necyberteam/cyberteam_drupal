@@ -1,0 +1,29 @@
+uuid: 31b071ea-17aa-413c-9565-16a2c814163b
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.past_event_affiliation
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_pasteventaffiliation
+theme: ood
+region: primary_sidebar
+weight: -10
+provider: null
+plugin: 'facet_block:past_event_affiliation'
+settings:
+  id: 'facet_block:past_event_affiliation'
+  label: Affiliation
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: ood_pasteventaffiliation
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events/past

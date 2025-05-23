@@ -53,7 +53,7 @@
 		</div>
 	{% else %}
 		{% for item in items %}
-			<div{{attributes}}>{{ item.content }}</div>
+			<div{{attributes.addClass('mb-3')}}>{{ item.content }}</div>
 		{% endfor %}
 	{% endif %}
 {% else %}
