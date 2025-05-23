@@ -16,8 +16,8 @@ elements: |-
   approved:
     '#type': checkbox
     '#title': Approved
-    '#description': '<p>Resources must be approved by an administrator to be displayed in the KB Resource list</p>'
-    '#help': '<p><span style="-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(41, 42, 46);display:inline !important;float:none;font-family:&quot;Atlassian Sans&quot;, ui-sans-serif, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, Ubuntu, &quot;Helvetica Neue&quot;, sans-serif;font-size:14px;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:-0.07px;orphans:2;text-align:start;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:pre-wrap;widows:2;word-spacing:0px;">If checked resource will appear in the resource library on the domains indicated and will be available to add to affinity groups</span></p>'
+    '#description': '<p>Resources must be approved by an administrator to be displayed in the public KB Resource list.</p>'
+    '#help': '<p><span style="-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(41, 42, 46);display:inline !important;float:none;font-family:&quot;Atlassian Sans&quot;, ui-sans-serif, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, Ubuntu, &quot;Helvetica Neue&quot;, sans-serif;font-size:14px;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:-0.07px;orphans:2;text-align:start;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:pre-wrap;widows:2;word-spacing:0px;">Approval will also also allow the KB Resource to be displayed on an associated Affinity Group.</span></p>'
     '#disabled': true
     '#access_create_roles':
       - authenticated
@@ -381,7 +381,7 @@ handlers:
     settings:
       states:
         - completed
-      to_mail: _default
+      to_mail: '[webform_submission:user:mail]'
       to_options: {  }
       bcc_mail: ''
       bcc_options: {  }
@@ -433,7 +433,7 @@ handlers:
     settings:
       states:
         - completed
-      to_mail: _default
+      to_mail: '[webform_submission:user:mail]'
       to_options: {  }
       bcc_mail: ''
       bcc_options: {  }
@@ -446,7 +446,7 @@ handlers:
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: _default
+      subject: 'Your KB Resources was added to the Affinity Group'
       body: '<p><span style="-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(41, 42, 46);display:inline !important;float:none;font-family:&quot;Atlassian Sans&quot;, ui-sans-serif, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, Ubuntu, &quot;Helvetica Neue&quot;, sans-serif;font-size:14px;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:pre-wrap;widows:2;word-spacing:0px;">Your [webform_submission:current-page:title]: [current-domain:path]/knowledge-base/resources/[webform_submission:sid] was allowed to be added to [webform:element:affinity_group].</span></p>'
       excluded_elements:
         approved: approved
