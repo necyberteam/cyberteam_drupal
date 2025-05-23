@@ -31,10 +31,10 @@ function add_pecan_as_ag_coord() {
     .click();
 
   // add Pecan Pie as a coordinator
-  cy.get('#edit-field-coordinator-1-target-id').clear();
-  cy.get('#edit-field-coordinator-1-target-id')
+  cy.get('#edit-field-coordinator-2-target-id').clear();
+  cy.get('#edit-field-coordinator-2-target-id')
     .type('Pecan Pie')
-    .get('#ui-id-2')  // this is the dropdown that shows up
+    .get('#ui-id-3')  // this is the dropdown that shows up
     .find('.ui-menu-item') //
     .first() // take the first one
     .click();
@@ -73,7 +73,7 @@ function remove_pecan_as_ag_coord() {
     .click();
 
   // remove Pecan Pie as a coordinator
-  cy.get('#edit-field-coordinator-1-target-id')
+  cy.get('#edit-field-coordinator-2-target-id')
     .clear();
 
   // Set the slug to something unique
