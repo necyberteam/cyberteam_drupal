@@ -3,7 +3,6 @@ adding:
     config:
       - views.view.affinity_group
     module:
-      - image
       - views
   third_party_settings:
     layout_builder:
@@ -22,7 +21,7 @@ adding:
                 views_label: ''
                 items_per_page: none
                 exposed: {  }
-              weight: 6
+              weight: 7
               additional:
                 layout_builder_styles_style:
                   mb_10: mb_10
@@ -33,11 +32,4 @@ adding:
                   pe_3: 0
                   pt_4: 0
                   tags: 0
-removing:
-  dependencies:
-    config:
-      - field.field.node.affinity_group.field_group_id
-    module:
-      - svg_image
-  hidden:
-    field_group_id: true
+removing: {  }

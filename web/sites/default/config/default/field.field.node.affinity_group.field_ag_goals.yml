@@ -1,0 +1,24 @@
+uuid: 48665d6b-d996-4d67-be7e-e8ce22581ec6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ag_goals
+    - filter.format.basic_html
+    - node.type.affinity_group
+  module:
+    - text
+id: node.affinity_group.field_ag_goals
+field_name: field_ag_goals
+entity_type: node
+bundle: affinity_group
+label: Goals
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text_long
