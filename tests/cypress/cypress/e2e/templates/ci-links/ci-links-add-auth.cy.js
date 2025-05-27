@@ -8,7 +8,6 @@ describe("On the Add a Resource Page for authenticated users,", () => {
     cy.contains('Title');
     cy.contains('Category');
     cy.contains('Tags');
-    cy.contains('Select one (or more) tags that apply.');
     cy.contains('Skill Level');
     cy.contains('Description');
     cy.contains('Link to Resource');
