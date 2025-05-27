@@ -196,6 +196,7 @@ body {
 
     .top-left-menu {
       position: relative;
+      justify-content: flex-start;
       background-color: #000;
       padding: .5rem 1rem;
       width: 75%;
@@ -237,8 +238,17 @@ body {
     .navbar-nav {
       padding: .5rem 1rem;
       a {
-        font-size: .7em;
+        font-size: 0.8rem;
         color: #000;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .navbar-nav a {
+        font-size: 0.7rem;
+        i.bi {
+          display: none;
+        }
       }
     }
   }
@@ -323,7 +333,6 @@ body {
     position: relative;
     overflow: hidden;
     background-color: var(--ood-red);
-    max-height: 100px;
     .container {
       margin: 0 15px;
       max-width: 100%;
@@ -344,6 +353,7 @@ body {
     h2 {
       max-width: 1140px;
       font-size: 1.8em;
+      line-height: 1.1;
       text-align: left;
       margin: 0 auto;
     }
@@ -354,6 +364,10 @@ body {
   }
 
   @media screen and (min-width: 1024px) {
+    .masthead {
+      max-height: 100px;
+    }
+
     [id="block-ood-page-title"]:after,
     .masthead:after {
       content: "";
