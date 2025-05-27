@@ -37,7 +37,10 @@ describe("Admin user tests the Individual Affinity Groups", () => {
       .wait(1000)
       .type('{downarrow}{enter}');
 
-    cy.get('#edit-field-resources-entity-reference-add-more').click();
+    if (!Cypress.$('[data-drupal-selector="edit-field-resources-entity-reference-1-target-id"]').length) {
+      cy.get('#edit-field-resources-entity-reference-add-more').click();
+      cy.wait(1000);
+    }
 
     cy.get('[data-drupal-selector="edit-field-resources-entity-reference-1-target-id"]').clear();
     cy.get('[data-drupal-selector="edit-field-resources-entity-reference-1-target-id"]')
