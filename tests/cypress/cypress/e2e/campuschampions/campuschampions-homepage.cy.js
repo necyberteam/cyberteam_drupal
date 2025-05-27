@@ -15,7 +15,7 @@ describe("verify specific links on homepage", () => {
     cy.loginUser('authenticated@amptesting.com', '6%l7iF}6(4tI');
     cy.visit('/');
     cy.contains('Connect.CI').click();
-    cy.url().should('include', '/regions');
+    cy.url().should('include', 'https://connect.cyberinfrastructure.org/');
     cy.contains('Connect.Cyberinfrastructure is a family of portals, each representing a program');
   });
 
