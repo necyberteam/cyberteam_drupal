@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4df3d6f301d315fa824dc37780091820",
+    "content-hash": "1118b1f343e47446fdfb98d5dbe9b8ba",
     "packages": [
         {
             "name": "access/drupal_seamless_cilogon",
@@ -98,17 +98,16 @@
         },
         {
             "name": "amp/access",
-            "version": "3.0.x-dev",
+            "version": "dev-d8-2416",
             "source": {
                 "type": "git",
                 "url": "https://github.com/necyberteam/access.git",
-                "reference": "e1c5603cc1c61ec89fbf728279c460ed7022cd9d"
+                "reference": "d4bd329191c5b845635eac574f813e7d92712e01"
             },
             "require": {
                 "gioni06/gpt3-tokenizer": "^1.2",
                 "openai-php/client": "^0.4.1"
             },
-            "default-branch": true,
             "type": "drupal-custom-module",
             "license": [
                 "GPL-2.0+"
@@ -124,7 +123,7 @@
                 "issues": "https://github.com/necyberteam/access/issues",
                 "source": "https://github.com/necyberteam/access"
             },
-            "time": "2025-05-28T05:51:56+00:00"
+            "time": "2025-05-28T18:05:06+00:00"
         },
         {
             "name": "arthurkushman/query-path",
@@ -3370,6 +3369,64 @@
             "homepage": "https://www.drupal.org/project/domain",
             "support": {
                 "source": "https://git.drupalcode.org/project/domain"
+            }
+        },
+        {
+            "name": "drupal/domain_entity",
+            "version": "1.0.0-rc5",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/domain_entity.git",
+                "reference": "8.x-1.0-rc5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/domain_entity-8.x-1.0-rc5.zip",
+                "reference": "8.x-1.0-rc5",
+                "shasum": "df8fdea300eaa01fcfff5ab3ac8d039deaa7eedb"
+            },
+            "require": {
+                "drupal/core": "^10 || ^11",
+                "drupal/domain": "^2.0@beta",
+                "drupal/domain_access": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.0-rc5",
+                    "datestamp": "1741481248",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "RC releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Frederik Van Hooghten",
+                    "homepage": "https://www.drupal.org/user/118908",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Andrey Postnikov",
+                    "homepage": "https://www.drupal.org/user/1270276",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Vincent Baronnet",
+                    "homepage": "https://www.drupal.org/user/3411997",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Domain entity access",
+            "homepage": "https://www.drupal.org/project/domain_entity",
+            "support": {
+                "source": "https://git.drupalcode.org/project/domain_entity.git",
+                "issues": "https://www.drupal.org/project/issues/domain_entity"
             }
         },
         {
@@ -22237,6 +22294,7 @@
         "drupal/domain_access": 10,
         "drupal/domain_alias": 10,
         "drupal/domain_config": 10,
+        "drupal/domain_entity": 5,
         "drupal/domain_source": 10,
         "drupal/email_change_verification": 10,
         "drupal/feeds": 20,
