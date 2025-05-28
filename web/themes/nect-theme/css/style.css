@@ -551,6 +551,18 @@ li.dropdown-item a.nav-link:active {
   top: 90%;
 }
 @media screen and (max-width: 991.98px) {
+  .navbar-nav .dropdown .dropdown-menu {
+      position: absolute;
+      top: 30px;
+      background: var(--dark);
+      padding: 1rem 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0,.1);
+  }
+  .navbar-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+  }
   #block-views-block-peoplebuttonblocks-region-select-card .dropdown-menu {
     position: absolute;
     background-color: #FFFFFF;
@@ -2437,6 +2449,11 @@ form .label-description {
 .form-item {
   margin: 1.5rem 0;
 }
+
+#search-block-form .form-item{
+  margin: 0;
+}
+
 .form-item .field-label {
   padding: 0.25rem 0 0.25rem 0;
 }
@@ -2467,4 +2484,30 @@ form #edit-revision-log-wrapper {
   width: 1rem;
   z-index: 1000;
   pointer-events: none;
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+span.event-tags {
+  font-size: 0.75rem;
+}
+
+.hover--underline {
+  text-decoration: none;
+}
+.hover--underline:hover {
+  text-decoration: underline;
+}
+
+.hover--text-black:hover,
+.page-events span.event-tags a:hover,
+.page-events-past span.event-tags a:hover {
+  color: var(--primary) !important;
+}
+
+.hover--border-black:hover,
+.page-events span.event-tags a:hover,
+.page-events-past span.event-tags a:hover {
+  border-color: var(--primary) !important;
 }

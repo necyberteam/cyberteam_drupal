@@ -2,7 +2,7 @@ describe("verify specific links on homepage", () => {
   it("User is on the homepage", () => {
     cy.visit('/');
     cy.contains('Connect.CI').click();
-    cy.contains('Connect.Cyberinfrastructure is a family of portals, each representing a program');
+    cy.contains('Launch your community quickly with Connect.CI');
   });
 
   it("Verify the main logo goes to home page", () => {
@@ -15,8 +15,8 @@ describe("verify specific links on homepage", () => {
     cy.loginUser('authenticated@amptesting.com', '6%l7iF}6(4tI');
     cy.visit('/');
     cy.contains('Connect.CI').click();
-    cy.url().should('include', '/regions');
-    cy.contains('Connect.Cyberinfrastructure is a family of portals, each representing a program');
+    cy.url().should('include', 'https://connect.cyberinfrastructure.org/');
+    cy.contains('Launch your community quickly with Connect.CI');
   });
 
   it("authenticated Verify the main logo goes to home page", () => {
