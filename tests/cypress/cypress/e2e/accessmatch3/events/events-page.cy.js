@@ -24,14 +24,17 @@ describe('Unauthenticated user tests the Events Page', () => {
     cy.get('#custom-event-skill-level-advanced').check()
     cy.wait(1000)
     cy.contains('cypress-example-event')
-    cy.contains('Zoom')
-    cy.get('.views-field-date-1')
-      .find('.text-dark-teal')
+      .closest('.views-row')
       .within(() => {
-        cy.get('div.text-4xl').should('have.text', '12');
-        cy.get('div.text-xl').eq(1).should('have.text', 'Dec');
+        cy.contains('Zoom');
+        cy.get('.views-field-date-1')
+          .find('.text-dark-teal')
+          .within(() => {
+            cy.get('div.text-4xl').should('have.text', '12');
+            cy.get('div.text-xl').eq(1).should('have.text', 'Dec');
+          });
+        cy.get('[href="/tags/login"]').contains('login');
       });
-    cy.get('[href="/tags/login"]').contains('login')
 
     cy.get('#custom-event-type-reset-all').check()
     cy.wait(1000)
@@ -48,9 +51,17 @@ describe('Unauthenticated user tests the Events Page', () => {
     cy.get('#edit-search-api-fulltext--2').type('example')
     cy.wait(1000)
     cy.contains('cypress-example-event')
-    cy.contains('Zoom')
-    cy.contains('12/12/26')
-    cy.get('[href="/tags/login"]').contains('login')
+      .closest('.views-row')
+      .within(() => {
+        cy.contains('Zoom');
+        cy.get('.views-field-date-1')
+          .find('.text-dark-teal')
+          .within(() => {
+            cy.get('div.text-4xl').should('have.text', '12');
+            cy.get('div.text-xl').eq(1).should('have.text', 'Dec');
+          });
+        cy.get('[href="/tags/login"]').contains('login');
+      });
     cy.contains('cypress-example-event').click()
 
 
