@@ -354,8 +354,8 @@ handlers:
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: _default
-      body: _default
+      subject: 'Please review this KB Resource'
+      body: "<p>Date: {{ webform_token('[webform_submission:created]', webform_submission, [], options) }}</p>\r\n<p>Authored by: {{ webform_token('[webform_submission:user]', webform_submission, [], options) }}</p>\r\n{{ webform_token('[webform_submission:values]', webform_submission, [], options) }}\r\n"
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true
@@ -363,7 +363,7 @@ handlers:
       exclude_attachments: false
       html: true
       attachments: false
-      twig: false
+      twig: true
       theme_name: ''
       parameters: {  }
       debug: false
