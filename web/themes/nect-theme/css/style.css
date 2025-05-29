@@ -2466,6 +2466,26 @@ form #edit-revision-log-wrapper {
   margin: 0 1.5rem;
 }
 
+.private {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+}
+
+.private.bg {
+  border-left: 50px solid transparent;
+  border-top: 50px solid var(--primary);
+}
+.private.icon {
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 1rem;
+  z-index: 1000;
+  pointer-events: none;
+}
+
 .text-2xl {
   font-size: 1.5rem;
 }
