@@ -1,0 +1,20 @@
+uuid: e726bb75-9941-4e97-8067-31990f85f1f3
+langcode: en
+status: true
+dependencies:
+  module:
+    - domain
+    - recurring_events
+id: eventinstance.domain_access
+field_name: domain_access
+entity_type: eventinstance
+type: entity_reference
+settings:
+  target_type: domain
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: true
+custom_storage: false
