@@ -1,0 +1,50 @@
+_core:
+  default_config_hash: MW7PVCao0tUodxHxp35Bw4DQeNeiN3T8tJv2Ixx97WY
+show_capacity: true
+insert_redirect_choice: current
+insert_redirect_other: ''
+use_admin_theme: false
+limit: 10
+date_format: 'F jS, Y h:iA'
+title: '[registrant:email]'
+email_notifications: true
+email_notifications_queue: true
+notifications:
+  registration_notification:
+    enabled: false
+    subject: 'Registration Confirmed for [registrant:eventinstance:title]'
+    body: "Dear [registrant:field_first_name] [registrant:field_last_name],\r\nCongratulations! Your registration for [registrant:eventinstance:title] [registrant:eventinstance:url] on [registrant:eventinstance:date] has been confirmed.\r\nHere are the details:\r\nLocation (if applicable): [registrant:eventseries:field_location]\r\nTime: [registrant:eventinstance:date] - [registrant:eventinstance:end_date]\r\nWe are glad you are going to attend! If you have questions or need to update your registration, please contact us at [registrant:eventseries:field_contact]."
+  waitlist_notification:
+    enabled: false
+    subject: 'Waitlist Status for [registrant:eventinstance:title]'
+    body: "Dear [registrant:field_first_name] [registrant:field_last_name],\r\n\r\nThank you for registering for [registrant:eventinstance:title] on [registrant:eventinstance:date]. At this time, the session is full, and your registration has been placed on the waitlist.\r\nIf a spot becomes available, we will notify you immediately. In the meantime, if you have any questions or wish to withdraw from the waitlist, please contact us at [registrant:eventseries:field_contact].\r\nThank you for your understanding, and we hope to accommodate you soon!"
+  promotion_notification:
+    enabled: false
+    subject: "You've Been Added To The Registration List"
+    body: "You have been promoted from the waitlist to the registration list for the [eventinstance:title] [eventinstance:reg_type].\r\n\r\nModify your registration: [registrant:edit_url]\r\nDelete your registration: [registrant:delete_url]"
+  instance_deletion_notification:
+    enabled: false
+    subject: 'An Event Has Been Deleted'
+    body: 'Unfortunately, the [eventinstance:title] [eventinstance:reg_type] has been deleted. Your registration has been deleted.'
+  series_deletion_notification:
+    enabled: false
+    subject: 'An Event Series Has Been Deleted'
+    body: 'Unfortunately, the [eventinstance:title] [eventinstance:reg_type] has been deleted. Your registration has been deleted.'
+  instance_modification_notification:
+    enabled: false
+    subject: 'An Event Has Been Modified'
+    body: "The [eventinstance:title] [eventinstance:reg_type] has been modified, please check back for details.\r\n\r\nModify your registration: [registrant:edit_url]\r\nDelete your registration: [registrant:delete_url]"
+  series_modification_notification:
+    enabled: false
+    subject: 'An Event Series Has Been Modified'
+    body: 'The [eventinstance:title] [eventinstance:reg_type] has been modified, and all instances have been removed, and your registration has been deleted.'
+  registration_reminder:
+    enabled: true
+    subject: 'Reminder for Event [registrant:eventinstance:title]'
+    body: "Dear [registrant:field_first_name] [registrant:field_last_name],\r\n\r\nThank you for registering for [registrant:eventinstance:title] ([eventinstance:url]) on [registrant:eventinstance:date]. \r\n\r\nHere are the details:\r\nLocation (if applicable): [registrant:eventseries:field_location]\r\nTime: [registrant:eventinstance:date] - [registrant:eventinstance:end_date]"
+successfully_registered: 'Your registration was received. You will receive an email after your registration is approved.'
+successfully_registered_waitlist: 'Successfully registered to the waitlist.'
+successfully_updated: 'Registrant successfully updated.'
+successfully_updated_waitlist: 'Successfully updated waitlist registrant.'
+already_registered: 'User already registered for this event.'
+registration_closed: 'Unfortunately, registration is not available at this time.'

@@ -1,0 +1,12 @@
+{% if items|length %}
+	{% for item in items %}
+    <div class="mentorship-program mb-3">
+		{% set text_content = item.content|render|striptags %}
+		{% if text_content == 'Campus Champions AI Mentorship' %}
+			<img src="/themes/nect-theme/img/ccmnet/cc-ai-mentorship.jpg" alt="Campus Champions AI Mentorship">
+		{% else %}
+			{{ text_content }}
+		{% endif %}
+    </div>
+	{% endfor %}
+{% endif %}

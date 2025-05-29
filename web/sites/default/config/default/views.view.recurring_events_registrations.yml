@@ -820,7 +820,7 @@ display:
         type: ViewsRegistrationCustomAccess
         options: {  }
       cache:
-        type: tag
+        type: none
         options: {  }
       empty:
         area:
@@ -1328,7 +1328,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: "<nav class=\"action-links mb-6\">\r\n  <ul class=\"p-0\">\r\n    <li>\r\n      <a href=\"[current-page:url]/contact\" class=\"btn btn-md-teal\" data-drupal-link-system-path=\"events/7618/registrations/contact\">\r\n        Contact Registrants\r\n      </a>\r\n    </li>\r\n    <li>\r\n      <a href=\"[current-page:url]/csv?page&amp;_format=csv\" class=\"btn btn-md-teal\">\r\n        Registrant List\r\n      </a>\r\n    </li>\r\n  </ul>\r\n</nav>"
+            value: "<nav class=\"action-links mb-6\">\r\n  <ul class=\"p-0 list-group list-group-horizontal list-unstyled\">\r\n    <li class=\"mr-3\">\r\n      <a href=\"[current-page:url]/contact\" class=\"btn btn-md-teal\" data-drupal-link-system-path=\"events/7618/registrations/contact\">\r\n        Contact Registrants\r\n      </a>\r\n    </li>\r\n    <li>\r\n      <a href=\"[current-page:url]/csv?page&amp;_format=csv\" class=\"btn btn-md-teal\">\r\n        Registrant List\r\n      </a>\r\n    </li>\r\n  </ul>\r\n</nav>"
             format: full_html
           tokenize: false
       display_extenders: {  }
@@ -1346,7 +1346,9 @@ display:
     display_plugin: page
     position: 1
     display_options:
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
       path: admin/content/events/registrations
     cache_metadata:
       max-age: -1

@@ -567,7 +567,7 @@ display:
         type: none
         options: {  }
       cache:
-        type: search_api_none
+        type: search_api_tag
         options: {  }
       empty:
         area:
@@ -956,8 +956,16 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - url.site
         - user
       tags:
+        - 'config:facets.facet.content_type'
+        - 'config:facets.facet.programming_language'
+        - 'config:facets.facet.science_domain'
+        - 'config:facets.facet.skill_level'
+        - 'config:facets.facet.submission_id'
+        - 'config:facets.facet.tags'
+        - 'config:facets.facet.vote_count'
         - 'config:search_api.index.ci_links'
         - 'search_api_list:ci_links'
   page_2:
@@ -1599,7 +1607,10 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - url.site
         - user
       tags:
+        - 'config:facets.facet.content_type_mentorship'
+        - 'config:facets.facet.tags_ci_mentorship'
         - 'config:search_api.index.ci_links'
         - 'search_api_list:ci_links'
