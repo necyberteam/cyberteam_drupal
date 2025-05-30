@@ -111,7 +111,7 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: none
+        type: tag
         options: {  }
       empty: {  }
       sorts:
@@ -240,7 +240,8 @@ display:
         - 'languages:language_interface'
         - url
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.interest
   added_interests_user_profile:
     id: added_interests_user_profile
     display_title: 'User Profile'
@@ -261,7 +262,8 @@ display:
         - 'languages:language_interface'
         - url
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.interest
   block_1:
     id: block_1
     display_title: 'Term Pages'
@@ -273,7 +275,15 @@ display:
         options:
           offset: 0
           items_per_page: 8
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       defaults:
+        cache: false
         pager: false
         use_more: false
         use_more_always: false
@@ -287,6 +297,8 @@ display:
       link_display: custom_url
       link_url: 'user/{{ arguments.uid }}'
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       block_hide_empty: true
     cache_metadata:
@@ -296,7 +308,8 @@ display:
         - 'languages:language_interface'
         - url
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.interest
   block_2:
     id: block_2
     display_title: 'Term Pages - tags'
@@ -374,7 +387,15 @@ display:
         type: none
         options:
           offset: 0
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       defaults:
+        cache: false
         css_class: false
         pager: false
         use_more: false
@@ -391,6 +412,8 @@ display:
       link_display: '0'
       link_url: 'user/{{ arguments.uid }}'
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       block_hide_empty: true
     cache_metadata:
@@ -400,4 +423,5 @@ display:
         - 'languages:language_interface'
         - url
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.interest

@@ -666,6 +666,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 10
           total_pages: null
           id: 0
@@ -680,7 +681,6 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          pagination_heading_level: h4
       exposed_form:
         type: basic
         options:
@@ -1605,6 +1605,13 @@ display:
     display_plugin: block
     position: 1
     display_options:
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       filters:
         langcode:
           id: langcode
@@ -1815,10 +1822,13 @@ display:
         type: views_query
         options: {  }
       defaults:
+        cache: false
         filters: false
         filter_groups: false
       display_description: ''
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       block_description: 'Tags Page Blog - CAREERS'
       block_category: TagsPageBlog
@@ -1842,6 +1852,13 @@ display:
     display_plugin: block
     position: 1
     display_options:
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       filters:
         langcode:
           id: langcode
@@ -2052,10 +2069,13 @@ display:
         type: views_query
         options: {  }
       defaults:
+        cache: false
         filters: false
         filter_groups: false
       display_description: ''
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       block_description: 'Tags Page Blog - Great Plains'
       block_category: TagsPageBlog
@@ -2553,6 +2573,13 @@ display:
     display_plugin: block
     position: 1
     display_options:
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       filters:
         langcode:
           id: langcode
@@ -2763,10 +2790,13 @@ display:
         type: views_query
         options: {  }
       defaults:
+        cache: false
         filters: false
         filter_groups: false
       display_description: ''
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       block_description: 'Tags Page Blog - Northeast'
       block_category: TagsPageBlog

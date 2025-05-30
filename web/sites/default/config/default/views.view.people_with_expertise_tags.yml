@@ -754,6 +754,7 @@ display:
         - 'config:field.storage.user.field_institution'
         - 'config:field.storage.user.field_region'
         - 'config:field.storage.user.user_picture'
+        - flag.flag.skill
   block_1:
     id: block_1
     display_title: Block
@@ -765,6 +766,13 @@ display:
         options:
           offset: 0
           items_per_page: 3
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       sorts:
         random:
           id: random
@@ -780,6 +788,7 @@ display:
             field_identifier: ''
           exposed: false
       defaults:
+        cache: false
         pager: false
         sorts: false
       display_extenders:
@@ -796,12 +805,20 @@ display:
         - 'config:field.storage.user.field_institution'
         - 'config:field.storage.user.field_region'
         - 'config:field.storage.user.user_picture'
+        - flag.flag.skill
   page_1:
     id: page_1
     display_title: Page
     display_plugin: page
     position: 1
     display_options:
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       style:
         type: default
         options:
@@ -812,6 +829,7 @@ display:
         type: fields
         options: {  }
       defaults:
+        cache: false
         use_more: false
         use_more_always: false
         use_more_text: false
@@ -838,3 +856,4 @@ display:
         - 'config:field.storage.user.field_institution'
         - 'config:field.storage.user.field_region'
         - 'config:field.storage.user.user_picture'
+        - flag.flag.skill
