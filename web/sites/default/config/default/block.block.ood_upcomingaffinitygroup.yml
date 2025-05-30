@@ -1,0 +1,29 @@
+uuid: d72e5be3-c211-4966-814b-8dc11fa53811
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.custom_event_affinity_group
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_upcomingaffinitygroup
+theme: ood
+region: primary_sidebar
+weight: -45
+provider: null
+plugin: 'facet_block:custom_event_affinity_group'
+settings:
+  id: 'facet_block:custom_event_affinity_group'
+  label: 'Affinity Group'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: ood_upcomingaffinitygroup
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events

@@ -9,8 +9,6 @@ module.exports = defineConfig({
     screenshotsFolder: "cypress/screenshots",
     supportFile: "cypress/support/e2e.js",
     videosFolder: "cypress/videos",
-    viewportWidth: 1440,
-    viewportHeight: 900,
   },
 
   e2e: {
@@ -29,6 +27,8 @@ module.exports = defineConfig({
     specPattern: "cypress/**",
     supportFile: "cypress/support/e2e.js",
     fixturesFolder: "cypress/fixtures",
-    experimentalStudio: true
+    experimentalStudio: true,
+    viewportWidth: 1440,
+    viewportHeight: 900,
   },
 });
