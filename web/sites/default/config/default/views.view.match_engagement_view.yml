@@ -1507,6 +1507,13 @@ display:
         options:
           offset: 0
           items_per_page: 3
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       empty:
         area:
           id: area
@@ -1640,6 +1647,7 @@ display:
           1: AND
       defaults:
         empty: false
+        cache: false
         title: false
         pager: false
         use_more: false
@@ -1673,7 +1681,9 @@ display:
             format: full_no_editor
           tokenize: false
       footer: {  }
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
       block_description: 'Engagements by Tag'
     cache_metadata:
       max-age: -1
