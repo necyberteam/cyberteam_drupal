@@ -56,6 +56,8 @@ We've created DDEV-based GitHub Actions workflows to replace the Lando-based one
     ddev start
 ```
 
+> Note: The `--create-docroot` flag has been removed as it's deprecated in newer DDEV versions.
+
 ### Database Import
 
 **Lando (handled by action):**
