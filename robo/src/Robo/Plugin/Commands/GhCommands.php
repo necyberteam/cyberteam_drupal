@@ -50,12 +50,63 @@ class GhCommands extends Tasks {
    * @description Pulls latest database artifact from Github.
    */
   public function pulldb() {
-    $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-daily-backup");
-    $prev_backup = 'backups/site.sql.gz';
-    if (file_exists($prev_backup)) {
-      $this->_exec("rm $prev_backup");
+    $this->say("Downloading latest database backup from GitHub artifacts...");
+    
+    // List available workflows/runs to debug
+    $this->_exec("gh run list -R github.com/necyberteam/cyberteam_drupal -L 5");
+    
+    // Try to download the artifact
+    $result = $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-daily-backup");
+    
+    // Ensure backups directory exists
+    if (!file_exists('backups')) {
+      $this->_exec("mkdir -p backups");
     }
-    $this->_exec("mv site.sql.gz backups/site.sql.gz");
+    
+    // Check what files were downloaded
+    $this->say("Checking downloaded files...");
+    $this->_exec("ls -la");
+    
+    $found_file = false;
+    $target_file = 'backups/site.sql.gz';
+    
+    // Check for various possible file names
+    if (file_exists('site.sql.gz')) {
+      $this->say("Found site.sql.gz");
+      $this->_exec("mv site.sql.gz $target_file");
+      $found_file = true;
+    } 
+    elseif (file_exists('site.sql')) {
+      $this->say("Found site.sql, compressing...");
+      $this->_exec("gzip site.sql");
+      $this->_exec("mv site.sql.gz $target_file");
+      $found_file = true;
+    }
+    elseif (file_exists('amp-daily-backup/site.sql.gz')) {
+      $this->say("Found site.sql.gz in subdirectory");
+      $this->_exec("mv amp-daily-backup/site.sql.gz $target_file");
+      $found_file = true;
+    }
+    elseif (file_exists('amp-daily-backup/site.sql')) {
+      $this->say("Found site.sql in subdirectory, compressing...");
+      $this->_exec("gzip amp-daily-backup/site.sql");
+      $this->_exec("mv amp-daily-backup/site.sql.gz $target_file");
+      $found_file = true;
+    }
+    
+    if (!$found_file) {
+      $this->say("❗️ No database file found. Available files:");
+      $this->_exec("find . -name '*.sql*' -o -name 'site.*'");
+      throw new \Exception('Failed to find database backup file');
+    }
+    
+    // Remove old backup if it exists
+    $prev_backup = 'backups/site.sql.gz.old';
+    if (file_exists($target_file)) {
+      $this->_exec("cp $target_file $prev_backup");
+    }
+    
+    $this->say("✅ Database backup downloaded successfully to $target_file!");
   }
 
   /**
