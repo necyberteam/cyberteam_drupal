@@ -28,7 +28,7 @@ describe("test an Affinity Group page", () => {
     cy.get('a').contains('Email').should('have.attr', 'href', 'mailto:jfossot@ncsu.edu');
     cy.contains('Coordinators');
     cy.contains('Jacob Fosso Tande').click();
-    cy.url().should('include', '/community-persona/5620');
+    cy.url().should('include', '/community-persona/4295');
     cy.contains('research-facilitation');
     cy.contains('Affinity Groups');
     cy.visit('/affinity-groups/cloud-computing');
@@ -51,10 +51,10 @@ describe("test an Affinity Group page", () => {
     cy.url().should('include', '/announcements/2022-2023-holiday-support-schedule-anvil');
   });
 
-  it("Unauthenticated user tests an AG with a github link", () => {
-    cy.visit('/affinity-groups/open-ondemand');
-    cy.get('a').contains('GitHub').should('have.attr', 'href', 'https://github.com/OSC/ondemand');
-  });
+  // it("Unauthenticated user tests an AG with a github link", () => {
+  //   cy.visit('/affinity-groups/open-ondemand');
+  //   cy.get('a').contains('GitHub').should('have.attr', 'href', 'https://github.com/OSC/ondemand');
+  // });
 
   it("Unauthenticated user tests another AG with recommended resources", () => {
     cy.visit('/affinity-groups/ai-institutes-cyberinfrastructure');

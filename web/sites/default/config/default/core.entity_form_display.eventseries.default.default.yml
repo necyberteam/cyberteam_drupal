@@ -3,11 +3,13 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.eventseries.default.domain_access
     - field.field.eventseries.default.field_affiliation
     - field.field.eventseries.default.field_affinity_group
     - field.field.eventseries.default.field_affinity_group_node
     - field.field.eventseries.default.field_broadcast_affinity_groups
     - field.field.eventseries.default.field_contact
+    - field.field.eventseries.default.field_event_allocation_grant
     - field.field.eventseries.default.field_event_no_listing
     - field.field.eventseries.default.field_event_speakers
     - field.field.eventseries.default.field_event_type
@@ -15,6 +17,7 @@ dependencies:
     - field.field.eventseries.default.field_location
     - field.field.eventseries.default.field_registration
     - field.field.eventseries.default.field_skill_level
+    - field.field.eventseries.default.field_summary
     - field.field.eventseries.default.field_tags
     - recurring_events.eventseries_type.default
     - workflows.workflow.editorial
@@ -35,7 +38,7 @@ mode: default
 content:
   body:
     type: text_textarea
-    weight: 1
+    weight: 2
     region: content
     settings:
       rows: 5
@@ -43,44 +46,50 @@ content:
     third_party_settings: {  }
   consecutive_recurring_date:
     type: consecutive_recurring_date
-    weight: 3
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
   custom_date:
     type: daterange_default
-    weight: 8
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
   daily_recurring_date:
     type: daily_recurring_date
-    weight: 4
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  domain_access:
+    type: options_buttons
+    weight: 29
     region: content
     settings: {  }
     third_party_settings: {  }
   event_registration:
     type: event_registration
-    weight: 21
+    weight: 22
     region: content
     settings:
       show_enable_waitlist: true
     third_party_settings: {  }
   excluded_dates:
     type: daterange_default
-    weight: 9
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
   field_affiliation:
     type: options_buttons
-    weight: 16
+    weight: 17
     region: content
     settings: {  }
     third_party_settings: {  }
   field_affinity_group_node:
     type: entity_reference_autocomplete
-    weight: 18
+    weight: 19
     region: content
     settings:
       match_operator: CONTAINS
@@ -90,14 +99,22 @@ content:
     third_party_settings: {  }
   field_broadcast_affinity_groups:
     type: boolean_checkbox
-    weight: 19
+    weight: 20
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_contact:
     type: text_textfield
-    weight: 14
+    weight: 15
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_event_allocation_grant:
+    type: string_textfield
+    weight: 23
     region: content
     settings:
       size: 60
@@ -105,14 +122,14 @@ content:
     third_party_settings: {  }
   field_event_no_listing:
     type: boolean_checkbox
-    weight: 25
+    weight: 27
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_event_speakers:
     type: string_textfield
-    weight: 13
+    weight: 14
     region: content
     settings:
       size: 60
@@ -120,13 +137,13 @@ content:
     third_party_settings: {  }
   field_event_type:
     type: options_buttons
-    weight: 15
+    weight: 16
     region: content
     settings: {  }
     third_party_settings: {  }
   field_event_virtual_meeting_link:
     type: link_default
-    weight: 12
+    weight: 13
     region: content
     settings:
       placeholder_url: ''
@@ -134,7 +151,7 @@ content:
     third_party_settings: {  }
   field_location:
     type: text_textfield
-    weight: 11
+    weight: 12
     region: content
     settings:
       size: 60
@@ -142,7 +159,7 @@ content:
     third_party_settings: {  }
   field_registration:
     type: link_default
-    weight: 23
+    weight: 25
     region: content
     settings:
       placeholder_url: ''
@@ -150,43 +167,51 @@ content:
     third_party_settings: {  }
   field_skill_level:
     type: options_buttons
-    weight: 17
+    weight: 18
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_summary:
+    type: string_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   field_tags:
     type: options_select
-    weight: 20
+    weight: 21
     region: content
     settings: {  }
     third_party_settings: {  }
   included_dates:
     type: daterange_default
-    weight: 10
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 26
+    weight: 28
     region: content
     settings: {  }
     third_party_settings: {  }
   monthly_recurring_date:
     type: monthly_recurring_date
-    weight: 6
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }
   recur_type:
     type: options_buttons
-    weight: 2
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
   registration_reminders:
     type: registration_reminders
-    weight: 22
+    weight: 24
     region: content
     settings:
       rows: '5'
@@ -194,7 +219,7 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 24
+    weight: 26
     region: content
     settings:
       display_label: true
@@ -219,13 +244,13 @@ content:
     third_party_settings: {  }
   weekly_recurring_date:
     type: weekly_recurring_date
-    weight: 5
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
   yearly_recurring_date:
     type: yearly_recurring_date
-    weight: 7
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }

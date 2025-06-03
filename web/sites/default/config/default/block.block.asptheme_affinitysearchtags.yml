@@ -7,13 +7,12 @@ dependencies:
   module:
     - facets
     - system
-    - user
   theme:
     - aspTheme
 id: asptheme_affinitysearchtags
 theme: aspTheme
 region: sidebar_first
-weight: -16
+weight: -19
 provider: null
 plugin: 'facet_block:affinity_search_tags'
 settings:
@@ -28,10 +27,3 @@ visibility:
     id: request_path
     negate: false
     pages: "/affinity_groups\r\n/affinity-groups"
-  user_role:
-    id: user_role
-    negate: false
-    context_mapping:
-      user: '@user.current_user_context:current_user'
-    roles:
-      authenticated: authenticated

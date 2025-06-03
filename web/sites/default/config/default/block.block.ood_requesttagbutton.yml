@@ -1,0 +1,30 @@
+uuid: a4859cda-7356-4e6a-befc-7ed7bec4d5b2
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:a2e44c9c-4029-4824-9a76-69d530f1e466'
+  module:
+    - block_content
+    - system
+  theme:
+    - ood
+id: ood_requesttagbutton
+theme: ood
+region: view_type_buttons
+weight: 1
+provider: null
+plugin: 'block_content:a2e44c9c-4029-4824-9a76-69d530f1e466'
+settings:
+  id: 'block_content:a2e44c9c-4029-4824-9a76-69d530f1e466'
+  label: 'request tag button'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/add-skill\r\n/add-interest"

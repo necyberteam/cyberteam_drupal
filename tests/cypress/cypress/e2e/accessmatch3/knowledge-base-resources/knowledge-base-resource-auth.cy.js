@@ -44,6 +44,7 @@ function create_dummy_ci_link() {
   );
   // tag "ACCESS-account" is selected
   cy.get(".tags").contains("ACCESS-account").click();
+  cy.get('.form-item-domain').find('input').type('ACCESS{enter}');
   cy.get("#edit-submit").click();
   cy.drupalLogout();
 }

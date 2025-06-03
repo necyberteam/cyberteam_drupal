@@ -1,0 +1,29 @@
+uuid: 78d06201-6a07-4623-b198-2b6021543195
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.skill_level
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_skilllevel
+theme: ood
+region: primary_sidebar
+weight: -16
+provider: null
+plugin: 'facet_block:skill_level'
+settings:
+  id: 'facet_block:skill_level'
+  label: 'Skill Level'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_skilllevel
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources

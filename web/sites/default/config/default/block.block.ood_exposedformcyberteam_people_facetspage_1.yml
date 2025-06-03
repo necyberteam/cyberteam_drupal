@@ -1,0 +1,28 @@
+uuid: ddf8a7f8-f137-4c3a-a2f2-367dea7238b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.cyberteam_people_facets
+  module:
+    - system
+    - views
+  theme:
+    - ood
+id: ood_exposedformcyberteam_people_facetspage_1
+theme: ood
+region: primary_sidebar
+weight: -49
+provider: null
+plugin: 'views_exposed_filter_block:cyberteam_people_facets-page_1'
+settings:
+  id: 'views_exposed_filter_block:cyberteam_people_facets-page_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people

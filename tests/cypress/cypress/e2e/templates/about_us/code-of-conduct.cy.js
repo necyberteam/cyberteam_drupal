@@ -4,8 +4,6 @@ describe("Code of Conduct page", () => {
     cy.request('/connectci-code-of-conduct').its('status').should('eq', 200);
     cy.contains('Connect CI Code of Conduct');
     cy.contains('Connect.Cyberinfrastructure is a family of portals,');
-    cy.contains('Diversity Statement');
-    cy.contains('Connect CI welcomes and encourages participation');
     cy.contains('Introduction & Scope');
     cy.contains('This code of conduct should be honored by everyone');
     cy.contains('Standards for Behavior');

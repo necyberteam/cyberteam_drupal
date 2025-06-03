@@ -1,0 +1,29 @@
+uuid: 0344c567-29c3-4db4-bd3e-7fd966c3d937
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.user_skills_members
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_userskillsmembers
+theme: ood
+region: primary_sidebar
+weight: -32
+provider: null
+plugin: 'facet_block:user_skills_members'
+settings:
+  id: 'facet_block:user_skills_members'
+  label: Skills
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_userskillsmembers
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /members

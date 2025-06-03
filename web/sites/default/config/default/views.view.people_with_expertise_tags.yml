@@ -12,8 +12,8 @@ dependencies:
     - taxonomy.vocabulary.tags
   module:
     - flag
-    - image
     - realname
+    - svg_image
     - taxonomy
     - user
     - views_field_view
@@ -496,6 +496,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 26
           total_pages: null
           id: 0
@@ -720,7 +721,7 @@ display:
           required: true
       css_class: 'py-4 my-3 people'
       group_by: true
-      use_more: true
+      use_more: false
       use_more_always: false
       use_more_text: 'more people'
       link_display: custom_url
@@ -781,7 +782,9 @@ display:
       defaults:
         pager: false
         sorts: false
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
     cache_metadata:
       max-age: 0
       contexts:

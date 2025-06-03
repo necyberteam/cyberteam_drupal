@@ -7,13 +7,12 @@ dependencies:
   module:
     - facets
     - system
-    - user
   theme:
     - aspTheme
 id: asptheme_upcomingskilllevel
 theme: aspTheme
 region: sidebar_first
-weight: -10
+weight: -13
 provider: null
 plugin: 'facet_block:custom_event_skill_level'
 settings:
@@ -28,10 +27,3 @@ visibility:
     id: request_path
     negate: false
     pages: /events
-  user_role:
-    id: user_role
-    negate: false
-    context_mapping:
-      user: '@user.current_user_context:current_user'
-    roles:
-      authenticated: authenticated

@@ -1,13 +1,14 @@
 name: (M) Cypress Tests
 on:
   pull_request:
+  merge_group:
   workflow_dispatch:
     inputs:
       database:
         description: 'Recent database dump to use (leave blank to use artifact)'
       sites:
         description: 'Specify which sites to test or leave the default to run all tests.'
-        default: 'accessmatch1, accessmatch2, accessmatch3, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect'
+        default: 'accessmatch1, accessmatch2, accessmatch3, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect, ondemand'
         required: true
       prnum:
         description: 'Pull request number — adds a comment to a pull request (nomally empty)'
@@ -20,8 +21,8 @@ permissions:
 jobs:
   accessmatch1:
     name: accessmatch1
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
-    if: contains(github.event.inputs.sites, 'accessmatch1') || github.event_name == 'pull_request'
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.6
+    if: contains(github.event.inputs.sites, 'accessmatch1') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "accessmatch"
@@ -32,11 +33,12 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   accessmatch2:
     name: accessmatch2
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
-    if: contains(github.event.inputs.sites, 'accessmatch2') || github.event_name == 'pull_request'
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.6
+    if: contains(github.event.inputs.sites, 'accessmatch2') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "accessmatch"
@@ -47,11 +49,12 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   accessmatch3:
     name: accessmatch3
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
-    if: contains(github.event.inputs.sites, 'accessmatch3') || github.event_name == 'pull_request'
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.6
+    if: contains(github.event.inputs.sites, 'accessmatch3') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "accessmatch"
@@ -62,11 +65,12 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   ccmnet:
     name: ccmnet
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
-    if: contains(github.event.inputs.sites, 'ccmnet') || github.event_name == 'pull_request'
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.6
+    if: contains(github.event.inputs.sites, 'ccmnet') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "ccmnet"
@@ -77,11 +81,12 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   connectci:
     name: connectci
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
-    if: contains(github.event.inputs.sites, 'connectci') || github.event_name == 'pull_request'
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.6
+    if: contains(github.event.inputs.sites, 'connectci') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "connectci"
@@ -92,11 +97,12 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   crct:
     name: crct
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
-    if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request'
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.6
+    if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "crct"
@@ -107,11 +113,12 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   campuschampions:
     name: campuschampions
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
-    if: contains(github.event.inputs.sites, 'campuschampions') || github.event_name == 'pull_request'
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.6
+    if: contains(github.event.inputs.sites, 'campuschampions') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "campuschampions"
@@ -122,10 +129,12 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
+
   coco:
     name: coco
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
-    if: contains(github.event.inputs.sites, 'coco') || github.event_name == 'pull_request'
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.6
+    if: contains(github.event.inputs.sites, 'coco') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "coco"
@@ -136,11 +145,12 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   greatplains:
     name: greatplains
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
-    if: contains(github.event.inputs.sites, 'greatplains') || github.event_name == 'pull_request'
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.6
+    if: contains(github.event.inputs.sites, 'greatplains') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "greatplains"
@@ -151,11 +161,12 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   kyct:
     name: kyct
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
-    if: contains(github.event.inputs.sites, 'kyct') || github.event_name == 'pull_request'
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.6
+    if: contains(github.event.inputs.sites, 'kyct') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "kyct"
@@ -166,11 +177,12 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   nect:
     name: nect
-    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.3
-    if: contains(github.event.inputs.sites, 'nect') || github.event_name == 'pull_request'
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.6
+    if: contains(github.event.inputs.sites, 'nect') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     secrets:
       slack_token: ${{ secrets.SLACK_TOKEN }}
       site: "nect"
@@ -181,33 +193,27 @@ jobs:
       LANDO_ENV: ${{ secrets.LANDO_ENV }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
-
-  # success:
-  #   name: Actions to run on success
-  #   needs: [asp]
-  #   if: ${{ success() || ( always() && ! cancelled() && ! failure() ) }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Comment on pull request
-  #       if: "${{ env.prnum  != '' }}"
-  #       run: |
-  #         gh pr comment $prnum -R $REPO --body "🤖 -=-=-=- Cypress Test was Successful -=-=-=- 🤖"
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         prnum: ${{ github.event.inputs.prnum }}
-  #         REPO: "${{ github.server_url }}/${{ github.repository }}"
-  #     - name: Slack Notification Success
-  #       uses: rtCamp/action-slack-notify@v2
-  #       env:
-  #         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-  #         SLACK_MESSAGE: '🤖 -=-=-=- Cypress Test Succeeded -=-=-=- 🤖'
-  #         SLACK_TITLE: "Cypress tests passed"
-  #         SLACK_CHANNEL: cypress-git-notifications
+  ondemand:
+    name: ondemand
+    uses: necyberteam/reusable_actions/.github/workflows/cypress.yml@v3.6
+    if: contains(github.event.inputs.sites, 'ondemand') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    secrets:
+      slack_token: ${{ secrets.SLACK_TOKEN }}
+      site: "ondemand"
+      directory: "ondemand"
+      database: ${{ github.event.inputs.database }}
+      prnum: ${{ github.event.inputs.prnum }}
+      gh_token: ${{ secrets.GH_TOKEN_REPO }}
+      LANDO_ENV: ${{ secrets.LANDO_ENV }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      REPO: "${{ github.server_url }}/${{ github.repository }}"
+      EVENT_NAME: ${{ github.event_name }}
 
   fail:
     name: Actions to run on fail
-    needs: [accessmatch1, accessmatch2, accessmatch3, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect]
+    needs: [accessmatch1, accessmatch2, accessmatch3, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect, ondemand]
     if:  ${{ failure() }}
     runs-on: ubuntu-latest
     steps:

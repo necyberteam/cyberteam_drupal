@@ -7,13 +7,12 @@ dependencies:
   module:
     - facets
     - system
-    - user
   theme:
     - aspTheme
 id: asptheme_affinitygroupcategory
 theme: aspTheme
 region: sidebar_first
-weight: -18
+weight: -21
 provider: null
 plugin: 'facet_block:affinity_group_category'
 settings:
@@ -28,10 +27,3 @@ visibility:
     id: request_path
     negate: false
     pages: "/affinity_groups\r\n/affinity-groups"
-  user_role:
-    id: user_role
-    negate: false
-    context_mapping:
-      user: '@user.current_user_context:current_user'
-    roles:
-      authenticated: authenticated

@@ -7,13 +7,12 @@ dependencies:
   module:
     - facets
     - system
-    - user
   theme:
     - aspTheme
 id: asptheme_tags
 theme: aspTheme
 region: sidebar_first
-weight: -26
+weight: -29
 provider: null
 plugin: 'facet_block:tags'
 settings:
@@ -28,10 +27,3 @@ visibility:
     id: request_path
     negate: false
     pages: /knowledge-base/resources
-  user_role:
-    id: user_role
-    negate: false
-    context_mapping:
-      user: '@user.current_user_context:current_user'
-    roles:
-      authenticated: authenticated

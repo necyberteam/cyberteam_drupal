@@ -1,0 +1,29 @@
+uuid: b8f3aa20-0698-4d48-9d12-6e689c59aaf8
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.program_members
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_programmembers
+theme: ood
+region: primary_sidebar
+weight: -30
+provider: null
+plugin: 'facet_block:program_members'
+settings:
+  id: 'facet_block:program_members'
+  label: Program
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_programmembers
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /members

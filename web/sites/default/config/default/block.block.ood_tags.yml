@@ -1,0 +1,29 @@
+uuid: edfb6faf-ab94-4809-a4ba-00dd06a58944
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.tags
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_tags
+theme: ood
+region: primary_sidebar
+weight: -19
+provider: null
+plugin: 'facet_block:tags'
+settings:
+  id: 'facet_block:tags'
+  label: Topics
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_tags
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources

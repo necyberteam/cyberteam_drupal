@@ -1,0 +1,25 @@
+uuid: 68b0b3df-fd33-4ba3-8e7c-fe21f39ba0ba
+langcode: en
+status: true
+dependencies:
+  module:
+    - cssn
+    - system
+  theme:
+    - ood
+id: ood_communitypersonablock_2
+theme: ood
+region: primary_sidebar
+weight: -35
+provider: null
+plugin: cssn_block
+settings:
+  id: cssn_block
+  label: 'Community persona block'
+  label_display: '0'
+  provider: cssn
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/community-persona\r\n/community-persona/*\r\n!/community-persona/add-interest\r\n!/community-persona/add-skill\r\n"

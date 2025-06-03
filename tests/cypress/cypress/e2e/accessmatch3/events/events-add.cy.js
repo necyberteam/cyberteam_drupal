@@ -18,6 +18,15 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     // Page Title
     cy.get("#block-claro-page-title").contains("Create ACCESS Event");
 
+    // Body
+    cy.get('.field--name-body .ck-content').then(el => {
+      const editor = el[0].ckeditorInstance
+      editor.setData('ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus, consequat semper nisi. Quisque congue porttitor ullamcorper. Aliquam nunc dui, tincidunt quis accumsan et, porttitor at sem. Aliquam erat volutpat. Sed nisi nunc, finibus in sodales ut, placerat in libero. Sed a efficitur ligula. Donec efficitur, enim nec fringilla facilisis, enim est vehicula ligula, id gravida augue felis ac nunc.')
+    })
+
+    // summary
+    cy.get('#edit-summary-text').type('Lorem ipsum dolor sit amet.')
+
     // User filling out form title
     cy.get("#edit-title-0-value").type("cypress-example-event");
 

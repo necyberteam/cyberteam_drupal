@@ -1,0 +1,29 @@
+uuid: 438a97f6-e8e2-418e-bf00-7e41a4d7f1f5
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.affinity_search_tags
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_affinitysearchtags
+theme: ood
+region: primary_sidebar
+weight: -34
+provider: null
+plugin: 'facet_block:affinity_search_tags'
+settings:
+  id: 'facet_block:affinity_search_tags'
+  label: Tags
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_affinitysearchtags
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/affinity_groups\r\n/affinity-groups"

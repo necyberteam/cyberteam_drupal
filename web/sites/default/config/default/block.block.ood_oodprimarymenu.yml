@@ -1,0 +1,34 @@
+uuid: 34885564-7f88-4875-b69e-9a4fd11ffe11
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.ood-primary-menu
+  module:
+    - menu_block
+  theme:
+    - ood
+id: ood_oodprimarymenu
+theme: ood
+region: primary_menu
+weight: 0
+provider: null
+plugin: 'menu_block:ood-primary-menu'
+settings:
+  id: 'menu_block:ood-primary-menu'
+  label: 'OOD Primary Menu'
+  label_display: '0'
+  provider: menu_block
+  follow: false
+  follow_parent: child
+  display_empty: false
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 0
+  expand_all_items: false
+  parent: 'ood-primary-menu:'
+  render_parent: false
+  suggestion: ood_primary_menu
+  hide_on_nonactive: false
+visibility: {  }

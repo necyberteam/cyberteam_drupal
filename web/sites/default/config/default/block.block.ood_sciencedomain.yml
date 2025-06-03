@@ -1,0 +1,29 @@
+uuid: 37b1c43a-02b3-4679-968a-681685a55398
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.science_domain
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_sciencedomain
+theme: ood
+region: primary_sidebar
+weight: -17
+provider: null
+plugin: 'facet_block:science_domain'
+settings:
+  id: 'facet_block:science_domain'
+  label: 'Science Domain'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_sciencedomain
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources

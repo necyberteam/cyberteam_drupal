@@ -513,6 +513,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 25
           total_pages: null
           id: 0
@@ -566,7 +567,7 @@ display:
         type: none
         options: {  }
       cache:
-        type: search_api_none
+        type: search_api_tag
         options: {  }
       empty:
         area:
@@ -676,6 +677,11 @@ display:
           parse_mode: terms
           min_length: null
           fields: {  }
+        webform_submission_domain:
+          id: webform_submission_domain
+          table: search_api_index_ci_links
+          field: webform_submission_domain
+          plugin_id: search_api_string
       style:
         type: default
         options:
@@ -851,8 +857,93 @@ display:
             format_plural_values:
               - '1'
               - '@count'
+      filters:
+        search_api_fulltext:
+          id: search_api_fulltext
+          table: search_api_index_ci_links
+          field: search_api_fulltext
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_fulltext
+          operator: or
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: search_api_fulltext_op
+            label: ''
+            description: ''
+            use_operator: false
+            operator: search_api_fulltext_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: search_api_fulltext
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              student: '0'
+              mentor: '0'
+              professional_mentor: '0'
+              researcher: '0'
+              representative: '0'
+              administrator: '0'
+              masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+              cssn: '0'
+              affinity_group_leader: '0'
+              match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
+              coco_pm: '0'
+              cnctci_pm: '0'
+              news_pm: '0'
+              kb_pm: '0'
+              careers_sc: '0'
+              ccmnet_pm: '0'
+              consultant: '0'
+              match_sc: '0'
+              cip: '0'
+              site_developer: '0'
+            expose_fields: false
+            placeholder: Search
+            searched_fields_id: search_api_fulltext_searched_fields
+            value_maxlength: 128
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          parse_mode: terms
+          min_length: null
+          fields: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
       defaults:
         fields: false
+        filters: false
+        filter_groups: false
       exposed_block: true
       display_extenders:
         jsonapi_views:
@@ -865,8 +956,16 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - url.site
         - user
       tags:
+        - 'config:facets.facet.content_type'
+        - 'config:facets.facet.programming_language'
+        - 'config:facets.facet.science_domain'
+        - 'config:facets.facet.skill_level'
+        - 'config:facets.facet.submission_id'
+        - 'config:facets.facet.tags'
+        - 'config:facets.facet.vote_count'
         - 'config:search_api.index.ci_links'
         - 'search_api_list:ci_links'
   page_2:
@@ -1508,7 +1607,10 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - url.site
         - user
       tags:
+        - 'config:facets.facet.content_type_mentorship'
+        - 'config:facets.facet.tags_ci_mentorship'
         - 'config:search_api.index.ci_links'
         - 'search_api_list:ci_links'

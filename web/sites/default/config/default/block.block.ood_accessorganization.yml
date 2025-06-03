@@ -1,0 +1,29 @@
+uuid: 79416bd3-2669-47fa-b5cb-14f22cd24042
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.access_organization
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_accessorganization
+theme: ood
+region: primary_sidebar
+weight: -25
+provider: null
+plugin: 'facet_block:access_organization'
+settings:
+  id: 'facet_block:access_organization'
+  label: Organization
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_accessorganization
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory

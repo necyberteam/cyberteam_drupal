@@ -1,0 +1,29 @@
+uuid: 51baa4b3-b22c-4e36-9fbe-0adb1c57fed7
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.content_type
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_category
+theme: ood
+region: primary_sidebar
+weight: -15
+provider: null
+plugin: 'facet_block:content_type'
+settings:
+  id: 'facet_block:content_type'
+  label: 'Content Type'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_category
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources

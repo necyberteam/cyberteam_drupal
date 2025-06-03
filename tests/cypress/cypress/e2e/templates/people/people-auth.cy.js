@@ -1,6 +1,6 @@
-describe("test people page Card view w/ filters", () => {
+describe("test people page w/ filters", () => {
 
-  it("Authenticated user tests the people page in Card View and filter", () => {
+  it("Authenticated user tests the people page and filter", () => {
     cy.loginUser("authenticated@amptesting.com", "6%l7iF}6(4tI");
     cy.visit('/people');
     cy.contains('People');

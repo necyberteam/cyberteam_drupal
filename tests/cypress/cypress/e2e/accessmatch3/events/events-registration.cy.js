@@ -16,11 +16,9 @@ describe('Test the registration feature', () => {
 
     cy.contains('Registrations').click()
     cy.contains('Approve All').click()
-
-    cy.visit('/events')
-    cy.get('#edit-search-api-fulltext--2').type('example')
     cy.wait(1000)
-    cy.contains('cypress-example-event').click()
+
+    cy.contains('Cypress-example-event').click()
 
     cy.contains('Approved: Yes')
   })

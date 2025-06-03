@@ -2,11 +2,14 @@ uuid: 0121f73d-8878-4bc0-a47d-7f732b6bfffd
 langcode: en
 status: true
 dependencies:
+  config:
+    - field.storage.eventseries.field_event_allocation_grant
   module:
     - access_misc
     - csv_serialization
     - datetime
     - datetime_range
+    - field_inheritance
     - recurring_events
     - recurring_events_registration
     - rest
@@ -785,6 +788,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 25
           total_pages: null
           id: 0
@@ -816,7 +820,7 @@ display:
         type: ViewsRegistrationCustomAccess
         options: {  }
       cache:
-        type: tag
+        type: none
         options: {  }
       empty:
         area:
@@ -1153,6 +1157,107 @@ display:
           1: AND
       style:
         type: table
+        options:
+          grouping: {  }
+          row_class: 'border-x-0 border-b border-t-0 border-black border-solid'
+          default_row_class: true
+          columns:
+            id: id
+            name: name
+            user_id: user_id
+            email: email
+            nothing_2: nothing_2
+            waitlist: waitlist
+            status_1: status_1
+            status: status
+            nothing: nothing
+            field_event_allocation_grant: field_event_allocation_grant
+            nothing_1: nothing_1
+            operations: operations
+          default: '-1'
+          info:
+            id:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            name:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            user_id:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            email:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            nothing_2:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            waitlist:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            status_1:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            status:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            nothing:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_event_allocation_grant:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            nothing_1:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            operations:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+          override: true
+          sticky: false
+          summary: ''
+          empty_table: false
+          caption: ''
+          description: ''
       row:
         type: fields
       query:
@@ -1197,6 +1302,7 @@ display:
           entity_field: user_id
           plugin_id: standard
           required: false
+      css_class: 'prose max-w-full'
       header:
         area:
           id: area
@@ -1222,7 +1328,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: "<nav class=\"action-links mb-6\">\r\n  <ul class=\"p-0\">\r\n    <li>\r\n      <a href=\"[current-page:url]/contact\" class=\"btn btn-md-teal\" data-drupal-link-system-path=\"events/7618/registrations/contact\">\r\n        Contact Registrants\r\n      </a>\r\n    </li>\r\n    <li>\r\n      <a href=\"[current-page:url]/csv?page&amp;_format=csv\" class=\"btn btn-md-teal\">\r\n        Registrant List\r\n      </a>\r\n    </li>\r\n  </ul>\r\n</nav>"
+            value: "<nav class=\"action-links mb-6\">\r\n  <ul class=\"p-0 list-group list-group-horizontal list-unstyled\">\r\n    <li class=\"mr-3\">\r\n      <a href=\"[current-page:url]/contact\" class=\"btn btn-md-teal\" data-drupal-link-system-path=\"events/7618/registrations/contact\">\r\n        Contact Registrants\r\n      </a>\r\n    </li>\r\n    <li>\r\n      <a href=\"[current-page:url]/csv?page&amp;_format=csv\" class=\"btn btn-md-teal\">\r\n        Registrant List\r\n      </a>\r\n    </li>\r\n  </ul>\r\n</nav>"
             format: full_html
           tokenize: false
       display_extenders: {  }
@@ -1240,7 +1346,9 @@ display:
     display_plugin: page
     position: 1
     display_options:
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
       path: admin/content/events/registrations
     cache_metadata:
       max-age: -1
@@ -2064,7 +2172,7 @@ display:
           entity_field: id
           plugin_id: field
           label: ID
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -2130,7 +2238,7 @@ display:
           entity_field: name
           plugin_id: field
           label: 'ACCESS ID'
-          exclude: false
+          exclude: true
           alter:
             alter_text: true
             text: "{{ name__value|replace({'@access-ci.org': ''}) }}"
@@ -2195,7 +2303,7 @@ display:
           entity_field: user_id
           plugin_id: field
           label: Attendee
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -2260,7 +2368,7 @@ display:
           entity_field: email
           plugin_id: field
           label: Email
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -2313,6 +2421,55 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        nothing_2:
+          id: nothing_2
+          table: views
+          field: nothing
+          relationship: none
+          group_type: group
+          admin_label: 'User info: combined info'
+          plugin_id: custom
+          label: 'User Info'
+          exclude: false
+          alter:
+            alter_text: true
+            text: "<span><strong>ACCESS ID:</strong> {{ name }}</span><br />\r\n<span><strong>Attendee:</strong> {{ user_id }}</span><br />\r\n<span><strong>Email:</strong> {{ email }}</span>"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
         waitlist:
           id: waitlist
           table: registrant
@@ -2324,7 +2481,7 @@ display:
           entity_field: waitlist
           plugin_id: field
           label: Waitlist
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -2380,21 +2537,88 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        status_1:
+          id: status_1
+          table: registrant
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: 'Status (used for other variables)'
+          entity_type: registrant
+          entity_field: status
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: boolean
+          settings:
+            format: true-false
+            format_custom_false: ''
+            format_custom_true: ''
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         status:
           id: status
           table: registrant
           field: status
           relationship: none
           group_type: group
-          admin_label: ''
+          admin_label: status/waitlist
           entity_type: registrant
           entity_field: status
           plugin_id: field
           label: Status
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: "<span>{{ status }}</span><br />\r\n<span><strong>Waitlist:</strong> {{ waitlist }}</span>\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -2447,6 +2671,167 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        nothing:
+          id: nothing
+          table: views
+          field: nothing
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: custom
+          label: 'Change Status'
+          exclude: false
+          alter:
+            alter_text: true
+            text: "<div class=\"mx-3\">\r\n  {% if status_1 == \"True\" %}\r\n    <a href=\"waitlist/unapprove?reg_id={{ id }}\">Unapprove Attendee</a>\r\n  {% else %}\r\n    <a href=\"waitlist/approve?reg_id={{ id }}\">Approve Attendee</a>\r\n  {% endif %}\r\n</div>"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
+        field_event_allocation_grant:
+          id: field_event_allocation_grant
+          table: eventseries__field_event_allocation_grant
+          field: field_event_allocation_grant
+          relationship: eventseries_id
+          group_type: group
+          admin_label: Grants/Allocation
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        nothing_1:
+          id: nothing_1
+          table: views
+          field: nothing
+          relationship: none
+          group_type: group
+          admin_label: 'spState on Grant'
+          plugin_id: custom
+          label: 'Status on Allocation'
+          exclude: false
+          alter:
+            alter_text: true
+            text: '{{ name }},{{ field_event_allocation_grant }},{% if status_1  == "True" %}1{% else %}0{% endif %}'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
         operations:
           id: operations
           table: registrant
@@ -2459,8 +2844,8 @@ display:
           label: Operations
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '<div class="ms-4">{{ operations }}</div>'
             make_link: false
             path: ''
             absolute: false
@@ -2498,55 +2883,6 @@ display:
           empty_zero: false
           hide_alter_empty: true
           destination: false
-        nothing:
-          id: nothing
-          table: views
-          field: nothing
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: custom
-          label: 'Change Status'
-          exclude: false
-          alter:
-            alter_text: true
-            text: "{% if status == \"Unapproved\" %}\r\n  <a href=\"waitlist/approve?reg_id={{ id }}\">Approve Attendee</a>\r\n{% else %}\r\n  <a href=\"waitlist/unapprove?reg_id={{ id }}\">Unapprove Attendee</a>\r\n{% endif %}"
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: false
       access:
         type: ViewsRegistrationCustomAccess
         options: {  }
@@ -2817,7 +3153,8 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-      tags: {  }
+      tags:
+        - 'config:field.storage.eventseries.field_event_allocation_grant'
   user_event_registrations:
     id: user_event_registrations
     display_title: Page
@@ -2996,17 +3333,16 @@ display:
           text: view
           output_url_as_text: true
           absolute: false
-        id:
-          id: id
-          table: registrant
-          field: id
-          relationship: none
+        title_2:
+          id: title_2
+          table: eventinstance_field_data
+          field: title
+          relationship: eventinstance_id
           group_type: group
           admin_label: ''
-          entity_type: registrant
-          entity_field: id
-          plugin_id: field
-          label: ID
+          entity_type: eventinstance
+          plugin_id: inherited_field
+          label: Title
           exclude: false
           alter:
             alter_text: false
@@ -3048,75 +3384,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: number_integer
-          settings:
-            thousand_separator: ''
-            prefix_suffix: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        title_1:
-          id: title_1
-          table: eventseries_field_data
-          field: title
-          relationship: eventseries_id
-          group_type: group
-          admin_label: ''
-          entity_type: eventseries
-          entity_field: title
-          plugin_id: field
-          label: 'Event Series'
-          exclude: false
-          alter:
-            alter_text: true
-            text: '{{ title }}'
-            make_link: true
-            path: '{{ view_eventseries }}'
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
           type: string
           settings:
-            link_to_entity: false
+            link_to_entity: 1
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -3126,7 +3396,7 @@ display:
           delta_first_last: false
           multi_type: separator
           separator: ', '
-          field_api_classes: false
+          field_api_classes: 0
         date__value:
           id: date__value
           table: eventinstance_field_data
@@ -3140,9 +3410,9 @@ display:
           label: 'Event Date'
           exclude: false
           alter:
-            alter_text: true
+            alter_text: false
             text: '{{ date__value }}'
-            make_link: true
+            make_link: false
             path: '{{ view_eventinstance }}'
             absolute: false
             external: false
@@ -3183,8 +3453,8 @@ display:
           settings:
             timezone_override: ''
             format_type: medium
+            from_to: both
             separator: '-'
-            fromto: start_date
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -3262,71 +3532,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        type:
-          id: type
-          table: registrant
-          field: type
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: registrant
-          entity_field: type
-          plugin_id: field
-          label: Type
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
         status:
           id: status
           table: registrant
@@ -3394,57 +3599,9 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        operations:
-          id: operations
-          table: registrant
-          field: operations
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: registrant
-          plugin_id: entity_operations
-          label: Operations
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          destination: false
+      access:
+        type: views_user_registration_custom_access
+        options: {  }
       sorts:
         date__value:
           id: date__value
@@ -3471,7 +3628,7 @@ display:
           admin_label: ''
           entity_type: registrant
           entity_field: user_id
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: default
           exception:
             value: all
@@ -3498,6 +3655,7 @@ display:
           validate_options: {  }
           break_phrase: false
           not: false
+          target_entity_type_id: user
       filters:
         title:
           id: title
@@ -3572,49 +3730,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        type:
-          id: type
-          table: registrant
-          field: type
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: registrant
-          entity_field: type
-          plugin_id: string
-          operator: contains
-          value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: type_op
-            label: Type
-            description: ''
-            use_operator: false
-            operator: type_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: type
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -3730,12 +3845,19 @@ display:
         groups:
           1: AND
       defaults:
+        access: false
         fields: false
         sorts: false
         arguments: false
         filters: false
         filter_groups: false
-      display_extenders: {  }
+        header: false
+        footer: false
+      header: {  }
+      footer: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: false
       path: user/%user/registrations
       menu:
         type: tab

@@ -7,13 +7,12 @@ dependencies:
   module:
     - facets
     - system
-    - user
   theme:
     - nect
 id: nect_mentee
 theme: nect
 region: primary_sidebar
-weight: 25
+weight: 26
 provider: null
 plugin: 'facet_block:mentee'
 settings:
@@ -28,10 +27,3 @@ visibility:
     id: request_path
     negate: false
     pages: /mentorships
-  user_role:
-    id: user_role
-    negate: false
-    context_mapping:
-      user: '@user.current_user_context:current_user'
-    roles:
-      authenticated: authenticated

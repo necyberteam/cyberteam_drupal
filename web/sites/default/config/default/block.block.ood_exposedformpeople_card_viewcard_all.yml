@@ -1,0 +1,29 @@
+uuid: 9495ada8-cca4-4204-91f3-c335475f6b39
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - ood
+id: ood_exposedformpeople_card_viewcard_all
+theme: ood
+region: exposed_filters
+weight: 14
+provider: null
+plugin: 'views_exposed_filter_block:people_card_view-card_all'
+settings:
+  id: 'views_exposed_filter_block:people_card_view-card_all'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people_card_all\r\n/people/card"

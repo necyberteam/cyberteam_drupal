@@ -1,0 +1,30 @@
+uuid: ee9161ab-80c0-4a51-9b52-26c3abff708b
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:06fd0027-5665-4663-a27d-05803e8f50d1'
+  module:
+    - block_content
+    - system
+  theme:
+    - ood
+id: ood_joinccmnet
+theme: ood
+region: content
+weight: -40
+provider: null
+plugin: 'block_content:06fd0027-5665-4663-a27d-05803e8f50d1'
+settings:
+  id: 'block_content:06fd0027-5665-4663-a27d-05803e8f50d1'
+  label: 'Login or Join'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /user/login

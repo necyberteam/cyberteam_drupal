@@ -34,7 +34,7 @@ jobs:
           env: live
 
       - id: Lando
-        uses: necyberteam/amp_lando_start@main
+        uses: necyberteam/amp_lando_start@v2.3
         with:
           DATABASE: ''
           GH_TOKEN_REPO: ${{ secrets.GH_TOKEN_REPO }}
@@ -42,7 +42,7 @@ jobs:
 
       - name: Sanitize backup
         run: |
-          lando drush sql-sanitize --sanitize-password=y -y
+          lando drush sql-sanitize --allowlist-fields=field_constant_contact_id --sanitize-password=y -y
           lando drush cim
           lando drush cr
           lando drush updb

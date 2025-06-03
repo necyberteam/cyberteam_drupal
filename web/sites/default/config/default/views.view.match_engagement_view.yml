@@ -12,9 +12,9 @@ dependencies:
     - node.type.match_engagement
     - taxonomy.vocabulary.tags
   module:
-    - image
     - node
     - options
+    - svg_image
     - taxonomy
     - text
     - user
@@ -469,6 +469,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 12
           total_pages: null
           id: 0
@@ -628,11 +629,11 @@ display:
         - 'config:field.storage.node.field_tags'
   block_1:
     id: block_1
-    display_title: 'Block - Featured MATCHPlus Engagements'
+    display_title: 'Block - Featured MATCH Engagements'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Featured MATCHPlus Engagements'
+      title: 'Featured MATCH Engagements'
       pager:
         type: some
         options:
@@ -857,7 +858,7 @@ display:
           admin_label: ''
           entity_type: node
           entity_field: uid
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: default
           exception:
             value: all
@@ -883,6 +884,7 @@ display:
           validate_options: {  }
           break_phrase: false
           not: false
+          target_entity_type_id: user
       defaults:
         cache: false
         title: false
@@ -1261,7 +1263,7 @@ display:
     display_plugin: block
     position: 2
     display_options:
-      title: 'MATCHPlus Engagements'
+      title: 'MATCH Engagements'
       pager:
         type: none
         options:
@@ -1495,7 +1497,7 @@ display:
         - 'config:field.storage.node.field_tags'
   block_6:
     id: block_6
-    display_title: 'MATCHPlus Engagements by Tag'
+    display_title: 'MATCH Engagements by Tag'
     display_plugin: block
     position: 2
     display_options:
@@ -1527,7 +1529,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: default
           exception:
             value: all
@@ -1559,6 +1561,7 @@ display:
           validate_options: {  }
           break_phrase: false
           not: false
+          target_entity_type_id: taxonomy_term
       filters:
         status:
           id: status

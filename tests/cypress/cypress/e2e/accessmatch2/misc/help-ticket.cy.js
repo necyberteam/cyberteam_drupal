@@ -14,7 +14,7 @@ describe("Verify the buttons on the Help Ticket page update the form action to g
       .invoke('attr', 'action')
       .should('equal', 'https://access-ci.atlassian.net/servicedesk/customer/portal/2/group/3/create/30');
 
-    cy.contains("I need help logging into other affiliated infrastructure")
+    cy.contains("I need help logging into a resource")
       .click();
     cy.get('#ticket-choice-form')
       .invoke('attr', 'action')
@@ -24,6 +24,6 @@ describe("Verify the buttons on the Help Ticket page update the form action to g
       .click();
     cy.get('#ticket-choice-form')
       .invoke('attr', 'action')
-      .should('equal', '/open-a-ticket')
+      .should('equal', '/open-a-ticket/17')
   });
 });

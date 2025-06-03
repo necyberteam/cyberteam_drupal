@@ -164,7 +164,7 @@ describe("Test Structure admin page", () => {
     cy.contains('Blog post (region)');
     cy.contains('Community Events');
     cy.contains('Infrastructure News');
-    cy.contains('MATCH+ Engagement');
+    cy.contains('MATCH Engagement');
     cy.contains('Mentorship Engagement');
     cy.contains('Organization');
     cy.contains('PeopleCardView');
@@ -326,8 +326,6 @@ describe("Test Structure admin page", () => {
     cy.contains('Tags');
     cy.contains('Track');
 
-    cy.visit('/admin/structure/taxonomy_manager/voc');
-    cy.get('h1').should('contain', 'Taxonomy Manager');
   });
 
   it("Views", () => {

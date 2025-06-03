@@ -87,7 +87,7 @@ $settings['config_exclude_modules'] = [
   'recaptcha_v3',
 ];
 
-ini_set('max_execution_time', 60);
+ini_set('max_execution_time', 360);
 
 // Configure Redis.
 if (defined(
@@ -162,31 +162,38 @@ if (defined(
   ];
 }
 
-// Block bots from faceted navigation pages.
-if (isset($_SERVER['QUERY_STRING']) && (strpos($_SERVER['QUERY_STRING'], 'f[') !== FALSE || strpos($_SERVER['QUERY_STRING'], 'f%5B') !== FALSE)) {
+$env = getenv('PANTHEON_ENVIRONMENT');
 
-  // Block all faceted navigation for now
-  header("HTTP/1.1 403 Forbidden");
-  exit();
+if (isset($env)) {
+  switch ($env) {
+    case 'live':
+      // Block bots from faceted navigation pages.
+      //if (isset($_SERVER['QUERY_STRING']) && (strpos($_SERVER['QUERY_STRING'], 'f[') !== FALSE || strpos($_SERVER['QUERY_STRING'], 'f%5B') !== FALSE)) {
 
-  // List of bots to block.
-  $blocked_bots = [
-    'AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot', 'PetalBot', 'BLEXBot', 'YandexBot',
-    'Go-http-client', 'Googlebot', 'bingbot', 'Baiduspider', 'Sogou', 'Exabot', 'facebot',
-    'MJ12bot',
-  ];
+        ////// Block all faceted navigation for now.
+        //header("HTTP/1.1 403 Forbidden");
+        //exit();
 
-  if (isset($_SERVER['HTTP_USER_AGENT'])) {
-    foreach ($blocked_bots as $bot) {
-      if (stripos($_SERVER['HTTP_USER_AGENT'], $bot) !== FALSE) {
-        // Send 403 Forbidden response.
-        header("HTTP/1.1 403 Forbidden");
-        exit();
-      }
-    }
+        ////// List of bots to block.
+        //$blocked_bots = [
+          //'AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot', 'PetalBot', 'BLEXBot', 'YandexBot',
+          //'Go-http-client', 'Googlebot', 'bingbot', 'Baiduspider', 'Sogou', 'Exabot', 'facebot',
+          //'MJ12bot',
+        //];
+
+        ////if (isset($_SERVER['HTTP_USER_AGENT'])) {
+          //foreach ($blocked_bots as $bot) {
+            //if (stripos($_SERVER['HTTP_USER_AGENT'], $bot) !== FALSE) {
+              //// Send 403 Forbidden response.
+              //header("HTTP/1.1 403 Forbidden");
+              //exit();
+            //}
+          //}
+        //}
+      //}
+      break;
   }
 }
-
 
 // Below configuration uses a redis backend and will limit each
 // crawler / bot (identified by User-Agent string) to a maximum of 300

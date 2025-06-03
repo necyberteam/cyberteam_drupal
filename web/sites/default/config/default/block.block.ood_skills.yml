@@ -1,0 +1,29 @@
+uuid: 731cb929-fa1f-4648-b432-556d219dfc23
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.skills
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_skills
+theme: ood
+region: primary_sidebar
+weight: -24
+provider: null
+plugin: 'facet_block:skills'
+settings:
+  id: 'facet_block:skills'
+  label: Skills
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_skills
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory

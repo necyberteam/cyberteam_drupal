@@ -882,6 +882,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 24
           total_pages: null
           id: 0
@@ -935,7 +936,7 @@ display:
         type: none
         options: {  }
       cache:
-        type: search_api_none
+        type: search_api_tag
         options: {  }
       empty:
         area:
@@ -1165,7 +1166,9 @@ display:
     position: 1
     display_options:
       exposed_block: true
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
       path: community/cssn/directory
     cache_metadata:
       max-age: -1
@@ -1174,7 +1177,11 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - url.site
       tags:
+        - 'config:facets.facet.access_organization'
+        - 'config:facets.facet.roles'
+        - 'config:facets.facet.skills'
         - 'config:field.storage.taxonomy_term.field_badge'
         - 'config:field.storage.user.field_access_organization'
         - 'config:field.storage.user.field_current_occupation'

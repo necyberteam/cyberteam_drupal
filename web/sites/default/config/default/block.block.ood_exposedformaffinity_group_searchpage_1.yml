@@ -1,0 +1,28 @@
+uuid: 02ce51fc-60a6-4d22-89c0-2ceb9974a604
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.affinity_group_search
+  module:
+    - system
+    - views
+  theme:
+    - ood
+id: ood_exposedformaffinity_group_searchpage_1
+theme: ood
+region: primary_sidebar
+weight: -50
+provider: null
+plugin: 'views_exposed_filter_block:affinity_group_search-page_1'
+settings:
+  id: 'views_exposed_filter_block:affinity_group_search-page_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/affinity_groups\r\n/affinity-groups"

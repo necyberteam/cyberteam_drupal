@@ -6,12 +6,33 @@
 * - admin user undoing the edits the user made and verifying changes
 *
 */
-describe('Anonymous user visit the community-persona page', () => {
+describe('Anonymous user visit the community-persona page - anon_cp_redirect_login', () => {
   it('should find expected stuff', () => {
     anon_cp_redirect_login();
+  });
+});
+
+describe('Anonymous user visit the community-persona page - anon_verify_user201_cp', () => {
+  it('should find expected stuff', () => {
     anon_verify_user201_cp();
+  });
+});
+
+describe('Anonymous user visit the community-persona page - user199_verify_self_cp', () => {
+  it('should find expected stuff', () => {
     user199_verify_self_cp();
+  });
+});
+
+describe('Anonymous user visit the community-persona page - user199_edit_self', () => {
+  it('should find expected stuff', () => {
+    cy.loginAs('walnut@pie.org', 'Walnut');
     user199_edit_self();
+  });
+});
+
+describe('Anonymous user visit the community-persona page - admin_unedit_user199', () => {
+  it('should find expected stuff', () => {
     admin_unedit_user199();
   });
 });
@@ -126,6 +147,11 @@ function user199_edit_self() {
     cy.get('#edit-field-hpc-experience-0-value').clear();
     cy.get('#edit-field-hpc-experience-0-value').type('hpc experience dummy text');
     cy.get('#edit-timezone--2').type('America/Los_Angeles');
+
+    // Have to update password when adding files (bug).
+    cy.get('#edit-pass-pass1').type('Walnut');
+    cy.get('#edit-pass-pass2').type('Walnut');
+
     cy.get('#edit-submit').click();
     cy.contains('The changes have been saved.');
     cy.url().should('contains', '/community-persona');

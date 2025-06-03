@@ -5,8 +5,10 @@ dependencies:
   config:
     - search_api.server.default_server
   module:
+    - access_misc
+    - ccmnet
+    - cssn
     - webform
-    - search_api
     - webform_submission_search_api
 id: ci_links
 name: 'Knowledge Base Resources'
@@ -36,6 +38,10 @@ field_settings:
     label: Description
     property_path: search_api_webform_submission_description
     type: text
+  webform_submission_domain:
+    label: Domain
+    property_path: search_api_webform_submission_domain
+    type: string
   webform_submission_skill_level:
     label: 'Skill Level'
     property_path: search_api_webform_submission_skill_level
@@ -61,8 +67,14 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  custom_event_affiliation: {  }
+  custom_event_no_show: {  }
+  custom_event_skill_level: {  }
+  custom_event_title: {  }
+  custom_event_type: {  }
   custom_value: {  }
   entity_type: {  }
+  event_tags: {  }
   highlight:
     weights:
       postprocess_query: 0
@@ -82,6 +94,7 @@ processor_settings:
     fields:
       - webform_submission_category
       - webform_submission_description
+      - webform_submission_domain
       - webform_submission_skill_level
       - webform_submission_tags
       - webform_submission_title
@@ -102,11 +115,13 @@ processor_settings:
     fields:
       - webform_submission_category
       - webform_submission_description
+      - webform_submission_domain
       - webform_submission_skill_level
       - webform_submission_tags
       - webform_submission_title
       - webform_submission_vote_count
   language_with_fallback: {  }
+  mentee_name: {  }
   rendered_item: {  }
   role_access:
     weights:
@@ -155,8 +170,14 @@ processor_settings:
       - was
       - will
       - with
+  user_affinity_groups: {  }
+  user_badges: {  }
+  user_interests: {  }
+  user_skills: {  }
+  user_skills_id: {  }
   webform_submission_category: {  }
   webform_submission_description: {  }
+  webform_submission_domain: {  }
   webform_submission_skill_level: {  }
   webform_submission_tags: {  }
   webform_submission_title: {  }
@@ -166,6 +187,7 @@ tracker_settings:
     indexing_order: fifo
 options:
   cron_limit: 50
+  delete_on_fail: true
   index_directly: true
   track_changes_in_references: true
 server: default_server

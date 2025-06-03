@@ -22,7 +22,7 @@ jobs:
           env: live
 
       - id: Lando
-        uses: necyberteam/amp_lando_start@v2
+        uses: necyberteam/amp_lando_start@v2.3
         with:
           DATABASE: ''
           GH_TOKEN_REPO: ${{ secrets.GH_TOKEN_REPO }}
@@ -47,7 +47,7 @@ jobs:
           rm -fR web/sites/default/config
           git checkout web/sites/default/config
           lando drush cr
-          lando drush cex -y
+          vendor/bin/robo cex
           git rev-list --tags --max-count=1
           rm -fR web/sites/default/config/local
           git checkout web/sites/default/config/local

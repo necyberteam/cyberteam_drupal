@@ -1,0 +1,29 @@
+uuid: e5f6b075-96b9-4325-8264-c3cb71e17b98
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.access_organization_members
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_accessorganizationmembers
+theme: ood
+region: primary_sidebar
+weight: -31
+provider: null
+plugin: 'facet_block:access_organization_members'
+settings:
+  id: 'facet_block:access_organization_members'
+  label: Organization
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_accessorganizationmembers
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /members

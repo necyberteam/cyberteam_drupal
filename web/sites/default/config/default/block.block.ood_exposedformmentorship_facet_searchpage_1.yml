@@ -1,0 +1,28 @@
+uuid: 37a588c5-537f-4e8c-8cf6-ca69d1aab96f
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.mentorship_facet_search
+  module:
+    - system
+    - views
+  theme:
+    - ood
+id: ood_exposedformmentorship_facet_searchpage_1
+theme: ood
+region: primary_sidebar
+weight: -28
+provider: null
+plugin: 'views_exposed_filter_block:mentorship_facet_search-page_1'
+settings:
+  id: 'views_exposed_filter_block:mentorship_facet_search-page_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: Mentorships
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /mentorships

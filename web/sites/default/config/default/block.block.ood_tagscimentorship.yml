@@ -1,0 +1,29 @@
+uuid: 273cb5ce-2672-4ee1-a5e3-ba350a72e8fc
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.tags_ci_mentorship
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_tagscimentorship
+theme: ood
+region: primary_sidebar
+weight: -36
+provider: null
+plugin: 'facet_block:tags_ci_mentorship'
+settings:
+  id: 'facet_block:tags_ci_mentorship'
+  label: Tags
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_tagscimentorship
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources/mentorship

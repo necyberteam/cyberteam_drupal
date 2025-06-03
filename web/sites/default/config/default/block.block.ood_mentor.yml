@@ -1,0 +1,29 @@
+uuid: 7ad60d39-31e3-49ef-abc9-fdc45c712127
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.mentor
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_mentor
+theme: ood
+region: primary_sidebar
+weight: -21
+provider: null
+plugin: 'facet_block:mentor'
+settings:
+  id: 'facet_block:mentor'
+  label: Mentor
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_mentor
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /mentorships

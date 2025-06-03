@@ -1,0 +1,29 @@
+uuid: 3324ae43-e883-482e-ae38-974de93d0907
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.affinity_group_category
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_affinitygroupcategory
+theme: ood
+region: primary_sidebar
+weight: -39
+provider: null
+plugin: 'facet_block:affinity_group_category'
+settings:
+  id: 'facet_block:affinity_group_category'
+  label: Category
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_affinitygroupcategory
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/affinity_groups\r\n/affinity-groups"

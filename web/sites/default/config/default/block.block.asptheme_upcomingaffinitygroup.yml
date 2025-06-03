@@ -7,13 +7,12 @@ dependencies:
   module:
     - facets
     - system
-    - user
   theme:
     - aspTheme
 id: asptheme_upcomingaffinitygroup
 theme: aspTheme
 region: sidebar_first
-weight: -12
+weight: -15
 provider: null
 plugin: 'facet_block:custom_event_affinity_group'
 settings:
@@ -28,10 +27,3 @@ visibility:
     id: request_path
     negate: false
     pages: /events
-  user_role:
-    id: user_role
-    negate: false
-    context_mapping:
-      user: '@user.current_user_context:current_user'
-    roles:
-      authenticated: authenticated

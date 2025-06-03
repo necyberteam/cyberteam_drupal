@@ -787,6 +787,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 10
           total_pages: null
           id: 0
@@ -1328,7 +1329,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: "<div class=\"bg-light-teal flex p-4 mb-2 prose max-w-full items-center\">\r\n  <a class=\"me-4\" href=\"/events\">Upcoming Events</a>\r\n  <a class=\"me-4\" href=\"/events/past\">Past Events</a>\r\n  <h3 class=\"m-0 me-4\">My Events</h3>\r\n  <a href=\"/events/add\" class=\"btn-sm btn-small btn-secondary-outline py-0 px-4 btn btn-md-teal ms-auto\" data-drupal-link-system-path=\"events/add\">+ Add Event</a>\r\n</div>"
+            value: "<div class=\"bg-light-teal bg-light d-flex flex p-4 mb-2 prose max-w-full items-center align-items-center\">\r\n  <a class=\"me-4 mr-3\" href=\"/events\">Upcoming Events</a>\r\n  <a class=\"me-4 mr-3\" href=\"/events/past\">Past Events</a>\r\n  <h3 class=\"m-0 me-4 mr-3 pt-2\">My Events</h3>\r\n  <a href=\"/events/add\" class=\"btn-sm btn-small btn-secondary-outline py-0 px-4 btn btn-md-teal ms-auto ml-auto\" data-drupal-link-system-path=\"events/add\">+ Add Event</a>\r\n</div>"
             format: full_html
           tokenize: false
       footer: {  }
@@ -1354,6 +1355,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 25
           total_pages: null
           id: 0
@@ -2034,6 +2036,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 10
           total_pages: null
           id: 1
@@ -2530,6 +2533,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 10
           total_pages: null
           id: 1
@@ -2545,6 +2549,22 @@ display:
             offset: false
             offset_label: Offset
       sorts:
+        changed:
+          id: changed
+          table: eventseries_field_data
+          field: changed
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventseries
+          entity_field: changed
+          plugin_id: date
+          order: DESC
+          expose:
+            label: Changed
+            field_identifier: changed
+          exposed: false
+          granularity: day
         title:
           id: title
           table: eventseries_field_data

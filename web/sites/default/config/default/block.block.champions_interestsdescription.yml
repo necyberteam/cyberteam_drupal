@@ -6,14 +6,13 @@ dependencies:
     - 'block_content:basic:4b14d8ad-d416-41fc-9a95-923651f97f98'
   module:
     - block_content
-    - rules
     - system
   theme:
     - champions
 id: champions_interestsdescription
 theme: champions
 region: title_area
-weight: 3
+weight: 5
 provider: null
 plugin: 'block_content:4b14d8ad-d416-41fc-9a95-923651f97f98'
 settings:
@@ -25,11 +24,6 @@ settings:
   info: ''
   view_mode: full
 visibility:
-  rules_user_is_blocked:
-    id: rules_user_is_blocked
-    negate: true
-    context_mapping:
-      user: '@user.current_user_context:current_user'
   request_path:
     id: request_path
     negate: false

@@ -33,11 +33,20 @@ describe("Admin user tests the Individual Affinity Groups", () => {
     // the first the dropdown the shows up.
     cy.get('#edit-field-resources-entity-reference-0-target-id').clear();
     cy.get('#edit-field-resources-entity-reference-0-target-id')
+      .type('dummy-ci-link-for-testing-knowledge-base')
+      .wait(1000)
+      .type('{downarrow}{enter}');
+
+    if (!Cypress.$('[data-drupal-selector="edit-field-resources-entity-reference-1-target-id"]').length) {
+      cy.get('#edit-field-resources-entity-reference-add-more').click();
+      cy.wait(1000);
+    }
+
+    cy.get('[data-drupal-selector="edit-field-resources-entity-reference-1-target-id"]').clear();
+    cy.get('[data-drupal-selector="edit-field-resources-entity-reference-1-target-id"]')
       .type('access-support-ci-link-for-testing')
-      .get('#ui-id-3')  // this is the dropdown that shows up
-      .find('.ui-menu-item') //
-      .first() // take the first one
-      .click();
+      .wait(1000)
+      .type('{downarrow}{enter}');
 
     // Add a cider resource
     cy.get('#edit-field-cider-resources-0-target-id').clear();
@@ -87,6 +96,7 @@ function create_dummy_ci_link() {
   cy.get('#edit-description').type("Dummy description for ci-link 'access-support-ci-link-for-testing'");
   // tag "ACCESS-account" is selected
   cy.get('span[data-tid="733"]').click();
+  cy.get('.form-item-domain').find('input').type('ACCESS{enter}');
   cy.get('#edit-submit').click();
 }
 

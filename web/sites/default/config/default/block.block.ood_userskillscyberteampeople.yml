@@ -1,0 +1,29 @@
+uuid: b971eaa6-b155-40a8-9a88-db7fbd83698c
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.user_skills_cyberteam_people
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_userskillscyberteampeople
+theme: ood
+region: primary_sidebar
+weight: -42
+provider: null
+plugin: 'facet_block:user_skills_cyberteam_people'
+settings:
+  id: 'facet_block:user_skills_cyberteam_people'
+  label: Skills
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_userskillscyberteampeople
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people

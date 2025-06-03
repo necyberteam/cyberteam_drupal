@@ -1,0 +1,29 @@
+uuid: 71a79791-b77e-4f0a-8cb6-656114dc6c60
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.program_people_page
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_programpeoplepage
+theme: ood
+region: primary_sidebar
+weight: -33
+provider: null
+plugin: 'facet_block:program_people_page'
+settings:
+  id: 'facet_block:program_people_page'
+  label: Program
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_programpeoplepage
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people

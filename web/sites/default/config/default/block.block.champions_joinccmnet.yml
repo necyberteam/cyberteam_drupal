@@ -1,0 +1,30 @@
+uuid: 829137df-aab4-4938-869d-0bdae9e65a0f
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:06fd0027-5665-4663-a27d-05803e8f50d1'
+  module:
+    - block_content
+    - system
+  theme:
+    - champions
+id: champions_joinccmnet
+theme: champions
+region: content
+weight: 0
+provider: null
+plugin: 'block_content:06fd0027-5665-4663-a27d-05803e8f50d1'
+settings:
+  id: 'block_content:06fd0027-5665-4663-a27d-05803e8f50d1'
+  label: 'Login or Join'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /user/login

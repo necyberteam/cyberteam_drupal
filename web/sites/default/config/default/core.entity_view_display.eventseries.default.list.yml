@@ -4,11 +4,13 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.eventseries.list
+    - field.field.eventseries.default.domain_access
     - field.field.eventseries.default.field_affiliation
     - field.field.eventseries.default.field_affinity_group
     - field.field.eventseries.default.field_affinity_group_node
     - field.field.eventseries.default.field_broadcast_affinity_groups
     - field.field.eventseries.default.field_contact
+    - field.field.eventseries.default.field_event_allocation_grant
     - field.field.eventseries.default.field_event_no_listing
     - field.field.eventseries.default.field_event_speakers
     - field.field.eventseries.default.field_event_type
@@ -16,6 +18,7 @@ dependencies:
     - field.field.eventseries.default.field_location
     - field.field.eventseries.default.field_registration
     - field.field.eventseries.default.field_skill_level
+    - field.field.eventseries.default.field_summary
     - field.field.eventseries.default.field_tags
     - recurring_events.eventseries_type.default
   module:
@@ -65,6 +68,7 @@ hidden:
   consecutive_recurring_date: true
   custom_date: true
   daily_recurring_date: true
+  domain_access: true
   event_instances: true
   event_registration: true
   field_affiliation: true
@@ -72,6 +76,7 @@ hidden:
   field_affinity_group_node: true
   field_broadcast_affinity_groups: true
   field_contact: true
+  field_event_allocation_grant: true
   field_event_no_listing: true
   field_event_speakers: true
   field_event_type: true
@@ -79,6 +84,7 @@ hidden:
   field_location: true
   field_registration: true
   field_skill_level: true
+  field_summary: true
   field_tags: true
   monthly_recurring_date: true
   recur_type: true

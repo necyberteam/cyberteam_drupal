@@ -9,7 +9,16 @@ storeKey () {
   echo "$SSH_PRIVATE_KEY" > ~/.ssh/private.key
   chmod 0600 ~/.ssh/private.key
   ssh-add ~/.ssh/private.key
+  touch /root/.ssh/known_hosts
+  chmod 600 /root/.ssh/known_hosts
+  echo "Host *.drush.in" > /root/.ssh/config
+  echo "    StrictHostKeyChecking no" >> /root/.ssh/config
+  chmod 600 /root/.ssh/config
+  cat /root/.ssh/config
+
+  ssh-add -l
   git config --global --add safe.directory "*"
+  git config --global --add safe.directory /github/workspace
 }
 
 terminusApi () {
@@ -68,13 +77,80 @@ fi
 if [ "$runner" = update ];
 then
   storeKey
+  git config --global --add safe.directory /github/workspace
+
+  COMPOSER_IGNORE_PLATFORM_REQS=1
+
+  git config --global user.email "$git_email"
+  git config --global user.name "$git_name"
+
+  original_directory=$(pwd)
+
   sh -c "composer config -g github-oauth.github.com $gh_token"
+
   composer install --no-dev --ignore-platform-reqs
+
   branch="${GITHUB_REF#refs/heads/}"
   if [ "$branch" = "main" ]; then
     branch="master"
   fi
-  GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" $blt artifact:deploy --commit-msg "$message" --branch "$branch" --ignore-dirty --ignore-platform-reqs --no-interaction --verbose
+
+  mkdir backups
+  cd backups
+  echo 'Cloning Pantheon repo'
+  git clone $PANTHEON_GIT_REPO -b master accessmatch
+
+  cd accessmatch
+  # Check if the branch exists (locally or remotely)
+  if git show-ref --verify --quiet "refs/heads/$branch" || git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+    echo "Branch '$branch' exists. Checking it out..."
+    git checkout "$branch"
+  else
+    echo "Branch '$branch' does not exist. Creating and checking it out..."
+    git checkout -b "$branch"
+  fi
+  echo 'Pantheon repo'
+  git config --get remote.origin.url
+
+  cd $original_directory
+  echo 'Github repo'
+  git config --get remote.origin.url
+  rm -fR .git
+  mv backups/accessmatch/.git .
+  echo 'Switched Pantheon repo'
+  git branch
+  git config --get remote.origin.url
+
+  echo 'Remove some dev files/folders'
+  # Remove all .txt files.
+  find . -type f -name "*.txt" -delete
+  # Remove all .github directories.
+  find . -mindepth 1 -type f -name "*.txt" -not -path "*/.github/*" -delete
+  rm -fR .devcontainer
+  rm -fR .editorconfig
+  rm -fR .github
+  rm -fR .lando.*
+  rm -fR README.md
+  rm -fR backups
+  rm -fR robo
+  rm -fR docroot/.editorconfig
+  rm -fR docroot/sites/example.settings.local.php
+  rm -fR docroot/sites/example.sites.php
+  rm -fR tests
+  rm -fR web/themes/contrib/bootstrap5/dist/bootstrap/5.2.3/.github/
+
+  git checkout .gitignore
+
+  echo 'Git status check'
+  git status
+  echo 'Add new files'
+  git add .
+  echo 'Commit changes'
+  git commit -m "$message"
+  echo 'status'
+  git status
+  echo 'push'
+  git push origin $branch
 fi
 
 if [ "$runner" = composer_update ];
@@ -87,7 +163,8 @@ then
   git config --global user.name \"$username\"
   composer config -g github-oauth.github.com $gh_token
   composer install --no-dev --ignore-platform-reqs
-  $blt amp:ciupdate "$drupal_update" --no-interaction --verbose
+  echo '-=-=-=-=-=-=-=- Composer update -=-=-=-=-=-=-=-'
+  $robo ciupdate $drupal_update $version --no-interaction --verbose
   git push origin $drupal_update
 fi
 
@@ -100,13 +177,20 @@ then
   terminus multidev:delete --delete-branch --yes -- accessmatch.$branch
 fi
 
+if [ "$runner" = sync ];
+then
+  storeKey
+  terminusApi
+  terminus env:clone-content "$site_name".live dev --yes --no-interaction
+fi
+
 if [ "$runner" = md_check ];
 then
   storeKey
   terminusApi
   branch="${GITHUB_REF#refs/heads/}"
   touch md_check.txt
-  vendor/bin/blt pmd:check $branch --no-interaction >> md_check.txt
+  vendor/bin/robo pmd:check $branch --no-interaction | grep -o "FALSE\|TRUE" > md_check.txt
 fi
 
 if [ "$runner" = md_create ];
@@ -114,7 +198,7 @@ then
   storeKey
   terminusApi
   branch="${GITHUB_REF#refs/heads/}"
-  vendor/bin/blt pmd:create $branch --no-interaction
+  vendor/bin/robo pmd:create $branch --no-interaction
 fi
 
 if [ "$runner" = md_file_commands ];
@@ -122,7 +206,7 @@ then
   storeKey
   terminusApi
   branch="${GITHUB_REF#refs/heads/}"
-  commands=$(cat blt/md/$branch)
+  commands=$(cat robo/assets/md/$branch)
   echo $commands
   terminus remote:drush accessmatch.$branch -- domain:default $commands
 fi

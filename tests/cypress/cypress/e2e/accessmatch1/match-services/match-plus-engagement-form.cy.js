@@ -1,5 +1,5 @@
 /*
-    This test is focused on the MATCH+ Engagement form tested for an authenticated user.
+    This test is focused on the MATCH Engagement form tested for an authenticated user.
 
     A MATCH Engagement can be submitted by any authenticated user.
     Required fields for creating a MATCH Engagement are:
@@ -22,8 +22,8 @@
     "Finishing Up", "On Hold", "Halted", and "Complete".
 */
 
-describe("Authenticated user tests the MATCH+ Engagement Form", () => {
-  it("Should test MATCH+ Engagement Form for authenticated user", () => {
+describe("Authenticated user tests the MATCH Engagement Form", () => {
+  it("Should test MATCH Engagement Form for authenticated user", () => {
     // login user with the "authenticated" role
     cy.loginAs("pecan@pie.org", "Pecan");
     cy.visit("/node/add/match_engagement?type=plus");

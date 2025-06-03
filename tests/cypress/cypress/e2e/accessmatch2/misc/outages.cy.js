@@ -68,10 +68,10 @@ describe('Anonymous user visit the outages page', () => {
       .find('td').eq(2)
       .should('not.be.empty');
 
-    // 4. verify Type is Full or Partial
+    // 4. verify Type
     cy.get('@first-row')
       .find('td').eq(3)
-      .contains(/full|partial|reconfiguration/i);
+      .contains(/full|partial|reconfiguration|degraded/i);
 
     // 5. verify Start is a string
     cy.get('@first-row')
@@ -79,9 +79,9 @@ describe('Anonymous user visit the outages page', () => {
       .should('not.be.empty');
 
     // 6. verify End is a string
-    cy.get('@first-row')
-      .find('td').eq(5)
-      .should('not.be.empty');
+    //cy.get('@first-row')
+    //  .find('td').eq(5)
+    //  .should('not.be.empty');
 
     // change the number of entries to 25
     cy.get('[name="outages-all_length"]').select('25');

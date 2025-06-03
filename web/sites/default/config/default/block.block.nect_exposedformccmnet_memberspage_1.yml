@@ -6,14 +6,13 @@ dependencies:
     - views.view.ccmnet_members
   module:
     - system
-    - user
     - views
   theme:
     - nect
 id: nect_exposedformccmnet_memberspage_1
 theme: nect
 region: primary_sidebar
-weight: 10
+weight: 11
 provider: null
 plugin: 'views_exposed_filter_block:ccmnet_members-page_1'
 settings:
@@ -27,10 +26,3 @@ visibility:
     id: request_path
     negate: false
     pages: /members
-  user_role:
-    id: user_role
-    negate: false
-    context_mapping:
-      user: '@user.current_user_context:current_user'
-    roles:
-      authenticated: authenticated

@@ -28,6 +28,7 @@ dependencies:
     - field.field.node.mentorship_engagement.field_me_state
     - field.field.node.mentorship_engagement.field_mentee
     - field.field.node.mentorship_engagement.field_mentor
+    - field.field.node.mentorship_engagement.field_mentorship_program
     - field.field.node.mentorship_engagement.field_milestone_actual_date
     - field.field.node.mentorship_engagement.field_milestone_completion_date
     - field.field.node.mentorship_engagement.field_milestone_description
@@ -235,7 +236,7 @@ third_party_settings:
               label_display: '0'
               provider: ccmnet
               context_mapping: {  }
-            weight: 7
+            weight: 8
             additional:
               layout_builder_styles_style:
                 mb_3: mb_3
@@ -291,7 +292,7 @@ third_party_settings:
                 settings:
                   link: false
                 third_party_settings: {  }
-            weight: 6
+            weight: 7
             additional:
               layout_builder_styles_style:
                 mb_3: mb_3
@@ -362,474 +363,22 @@ third_party_settings:
                 pt_4: 0
                 tags: 0
                 __div_h_full: 0
-          724e4fec-5f6e-4b7e-b97d-51647b0a9e62:
-            uuid: 724e4fec-5f6e-4b7e-b97d-51647b0a9e62
-            region: first
+          1ead222c-7d5c-477e-98f2-6192415f85c8:
+            uuid: 1ead222c-7d5c-477e-98f2-6192415f85c8
+            region: second
             configuration:
-              id: 'field_block:node:mentorship_engagement:field_milestone_description'
-              label: 'Goal 1'
-              label_display: visible
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: basic_string
-                label: hidden
-                settings: {  }
-                third_party_settings: {  }
-            weight: 8
-            additional:
-              layout_builder_styles_style:
-                pe_3: pe_3
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_3: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pt_4: 0
-                tags: 0
-                __div_h_full: 0
-          f649179d-badc-4ff3-ac19-c717e6b46c82:
-            uuid: f649179d-badc-4ff3-ac19-c717e6b46c82
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_milestone_completion_date'
-              label: 'Estimated Completion Date'
+              id: 'field_block:node:mentorship_engagement:field_mentorship_program'
               label_display: '0'
-              provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
-                view_mode: view_mode
               formatter:
-                type: datetime_custom
+                type: entity_reference_label
                 label: above
                 settings:
-                  timezone_override: ''
-                  date_format: n/j/Y
+                  link: true
                 third_party_settings: {  }
-            weight: 9
-            additional:
-              layout_builder_styles_style:
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_3: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-                __div_h_full: 0
-          60f413df-3648-4ce1-810d-6cc07bce9d30:
-            uuid: 60f413df-3648-4ce1-810d-6cc07bce9d30
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_milestone_actual_date'
-              label: 'Actual Completion Date'
-              label_display: '0'
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: datetime_plain
-                label: above
-                settings:
-                  timezone_override: ''
-                third_party_settings: {  }
-            weight: 10
-            additional:
-              layout_builder_styles_style:
-                mb_3: 0
-                mb_5: 0
-                page_title: 0
-                pe_3: 0
-                tags: 0
-                __div_h_full: 0
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                md_teal_box: 0
-                pb_4: 0
-                pt_4: 0
-          33d2051d-c18b-455c-bdaa-b6b64bdeb006:
-            uuid: 33d2051d-c18b-455c-bdaa-b6b64bdeb006
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_milestone_description_2'
-              label: 'Goal 2'
-              label_display: visible
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: basic_string
-                label: hidden
-                settings: {  }
-                third_party_settings: {  }
-            weight: 12
-            additional:
-              layout_builder_styles_style:
-                pe_3: pe_3
-                pt_4: pt_4
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_3: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                tags: 0
-                __div_h_full: 0
-          bdfa8437-99d4-4c34-86ad-197890f36374:
-            uuid: bdfa8437-99d4-4c34-86ad-197890f36374
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_milestone_description_4'
-              label: 'Goal 4'
-              label_display: visible
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: basic_string
-                label: hidden
-                settings: {  }
-                third_party_settings: {  }
-            weight: 19
-            additional:
-              layout_builder_styles_style:
-                pe_3: pe_3
-                pt_4: pt_4
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_3: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                tags: 0
-                __div_h_full: 0
-          6089d67d-88c5-4eb3-9c79-449f8824bfc0:
-            uuid: 6089d67d-88c5-4eb3-9c79-449f8824bfc0
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_actual_completion_date_3'
-              label: 'Actual Completion Date   '
-              label_display: '0'
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: datetime_custom
-                label: above
-                settings:
-                  timezone_override: ''
-                  date_format: n/j/Y
-                third_party_settings: {  }
-            weight: 21
-            additional:
-              layout_builder_styles_style:
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_3: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-                __div_h_full: 0
-          25e3db34-4a4d-429c-84f9-e5adea7d5afd:
-            uuid: 25e3db34-4a4d-429c-84f9-e5adea7d5afd
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_completion_date_goal_4'
-              label: 'Estimated Completion Date'
-              label_display: '0'
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: datetime_custom
-                label: above
-                settings:
-                  timezone_override: ''
-                  date_format: n/j/Y
-                third_party_settings: {  }
-            weight: 23
-            additional:
-              layout_builder_styles_style:
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_3: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-                __div_h_full: 0
-          2668df38-292a-45ca-9b95-98ed2414d2a0:
-            uuid: 2668df38-292a-45ca-9b95-98ed2414d2a0
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_goal_3_description'
-              label: 'Goal 5'
-              label_display: visible
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: basic_string
-                label: hidden
-                settings: {  }
-                third_party_settings: {  }
-            weight: 22
-            additional:
-              layout_builder_styles_style:
-                pe_3: pe_3
-                pt_4: pt_4
-                mb_10: 0
-                md_teal_box: 0
-                __div_h_full: 0
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_3: 0
-                mb_5: 0
-                page_title: 0
-                pb_4: 0
-                tags: 0
-          b3ed9065-e266-4bae-9526-e84659bb8147:
-            uuid: b3ed9065-e266-4bae-9526-e84659bb8147
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_completion_date_goal_1'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: datetime_custom
-                label: inline
-                settings:
-                  timezone_override: ''
-                  date_format: n/j/Y
-                third_party_settings: {  }
-            weight: 13
+            weight: 6
             additional: {  }
-          f6a96e4b-e575-4d8d-917d-f5cd7126e982:
-            uuid: f6a96e4b-e575-4d8d-917d-f5cd7126e982
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_actual_completion_date_1'
-              label: 'Actual Completion Date '
-              label_display: '0'
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: datetime_custom
-                label: above
-                settings:
-                  timezone_override: ''
-                  date_format: n/j/Y
-                third_party_settings: {  }
-            weight: 14
-            additional:
-              layout_builder_styles_style:
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_3: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-                __div_h_full: 0
-          2c81db1c-309b-4020-b1cc-26a70c1cacad:
-            uuid: 2c81db1c-309b-4020-b1cc-26a70c1cacad
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_actual_completion_date_2'
-              label: 'Actual Completion Date  '
-              label_display: '0'
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: datetime_custom
-                label: above
-                settings:
-                  timezone_override: ''
-                  date_format: n/j/Y
-                third_party_settings: {  }
-            weight: 18
-            additional:
-              layout_builder_styles_style:
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_3: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-                __div_h_full: 0
-          e35deeed-1385-4e9b-85d5-39475751c95c:
-            uuid: e35deeed-1385-4e9b-85d5-39475751c95c
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_completion_date_goal_2'
-              label: 'Estimated Completion Date'
-              label_display: '0'
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: datetime_custom
-                label: above
-                settings:
-                  timezone_override: ''
-                  date_format: n/j/Y
-                third_party_settings: {  }
-            weight: 17
-            additional:
-              layout_builder_styles_style:
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_3: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-                __div_h_full: 0
-          14f06191-c97a-434e-951b-9b622db75e22:
-            uuid: 14f06191-c97a-434e-951b-9b622db75e22
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_actual_completion_date_4'
-              label: 'Actual Completion Date    '
-              label_display: '0'
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: datetime_custom
-                label: above
-                settings:
-                  timezone_override: ''
-                  date_format: n/j/Y
-                third_party_settings: {  }
-            weight: 24
-            additional:
-              layout_builder_styles_style:
-                mb_5: mb_5
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_3: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-                __div_h_full: 0
-          a79a90da-a20d-47a4-a1c1-c136ff8bfc7c:
-            uuid: a79a90da-a20d-47a4-a1c1-c136ff8bfc7c
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_completion_date_goal_3'
-              label: 'Estimated Completion Date'
-              label_display: '0'
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: datetime_custom
-                label: above
-                settings:
-                  timezone_override: ''
-                  date_format: n/j/Y
-                third_party_settings: {  }
-            weight: 20
-            additional:
-              layout_builder_styles_style:
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_3: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-                __div_h_full: 0
-          da9d4ac1-a536-447e-8c15-2e056d5e1597:
-            uuid: da9d4ac1-a536-447e-8c15-2e056d5e1597
-            region: first
-            configuration:
-              id: 'field_block:node:mentorship_engagement:field_milestone_description_1'
-              label: 'Goal 3'
-              label_display: visible
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: basic_string
-                label: hidden
-                settings: {  }
-                third_party_settings: {  }
-            weight: 16
-            additional:
-              layout_builder_styles_style:
-                pe_3: pe_3
-                pt_4: pt_4
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_3: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                tags: 0
-                __div_h_full: 0
         third_party_settings: {  }
       -
         layout_id: layout_twocol_section
@@ -1037,6 +586,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 0
+    region: first
+  field_mentorship_program:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 134
     region: first
   field_milestone_actual_date:
     type: datetime_default

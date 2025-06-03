@@ -1,0 +1,29 @@
+uuid: afd2a7c1-865f-4ad6-8daf-db9d0393a0fd
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.program
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_programcyberteampeople
+theme: ood
+region: primary_sidebar
+weight: -40
+provider: null
+plugin: 'facet_block:program'
+settings:
+  id: 'facet_block:program'
+  label: Program
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_programcyberteampeople
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people

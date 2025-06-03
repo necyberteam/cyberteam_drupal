@@ -6,14 +6,13 @@ dependencies:
     - views.view.events_facet
   module:
     - system
-    - user
     - views
   theme:
     - aspTheme
 id: asptheme_exposedformevents_facetpage_1
 theme: aspTheme
 region: sidebar_first
-weight: -15
+weight: -18
 provider: null
 plugin: 'views_exposed_filter_block:events_facet-page_1'
 settings:
@@ -27,10 +26,3 @@ visibility:
     id: request_path
     negate: false
     pages: /events
-  user_role:
-    id: user_role
-    negate: false
-    context_mapping:
-      user: '@user.current_user_context:current_user'
-    roles:
-      authenticated: authenticated

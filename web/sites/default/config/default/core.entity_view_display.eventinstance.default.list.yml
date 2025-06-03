@@ -4,12 +4,14 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.eventinstance.list
+    - field.field.eventinstance.default.domain_access
     - field.field.eventinstance.default.field_video
     - recurring_events.eventinstance_type.default
   module:
     - datetime_range
     - link
     - options
+    - recurring_events_ical
     - text
 _core:
   default_config_hash: ynM97GAGTtZBjg1uuiiRFaP8WTq766yoANHsZJ41__4
@@ -53,6 +55,7 @@ content:
     settings:
       timezone_override: ''
       date_format: 'n/j/Y g:i A T'
+      from_to: both
       separator: '-'
     third_party_settings: {  }
     weight: 1
@@ -72,6 +75,25 @@ content:
     third_party_settings: {  }
     weight: 54
     region: content
+  event_ical_link:
+    type: event_ical_link
+    label: hidden
+    settings:
+      trim_length: '80'
+      url_only: ''
+      url_plain: ''
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  event_summary:
+    type: basic_string
+    label: visible
+    settings: {  }
+    third_party_settings: {  }
+    weight: 55
+    region: content
   event_type:
     type: list_default
     label: visible
@@ -86,6 +108,11 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 53
+    region: content
+  register_button:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 999
     region: content
   registration:
     type: link
@@ -106,6 +133,14 @@ content:
     third_party_settings: {  }
     weight: 58
     region: content
+  speakers:
+    type: string
+    label: visible
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 59
+    region: content
   tags:
     type: entity_reference_label
     label: above
@@ -122,6 +157,20 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
+  virtual_meeting_link:
+    type: link
+    label: visible
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 62
+    region: content
 hidden:
   body: true
+  domain_access: true
   field_video: true
+  search_api_excerpt: true

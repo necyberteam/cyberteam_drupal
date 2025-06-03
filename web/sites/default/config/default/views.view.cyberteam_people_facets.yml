@@ -12,18 +12,6 @@ dependencies:
     - field.storage.user.user_picture
     - image.style.thumbnail
     - search_api.index.cssn_directory
-    - taxonomy.vocabulary.region
-  content:
-    - 'taxonomy_term:region:23abe5b9-fa92-4ba6-8b69-cf01f50a7ad9'
-    - 'taxonomy_term:region:48875fb1-4788-4512-89b7-c04a3696d2ca'
-    - 'taxonomy_term:region:5062eb27-a5d3-4e29-af87-72ebfceaffb7'
-    - 'taxonomy_term:region:6136e7e2-0052-4dc7-8c42-50f162d0a5a1'
-    - 'taxonomy_term:region:7bdad40f-9ac1-4e62-92dc-d8f7a7eabf25'
-    - 'taxonomy_term:region:7ff23e82-43c2-4c63-b02d-45b398861be9'
-    - 'taxonomy_term:region:9551e6b0-0c26-41f1-b028-6aa4c1422242'
-    - 'taxonomy_term:region:ca673aab-e6c6-4437-9119-460c5a677fe2'
-    - 'taxonomy_term:region:f57cdc76-32c0-4a0a-acde-38ea07bf9107'
-    - 'taxonomy_term:region:fe35c536-9dbf-419d-bb2a-e62cd0cd5e04'
   module:
     - better_exposed_filters
     - search_api
@@ -568,7 +556,7 @@ display:
           click_sort_column: target_id
           type: entity_reference_label
           settings:
-            link: true
+            link: false
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -611,7 +599,13 @@ display:
               community_events:
                 display_method: label
                 view_mode: default
+              infrastructure_news:
+                display_method: label
+                view_mode: default
               match_engagement:
+                display_method: label
+                view_mode: default
+              mentorship_engagement:
                 display_method: label
                 view_mode: default
               organization:
@@ -901,7 +895,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"nect-cc-people card h-100 border-purple hover--border-ccmnet-blue\">\r\n  <div class=\"p-2\">\r\n\r\n    <div class=\"row\">    \r\n      <div class=\"cssn-photo col-6\">      \r\n        {{ user_picture }}  \r\n      </div>\r\n      <div class=\"col-6 z-10 d-flex justify-content-end flex-wrap\">\r\n        {{ user_badges }} \r\n      </div> \r\n    </div>\r\n\r\n    <div class=\"my-1.5 leading-5\">\r\n      <a class=\"stretched-link text-dark-teal hover--text-orange no-underline text-xl font-bold text-purple hover--ccmnet-blue\" href=\"/community-persona/{{ uid }}\">{{ field_user_first_name }} {{ field_user_last_name }}</a>\r\n    </div>\r\n    <div class=\"m-0 font-bold leading-5 text-lg\">\r\n      {{ field_institution }}\r\n    </div>\r\n\r\n    <div class=\"mb-1 text-sm\">\r\n      <i>{{ field_current_occupation }}</i>\r\n    </div>\r\n\r\n    <div class=\"small\">\r\n      {% if ('student' in roles|render) %}<span class=\"mr-4\">student facilitator</span>{% endif %}\r\n      {% if ('mentor' in roles|render) %}<span class=\"mr-4\">mentor</span>{% endif %}\r\n      {% if ('regional facilitator' in roles|render) %}<div class=\"d-inline-flex mr-4\">regional facilitator</div>{% endif %}\r\n      {% if ('domain champion' in roles|render) %}<span class=\"badge pl-0 font-weight-normal\">domain champion</span>{% endif %}\r\n      {% if ('researcher/educator' in roles|render) %}<div class=\"d-inline-flex mr-4\">researcher/educator</div>{% endif %}\r\n      {% if ('steering committee' in roles|render) %}<div class=\"d-inline-flex mr-4\">steering committee</div>{% endif %}\r\n      {% if ('ci systems engineer' in roles|render) %}<div class=\"d-inline-flex mr-4\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"CI Systems Engineer\">cise</span></div>{% endif %}\r\n      {% if ('research software engineer' in roles|render) %}<div class=\"d-inline-flex mr-4\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"Research Software Engineer\">rse</span></div>{% endif %}\r\n      {% if ('research computing facilitator' in roles|render) %}<div class=\"d-inline-flex mr-4\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"Research Computing Facilitator\">rcf</span></div>{% endif %}\r\n    </div>\r\n    \r\n    <div class=\"small font-weight-bold mt-2\">Programs</div>\r\n\r\n    <div class=\"small \">{{ field_region }}</div>\r\n\r\n    {%  if user_skills %}\r\n      <div class=\"small font-weight-bold mt-2\">Skills</div>\r\n      <div class=\"small z-10 user-skills\"> {{ user_skills }}</div>\r\n    {% endif %}\r\n\r\n  </div>\r\n</div>"
+            text: "<div class=\"nect-cc-people card h-100 border-purple hover--border-ccmnet-blue\">\r\n  <div class=\"p-2\">\r\n\r\n    <div class=\"row\">    \r\n      <div class=\"cssn-photo col-6\">      \r\n        {{ user_picture }}  \r\n      </div>\r\n      <div class=\"col-6 z-10 d-flex justify-content-end flex-wrap\">\r\n        {{ user_badges }} \r\n      </div> \r\n    </div>\r\n\r\n    <div class=\"my-1.5 leading-5\">\r\n      <a class=\"stretched-link text-dark-teal hover--text-orange no-underline text-xl font-bold text-purple hover--ccmnet-blue\" href=\"/community-persona/{{ uid }}\">{{ field_user_first_name }} {{ field_user_last_name }}</a>\r\n    </div>\r\n    <div class=\"m-0 font-bold leading-5 text-lg\">\r\n      {{ field_access_organization|default(field_institution) }}\r\n    </div>\r\n\r\n    <div class=\"mb-1 text-sm\">\r\n      <i>{{ field_current_occupation }}</i>\r\n    </div>\r\n\r\n    <div class=\"small\">\r\n      {% if ('student' in roles|render) %}<span class=\"mr-4\">student facilitator</span>{% endif %}\r\n      {% if ('mentor' in roles|render) %}<span class=\"mr-4\">mentor</span>{% endif %}\r\n      {% if ('regional facilitator' in roles|render) %}<div class=\"d-inline-flex mr-4\">regional facilitator</div>{% endif %}\r\n      {% if ('domain champion' in roles|render) %}<span class=\"badge pl-0 font-weight-normal\">domain champion</span>{% endif %}\r\n      {% if ('researcher/educator' in roles|render) %}<div class=\"d-inline-flex mr-4\">researcher/educator</div>{% endif %}\r\n      {% if ('steering committee' in roles|render) %}<div class=\"d-inline-flex mr-4\">steering committee</div>{% endif %}\r\n      {% if ('ci systems engineer' in roles|render) %}<div class=\"d-inline-flex mr-4\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"CI Systems Engineer\">cise</span></div>{% endif %}\r\n      {% if ('research software engineer' in roles|render) %}<div class=\"d-inline-flex mr-4\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"Research Software Engineer\">rse</span></div>{% endif %}\r\n      {% if ('research computing facilitator' in roles|render) %}<div class=\"d-inline-flex mr-4\"><span data-toggle=\"tooltip\" data-placement=\"right\" title=\"Research Computing Facilitator\">rcf</span></div>{% endif %}\r\n    </div>\r\n    \r\n    <div class=\"small font-weight-bold mt-2\">Programs</div>\r\n\r\n    <div class=\"small \">{{ field_region }}</div>\r\n\r\n    {%  if user_skills %}\r\n      <div class=\"small font-weight-bold mt-2\">Skills</div>\r\n      <div class=\"small z-10 user-skills\"> {{ user_skills }}</div>\r\n    {% endif %}\r\n\r\n  </div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -942,6 +936,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 24
           total_pages: null
           id: 0
@@ -1045,61 +1040,6 @@ display:
           exposed: false
       arguments: {  }
       filters:
-        field_region:
-          id: field_region
-          table: search_api_index_cssn_directory
-          field: field_region
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: search_api_term
-          operator: or
-          value:
-            780: 780
-            572: 572
-            323: 323
-            311: 311
-            322: 322
-            325: 325
-            308: 308
-            314: 314
-            324: 324
-            326: 326
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-          vid: region
-          type: select
-          hierarchy: false
-          limit: true
-          error_message: true
         search_api_fulltext:
           id: search_api_fulltext
           table: search_api_index_cssn_directory
@@ -1182,314 +1122,6 @@ display:
           fields:
             - field_user_first_name_1
             - field_user_last_name_1
-        roles:
-          id: roles
-          table: search_api_index_cssn_directory
-          field: roles
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: search_api_string
-          operator: '='
-          value:
-            min: ''
-            max: ''
-            value: student
-          group: 2
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        roles_1:
-          id: roles_1
-          table: search_api_index_cssn_directory
-          field: roles
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: search_api_string
-          operator: '='
-          value:
-            min: ''
-            max: ''
-            value: mentor
-          group: 2
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        roles_3:
-          id: roles_3
-          table: search_api_index_cssn_directory
-          field: roles
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: search_api_string
-          operator: '='
-          value:
-            min: ''
-            max: ''
-            value: researcher
-          group: 2
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        roles_6:
-          id: roles_6
-          table: search_api_index_cssn_directory
-          field: roles
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: search_api_string
-          operator: '='
-          value:
-            min: ''
-            max: ''
-            value: ci_systems_engineer
-          group: 2
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        roles_2:
-          id: roles_2
-          table: search_api_index_cssn_directory
-          field: roles
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: search_api_string
-          operator: '='
-          value:
-            min: ''
-            max: ''
-            value: professional_mentor
-          group: 2
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        roles_4:
-          id: roles_4
-          table: search_api_index_cssn_directory
-          field: roles
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: search_api_string
-          operator: '='
-          value:
-            min: ''
-            max: ''
-            value: research_computing_facilitator
-          group: 2
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        roles_5:
-          id: roles_5
-          table: search_api_index_cssn_directory
-          field: roles
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: search_api_string
-          operator: '='
-          value:
-            min: ''
-            max: ''
-            value: research_software_engineer
-          group: 2
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:

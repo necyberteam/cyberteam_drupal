@@ -1,0 +1,33 @@
+uuid: 89a10608-b4a7-4e5c-90ad-ae866c7c9cac
+langcode: en
+status: true
+dependencies:
+  module:
+    - campuschampions
+    - domain
+    - system
+  theme:
+    - ood
+id: ood_socialauthgooglelogin
+theme: ood
+region: below_main_content
+weight: -41
+provider: null
+plugin: socialauthgoogle
+settings:
+  id: socialauthgoogle
+  label: Google
+  label_display: visible
+  provider: campuschampions
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      ccmnet_org: ccmnet_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: /google-signin

@@ -19,7 +19,7 @@ class PmdCommands extends Tasks {
    * @description Checks for MD environment.
    */
   public function check(array $args) {
-    $sites = shell_exec("terminus multidev:list --format csv --fields id -- open-on-demand");
+    $sites = shell_exec("terminus multidev:list --format csv --fields id -- accessmatch");
     $sites = substr($sites, strpos($sites, "\n") + 1);
     $sites = str_replace("\n", "", $sites);
     if (strpos($sites, $args[0]) !== FALSE) {
@@ -42,8 +42,8 @@ class PmdCommands extends Tasks {
       $this->say("This multidev environment already exists.");
     }
     else {
-      $this->_exec("terminus multidev:create -- open-on-demand.test $args[0]");
-      $this->_exec("terminus remote:drush open-on-demand.$args[0] -- deploy");
+      $this->_exec("terminus multidev:create -- accessmatch.test $args[0]");
+      $this->_exec("terminus remote:drush accessmatch.$args[0] -- deploy");
       $this->say("This multidev environment has been created and deployed.");
     }
   }

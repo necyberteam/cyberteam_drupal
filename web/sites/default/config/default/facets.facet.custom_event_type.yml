@@ -66,6 +66,12 @@ processor_configs:
     weights:
       build: 100
     settings: {  }
+  replace:
+    processor_id: replace
+    weights:
+      post_query: 50
+    settings:
+      replacements: "Training|Training\r\noffice_hours|Office Hours\r\nConference|Conference"
   url_processor_handler:
     processor_id: url_processor_handler
     weights:

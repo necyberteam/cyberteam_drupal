@@ -138,30 +138,6 @@ describe("Check admin configuration pages", () => {
     cy.contains('/user/register/domain_champion');
     cy.contains('/user/register/ccmnet');
 
-    cy.visit('/admin/config/people/nodeaccess');
-    cy.get('h1').should('contain', 'Nodeaccess');
-
-    cy.contains('ACCESS Active Resources from CiDeR');
-    cy.contains('ACCESS Announcements');
-    cy.contains('ACCESS Organization');
-    cy.contains('Affinity Group');
-    cy.contains('Article');
-    cy.contains('Blog post');
-    cy.contains('Blog post (region)');
-    cy.contains('Community Events');
-    cy.contains('Infrastructure News');
-    cy.contains('MATCH+ Engagement');
-    cy.contains('Mentorship Engagement');
-    cy.contains('Organization');
-    cy.contains('Basic page');
-    cy.contains('PeopleCardView');
-    cy.contains('PeopleListView');
-    cy.contains('Press Release');
-    cy.contains('Published Articles');
-    cy.contains('Recommended Resource from CiDeR');
-    cy.contains('Regional About');
-    cy.contains('Webform');
-
     cy.visit('/admin/config/people/realname');
     cy.get('h1').should('contain', 'Real name');
     cy.get('#edit-realname-pattern').should('have.value', '[user:field_user_first_name:value] [user:field_user_last_name:value]');
@@ -368,7 +344,7 @@ describe("Check admin configuration pages", () => {
     cy.contains('Campus Champions');
     cy.contains('TRECIS Cyberteam');
     cy.contains('Connect CI');
-    cy.contains('Access Support');
+    cy.contains('ACCESS Support');
     cy.contains('CoCo');
     cy.contains('USRSE');
     cy.contains('CCMNet');
@@ -488,8 +464,6 @@ describe("Check admin configuration pages", () => {
     cy.visit('/admin/config/user-interface/shortcut');
     cy.get('h1').should('contain', 'Shortcuts');
 
-    cy.visit('/admin/config/user-interface/taxonomy-manager-settings');
-    cy.get('h1').should('contain', 'Advanced settings for the Taxonomy Manager');
   });
 
   it("Media config pages", () => {

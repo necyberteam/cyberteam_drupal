@@ -1,0 +1,29 @@
+uuid: 520bc4b9-d18a-485a-989f-308907a55c29
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.roles
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_roles
+theme: ood
+region: primary_sidebar
+weight: -27
+provider: null
+plugin: 'facet_block:roles'
+settings:
+  id: 'facet_block:roles'
+  label: Roles
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_roles
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory

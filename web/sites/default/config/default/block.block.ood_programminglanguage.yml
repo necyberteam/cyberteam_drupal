@@ -1,0 +1,29 @@
+uuid: 2cd5057d-1c98-481c-a644-201831efbd12
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.programming_language
+  module:
+    - facets
+    - system
+  theme:
+    - ood
+id: ood_programminglanguage
+theme: ood
+region: primary_sidebar
+weight: -18
+provider: null
+plugin: 'facet_block:programming_language'
+settings:
+  id: 'facet_block:programming_language'
+  label: 'Programming Language'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_programminglanguage
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources

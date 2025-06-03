@@ -6,14 +6,13 @@ dependencies:
     - views.view.affinity_group_search
   module:
     - system
-    - user
     - views
   theme:
     - aspTheme
 id: asptheme_exposedformaffinity_group_searchpage_1
 theme: aspTheme
 region: sidebar_first
-weight: -31
+weight: -34
 provider: null
 plugin: 'views_exposed_filter_block:affinity_group_search-page_1'
 settings:
@@ -27,10 +26,3 @@ visibility:
     id: request_path
     negate: false
     pages: "/affinity_groups\r\n/affinity-groups"
-  user_role:
-    id: user_role
-    negate: false
-    context_mapping:
-      user: '@user.current_user_context:current_user'
-    roles:
-      authenticated: authenticated

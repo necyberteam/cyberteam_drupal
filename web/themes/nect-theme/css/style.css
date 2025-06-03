@@ -64,6 +64,9 @@ body.careers-cyberteam{
   --navbar-dropdown-hover: var(--navbar-link);
   --selected-tag: var(--primary);
 }
+body:not(.careers-cyberteam) .careers-cyberteam {
+  display: none !important;
+}
 body.great-plains-cyberteam{
   --link: var(--primary);
   --link-hover: var(--default-hover);
@@ -112,6 +115,9 @@ body.northeast-cyberteam{
   --navbar-dropdown: var(--text);
   --navbar-dropdown-hover: var(--navbar-link);
   --selected-tag: var(--primary);
+}
+body:not(.northeast-cyberteam) .northeast-cyberteam {
+  display: none !important;
 }
 body.rmacc-cyberteam{
   --link: var(--primary);
@@ -169,6 +175,15 @@ body.ccmnet{
   --footer-link-hover: var(--ccmnet-lightblue);
   overflow-x: hidden;
 }
+body:not(.ccmnet) .ccmnet {
+  display: none !important;
+}
+body:not(.campus-champions) .campus-champions{
+  display: none !important;
+}
+body:not(.open-ondemand) .open-ondemand {
+  display: none !important;
+}
 html:has(body.ccmnet) {
   overflow-x: hidden;
 }
@@ -179,6 +194,7 @@ html:has(body.ccmnet) {
 .kentucky-cyberteam .region-specific:not(.display-kentucky) { display: none !important; }
 .mines-cyberteam .region-specific:not(.display-mines) { display: none !important; }
 .northeast-cyberteam .region-specific:not(.display-northeast) { display: none !important; }
+.open-ondemand .region-specific:not(.display-northeast) { display: none !important; }
 .rmacc-cyberteam .region-specific:not(.display-rmacc) { display: none !important; }
 .sweeter-cyberteam .region-specific:not(.display-sweeter) { display: none !important; }
 .trecis-cyberteam .region-specific:not(.display-trecis) { display: none !important; }
@@ -535,6 +551,18 @@ li.dropdown-item a.nav-link:active {
   top: 90%;
 }
 @media screen and (max-width: 991.98px) {
+  .navbar-nav .dropdown .dropdown-menu {
+      position: absolute;
+      top: 30px;
+      background: var(--dark);
+      padding: 1rem 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0,.1);
+  }
+  .navbar-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+  }
   #block-views-block-peoplebuttonblocks-region-select-card .dropdown-menu {
     position: absolute;
     background-color: #FFFFFF;
@@ -2313,7 +2341,8 @@ details.tags label {
   padding: 0 0 8px 0 !important;
 }
 .page-node-44 .cilogon-auth-login-form, .page-node-44 #block-nect-userlogin, .page-node-44 #block-nect-socialauthgooglelogin {
-  max-width: 320px;
+  width: 480px;
+  max-width: 100%;
   padding: 1rem;
   border: 1px solid var(--ccmnet-lightblue);
   border-radius: 20px;
@@ -2380,4 +2409,112 @@ details.tags label {
 }
 .user-skills a:nth-of-type(1n+6) {
   display: none !important;
+}
+
+#cilogon-auth-login-prefix img {
+  width: 50px;
+  margin: 20px 0;
+}
+
+#cilogon-auth-login-suffix {
+  margin-top: 15px;
+  padding: 0 30px;
+  font-size: 0.9rem;
+}
+
+#user-login-form .card-body img {
+  width: 125px;
+  margin: 10px;
+}
+
+#user-login-form input {
+  max-width: 200px;
+  margin: auto;
+}
+
+.tabledrag-toggle-weight-wrapper {
+  display: none;
+}
+
+form label, .form-item .label, form #tag-suggestions strong {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+form .label-description {
+  font-size: 0.8rem;
+  font-weight: normal;
+  color: var(--text);
+}
+.form-item {
+  margin: 1.5rem 0;
+}
+
+#search-block-form .form-item{
+  margin: 0;
+}
+
+.form-item .field-label {
+  padding: 0.25rem 0 0.25rem 0;
+}
+
+form .table th {
+  border-top: none;
+}
+
+form #edit-revision-log-wrapper {
+  margin: 0 1.5rem;
+}
+
+.private {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+}
+
+.private.bg {
+  border-left: 50px solid transparent;
+  border-top: 50px solid var(--primary);
+}
+.private.icon {
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 1rem;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+span.event-tags {
+  font-size: 0.75rem;
+}
+
+.hover--underline {
+  text-decoration: none;
+}
+.hover--underline:hover {
+  text-decoration: underline;
+}
+
+.hover--text-black:hover,
+.page-events span.event-tags a:hover,
+.page-events-past span.event-tags a:hover {
+  color: var(--primary) !important;
+}
+
+.hover--border-black:hover,
+.page-events span.event-tags a:hover,
+.page-events-past span.event-tags a:hover {
+  border-color: var(--primary) !important;
+}
+
+#block-nect-views-block-badges-block-1 img {
+  width: 120px;
+  height: auto;
+  margin: 1.5rem 0 0.75rem 0;
 }
