@@ -1,0 +1,102 @@
+name: 'DDEV Cypress Test'
+description: 'Run Cypress tests using DDEV instead of Lando'
+author: 'necyberteam'
+
+inputs:
+  site:
+    description: 'Site identifier (e.g. accessmatch, ccmnet)'
+    required: true
+  directory:
+    description: 'Test directory name'
+    required: true
+  database:
+    description: 'Custom database URL (optional)'
+    required: false
+  github_token:
+    description: 'GitHub token for authentication'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup DDEV
+      uses: ddev/github-action-setup-ddev@v1
+      with:
+        autostart: false
+
+    - name: Configure DDEV project
+      shell: bash
+      run: |
+        ddev config --project-type=drupal10 --docroot=web --database=mysql:5.7 --php-version=8.2
+        ddev start
+
+    - name: Setup GitHub authentication
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      run: |
+        echo "$GITHUB_TOKEN" | ddev exec gh auth login --with-token
+        ddev exec composer config -g github-oauth.github.com $GITHUB_TOKEN
+
+    - name: Install dependencies
+      shell: bash
+      run: ddev composer install
+
+    - name: Download and import database
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        DATABASE: ${{ inputs.database }}
+      run: |
+        if [ -n "$DATABASE" ]; then
+          echo "Downloading custom database: $DATABASE"
+          wget -O site.sql.gz "$DATABASE"
+          mkdir -p backups
+          mv site.sql.gz backups/
+        else
+          echo "Using GitHub artifact database"
+          ddev exec vendor/bin/robo gh:pulldb
+        fi
+
+    - name: Download files if needed
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      run: |
+        if [ ! -d "web/sites/default/files" ]; then
+          ddev exec vendor/bin/robo gh:pullfiles
+        fi
+
+    - name: Import database and deploy
+      shell: bash
+      run: |
+        ddev exec vendor/bin/robo did
+        ddev exec drush deploy -y
+
+    - name: Clear watchdog logs
+      shell: bash
+      run: ddev exec drush watchdog:delete all -y
+
+    - name: Install Cypress and run tests
+      shell: bash
+      env:
+        SITE: ${{ inputs.site }}
+        DIR: ${{ inputs.directory }}
+      run: |
+        cd tests/cypress
+        ddev exec npm install
+        ddev exec npx cypress run --config baseUrl=https://$SITE-local.ddev.site --spec "cypress/e2e/$DIR/**/*.js"
+
+    - name: Get Drupal logs on failure
+      if: failure()
+      shell: bash
+      run: ddev exec drush wd-show --count=10000
+
+    - name: Cleanup DDEV
+      if: always()
+      shell: bash
+      run: ddev delete -O -y
+
+branding:
+  icon: 'check-circle'
+  color: 'green'

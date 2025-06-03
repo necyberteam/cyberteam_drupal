@@ -1,0 +1,197 @@
+name: (M) Cypress Tests DDEV Simple
+on:
+  pull_request:
+  merge_group:
+  workflow_dispatch:
+    inputs:
+      database:
+        description: 'Recent database dump to use (leave blank to use artifact)'
+      sites:
+        description: 'Specify which sites to test or leave the default to run all tests.'
+        default: 'accessmatch1, accessmatch2, accessmatch3, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect, ondemand'
+        required: true
+      prnum:
+        description: 'Pull request number — adds a comment to a pull request (nomally empty)'
+
+permissions:
+  contents: write
+  actions: read
+  pull-requests: write
+
+jobs:
+  accessmatch1:
+    name: accessmatch1
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'accessmatch1') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress
+        with:
+          site: "accessmatch"
+          directory: "accessmatch1"
+          database: ${{ github.event.inputs.database }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+
+  accessmatch2:
+    name: accessmatch2
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'accessmatch2') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress
+        with:
+          site: "accessmatch"
+          directory: "accessmatch2"
+          database: ${{ github.event.inputs.database }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+
+  accessmatch3:
+    name: accessmatch3
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'accessmatch3') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress
+        with:
+          site: "accessmatch"
+          directory: "accessmatch3"
+          database: ${{ github.event.inputs.database }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+
+  ccmnet:
+    name: ccmnet
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'ccmnet') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress
+        with:
+          site: "ccmnet"
+          directory: "ccmnet"
+          database: ${{ github.event.inputs.database }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+
+  connectci:
+    name: connectci
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'connectci') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress
+        with:
+          site: "connectci"
+          directory: "connectci"
+          database: ${{ github.event.inputs.database }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+
+  crct:
+    name: crct
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress
+        with:
+          site: "crct"
+          directory: "crct"
+          database: ${{ github.event.inputs.database }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+
+  campuschampions:
+    name: campuschampions
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'campuschampions') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress
+        with:
+          site: "campuschampions"
+          directory: "campuschampions"
+          database: ${{ github.event.inputs.database }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+
+  coco:
+    name: coco
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'coco') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress
+        with:
+          site: "coco"
+          directory: "coco"
+          database: ${{ github.event.inputs.database }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+
+  greatplains:
+    name: greatplains
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'greatplains') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress
+        with:
+          site: "greatplains"
+          directory: "greatplains"
+          database: ${{ github.event.inputs.database }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+
+  kyct:
+    name: kyct
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'kyct') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress
+        with:
+          site: "kyct"
+          directory: "kyct"
+          database: ${{ github.event.inputs.database }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+
+  nect:
+    name: nect
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'nect') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress
+        with:
+          site: "nect"
+          directory: "nect"
+          database: ${{ github.event.inputs.database }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+
+  ondemand:
+    name: ondemand
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'ondemand') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress
+        with:
+          site: "ondemand"
+          directory: "ondemand"
+          database: ${{ github.event.inputs.database }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+
+  fail:
+    name: Actions to run on fail
+    needs: [accessmatch1, accessmatch2, accessmatch3, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect, ondemand]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on pull request
+        if: github.event.inputs.prnum != ''
+        run: |
+          gh pr comment ${{ github.event.inputs.prnum }} -R ${{ github.server_url }}/${{ github.repository }} --body "🤖 -=-=-=- Cypress Test has failed 😩 -=-=-=- 🤖"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Slack Notification Success
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: '🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖'
+          SLACK_TITLE: "Cypress tests failed"
+          SLACK_CHANNEL: cypress-git-notifications

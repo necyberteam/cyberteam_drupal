@@ -25,6 +25,17 @@ class GeneralCommands extends Tasks {
   }
 
   /**
+   * DDEV command prefix.
+   */
+  private function ddev() {
+    $ddev = "ddev exec ";
+    if (getcwd() == '/var/www/html') {
+      $ddev = "";
+    }
+    return $ddev;
+  }
+
+  /**
    * Return system uname.
    */
   private function uname() {
@@ -44,8 +55,20 @@ class GeneralCommands extends Tasks {
     if (!is_numeric($domain_id)) {
       $domain_id = '';
     }
-    if ($this->lando() == 'lando ') {
+    
+    // Detect if we're in DDEV, Lando, or native environment
+    $is_ddev = file_exists('/.ddev') || getenv('DDEV_PROJECT') || file_exists('/var/www/html/.ddev');
+    $is_lando = file_exists('/.lando') || getenv('LANDO');
+    
+    if ($is_ddev) {
+      // When inside DDEV container, use native drush commands for database import
+      $this->_exec("drush sql-drop -y");
+      $this->_exec("gunzip -c backups/site.sql.gz | drush sqlc");
+      $cmd_prefix = "";
+    }
+    elseif ($this->lando() == 'lando ') {
       $this->_exec("lando db-import backups/site.sql.gz");
+      $cmd_prefix = $this->lando();
     }
     else {
       $this->_exec("drush sql-drop -y &&
@@ -54,21 +77,23 @@ class GeneralCommands extends Tasks {
         drush sqlc < lando-import.sql &&
         rm -fR lando-import.sql
       ");
+      $cmd_prefix = "";
     }
+    
     $this->_exec("sleep 2");
-    $this->_exec($this->lando() . "composer install");
-    $this->_exec($this->lando() . "drush deploy -y");
+    $this->_exec($cmd_prefix . "composer install");
+    $this->_exec($cmd_prefix . "drush deploy -y");
     $this->_exec("sleep 2");
-    $this->_exec($this->lando() . "drush cim -y");
+    $this->_exec($cmd_prefix . "drush cim -y");
     $this->_exec("sleep 2");
     if (!empty($domain_id)) {
-      $this->_exec($this->lando() . "robo ds $domain_id");
+      $this->_exec($cmd_prefix . "robo ds $domain_id");
     }
     else {
       $this->_exec("sleep 2");
-      $this->_exec($this->lando() . "drush cr");
+      $this->_exec($cmd_prefix . "drush cr");
     }
-    $this->_exec($this->lando() . "robo uli");
+    $this->_exec($cmd_prefix . "robo uli");
   }
 
   /**
@@ -78,7 +103,10 @@ class GeneralCommands extends Tasks {
    * @description Login locally with personal username set in github.
    */
   public function uli() {
-    if ($this->lando() == '') {
+    $is_ddev = file_exists('/.ddev') || getenv('DDEV_PROJECT') || file_exists('/var/www/html/.ddev');
+    $is_lando = file_exists('/.lando') || getenv('LANDO');
+    
+    if ($is_ddev || $is_lando || $this->lando() == '') {
       $uid = $_ENV["AMP_UID"];
       $this->_exec("drush uli --uid='$uid'");
     }
@@ -131,6 +159,76 @@ GITHUB_TOKEN=$token'>.env");
     if (!file_exists($theme_node)) {
       $this->_exec("cd web/themes/custom/accesstheme && " . $this->lando() . " npm install && " . $this->lando() . " npm run build:sass");
     }
+  }
+
+  /**
+   * Setup DDEV environment.
+   *
+   * @command ddevsetup
+   * @description Setup DDEV environment with GitHub auth and database.
+   */
+  public function ddevsetup(array $args) {
+    // Detect if we're running inside DDEV container
+    $in_container = getcwd() == '/var/www/html' || getenv('DDEV_PROJECT');
+    
+    if ($in_container) {
+      $this->say("❗️ This command should be run from the host, not inside the DDEV container. ❗️");
+      $this->say("Please exit the container and run: vendor/bin/robo ddevsetup");
+      return;
+    }
+    
+    if ($args) {
+      $token = $args[0];
+      $uid = $args[1];
+    }
+    else {
+      $token = $this->ask("What is your GitHub token: ");
+      $uid = $this->ask("What is your drupal user id: ");
+    }
+    
+    $files = 'web/sites/default/files';
+    $db_backup = 'backups';
+    
+    // Create symlink if needed (DDEV uses 'web' as docroot)
+    if (!file_exists('docroot') && file_exists('web')) {
+      $this->_exec("ln -s web docroot");
+    }
+    
+    // Setup directories and settings
+    $this->_exec("mkdir -p web/sites/default/settings");
+    $this->_exec("cp robo/assets/lando.local.settings.php web/sites/default/settings/local.settings.php");
+    
+    // Generate hash and create .env file
+    $hash = Crypt::randomBytesBase64(55);
+    $this->_exec("echo 'PANTHEON_ENVIRONMENT=local
+DRUPAL_HASH_SALT=$hash
+AMP_UID=$uid
+GITHUB_TOKEN=$token'>.env");
+
+    $this->say("❗️ Environment vars setup, now starting DDEV. ❗️");
+    $this->_exec("ddev start");
+    
+    // Setup GitHub auth in DDEV
+    $this->_exec("echo \"$token\" | ddev exec gh auth login --with-token");
+    $this->_exec("ddev exec composer config --global github-protocols https");
+    $this->_exec("ddev exec composer config -g github-oauth.github.com $token");
+    
+    // Download database if needed
+    if (!file_exists($db_backup)) {
+      $this->_exec("mkdir backups");
+      $this->_exec("ddev exec vendor/bin/robo gh:pulldb");
+    }
+    
+    // Download files if needed
+    if (!file_exists($files)) {
+      $this->_exec("ddev exec vendor/bin/robo gh:pullfiles");
+    }
+    
+    // Import database and deploy
+    $this->_exec("ddev exec vendor/bin/robo did");
+    $this->_exec("ddev exec drush deploy");
+    
+    $this->say("✅ DDEV setup complete! ✅");
   }
 
   /**

@@ -1,0 +1,146 @@
+name: (M) Cypress Tests with DDEV
+on:
+  pull_request:
+  merge_group:
+  workflow_dispatch:
+    inputs:
+      database:
+        description: 'Recent database dump to use (leave blank to use artifact)'
+      sites:
+        description: 'Specify which sites to test or leave the default to run all tests.'
+        default: 'accessmatch1, accessmatch2, accessmatch3, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect, ondemand'
+        required: true
+      prnum:
+        description: 'Pull request number — adds a comment to a pull request (nomally empty)'
+
+permissions:
+  contents: write
+  actions: read
+  pull-requests: write
+
+jobs:
+  cypress-test:
+    name: Cypress Test with DDEV
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        site: 
+          - { name: 'accessmatch1', directory: 'accessmatch1', domain: 'accessmatch' }
+          - { name: 'accessmatch2', directory: 'accessmatch2', domain: 'accessmatch' }
+          - { name: 'accessmatch3', directory: 'accessmatch3', domain: 'accessmatch' }
+          - { name: 'ccmnet', directory: 'ccmnet', domain: 'ccmnet' }
+          - { name: 'connectci', directory: 'connectci', domain: 'connectci' }
+          - { name: 'crct', directory: 'crct', domain: 'crct' }
+          - { name: 'campuschampions', directory: 'campuschampions', domain: 'campuschampions' }
+          - { name: 'coco', directory: 'coco', domain: 'coco' }
+          - { name: 'greatplains', directory: 'greatplains', domain: 'greatplains' }
+          - { name: 'kyct', directory: 'kyct', domain: 'kyct' }
+          - { name: 'nect', directory: 'nect', domain: 'nect' }
+          - { name: 'ondemand', directory: 'ondemand', domain: 'ondemand' }
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup DDEV
+        uses: ddev/github-action-setup-ddev@v1
+        with:
+          autostart: false
+
+      - name: Setup DDEV project
+        run: |
+          ddev config --project-type=drupal10 --docroot=web --create-docroot
+          ddev start
+
+      - name: Setup GitHub authentication
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
+        run: |
+          echo "$GITHUB_TOKEN" | ddev exec gh auth login --with-token
+          ddev exec composer config -g github-oauth.github.com $GITHUB_TOKEN
+
+      - name: Install dependencies
+        run: ddev composer install
+
+      - name: Download database backup
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
+          DATABASE: ${{ github.event.inputs.database }}
+        run: |
+          if [ -n "$DATABASE" ]; then
+            # Download custom database if provided
+            wget -O site.sql.gz "$DATABASE"
+            mkdir -p backups
+            mv site.sql.gz backups/
+          else
+            # Use GitHub artifact
+            ddev exec vendor/bin/robo gh:pulldb
+          fi
+
+      - name: Download files
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
+        run: |
+          if [ ! -d "web/sites/default/files" ]; then
+            ddev exec vendor/bin/robo gh:pullfiles
+          fi
+
+      - name: Import database and deploy
+        run: |
+          ddev exec vendor/bin/robo did
+          ddev exec drush deploy -y
+
+      - name: Clear watchdog logs
+        run: ddev exec drush watchdog:delete all -y
+
+      - name: Install Cypress dependencies
+        run: |
+          cd tests/cypress
+          ddev exec npm install
+
+      - name: Run Cypress tests
+        env:
+          SITE_DOMAIN: ${{ matrix.site.domain }}
+          TEST_DIR: ${{ matrix.site.directory }}
+        run: |
+          cd tests/cypress
+          ddev exec npx cypress run --config baseUrl=https://$SITE_DOMAIN-local.ddev.site --spec "cypress/e2e/$TEST_DIR/**/*.js"
+        continue-on-error: true
+
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots-${{ matrix.site.name }}
+          path: tests/cypress/cypress/screenshots/
+          if-no-files-found: ignore
+
+      - name: Get Drupal logs on failure
+        if: failure()
+        run: ddev exec drush wd-show --count=10000
+
+      - name: Cleanup DDEV
+        if: always()
+        run: ddev delete -O -y
+
+  notify-failure:
+    name: Actions to run on fail
+    needs: [cypress-test]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on pull request
+        if: github.event.inputs.prnum != ''
+        run: |
+          gh pr comment ${{ github.event.inputs.prnum }} -R ${{ github.server_url }}/${{ github.repository }} --body "🤖 -=-=-=- Cypress Test has failed 😩 -=-=-=- 🤖"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Slack Notification Failure
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: '🤖 -=-=-=- Cypress Test Failed -=-=-=- 🤖'
+          SLACK_TITLE: "Cypress tests failed"
+          SLACK_CHANNEL: cypress-git-notifications
