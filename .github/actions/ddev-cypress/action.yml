@@ -18,6 +18,8 @@ inputs:
 
 runs:
   using: 'composite'
+  env:
+    AMP_UID: ${{ secrets.AMP_UID }}
   steps:
     - name: Setup DDEV
       uses: ddev/github-action-setup-ddev@v1
