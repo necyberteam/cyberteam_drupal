@@ -663,7 +663,7 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: none
+        type: tag
         options: {  }
       empty: {  }
       sorts:
@@ -804,6 +804,8 @@ display:
     display_options:
       exposed_block: true
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
     cache_metadata:
       max-age: -1

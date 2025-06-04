@@ -692,6 +692,7 @@ display:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_tags'
+        - flag.flag.affinity_group
   block_1:
     id: block_1
     display_title: 'Affinity Groups with Tag'
@@ -715,6 +716,7 @@ display:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_tags'
+        - flag.flag.affinity_group
   block_2:
     id: block_2
     display_title: 'ASP: Affinity Groups with Tag '
@@ -726,6 +728,13 @@ display:
         options:
           offset: 0
           items_per_page: 3
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       empty:
         area:
           id: area
@@ -742,6 +751,7 @@ display:
           tokenize: false
       defaults:
         empty: false
+        cache: false
         pager: false
         use_more: false
         use_more_always: false
@@ -788,6 +798,7 @@ display:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_tags'
+        - flag.flag.affinity_group
   block_3:
     id: block_3
     display_title: 'AG with Tag: terms'
@@ -831,6 +842,7 @@ display:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_tags'
+        - flag.flag.affinity_group
   page_1:
     id: page_1
     display_title: 'All Affinity Groups with Tag'
@@ -1205,3 +1217,4 @@ display:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_tags'
+        - flag.flag.affinity_group

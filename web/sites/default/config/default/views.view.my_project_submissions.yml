@@ -321,7 +321,7 @@ display:
           role:
             authenticated: authenticated
       cache:
-        type: none
+        type: tag
         options: {  }
       empty: {  }
       sorts: {  }
@@ -660,7 +660,7 @@ display:
           admin_label: ''
           entity_type: webform_submission
           entity_field: uid
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: default
           exception:
             value: all
@@ -686,6 +686,7 @@ display:
           validate_options: {  }
           break_phrase: false
           not: false
+          target_entity_type_id: user
       defaults:
         arguments: false
         header: false
@@ -728,6 +729,8 @@ display:
           view_to_insert: 'my_project_submissions:block_2'
           inherit_arguments: true
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender:
           index: 0
           priority: 0.5
@@ -754,3 +757,4 @@ display:
         - user
         - user.roles
       tags: {  }
+

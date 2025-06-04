@@ -790,7 +790,8 @@ display:
         - 'languages:language_interface'
         - url
         - user
-      tags: {  }
+      tags:
+        - flag.flag.upvote
   block_1:
     id: block_1
     display_title: 'Resources by Tag'
@@ -803,6 +804,13 @@ display:
         options:
           offset: 0
           items_per_page: 3
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       empty:
         area:
           id: area
@@ -911,6 +919,7 @@ display:
           1: AND
       defaults:
         empty: false
+        cache: false
         pager: false
         use_more: false
         use_more_always: false
@@ -1810,7 +1819,8 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - user
-      tags: {  }
+      tags:
+        - flag.flag.upvote
   page_1:
     id: page_1
     display_title: Page
@@ -3097,7 +3107,8 @@ display:
         - 'languages:language_interface'
         - url
         - user
-      tags: {  }
+      tags:
+        - flag.flag.upvote
   page_2:
     id: page_2
     display_title: 'Resources by Tag Page'
@@ -4862,7 +4873,8 @@ display:
         - 'languages:language_interface'
         - url
         - user
-      tags: {  }
+      tags:
+        - flag.flag.upvote
   resource_card:
     id: resource_card
     display_title: 'Resource Card View'
@@ -6072,3 +6084,4 @@ display:
         - user
       tags:
         - 'config:field.storage.node.field_affinity_group'
+        - flag.flag.upvote

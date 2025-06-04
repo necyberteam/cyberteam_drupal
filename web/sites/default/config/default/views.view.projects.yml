@@ -2220,7 +2220,7 @@ display:
         type: none
         options: {  }
       cache:
-        type: none
+        type: tag
         options: {  }
       empty:
         area:
@@ -6453,6 +6453,13 @@ display:
           webform_element_format: value
           webform_multiple_value: true
           webform_multiple_delta: 0
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       empty:
         area:
           id: area
@@ -6641,6 +6648,7 @@ display:
           2: OR
       defaults:
         empty: false
+        cache: false
         fields: false
         arguments: false
         filters: false
@@ -6662,6 +6670,8 @@ display:
             format: full_no_editor
           tokenize: false
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       block_description: 'ProjectsTagPage - CAREERS'
       block_category: ProjectsTagPage
@@ -8786,6 +8796,13 @@ display:
           webform_element_format: value
           webform_multiple_value: true
           webform_multiple_delta: 0
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       empty:
         area:
           id: area
@@ -8974,6 +8991,7 @@ display:
           2: OR
       defaults:
         empty: false
+        cache: false
         fields: false
         arguments: false
         filters: false
@@ -8995,6 +9013,8 @@ display:
             format: full_no_editor
           tokenize: false
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       block_description: 'ProjectsTagPage - Great Plains'
       block_category: ProjectsTagPage
@@ -15785,6 +15805,13 @@ display:
           webform_element_format: value
           webform_multiple_value: true
           webform_multiple_delta: 0
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       empty:
         area:
           id: area
@@ -15973,6 +16000,7 @@ display:
           2: OR
       defaults:
         empty: false
+        cache: false
         fields: false
         arguments: false
         filters: false
@@ -15994,6 +16022,8 @@ display:
             format: full_no_editor
           tokenize: false
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       block_description: 'ProjectsTagPage - Northeast'
       block_category: ProjectsTagPage
