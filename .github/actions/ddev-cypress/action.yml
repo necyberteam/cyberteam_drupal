@@ -33,6 +33,15 @@ runs:
         ddev config --project-type=drupal10 --docroot=web --database=mysql:5.7 --php-version=8.2
         ddev start
 
+    - name: Install Node.js and Cypress dependencies in DDEV
+      shell: bash
+      run: |
+        ddev exec "apt-get update && apt-get install -y ca-certificates curl gnupg && \
+          mkdir -p /etc/apt/keyrings && \
+          curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+          echo 'deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main' | tee /etc/apt/sources.list.d/nodesource.list && \
+          apt-get update && apt-get install -y nodejs libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb"
+
     - name: Setup GitHub authentication
       shell: bash
       env:
@@ -91,7 +100,7 @@ runs:
         DIR: ${{ inputs.directory }}
       run: |
         ddev exec "cd tests/cypress && npm install"
-        ddev exec "cd tests/cypress && npx cypress run --config baseUrl=https://$SITE-local.ddev.site --spec \"cypress/e2e/$DIR/**/*.js\""
+        ddev exec "cd tests/cypress && xvfb-run -a npx cypress run --config baseUrl=https://$SITE-local.ddev.site --spec \"cypress/e2e/$DIR/**/*.js\""
 
     - name: Get Drupal logs on failure
       if: failure()
