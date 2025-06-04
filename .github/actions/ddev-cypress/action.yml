@@ -15,11 +15,14 @@ inputs:
   github_token:
     description: 'GitHub token for authentication'
     required: true
+  amp_uid:
+    description: 'AMP UID for user authentication'
+    required: true
 
 runs:
   using: 'composite'
   env:
-    AMP_UID: ${{ secrets.AMP_UID }}
+    AMP_UID: ${{ inputs.amp_uid }}
   steps:
     - name: Setup DDEV
       uses: ddev/github-action-setup-ddev@v1

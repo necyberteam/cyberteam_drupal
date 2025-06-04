@@ -31,6 +31,7 @@ jobs:
           directory: "accessmatch1"
           database: ${{ github.event.inputs.database }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
 
   accessmatch2:
     name: accessmatch2
@@ -44,6 +45,7 @@ jobs:
           directory: "accessmatch2"
           database: ${{ github.event.inputs.database }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
 
   accessmatch3:
     name: accessmatch3
@@ -57,6 +59,7 @@ jobs:
           directory: "accessmatch3"
           database: ${{ github.event.inputs.database }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
 
   ccmnet:
     name: ccmnet
@@ -70,6 +73,7 @@ jobs:
           directory: "ccmnet"
           database: ${{ github.event.inputs.database }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
 
   connectci:
     name: connectci
@@ -83,6 +87,7 @@ jobs:
           directory: "connectci"
           database: ${{ github.event.inputs.database }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
 
   crct:
     name: crct
@@ -96,6 +101,7 @@ jobs:
           directory: "crct"
           database: ${{ github.event.inputs.database }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
 
   campuschampions:
     name: campuschampions
@@ -109,6 +115,7 @@ jobs:
           directory: "campuschampions"
           database: ${{ github.event.inputs.database }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
 
   coco:
     name: coco
@@ -122,6 +129,7 @@ jobs:
           directory: "coco"
           database: ${{ github.event.inputs.database }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
 
   greatplains:
     name: greatplains
@@ -135,6 +143,7 @@ jobs:
           directory: "greatplains"
           database: ${{ github.event.inputs.database }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
 
   kyct:
     name: kyct
@@ -148,6 +157,7 @@ jobs:
           directory: "kyct"
           database: ${{ github.event.inputs.database }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
 
   nect:
     name: nect
@@ -161,6 +171,7 @@ jobs:
           directory: "nect"
           database: ${{ github.event.inputs.database }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
 
   ondemand:
     name: ondemand
@@ -174,6 +185,7 @@ jobs:
           directory: "ondemand"
           database: ${{ github.event.inputs.database }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
 
   fail:
     name: Actions to run on fail
