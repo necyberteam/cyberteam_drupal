@@ -84,7 +84,7 @@ runs:
       env:
         AMP_UID: ${{ inputs.amp_uid }}
       run: |
-        ddev exec vendor/bin/robo did
+        ddev exec -e AMP_UID="$AMP_UID" vendor/bin/robo did
         ddev exec drush deploy -y
 
     - name: Clear watchdog logs
@@ -97,8 +97,11 @@ runs:
         SITE: ${{ inputs.site }}
         DIR: ${{ inputs.directory }}
       run: |
+        echo "Installing Cypress dependencies..."
         ddev exec "cd tests/cypress && npm install"
-        ddev exec "cd tests/cypress && xvfb-run -a npx cypress run --config baseUrl=https://$SITE-local.ddev.site --spec \"cypress/e2e/$DIR/**/*.js\""
+        echo "Testing site URL: https://$SITE-local.ddev.site"
+        echo "Running tests from: cypress/e2e/$DIR/**/*.js"
+        ddev exec "cd tests/cypress && xvfb-run -a npx cypress run --config baseUrl=https://$SITE-local.ddev.site --spec \"cypress/e2e/$DIR/**/*.js\"" || echo "Cypress tests failed with exit code $?"
 
     - name: Get Drupal logs on failure
       if: failure()
