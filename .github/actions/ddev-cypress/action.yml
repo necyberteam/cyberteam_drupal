@@ -84,7 +84,7 @@ runs:
       env:
         AMP_UID: ${{ inputs.amp_uid }}
       run: |
-        ddev exec -e AMP_UID="$AMP_UID" vendor/bin/robo did
+        ddev exec "AMP_UID=$AMP_UID vendor/bin/robo did"
         ddev exec drush deploy -y
 
     - name: Clear watchdog logs
