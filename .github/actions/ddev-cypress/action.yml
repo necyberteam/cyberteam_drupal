@@ -21,8 +21,6 @@ inputs:
 
 runs:
   using: 'composite'
-  env:
-    AMP_UID: ${{ inputs.amp_uid }}
   steps:
     - name: Setup DDEV
       uses: ddev/github-action-setup-ddev@v1
@@ -52,6 +50,7 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
         DATABASE: ${{ inputs.database }}
+        AMP_UID: ${{ inputs.amp_uid }}
       run: |
         if [ -n "$DATABASE" ]; then
           echo "Downloading custom database: $DATABASE"
@@ -67,6 +66,7 @@ runs:
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
+        AMP_UID: ${{ inputs.amp_uid }}
       run: |
         if [ ! -d "web/sites/default/files" ]; then
           ddev exec vendor/bin/robo gh:pullfiles
@@ -74,6 +74,8 @@ runs:
 
     - name: Import database and deploy
       shell: bash
+      env:
+        AMP_UID: ${{ inputs.amp_uid }}
       run: |
         ddev exec vendor/bin/robo did
         ddev exec drush deploy -y
