@@ -90,9 +90,8 @@ runs:
         SITE: ${{ inputs.site }}
         DIR: ${{ inputs.directory }}
       run: |
-        cd tests/cypress
-        ddev exec npm install
-        ddev exec npx cypress run --config baseUrl=https://$SITE-local.ddev.site --spec "cypress/e2e/$DIR/**/*.js"
+        ddev exec "cd tests/cypress && npm install"
+        ddev exec "cd tests/cypress && npx cypress run --config baseUrl=https://$SITE-local.ddev.site --spec \"cypress/e2e/$DIR/**/*.js\""
 
     - name: Get Drupal logs on failure
       if: failure()
