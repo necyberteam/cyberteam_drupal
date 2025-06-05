@@ -5,10 +5,10 @@ dir=${PWD}
 sleep 30
 
 # Add Lando
-echo '>>> Add lando'
-sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-$(cat .github/lando_version.md)"
-echo '>>> Chmod lando'
-sudo chmod +x /usr/local/bin/lando
+echo '>>> Downloading lando from GitHub releases'
+curl -fsSL -o lando.deb "https://github.com/lando/lando/releases/latest/download/lando-x64.deb"
+sudo dpkg -i lando.deb
+rm lando.deb
 
 # Install composer
 echo '>>> composer install'
