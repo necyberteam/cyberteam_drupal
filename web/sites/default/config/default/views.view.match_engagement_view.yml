@@ -633,7 +633,7 @@ display:
     display_plugin: block
     position: 2
     display_options:
-      title: 'Featured MATCH Engagements'
+      title: 'Example Engagements'
       pager:
         type: some
         options:
@@ -805,6 +805,7 @@ display:
         filters: false
         filter_groups: false
         header: false
+        footer: false
       group_by: true
       display_description: ''
       use_more: false
@@ -821,10 +822,13 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: "<div id=\"engagements\" class=\"flex items-center\">\r\n<svg width=\"25\" height=\"25\" class=\"me-4\">\r\n  <rect width=\"25\" height=\"25\" style=\"fill:rgb(240,117,55);stroke-width:3\" />\r\n</svg>\r\n<h2 class=\"m-0\">MATCH Engagements</h2>\r\n</div>\r\n<p class=\"my-5 text-xl\">Find out about the ACCESS MATCH Engagements and if you want to get involved use the “I’m interested” button on recruiting engagements.</p>"
+            value: "<div id=\"engagements\" class=\"flex items-center mb-5\">\r\n<svg width=\"25\" height=\"25\" class=\"me-4\">\r\n  <rect width=\"25\" height=\"25\" style=\"fill:rgb(240,117,55);stroke-width:3\" />\r\n</svg>\r\n<h2 class=\"m-0\">Example Engagements</h2>\r\n</div>"
             format: full_no_editor
           tokenize: false
-      display_extenders: {  }
+      footer: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
     cache_metadata:
       max-age: -1
       contexts:
