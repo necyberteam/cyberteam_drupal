@@ -123,11 +123,25 @@ runs:
         sudo apt-get update
         sudo apt-get install -y google-chrome-stable
 
+    - name: Verify site accessibility
+      shell: bash
+      env:
+        SITE: ${{ inputs.site }}
+        TERM: xterm
+      run: |
+        echo "Checking DDEV status..."
+        ddev status
+        echo "Testing site accessibility at https://$SITE-local.ddev.site"
+        curl -I "https://$SITE-local.ddev.site" || echo "Site not accessible"
+        echo "DDEV describe output:"
+        ddev describe
+
     - name: Run Cypress tests
       shell: bash
       env:
         SITE: ${{ inputs.site }}
         DIR: ${{ inputs.directory }}
+        TERM: xterm
       run: |
         cd tests/cypress
         echo "Testing site URL: https://$SITE-local.ddev.site"
