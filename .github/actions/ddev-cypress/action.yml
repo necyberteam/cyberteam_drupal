@@ -23,60 +23,70 @@ runs:
   using: 'composite'
   steps:
     - name: Setup DDEV
-      uses: ddev/github-action-setup-ddev@v1
+      shell: bash
+      run: |
+        echo 'docker compose --compatibility "$@"' > /usr/local/bin/docker-compose
+        chmod +x /usr/local/bin/docker-compose
+        echo ">>> Installing DDEV..."
+        curl -fsSL https://apt.fury.io/drud/gpg.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/ddev.gpg > /dev/null
+        echo "deb [signed-by=/etc/apt/trusted.gpg.d/ddev.gpg] https://apt.fury.io/drud/ * *" | sudo tee /etc/apt/sources.list.d/ddev.list
+        sudo apt-get update && sudo apt-get install -y ddev
+        ddev config global --instrumentation-opt-in=false
+        ddev --version
+        mkcert -install
+
+    - name: Validate composer files
+      shell: bash
+      run: composer validate --strict
+
+    - name: Cache Composer dependencies
+      uses: actions/cache@v4
       with:
-        autostart: false
+        path: |
+          ~/.composer/cache
+          vendor
+        key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+        restore-keys: |
+          composer-${{ runner.os }}-
 
-    - name: Configure DDEV project
-      shell: bash
-      run: |
-        ddev config --project-type=drupal10 --docroot=web --database=mysql:5.7 --php-version=8.2
-        ddev start
-
-    - name: Install Node.js and Cypress dependencies in DDEV
-      shell: bash
-      run: |
-        ddev exec "curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -"
-        ddev exec "sudo apt-get install -y nodejs"
-        ddev exec "sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb"
-
-    - name: Setup GitHub authentication
+    - name: Install dependencies on host
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
       run: |
-        echo "$GITHUB_TOKEN" | ddev exec gh auth login --with-token
-        ddev exec composer config -g github-oauth.github.com $GITHUB_TOKEN
+        composer config -g github-oauth.github.com $GITHUB_TOKEN
+        composer install --ignore-platform-reqs --prefer-dist --no-dev --optimize-autoloader
 
-    - name: Install dependencies
+    - name: Configure and start DDEV
       shell: bash
-      run: ddev composer install
+      run: |
+        ddev config --project-type=drupal10 --docroot=web --database=mysql:8.0 --php-version=8.2
+        ddev start
 
-    - name: Download and import database
+    - name: Download database
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
         DATABASE: ${{ inputs.database }}
-        AMP_UID: ${{ inputs.amp_uid }}
       run: |
+        mkdir -p backups
         if [ -n "$DATABASE" ]; then
           echo "Downloading custom database: $DATABASE"
-          wget -O site.sql.gz "$DATABASE"
-          mkdir -p backups
-          mv site.sql.gz backups/
+          wget -O backups/site.sql.gz "$DATABASE"
         else
           echo "Using GitHub artifact database"
-          ddev exec vendor/bin/robo gh:pulldb
+          gh auth status
+          vendor/bin/robo gh:pulldb
         fi
 
     - name: Download files if needed
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
-        AMP_UID: ${{ inputs.amp_uid }}
       run: |
         if [ ! -d "web/sites/default/files" ]; then
-          ddev exec vendor/bin/robo gh:pullfiles
+          gh auth status
+          vendor/bin/robo gh:pullfiles
         fi
 
     - name: Import database and deploy
@@ -84,29 +94,59 @@ runs:
       env:
         AMP_UID: ${{ inputs.amp_uid }}
       run: |
-        ddev exec "AMP_UID=$AMP_UID vendor/bin/robo did"
-        ddev exec drush deploy -y
+        # Use DDEV's fast database import
+        ddev import-db backups/site.sql.gz
+        # Run post-import setup (equivalent to robo did without db import)
+        ddev drush deploy -y
+        ddev drush cim -y
+        ddev drush cr
 
     - name: Clear watchdog logs
       shell: bash
-      run: ddev exec drush watchdog:delete all -y
+      run: ddev drush watchdog:delete all -y
 
-    - name: Install Cypress and run tests
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: tests/cypress/package-lock.json
+
+    - name: Install Cypress dependencies
+      shell: bash
+      run: |
+        cd tests/cypress
+        npm ci
+
+    - name: Install Cypress system dependencies
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+
+    - name: Run Cypress tests
       shell: bash
       env:
         SITE: ${{ inputs.site }}
         DIR: ${{ inputs.directory }}
       run: |
-        echo "Installing Cypress dependencies..."
-        ddev exec "cd tests/cypress && npm install"
+        cd tests/cypress
         echo "Testing site URL: https://$SITE-local.ddev.site"
         echo "Running tests from: cypress/e2e/$DIR/**/*.js"
-        ddev exec "cd tests/cypress && xvfb-run -a npx cypress run --config baseUrl=https://$SITE-local.ddev.site --spec \"cypress/e2e/$DIR/**/*.js\"" || echo "Cypress tests failed with exit code $?"
+        xvfb-run -a npx cypress run --config baseUrl=https://$SITE-local.ddev.site --spec "cypress/e2e/$DIR/**/*.js"
+
+    - name: Upload screenshots on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: cypress-screenshots-${{ inputs.site }}-${{ inputs.directory }}
+        path: tests/cypress/cypress/screenshots/
+        if-no-files-found: ignore
 
     - name: Get Drupal logs on failure
       if: failure()
       shell: bash
-      run: ddev exec drush wd-show --count=10000
+      run: ddev drush wd-show --count=10000
 
     - name: Cleanup DDEV
       if: always()
