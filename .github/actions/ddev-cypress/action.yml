@@ -89,7 +89,7 @@ runs:
         AMP_UID: ${{ inputs.amp_uid }}
       run: |
         # Use DDEV's fast database import
-        ddev import-db backups/site.sql.gz
+        ddev import-db --src=backups/site.sql.gz
         # Run post-import setup (equivalent to robo did without db import)
         ddev drush deploy -y
         ddev drush cim -y
