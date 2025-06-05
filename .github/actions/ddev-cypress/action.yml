@@ -39,29 +39,23 @@ runs:
       shell: bash
       run: composer validate --strict
 
-    - name: Cache Composer dependencies
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.composer/cache
-          vendor
-        key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
-        restore-keys: |
-          composer-${{ runner.os }}-
-
-    - name: Install dependencies on host
-      shell: bash
-      env:
-        GITHUB_TOKEN: ${{ inputs.github_token }}
-      run: |
-        composer config -g github-oauth.github.com $GITHUB_TOKEN
-        composer install --ignore-platform-reqs --prefer-dist --no-dev --optimize-autoloader
-
     - name: Configure and start DDEV
       shell: bash
       run: |
         ddev config --project-type=drupal10 --docroot=web --database=mysql:8.0 --php-version=8.2
         ddev start
+
+    - name: Setup GitHub authentication for DDEV
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      run: |
+        echo "$GITHUB_TOKEN" | ddev exec gh auth login --with-token
+        ddev exec composer config -g github-oauth.github.com $GITHUB_TOKEN
+
+    - name: Install dependencies in DDEV
+      shell: bash
+      run: ddev composer install --no-dev --optimize-autoloader
 
     - name: Download database
       shell: bash
