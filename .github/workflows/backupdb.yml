@@ -42,7 +42,7 @@ jobs:
 
       - name: Sanitize backup
         run: |
-          lando drush sql-sanitize --sanitize-password=y -y
+          lando drush sql-sanitize --allowlist-fields=field_constant_contact_id --sanitize-password=y -y
           lando drush cim
           lando drush cr
           lando drush updb

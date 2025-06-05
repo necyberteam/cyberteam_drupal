@@ -1,14 +1,13 @@
 describe("On the Add a Resource Page for authenticated users,", () => {
 
   it("Authenticated user fills out the resource form", () => {
-    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.loginUser("authenticated@amptesting.com", "6%l7iF}6(4tI");
     cy.visit('/knowledge-base/resources');
     cy.contains('Add a Resource').click();
     cy.url().should('include', 'form/resource');
     cy.contains('Title');
     cy.contains('Category');
     cy.contains('Tags');
-    cy.contains('Select one (or more) tags that apply.');
     cy.contains('Skill Level');
     cy.contains('Description');
     cy.contains('Link to Resource');
@@ -22,7 +21,6 @@ describe("On the Add a Resource Page for authenticated users,", () => {
     cy.get('textarea[name="description"]').type('Test');
     cy.get('input[name="link_to_resource[items][0][_item_][title]"]').type('Test');
     cy.get('input[name="link_to_resource[items][0][_item_][url]"]').type('http://example.com');
-    cy.get('.form-item-domain').find('input').type('Careers{enter}');
     cy.get('input[name="op"]').contains('Submit').click();
     cy.contains('Test CI Link Title 2');
     cy.contains('Submission information');

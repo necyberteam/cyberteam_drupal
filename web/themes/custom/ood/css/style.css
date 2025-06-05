@@ -111,6 +111,15 @@ body {
     margin: 0 auto;
   }
 
+  @media (max-width: 992px) {
+    #secondaryNavbarResponsive {
+      font-size: 0.8rem;
+    }
+
+    #secondaryNavbarResponsive .top-left-menu {
+      width: 50% !important;
+    }
+  }
   @media (min-width: 768px) {
     .cilogon-auth-login-form {
       -ms-flex: 0 0 66.666667%;
@@ -155,14 +164,21 @@ body {
       align-items: center;
     }
 
-    .nav-item:not(:first-of-type) {
-      display: none;
-    }
     @media screen and (min-width: 1024px) {
       .nav-item {
         display: flex !important;
       }
     }
+  }
+
+  #secondaryNavbarResponsive .top-left-menu .nav-item:not(:first-of-type) {
+    display: none;
+  }
+
+  #block-ood-account-menu .navbar-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
   }
 
   #secondaryNav.navbar .nav-item .nav-link {
@@ -180,6 +196,7 @@ body {
 
     .top-left-menu {
       position: relative;
+      justify-content: flex-start;
       background-color: #000;
       padding: .5rem 1rem;
       width: 75%;
@@ -221,8 +238,17 @@ body {
     .navbar-nav {
       padding: .5rem 1rem;
       a {
-        font-size: .7em;
+        font-size: 0.8rem;
         color: #000;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .navbar-nav a {
+        font-size: 0.7rem;
+        i.bi {
+          display: none;
+        }
       }
     }
   }
@@ -327,6 +353,7 @@ body {
     h2 {
       max-width: 1140px;
       font-size: 1.8em;
+      line-height: 1.1;
       text-align: left;
       margin: 0 auto;
     }
@@ -337,6 +364,10 @@ body {
   }
 
   @media screen and (min-width: 1024px) {
+    .masthead {
+      max-height: 100px;
+    }
+
     [id="block-ood-page-title"]:after,
     .masthead:after {
       content: "";
@@ -383,6 +414,7 @@ body {
 
   .layout__region--second .bg-md-teal h2 {
     color: var(--ood-red);
+    border-bottom: 0px !important;
   }
 
   .layout__region--second .bg-md-teal .alert {
@@ -496,8 +528,91 @@ body {
   border-color: #232323;
 }
 
+.page-events,
+.page-events-past {
+  .views-field-date-1 {
+    max-width: fit-content;
+  }
+  .border-dark-teal {
+    border-color: #232323 !important;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+  }
+  .grid-flow-col {
+    grid-auto-flow: column;
+  }
+  .gap-1 {
+    gap: 0.25rem;
+  }
+  .row-span-4 {
+    grid-row: span 4 / span 4;
+  }
+  .border-b {
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+  }
+  .border-solid {
+    border-style: solid;
+  }
+  .text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+}
+
+[id="block-ood-eventinstancesidebar"] {
+  .field__label {
+    margin-top: 1.6em;
+  }
+  .my-6 {
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+  }
+}
+
+.page-events span.event-tags,
+.page-events-past span.event-tags {
+  display: flex;
+  flex-wrap: wrap;
+
+  a {
+    margin-top: 0.5em;
+    border-color: #232323 !important;
+  }
+}
+
+.field__label {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.75rem;
+  margin-top: 1.5rem;
+}
+
+#views-exposed-form-recurring-events-registrations-event-registrant-list {
+  display: flex;
+  align-items: center;
+
+  > div {
+    margin-right: 1em;
+  }
+
+  #edit-actions {
+    margin-top: 1.2em;
+  }
+}
+
 form label,
 .form-item .label,
 form #tag-suggestions strong {
   font-family: "Source Sans 3", sans-serif;
 }
+
+#block-ood-views-block-badges-block-1 img {
+   width: 120px;
+   height: auto;
+   margin: 1.5rem 0 0.75rem 0;
+ }
