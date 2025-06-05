@@ -70,7 +70,7 @@ runs:
         else
           echo "Using GitHub artifact database"
           gh auth status
-          vendor/bin/robo gh:pulldb
+          ddev exec vendor/bin/robo gh:pulldb
         fi
 
     - name: Download files if needed
@@ -80,7 +80,7 @@ runs:
       run: |
         if [ ! -d "web/sites/default/files" ]; then
           gh auth status
-          vendor/bin/robo gh:pullfiles
+          ddev exec vendor/bin/robo gh:pullfiles
         fi
 
     - name: Import database and deploy
@@ -140,7 +140,9 @@ runs:
     - name: Get Drupal logs on failure
       if: failure()
       shell: bash
-      run: ddev drush wd-show --count=10000
+      run: |
+        echo "Attempting to get Drupal logs..."
+        ddev drush wd-show --count=10000 || echo "Could not retrieve Drupal logs (Drupal may not be fully set up)"
 
     - name: Cleanup DDEV
       if: always()
