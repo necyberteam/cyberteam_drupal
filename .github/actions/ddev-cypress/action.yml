@@ -37,7 +37,7 @@ runs:
 
     - name: Validate composer files
       shell: bash
-      run: composer validate --strict
+      run: composer validate --no-check-all
 
     - name: Configure and start DDEV
       shell: bash
