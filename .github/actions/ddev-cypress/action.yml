@@ -100,6 +100,8 @@ runs:
         # Run post-import setup (equivalent to robo did without db import)
         ddev drush deploy -y
         ddev drush cim -y
+        # Enable maillog module for testing
+        ddev drush en maillog -y
         ddev drush cr
 
     - name: Clear watchdog logs
