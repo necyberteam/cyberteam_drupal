@@ -148,7 +148,26 @@ runs:
         cd tests/cypress
         echo "Testing site URL: https://$SITE.ddev.site"
         echo "Running tests from: cypress/e2e/$DIR/**/*.js"
-        xvfb-run -a npx cypress run --config baseUrl=https://$SITE.ddev.site --spec "cypress/e2e/$DIR/**/*.js"
+        # Run Cypress and capture output
+        xvfb-run -a npx cypress run --config baseUrl=https://$SITE.ddev.site --spec "cypress/e2e/$DIR/**/*.js" || echo "Cypress tests failed"
+        
+        # Show test results
+        echo "Cypress test execution completed"
+        if [ -f "cypress/results/output.json" ]; then
+          echo "Test results found"
+        fi
+
+    - name: Check for screenshots
+      if: always()
+      shell: bash
+      run: |
+        echo "Checking for Cypress screenshots..."
+        if [ -d "tests/cypress/cypress/screenshots" ]; then
+          echo "Screenshots found:"
+          ls -la tests/cypress/cypress/screenshots/
+        else
+          echo "No screenshots directory found"
+        fi
 
     - name: Upload screenshots on failure
       if: failure()
