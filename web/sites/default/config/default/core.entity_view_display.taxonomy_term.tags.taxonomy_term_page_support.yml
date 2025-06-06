@@ -1,11 +1,12 @@
-uuid: bde08341-df5c-441a-8529-bec38d9f62d0
+uuid: d6df5875-4684-4274-b21b-c335931e8ee9
 langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.taxonomy_term.full
+    - core.entity_view_mode.taxonomy_term.taxonomy_term_page_support
     - taxonomy.vocabulary.tags
     - views.view.affinity_groups_with_tag
+    - views.view.match_engagement_view
     - views.view.people_with_expertise_tags
     - views.view.people_with_interest_tags
     - views.view.recurring_events_event_instances
@@ -27,8 +28,8 @@ third_party_settings:
         layout_settings:
           label: ''
         components:
-          a36119e5-6c41-4585-980f-5307ccf12d5c:
-            uuid: a36119e5-6c41-4585-980f-5307ccf12d5c
+          9945557b-7173-42b7-b8ea-24f94a86d657:
+            uuid: 9945557b-7173-42b7-b8ea-24f94a86d657
             region: content
             configuration:
               id: 'field_block:taxonomy_term:tags:description'
@@ -40,13 +41,13 @@ third_party_settings:
                 label: hidden
                 settings: {  }
                 third_party_settings: {  }
-            weight: 3
+            weight: 0
             additional: {  }
-          540be458-c394-4e5f-b293-61c2710de476:
-            uuid: 540be458-c394-4e5f-b293-61c2710de476
+          0ccba284-7d65-4b78-812e-0a769392c382:
+            uuid: 0ccba284-7d65-4b78-812e-0a769392c382
             region: content
             configuration:
-              id: 'views_block:affinity_groups_with_tag-block_2'
+              id: 'views_block:affinity_groups_with_tag-block_1'
               label: ''
               label_display: '0'
               provider: views
@@ -54,13 +55,13 @@ third_party_settings:
               views_label: ''
               items_per_page: none
               exposed: {  }
-            weight: 4
+            weight: 1
             additional:
               layout_builder_styles_style:
-                __div_h_full: 0
                 accordion_wrapper: 0
                 bg_light_teal: 0
                 mb_10: 0
+                mb_3: 0
                 mb_5: 0
                 md_teal_box: 0
                 page_title: 0
@@ -68,11 +69,12 @@ third_party_settings:
                 pe_3: 0
                 pt_4: 0
                 tags: 0
+                __div_h_full: 0
         third_party_settings: {  }
       -
         layout_id: layout_twocol_section
         layout_settings:
-          label: 'Split Section'
+          label: ''
           context_mapping: {  }
           column_widths: 50-50
           layout_builder_styles_style:
@@ -80,11 +82,17 @@ third_party_settings:
             border_b_2: 0
             border_gray: 0
             mb_10_section: 0
+            md_order_1: 0
+            md_order_2: 0
+            mobile_row_reverse: 0
             mt_4_section: 0
+            order_1: 0
+            order_2: 0
             pt_20: 0
+            _layout__region_second_order_1: 0
         components:
-          63f8519c-0ce7-4ac2-b114-ea7a4a247f24:
-            uuid: 63f8519c-0ce7-4ac2-b114-ea7a4a247f24
+          bf69b7f1-d23a-40a4-9093-758e4f7a3df4:
+            uuid: bf69b7f1-d23a-40a4-9093-758e4f7a3df4
             region: first
             configuration:
               id: 'views_block:tagged_news_block-block_1'
@@ -101,6 +109,7 @@ third_party_settings:
                 accordion_wrapper: 0
                 bg_light_teal: 0
                 mb_10: 0
+                mb_3: 0
                 mb_5: 0
                 md_teal_box: 0
                 page_title: 0
@@ -109,8 +118,8 @@ third_party_settings:
                 pt_4: 0
                 tags: 0
                 __div_h_full: 0
-          352b87b5-18f0-4084-bc63-389a643ef375:
-            uuid: 352b87b5-18f0-4084-bc63-389a643ef375
+          f3f280c1-d3ab-4c7a-8ac3-c324aae4d9c0:
+            uuid: f3f280c1-d3ab-4c7a-8ac3-c324aae4d9c0
             region: second
             configuration:
               id: 'views_block:recurring_events_event_instances-block_3'
@@ -127,6 +136,7 @@ third_party_settings:
                 accordion_wrapper: 0
                 bg_light_teal: 0
                 mb_10: 0
+                mb_3: 0
                 mb_5: 0
                 md_teal_box: 0
                 page_title: 0
@@ -146,89 +156,17 @@ third_party_settings:
             border_b_2: 0
             border_gray: 0
             mb_10_section: 0
+            md_order_1: 0
+            md_order_2: 0
+            mobile_row_reverse: 0
             mt_4_section: 0
+            order_1: 0
+            order_2: 0
             pt_20: 0
+            _layout__region_second_order_1: 0
         components:
-          d9b9ced4-6d06-40b4-aad4-a7d77b18ace8:
-            uuid: d9b9ced4-6d06-40b4-aad4-a7d77b18ace8
-            region: content
-            configuration:
-              id: 'views_block:resources-block_1'
-              label: ''
-              label_display: '0'
-              provider: views
-              context_mapping: {  }
-              views_label: ''
-              items_per_page: none
-              exposed: {  }
-            weight: 1
-            additional:
-              layout_builder_styles_style:
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-                __div_h_full: 0
-          58479c34-fc9f-40ba-ba74-21b5c6d187e9:
-            uuid: 58479c34-fc9f-40ba-ba74-21b5c6d187e9
-            region: content
-            configuration:
-              id: 'views_block:people_with_expertise_tags-block_1'
-              label: ''
-              label_display: '0'
-              provider: views
-              context_mapping: {  }
-              views_label: ''
-              items_per_page: none
-              exposed: {  }
-            weight: 3
-            additional:
-              layout_builder_styles_style:
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-                __div_h_full: 0
-          01cddcda-22ab-4631-ae76-2d2fbddd68a9:
-            uuid: 01cddcda-22ab-4631-ae76-2d2fbddd68a9
-            region: content
-            configuration:
-              id: 'views_block:people_with_interest_tags-block_1'
-              label: ''
-              label_display: '0'
-              provider: views
-              context_mapping: {  }
-              views_label: ''
-              items_per_page: none
-              exposed: {  }
-            weight: 4
-            additional:
-              layout_builder_styles_style:
-                __div_h_full: 0
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-          b1b73303-4a12-49b7-99d6-03274fc7dc60:
-            uuid: b1b73303-4a12-49b7-99d6-03274fc7dc60
+          166a5f5d-5891-42c8-9790-7fe820d63ff3:
+            uuid: 166a5f5d-5891-42c8-9790-7fe820d63ff3
             region: content
             configuration:
               id: 'views_block:term_from_ask_ci-block_1'
@@ -245,6 +183,115 @@ third_party_settings:
                 accordion_wrapper: 0
                 bg_light_teal: 0
                 mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          bb0ee99c-1c49-4206-a10d-cd45d9be830e:
+            uuid: bb0ee99c-1c49-4206-a10d-cd45d9be830e
+            region: content
+            configuration:
+              id: 'views_block:resources-block_1'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 1
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          c325fa65-bb51-433e-8d40-363c92ac31bf:
+            uuid: c325fa65-bb51-433e-8d40-363c92ac31bf
+            region: content
+            configuration:
+              id: 'views_block:match_engagement_view-block_6'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 2
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          266f693b-c866-4b14-93f1-54522d3c64b2:
+            uuid: 266f693b-c866-4b14-93f1-54522d3c64b2
+            region: content
+            configuration:
+              id: 'views_block:people_with_expertise_tags-block_1'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 3
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          0a08ae12-f287-4bc7-88da-fd56d1792cac:
+            uuid: 0a08ae12-f287-4bc7-88da-fd56d1792cac
+            region: content
+            configuration:
+              id: 'views_block:people_with_interest_tags-block_1'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 4
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
                 mb_5: 0
                 md_teal_box: 0
                 page_title: 0
@@ -254,10 +301,10 @@ third_party_settings:
                 tags: 0
                 __div_h_full: 0
         third_party_settings: {  }
-id: taxonomy_term.tags.full
+id: taxonomy_term.tags.taxonomy_term_page_support
 targetEntityType: taxonomy_term
 bundle: tags
-mode: full
+mode: taxonomy_term_page_support
 content:
   description:
     type: text_default
@@ -266,7 +313,15 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
+  flag_interest:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  flag_skill:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
 hidden:
-  flag_interest: true
-  flag_skill: true
   search_api_excerpt: true

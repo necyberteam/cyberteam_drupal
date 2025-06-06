@@ -586,7 +586,7 @@ display:
           query_tags: {  }
           contextual_filters_or: false
       relationships: {  }
-      css_class: py-4
+      css_class: 'py-4 access-support'
       use_more: false
       use_more_always: true
       use_more_text: more
@@ -1677,7 +1677,9 @@ display:
             format: full_no_editor
           tokenize: false
       footer: {  }
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
       block_description: 'Engagements by Tag'
     cache_metadata:
       max-age: -1

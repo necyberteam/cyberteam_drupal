@@ -1,9 +1,9 @@
-uuid: bde08341-df5c-441a-8529-bec38d9f62d0
+uuid: cc375718-9fee-4b32-acc5-95645f8bbcab
 langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.taxonomy_term.full
+    - core.entity_view_mode.taxonomy_term.taxonomy_term_page_open_ondemand
     - taxonomy.vocabulary.tags
     - views.view.affinity_groups_with_tag
     - views.view.people_with_expertise_tags
@@ -11,7 +11,6 @@ dependencies:
     - views.view.recurring_events_event_instances
     - views.view.resources
     - views.view.tagged_news_block
-    - views.view.term_from_ask_ci
   module:
     - layout_builder
     - layout_discovery
@@ -27,8 +26,8 @@ third_party_settings:
         layout_settings:
           label: ''
         components:
-          a36119e5-6c41-4585-980f-5307ccf12d5c:
-            uuid: a36119e5-6c41-4585-980f-5307ccf12d5c
+          01c00002-396e-4c86-a408-981e5a55fdb8:
+            uuid: 01c00002-396e-4c86-a408-981e5a55fdb8
             region: content
             configuration:
               id: 'field_block:taxonomy_term:tags:description'
@@ -40,13 +39,13 @@ third_party_settings:
                 label: hidden
                 settings: {  }
                 third_party_settings: {  }
-            weight: 3
+            weight: 0
             additional: {  }
-          540be458-c394-4e5f-b293-61c2710de476:
-            uuid: 540be458-c394-4e5f-b293-61c2710de476
+          3a12dfa3-555d-4a1d-ae20-5a1378ae29b9:
+            uuid: 3a12dfa3-555d-4a1d-ae20-5a1378ae29b9
             region: content
             configuration:
-              id: 'views_block:affinity_groups_with_tag-block_2'
+              id: 'views_block:affinity_groups_with_tag-block_1'
               label: ''
               label_display: '0'
               provider: views
@@ -54,13 +53,13 @@ third_party_settings:
               views_label: ''
               items_per_page: none
               exposed: {  }
-            weight: 4
+            weight: 1
             additional:
               layout_builder_styles_style:
-                __div_h_full: 0
                 accordion_wrapper: 0
                 bg_light_teal: 0
                 mb_10: 0
+                mb_3: 0
                 mb_5: 0
                 md_teal_box: 0
                 page_title: 0
@@ -68,11 +67,12 @@ third_party_settings:
                 pe_3: 0
                 pt_4: 0
                 tags: 0
+                __div_h_full: 0
         third_party_settings: {  }
       -
         layout_id: layout_twocol_section
         layout_settings:
-          label: 'Split Section'
+          label: ''
           context_mapping: {  }
           column_widths: 50-50
           layout_builder_styles_style:
@@ -80,11 +80,17 @@ third_party_settings:
             border_b_2: 0
             border_gray: 0
             mb_10_section: 0
+            md_order_1: 0
+            md_order_2: 0
+            mobile_row_reverse: 0
             mt_4_section: 0
+            order_1: 0
+            order_2: 0
             pt_20: 0
+            _layout__region_second_order_1: 0
         components:
-          63f8519c-0ce7-4ac2-b114-ea7a4a247f24:
-            uuid: 63f8519c-0ce7-4ac2-b114-ea7a4a247f24
+          648e9e9e-1d21-4cf1-a40e-11488bf59972:
+            uuid: 648e9e9e-1d21-4cf1-a40e-11488bf59972
             region: first
             configuration:
               id: 'views_block:tagged_news_block-block_1'
@@ -101,6 +107,7 @@ third_party_settings:
                 accordion_wrapper: 0
                 bg_light_teal: 0
                 mb_10: 0
+                mb_3: 0
                 mb_5: 0
                 md_teal_box: 0
                 page_title: 0
@@ -109,8 +116,8 @@ third_party_settings:
                 pt_4: 0
                 tags: 0
                 __div_h_full: 0
-          352b87b5-18f0-4084-bc63-389a643ef375:
-            uuid: 352b87b5-18f0-4084-bc63-389a643ef375
+          925b2be7-be09-4b92-becd-a1eec2484999:
+            uuid: 925b2be7-be09-4b92-becd-a1eec2484999
             region: second
             configuration:
               id: 'views_block:recurring_events_event_instances-block_3'
@@ -127,6 +134,7 @@ third_party_settings:
                 accordion_wrapper: 0
                 bg_light_teal: 0
                 mb_10: 0
+                mb_3: 0
                 mb_5: 0
                 md_teal_box: 0
                 page_title: 0
@@ -146,92 +154,20 @@ third_party_settings:
             border_b_2: 0
             border_gray: 0
             mb_10_section: 0
+            md_order_1: 0
+            md_order_2: 0
+            mobile_row_reverse: 0
             mt_4_section: 0
+            order_1: 0
+            order_2: 0
             pt_20: 0
+            _layout__region_second_order_1: 0
         components:
-          d9b9ced4-6d06-40b4-aad4-a7d77b18ace8:
-            uuid: d9b9ced4-6d06-40b4-aad4-a7d77b18ace8
+          5f47a676-16e3-4559-a15a-aff316222cff:
+            uuid: 5f47a676-16e3-4559-a15a-aff316222cff
             region: content
             configuration:
               id: 'views_block:resources-block_1'
-              label: ''
-              label_display: '0'
-              provider: views
-              context_mapping: {  }
-              views_label: ''
-              items_per_page: none
-              exposed: {  }
-            weight: 1
-            additional:
-              layout_builder_styles_style:
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-                __div_h_full: 0
-          58479c34-fc9f-40ba-ba74-21b5c6d187e9:
-            uuid: 58479c34-fc9f-40ba-ba74-21b5c6d187e9
-            region: content
-            configuration:
-              id: 'views_block:people_with_expertise_tags-block_1'
-              label: ''
-              label_display: '0'
-              provider: views
-              context_mapping: {  }
-              views_label: ''
-              items_per_page: none
-              exposed: {  }
-            weight: 3
-            additional:
-              layout_builder_styles_style:
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-                __div_h_full: 0
-          01cddcda-22ab-4631-ae76-2d2fbddd68a9:
-            uuid: 01cddcda-22ab-4631-ae76-2d2fbddd68a9
-            region: content
-            configuration:
-              id: 'views_block:people_with_interest_tags-block_1'
-              label: ''
-              label_display: '0'
-              provider: views
-              context_mapping: {  }
-              views_label: ''
-              items_per_page: none
-              exposed: {  }
-            weight: 4
-            additional:
-              layout_builder_styles_style:
-                __div_h_full: 0
-                accordion_wrapper: 0
-                bg_light_teal: 0
-                mb_10: 0
-                mb_5: 0
-                md_teal_box: 0
-                page_title: 0
-                pb_4: 0
-                pe_3: 0
-                pt_4: 0
-                tags: 0
-          b1b73303-4a12-49b7-99d6-03274fc7dc60:
-            uuid: b1b73303-4a12-49b7-99d6-03274fc7dc60
-            region: content
-            configuration:
-              id: 'views_block:term_from_ask_ci-block_1'
               label: ''
               label_display: '0'
               provider: views
@@ -245,6 +181,61 @@ third_party_settings:
                 accordion_wrapper: 0
                 bg_light_teal: 0
                 mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          ba036274-3b4d-43a1-8a50-a6c1c243bb21:
+            uuid: ba036274-3b4d-43a1-8a50-a6c1c243bb21
+            region: content
+            configuration:
+              id: 'views_block:people_with_expertise_tags-block_1'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 2
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          f3e2f11f-ba6c-4d37-b24f-04e859e7d96c:
+            uuid: f3e2f11f-ba6c-4d37-b24f-04e859e7d96c
+            region: content
+            configuration:
+              id: 'views_block:people_with_interest_tags-block_1'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 3
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
                 mb_5: 0
                 md_teal_box: 0
                 page_title: 0
@@ -254,10 +245,10 @@ third_party_settings:
                 tags: 0
                 __div_h_full: 0
         third_party_settings: {  }
-id: taxonomy_term.tags.full
+id: taxonomy_term.tags.taxonomy_term_page_open_ondemand
 targetEntityType: taxonomy_term
 bundle: tags
-mode: full
+mode: taxonomy_term_page_open_ondemand
 content:
   description:
     type: text_default
@@ -266,7 +257,15 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
+  flag_interest:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  flag_skill:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
 hidden:
-  flag_interest: true
-  flag_skill: true
   search_api_excerpt: true
