@@ -22,13 +22,7 @@ describe("Unauthenticated user tests the Match Overview Page", () => {
     );
 
     //Match Engagements Header
-    cy.get(".m-0").contains("MATCH Engagements");
-
-    //Match Engagements Btn
-    cy.get(".btn")
-      .should("exist")
-      .contains("All Engagements")
-      .should("have.attr", "href", "/match/engagements");
+    cy.get(".m-0").contains("Example Engagements");
 
     //Individual Match Engagement
     cy.get(".block-views-blockmatch-engagement-view-block-1 .views-row:nth-child(2) .card > .card-body").contains(
