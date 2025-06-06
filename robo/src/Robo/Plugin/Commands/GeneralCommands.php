@@ -144,7 +144,7 @@ class GeneralCommands extends Tasks {
     
     // Setup directories and settings
     $this->_exec("mkdir -p web/sites/default/settings");
-    $this->_exec("cp robo/assets/lando.local.settings.php web/sites/default/settings/local.settings.php");
+    $this->_exec("cp robo/assets/ddev.local.settings.php web/sites/default/settings/local.settings.php");
     
     // Generate hash and create .env file
     $hash = Crypt::randomBytesBase64(55);

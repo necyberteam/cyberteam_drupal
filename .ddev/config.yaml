@@ -4,12 +4,26 @@ docroot: web
 php_version: "8.2"
 webserver_type: nginx-fpm
 xdebug_enabled: false
-additional_hostnames: []
+additional_hostnames:
+  - accessmatch
+  - campuschampions
+  - ccmnet
+  - coco
+  - connectci
+  - crct
+  - greatplains
+  - kyct
+  - nect
+  - ondemand
 additional_fqdns: []
 database:
   type: mysql
   version: "5.7"
 use_dns_when_possible: true
+upload_dirs:
+  - sites/default/files
+  - ../backups
+  - ../tests
 composer_version: "2"
 web_environment: []
 corepack_enable: false
