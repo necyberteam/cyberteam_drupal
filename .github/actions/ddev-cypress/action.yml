@@ -43,8 +43,8 @@ runs:
       shell: bash
       run: |
         ddev config --project-type=drupal10 --docroot=web --database=mysql:8.0 --php-version=8.2
-        # Add additional hostnames for all test domains
-        ddev config --additional-hostnames=accessmatch.ddev.site,ccmnet.ddev.site,connectci.ddev.site,crct.ddev.site,campuschampions.ddev.site,coco.ddev.site,greatplains.ddev.site,kyct.ddev.site,nect.ddev.site,ondemand.ddev.site
+        # Add additional hostnames for all test domains (DDEV will automatically append .ddev.site)
+        ddev config --additional-hostnames=accessmatch,ccmnet,connectci,crct,campuschampions,coco,greatplains,kyct,nect,ondemand
         ddev start
 
     - name: Setup GitHub authentication for DDEV
