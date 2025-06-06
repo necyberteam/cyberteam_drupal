@@ -43,6 +43,8 @@ runs:
       shell: bash
       run: |
         ddev config --project-type=drupal10 --docroot=web --database=mysql:8.0 --php-version=8.2
+        # Add additional hostnames for all test domains
+        ddev config --additional-hostnames=accessmatch.ddev.site,ccmnet.ddev.site,connectci.ddev.site,crct.ddev.site,campuschampions.ddev.site,coco.ddev.site,greatplains.ddev.site,kyct.ddev.site,nect.ddev.site,ondemand.ddev.site
         ddev start
 
     - name: Setup GitHub authentication for DDEV
@@ -131,8 +133,8 @@ runs:
       run: |
         echo "Checking DDEV status..."
         ddev status
-        echo "Testing site accessibility at https://$SITE-local.ddev.site"
-        curl -I "https://$SITE-local.ddev.site" || echo "Site not accessible"
+        echo "Testing site accessibility at https://$SITE.ddev.site"
+        curl -I "https://$SITE.ddev.site" || echo "Site not accessible"
         echo "DDEV describe output:"
         ddev describe
 
@@ -144,9 +146,9 @@ runs:
         TERM: xterm
       run: |
         cd tests/cypress
-        echo "Testing site URL: https://$SITE-local.ddev.site"
+        echo "Testing site URL: https://$SITE.ddev.site"
         echo "Running tests from: cypress/e2e/$DIR/**/*.js"
-        xvfb-run -a npx cypress run --config baseUrl=https://$SITE-local.ddev.site --spec "cypress/e2e/$DIR/**/*.js"
+        xvfb-run -a npx cypress run --config baseUrl=https://$SITE.ddev.site --spec "cypress/e2e/$DIR/**/*.js"
 
     - name: Upload screenshots on failure
       if: failure()
