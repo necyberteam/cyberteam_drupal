@@ -21,6 +21,9 @@ inputs:
   slack_webhook:
     description: 'Slack webhook URL for notifications (optional)'
     required: false
+  slack_bot_token:
+    description: 'Slack bot token for file uploads (optional)'
+    required: false
 
 runs:
   using: 'composite'
@@ -174,12 +177,36 @@ runs:
         path: tests/cypress/cypress/screenshots/
         if-no-files-found: ignore
 
+    - name: Upload screenshots to Slack
+      if: failure() && inputs.slack_bot_token != ''
+      shell: bash
+      env:
+        SLACK_BOT_TOKEN: ${{ inputs.slack_bot_token }}
+      run: |
+        if [ -d "tests/cypress/cypress/screenshots" ]; then
+          echo "Uploading screenshots to Slack..."
+          cd tests/cypress/cypress/screenshots
+          
+          # Find and upload first few screenshot files (limit to avoid spam)
+          count=0
+          find . -name "*.png" -type f | head -3 | while read screenshot; do
+            if [ -f "$screenshot" ]; then
+              echo "Uploading $screenshot to Slack..."
+              curl -F file=@"$screenshot" \
+                   -F "initial_comment=Cypress test failure: ${{ inputs.site }}-${{ inputs.directory }} - $(basename "$screenshot")" \
+                   -F channels=#cypress-git-notifications \
+                   -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+                   https://slack.com/api/files.upload || echo "Failed to upload $screenshot"
+            fi
+          done
+        fi
+
     - name: Notify Slack on failure
       if: failure() && inputs.slack_webhook != ''
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
-        SLACK_MESSAGE: 'Cypress tests failed for ${{ inputs.site }}-${{ inputs.directory }}. Screenshots uploaded to GitHub artifacts.'
+        SLACK_MESSAGE: 'Cypress tests failed for ${{ inputs.site }}-${{ inputs.directory }}. Screenshots also uploaded above.'
         SLACK_TITLE: "Cypress Test Failure"
         SLACK_CHANNEL: cypress-git-notifications
 
