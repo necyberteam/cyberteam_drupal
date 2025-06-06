@@ -32,6 +32,7 @@ jobs:
           database: ${{ github.event.inputs.database }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
 
   accessmatch2:
     name: accessmatch2

@@ -18,6 +18,9 @@ inputs:
   amp_uid:
     description: 'AMP UID for user authentication'
     required: true
+  slack_webhook:
+    description: 'Slack webhook URL for notifications (optional)'
+    required: false
 
 runs:
   using: 'composite'
@@ -148,14 +151,8 @@ runs:
         cd tests/cypress
         echo "Testing site URL: https://$SITE.ddev.site"
         echo "Running tests from: cypress/e2e/$DIR/**/*.js"
-        # Run Cypress and capture output
-        xvfb-run -a npx cypress run --config baseUrl=https://$SITE.ddev.site --spec "cypress/e2e/$DIR/**/*.js" || echo "Cypress tests failed"
-        
-        # Show test results
-        echo "Cypress test execution completed"
-        if [ -f "cypress/results/output.json" ]; then
-          echo "Test results found"
-        fi
+        # Run Cypress tests (let it fail naturally to trigger failure handlers)
+        xvfb-run -a npx cypress run --config baseUrl=https://$SITE.ddev.site --spec "cypress/e2e/$DIR/**/*.js"
 
     - name: Check for screenshots
       if: always()
@@ -176,6 +173,15 @@ runs:
         name: cypress-screenshots-${{ inputs.site }}-${{ inputs.directory }}
         path: tests/cypress/cypress/screenshots/
         if-no-files-found: ignore
+
+    - name: Notify Slack on failure
+      if: failure() && inputs.slack_webhook != ''
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
+        SLACK_MESSAGE: 'Cypress tests failed for ${{ inputs.site }}-${{ inputs.directory }}. Screenshots uploaded to GitHub artifacts.'
+        SLACK_TITLE: "Cypress Test Failure"
+        SLACK_CHANNEL: cypress-git-notifications
 
     - name: Get Drupal logs on failure
       if: failure()
