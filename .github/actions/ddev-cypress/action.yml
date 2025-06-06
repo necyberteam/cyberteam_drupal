@@ -81,15 +81,14 @@ runs:
           ddev exec vendor/bin/robo gh:pulldb
         fi
 
-    - name: Download files if needed
+    - name: Download files
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
       run: |
-        if [ ! -d "web/sites/default/files" ]; then
-          gh auth status
-          ddev exec vendor/bin/robo gh:pullfiles
-        fi
+        echo "Downloading fresh files from backup..."
+        ddev exec gh auth status
+        ddev exec vendor/bin/robo gh:pullfiles
 
     - name: Import database and deploy
       shell: bash
