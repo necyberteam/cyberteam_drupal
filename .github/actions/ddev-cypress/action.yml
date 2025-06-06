@@ -192,11 +192,12 @@ runs:
           find . -name "*.png" -type f | head -3 | while read screenshot; do
             if [ -f "$screenshot" ]; then
               echo "Uploading $screenshot to Slack..."
-              curl -F file=@"$screenshot" \
+              response=$(curl -s -F file=@"$screenshot" \
                    -F "initial_comment=Cypress test failure: ${{ inputs.site }}-${{ inputs.directory }} - $(basename "$screenshot")" \
                    -F channels=#cypress-git-notifications \
                    -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
-                   https://slack.com/api/files.upload || echo "Failed to upload $screenshot"
+                   https://slack.com/api/files.upload)
+              echo "Slack API response: $response"
             fi
           done
         fi
