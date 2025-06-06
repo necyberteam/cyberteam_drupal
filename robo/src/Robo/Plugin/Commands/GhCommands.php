@@ -116,14 +116,37 @@ class GhCommands extends Tasks {
    * @description Pulls latest database artifact from Github.
    */
   public function pullfiles() {
-    $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-file-backup");
+    $this->say("Downloading latest file backup from GitHub artifacts...");
+    
+    // List available workflows/runs to debug
+    $this->_exec("gh run list -R github.com/necyberteam/cyberteam_drupal -L 5");
+    
+    // Download the artifact
+    $result = $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-file-backup");
+    
+    // Check what files were downloaded
+    $this->say("Checking downloaded files...");
+    $this->_exec("ls -la");
+    
+    // Check if files.tar.gz exists
+    if (!file_exists('files.tar.gz')) {
+      $this->say("❗️ No files.tar.gz found. Available files:");
+      $this->_exec("find . -name '*.tar.gz' -o -name 'files.*'");
+      throw new \Exception('Failed to find files backup file');
+    }
+    
+    // Remove existing files directory if it exists
     $prev_files = 'web/sites/default/files';
     if (file_exists($prev_files)) {
       $this->_exec("rm -fR $prev_files");
     }
 
+    // Extract and move files
     $this->_exec("tar -xzvf files.tar.gz");
-    $this->_exec("mv files web/sites/default && rm -fR files.tar.gz");
+    $this->_exec("mv files web/sites/default/files");
+    $this->_exec("rm -fR files.tar.gz");
+    
+    $this->say("✅ File backup downloaded successfully!");
   }
 
   /**
