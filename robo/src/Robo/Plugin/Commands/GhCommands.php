@@ -117,13 +117,13 @@ class GhCommands extends Tasks {
    */
   public function pullfiles() {
     $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-file-backup");
-    $prev_files = 'docroot/sites/default/files';
+    $prev_files = 'web/sites/default/files';
     if (file_exists($prev_files)) {
       $this->_exec("rm -fR $prev_files");
     }
 
     $this->_exec("tar -xzvf files.tar.gz");
-    $this->_exec("mv files docroot/sites/default && rm -fR files.tar.gz");
+    $this->_exec("mv files web/sites/default && rm -fR files.tar.gz");
   }
 
   /**
