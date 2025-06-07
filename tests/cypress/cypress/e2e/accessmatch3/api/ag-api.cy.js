@@ -5,7 +5,7 @@ describe("Test Affinity Group API", () => {
     cy.visit('/node/add/affinity_group');
     cy.get('input[name="title[0][value]"]').type('test-affinity-group-api', { delay: 0 });
     cy.get('[data-tid="271"]').click(); // AI tag
-    cy.get('input[data-drupal-selector="edit-field-resources-entity-reference-0-target-id"]').type('1', { delay: 0 });
+    cy.get('input[data-drupal-selector="edit-field-resources-entity-reference-0-target-id"]').type('cypress-example-event', { delay: 0 });
     cy.get('input[name="field_group_slug[0][value]"]').type('test-affinity-group-api', { delay: 0 });
     cy.get('input[data-drupal-selector="edit-field-affinity-events-0-target-id"]').type('cypress-example-event{downArrow}{enter}', {delay: 0});
     cy.get('input[name="field_group_id[0][value]"]').type('test.group.api', { delay: 0 });
