@@ -41,7 +41,7 @@ jobs:
     if: contains(github.event.inputs.sites, 'accessmatch2') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/ddev-cypress
+      - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "accessmatch"
           directory: "accessmatch2"
@@ -57,7 +57,7 @@ jobs:
     if: contains(github.event.inputs.sites, 'accessmatch3') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/ddev-cypress
+      - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "accessmatch"
           directory: "accessmatch3"
@@ -73,7 +73,7 @@ jobs:
     if: contains(github.event.inputs.sites, 'ccmnet') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/ddev-cypress
+      - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "ccmnet"
           directory: "ccmnet"
@@ -89,7 +89,7 @@ jobs:
     if: contains(github.event.inputs.sites, 'connectci') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/ddev-cypress
+      - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "connectci"
           directory: "connectci"
@@ -105,7 +105,7 @@ jobs:
     if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/ddev-cypress
+      - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "crct"
           directory: "crct"
@@ -121,7 +121,7 @@ jobs:
     if: contains(github.event.inputs.sites, 'campuschampions') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/ddev-cypress
+      - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "campuschampions"
           directory: "campuschampions"
@@ -137,7 +137,7 @@ jobs:
     if: contains(github.event.inputs.sites, 'coco') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/ddev-cypress
+      - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "coco"
           directory: "coco"
@@ -153,7 +153,7 @@ jobs:
     if: contains(github.event.inputs.sites, 'greatplains') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/ddev-cypress
+      - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "greatplains"
           directory: "greatplains"
@@ -169,7 +169,7 @@ jobs:
     if: contains(github.event.inputs.sites, 'kyct') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/ddev-cypress
+      - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "kyct"
           directory: "kyct"
@@ -185,7 +185,7 @@ jobs:
     if: contains(github.event.inputs.sites, 'nect') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/ddev-cypress
+      - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "nect"
           directory: "nect"
@@ -201,7 +201,7 @@ jobs:
     if: contains(github.event.inputs.sites, 'ondemand') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/ddev-cypress
+      - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "ondemand"
           directory: "ondemand"
