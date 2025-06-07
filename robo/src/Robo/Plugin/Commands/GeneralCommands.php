@@ -50,21 +50,16 @@ class GeneralCommands extends Tasks {
     $is_ddev = file_exists('/.ddev') || getenv('DDEV_PROJECT') || file_exists('/var/www/html/.ddev');
     
     if ($is_ddev) {
-      // When inside DDEV container, use optimized database import
-      $this->_exec("drush sql-drop -y");
-      // Optimize MySQL settings for faster import
-      $this->_exec("drush sql-query 'SET foreign_key_checks = 0; SET unique_checks = 0; SET autocommit = 0;'");
-      // Use pigz for faster decompression if available, fallback to gunzip
-      $this->_exec("(command -v pigz >/dev/null && pigz -dc backups/site.sql.gz || gunzip -c backups/site.sql.gz) | drush sqlc");
-      // Restore MySQL settings
-      $this->_exec("drush sql-query 'SET foreign_key_checks = 1; SET unique_checks = 1; SET autocommit = 1;'");
+      // When inside DDEV container, commands don't need ddev prefix
       $cmd_prefix = "";
     }
     else {
       // Native environment - use DDEV commands from host
-      $this->_exec("ddev import-db backups/site.sql.gz");
       $cmd_prefix = "ddev ";
     }
+    
+    // Use DDEV's built-in database import (works from both host and container)
+    $this->_exec($cmd_prefix . "import-db --src=backups/site.sql.gz");
     
     $this->_exec("sleep 2");
     $this->_exec($cmd_prefix . "composer install");
