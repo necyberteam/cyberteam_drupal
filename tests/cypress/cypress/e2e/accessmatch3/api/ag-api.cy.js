@@ -10,8 +10,8 @@ describe("Test Affinity Group API", () => {
     cy.get('input[data-drupal-selector="edit-field-affinity-events-0-target-id"]').type('cypress-example-event{downArrow}{enter}', {delay: 450});
     cy.get('input[name="field_group_id[0][value]"]').type('test.group.api');
     cy.get('#edit-submit').click();
-    cy.visit('/admin/content');
-    cy.get('tbody > :nth-child(1) > .views-field-title > a').click();
+
+    cy.visit('/affinity-groups/test-affinity-group-api');
     cy.contains('test-affinity-group-api');
 
     cy.get('.font-medium > .block').contains('cypress-example-event').click();
