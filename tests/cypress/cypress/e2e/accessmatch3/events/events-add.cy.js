@@ -25,26 +25,26 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     })
 
     // summary
-    cy.get('#edit-summary-text').type('Lorem ipsum dolor sit amet.')
+    cy.get('#edit-summary-text').type('Lorem ipsum dolor sit amet.', { delay: 0 })
 
     // User filling out form title
-    cy.get("#edit-title-0-value").type("cypress-example-event");
+    cy.get("#edit-title-0-value").type("cypress-example-event", { delay: 0 });
 
     // Date and Time of Event
     cy.get("#edit-recur-type-custom").click();
     cy.get("#custom-date-values > thead > tr > .field-label").contains(
       "Custom Date(s) and Time(s)"
     );
-    cy.get("#edit-custom-date-0-value-date").type("2026-12-12");
-    cy.get("#edit-custom-date-0-end-value-date").type("2027-12-12");
-    cy.get("#edit-custom-date-0-value-time").type("04:30:00");
-    cy.get("#edit-custom-date-0-end-value-time").type("04:30:00");
+    cy.get("#edit-custom-date-0-value-date").type("2026-12-12", { delay: 0 });
+    cy.get("#edit-custom-date-0-end-value-date").type("2027-12-12", { delay: 0 });
+    cy.get("#edit-custom-date-0-value-time").type("04:30:00", { delay: 0 });
+    cy.get("#edit-custom-date-0-end-value-time").type("04:30:00", { delay: 0 });
 
     // Event Location
-    cy.get("#edit-field-location-0-value").type("Zoom");
+    cy.get("#edit-field-location-0-value").type("Zoom", { delay: 0 });
 
     // Event Contact
-    cy.get("#edit-field-contact-0-value").type("Pecan Pie");
+    cy.get("#edit-field-contact-0-value").type("Pecan Pie", { delay: 0 });
 
     // Event Tag
     cy.get("details.tags summary").click().get("#tag-login").click();
