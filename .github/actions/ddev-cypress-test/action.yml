@@ -1,5 +1,5 @@
 name: 'DDEV Cypress Test'
-description: 'Run Cypress tests using DDEV instead of Lando'
+description: 'Run Cypress tests using DDEV'
 author: 'necyberteam'
 
 inputs:
@@ -28,58 +28,13 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Setup DDEV
-      shell: bash
-      run: |
-        echo 'docker compose --compatibility "$@"' > /usr/local/bin/docker-compose
-        chmod +x /usr/local/bin/docker-compose
-        echo ">>> Installing DDEV..."
-        curl -fsSL https://apt.fury.io/drud/gpg.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/ddev.gpg > /dev/null
-        echo "deb [signed-by=/etc/apt/trusted.gpg.d/ddev.gpg] https://apt.fury.io/drud/ * *" | sudo tee /etc/apt/sources.list.d/ddev.list
-        sudo apt-get update && sudo apt-get install -y ddev
-        ddev config global --instrumentation-opt-in=false
-        ddev --version
-        mkcert -install
-
-    - name: Validate composer files
-      shell: bash
-      run: composer validate --no-check-all
-
-    - name: Configure and start DDEV
-      shell: bash
-      run: |
-        ddev config --project-type=drupal10 --docroot=web --database=mysql:8.0 --php-version=8.2
-        # Add additional hostnames for all test domains (DDEV will automatically append .ddev.site)
-        ddev config --additional-hostnames=accessmatch,ccmnet,connectci,crct,campuschampions,coco,greatplains,kyct,nect,ondemand
-        ddev start
-
-    - name: Setup GitHub authentication for DDEV
-      shell: bash
-      env:
-        GITHUB_TOKEN: ${{ inputs.github_token }}
-      run: |
-        echo "$GITHUB_TOKEN" | ddev exec gh auth login --with-token
-        ddev exec composer config -g github-oauth.github.com $GITHUB_TOKEN
-
-    - name: Install dependencies in DDEV
-      shell: bash
-      run: ddev composer install --optimize-autoloader
-
-    - name: Download database
-      shell: bash
-      env:
-        GITHUB_TOKEN: ${{ inputs.github_token }}
-        DATABASE: ${{ inputs.database }}
-      run: |
-        mkdir -p backups
-        if [ -n "$DATABASE" ]; then
-          echo "Downloading custom database: $DATABASE"
-          wget -O backups/site.sql.gz "$DATABASE"
-        else
-          echo "Using GitHub artifact database"
-          gh auth status
-          ddev exec vendor/bin/robo gh:pulldb
-        fi
+    - name: Setup DDEV Base
+      uses: ./.github/actions/ddev-base
+      with:
+        site: ${{ inputs.site }}
+        database: ${{ inputs.database }}
+        github_token: ${{ inputs.github_token }}
+        amp_uid: ${{ inputs.amp_uid }}
 
     - name: Download files
       shell: bash
@@ -89,24 +44,6 @@ runs:
         echo "Downloading fresh files from backup..."
         ddev exec gh auth status
         ddev exec vendor/bin/robo gh:pullfiles
-
-    - name: Import database and deploy
-      shell: bash
-      env:
-        AMP_UID: ${{ inputs.amp_uid }}
-      run: |
-        # Use DDEV's fast database import
-        ddev import-db --src=backups/site.sql.gz
-        # Run post-import setup (equivalent to robo did without db import)
-        ddev drush deploy -y
-        ddev drush cim -y
-        # Enable maillog module for testing
-        ddev drush en maillog -y
-        ddev drush cr
-
-    - name: Clear watchdog logs
-      shell: bash
-      run: ddev drush watchdog:delete all -y
 
     - name: Setup Node.js
       uses: actions/setup-node@v4

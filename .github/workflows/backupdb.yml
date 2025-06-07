@@ -34,10 +34,9 @@ jobs:
           env: live
 
       - id: DDEV
-        uses: ./.github/actions/ddev-cypress
+        uses: ./.github/actions/ddev-base
         with:
           site: "accessmatch"
-          directory: "backup"
           database: ''
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
@@ -66,3 +65,7 @@ jobs:
           name: amp-daily-backup
           path: site.sql.gz
           retention-days: 5
+
+      - name: Cleanup DDEV
+        if: always()
+        run: ddev delete -O -y

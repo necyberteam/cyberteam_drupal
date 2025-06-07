@@ -22,10 +22,9 @@ jobs:
           env: live
 
       - id: DDEV
-        uses: ./.github/actions/ddev-cypress
+        uses: ./.github/actions/ddev-base
         with:
           site: "accessmatch"
-          directory: "configsync"
           database: ''
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
@@ -97,3 +96,7 @@ jobs:
           gh pr create --title "[Config sync]" --body "Sync the config from branch"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
+
+      - name: Cleanup DDEV
+        if: always()
+        run: ddev delete -O -y

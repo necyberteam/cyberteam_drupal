@@ -25,7 +25,7 @@ jobs:
     if: contains(github.event.inputs.sites, 'accessmatch1') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/ddev-cypress
+      - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "accessmatch"
           directory: "accessmatch1"
