@@ -15,8 +15,8 @@ describe('user199 visits user201s community-persona page to send email', () => {
     cy.get('#edit-mail').contains("Your email address");
     cy.get('#edit-mail').contains("walnut@pie.org");
     cy.get('#edit-recipient').contains("Pecan Pie");
-    cy.get('#edit-subject-0-value').type('Test Subject');
-    cy.get('#edit-message-0-value').type('Test Message');
+    cy.get('#edit-subject-0-value').type('Test Subject', { delay: 0 });
+    cy.get('#edit-message-0-value').type('Test Message', { delay: 0 });
     cy.get('#edit-copy').check();
     cy.get('#edit-submit').click();
     cy.contains('Your message has been sent.');

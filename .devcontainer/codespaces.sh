@@ -4,11 +4,12 @@ dir=${PWD}
 
 sleep 30
 
-# Add Lando
-echo '>>> Add lando'
-sudo curl -fsSL -o /usr/local/bin/lando "https://files.lando.dev/cli/lando-linux-x64-$(cat .github/lando_version.md)"
-echo '>>> Chmod lando'
-sudo chmod +x /usr/local/bin/lando
+# Add DDEV
+echo '>>> Installing DDEV...'
+curl -fsSL https://apt.fury.io/drud/gpg.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/ddev.gpg > /dev/null
+echo "deb [signed-by=/etc/apt/trusted.gpg.d/ddev.gpg] https://apt.fury.io/drud/ * *" | sudo tee /etc/apt/sources.list.d/ddev.list
+sudo apt-get update && sudo apt-get install -y ddev
+ddev config global --instrumentation-opt-in=false
 
 # Install composer
 echo '>>> composer install'
@@ -40,9 +41,7 @@ else
   terminus auth:login --email=$AMP_TERMINUS_EMAIL --machine-token=$AMP_TERMINUS_TOKEN
 fi
 
-mkdir -p ~/.lando/cache
-
 echo '>>> composer install'
 composer install --ignore-platform-reqs -n
 
-vendor/bin/robo landosetup $GITHUB_TOKEN $AMP_UID
+vendor/bin/robo ddevsetup $GITHUB_TOKEN $AMP_UID

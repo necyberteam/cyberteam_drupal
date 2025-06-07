@@ -148,31 +148,29 @@ describe("Verify the the community-outreach tag page", () => {
       cy.get("#block-claro-page-title").contains("Create ACCESS Event");
 
       //User filling out form title
-      cy.get("#edit-title-0-value").type("example-event");
+      cy.get("#edit-title-0-value").type("example-event", { delay: 0 });
 
       //Date and Time of Event
       cy.get("#edit-recur-type-custom").click();
       cy.get("#custom-date-values > thead > tr > .field-label").contains(
         "Custom Date(s) and Time(s)"
       );
-      cy.get("#edit-custom-date-0-value-date").type("2026-12-12");
-      cy.get("#edit-custom-date-0-end-value-date").type("2027-12-12");
-      cy.get("#edit-custom-date-0-value-time").type("04:30:00");
-      cy.get("#edit-custom-date-0-end-value-time").type("04:30:00");
+      cy.get("#edit-custom-date-0-value-date").type("2026-12-12", { delay: 0 });
+      cy.get("#edit-custom-date-0-end-value-date").type("2027-12-12", { delay: 0 });
+      cy.get("#edit-custom-date-0-value-time").type("04:30:00", { delay: 0 });
+      cy.get("#edit-custom-date-0-end-value-time").type("04:30:00", { delay: 0 });
 
       //Event Location
-      cy.get("#edit-field-location-0-value").type("Zoom");
+      cy.get("#edit-field-location-0-value").type("Zoom", { delay: 0 });
 
       //Event Contact
-      cy.get("#edit-field-contact-0-value").type("Pecan Pie");
+      cy.get("#edit-field-contact-0-value").type("Pecan Pie", { delay: 0 });
 
       //Registration Link
-      cy.get("#edit-field-registration-0-uri").type(
-        "https://test-accessmatch.pantheonsite.io/"
-      );
+      cy.get("#edit-field-registration-0-uri").type("https://example.com", { delay: 0 });
 
       //Event Tag
-      cy.get("#edit-field-tags-0-target-id").type("login (682)");
+      cy.get("#edit-field-tags-0-target-id").type("login (682)", { delay: 0 });
 
       //Save As Selection
       cy.get("#edit-moderation-state-0-state").select("Published");
@@ -265,12 +263,12 @@ describe("Verify the the community-outreach tag page", () => {
     function create_dummy_ci_link() {
       cy.visit('/form/resource');
       cy.get('#edit-approved').check();
-      cy.get('#edit-title').type('dummy-ci-link-for-testing-community-outreach-tag');
+      cy.get('#edit-title').type('dummy-ci-link-for-testing-community-outreach-tag', { delay: 0 });
       cy.get('#edit-category').select('Learning');
       cy.get('#edit-skill-level-304').check();  // beginner level
-      cy.get('#edit-description').type("Dummy description for ci-link 'dummy-ci-link-for-testing-community-outreach-tag'");
+      cy.get('#edit-description').type("Dummy description for ci-link 'dummy-ci-link-for-testing-community-outreach-tag'", { delay: 0 });
       cy.get('.tags').contains('community-outreach').click();
-      cy.get('.form-item-domain').find('input').type('ACCESS{enter}');
+      cy.get('.form-item-domain').find('input').type('ACCESS{enter}', { delay: 0 });
       cy.get('#edit-submit').click();
     }
   });

@@ -21,12 +21,13 @@ jobs:
           site_name: ${{ secrets.TERMINUS_SITE_NAME }}
           env: live
 
-      - id: Lando
-        uses: necyberteam/amp_lando_start@v2.3
+      - id: DDEV
+        uses: ./.github/actions/ddev-base
         with:
-          DATABASE: ''
-          GH_TOKEN_REPO: ${{ secrets.GH_TOKEN_REPO }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          site: "accessmatch"
+          database: ''
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
 
       - name: Config diff
         run: |
@@ -41,13 +42,12 @@ jobs:
           date=$(date '+%y%m%d')
           git branch md-$date
           git checkout md-$date
-          lando composer config -g github-oauth.github.com $gh_token
-          composer config -g github-oauth.github.com $gh_token
-          composer install --ignore-platform-reqs
+          ddev exec composer config -g github-oauth.github.com $gh_token
+          ddev composer install --ignore-platform-reqs
           rm -fR web/sites/default/config
           git checkout web/sites/default/config
-          lando drush cr
-          vendor/bin/robo cex
+          ddev drush cr
+          ddev exec vendor/bin/robo cex
           git rev-list --tags --max-count=1
           rm -fR web/sites/default/config/local
           git checkout web/sites/default/config/local
@@ -96,3 +96,7 @@ jobs:
           gh pr create --title "[Config sync]" --body "Sync the config from branch"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
+
+      - name: Cleanup DDEV
+        if: always()
+        run: ddev delete -O -y

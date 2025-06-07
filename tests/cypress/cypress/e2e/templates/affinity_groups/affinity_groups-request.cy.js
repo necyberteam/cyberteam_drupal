@@ -25,11 +25,11 @@ describe("Visitor tests 'Request An Affinity Group' page", () => {
     cy.contains('Provide a link to Github if applicable.');
     cy.contains('Email List or Contact');
     cy.contains('Provide a full URL to your email list or email contact for the Affinity');
-    cy.get('input[name="affinity_group_name"]').type('TEST');
-    cy.get('.form-item-tags > .select2 > .selection > .select2-selection > .select2-selection__rendered').type('Login');
+    cy.get('input[name="affinity_group_name"]').type('TEST', { delay: 0 });
+    cy.get('.form-item-tags > .select2 > .selection > .select2-selection > .select2-selection__rendered').type('Login', { delay: 0 });
     cy.get('li.select2-results__option').click();
-    cy.get('textarea[name="short_description"]').type('TEST');
-    cy.get('textarea[name="project_description"]').type('TEST');
+    cy.get('textarea[name="short_description"]').type('TEST', { delay: 0 });
+    cy.get('textarea[name="project_description"]').type('TEST', { delay: 0 });
     cy.get('input[name="op"]').contains('Submit').click();
     cy.contains('Thank you for your submission');
   });

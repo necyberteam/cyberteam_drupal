@@ -1,0 +1,46 @@
+name: 'DDEV with Files'
+description: 'Setup DDEV environment with database and file downloads'
+author: 'necyberteam'
+
+inputs:
+  site:
+    description: 'Site identifier (e.g. accessmatch, ccmnet)'
+    required: true
+  database:
+    description: 'Custom database URL (optional)'
+    required: false
+  github_token:
+    description: 'GitHub token for authentication'
+    required: true
+  amp_uid:
+    description: 'AMP UID for user authentication'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup DDEV Base
+      uses: ./.github/actions/ddev-base
+      with:
+        site: ${{ inputs.site }}
+        database: ${{ inputs.database }}
+        github_token: ${{ inputs.github_token }}
+        amp_uid: ${{ inputs.amp_uid }}
+
+    - name: Download files
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      run: |
+        echo "Downloading fresh files from backup..."
+        ddev exec gh auth status
+        ddev exec vendor/bin/robo gh:pullfiles
+
+    - name: Cleanup DDEV
+      if: always()
+      shell: bash
+      run: ddev delete -O -y
+
+branding:
+  icon: 'download'
+  color: 'green'

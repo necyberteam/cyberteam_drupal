@@ -20,13 +20,13 @@ describe("Test tags as an authenticated user.", () => {
   it("Authenticated user searches for tags (case insensitive)", () => {
     cy.loginUser("authenticated@amptesting.com", "6%l7iF}6(4tI");
     cy.visit('/tags');
-    cy.get('input[name="name"]').type('login');
+    cy.get('input[name="name"]').type('login', { delay: 0 });
     cy.wait(1000);
     cy.contains('login');
-    cy.get('input[name="name"]').clear().type('LOGIN');
+    cy.get('input[name="name"]').clear().type('LOGIN', { delay: 0 });
     cy.wait(1000);
     cy.contains('login');
-    cy.get('input[name="name"]').clear().type('LOGIN');
+    cy.get('input[name="name"]').clear().type('LOGIN', { delay: 0 });
     cy.wait(1000);
     cy.contains('login');
     cy.contains('login').click();

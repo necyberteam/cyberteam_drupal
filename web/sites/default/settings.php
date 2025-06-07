@@ -258,3 +258,9 @@ $settings['crawler_rate_limit.settings']['regular_traffic_asn'] = [
   // See https://dev.maxmind.com/geoip/updating-databases
   'database' => '/app/web/sites/default/files/private/geoip2/GeoLite2-ASN.mmdb',
 ];
+
+// Automatically generated include for settings managed by ddev.
+$ddev_settings = __DIR__ . '/settings.ddev.php';
+if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
+  require $ddev_settings;
+}

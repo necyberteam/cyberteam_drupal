@@ -1,13 +1,16 @@
 # cyberteam_drupal
 
+## Development Environment
+
+This project uses **DDEV** for local development. DDEV provides a consistent, containerized development environment that works across different operating systems.
+
 ## robo
 
 We switched to the robo command so we could remove BLT as it's no longer supported. Some of the commands have been revised as well.
 
 | Command          | Description                                                                                                                                                                                                                                                            |
 | -------------    | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------                                                                             |
-| landosetup   | Runs the commands needed for an initial setup of the site.                                                                                                                                                                                                             |
-| start        | Start lando.                                                                                                                                                                                                                                                           |
+| ddevsetup    | Runs the commands needed for an initial setup of the site with DDEV.                                                                                                                                                                                                   |
 | cypress      | Runs cypress tests on accessmatch1. Add a space and the test you want to run for other tests (ie: robo cypress crct).                                                                                                                                                  |
 | did          | Runs composer install then reloads from 'backups/site.sql.gz', by running ```gh:pulldb``` you can replaces this with the latest backup. You can add the corresponding number to do a domain switch that you get from the ds command as an argument.                    |
 | ds           | Switch default domain.                                                                                                                                                                                                                                                 |
@@ -34,23 +37,62 @@ We switched to the robo command so we could remove BLT as it's no longer support
 | (M) Create Release <br /> [![(A) Database to artifact](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/releases.yml/badge.svg)](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/releases.yml)                                                                                                                                                                     | Manual                         | If the defaults are kept for the inputs this will iterate the last tag and then add release notes that include all commit messages since the last tag. After the release/tag are created, the terminus command will be ran to deploy to test.                                                                                                                                                                                                 |
 | (M) Deploy to Prod  <br /> [![(M) Deploy to Prod](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/deployprod.yml/badge.svg)](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/deployprod.yml)                                                                                                                                                                      | Manual                         | If the defaults are kept for the inputs this will iterate the last tag and then add release notes that include all commit messages since the last tag. After the release/tag are created, the terminus command will be ran to deploy to test.                                                                                                                                                                                                 |
 
+## Getting Started
+
+### Prerequisites
+- [DDEV](https://ddev.readthedocs.io/en/stable/#installation) installed on your local machine
+- [Docker](https://docs.docker.com/get-docker/) (required by DDEV)
+
+### Local Development Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/necyberteam/cyberteam_drupal.git
+   cd cyberteam_drupal
+   ```
+
+2. **Start DDEV and setup the site:**
+   ```bash
+   vendor/bin/robo ddevsetup [GITHUB_TOKEN] [AMP_UID]
+   ```
+   
+   Or setup manually:
+   ```bash
+   ddev start
+   ddev exec vendor/bin/robo gh:pulldb
+   ddev exec vendor/bin/robo gh:pullfiles
+   ddev exec vendor/bin/robo did
+   ```
+
+3. **Access the site:**
+   - Main site: https://cyberteam-drupal.ddev.site
+   - All configured domains:
+     - https://accessmatch.ddev.site
+     - https://ccmnet.ddev.site
+     - https://connectci.ddev.site
+     - https://crct.ddev.site
+     - https://campuschampions.ddev.site
+     - https://coco.ddev.site
+     - https://greatplains.ddev.site
+     - https://kyct.ddev.site
+     - https://nect.ddev.site
+     - https://ondemand.ddev.site
+
 ## Codespaces
 
-This repository is setup to run in codespaces. If you are starting from scratch it'll take a little over 15 minutes to run through the setup script. The script will fully start lando and install the site. You will need to set two codespaces secrets in your personal github settings under codespaces located at: https://github.com/settings/codespaces
+This repository is setup to run in GitHub Codespaces with DDEV. If you are starting from scratch it'll take a little over 15 minutes to run through the setup script. The script will fully start DDEV and install the site. You will need to set two codespaces secrets in your personal github settings under codespaces located at: https://github.com/settings/codespaces
 
 - AMP_GH_TOKEN_REPO
 - AMP_UID
 
 The ```AMP_GH_TOKEN_REPO``` secret will have a github token that has access to the cyberteam repositories with full repo control and ```AMP_UID``` is the user id of your user on the website. You can default to uid 1 if you don't have or know your user id.
 
-Optionally, you can setup two other secrets to automatically login to terminus to connect to Panthon. You can always run the command to login after install as well. These are the secrets to have the login setup for you:
+Optionally, you can setup two other secrets to automatically login to terminus to connect to Pantheon. You can always run the command to login after install as well. These are the secrets to have the login setup for you:
 
 - AMP_TERMINUS_EMAIL
 - AMP_TERMINUS_TOKEN
 
 The email secret is the email you use with pantheon and the token can be setup under your settings within your pantheon account.
-
-When starting lando run the ```blt amp:start``` command as that will also set your composer github key with the latest GITHUB_TOKEN variable set by codespaces.
 
 ### Github CLI
 

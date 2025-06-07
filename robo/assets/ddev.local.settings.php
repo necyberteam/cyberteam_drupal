@@ -1,32 +1,28 @@
 <?php
 /**
  * @file
- * Local development override configuration feature.
+ * Local development override configuration feature for DDEV.
  */
 
 use Drupal\Component\Assertion\Handle;
 
 $settings['hash_salt'] = $_ENV['DRUPAL_HASH_SALT'];
 
-$creds = json_decode(getenv('LANDO_INFO'));
-$creds = $creds->database;
-
 /**
- * Database configuration.
+ * Database configuration for DDEV.
  */
 $databases['default']['default'] = [
-  'database' => $creds->creds->database,
-  'username' => $creds->creds->user,
-  'password' => $creds->creds->password,
-  'host' => 'database',
+  'database' => 'db',
+  'username' => 'db',
+  'password' => 'db',
+  'host' => 'db',
   'port' => '3306',
   'driver' => 'mysql',
   'prefix' => '',
 ];
 
 // Use development service parameters.
-$settings['container_yamls'][] = DRUPAL_ROOT . '/docroot/sites/development.services.yml';
-$settings['container_yamls'][] = DRUPAL_ROOT . '/docroot/sites/blt.development.services.yml';
+$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 
 // Allow access to update.php.
 $settings['update_free_access'] = TRUE;
@@ -49,6 +45,7 @@ $settings['update_free_access'] = TRUE;
  */
 assert_options(ASSERT_ACTIVE, TRUE);
 Handle::register();
+
 /**
  * Disable the render cache (this includes the page cache).
  *
@@ -62,6 +59,7 @@ Handle::register();
  * Do not use this setting until after the site is installed.
  */
 // $settings['cache']['bins']['render'] = 'cache.backend.null';
+
 /**
  * Disable Dynamic Page Cache.
  *
@@ -70,6 +68,7 @@ Handle::register();
  * in the early stages of development, you may want to disable it.
  */
 // $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
+
 /**
  * Allow test modules and themes to be installed.
  *
@@ -78,7 +77,6 @@ Handle::register();
  * purposes.
  */
 $settings['extension_discovery_scan_tests'] = FALSE;
-
 
 /**
  * Configure static caches.
@@ -93,6 +91,7 @@ $settings['extension_discovery_scan_tests'] = FALSE;
 // $settings['cache']['bins']['bootstrap'] = 'cache.backend.null';
 // $settings['cache']['bins']['discovery'] = 'cache.backend.null';
 // $settings['cache']['bins']['config'] = 'cache.backend.null';
+
 /**
  * Enable access to rebuild.php.
  *
@@ -102,6 +101,7 @@ $settings['extension_discovery_scan_tests'] = FALSE;
  * using these parameters in a request to rebuild.php.
  */
 $settings['rebuild_access'] = FALSE;
+
 /**
  * Skip file system permissions hardening.
  *

@@ -17,7 +17,7 @@ describe("Test of the /find page", () => {
 
     cy.get('.button').contains('Search');
 
-    cy.get('.sui-search-box__text-input').type('test');
+    cy.get('.sui-search-box__text-input').type('test', { delay: 0 });
 
     cy.get('.sui-search-box > .button').click();
 
