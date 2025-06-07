@@ -64,6 +64,8 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     //Event Skill Level
     cy.get("#edit-field-skill-level-advanced").click();
 
+    cy.screenshot('before-submit');
     cy.get("#edit-submit").click();
+    cy.screenshot('after-submit');
   });
 });
