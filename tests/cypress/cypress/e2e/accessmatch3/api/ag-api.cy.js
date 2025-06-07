@@ -11,6 +11,7 @@ describe("Test Affinity Group API", () => {
     cy.get('input[name="field_group_id[0][value]"]').type('test.group.api');
     cy.get('#edit-submit').click();
 
+    cy.wait(1000);
     cy.visit('/affinity-groups/test-affinity-group-api');
     cy.contains('test-affinity-group-api');
 
