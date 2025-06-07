@@ -393,10 +393,24 @@ GITHUB_TOKEN=$token'>.env");
       $this->_exec($cmd_prefix . 'drush cr');
     }
 
+    // Detect if we're running inside DDEV container or on host
+    $is_ddev = file_exists('/.ddev') || getenv('DDEV_PROJECT') || file_exists('/var/www/html/.ddev');
+    
+    if ($is_ddev) {
+      // Running inside DDEV container - delegate to host
+      $this->say("Running Cypress tests from host machine...");
+      $this->_exec('vendor/bin/robo cypress ' . implode(' ', $args));
+      return;
+    }
+    
+    // Running on host - proceed with Cypress setup
+    $this->say("Setting up Cypress dependencies on host...");
+    $this->_exec('cd tests/cypress && npm ci');
+
     $error = FALSE;
 
     if (!file_exists('/tmp/screenshots')) {
-      $this->_exec('mkdir /tmp/screenshots');
+      $this->_exec('mkdir -p /tmp/screenshots');
     }
 
     if ($site == 'accessmatch3') {
@@ -408,7 +422,7 @@ GITHUB_TOKEN=$token'>.env");
       ];
 
       foreach ($sub_dirs as $dir) {
-        $results = $this->_exec('cd tests/cypress && npx cypress run --config baseUrl=https://' . $domain . '-local.ddev.site --spec "cypress/e2e/' . $site . '/' . $dir . '/*.js"');
+        $results = $this->_exec('cd tests/cypress && npx cypress run --config baseUrl=https://' . $domain . '.ddev.site --spec "cypress/e2e/' . $site . '/' . $dir . '/*.js"');
 
         if ($results->wasSuccessful() == FALSE) {
           $error = TRUE;
@@ -416,7 +430,7 @@ GITHUB_TOKEN=$token'>.env");
         }
       }
     } else {
-      $results = $this->_exec('cd tests/cypress && npx cypress run --config baseUrl=https://' . $domain . '-local.ddev.site --spec "cypress/e2e/' . $site . '/**/*.js"');
+      $results = $this->_exec('cd tests/cypress && npx cypress run --config baseUrl=https://' . $domain . '.ddev.site --spec "cypress/e2e/' . $site . '/**/*.js"');
 
       if ($results->wasSuccessful() == FALSE) {
         $error = TRUE;
