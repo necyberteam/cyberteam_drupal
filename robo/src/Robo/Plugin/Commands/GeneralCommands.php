@@ -162,10 +162,9 @@ GITHUB_TOKEN=$token'>.env");
       $this->_exec("ddev exec vendor/bin/robo gh:pulldb");
     }
     
-    // Download files if needed
-    if (!file_exists($files)) {
-      $this->_exec("ddev exec vendor/bin/robo gh:pullfiles");
-    }
+    // Download files (always get fresh files for setup)
+    $this->say("Downloading files from backup...");
+    $this->_exec("ddev exec vendor/bin/robo gh:pullfiles");
     
     // Import database and deploy
     $this->_exec("ddev exec vendor/bin/robo did");
