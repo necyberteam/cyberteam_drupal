@@ -42,13 +42,13 @@ describe('Unauthenticated user tests the Events Page', () => {
     cy.wait(1000)
     cy.get('#custom-event-skill-level-reset-all').check()
 
-    cy.get('#edit-search-api-fulltext--2').type('Random string')
+    cy.get('#edit-search-api-fulltext--2').type('Random string', { delay: 0 })
     cy.wait(1000)
     cy.contains('No Events Found')
 
     cy.get('#edit-search-api-fulltext--2').clear()
     cy.wait(1000)
-    cy.get('#edit-search-api-fulltext--2').type('example')
+    cy.get('#edit-search-api-fulltext--2').type('example', { delay: 0 })
     cy.wait(1000)
     cy.contains('cypress-example-event')
       .closest('.views-row')
