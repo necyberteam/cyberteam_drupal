@@ -16,13 +16,13 @@ describe("test submit project form", () => {
     cy.contains('Ext:');
     cy.contains('Project Information');
     cy.contains('Provide a description of the project and its history, progress, and/or current status.');
-    cy.get('input[name="project_title"]').type('TEST');
+    cy.get('input[name="project_title"]').type('TEST', { delay: 0 });
     cy.get('input[name="region[345]"]').check(); // At-Large
-    cy.get('input[name="project_leader[first]"]').type('TEST');
-    cy.get('input[name="project_leader[last]"]').type('TEST');
+    cy.get('input[name="project_leader[first]"]').type('TEST', { delay: 0 });
+    cy.get('input[name="project_leader[last]"]').type('TEST', { delay: 0 });
     cy.get('input[name="email"]').clear();
-    cy.get('input[name="email"]').type('TEST@TEST.COM');
-    cy.get('textarea[name="project_description"]').type('TEST');
+    cy.get('input[name="email"]').type('TEST@TEST.COM', { delay: 0 });
+    cy.get('textarea[name="project_description"]').type('TEST', { delay: 0 });
     cy.get('input#edit-actions-01-submit').click();
     cy.contains('TEST');
     cy.contains('Project Information');
