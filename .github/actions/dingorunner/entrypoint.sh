@@ -129,7 +129,6 @@ then
   rm -fR .devcontainer
   rm -fR .editorconfig
   rm -fR .github
-  rm -fR .lando.*
   rm -fR README.md
   rm -fR backups
   rm -fR robo

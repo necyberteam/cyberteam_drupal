@@ -6,7 +6,7 @@ describe("test projects page as authenticated user", () => {
     cy.contains('Projects');
     cy.contains('Submit New Project');
 
-    cy.get('input[name="search"]').type('test');
+    cy.get('input[name="search"]').type('test', { delay: 0 });
     cy.wait(2000);
     cy.contains('test');
     cy.contains('test-create-project-title');
@@ -23,7 +23,7 @@ describe("test projects page as authenticated user", () => {
 
   it("verify search filter", () => {
     cy.visit('/projects');
-    cy.get('input[name="search"]').type('nothing-should-show');
+    cy.get('input[name="search"]').type('nothing-should-show', { delay: 0 });
     cy.wait(3000);
     cy.contains('There are no projects at this time.');
   });
