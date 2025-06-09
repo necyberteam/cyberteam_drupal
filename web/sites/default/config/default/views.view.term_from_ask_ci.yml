@@ -109,8 +109,12 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
-        options: {  }
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       empty: {  }
       sorts: {  }
       arguments:
@@ -235,6 +239,8 @@ display:
     position: 1
     display_options:
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       allow:
         items_per_page: false
