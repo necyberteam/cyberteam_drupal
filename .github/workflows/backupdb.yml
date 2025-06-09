@@ -33,28 +33,29 @@ jobs:
           site_name: ${{ secrets.TERMINUS_SITE_NAME }}
           env: live
 
-      - id: Lando
-        uses: necyberteam/amp_lando_start@v2.3
+      - id: DDEV
+        uses: ./.github/actions/ddev-base
         with:
-          DATABASE: ''
-          GH_TOKEN_REPO: ${{ secrets.GH_TOKEN_REPO }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          site: "accessmatch"
+          database: ''
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
 
       - name: Sanitize backup
         run: |
-          lando drush sql-sanitize --sanitize-password=y -y
-          lando drush cim
-          lando drush cr
-          lando drush updb
-          lando drush user-create authenticated_test_user --mail="authenticated@amptesting.com" --password="6%l7iF}6(4tI"
-          lando drush user-create administrator_test_user --mail="administrator@amptesting.com" --password="b8QW]X9h7#5n"
-          lando drush user-add-role "administrator" administrator_test_user
-          lando drush en amp_dev
-          lando drush pmu amp_dev
-          lando drush pmu symfony_mailer
-          lando drush en symfony_mailer
-          lando drush cr
-          lando db-export site.sql
+          ddev drush sql-sanitize --allowlist-fields=field_constant_contact_id --sanitize-password=y -y
+          ddev drush cim
+          ddev drush cr
+          ddev drush updb
+          ddev drush user-create authenticated_test_user --mail="authenticated@amptesting.com" --password="6%l7iF}6(4tI"
+          ddev drush user-create administrator_test_user --mail="administrator@amptesting.com" --password="b8QW]X9h7#5n"
+          ddev drush user-add-role "administrator" administrator_test_user
+          ddev drush en amp_dev
+          ddev drush pmu amp_dev
+          ddev drush pmu symfony_mailer
+          ddev drush en symfony_mailer
+          ddev drush cr
+          ddev export-db --gzip=false --file=site.sql
         env:
           gh_token: ${{ secrets.GH_TOKEN_REPO }}
 
@@ -64,3 +65,7 @@ jobs:
           name: amp-daily-backup
           path: site.sql.gz
           retention-days: 5
+
+      - name: Cleanup DDEV
+        if: always()
+        run: ddev delete -O -y

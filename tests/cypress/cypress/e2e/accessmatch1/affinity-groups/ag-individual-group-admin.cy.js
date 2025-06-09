@@ -35,13 +35,15 @@ describe("Admin user tests the Individual Affinity Groups", () => {
     cy.get('#edit-field-resources-entity-reference-0-target-id')
       .type('dummy-ci-link-for-testing-knowledge-base')
       .wait(1000)
-      .get('#ui-id-3')  // this is the dropdown that shows up
-      .find('.ui-menu-item') //
-      .first() // take the first one
-      .click();
+      .type('{downarrow}{enter}');
 
-    cy.get('#edit-field-resources-entity-reference-1-target-id').clear();
-    cy.get('#edit-field-resources-entity-reference-1-target-id')
+    if (!Cypress.$('[data-drupal-selector="edit-field-resources-entity-reference-1-target-id"]').length) {
+      cy.get('#edit-field-resources-entity-reference-add-more').click();
+      cy.wait(1000);
+    }
+
+    cy.get('[data-drupal-selector="edit-field-resources-entity-reference-1-target-id"]').clear();
+    cy.get('[data-drupal-selector="edit-field-resources-entity-reference-1-target-id"]')
       .type('access-support-ci-link-for-testing')
       .wait(1000)
       .type('{downarrow}{enter}');
