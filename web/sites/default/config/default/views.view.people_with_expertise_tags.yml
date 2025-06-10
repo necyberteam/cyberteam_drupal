@@ -780,6 +780,13 @@ display:
         options:
           offset: 0
           items_per_page: 3
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       sorts:
         random:
           id: random
@@ -928,6 +935,7 @@ display:
         groups:
           1: AND
       defaults:
+        cache: false
         pager: false
         sorts: false
         filters: false
@@ -953,6 +961,13 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       style:
         type: default
         options:
@@ -963,6 +978,7 @@ display:
         type: fields
         options: {  }
       defaults:
+        cache: false
         use_more: false
         use_more_always: false
         use_more_text: false

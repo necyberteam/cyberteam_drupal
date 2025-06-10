@@ -804,6 +804,13 @@ display:
         options:
           offset: 0
           items_per_page: 3
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       empty:
         area:
           id: area
@@ -912,6 +919,7 @@ display:
           1: AND
       defaults:
         empty: false
+        cache: false
         pager: false
         use_more: false
         use_more_always: false
