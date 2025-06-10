@@ -7,13 +7,13 @@ describe("test people page Card view w/ filters", () => {
     cy.contains('Skills')
     cy.contains('Organization')
 
-    cy.get('#edit-search-api-fulltext--3').type('testing123')
+    cy.get('#edit-search-api-fulltext--3').type('testing123', { delay: 0 })
     cy.wait(1000)
     cy.contains('No matches found')
 
     cy.get('#edit-search-api-fulltext--3').clear()
     cy.wait(1000)
-    cy.get('#edit-search-api-fulltext--3').type('julie')
+    cy.get('#edit-search-api-fulltext--3').type('julie', { delay: 0 })
     cy.wait(1000)
     cy.contains('Julie Ma')
 

@@ -20,10 +20,10 @@ describe("test individual tags page", () => {
   it("logged-in admin: Add a 'test-affinity-group' for login tag and verify it appears", () => {
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
     cy.visit('/node/add/affinity_group');
-    cy.get('input[name="title[0][value]"]').type('test-affinity-group');
+    cy.get('input[name="title[0][value]"]').type('test-affinity-group', { delay: 0 });
     cy.get('[data-tid="682"]').click(); // Login tag
-    cy.get('input[name="field_group_slug[0][value]"]').type('test-affinity-group');
-    cy.get('input[name="field_group_id[0][value]"]').type('test.group.id');
+    cy.get('input[name="field_group_slug[0][value]"]').type('test-affinity-group', { delay: 0 });
+    cy.get('input[name="field_group_id[0][value]"]').type('test.group.id', { delay: 0 });
     cy.get('#edit-submit').click();
     cy.visit('/admin/content');
     cy.get('tbody > :nth-child(1) > .views-field-title > a').click();
@@ -53,18 +53,18 @@ describe("test individual tags page", () => {
     cy.contains('Submit New Project').click();
     cy.get('input[name="approved_milestones"]').check();
     cy.get('input[name="approved"]').check();
-    cy.get('input[name="project_title"]').type('test-project-title');
+    cy.get('input[name="project_title"]').type('test-project-title', { delay: 0 });
 
     cy.get('input[name="region[345]"]').check(); // At-Large
     cy.get('input[name="tags[682]"]').check(); // Login tag
     cy.get('input[name="tags[683]"]').check(); // Password tag
     cy.get('input[name="project_leader[first]"]').clear();
-    cy.get('input[name="project_leader[first]"]').type('test-first-name');
+    cy.get('input[name="project_leader[first]"]').type('test-first-name', { delay: 0 });
     cy.get('input[name="project_leader[last]"]').clear();
-    cy.get('input[name="project_leader[last]"]').type('test-last-name');
+    cy.get('input[name="project_leader[last]"]').type('test-last-name', { delay: 0 });
     cy.get('input[name="email"]').clear();
-    cy.get('input[name="email"]').type('test@email.com');
-    cy.get('textarea[name="project_description"]').type('test project description');
+    cy.get('input[name="email"]').type('test@email.com', { delay: 0 });
+    cy.get('textarea[name="project_description"]').type('test project description', { delay: 0 });
     cy.get('#edit-actions-01-submit').click();
     cy.contains('test-project-title');
     cy.contains('test project description');

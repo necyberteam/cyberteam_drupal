@@ -1,11 +1,23 @@
 uuid: 83304c2d-cb12-4c81-a662-84aa22822a4e
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - field_permissions
 _core:
   default_config_hash: Om6FEO7vZZMkPIbVvfxtdkWerQ2PvQM4sWUd6Q3ZnfI
 id: administrator
 label: administrator
 weight: -1
 is_admin: true
-permissions: {  }
+permissions:
+  - 'create field_persona_source'
+  - 'create field_user_preferred_pronouns'
+  - 'edit field_persona_source'
+  - 'edit field_user_preferred_pronouns'
+  - 'edit own field_persona_source'
+  - 'edit own field_user_preferred_pronouns'
+  - 'view field_persona_source'
+  - 'view field_user_preferred_pronouns'
+  - 'view own field_persona_source'
+  - 'view own field_user_preferred_pronouns'

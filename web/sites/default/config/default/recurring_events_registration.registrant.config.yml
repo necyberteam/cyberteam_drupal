@@ -7,7 +7,7 @@ use_admin_theme: false
 limit: 10
 date_format: 'F jS, Y h:iA'
 title: '[registrant:email]'
-email_notifications: true
+email_notifications: false
 email_notifications_queue: false
 notifications:
   registration_notification:
@@ -39,9 +39,9 @@ notifications:
     subject: 'An Event Series Has Been Modified'
     body: 'The [eventinstance:title] [eventinstance:reg_type] has been modified, and all instances have been removed, and your registration has been deleted.'
   registration_reminder:
-    enabled: false
+    enabled: true
     subject: 'Reminder for Event [registrant:eventinstance:title]'
-    body: "Dear [registrant:field_first_name] [registrant:field_last_name],\r\n\r\nThank you for registering for [registrant:eventinstance:title] on [registrant:eventinstance:date]. \r\nHere are the details:\r\nLocation (if applicable): [registrant:eventseries:field_location]\r\nTime: [registrant:eventinstance:date] - [registrant:eventinstance:end_date]\r\nKind regards,\r\nACCESS Support"
+    body: "Dear [registrant:field_first_name] [registrant:field_last_name],\r\n\r\nThank you for registering for [registrant:eventinstance:title] ([eventinstance:url]) on [registrant:eventinstance:date]. \r\n\r\nHere are the details:\r\nLocation (if applicable): [registrant:eventseries:field_location]\r\nTime: [registrant:eventinstance:date] - [registrant:eventinstance:end_date]\r\n\r\nKind regards,\r\nACCESS Support"
 successfully_registered: 'Your registration was received. You will receive an email after your registration is approved.'
 successfully_registered_waitlist: 'Successfully registered to the waitlist.'
 successfully_updated: 'Registrant successfully updated.'

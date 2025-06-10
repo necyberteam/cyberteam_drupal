@@ -5,6 +5,9 @@ dependencies:
   config:
     - field.storage.node.body
     - field.storage.node.field_affinity_group_category
+    - field.storage.node.field_ag_private
+    - field.storage.node.field_ag_private_users
+    - field.storage.node.field_coordinator
     - field.storage.node.field_domain_access
     - field.storage.node.field_image
     - field.storage.node.field_tags
@@ -36,6 +39,30 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_affinity_group_category
+  field_ag_private:
+    label: 'This group is private'
+    datasource_id: 'entity:node'
+    property_path: field_ag_private
+    type: boolean
+    dependencies:
+      config:
+        - field.storage.node.field_ag_private
+  field_ag_private_users:
+    label: 'Private group users'
+    datasource_id: 'entity:node'
+    property_path: field_ag_private_users
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_ag_private_users
+  field_coordinator:
+    label: Coordinator
+    datasource_id: 'entity:node'
+    property_path: field_coordinator
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_coordinator
   field_domain_access:
     label: 'Domain Access'
     datasource_id: 'entity:node'

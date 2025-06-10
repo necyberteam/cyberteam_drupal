@@ -16,7 +16,7 @@ describe("For an authenticated user tests account, interest/skills pages", () =>
     cy.contains('Confirm password');
     cy.contains('First Name');
     cy.contains('Last Name');
-    cy.get('#edit-field-user-preferred-pronouns-0-value').should('have.value', 'they/them');
+    //cy.get('#edit-field-user-preferred-pronouns-0-value').should('have.value', 'they/them');
 
     cy.get('.field--name-field-user-bio .ck-content').should('contain', 'I am a pie');
 

@@ -625,6 +625,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 10
           total_pages: null
           id: 0
@@ -639,7 +640,6 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          pagination_heading_level: h4
       exposed_form:
         type: bef
         options:
@@ -677,7 +677,7 @@ display:
         type: none
         options: {  }
       cache:
-        type: none
+        type: tag
         options: {  }
       empty:
         area:
@@ -1025,6 +1025,8 @@ display:
       display_description: ''
       exposed_block: false
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       block_description: 'Blog - Campus Champions'
       block_category: Blog

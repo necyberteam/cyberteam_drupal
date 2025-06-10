@@ -1,0 +1,21 @@
+uuid: 580c9df6-9d83-49a4-b5f5-49922ef05e99
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ag_private
+    - node.type.affinity_group
+id: node.affinity_group.field_ag_private
+field_name: field_ag_private
+entity_type: node
+bundle: affinity_group
+label: 'This group is private'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: Private
+  off_label: Open
+field_type: boolean
