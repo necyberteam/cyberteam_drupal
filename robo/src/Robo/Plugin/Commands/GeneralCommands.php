@@ -74,7 +74,7 @@ class GeneralCommands extends Tasks {
       $this->_exec("sleep 2");
       $this->_exec($cmd_prefix . "drush cr");
     }
-    $this->_exec($cmd_prefix . "robo uli");
+    $this->uli();
   }
 
   /**
