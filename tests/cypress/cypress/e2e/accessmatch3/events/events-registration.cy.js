@@ -4,7 +4,7 @@ describe('Test the registration feature', () => {
     cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
 
     cy.visit('/events')
-    cy.get('#edit-search-api-fulltext--2').type('example')
+    cy.get('#edit-search-api-fulltext--2').type('example', { delay: 0 })
     cy.wait(1000)
     cy.contains('cypress-example-event').click()
     cy.contains('Register').click()

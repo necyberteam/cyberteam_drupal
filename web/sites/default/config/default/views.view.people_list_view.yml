@@ -941,6 +941,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 32
           total_pages: null
           id: 0
@@ -958,7 +959,6 @@ display:
             offset: false
             offset_label: Offset
           quantity: 6
-          pagination_heading_level: h4
       exposed_form:
         type: bef
         options:
@@ -1015,7 +1015,7 @@ display:
         options:
           perm: 'access user profiles'
       cache:
-        type: none
+        type: tag
         options: {  }
       empty:
         area:
@@ -1745,6 +1745,8 @@ display:
       display_description: ''
       exposed_block: true
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       block_description: 'PeopleListView - ACCESS CSSN'
       block_category: PeopleListView

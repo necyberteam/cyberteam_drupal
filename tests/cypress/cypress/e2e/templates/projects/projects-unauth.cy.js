@@ -11,11 +11,11 @@ describe("test projects/engagements page", () => {
     cy.contains('Status');
     cy.contains('Project Leader');
 
-    cy.get('input[name="search"]').type('test');
+    cy.get('input[name="search"]').type('test', { delay: 0 });
     cy.contains('test');
 
     cy.get('input[name="search"]').clear();
-    cy.get('input[name="search"]').type('testy2002');
+    cy.get('input[name="search"]').type('testy2002', { delay: 0 });
     cy.contains('There are no projects at this time. Please check back often as projects are added regularly.');
 
     cy.get('input[name="search"]').clear();
