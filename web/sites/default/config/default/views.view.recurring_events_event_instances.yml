@@ -2293,6 +2293,13 @@ display:
         options:
           offset: 0
           items_per_page: 3
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       sorts:
         date__value:
           id: date__value
@@ -2660,6 +2667,7 @@ display:
           relationship: none
           view_mode: list
       defaults:
+        cache: false
         title: false
         css_class: false
         pager: false

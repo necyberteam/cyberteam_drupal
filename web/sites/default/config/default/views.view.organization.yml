@@ -14,9 +14,9 @@ dependencies:
     - taxonomy.vocabulary.organization_type
   module:
     - better_exposed_filters
-    - image
     - link
     - node
+    - svg_image
     - taxonomy
     - text
 id: organization
@@ -1800,6 +1800,13 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+      cache:
+        type: time
+        options:
+          results_lifespan: 21600
+          results_lifespan_custom: 0
+          output_lifespan: 21600
+          output_lifespan_custom: 0
       arguments:
         tid:
           id: tid
@@ -1842,6 +1849,7 @@ display:
           require_value: false
           reduce_duplicates: false
       defaults:
+        cache: false
         css_class: false
         group_by: false
         relationships: false
@@ -1875,7 +1883,9 @@ display:
             value: '<h2>Organizations</h2>'
             format: basic_html
           tokenize: false
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
       block_hide_empty: true
     cache_metadata:
       max-age: -1

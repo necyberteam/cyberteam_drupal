@@ -1,0 +1,166 @@
+name: 'DDEV Cypress Test'
+description: 'Run Cypress tests using DDEV'
+author: 'necyberteam'
+
+inputs:
+  site:
+    description: 'Site identifier (e.g. accessmatch, ccmnet)'
+    required: true
+  directory:
+    description: 'Test directory name'
+    required: true
+  database:
+    description: 'Custom database URL (optional)'
+    required: false
+  github_token:
+    description: 'GitHub token for authentication'
+    required: true
+  amp_uid:
+    description: 'AMP UID for user authentication'
+    required: true
+  slack_webhook:
+    description: 'Slack webhook URL for notifications (optional)'
+    required: false
+  slack_bot_token:
+    description: 'Slack bot token for file uploads (optional)'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup DDEV Base
+      uses: ./.github/actions/ddev-base
+      with:
+        site: ${{ inputs.site }}
+        database: ${{ inputs.database }}
+        github_token: ${{ inputs.github_token }}
+        amp_uid: ${{ inputs.amp_uid }}
+
+    - name: Download files
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      run: |
+        echo "Downloading fresh files from backup..."
+        ddev exec gh auth status
+        ddev exec vendor/bin/robo gh:pullfiles
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: tests/cypress/package-lock.json
+
+    - name: Install Cypress dependencies
+      shell: bash
+      run: |
+        cd tests/cypress
+        npm ci
+
+    - name: Install Cypress system dependencies
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libxtst6 xauth xvfb
+        # Install Chrome for Cypress
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+
+    - name: Verify site accessibility
+      shell: bash
+      env:
+        SITE: ${{ inputs.site }}
+        TERM: xterm
+      run: |
+        echo "Checking DDEV status..."
+        ddev status
+        echo "Testing site accessibility at https://$SITE.ddev.site"
+        curl -I "https://$SITE.ddev.site" || echo "Site not accessible"
+        echo "DDEV describe output:"
+        ddev describe
+
+    - name: Run Cypress tests
+      shell: bash
+      env:
+        SITE: ${{ inputs.site }}
+        DIR: ${{ inputs.directory }}
+        TERM: xterm
+      run: |
+        cd tests/cypress
+        echo "Testing site URL: https://$SITE.ddev.site"
+        echo "Running tests from: cypress/e2e/$DIR/**/*.js"
+        # Run Cypress tests (let it fail naturally to trigger failure handlers)
+        xvfb-run -a npx cypress run --config baseUrl=https://$SITE.ddev.site --spec "cypress/e2e/$DIR/**/*.js"
+
+    - name: Check for screenshots
+      if: always()
+      shell: bash
+      run: |
+        echo "Checking for Cypress screenshots..."
+        if [ -d "tests/cypress/cypress/screenshots" ]; then
+          echo "Screenshots found:"
+          ls -la tests/cypress/cypress/screenshots/
+        else
+          echo "No screenshots directory found"
+        fi
+
+    - name: Upload screenshots on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: cypress-screenshots-${{ inputs.site }}-${{ inputs.directory }}
+        path: tests/cypress/cypress/screenshots/
+        if-no-files-found: ignore
+
+    - name: Upload screenshots to Slack
+      if: failure() && inputs.slack_bot_token != ''
+      shell: bash
+      env:
+        SLACK_BOT_TOKEN: ${{ inputs.slack_bot_token }}
+      run: |
+        if [ -d "tests/cypress/cypress/screenshots" ]; then
+          echo "Uploading screenshots to Slack..."
+          cd tests/cypress/cypress/screenshots
+          
+          # Find and upload first few screenshot files (limit to avoid spam)
+          count=0
+          find . -name "*.png" -type f | head -3 | while read screenshot; do
+            if [ -f "$screenshot" ]; then
+              echo "Uploading $screenshot to Slack..."
+              response=$(curl -s -F file=@"$screenshot" \
+                   -F "initial_comment=Cypress test failure: ${{ inputs.site }}-${{ inputs.directory }} - $(basename "$screenshot")" \
+                   -F channels=#cypress-git-notifications \
+                   -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+                   https://slack.com/api/files.upload)
+              echo "Slack API response: $response"
+            fi
+          done
+        fi
+
+    - name: Notify Slack on failure
+      if: failure() && inputs.slack_webhook != ''
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
+        SLACK_MESSAGE: 'Cypress tests failed for ${{ inputs.site }}-${{ inputs.directory }}. Screenshots also uploaded above.'
+        SLACK_TITLE: "Cypress Test Failure"
+        SLACK_CHANNEL: cypress-git-notifications
+
+    - name: Get Drupal logs on failure
+      if: failure()
+      shell: bash
+      run: |
+        echo "Attempting to get Drupal logs..."
+        ddev drush wd-show --count=10000 || echo "Could not retrieve Drupal logs (Drupal may not be fully set up)"
+
+    - name: Cleanup DDEV
+      if: always()
+      shell: bash
+      run: ddev delete -O -y
+
+branding:
+  icon: 'check-circle'
+  color: 'green'
