@@ -1,0 +1,148 @@
+uuid: 98de27cc-b2fa-412d-8e12-7c438f998e43
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.eventseries.ccemail
+    - field.field.eventseries.default.field_affiliation
+    - field.field.eventseries.default.field_affinity_group
+    - field.field.eventseries.default.field_affinity_group_node
+    - field.field.eventseries.default.field_broadcast_affinity_groups
+    - field.field.eventseries.default.field_contact
+    - field.field.eventseries.default.field_event_no_listing
+    - field.field.eventseries.default.field_event_speakers
+    - field.field.eventseries.default.field_event_type
+    - field.field.eventseries.default.field_event_virtual_meeting_link
+    - field.field.eventseries.default.field_location
+    - field.field.eventseries.default.field_registration
+    - field.field.eventseries.default.field_skill_level
+    - field.field.eventseries.default.field_tags
+    - recurring_events.eventseries_type.default
+  module:
+    - layout_builder
+    - link
+    - options
+    - recurring_events
+    - text
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+_core:
+  default_config_hash: fXYvr6TGfMKtN1D9QZvmM9VfKpz22DwkiwGb7irMVd8
+id: eventseries.default.ccemail
+targetEntityType: eventseries
+bundle: default
+mode: ccemail
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  event_instances:
+    type: recurring_events_eventinstance_date
+    label: above
+    settings:
+      link: '1'
+      date_format: 'F jS, Y h:iA'
+      separator: ' - '
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_affiliation:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_affinity_group_node:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_contact:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_event_speakers:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_event_virtual_meeting_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_location:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_skill_level:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_tags:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  consecutive_recurring_date: true
+  custom_date: true
+  daily_recurring_date: true
+  event_ical_link: true
+  event_registration: true
+  field_affinity_group: true
+  field_broadcast_affinity_groups: true
+  field_event_no_listing: true
+  field_event_type: true
+  field_registration: true
+  monthly_recurring_date: true
+  recur_type: true
+  registration_reminders: true
+  search_api_excerpt: true
+  weekly_recurring_date: true
+  yearly_recurring_date: true
