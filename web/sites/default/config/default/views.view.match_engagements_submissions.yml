@@ -5,25 +5,19 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.storage.node.field_consultant
-    - field.storage.node.field_launch_presentation
-    - field.storage.node.field_launch_presentation_date
     - field.storage.node.field_match_steering_committee_m
     - field.storage.node.field_mentor
     - field.storage.node.field_researcher
-    - field.storage.node.field_status
     - field.storage.node.field_students
-    - field.storage.node.field_wrap_presentation
-    - field.storage.node.field_wrap_presentation_date
     - node.type.match_engagement
     - user.role.administrator
     - user.role.match_pm
     - user.role.match_sc
+    - workflows.workflow.match_engagement
   module:
     - better_exposed_filters
-    - datetime
-    - file
+    - content_moderation
     - node
-    - options
     - user
 id: match_engagements_submissions
 label: 'Match Engagements submissions'
@@ -39,7 +33,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Match Engagements submissions'
+      title: 'MATCH Engagements submissions'
       fields:
         edit_node:
           id: edit_node
@@ -94,14 +88,15 @@ display:
           text: Edit
           output_url_as_text: false
           absolute: false
-        field_status:
-          id: field_status
-          table: node__field_status
-          field: field_status
+        moderation_state:
+          id: moderation_state
+          table: node_field_data
+          field: moderation_state
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: field
+          entity_type: node
+          plugin_id: moderation_state_field
           label: Status
           exclude: false
           alter:
@@ -144,7 +139,7 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: list_default
+          type: content_moderation_state
           settings: {  }
           group_column: value
           group_columns: {  }
@@ -166,7 +161,7 @@ display:
           entity_type: node
           entity_field: title
           plugin_id: field
-          label: 'Match Title'
+          label: Title
           exclude: false
           alter:
             alter_text: false
@@ -585,142 +580,18 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: false
-        field_launch_presentation:
-          id: field_launch_presentation
-          table: node__field_launch_presentation
-          field: field_launch_presentation
+        changed:
+          id: changed
+          table: node_field_data
+          field: changed
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: changed
           plugin_id: field
-          label: 'Launch Presentation'
-          exclude: true
-          alter:
-            alter_text: false
-            text: '{{ field_launch_presentation__target_id }}'
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: file_url_plain
-          settings: {  }
-          group_column: ''
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        field_launch_presentation_date:
-          id: field_launch_presentation_date
-          table: node__field_launch_presentation_date
-          field: field_launch_presentation_date
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: Launch
+          label: Updated
           exclude: false
-          alter:
-            alter_text: true
-            text: "{% if field_launch_presentation %}\r\n<strong><a href=\"{{ field_launch_presentation }}\">Presentation</a></strong><br /><br />\r\n{% endif %}\r\n<strong>Presentation Date:</strong><br />\r\n{{ field_launch_presentation_date }}"
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: datetime_default
-          settings:
-            timezone_override: ''
-            format_type: medium
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        field_wrap_presentation:
-          id: field_wrap_presentation
-          table: node__field_wrap_presentation
-          field: field_wrap_presentation
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: 'Wrap Presentation'
-          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -760,73 +631,22 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: file_url_plain
-          settings: {  }
-          group_column: ''
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        field_wrap_presentation_date:
-          id: field_wrap_presentation_date
-          table: node__field_wrap_presentation_date
-          field: field_wrap_presentation_date
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: Wrap
-          exclude: false
-          alter:
-            alter_text: true
-            text: "{% if field_wrap_presentation %}\r\n<strong><a href=\"{{ field_wrap_presentation }}\">Presentation</a></strong><br /><br />\r\n {% endif %}\r\n<strong>Presentation Date</strong><br />\r\n{{ field_wrap_presentation_date }}"
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
           click_sort_column: value
-          type: datetime_default
+          type: timestamp
           settings:
-            timezone_override: ''
-            format_type: medium
+            date_format: medium
+            custom_date_format: ''
+            timezone: ''
+            tooltip:
+              date_format: long
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
+              description: ''
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -859,7 +679,7 @@ display:
       exposed_form:
         type: bef
         options:
-          submit_button: Apply
+          submit_button: Filter
           reset_button: false
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
@@ -873,6 +693,7 @@ display:
               autosubmit: false
               autosubmit_exclude_textfield: false
               autosubmit_textfield_delay: 500
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -880,15 +701,18 @@ display:
               secondary_open: false
               reset_button_always_show: false
             filter:
-              field_status_value:
+              moderation_state:
                 plugin_id: bef_select2
                 advanced:
                   sort_options: false
                   placeholder_text: '- None -'
                   rewrite:
                     filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
                   collapsible: false
+                  collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: true
       access:
         type: role
         options:
@@ -901,20 +725,20 @@ display:
         options: {  }
       empty: {  }
       sorts:
-        created:
-          id: created
+        changed:
+          id: changed
           table: node_field_data
-          field: created
+          field: changed
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: node
-          entity_field: created
+          entity_field: changed
           plugin_id: date
           order: DESC
           expose:
-            label: ''
-            field_identifier: ''
+            label: Changed
+            field_identifier: changed
           exposed: false
           granularity: second
       arguments: {  }
@@ -931,40 +755,40 @@ display:
           expose:
             operator_limit_selection: false
             operator_list: {  }
-        field_status_value:
-          id: field_status_value
-          table: node__field_status
-          field: field_status_value
+        moderation_state:
+          id: moderation_state
+          table: node_field_data
+          field: moderation_state
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: list_field
-          operator: or
+          entity_type: node
+          plugin_id: moderation_state_filter
+          operator: in
           value:
-            draft: draft
-            submitted: submitted
-            received: received
-            in_review: in_review
-            accepted: accepted
-            recruiting: recruiting
-            reviewing_applicants: reviewing_applicants
-            in_progress: in_progress
-            finishing_up: finishing_up
-            complete: complete
-            on_hold: on_hold
+            match_engagement-draft: match_engagement-draft
+            match_engagement-in_review: match_engagement-in_review
+            match_engagement-received: match_engagement-received
+            match_engagement-prelaunch: match_engagement-prelaunch
+            match_engagement-recruiting: match_engagement-recruiting
+            match_engagement-reviewing_applicants: match_engagement-reviewing_applicants
+            match_engagement-in_progress: match_engagement-in_progress
+            match_engagement-finishing_up: match_engagement-finishing_up
+            match_engagement-complete: match_engagement-complete
+            match_engagement-on_hold: match_engagement-on_hold
           group: 1
           exposed: true
           expose:
-            operator_id: field_status_value_op
-            label: Status
+            operator_id: moderation_state_op
+            label: State
             description: ''
             use_operator: false
-            operator: field_status_value_op
+            operator: moderation_state_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: field_status_value
+            identifier: moderation_state
             required: false
-            remember: false
+            remember: true
             multiple: true
             remember_roles:
               authenticated: authenticated
@@ -1001,23 +825,22 @@ display:
               match_sc: '0'
               cip: '0'
               site_developer: '0'
-            reduce: false
+              ccmnet: '0'
+              ccmnet_admin: '0'
+              ondemand: '0'
+            reduce: true
           is_grouped: false
           group_info:
-            label: 'Status (field_status)'
-            description: null
-            identifier: field_status_value
+            label: ''
+            description: ''
+            identifier: ''
             optional: true
             widget: select
             multiple: false
             remember: false
             default_group: All
             default_group_multiple: {  }
-            group_items:
-              1: {  }
-              2: {  }
-              3: {  }
-          reduce_duplicates: false
+            group_items: {  }
       style:
         type: table
         options:
@@ -1165,15 +988,11 @@ display:
         - user.roles
       tags:
         - 'config:field.storage.node.field_consultant'
-        - 'config:field.storage.node.field_launch_presentation'
-        - 'config:field.storage.node.field_launch_presentation_date'
         - 'config:field.storage.node.field_match_steering_committee_m'
         - 'config:field.storage.node.field_mentor'
         - 'config:field.storage.node.field_researcher'
-        - 'config:field.storage.node.field_status'
         - 'config:field.storage.node.field_students'
-        - 'config:field.storage.node.field_wrap_presentation'
-        - 'config:field.storage.node.field_wrap_presentation_date'
+        - 'config:workflow_list'
   page_1:
     id: page_1
     display_title: Page
@@ -1181,7 +1000,9 @@ display:
     position: 1
     display_options:
       exposed_block: false
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
       path: match-engagements-submissions
     cache_metadata:
       max-age: -1
@@ -1194,12 +1015,8 @@ display:
         - user.roles
       tags:
         - 'config:field.storage.node.field_consultant'
-        - 'config:field.storage.node.field_launch_presentation'
-        - 'config:field.storage.node.field_launch_presentation_date'
         - 'config:field.storage.node.field_match_steering_committee_m'
         - 'config:field.storage.node.field_mentor'
         - 'config:field.storage.node.field_researcher'
-        - 'config:field.storage.node.field_status'
         - 'config:field.storage.node.field_students'
-        - 'config:field.storage.node.field_wrap_presentation'
-        - 'config:field.storage.node.field_wrap_presentation_date'
+        - 'config:workflow_list'

@@ -559,7 +559,7 @@ GITHUB_TOKEN=$token'>.env");
     if ($domain !== 0) {
       $this->_exec($cmd_prefix . "robo ds $domain");
     }
-    $this->_exec($cmd_prefix . "robo uli");
+    $this->uli();
   }
 
 }
