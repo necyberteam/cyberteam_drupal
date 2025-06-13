@@ -10,7 +10,6 @@ dependencies:
     - field.storage.node.field_match_steering_committee_m
     - field.storage.node.field_mentor
     - field.storage.node.field_researcher
-    - field.storage.node.field_status
     - field.storage.node.field_students
     - field.storage.node.field_wrap_presentation
     - field.storage.node.field_wrap_presentation_date
@@ -18,12 +17,13 @@ dependencies:
     - user.role.administrator
     - user.role.match_pm
     - user.role.match_sc
+    - workflows.workflow.match_engagement
   module:
     - better_exposed_filters
+    - content_moderation
     - datetime
     - file
     - node
-    - options
     - user
 id: match_engagements_submissions
 label: 'Match Engagements submissions'
@@ -94,14 +94,15 @@ display:
           text: Edit
           output_url_as_text: false
           absolute: false
-        field_status:
-          id: field_status
-          table: node__field_status
-          field: field_status
+        moderation_state:
+          id: moderation_state
+          table: node_field_data
+          field: moderation_state
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: field
+          entity_type: node
+          plugin_id: moderation_state_field
           label: Status
           exclude: false
           alter:
@@ -144,7 +145,7 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: list_default
+          type: content_moderation_state
           settings: {  }
           group_column: value
           group_columns: {  }
@@ -873,6 +874,7 @@ display:
               autosubmit: false
               autosubmit_exclude_textfield: false
               autosubmit_textfield_delay: 500
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -880,15 +882,18 @@ display:
               secondary_open: false
               reset_button_always_show: false
             filter:
-              field_status_value:
+              moderation_state:
                 plugin_id: bef_select2
                 advanced:
                   sort_options: false
                   placeholder_text: '- None -'
                   rewrite:
                     filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
                   collapsible: false
+                  collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       access:
         type: role
         options:
@@ -931,38 +936,39 @@ display:
           expose:
             operator_limit_selection: false
             operator_list: {  }
-        field_status_value:
-          id: field_status_value
-          table: node__field_status
-          field: field_status_value
+        moderation_state:
+          id: moderation_state
+          table: node_field_data
+          field: moderation_state
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: list_field
-          operator: or
+          entity_type: node
+          plugin_id: moderation_state_filter
+          operator: in
           value:
-            draft: draft
-            submitted: submitted
-            received: received
-            in_review: in_review
-            accepted: accepted
-            recruiting: recruiting
-            reviewing_applicants: reviewing_applicants
-            in_progress: in_progress
-            finishing_up: finishing_up
-            complete: complete
-            on_hold: on_hold
+            match_engagement-draft: match_engagement-draft
+            match_engagement-published: match_engagement-published
+            match_engagement-in_review: match_engagement-in_review
+            match_engagement-received: match_engagement-received
+            match_engagement-prelaunch: match_engagement-prelaunch
+            match_engagement-recruiting: match_engagement-recruiting
+            match_engagement-reviewing_applicants: match_engagement-reviewing_applicants
+            match_engagement-in_progress: match_engagement-in_progress
+            match_engagement-finishing_up: match_engagement-finishing_up
+            match_engagement-complete: match_engagement-complete
+            match_engagement-on_hold: match_engagement-on_hold
           group: 1
           exposed: true
           expose:
-            operator_id: field_status_value_op
-            label: Status
+            operator_id: moderation_state_op
+            label: State
             description: ''
             use_operator: false
-            operator: field_status_value_op
+            operator: moderation_state_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: field_status_value
+            identifier: moderation_state
             required: false
             remember: false
             multiple: true
@@ -1001,23 +1007,22 @@ display:
               match_sc: '0'
               cip: '0'
               site_developer: '0'
-            reduce: false
+              ccmnet: '0'
+              ccmnet_admin: '0'
+              ondemand: '0'
+            reduce: true
           is_grouped: false
           group_info:
-            label: 'Status (field_status)'
-            description: null
-            identifier: field_status_value
+            label: ''
+            description: ''
+            identifier: ''
             optional: true
             widget: select
             multiple: false
             remember: false
             default_group: All
             default_group_multiple: {  }
-            group_items:
-              1: {  }
-              2: {  }
-              3: {  }
-          reduce_duplicates: false
+            group_items: {  }
       style:
         type: table
         options:
@@ -1170,10 +1175,10 @@ display:
         - 'config:field.storage.node.field_match_steering_committee_m'
         - 'config:field.storage.node.field_mentor'
         - 'config:field.storage.node.field_researcher'
-        - 'config:field.storage.node.field_status'
         - 'config:field.storage.node.field_students'
         - 'config:field.storage.node.field_wrap_presentation'
         - 'config:field.storage.node.field_wrap_presentation_date'
+        - 'config:workflow_list'
   page_1:
     id: page_1
     display_title: Page
@@ -1181,7 +1186,9 @@ display:
     position: 1
     display_options:
       exposed_block: false
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
       path: match-engagements-submissions
     cache_metadata:
       max-age: -1
@@ -1199,7 +1206,7 @@ display:
         - 'config:field.storage.node.field_match_steering_committee_m'
         - 'config:field.storage.node.field_mentor'
         - 'config:field.storage.node.field_researcher'
-        - 'config:field.storage.node.field_status'
         - 'config:field.storage.node.field_students'
         - 'config:field.storage.node.field_wrap_presentation'
         - 'config:field.storage.node.field_wrap_presentation_date'
+        - 'config:workflow_list'
