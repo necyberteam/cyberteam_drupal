@@ -89,18 +89,6 @@ then
   sh -c "composer config -g github-oauth.github.com $gh_token"
 
   composer install --no-dev --ignore-platform-reqs
-  
-  # Ensure drush is available in PATH
-  if [ ! -f vendor/bin/drush ]; then
-    echo "ERROR: drush not found in vendor/bin after composer install"
-    echo "Contents of vendor/bin:"
-    ls -la vendor/bin/ || echo "vendor/bin directory not found"
-    echo "Attempting to install drush explicitly..."
-    composer require drush/drush --no-interaction --ignore-platform-reqs
-  fi
-  
-  # Add vendor/bin to PATH to ensure drush is available
-  export PATH="$PWD/vendor/bin:$PATH"
 
   branch="${GITHUB_REF#refs/heads/}"
   if [ "$branch" = "main" ]; then
