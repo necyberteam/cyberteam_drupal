@@ -94,6 +94,7 @@
     "drupal/domain_theme_switch": "^2.0",
     "drupal/easy_breadcrumb": "^2.0",
     "drupal/email_change_verification": "^1.0@beta",
+    "drupal/facet_bot_blocker": "^1.0",
     "drupal/facets": "^2.0",
     "drupal/feeds": "3.x-dev@dev",
     "drupal/field_group": "^3.2",
@@ -235,6 +236,7 @@
         "[web-root]/profiles/README.txt": false,
         "[web-root]/themes/README.txt": false,
         "[web-root]/INSTALL.txt": false,
+        "[web-root]/sites/development.services.yml": false,
         "[web-root]/robots.txt": {
           "append": "robo/assets/robots-additions.txt"
         }
@@ -276,6 +278,10 @@
       "bower-asset",
       "npm-asset"
     ]
+  },
+  "scripts": {
+    "robo": "robo --ansi",
+    "robo-ci": "robo --no-ansi"
   },
   "autoload": {
     "psr-4": {
