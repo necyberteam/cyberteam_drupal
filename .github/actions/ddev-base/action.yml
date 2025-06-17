@@ -67,9 +67,13 @@ runs:
           echo "Downloading custom database: $DATABASE"
           wget -O backups/site.sql.gz "$DATABASE"
         else
-          echo "Using GitHub artifact database"
-          gh auth status
-          ddev exec vendor/bin/robo gh:pulldb
+          echo "Using existing backup file (should already exist from previous step)"
+          if [ -f "backups/site.sql.gz" ]; then
+            echo "✅ Found existing backup file: backups/site.sql.gz"
+          else
+            echo "❌ No backup file found - this action requires a database file"
+            exit 1
+          fi
         fi
 
     - name: Import database and deploy
