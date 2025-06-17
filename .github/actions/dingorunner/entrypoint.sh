@@ -53,8 +53,7 @@ then
   storeKey
   terminusApi
   mkdir backups
-  # Get the latest backup (including manual backups)
-  terminus backup:get $site_name.$env --element=db --latest --to=backups/site.sql.gz
+  terminus backup:get $site_name.$env --element=db --to=backups/site.sql.gz
 fi
 
 if [ "$runner" = bkup-files ];
