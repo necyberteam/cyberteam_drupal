@@ -18,14 +18,14 @@ additional_hostnames:
 additional_fqdns: []
 database:
   type: mysql
-  version: "5.7"
-use_dns_when_possible: true
+  version: "8.0"
 upload_dirs:
   - sites/default/files
   - ../backups
   - ../tests
+webimage_extra_packages: [gh]
+use_dns_when_possible: true
 composer_version: "2"
 web_environment: []
-corepack_enable: false
-webimage_extra_packages: [gh]
 nodejs_version: "20"
+corepack_enable: false
