@@ -37,7 +37,7 @@ jobs:
         uses: ./.github/actions/ddev-base
         with:
           site: "accessmatch"
-          database: ''
+          database: 'file:///${{ github.workspace }}/backups/site.sql.gz'
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
 
