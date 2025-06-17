@@ -1743,6 +1743,20 @@ display:
         options:
           offset: 0
           items_per_page: 4
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: 'No office hours are currently scheduled.'
+            format: basic_html
+          tokenize: false
       sorts:
         date__value:
           id: date__value
@@ -1969,6 +1983,7 @@ display:
           separator: ''
           hide_empty: false
       defaults:
+        empty: false
         title: false
         pager: false
         use_more: false
@@ -1982,12 +1997,40 @@ display:
         sorts: false
         filters: false
         filter_groups: false
+        header: false
+        footer: false
       display_description: ''
       use_more: false
       use_more_always: true
       use_more_text: 'All Events'
       link_display: custom_url
       link_url: '/events?f[0]=custom_event_affiliation%3AACCESS %26 NAIRR Office Hours'
+      header:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: false
+          content: '<h2>Upcoming Office Hours</h2>'
+          tokenize: false
+      footer:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<a class="text-sm text-black uppercase underline hover--text-dark-teal hover--no-underline" href="/events?f[0]=custom_event_affiliation%3AACCESS %26 NAIRR Office Hours">See all</a>'
+            format: full_html
+          tokenize: false
       display_extenders:
         jsonapi_views:
           enabled: true
