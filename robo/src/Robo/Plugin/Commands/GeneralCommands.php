@@ -59,7 +59,7 @@ class GeneralCommands extends Tasks {
     }
 
     // Use DDEV's built-in database import (works from both host and container)
-    $this->_exec($cmd_prefix . "import-db --src=backups/site.sql.gz");
+    $this->_exec($cmd_prefix . "import-db --file=backups/site.sql.gz");
 
     $this->_exec("sleep 2");
     $this->_exec($cmd_prefix . "composer install");
