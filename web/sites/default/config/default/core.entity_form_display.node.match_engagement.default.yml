@@ -98,24 +98,6 @@ third_party_settings:
         open: false
         description: ''
         required_fields: true
-    group_launch_and_wrap_presentati:
-      children:
-        - field_launch_presentation
-        - field_launch_presentation_date
-        - field_wrap_presentation
-        - field_wrap_presentation_date
-      label: 'Launch and Wrap Presentations'
-      region: content
-      parent_name: ''
-      weight: 21
-      format_type: details
-      format_settings:
-        classes: ''
-        show_empty_fields: false
-        id: group_launch_id
-        open: false
-        description: ''
-        required_fields: true
     group_match_team:
       children:
         - field_consultant
@@ -132,22 +114,6 @@ third_party_settings:
         open: false
         description: ''
         required_fields: true
-    group_milestones_set:
-      children:
-        - group_first_milestone_fs
-        - group_milestones_group
-      label: Milestones
-      region: content
-      parent_name: ''
-      weight: 20
-      format_type: details
-      format_settings:
-        classes: ''
-        show_empty_fields: false
-        id: milestones_fieldset
-        open: false
-        description: ''
-        required_fields: false
 id: node.match_engagement.default
 targetEntityType: node
 bundle: match_engagement
@@ -253,19 +219,6 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_launch_presentation:
-    type: file_generic
-    weight: 33
-    region: content
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
-  field_launch_presentation_date:
-    type: datetime_default
-    weight: 34
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_lessons_learned:
     type: string_textarea
     weight: 49
@@ -280,16 +233,6 @@ content:
     region: content
     settings:
       display_label: true
-    third_party_settings: {  }
-  field_match_steering_committee_m:
-    type: entity_reference_autocomplete
-    weight: 27
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_mentor:
     type: entity_reference_autocomplete
@@ -383,19 +326,6 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_wrap_presentation:
-    type: file_generic
-    weight: 35
-    region: content
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
-  field_wrap_presentation_date:
-    type: datetime_default
-    weight: 36
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
     weight: 25
@@ -479,6 +409,11 @@ hidden:
   field_actual_completion_date_2: true
   field_actual_completion_date_3: true
   field_actual_completion_date_4: true
+  field_launch_presentation: true
+  field_launch_presentation_date: true
+  field_wrap_presentation: true
+  field_wrap_presentation_date: true
+  field_match_steering_committee_m: true
   field_qualifications: true
   field_programming_skill_level: true
   field_requested_engagement: true
