@@ -92,6 +92,12 @@ type_settings:
         - in_progress
       to: in_progress
       weight: 2
+    submitted_to_in_progress:
+      label: 'Submitted to In Progress'
+      from:
+        - in_review
+      to: in_progress
+      weight: 8
   entity_types:
     node:
       - match_engagement
