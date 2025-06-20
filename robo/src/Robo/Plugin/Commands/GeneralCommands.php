@@ -227,7 +227,7 @@ GITHUB_TOKEN=$token'>.env");
     if ($is_ddev) {
       $this->_exec("drush sql-dump --result-file=backups/snapshots/" . $date . "_" . $branch . "_" . $snap_name . ".sql");
     } else {
-      $this->_exec("ddev export-db backups/snapshots/" . $date . "_" . $branch . "_" . $snap_name . ".sql");
+      $this->_exec("ddev export-db --file=backups/snapshots/" . $date . "_" . $branch . "_" . $snap_name . ".sql");
     }
   }
 
@@ -257,7 +257,7 @@ GITHUB_TOKEN=$token'>.env");
     if ($is_ddev) {
       $this->_exec("drush sql-drop -y && gunzip -c backups/snapshots/" . $snap_name[$snap_selected][0] . "_" . $snap_name[$snap_selected][1] . "_" . $snap_name[$snap_selected][2] . ".sql.gz | drush sqlc");
     } else {
-      $this->_exec("ddev import-db backups/snapshots/" . $snap_name[$snap_selected][0] . "_" . $snap_name[$snap_selected][1] . "_" . $snap_name[$snap_selected][2] . ".sql.gz");
+      $this->_exec("ddev import-db --file=backups/snapshots/" . $snap_name[$snap_selected][0] . "_" . $snap_name[$snap_selected][1] . "_" . $snap_name[$snap_selected][2] . ".sql.gz");
     }
     $this->say("Restored Snapshot: " . $snap_name[$snap_selected][2]);
     if ($snap_deploy != 'n') {
