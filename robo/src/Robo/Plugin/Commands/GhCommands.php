@@ -51,31 +51,28 @@ class GhCommands extends Tasks {
    */
   public function pulldb() {
     $this->say("Downloading latest database backup from GitHub artifacts...");
-    
-    // List available workflows/runs to debug
-    $this->_exec("gh run list -R github.com/necyberteam/cyberteam_drupal -L 5");
-    
+
     // Try to download the artifact
     $result = $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-daily-backup");
-    
+
     // Ensure backups directory exists
     if (!file_exists('backups')) {
       $this->_exec("mkdir -p backups");
     }
-    
+
     // Check what files were downloaded
     $this->say("Checking downloaded files...");
     $this->_exec("ls -la");
-    
+
     $found_file = false;
     $target_file = 'backups/site.sql.gz';
-    
+
     // Check for various possible file names
     if (file_exists('site.sql.gz')) {
       $this->say("Found site.sql.gz");
       $this->_exec("mv site.sql.gz $target_file");
       $found_file = true;
-    } 
+    }
     elseif (file_exists('site.sql')) {
       $this->say("Found site.sql, compressing...");
       $this->_exec("gzip site.sql");
@@ -93,19 +90,19 @@ class GhCommands extends Tasks {
       $this->_exec("mv amp-daily-backup/site.sql.gz $target_file");
       $found_file = true;
     }
-    
+
     if (!$found_file) {
       $this->say("❗️ No database file found. Available files:");
       $this->_exec("find . -name '*.sql*' -o -name 'site.*'");
       throw new \Exception('Failed to find database backup file');
     }
-    
+
     // Remove old backup if it exists
     $prev_backup = 'backups/site.sql.gz.old';
     if (file_exists($target_file)) {
       $this->_exec("cp $target_file $prev_backup");
     }
-    
+
     $this->say("✅ Database backup downloaded successfully to $target_file!");
   }
 
@@ -117,24 +114,24 @@ class GhCommands extends Tasks {
    */
   public function pullfiles() {
     $this->say("Downloading latest file backup from GitHub artifacts...");
-    
+
     // List available workflows/runs to debug
     $this->_exec("gh run list -R github.com/necyberteam/cyberteam_drupal -L 5");
-    
+
     // Download the artifact
     $result = $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-file-backup");
-    
+
     // Check what files were downloaded
     $this->say("Checking downloaded files...");
     $this->_exec("ls -la");
-    
+
     // Check if files.tar.gz exists
     if (!file_exists('files.tar.gz')) {
       $this->say("❗️ No files.tar.gz found. Available files:");
       $this->_exec("find . -name '*.tar.gz' -o -name 'files.*'");
       throw new \Exception('Failed to find files backup file');
     }
-    
+
     // Remove existing files directory if it exists
     $prev_files = 'web/sites/default/files';
     if (file_exists($prev_files)) {
@@ -145,7 +142,7 @@ class GhCommands extends Tasks {
     $this->_exec("tar -xzvf files.tar.gz");
     $this->_exec("mv files web/sites/default/files");
     $this->_exec("rm -fR files.tar.gz");
-    
+
     $this->say("✅ File backup downloaded successfully!");
   }
 

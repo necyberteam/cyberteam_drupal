@@ -28,6 +28,15 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Download database backup
+      if: inputs.database == ''
+      uses: dawidd6/action-download-artifact@v6
+      with:
+        name: amp-daily-backup
+        path: backups/
+        workflow: backupdb.yml
+        branch: main
+      
     - name: Setup DDEV Base
       uses: ./.github/actions/ddev-base
       with:
