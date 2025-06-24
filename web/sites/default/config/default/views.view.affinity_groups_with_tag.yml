@@ -11,6 +11,7 @@ dependencies:
     - node.type.affinity_group
     - taxonomy.vocabulary.tags
   module:
+    - domain_access
     - flag
     - node
     - svg_image
@@ -729,12 +730,8 @@ display:
           offset: 0
           items_per_page: 3
       cache:
-        type: time
-        options:
-          results_lifespan: 21600
-          results_lifespan_custom: 0
-          output_lifespan: 21600
-          output_lifespan_custom: 0
+        type: tag
+        options: {  }
       empty:
         area:
           id: area
@@ -749,6 +746,136 @@ display:
             value: '<div class="alert alert-warning">There are no [view:title] associated with this topic. View <a href="/affinity_groups">All Affinity Groups</a>.</div>'
             format: full_no_editor
           tokenize: false
+      filters:
+        status:
+          id: status
+          table: node_field_data
+          field: status
+          entity_type: node
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          value:
+            affinity_group: affinity_group
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        tid:
+          id: tid
+          table: taxonomy_index
+          field: tid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: 'not empty'
+          value: {  }
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: true
+          vid: tags
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+        field_domain_access_target_id:
+          id: field_domain_access_target_id
+          table: node__field_domain_access
+          field: field_domain_access_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: domain_access_filter
+          operator: in
+          value:
+            all: all
+            nectd8_wpi_edu: nectd8_wpi_edu
+            greatplains_wpi_edu: greatplains_wpi_edu
+            rmacc_wpi_edu: rmacc_wpi_edu
+            kycyberteam_cyberinfrastructure_org: kycyberteam_cyberinfrastructure_org
+            careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
+            sweeter_cyberinfrastructure_org: sweeter_cyberinfrastructure_org
+            mines_cyberinfrastructure_org: mines_cyberinfrastructure_org
+            campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+            trecis_cyberinfrastructure_org: trecis_cyberinfrastructure_org
+            connectcidev_wpi_edu: connectcidev_wpi_edu
+            amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
+            coco_cyberinfrastructure_org: coco_cyberinfrastructure_org
+            usrse_cyberinfrastructure_org: usrse_cyberinfrastructure_org
+            ccmnet_org: ccmnet_org
+            openondemand_cyberinfrastructure_org: openondemand_cyberinfrastructure_org
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
       defaults:
         empty: false
         cache: false
@@ -758,6 +885,8 @@ display:
         use_more_text: false
         link_display: false
         link_url: false
+        filters: false
+        filter_groups: false
         header: false
         footer: false
       display_description: 'Short List'
