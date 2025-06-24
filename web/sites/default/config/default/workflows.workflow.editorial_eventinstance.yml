@@ -81,6 +81,12 @@ type_settings:
         - ready_for_review
       to: needs_adjustment
       weight: 6
+    review_to_review:
+      label: 'Review to Review'
+      from:
+        - ready_for_review
+      to: ready_for_review
+      weight: 7
     send_for_review:
       label: 'Send for Review'
       from:
