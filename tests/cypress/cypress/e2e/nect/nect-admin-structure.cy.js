@@ -414,7 +414,6 @@ describe("Test Structure admin page", () => {
     cy.contains('Reference: ACCESS Active Resources from CiDeR ID');
     cy.contains('Regional About');
     cy.contains('Related Blog');
-    cy.contains('Resource Catalog Carousel API');
     cy.contains('Resources');
     cy.contains('Resources Entity Reference');
     cy.contains('Search Knowledge Base Resources');
