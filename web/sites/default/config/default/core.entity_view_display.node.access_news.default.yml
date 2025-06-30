@@ -14,7 +14,6 @@ dependencies:
     - field.field.node.access_news.field_domain_source
     - field.field.node.access_news.field_image
     - field.field.node.access_news.field_news_external_link
-    - field.field.node.access_news.field_publish_to_resource_catalo
     - field.field.node.access_news.field_published_date
     - field.field.node.access_news.field_tags
     - node.type.access_news
@@ -231,6 +230,7 @@ third_party_settings:
               provider: layout_builder
               view_mode: full
               context_mapping: {  }
+              block_id: null
               block_revision_id: 259
               block_serialized: null
             weight: 0
@@ -258,6 +258,7 @@ third_party_settings:
               provider: layout_builder
               view_mode: full
               context_mapping: {  }
+              block_id: null
               block_revision_id: 260
               block_serialized: null
             weight: 2
@@ -366,16 +367,6 @@ content:
       target: ''
     third_party_settings: {  }
     weight: 7
-    region: first
-  field_publish_to_resource_catalo:
-    type: boolean
-    label: above
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-    weight: 6
     region: first
   field_published_date:
     type: datetime_custom
