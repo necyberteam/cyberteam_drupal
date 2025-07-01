@@ -2535,6 +2535,27 @@ span.event-tags {
   border-color: var(--primary) !important;
 }
 
+html:has(#edit-recur-type-wrapper) {
+  #edit-field-contact-0-format,
+  #edit-field-location-0-format,
+  #edit-custom-date-wrapper .tabledrag-toggle-weight-wrapper,
+  #edit-custom-date-wrapper thead,
+  #edit-custom-date-wrapper .field-multiple-drag,
+  #edit-custom-date-wrapper #edit-custom-date-0-actions-delete,
+  #edit-custom-date-wrapper #edit-custom-date--description,
+  #edit-custom-date-wrapper #edit-custom-date-add-more,
+  .form-item--recur-type:has(#edit-recur-type-daily-recurring-date),
+  .form-item--recur-type:has(#edit-recur-type-consecutive-recurring-date),
+  .form-item-recur-type:has(#edit-recur-type-daily-recurring-date),
+  .form-item-recur-type:has(#edit-recur-type-consecutive-recurring-date),
+  .form-type-vertical-tabs,
+  #included-dates-add-more-wrapper,
+  [data-drupal-selector="tabledrag-toggle-weight"],
+  table#custom-date-values tr:not(:first-child) {
+    display: none;
+  }
+}
+
 #block-nect-views-block-badges-block-1 img {
   width: 120px;
   height: auto;

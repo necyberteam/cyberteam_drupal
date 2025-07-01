@@ -11,11 +11,6 @@ label: 'MATCH Engagement'
 type: content_moderation
 type_settings:
   states:
-    accepted:
-      label: 'Unused state (was Accepted)'
-      weight: 6
-      published: true
-      default_revision: true
     complete:
       label: Complete
       weight: 2
@@ -31,16 +26,6 @@ type_settings:
       weight: -7
       published: false
       default_revision: false
-    finishing_up:
-      label: 'Finishing Up'
-      weight: 1
-      published: true
-      default_revision: true
-    halted:
-      label: Halted
-      weight: 4
-      published: true
-      default_revision: true
     in_progress:
       label: 'In Progress'
       weight: 0
@@ -51,34 +36,9 @@ type_settings:
       weight: -5
       published: true
       default_revision: true
-    on_hold:
-      label: 'On Hold'
-      weight: 3
-      published: true
-      default_revision: true
-    prelaunch:
-      label: 'In Review'
-      weight: -3
-      published: true
-      default_revision: true
     published:
       label: Published
       weight: -6
-      published: true
-      default_revision: true
-    received:
-      label: Received
-      weight: -4
-      published: true
-      default_revision: true
-    recruiting:
-      label: Recruiting
-      weight: -2
-      published: true
-      default_revision: true
-    reviewing_applicants:
-      label: 'Reviewing Applicants'
-      weight: -1
       published: true
       default_revision: true
   transitions:
@@ -86,11 +46,7 @@ type_settings:
       label: 'Complete Engagement'
       from:
         - complete
-        - finishing_up
         - in_progress
-        - on_hold
-        - recruiting
-        - reviewing_applicants
       to: complete
       weight: 4
     create_new_draft:
@@ -105,73 +61,10 @@ type_settings:
       from:
         - complete
         - declined
-        - finishing_up
-        - halted
         - in_progress
         - in_review
-        - on_hold
-        - prelaunch
-        - received
-        - recruiting
-        - reviewing_applicants
       to: declined
       weight: 7
-    finished_adding_information:
-      label: 'Finished adding information'
-      from:
-        - received
-      to: prelaunch
-      weight: -3
-    finishing_up:
-      label: 'Finishing Up'
-      from:
-        - complete
-        - finishing_up
-        - in_progress
-        - on_hold
-        - recruiting
-        - reviewing_applicants
-      to: finishing_up
-      weight: 3
-    halt_engagement:
-      label: 'Halt Engagement'
-      from:
-        - finishing_up
-        - halted
-        - in_progress
-        - on_hold
-        - recruiting
-        - reviewing_applicants
-      to: halted
-      weight: 6
-    hold_engagement:
-      label: 'Hold Engagement'
-      from:
-        - finishing_up
-        - in_progress
-        - on_hold
-        - recruiting
-        - reviewing_applicants
-      to: on_hold
-      weight: 5
-    ready_to_recruit:
-      label: 'Return to recruiting'
-      from:
-        - complete
-        - finishing_up
-        - in_progress
-        - on_hold
-        - recruiting
-        - reviewing_applicants
-      to: recruiting
-      weight: 0
-    receive:
-      label: 'Receive (and notify author)'
-      from:
-        - declined
-        - in_review
-      to: received
-      weight: -6
     request_review:
       label: 'Submit for Review'
       from:
@@ -182,71 +75,29 @@ type_settings:
       label: 'Return to draft'
       from:
         - complete
-        - finishing_up
-        - halted
         - in_progress
         - in_review
-        - on_hold
-        - prelaunch
-        - received
-        - recruiting
-        - reviewing_applicants
       to: draft
       weight: -5
-    reviewing_applicants:
-      label: 'Reviewing Applicants'
-      from:
-        - complete
-        - finishing_up
-        - in_progress
-        - on_hold
-        - recruiting
-        - reviewing_applicants
-      to: reviewing_applicants
-      weight: 1
-    save_as_received:
-      label: 'Save as Received'
-      from:
-        - received
-      to: received
-      weight: -4
     save_as_submitted:
       label: 'Save as Submitted'
       from:
         - in_review
       to: in_review
       weight: -7
-    save_as_unpublished:
-      label: 'Save as unpublished'
-      from:
-        - complete
-        - declined
-        - finishing_up
-        - halted
-        - in_progress
-        - on_hold
-        - prelaunch
-        - recruiting
-        - reviewing_applicants
-      to: prelaunch
-      weight: -2
     start_engagement:
       label: 'Engagement is In Progress'
       from:
         - complete
-        - finishing_up
         - in_progress
-        - on_hold
-        - recruiting
-        - reviewing_applicants
       to: in_progress
       weight: 2
-    start_recruiting_and_notify_author_:
-      label: 'Start recruiting (and notify author)'
+    submitted_to_in_progress:
+      label: 'Submitted to In Progress'
       from:
-        - prelaunch
-      to: recruiting
-      weight: -1
+        - in_review
+      to: in_progress
+      weight: 8
   entity_types:
     node:
       - match_engagement
