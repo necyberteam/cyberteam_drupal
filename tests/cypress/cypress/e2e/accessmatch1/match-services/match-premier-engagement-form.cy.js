@@ -30,9 +30,6 @@ describe("Authenticated user tests the MATCH Premier Engagement Form", () => {
     // tid 733 is the tag "ACCESS-account"
     cy.get('.tags-select[data-tid=733]').click()
 
-    //Preffered Semester Field
-    cy.get('[name="field_preferred_semester"]').select("Summer");
-
     // Send for Review
     cy.get('#edit-submit').click();
   });
