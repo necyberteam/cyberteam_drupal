@@ -27,8 +27,7 @@ describe("Verify a tag's page list of engagements", () => {
           .find('.card-title')
           .contains('dummy engagement');
         cy.get('.view-match-engagement-view')
-          .find('.engagement-status')
-          .contains('Recruiting');
+          .contains('In Progress');
       });
 
 
@@ -43,6 +42,10 @@ describe("Verify a tag's page list of engagements", () => {
 
       // create an engagement
       cy.visit("/node/add/match_engagement?type=plus");
+
+      // Select the required "I went to ACCESS/NAIRR Office Hours" checkbox
+      cy.get("#edit-field-match-office-hours-value").check();
+      
       cy.get("#edit-title-0-value").type("dummy engagement for tag community-outreach number " + num);
       cy.get('.field--name-body .ck-content').then(el => {
         const editor = el[0].ckeditorInstance
@@ -58,32 +61,11 @@ describe("Verify a tag's page list of engagements", () => {
       cy.get('#edit-submit').click();
       cy.contains('Thank you for sending your project for review.');
 
-      // update to received
+      // update to In Progress
       cy.get('.tabs')
         .contains('Edit')
         .click();
-      cy.get('#edit-moderation-state-0-state').select('Received');
-      cy.get('#edit-submit').click();
-
-      // update to In Review
-      cy.get('.tabs')
-        .contains('Edit')
-        .click();
-      // Milestones are now collapsed by default and not required.
-      // cy.get("#edit-field-milestone-description-0-value")
-      //   .clear()
-      //   .type('dummy milestone description');
-      // cy.get('#edit-field-milestone-completion-date-0-value-date')
-      //   .type('2025-12-12');
-      cy.get('#edit-moderation-state-0-state').select('In Review');
-      cy.get('#edit-submit').click();
-      cy.contains('has been updated.');
-
-      // update to recruiting
-      cy.get('.tabs')
-        .contains('Edit')
-        .click();
-      cy.get('#edit-moderation-state-0-state').select('Recruiting');
+      cy.get('#edit-moderation-state-0-state').select('In Progress');
       cy.get('#edit-submit').click();
       cy.contains('has been updated.');
     }
