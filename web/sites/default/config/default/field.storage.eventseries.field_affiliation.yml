@@ -3,18 +3,17 @@ langcode: en
 status: true
 dependencies:
   module:
-    - field_permissions
     - options
     - recurring_events
-third_party_settings:
-  field_permissions:
-    permission_type: public
 id: eventseries.field_affiliation
 field_name: field_affiliation
 entity_type: eventseries
 type: list_string
 settings:
   allowed_values:
+    -
+      value: access_nairr_office_hours
+      label: 'ACCESS & NAIRR Office Hours'
     -
       value: 'ACCESS Collaboration'
       label: 'ACCESS Collaboration'
