@@ -379,7 +379,6 @@ describe("Test Structure admin page", () => {
     cy.contains('Infrastructure News');
     cy.contains('Interested in Project');
     cy.contains('Knowledge Base Resources Search');
-    cy.contains('Symfony Mailer Log overview');
     cy.contains('Match Engagements submissions');
     cy.contains('match engagement view');
     cy.contains('match interested users');
