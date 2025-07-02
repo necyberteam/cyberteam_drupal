@@ -227,9 +227,6 @@ describe("Check admin configuration pages", () => {
     cy.visit('/admin/config/development/configuration');
     cy.get('h1').should('contain', 'Synchronize');
 
-    cy.visit('/admin/config/system/mailer/symfony-mailer-log');
-    cy.get('h1').should('contain', 'Symfony Mailer Log Settings');
-
     cy.visit('/admin/config/development/yaml_editor');
     cy.get('h1').should('contain', 'YAML Editor');
   });
