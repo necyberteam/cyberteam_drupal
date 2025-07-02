@@ -445,7 +445,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="alert alert-warning">There are no [view:title] associated with this topic. View <a href="/people/card">All People</a>.</div>'
+            value: '<div>There are no [view:title] associated with this topic. View <a href="/people/card">All People</a>.</div>'
             format: full_html
           tokenize: false
       sorts: {  }
@@ -474,7 +474,6 @@ display:
             limit: false
             vids: {  }
             anyall: ','
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -666,7 +665,7 @@ display:
           distinct: false
           replica: false
           query_tags: {  }
-          contextual_filters_or: 0
+          contextual_filters_or: false
       relationships:
         flag_relationship:
           id: flag_relationship
@@ -715,9 +714,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   data_export_1:
     id: data_export_1
     display_title: 'Data export'
@@ -1077,7 +1076,6 @@ display:
             limit: false
             vids: {  }
             anyall: ','
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1115,7 +1113,6 @@ display:
           default_argument_options:
             index: 3
             use_alias: false
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1292,6 +1289,7 @@ display:
       tags:
         - 'config:field.storage.user.field_institution'
         - 'config:field.storage.user.field_region'
+        - flag.flag.skill
   tag_researchers_eds_careers:
     id: tag_researchers_eds_careers
     display_title: 'ResearchersEducators - CAREERS'
@@ -1439,9 +1437,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_researchers_eds_cc:
     id: tag_researchers_eds_cc
     display_title: 'ResearchersEducators - Campus Champions'
@@ -1589,9 +1587,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_researchers_eds_greatplains:
     id: tag_researchers_eds_greatplains
     display_title: 'ResearchersEducators - Great Plains'
@@ -1739,9 +1737,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_researchers_eds_kentucky:
     id: tag_researchers_eds_kentucky
     display_title: 'ResearchersEducators - Kentucky'
@@ -1889,9 +1887,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_researchers_eds_mines:
     id: tag_researchers_eds_mines
     display_title: 'ResearchersEducators - MINES'
@@ -2039,9 +2037,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_researchers_eds_northeast:
     id: tag_researchers_eds_northeast
     display_title: 'ResearchersEducators - Northeast'
@@ -2189,9 +2187,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_researchers_eds_rmacc:
     id: tag_researchers_eds_rmacc
     display_title: 'ResearchersEducators - RMACC'
@@ -2339,9 +2337,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_researchers_eds_sweeter:
     id: tag_researchers_eds_sweeter
     display_title: 'ResearchersEducators - SWEETER'
@@ -2489,9 +2487,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_researchers_eds_trecis:
     id: tag_researchers_eds_trecis
     display_title: 'ResearchersEducators - TRECIS'
@@ -2639,9 +2637,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_students_cc:
     id: tag_students_cc
     display_title: 'Students - Campus Champions'
@@ -2789,9 +2787,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_users_careers:
     id: tag_users_careers
     display_title: 'Users - CAREERS'
@@ -2951,9 +2949,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_users_cc:
     id: tag_users_cc
     display_title: 'Users - Campus Champions'
@@ -3113,9 +3111,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_users_greatplains:
     id: tag_users_greatplains
     display_title: 'Users - Great Plains'
@@ -3275,9 +3273,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_users_kentucky:
     id: tag_users_kentucky
     display_title: 'Users - Kentucky'
@@ -3437,9 +3435,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_users_mines:
     id: tag_users_mines
     display_title: 'Users - MINES'
@@ -3599,9 +3597,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_users_northeast:
     id: tag_users_northeast
     display_title: 'Users - Northeast'
@@ -3761,9 +3759,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_users_rmacc:
     id: tag_users_rmacc
     display_title: 'Users - RMACC'
@@ -3923,9 +3921,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_users_sweeter:
     id: tag_users_sweeter
     display_title: 'Users - SWEETER'
@@ -4085,9 +4083,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tag_users_trecis:
     id: tag_users_trecis
     display_title: 'Users - TRECIS'
@@ -4247,9 +4245,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   tags_export_mailing_list:
     id: tags_export_mailing_list
     display_title: ExportMailingList
@@ -4472,7 +4470,8 @@ display:
         - 'languages:language_interface'
         - url
         - user.roles
-      tags: {  }
+      tags:
+        - flag.flag.skill
   users_tag_mentorsregionalfacil_all:
     id: users_tag_mentorsregionalfacil_all
     display_title: 'Mentors and Regional Facilitators - Global'
@@ -4944,6 +4943,7 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.user.field_region'
+        - flag.flag.skill
   users_tag_students_careers:
     id: users_tag_students_careers
     display_title: 'Students - CAREERS'
@@ -5091,9 +5091,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   users_tag_students_greatplains:
     id: users_tag_students_greatplains
     display_title: 'Students - Great Plains'
@@ -5241,9 +5241,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   users_tag_students_kentucky:
     id: users_tag_students_kentucky
     display_title: 'Students - Kentucky'
@@ -5391,9 +5391,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   users_tag_students_mines:
     id: users_tag_students_mines
     display_title: 'Students - MINES'
@@ -5541,9 +5541,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   users_tag_students_northeast:
     id: users_tag_students_northeast
     display_title: 'Students - Northeast'
@@ -5691,9 +5691,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   users_tag_students_rmacc:
     id: users_tag_students_rmacc
     display_title: 'Students - RMACC'
@@ -5841,9 +5841,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   users_tag_students_sweeter:
     id: users_tag_students_sweeter
     display_title: 'Students - SWEETER'
@@ -5991,9 +5991,9 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
   users_tag_students_trecis:
     id: users_tag_students_trecis
     display_title: 'Students - TRECIS'
@@ -6141,6 +6141,7 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - flag.flag.skill
+

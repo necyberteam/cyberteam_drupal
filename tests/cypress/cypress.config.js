@@ -1,5 +1,8 @@
 const { defineConfig } = require("cypress");
 
+// Get base URL from environment variable or default to local DDEV
+const baseUrl = process.env.CYPRESS_BASE_URL || 'https://cyberteam-drupal.ddev.site';
+
 module.exports = defineConfig({
 
   component: {
@@ -12,6 +15,7 @@ module.exports = defineConfig({
   },
 
   e2e: {
+    baseUrl: baseUrl,
     chromeWebSecurity: false,
     setupNodeEvents(on, config) {
       // implement node event listeners here

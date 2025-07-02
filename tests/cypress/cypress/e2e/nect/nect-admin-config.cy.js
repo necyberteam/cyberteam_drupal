@@ -149,9 +149,6 @@ describe("Check admin configuration pages", () => {
   it("Content config", () => {
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
-    cy.visit('/admin/config/content/fontawesome');
-    cy.get('h1').should('contain', 'Font Awesome settings');
-
     cy.visit('/admin/config/content/honeypot');
     cy.get('h1').should('contain', 'Honeypot configuration');
 

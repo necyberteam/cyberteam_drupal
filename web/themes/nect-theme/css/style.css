@@ -885,6 +885,26 @@ form .fieldset-legend {
 .card-header .collapsed .fa {
   transform: rotate(90deg);
 }
+.path-taxonomy {
+  .card, .layout {
+    border: none;
+    h2, h6 {
+      font-size: 1em;
+      background-color: var(--purple);
+      color: var(--light-text);
+      padding: .5em;
+    }
+    .layout__region--second {
+      padding-left: 1.5em;
+    }
+    .card-body {
+      padding: 0;
+    }
+  }
+  .table thead th {
+    border: none;
+  }
+}
 .img-row .card-img-top {
   width:100%;
   height:12vw;
@@ -1804,9 +1824,11 @@ details.tags .tags-select,
   display: flex;
   flex-wrap: wrap;
 }
-.people header {
-  width: 100%;
-  padding-bottom: 0;
+.people {
+  header, footer {
+    width: 100%;
+    padding-bottom: 0;
+  }
 }
 .people .p-4 {
   padding: 0.5rem !important;
@@ -2511,6 +2533,27 @@ span.event-tags {
 .page-events span.event-tags a:hover,
 .page-events-past span.event-tags a:hover {
   border-color: var(--primary) !important;
+}
+
+html:has(#edit-recur-type-wrapper) {
+  #edit-field-contact-0-format,
+  #edit-field-location-0-format,
+  #edit-custom-date-wrapper .tabledrag-toggle-weight-wrapper,
+  #edit-custom-date-wrapper thead,
+  #edit-custom-date-wrapper .field-multiple-drag,
+  #edit-custom-date-wrapper #edit-custom-date-0-actions-delete,
+  #edit-custom-date-wrapper #edit-custom-date--description,
+  #edit-custom-date-wrapper #edit-custom-date-add-more,
+  .form-item--recur-type:has(#edit-recur-type-daily-recurring-date),
+  .form-item--recur-type:has(#edit-recur-type-consecutive-recurring-date),
+  .form-item-recur-type:has(#edit-recur-type-daily-recurring-date),
+  .form-item-recur-type:has(#edit-recur-type-consecutive-recurring-date),
+  .form-type-vertical-tabs,
+  #included-dates-add-more-wrapper,
+  [data-drupal-selector="tabledrag-toggle-weight"],
+  table#custom-date-values tr:not(:first-child) {
+    display: none;
+  }
 }
 
 #block-nect-views-block-badges-block-1 img {

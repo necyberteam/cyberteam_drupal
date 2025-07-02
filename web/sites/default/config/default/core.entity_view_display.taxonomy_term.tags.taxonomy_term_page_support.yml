@@ -1,0 +1,327 @@
+uuid: d6df5875-4684-4274-b21b-c335931e8ee9
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.taxonomy_term.taxonomy_term_page_support
+    - taxonomy.vocabulary.tags
+    - views.view.affinity_groups_with_tag
+    - views.view.match_engagement_view
+    - views.view.people_with_expertise_tags
+    - views.view.people_with_interest_tags
+    - views.view.recurring_events_event_instances
+    - views.view.resources
+    - views.view.tagged_news_block
+    - views.view.term_from_ask_ci
+  module:
+    - layout_builder
+    - layout_discovery
+    - text
+    - views
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          9945557b-7173-42b7-b8ea-24f94a86d657:
+            uuid: 9945557b-7173-42b7-b8ea-24f94a86d657
+            region: content
+            configuration:
+              id: 'field_block:taxonomy_term:tags:description'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          f6ab66cd-83f5-4f0f-9dbd-9d22b12e3814:
+            uuid: f6ab66cd-83f5-4f0f-9dbd-9d22b12e3814
+            region: content
+            configuration:
+              id: 'views_block:affinity_groups_with_tag-block_2'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 2
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+        third_party_settings: {  }
+      -
+        layout_id: layout_twocol_section
+        layout_settings:
+          label: ''
+          context_mapping: {  }
+          column_widths: 50-50
+          layout_builder_styles_style:
+            bg_light_teal_overflow_section: 0
+            border_b_2: 0
+            border_gray: 0
+            mb_10_section: 0
+            md_order_1: 0
+            md_order_2: 0
+            mobile_row_reverse: 0
+            mt_4_section: 0
+            order_1: 0
+            order_2: 0
+            pt_20: 0
+            _layout__region_second_order_1: 0
+        components:
+          bf69b7f1-d23a-40a4-9093-758e4f7a3df4:
+            uuid: bf69b7f1-d23a-40a4-9093-758e4f7a3df4
+            region: first
+            configuration:
+              id: 'views_block:tagged_news_block-block_1'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 0
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          f3f280c1-d3ab-4c7a-8ac3-c324aae4d9c0:
+            uuid: f3f280c1-d3ab-4c7a-8ac3-c324aae4d9c0
+            region: second
+            configuration:
+              id: 'views_block:recurring_events_event_instances-block_3'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 0
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+        third_party_settings: {  }
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+          context_mapping: {  }
+          layout_builder_styles_style:
+            bg_light_teal_overflow_section: 0
+            border_b_2: 0
+            border_gray: 0
+            mb_10_section: 0
+            md_order_1: 0
+            md_order_2: 0
+            mobile_row_reverse: 0
+            mt_4_section: 0
+            order_1: 0
+            order_2: 0
+            pt_20: 0
+            _layout__region_second_order_1: 0
+        components:
+          166a5f5d-5891-42c8-9790-7fe820d63ff3:
+            uuid: 166a5f5d-5891-42c8-9790-7fe820d63ff3
+            region: content
+            configuration:
+              id: 'views_block:term_from_ask_ci-block_1'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 0
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          bb0ee99c-1c49-4206-a10d-cd45d9be830e:
+            uuid: bb0ee99c-1c49-4206-a10d-cd45d9be830e
+            region: content
+            configuration:
+              id: 'views_block:resources-block_1'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 1
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          c325fa65-bb51-433e-8d40-363c92ac31bf:
+            uuid: c325fa65-bb51-433e-8d40-363c92ac31bf
+            region: content
+            configuration:
+              id: 'views_block:match_engagement_view-block_6'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 2
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          266f693b-c866-4b14-93f1-54522d3c64b2:
+            uuid: 266f693b-c866-4b14-93f1-54522d3c64b2
+            region: content
+            configuration:
+              id: 'views_block:people_with_expertise_tags-block_1'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 3
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          0a08ae12-f287-4bc7-88da-fd56d1792cac:
+            uuid: 0a08ae12-f287-4bc7-88da-fd56d1792cac
+            region: content
+            configuration:
+              id: 'views_block:people_with_interest_tags-block_1'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 4
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+        third_party_settings: {  }
+id: taxonomy_term.tags.taxonomy_term_page_support
+targetEntityType: taxonomy_term
+bundle: tags
+mode: taxonomy_term_page_support
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  flag_interest:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  flag_skill:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  search_api_excerpt: true

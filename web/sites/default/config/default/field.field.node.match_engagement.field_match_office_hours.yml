@@ -1,0 +1,21 @@
+uuid: cc11a8b3-6dd0-4605-9b6f-666d38a5d73c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_match_office_hours
+    - node.type.match_engagement
+id: node.match_engagement.field_match_office_hours
+field_name: field_match_office_hours
+entity_type: node
+bundle: match_engagement
+label: 'I went to ACCESS/NAIRR Office Hours'
+description: '(Do this first. <a href="/match/access-and-nairr-pilot-office-hours">more info</a>)'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean
