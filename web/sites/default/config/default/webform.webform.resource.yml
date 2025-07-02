@@ -82,11 +82,13 @@ elements: |-
   affinity_group:
     '#type': webform_term_select
     '#title': 'Would you like to associate this resource with an Affinity Group?'
-    '#select2': true
     '#states':
       disabled:
         ':input[name="approved"]':
           checked: true
+    '#wrapper_attributes':
+      class:
+        - hidden
     '#vocabulary': affinity_groups
   resource_allowed_on_affinity_group:
     '#type': checkbox
