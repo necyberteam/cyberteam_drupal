@@ -1,18 +1,22 @@
-uuid: 3324ae43-e883-482e-ae38-974de93d0907
+uuid: bbaae3c8-f1ba-42d0-8041-412c6363be7e
 langcode: en
 status: true
 dependencies:
   config:
     - facets.facet.affinity_group_category
   module:
+    - collapsiblock
     - facets
     - system
   theme:
-    - ood
-id: ood_affinitygroupcategory
-theme: ood
+    - champions
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: champions_affinitygroupcategory_2
+theme: champions
 region: primary_sidebar
-weight: -41
+weight: 4
 provider: null
 plugin: 'facet_block:affinity_group_category'
 settings:
@@ -21,9 +25,9 @@ settings:
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_affinitygroupcategory
+  block_id: champions_affinitygroupcategory_2
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: "/affinity_groups\r\n/affinity-groups"
+    pages: /affinity-groups

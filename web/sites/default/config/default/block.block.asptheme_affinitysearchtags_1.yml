@@ -1,9 +1,9 @@
-uuid: 1cf98c32-5503-427f-b424-804b03df73e8
+uuid: c399b934-587b-4e8a-90a9-4054fc485180
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.skills
+    - facets.facet.affinity_search_tags
   module:
     - collapsiblock
     - facets
@@ -13,21 +13,21 @@ dependencies:
 third_party_settings:
   collapsiblock:
     collapse_action: 3
-id: asptheme_skills
+id: asptheme_affinitysearchtags_1
 theme: aspTheme
 region: sidebar_first
-weight: -22
+weight: -14
 provider: null
-plugin: 'facet_block:skills'
+plugin: 'facet_block:affinity_search_tags'
 settings:
-  id: 'facet_block:skills'
-  label: Skills
+  id: 'facet_block:affinity_search_tags'
+  label: Tags
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: asptheme_skills
+  block_id: asptheme_affinitysearchtags_1
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /community/cssn/directory
+    pages: "/affinity_groups\r\n/affinity-groups"
