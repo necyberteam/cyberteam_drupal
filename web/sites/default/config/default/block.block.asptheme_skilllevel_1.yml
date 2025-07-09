@@ -1,0 +1,33 @@
+uuid: 361711b2-0ddc-4c3d-a485-6eebe2edfcc9
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.skill_level
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - aspTheme
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: asptheme_skilllevel_1
+theme: aspTheme
+region: sidebar_first
+weight: -10
+provider: null
+plugin: 'facet_block:skill_level'
+settings:
+  id: 'facet_block:skill_level'
+  label: 'Skill Level'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_skilllevel_1
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources
