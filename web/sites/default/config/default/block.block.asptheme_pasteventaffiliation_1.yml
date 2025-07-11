@@ -1,0 +1,33 @@
+uuid: 68d7a77f-838d-4ec9-9453-a8bdb4f4151a
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.past_event_affiliation
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - aspTheme
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: asptheme_pasteventaffiliation_1
+theme: aspTheme
+region: sidebar_first
+weight: 1
+provider: null
+plugin: 'facet_block:past_event_affiliation'
+settings:
+  id: 'facet_block:past_event_affiliation'
+  label: Affiliation
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_pasteventaffiliation_1
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events/past

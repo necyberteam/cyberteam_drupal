@@ -1,0 +1,33 @@
+uuid: 53079bb4-3767-4f63-88fa-27e846108077
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.program
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - champions
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: champions_programcyberteampeople
+theme: champions
+region: primary_sidebar
+weight: 24
+provider: null
+plugin: 'facet_block:program'
+settings:
+  id: 'facet_block:program'
+  label: Program
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: champions_programcyberteampeople
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people

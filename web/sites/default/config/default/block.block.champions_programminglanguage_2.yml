@@ -1,0 +1,33 @@
+uuid: 66d0dc10-5418-4ca4-b970-85f598a6824a
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.programming_language
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - champions
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: champions_programminglanguage_2
+theme: champions
+region: primary_sidebar
+weight: 11
+provider: null
+plugin: 'facet_block:programming_language'
+settings:
+  id: 'facet_block:programming_language'
+  label: 'Programming Language'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: champions_programminglanguage_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources

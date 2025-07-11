@@ -1,0 +1,33 @@
+uuid: b9a3eef8-1ef4-4137-b159-b6a1f590a243
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.affinity_search_tags
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - champions
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: champions_affinitysearchtags_2
+theme: champions
+region: primary_sidebar
+weight: 4
+provider: null
+plugin: 'facet_block:affinity_search_tags'
+settings:
+  id: 'facet_block:affinity_search_tags'
+  label: Tags
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: champions_affinitysearchtags_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /affinity-groups
