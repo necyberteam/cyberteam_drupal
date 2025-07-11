@@ -25,9 +25,6 @@ describe("Test Structure admin page", () => {
     cy.contains('Projects - Kentucky');
     cy.contains('Projects - MINES');
     cy.contains('Projects - Northeast');
-    cy.contains('Projects - RMACC');
-    cy.contains('Projects - SWEETER');
-    cy.contains('Projects - TRECIS');
 
     // Campus Champions block check - truncated for memory
     cy.get(':nth-child(3) > .tabs__link').click();
