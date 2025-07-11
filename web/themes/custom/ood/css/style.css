@@ -615,4 +615,23 @@ form #tag-suggestions strong {
    width: 120px;
    height: auto;
    margin: 1.5rem 0 0.75rem 0;
- }
+}
+
+.ag-slideshow {
+  &:after {
+    content: "";
+    position: absolute;
+    background-color: #2b2a28;
+    z-index: -2;
+    top: -5px;
+    left: -99999em;
+    right: -99999em;
+    bottom: -5px;
+  }
+  .carousel-control-next {
+    right: -15px;
+  }
+  .carousel-control-prev {
+    left: -15px;
+  }
+}
