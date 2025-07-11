@@ -18,7 +18,10 @@ describe("On the Add a Resource Page for authenticated users,", () => {
     cy.get('select[name="category"]').select('learning');
     cy.get('[data-tid="682"]').contains('login').click();
     cy.get('input[name="skill_level[304]"]').check();
-    cy.get('textarea[name="description"]').type('Test');
+    cy.get('.form-item-description-html-value .ck-content').then(el => {
+      const editor = el[0].ckeditorInstance
+      editor.setData('Test')
+    });
     cy.get('input[name="link_to_resource[items][0][_item_][title]"]').type('Test');
     cy.get('input[name="link_to_resource[items][0][_item_][url]"]').type('http://example.com');
     cy.get('input[name="op"]').contains('Submit').click();

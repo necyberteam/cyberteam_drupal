@@ -47,9 +47,16 @@ elements: |-
     '#vocabulary': skill_level
     '#breadcrumb_delimiter': ''
     '#scroll': false
+  description_html:
+    '#type': text_format
+    '#title': Description
+    '#allowed_formats':
+      basic_html: basic_html
   description:
     '#type': textarea
-    '#title': Description
+    '#title': 'Description OLD'
+    '#access_create_roles':
+      - administrator
   link_to_resource:
     '#type': webform_link
     '#title': 'Link to Resource'
