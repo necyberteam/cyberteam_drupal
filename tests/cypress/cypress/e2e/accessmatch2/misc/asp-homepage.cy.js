@@ -38,7 +38,7 @@ describe("Unauthenticated user tests the ASP Homepage", () => {
     cy.verifyCallToActionBlock(
       "/",
       "Explore the SDS",
-      "https://access-sds.ccs.uky.edu:8080/"
+      "https://sds.access-ci.org/"
     );
   });
 });
