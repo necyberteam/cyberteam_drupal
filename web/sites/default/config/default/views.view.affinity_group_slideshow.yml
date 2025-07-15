@@ -212,8 +212,35 @@ display:
           query_tags: {  }
           contextual_filters_or: false
       relationships: {  }
-      header: {  }
-      footer: {  }
+      css_class: ag-slideshow
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<h2 class="text-white text-center fs-1 py-5 fw-normal">Join Affinity Groups</h2>'
+            format: full_html
+          tokenize: false
+      footer:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: "<div class=\"d-flex justify-content-center py-5\">\r\n  <a class=\"btn-primary btn btn-rounded text-white m-0 text-decoration-none mt-1 px-5 mb-3\" href=\"/affinity-groups\">See All</a>\r\n</div>"
+            format: full_html
+          tokenize: false
       display_extenders: {  }
     cache_metadata:
       max-age: -1
