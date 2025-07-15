@@ -34,6 +34,10 @@ html {
   overflow-x: hidden;
 }
 
+.open-ondemand {
+  overflow-x: clip;
+}
+
 body {
   font-family: "Source Sans 3";
 }
@@ -69,33 +73,6 @@ body {
       }
     }
   }
-  .twofer {
-    > div {
-      max-width: 400px;
-      margin-right: 1.5em;
-    }
-  }
-
-  .threefer {
-    margin-left: -20px;
-    > div > div {
-      margin-left: .5em;
-      margin-right: .5em;
-      margin-top: 120px;
-    }
-    > div:first-child > div {
-      margin-left: 0;
-    }
-  }
-  @media screen and (min-width: 40em) {
-    .threefer > div > div,
-    .threefer img {
-      padding-left: .75em;
-    }
-    .threefer > div > div {
-      border-left: 2px solid #000;
-    }
-  }
 
   .threefer {
     > div {
@@ -103,6 +80,9 @@ body {
       flex-basis: 0;
       position: relative;
       margin-bottom: 50px;
+      > div {
+        padding-top: 120px;
+      }
     }
     img {
       top: 0px;
@@ -114,6 +94,38 @@ body {
     a {
       color: #000;
       font-weight: bold;
+    }
+  }
+
+  .layout--twocol-section {
+    display: block;
+  }
+
+  @media screen and (min-width: 992px) {
+    .layout--twocol-section {
+      display: flex;
+    }
+
+    .twofer {
+      > div {
+        max-width: 400px;
+        margin-right: 1.5em;
+      }
+    }
+    .threefer {
+      margin-left: -20px;
+      > div > div,
+      .threefer img {
+        padding-left: .75em;
+      }
+      > div > div {
+        border-left: 2px solid #000;
+        margin-left: .5em;
+        margin-right: .5em;
+      }
+      > div:first-child > div {
+        margin-left: 0;
+      }
     }
   }
 }
@@ -657,21 +669,25 @@ form #tag-suggestions strong {
 }
 
 .ag-slideshow {
-  &:after {
-    content: "";
-    position: absolute;
-    background-color: #2b2a28;
-    z-index: -2;
-    top: -5px;
-    left: -99999em;
-    right: -99999em;
-    bottom: -5px;
-  }
+  background-color: #2b2a28;
+      padding-left: 50%;
+    padding-right: 50%;
+      margin-left: -50%;
+    margin-right: -50%;
+
   .carousel-control-next {
-    right: -15px;
+    right: -8px;
   }
   .carousel-control-prev {
-    left: -15px;
+    left: -8px;
+  }
+  @media screen and (min-width: 40em) {
+    .carousel-control-next {
+      right: -15px;
+    }
+    .carousel-control-prev {
+      left: -15px;
+    }
   }
 }
 
