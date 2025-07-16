@@ -44,6 +44,14 @@ field_settings:
     label: 'Custom Event Tags'
     property_path: search_api_custom_event_tags
     type: text
+  domain_access:
+    label: 'Domain access'
+    datasource_id: 'entity:eventinstance'
+    property_path: domain_access
+    type: string
+    dependencies:
+      module:
+        - domain_access
   custom_event_title:
     label: 'Event Title'
     property_path: search_api_custom_event_title
@@ -112,14 +120,19 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  content_access:
+    weights:
+      preprocess_query: -30
   custom_event_affiliation: {  }
   custom_event_no_show: {  }
   custom_event_skill_level: {  }
   custom_event_title: {  }
   custom_event_type: {  }
   custom_value: {  }
+  domain_access: {  }
   entity_status: {  }
   entity_type: {  }
+  eventinstance_domain: {  }
   event_tags: {  }
   highlight:
     weights:
