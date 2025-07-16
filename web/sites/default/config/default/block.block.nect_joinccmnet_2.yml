@@ -1,4 +1,4 @@
-uuid: 2257ec0b-c9ad-45b3-b46b-702da1029ffc
+uuid: 0f7139dd-86a8-4a5f-8f36-e95055a516ac
 langcode: en
 status: true
 dependencies:
@@ -10,7 +10,7 @@ dependencies:
     - system
   theme:
     - nect
-id: nect_joinccmnet
+id: nect_joinccmnet_2
 theme: nect
 region: content
 weight: 0
@@ -31,11 +31,9 @@ visibility:
     context_mapping:
       domain: '@domain.current_domain_context:domain'
     domains:
-      nectd8_wpi_edu: nectd8_wpi_edu
-      greatplains_wpi_edu: greatplains_wpi_edu
-      kycyberteam_cyberinfrastructure_org: kycyberteam_cyberinfrastructure_org
-      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
+      ccmnet_org: ccmnet_org
   request_path:
     id: request_path
     negate: false
-    pages: /user/login
+    pages: "/user/login\r\n/user/register"
+
