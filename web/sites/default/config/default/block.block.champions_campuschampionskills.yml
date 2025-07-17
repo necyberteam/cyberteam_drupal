@@ -1,0 +1,29 @@
+uuid: c22ab02e-00f6-49d1-9bac-d3aac22bbc62
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.campus_champion_skills
+  module:
+    - facets
+    - system
+  theme:
+    - champions
+id: champions_campuschampionskills
+theme: champions
+region: primary_sidebar
+weight: 0
+provider: null
+plugin: 'facet_block:campus_champion_skills'
+settings:
+  id: 'facet_block:campus_champion_skills'
+  label: Skills
+  label_display: visible
+  provider: facets
+  context_mapping: { }
+  block_id: champions_campuschampionskills
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /current-champions
