@@ -1,0 +1,25 @@
+uuid: 2f6fa19f-e0eb-4092-817e-60e3b0579799
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_misc
+    - system
+  theme:
+    - ood
+id: ood_accessciuserlogin
+theme: ood
+region: below_main_content
+weight: -46
+provider: null
+plugin: access_ci_user_login
+settings:
+  id: access_ci_user_login
+  label: 'Access CI User Login'
+  label_display: '0'
+  provider: access_misc
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /user/login
