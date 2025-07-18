@@ -1,0 +1,28 @@
+uuid: d6ef9114-22e9-4074-a165-c4bae575ae0c
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.campus_champions_members
+  module:
+    - system
+    - views
+  theme:
+    - champions
+id: champions_exposedformcampus_champions_memberspage_1
+theme: champions
+region: primary_sidebar
+weight: 0
+provider: null
+plugin: 'views_exposed_filter_block:campus_champions_members-page_1'
+settings:
+  id: 'views_exposed_filter_block:campus_champions_members-page_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /current-champions
