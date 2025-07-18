@@ -1,0 +1,14 @@
+uuid: 0ee77dab-aff1-4667-930e-7eb535da8c73
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_misc
+id: access_misc.registrant_digest
+configuration:
+  email_body:
+    content:
+      value: '<p>{% if registration_count == 1 %}{{ registration_count }} new registration{% else %}{{ registration_count }} new registrations{% endif %} for your event <strong>{{ event_title }}</strong>.</p><p>Please <a href="{{ event_url }}/registrations">review the registrants</a> to see who has registered.</p>{% if first_registration %}<p><em>First registration received: {{ first_registration }}</em></p>{% endif %}'
+      format: basic_html
+  email_subject:
+    value: '{% if registration_count == 1 %}{{ registration_count }} new registration{% else %}{{ registration_count }} new registrations{% endif %} for {{ event_title }}'
