@@ -154,11 +154,14 @@ class GhCommands extends Tasks {
    */
   public function ghpr() {
     $branch = shell_exec("git rev-parse --abbrev-ref HEAD");
+    $branch = preg_replace('/\r\n|\r|\n/', '', $branch);
+
+    $target_branch = $branch == 'md-dev' ? 'main' : 'md-dev';
 
     $branch = explode("-", $branch);
 
     $issue_number = $branch[1];
-    $issue_number = str_replace(array("\n", "\r"), '', $issue_number);
+    $issue_number = preg_replace('/\r\n|\r|\n/', '', $issue_number);
 
     $ask_description = $this->ask("Describe context / purpose for this PR");
 
@@ -178,7 +181,7 @@ http://md-$issue_number-accessmatch.pantheonsite.io
 
     $this->say("Creating PR for D8-$issue_number");
 
-    $this->_exec("gh pr create --title 'D8-$issue_number' --body '$template'");
+    $this->_exec("gh pr create --title '#$issue_number' --body '$template' --base $target_branch");
   }
 
 }
