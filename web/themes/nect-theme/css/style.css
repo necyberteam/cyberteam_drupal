@@ -2352,6 +2352,41 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
   border-radius: 0.25rem;
 }
 
+/* Improve accordion styling for field group details */
+.field-group-details {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  margin-bottom: 1.5rem;
+  background-color: #f8f9fa;
+}
+
+.field-group-details summary {
+  padding: 1rem;
+  background-color: #e9ecef;
+  border-bottom: 1px solid #dee2e6;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.1rem;
+  position: relative;
+}
+
+.field-group-details summary:hover {
+  background-color: #dee2e6;
+}
+
+
+/* Add padding to the content area */
+.field-group-details > .fieldset-wrapper,
+.field-group-details > div:not(summary) {
+  padding: 1rem;
+}
+
+/* Style nested fieldsets within the accordion */
+.field-group-details .field-group-fieldset {
+  margin: 1.5rem 1rem;
+  padding: 1rem;
+}
+
 .top-80 {
   top: 80px;
 }
