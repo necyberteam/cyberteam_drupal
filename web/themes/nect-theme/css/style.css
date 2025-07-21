@@ -551,7 +551,7 @@ li.dropdown-item a.nav-link:active {
   top: 90%;
 }
 @media screen and (max-width: 991.98px) {
-  .navbar-nav .dropdown .dropdown-menu {
+  #mainNav .navbar-nav .dropdown .dropdown-menu {
     position: static;
     top: 0;
     background: #fff;
@@ -588,6 +588,29 @@ li.dropdown-item a.nav-link:active {
   }
   #secondaryNavbarResponsive .navbar-nav .nav-item {
     width: auto;
+  }
+  /* Make secondary navbar dropdowns absolutely positioned on mobile */
+  #secondaryNavbarResponsive .dropdown-menu {
+    position: absolute !important;
+    top: 100%;
+    right: 0;
+    left: auto;
+    z-index: 1000;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    color: var(--secondary-navbar-link);
+    text-align: left;
+    background-color: var(--secondary-navbar-background);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+  }
+  /* Override navbar dropdown toggle styles for secondary navbar */
+  #secondaryNavbarResponsive .dropdown-toggle {
+    color: var(--secondary-navbar-link) !important;
+    font-size: 0.6em !important;
   }
   #navbarResponsive .navbar-nav {
     width: 100%;
@@ -818,8 +841,13 @@ li.dropdown-item a.nav-link:active {
     background-color: var(--secondary-navbar-background) !important;
   }
   #secondaryNav a.dropdown-item {
-    color: var(--secondary-navbar-link);
-    padding: 0px 25px !important;
+    color: var(--secondary-navbar-link) !important;
+    font-size: 0.85em !important;
+    padding: 8px 25px !important;
+  }
+  #secondaryNav a.dropdown-item:hover {
+    color: var(--secondary-navbar-link-hover) !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
   }
 
   /* Align secondaryNavbarResponsive items to the right on mobile */
