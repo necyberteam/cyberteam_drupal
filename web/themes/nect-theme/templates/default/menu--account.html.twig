@@ -54,7 +54,13 @@
   				{% set title %}
   				  <i class="bi bi-person" aria-hidden="true"></i> My profile
   				{% endset %}
-          {{ link(title, item.url, { 'class':['nav-link', item.is_expanded ? 'dropdown-toggle'], 'data-toggle': item.is_expanded ? 'dropdown' : '' }) }}
+          {% if item.is_expanded %}
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+               role="button" aria-haspopup="true"
+               aria-expanded="false">{{ title }}</a>
+          {% else %}
+            {{ link(title, item.url, { 'class':['nav-link'] }) }}
+          {% endif %}
       {% else %}
         {{ link(item.title, item.url, { 'class':['nav-link', item.is_expanded ? 'dropdown-toggle'], 'data-toggle': item.is_expanded ? 'dropdown' : '' }) }}
 			{% endif %}
