@@ -2773,6 +2773,27 @@ html:has(#edit-recur-type-wrapper) {
   margin: 1.5rem 0 0.75rem 0;
 }
 
+div .collapsiblockTitle {
+  position: relative;
+
+  button {
+    background-image: none;
+    &:after {
+      content: "\f282";
+      position: absolute;
+      font-family: bootstrap-icons !important;
+      color: var(--navbar-link);
+      top: 5px;
+      right: 5px;
+      rotate: 180deg;
+    }
+  }
+}
+
+.collapsiblockTitle.collapsiblockTitleCollapsed button:after {
+  rotate: 0deg;
+}
+
 @media only screen and (max-width: 991.98px) {
   .sidebar:has(.facets-checkbox) {
     border: 3px solid var(--secondary);
