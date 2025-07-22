@@ -2561,3 +2561,19 @@ html:has(#edit-recur-type-wrapper) {
   height: auto;
   margin: 1.5rem 0 0.75rem 0;
 }
+
+@media only screen and (max-width: 991.98px) {
+  .sidebar:has(.facets-checkbox) {
+    border: 1px solid var(--secondary);
+    padding: 1rem;
+    margin: 1rem !important;
+
+    .views-exposed-form {
+      margin: 0;
+    }
+
+    button h2 {
+      color: var(--primary);
+    }
+  }
+}
