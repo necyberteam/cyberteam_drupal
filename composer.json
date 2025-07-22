@@ -193,14 +193,14 @@
   "require-dev": {
     "amp/amp_dev": "dev-main",
     "drupal/core-dev": "10.4.*",
-    "drupal/devel": "^5.1",
-    "drupal/devel_kint_extras": "^1.0",
+    "drupal/devel": "^5.4",
     "drupal/examples": "^4.0",
+    "drupal/kint-kint": "^2.1",
     "drupal/upgrade_status": "^4.0",
     "mglaman/drupal-check": "^1.4",
     "palantirnet/drupal-rector": "^0.15.1",
-    "phpstan/phpstan": "^1.9",
     "phpspec/prophecy-phpunit": "^2",
+    "phpstan/phpstan": "^1.9",
     "phpstan/phpstan-deprecation-rules": "^1.0"
   },
   "conflict": {
@@ -287,11 +287,6 @@
   "autoload": {
     "psr-4": {
       "Mih\\": "robo/src"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
     }
   }
 }

@@ -1,24 +1,24 @@
-uuid: aadd94a2-0768-4946-938b-82e93680d755
+uuid: 0f7139dd-86a8-4a5f-8f36-e95055a516ac
 langcode: en
 status: true
 dependencies:
   content:
-    - 'block_content:basic:6a4bd189-5529-41f2-81f1-8d2ed4f2ed25'
+    - 'block_content:basic:06fd0027-5665-4663-a27d-05803e8f50d1'
   module:
     - block_content
     - domain
     - system
   theme:
-    - champions
-id: champions_careersdencalltoaction
-theme: champions
+    - nect
+id: nect_joinccmnet_2
+theme: nect
 region: content
-weight: 1
+weight: 3
 provider: null
-plugin: 'block_content:6a4bd189-5529-41f2-81f1-8d2ed4f2ed25'
+plugin: 'block_content:06fd0027-5665-4663-a27d-05803e8f50d1'
 settings:
-  id: 'block_content:6a4bd189-5529-41f2-81f1-8d2ed4f2ed25'
-  label: 'Careers DEN Call to Action'
+  id: 'block_content:06fd0027-5665-4663-a27d-05803e8f50d1'
+  label: 'Join CCMnet'
   label_display: '0'
   provider: block_content
   status: true
@@ -31,8 +31,8 @@ visibility:
     context_mapping:
       domain: '@domain.current_domain_context:domain'
     domains:
-      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
+      ccmnet_org: ccmnet_org
   request_path:
     id: request_path
     negate: false
-    pages: '<front>'
+    pages: "/user/login\r\n/user/register"
