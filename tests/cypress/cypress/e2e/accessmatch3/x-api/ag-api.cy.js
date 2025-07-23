@@ -29,6 +29,7 @@ describe("Test Affinity Group API", () => {
     cy.request('/api/1.1/affinity_groups/test.group.api')
       .then((response) => {
         const ag = response.body;
+        cy.screenshot('ag-api-response');
         expect(ag[0].title).to.eq('test-affinity-group-api');
         expect(ag[0].group_id).to.eq('test.group.api');
       });
