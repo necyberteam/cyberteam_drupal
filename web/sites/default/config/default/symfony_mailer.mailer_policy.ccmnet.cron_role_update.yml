@@ -1,0 +1,14 @@
+uuid: 2de24c2c-235c-4f31-8b0f-e021241d4aaa
+langcode: en
+status: true
+dependencies:
+  module:
+    - ccmnet
+id: ccmnet.cron_role_update
+configuration:
+  email_body:
+    content:
+      value: '<p>Daily mentorship interest summary:</p><p> The following mentorships received new interest requests recently:</p>{{ extra|raw }}'
+      format: basic_html
+  email_subject:
+    value: 'Daily Mentorship Interest Summary'
