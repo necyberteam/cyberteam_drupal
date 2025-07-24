@@ -1,9 +1,9 @@
-uuid: bf044965-a0c9-471a-9f6e-933e80584130
+uuid: bbb7ec25-2fcb-41b8-ad8d-1ce57e74d9b4
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.skill_level
+    - facets.facet.access_organization_members
   module:
     - collapsiblock
     - facets
@@ -13,21 +13,21 @@ dependencies:
 third_party_settings:
   collapsiblock:
     collapse_action: 3
-id: nect_skilllevel_2
+id: nect_accessorganizationmembers_2
 theme: nect
 region: primary_sidebar
-weight: 43
+weight: 18
 provider: null
-plugin: 'facet_block:skill_level'
+plugin: 'facet_block:access_organization_members'
 settings:
-  id: 'facet_block:skill_level'
-  label: 'Skill Level'
+  id: 'facet_block:access_organization_members'
+  label: Organization
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_skilllevel_2
+  block_id: nect_accessorganizationmembers_2
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/resources
+    pages: /members
