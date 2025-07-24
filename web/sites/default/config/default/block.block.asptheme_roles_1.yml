@@ -1,0 +1,33 @@
+uuid: 8f9dea89-b027-4d0a-9931-14c607b9575d
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.roles
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - aspTheme
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: asptheme_roles_1
+theme: aspTheme
+region: sidebar_first
+weight: -28
+provider: null
+plugin: 'facet_block:roles'
+settings:
+  id: 'facet_block:roles'
+  label: Roles
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_roles_1
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory

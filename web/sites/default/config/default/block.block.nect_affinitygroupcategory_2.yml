@@ -1,0 +1,33 @@
+uuid: 7a5e856a-be19-42bc-8f70-3a4b6ebe6f05
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.affinity_group_category
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - nect
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: nect_affinitygroupcategory_2
+theme: nect
+region: primary_sidebar
+weight: 6
+provider: null
+plugin: 'facet_block:affinity_group_category'
+settings:
+  id: 'facet_block:affinity_group_category'
+  label: Category
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_affinitygroupcategory_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/affinity_groups\r\n/affinity-groups"

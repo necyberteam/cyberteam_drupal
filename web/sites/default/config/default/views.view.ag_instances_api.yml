@@ -8,6 +8,7 @@ dependencies:
     - field.storage.node.field_ask_ci_locale
     - field.storage.node.field_coordinator
     - field.storage.node.field_ext_email_list
+    - field.storage.node.field_group_id
     - field.storage.node.field_image
     - field.storage.node.field_mailing_list
     - field.storage.node.field_slack
@@ -1167,6 +1168,26 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.body'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_affinity_group_category'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_ask_ci_locale'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_coordinator'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_ext_email_list'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_image'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_mailing_list'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_slack'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_tags'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_use_ext_email_list'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.body'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_affinity_group_category'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_ask_ci_locale'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_coordinator'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_ext_email_list'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_image'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_mailing_list'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_slack'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_tags'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_use_ext_email_list'
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_affinity_group_category'
         - 'config:field.storage.node.field_ask_ci_locale'
@@ -1260,11 +1281,1160 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.body'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_affinity_group_category'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_ask_ci_locale'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_coordinator'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_ext_email_list'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_image'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_mailing_list'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_slack'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_tags'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_use_ext_email_list'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.body'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_affinity_group_category'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_ask_ci_locale'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_coordinator'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_ext_email_list'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_image'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_mailing_list'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_slack'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_tags'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_use_ext_email_list'
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_affinity_group_category'
         - 'config:field.storage.node.field_ask_ci_locale'
         - 'config:field.storage.node.field_coordinator'
         - 'config:field.storage.node.field_ext_email_list'
+        - 'config:field.storage.node.field_image'
+        - 'config:field.storage.node.field_mailing_list'
+        - 'config:field.storage.node.field_slack'
+        - 'config:field.storage.node.field_tags'
+        - 'config:field.storage.node.field_use_ext_email_list'
+  data_export_2:
+    id: data_export_2
+    display_title: 'Data export v1.1'
+    display_plugin: data_export
+    position: 2
+    display_options:
+      fields:
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: false
+            ellipsis: false
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        body:
+          id: body
+          table: node__body
+          field: body
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: Description
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: text_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_tags:
+          id: field_tags
+          table: node__field_tags
+          field: field_tags
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: Tags
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: false
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_coordinator_1:
+          id: field_coordinator_1
+          table: node__field_coordinator
+          field: field_coordinator
+          relationship: none
+          group_type: group
+          admin_label: coordinator_name
+          plugin_id: field
+          label: Coordinator
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: false
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_coordinator:
+          id: field_coordinator
+          table: node__field_coordinator
+          field: field_coordinator
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_entity_id
+          settings: {  }
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        nothing:
+          id: nothing
+          table: views
+          field: nothing
+          relationship: none
+          group_type: group
+          admin_label: coordinator
+          plugin_id: custom
+          label: Coordinator
+          exclude: true
+          alter:
+            alter_text: true
+            text: '/community-persona/{{ field_coordinator }}'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
+        field_image:
+          id: field_image
+          table: node__field_image
+          field: field_image
+          relationship: none
+          group_type: group
+          admin_label: 'AG Logo'
+          plugin_id: field
+          label: Image
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: image_url
+          settings:
+            image_style: ''
+          group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_slack:
+          id: field_slack
+          table: node__field_slack
+          field: field_slack
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: Slack
+          exclude: false
+          alter:
+            alter_text: true
+            text: '{{ field_slack__uri }}'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: uri
+          type: link_separate
+          settings:
+            trim_length: null
+            url_only: false
+            url_plain: false
+            rel: '0'
+            target: '0'
+          group_column: entity_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_mailing_list:
+          id: field_mailing_list
+          table: node__field_mailing_list
+          field: field_mailing_list
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'Email List or Contact'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        nid:
+          id: nid
+          table: node_field_data
+          field: nid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: nid
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        nid_1:
+          id: nid_1
+          table: node_field_data
+          field: nid
+          relationship: none
+          group_type: group
+          admin_label: 'Full URL'
+          entity_type: node
+          entity_field: nid
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: true
+            text: 'https://support.access-ci.org/node/{{ nid_1 }}'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_affinity_group_category:
+          id: field_affinity_group_category
+          table: node__field_affinity_group_category
+          field: field_affinity_group_category
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'Affinity Group Category'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_ext_email_list:
+          id: field_ext_email_list
+          table: node__field_ext_email_list
+          field: field_ext_email_list
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'Email Discussion List Address'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_use_ext_email_list:
+          id: field_use_ext_email_list
+          table: node__field_use_ext_email_list
+          field: field_use_ext_email_list
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'Enable email discussion list'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: boolean
+          settings:
+            format: default
+            format_custom_false: ''
+            format_custom_true: ''
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_ask_ci_locale:
+          id: field_ask_ci_locale
+          table: node__field_ask_ci_locale
+          field: field_ask_ci_locale
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'Q&A Platform Link'
+          exclude: false
+          alter:
+            alter_text: true
+            text: '{{ field_ask_ci_locale__uri }}'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: uri
+          type: link_separate
+          settings:
+            trim_length: 80
+            url_only: false
+            url_plain: false
+            rel: '0'
+            target: '0'
+          group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_group_id:
+          id: field_group_id
+          table: node__field_group_id
+          field: field_group_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'Group ID'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+      style:
+        type: data_export
+        options:
+          formats:
+            json: json
+          csv_settings:
+            delimiter: ','
+            enclosure: '"'
+            escape_char: \
+            strip_tags: true
+            trim: true
+            encoding: utf8
+            utf8_bom: '0'
+            use_serializer_encode_only: false
+      row:
+        type: data_field
+        options:
+          field_options:
+            title:
+              alias: ''
+              raw_output: false
+            body:
+              alias: description
+              raw_output: false
+            field_tags:
+              alias: tags
+              raw_output: false
+            field_coordinator_1:
+              alias: coordinator_name
+              raw_output: false
+            field_image:
+              alias: ''
+              raw_output: false
+            field_slack:
+              alias: slack_link
+              raw_output: false
+            field_mailing_list:
+              alias: mailing_list
+              raw_output: false
+            nid:
+              alias: ''
+              raw_output: false
+            nid_1:
+              alias: url
+              raw_output: false
+            field_affinity_group_category:
+              alias: ''
+              raw_output: false
+            field_ext_email_list:
+              alias: ''
+              raw_output: false
+            field_use_ext_email_list:
+              alias: ''
+              raw_output: false
+            field_ask_ci_locale:
+              alias: ''
+              raw_output: false
+      defaults:
+        fields: false
+      display_description: ''
+      display_extenders:
+        jsonapi_views:
+          enabled: false
+      path: api/1.1/affinity_groups
+      filename: ''
+      automatic_download: false
+      store_in_public_file_directory: false
+      custom_redirect_path: false
+      redirect_to_display: none
+      include_query_params: false
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - request_format
+        - url
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.body'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_affinity_group_category'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_ask_ci_locale'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_coordinator'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_ext_email_list'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_group_id'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_image'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_mailing_list'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_slack'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_tags'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_use_ext_email_list'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.body'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_affinity_group_category'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_ask_ci_locale'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_coordinator'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_ext_email_list'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_group_id'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_image'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_mailing_list'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_slack'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_tags'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_use_ext_email_list'
+        - 'config:field.storage.node.body'
+        - 'config:field.storage.node.field_affinity_group_category'
+        - 'config:field.storage.node.field_ask_ci_locale'
+        - 'config:field.storage.node.field_coordinator'
+        - 'config:field.storage.node.field_ext_email_list'
+        - 'config:field.storage.node.field_group_id'
         - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_mailing_list'
         - 'config:field.storage.node.field_slack'
