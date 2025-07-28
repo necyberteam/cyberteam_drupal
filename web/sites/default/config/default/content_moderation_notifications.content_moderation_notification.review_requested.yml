@@ -11,8 +11,8 @@ roles:
 author: false
 site_mail: false
 emails: ''
-subject: "Content needs review"
+subject: "{% if entity.bundle == 'access_news' %}Community News{% else %}A Community Event{% endif %} from {{ entity.uid.entity.getDisplayName() }} needs review"
 body:
-  value: "<p>Please review this content.</p>\r\n\r\n<p>{% if entity.bundle == 'access_news' %}<a href=\"{{ url('entity.node.edit_form', {'node': entity.id}) }}\">{{ entity.title.value }}</a>{% else %}<a href=\"{{ url('entity.eventseries.canonical', {'eventseries': entity.id.value}) }}/edit\">{{ entity.title.value }}</a>{% endif %}</p>\r\n"
+  value: "<p>Please review this content:</p>\r\n\r\n<p>{% if entity.bundle == 'access_news' %}<a href=\"{{ url('entity.node.edit_form', {'node': entity.id}) }}\">{{ entity.title.value }}</a>{% else %}<a href=\"{{ url('entity.eventseries.canonical', {'eventseries': entity.id.value}) }}/edit\">{{ entity.title.value }}</a>{% endif %}</p>\r\n"
   format: full_html
 label: 'Review Requested'
