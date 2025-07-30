@@ -282,7 +282,18 @@
   },
   "scripts": {
     "robo": "robo --ansi",
-    "robo-ci": "robo --no-ansi"
+    "robo-ci": "robo --no-ansi",
+    "post-install-cmd": [
+      "@build-access-ui"
+    ],
+    "post-update-cmd": [
+      "@build-access-ui"
+    ],
+    "build-access-ui": [
+      "cd access-ci-ui && npm install && npm run build",
+      "mkdir -p web/sites/default/files/access-ci-ui",
+      "cp -r access-ci-ui/dist/* web/sites/default/files/access-ci-ui/"
+    ]
   },
   "autoload": {
     "psr-4": {
