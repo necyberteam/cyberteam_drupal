@@ -1,4 +1,4 @@
-import { u as l } from "./index-C6usz3KR.js";
+import { u as l } from "./index-CP92lbJv.js";
 function u({ alt: n = null, name: i = null, src: o = null }) {
   return i ? /* @__PURE__ */ l("i", { class: `icon bi bi-${i}` }) : /* @__PURE__ */ l("img", { class: "icon", alt: n, src: o });
 }
