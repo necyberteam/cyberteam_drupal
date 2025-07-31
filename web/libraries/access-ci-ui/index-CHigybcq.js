@@ -588,7 +588,7 @@ function Be(t) {
   t.then(() => this.forceUpdate());
 }
 const ze = kt(
-  () => import("./access-qa-bot-BzVazmHR.js").then((t) => ({
+  () => import("./access-qa-bot-DxqroE1w.js").then((t) => ({
     default: t.QABot
   }))
 );
@@ -1156,7 +1156,7 @@ const re = [
     ] }),
     /* @__PURE__ */ p("div", { class: "columns", children: r })
   ] });
-}, Le = kt(() => import("./resource-group-detail-CJoKCNUD.js")), Xe = kt(() => import("./resource-home-Bw4lNZcw.js"));
+}, Le = kt(() => import("./resource-group-detail-Bv8j_-Bc.js")), Xe = kt(() => import("./resource-home-C3UYByP8.js"));
 function Ze({
   title: t = "Resources",
   showTitle: e = !0,
