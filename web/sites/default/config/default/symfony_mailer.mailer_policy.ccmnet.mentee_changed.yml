@@ -1,0 +1,19 @@
+uuid: f0dcb4ed-b11a-4fba-a04b-3e6344b4eb41
+langcode: en
+status: true
+dependencies:
+  module:
+    - ccmnet
+id: ccmnet.mentee_changed
+configuration:
+  email_bcc:
+    addresses:
+      -
+        value: andrew+ccmnet@elytra.net
+        display: 'Andrew Pasquale'
+  email_body:
+    content:
+      value: '<p>Thank you for your interest in <a href="{{ url }}">{{ title }}</a>. We are pleased to inform you that you have been selected!</p>'
+      format: basic_html
+  email_subject:
+    value: 'You have been selected as a mentee'
