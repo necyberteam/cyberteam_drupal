@@ -8,11 +8,13 @@ dependencies:
     - field.storage.node.field_location
     - field.storage.node.field_start_date
     - field.storage.node.field_track
+    - node.type.access_news
     - node.type.community_events
     - taxonomy.vocabulary.affinity_groups
     - taxonomy.vocabulary.track
   module:
     - datetime
+    - domain_access
     - node
     - taxonomy
     - user
@@ -502,18 +504,20 @@ display:
             format: full_no_editor
           tokenize: false
       sorts:
-        field_start_date_value:
-          id: field_start_date_value
-          table: node__field_start_date
-          field: field_start_date_value
+        created:
+          id: created
+          table: node_field_data
+          field: created
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: datetime
-          order: ASC
+          entity_type: node
+          entity_field: created
+          plugin_id: date
+          order: DESC
           expose:
             label: ''
-            field_identifier: field_start_date_value
+            field_identifier: ''
           exposed: false
           granularity: second
       arguments: {  }
@@ -716,6 +720,16 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_community'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_end_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_location'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_start_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_track'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_community'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_end_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_location'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_start_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_track'
         - 'config:field.storage.node.field_community'
         - 'config:field.storage.node.field_end_date'
         - 'config:field.storage.node.field_location'
@@ -1166,7 +1180,7 @@ display:
         type: some
         options:
           offset: 0
-          items_per_page: 8
+          items_per_page: 5
       arguments: {  }
       filters:
         status:
@@ -1186,28 +1200,15 @@ display:
           id: type
           table: node_field_data
           field: type
-          entity_type: node
-          entity_field: type
-          plugin_id: bundle
-          value:
-            community_events: community_events
-          expose:
-            operator_limit_selection: false
-            operator_list: {  }
-        field_start_date_value:
-          id: field_start_date_value
-          table: node__field_start_date
-          field: field_start_date_value
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: datetime
-          operator: '>='
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          operator: in
           value:
-            min: ''
-            max: ''
-            value: now
-            type: date
+            access_news: access_news
           group: 1
           exposed: false
           expose:
@@ -1224,9 +1225,7 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
+            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -1239,7 +1238,46 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          use_tokens: false
+        field_domain_access_target_id:
+          id: field_domain_access_target_id
+          table: node__field_domain_access
+          field: field_domain_access_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: domain_access_filter
+          operator: in
+          value:
+            campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -1270,6 +1308,8 @@ display:
       css_class: 'row mx-auto'
       display_description: ''
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       block_description: 'CommunityEvents - CC Front'
       block_category: 'Community Events'
@@ -1283,6 +1323,16 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_community'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_end_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_location'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_start_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_track'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_community'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_end_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_location'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_start_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_track'
         - 'config:field.storage.node.field_community'
         - 'config:field.storage.node.field_end_date'
         - 'config:field.storage.node.field_location'
@@ -1890,6 +1940,16 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_community'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_end_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_location'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_start_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_track'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_community'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_end_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_location'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_start_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_track'
         - 'config:field.storage.node.field_community'
         - 'config:field.storage.node.field_end_date'
         - 'config:field.storage.node.field_location'
