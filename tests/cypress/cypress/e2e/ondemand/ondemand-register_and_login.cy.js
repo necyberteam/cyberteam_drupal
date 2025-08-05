@@ -16,6 +16,6 @@ describe("Test login page", () => {
     cy.get('#user-login-form input[type="submit"]').should('exist');
 
     // verify ACCESS login button is present
-    cy.get('#cilogon-auth-login-form input[type="submit"]').should('exist');
+    cy.get('#block-ood-accessciuserlogin a.btn').should('exist');
   });
 });

@@ -30,37 +30,59 @@
   unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+html {
+  overflow-x: hidden;
+}
+
+.open-ondemand {
+  overflow-x: clip;
+}
+
 body {
   font-family: "Source Sans 3";
 }
 
 .page-node-10418 {
   .layout--twocol-section {
-    padding: 0 1.5em;
 
     .layout__region--first > div {
-      margin-right: 5rem;
       h2 {
         font-size: 1.8rem;
       }
     }
   }
-  .layout--threecol-section .layout__region div {
-    margin-left: 1.5em;
-    margin-right: 1.5em;
-    margin-top: 120px;
-  }
-  @media screen and (min-width: 40em) {
-    .layout--threecol-section .layout__region div {
-      padding-left: 1.5em;
-      border-left: 2px solid #000;
+  .upcoming {
+    border: 1px dashed #000;
+
+    > div .pb-4 {
+      padding-bottom: .75rem !important;
+    }
+
+    h2 {
+      color: var(--ood-red);
+    }
+    .views-field-title a {
+      font-size: 1em;
+      text-decoration: underline;
+    }
+    footer {
+      a {
+        color: #000;
+        font-weight: bold;
+        font-size: 0.8em;
+      }
     }
   }
 
-  .layout--threecol-section {
-    .layout__region {
+  .threefer {
+    > div {
+      flex-grow: 1;
+      flex-basis: 0;
       position: relative;
       margin-bottom: 50px;
+      > div {
+        padding-top: 120px;
+      }
     }
     img {
       top: 0px;
@@ -74,12 +96,41 @@ body {
       font-weight: bold;
     }
   }
+
+  .layout--twocol-section {
+    display: block;
+  }
+
+  @media screen and (min-width: 992px) {
+    .layout--twocol-section {
+      display: flex;
+    }
+
+    .twofer {
+      > div {
+        max-width: 400px;
+        margin-right: 1.5em;
+      }
+    }
+    .threefer {
+      margin-left: -20px;
+      > div > div,
+      .threefer img {
+        padding-left: .75em;
+      }
+      > div > div {
+        border-left: 2px solid #000;
+        margin-left: .5em;
+        margin-right: .5em;
+      }
+      > div:first-child > div {
+        margin-left: 0;
+      }
+    }
+  }
 }
 
 @media screen and (min-width: 40em) {
-  .layout--twocol-section.layout--twocol-section--75-25>.layout__region--first {
-   padding-right: 2.5rem;
-  }
   .page-node-10418 .layout--threecol-section .layout__region img {
     left: 3em;
   }
@@ -615,4 +666,28 @@ form #tag-suggestions strong {
    width: 120px;
    height: auto;
    margin: 1.5rem 0 0.75rem 0;
- }
+}
+
+.ag-slideshow {
+  background-color: #2b2a28;
+      padding-left: 50%;
+    padding-right: 50%;
+      margin-left: -50%;
+    margin-right: -50%;
+
+  .carousel-control-next {
+    right: -8px;
+  }
+  .carousel-control-prev {
+    left: -8px;
+  }
+  @media screen and (min-width: 40em) {
+    .carousel-control-next {
+      right: -15px;
+    }
+    .carousel-control-prev {
+      left: -15px;
+    }
+  }
+}
+
