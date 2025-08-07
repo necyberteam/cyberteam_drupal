@@ -216,6 +216,162 @@ $report_list . '
     }
 
     /**
+     * Identify users with .edu email addresses who are missing Carnegie codes.
+     *
+     * @command campuschampions:identify-edu-missing-carnegie
+     * @aliases cc-edu-missing
+     * @option export Export results to CSV file.
+     * @option all-users Check all users in system, not just Campus Champions.
+     * @usage campuschampions:identify-edu-missing-carnegie
+     *   List Campus Champions with .edu emails missing Carnegie codes.
+     * @usage campuschampions:identify-edu-missing-carnegie --export
+     *   Export the list to a CSV file.
+     * @usage campuschampions:identify-edu-missing-carnegie --all-users
+     *   Check all users in the system.
+     */
+    public function identifyEduMissingCarnegie($options = ['export' => FALSE, 'all-users' => FALSE]) {
+        $this->output()->writeln('Identifying users with .edu emails missing Carnegie codes...');
+
+        // Build query
+        $query = \Drupal::entityQuery('user')
+            ->condition('status', 1)
+            ->condition('mail', '%.edu', 'LIKE')
+            ->accessCheck(FALSE);
+        
+        // By default, only process Campus Champions users unless --all-users is specified
+        if (!$options['all-users']) {
+            $query->condition('field_region.target_id', 572); // Campus Champions region ID
+        }
+        
+        // Get users without Carnegie codes or with invalid ones
+        $or = $query->orConditionGroup()
+            ->notExists('field_carnegie_code')
+            ->condition('field_carnegie_code', '', '=');
+        $query->condition($or);
+        
+        $uids = $query->execute();
+
+        if (empty($uids)) {
+            $scope = $options['all-users'] ? 'users' : 'Campus Champions users';
+            $this->output()->writeln(sprintf('No %s with .edu emails are missing Carnegie codes.', $scope));
+            return;
+        }
+
+        $scope = $options['all-users'] ? 'users' : 'Campus Champions users';
+        $this->output()->writeln(sprintf('Found %d %s with .edu emails missing Carnegie codes.', count($uids), $scope));
+
+        $users_data = [];
+        $users = User::loadMultiple($uids);
+        
+        foreach ($users as $user) {
+            $institution = '';
+            if ($user->hasField('field_institution')) {
+                $inst_value = $user->get('field_institution')->getValue();
+                if (!empty($inst_value)) {
+                    $institution = $inst_value[0]['value'];
+                }
+            }
+            
+            $access_org = '';
+            $access_org_value = $user->get('field_access_organization')->getValue();
+            if (!empty($access_org_value)) {
+                $org_node = Node::load($access_org_value[0]['target_id']);
+                if ($org_node) {
+                    $access_org = $org_node->getTitle();
+                }
+            }
+            
+            $current_carnegie = '';
+            $carnegie_value = $user->get('field_carnegie_code')->getValue();
+            if (!empty($carnegie_value)) {
+                $current_carnegie = $carnegie_value[0]['value'];
+                // Check if it's valid
+                if (!$this->isValidCarnegieCode($current_carnegie)) {
+                    $current_carnegie .= ' (INVALID)';
+                }
+            }
+            
+            $users_data[] = [
+                'uid' => $user->id(),
+                'username' => $user->getAccountName(),
+                'email' => $user->getEmail(),
+                'institution' => $institution,
+                'access_org' => $access_org,
+                'current_carnegie' => $current_carnegie,
+                'created' => date('Y-m-d', $user->getCreatedTime()),
+            ];
+        }
+        
+        // Sort by institution name for easier review
+        usort($users_data, function($a, $b) {
+            return strcasecmp($a['institution'], $b['institution']);
+        });
+        
+        // Display or export results
+        if ($options['export']) {
+            $filename = 'edu-users-missing-carnegie-' . date('Y-m-d-His') . '.csv';
+            $path = 'private://' . $filename;
+            $file_system = \Drupal::service('file_system');
+            $real_path = $file_system->realpath($path);
+            
+            $fp = fopen($real_path, 'w');
+            fputcsv($fp, ['User ID', 'Username', 'Email', 'Institution', 'ACCESS Organization', 'Current Carnegie Code', 'Date Joined']);
+            
+            foreach ($users_data as $user_data) {
+                fputcsv($fp, [
+                    $user_data['uid'],
+                    $user_data['username'],
+                    $user_data['email'],
+                    $user_data['institution'],
+                    $user_data['access_org'],
+                    $user_data['current_carnegie'],
+                    $user_data['created'],
+                ]);
+            }
+            
+            fclose($fp);
+            $this->output()->writeln(sprintf('Exported to: %s', $real_path));
+        } else {
+            // Display in console
+            $this->output()->writeln("\nUsers with .edu emails missing Carnegie codes:");
+            $this->output()->writeln(str_repeat('-', 120));
+            
+            foreach ($users_data as $user_data) {
+                $this->output()->writeln(sprintf(
+                    "User: %s (ID: %d)\n  Email: %s\n  Institution: %s\n  ACCESS Org: %s\n  Current Carnegie: %s\n  Joined: %s\n",
+                    $user_data['username'],
+                    $user_data['uid'],
+                    $user_data['email'],
+                    $user_data['institution'] ?: '(none)',
+                    $user_data['access_org'] ?: '(none)',
+                    $user_data['current_carnegie'] ?: '(none)',
+                    $user_data['created']
+                ));
+            }
+        }
+        
+        // Summary statistics
+        $this->output()->writeln("\nSummary:");
+        $this->output()->writeln(sprintf("- Total .edu users missing Carnegie codes: %d", count($users_data)));
+        
+        $with_institution = array_filter($users_data, function($u) { return !empty($u['institution']); });
+        $this->output()->writeln(sprintf("- Users with institution field populated: %d", count($with_institution)));
+        
+        $with_access_org = array_filter($users_data, function($u) { return !empty($u['access_org']); });
+        $this->output()->writeln(sprintf("- Users with ACCESS Organization: %d", count($with_access_org)));
+        
+        $with_invalid = array_filter($users_data, function($u) { return strpos($u['current_carnegie'], 'INVALID') !== false; });
+        $this->output()->writeln(sprintf("- Users with invalid Carnegie codes: %d", count($with_invalid)));
+        
+        // Suggest next steps
+        $this->output()->writeln("\nSuggested next steps:");
+        $this->output()->writeln("1. Run: drush campuschampions:populate-carnegie-codes --dry-run");
+        $this->output()->writeln("   to see what the automatic matching would do.");
+        $this->output()->writeln("2. For targeted processing, you can modify the populate command to focus on .edu users.");
+        $this->output()->writeln("3. Consider reaching out to users without institution data to collect it.");
+    }
+
+    /**
      * Populate Carnegie codes and ACCESS Organizations for all users.
      *
      * @command campuschampions:populate-carnegie-codes
@@ -225,6 +381,7 @@ $report_list . '
      * @option organizations-only Only match ACCESS Organizations, don't populate Carnegie codes
      * @option auto-approve Automatically approve partial matches without prompting
      * @option all-users Process all users, not just Campus Champions
+     * @option edu-only Only process users with .edu email addresses
      * @usage campuschampions:populate-carnegie-codes
      *   Populate Carnegie codes and ACCESS Organizations for all users based on their institution.
      * @usage campuschampions:populate-carnegie-codes --dry-run
@@ -235,8 +392,10 @@ $report_list . '
      *   Automatically approve partial matches without interactive prompts.
      * @usage campuschampions:populate-carnegie-codes --all-users
      *   Process all users in system, not just Campus Champions.
+     * @usage campuschampions:populate-carnegie-codes --edu-only
+     *   Only process users with .edu email addresses.
      */
-    public function populateCarnegieCodes($options = ['dry-run' => FALSE, 'limit' => NULL, 'organizations-only' => FALSE, 'auto-approve' => FALSE, 'all-users' => FALSE]) {
+    public function populateCarnegieCodes($options = ['dry-run' => FALSE, 'limit' => NULL, 'organizations-only' => FALSE, 'auto-approve' => FALSE, 'all-users' => FALSE, 'edu-only' => FALSE]) {
         $this->output()->writeln('Starting Carnegie code and ACCESS Organization population...');
 
         // Build query based on options.
@@ -247,6 +406,11 @@ $report_list . '
         // By default, only process Campus Champions users unless --all-users is specified.
         if (!$options['all-users']) {
             $query->condition('field_region.target_id', 572); // Campus Champions region ID
+        }
+        
+        // Filter to .edu users if specified
+        if ($options['edu-only']) {
+            $query->condition('mail', '%.edu', 'LIKE');
         }
         
         if ($options['organizations-only']) {
