@@ -551,17 +551,72 @@ li.dropdown-item a.nav-link:active {
   top: 90%;
 }
 @media screen and (max-width: 991.98px) {
-  .navbar-nav .dropdown .dropdown-menu {
-      position: absolute;
-      top: 30px;
-      background: var(--dark);
-      padding: 1rem 0;
-      box-shadow: 0 2px 8px rgba(0, 0, 0,.1);
+  #mainNav .navbar-nav .dropdown .dropdown-menu {
+    position: static;
+    top: 0;
+    background: #fff;
+    padding: 0.25rem 0;
+    box-shadow: none;
+    width: 100%;
+    display: block !important;
+    opacity: 1;
+    max-height: initial;
+    overflow: initial;
+    margin: 0.125rem 0;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
   }
   .navbar-nav {
     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: auto;
+  }
+
+  /* Style secondary navbar on mobile */
+  #secondaryNavbarResponsive {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  #secondaryNavbarResponsive .search-block-form {
+    margin-right: 15px;
+  }
+  #secondaryNavbarResponsive .navbar-nav {
     flex-direction: row;
-    justify-content: end;
+  }
+  #secondaryNavbarResponsive .navbar-nav .nav-item {
+    width: auto;
+  }
+  /* Make secondary navbar dropdowns absolutely positioned on mobile */
+  #secondaryNavbarResponsive .dropdown-menu {
+    position: absolute !important;
+    top: 100%;
+    right: 0;
+    left: auto;
+    z-index: 1000;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    color: var(--secondary-navbar-link);
+    text-align: left;
+    background-color: var(--secondary-navbar-background);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+  }
+  /* Override navbar dropdown toggle styles for secondary navbar */
+  #secondaryNavbarResponsive .dropdown-toggle {
+    color: var(--secondary-navbar-link) !important;
+    font-size: 0.6em !important;
+  }
+  #navbarResponsive .navbar-nav {
+    width: 100%;
+  }
+  #navbarResponsive .navbar-nav .nav-item {
+    width: 100%;
   }
   #block-views-block-peoplebuttonblocks-region-select-card .dropdown-menu {
     position: absolute;
@@ -636,42 +691,149 @@ li.dropdown-item a.nav-link:active {
     height: auto !important;
   }
   .navbar-toggler { padding: 0.25rem 0rem; }
-  .dropdown .dropdown-toggle {
-    display: inline-block;
-    margin-bottom: 0;
-  }
-  .dropdown .dropdown-menu {
-    /*display: block !important; */
-    opacity: 1;
-    max-height: initial;
-    overflow: initial;
-    top: 0;
-  }
-  .dropdown-menu .dropdown-item a {
-    margin-left: 15px;
+  .navbar .dropdown .dropdown-toggle {
     display: block;
-    padding: 2px;
-    border-radius: 4px;
-    padding-left: 5px;
-    line-height: initial;
-    float: left;
+    margin-bottom: 0;
+    width: 100%;
+    text-align: left;
+    padding: 15px 15px !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: transparent;
+    font-weight: 800 !important;
+    font-size: 16px !important;
+    color: var(--navbar-link) !important;
+    text-decoration: none;
+    cursor: default;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
   }
-  .navbar li.nav-item a.dropdown-item { color: var(--navbar-link); }
-  .navbar li.nav-item a.dropdown-item:hover { color: var(--navbar-link-hover) !important; }
-  .dropdown-menu {
-    position: relative;
-    float: left;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    background-color: inherit;
-    -webkit-background-clip: initial;
-    background-clip: initial;
-    border: none;
+  .navbar .dropdown .dropdown-toggle:hover {
+    background-color: transparent;
+    color: var(--navbar-link-hover) !important;
+  }
+  .dropdown .dropdown-toggle:after {
+    display: none;
+  }
+  .dropdown-menu .dropdown-item {
+    display: block;
+    padding: 6px 16px;
     border-radius: 0;
-    -webkit-box-shadow: none;
-    box-shadow: none
+    line-height: 1.3;
+    float: none;
+    width: 100%;
+    text-align: left;
+    color: var(--navbar-link) !important;
+    text-decoration: none;
+    margin: 0;
+    font-size: 12px;
+  }
+  .dropdown-menu .dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--navbar-link-hover) !important;
+    text-decoration: none;
   }
   .navbar-collapse { margin: 0 -1rem; }
+
+  /* Hide dropdown menus when parent has domain-specific visibility classes */
+  .navbar-nav .dropdown .hide-ccmnet + .dropdown-menu,
+  .navbar-nav .dropdown .hide-campus-champions + .dropdown-menu,
+  .navbar-nav .dropdown .hide-careers + .dropdown-menu,
+  .navbar-nav .dropdown .hide-northeast + .dropdown-menu,
+  .navbar-nav .dropdown .hide-coco + .dropdown-menu {
+    display: none !important;
+  }
+
+  /* Show dropdown menus when parent has display classes for current domain */
+  .navbar-nav .dropdown .display-ccmnet + .dropdown-menu,
+  .navbar-nav .dropdown .display-campus-champions + .dropdown-menu,
+  .navbar-nav .dropdown .display-careers + .dropdown-menu,
+  .navbar-nav .dropdown .display-northeast + .dropdown-menu,
+  .navbar-nav .dropdown .display-coco + .dropdown-menu {
+    display: block !important;
+  }
+
+  /* Ensure dropdown toggle headings are visible on mobile, but respect domain-specific visibility */
+  .navbar-nav .dropdown .dropdown-toggle {
+    display: block !important;
+  }
+
+  /* Hide dropdown toggles that have domain-specific hide classes on appropriate domains */
+  .ccmnet .navbar-nav .dropdown .dropdown-toggle.hide-ccmnet {
+    display: none !important;
+  }
+  .campus-champions .navbar-nav .dropdown .dropdown-toggle.hide-campus-champions {
+    display: none !important;
+  }
+  .careers-cyberteam .navbar-nav .dropdown .dropdown-toggle.hide-careers {
+    display: none !important;
+  }
+  .northeast-cyberteam .navbar-nav .dropdown .dropdown-toggle.hide-northeast {
+    display: none !important;
+  }
+  .coco .navbar-nav .dropdown .dropdown-toggle.hide-coco {
+    display: none !important;
+  }
+
+  /* Show dropdown toggles that have domain-specific display classes on appropriate domains */
+  .ccmnet .navbar-nav .dropdown .dropdown-toggle.display-ccmnet {
+    display: block !important;
+  }
+  .campus-champions .navbar-nav .dropdown .dropdown-toggle.display-campus-champions {
+    display: block !important;
+  }
+  .careers-cyberteam .navbar-nav .dropdown .dropdown-toggle.display-careers {
+    display: block !important;
+  }
+  .northeast-cyberteam .navbar-nav .dropdown .dropdown-toggle.display-northeast {
+    display: block !important;
+  }
+  .coco .navbar-nav .dropdown .dropdown-toggle.display-coco {
+    display: block !important;
+  }
+
+  /* Hide region-specific dropdown toggles by default on mobile */
+  .navbar-nav .dropdown .dropdown-toggle.region-specific {
+    display: none !important;
+  }
+
+  /* Show region-specific dropdown toggles only on their designated domains */
+  .ccmnet .navbar-nav .dropdown .dropdown-toggle.region-specific.display-ccmnet {
+    display: block !important;
+  }
+  .campus-champions .navbar-nav .dropdown .dropdown-toggle.region-specific.display-campus-champions {
+    display: block !important;
+  }
+  .careers-cyberteam .navbar-nav .dropdown .dropdown-toggle.region-specific.display-careers {
+    display: block !important;
+  }
+  .northeast-cyberteam .navbar-nav .dropdown .dropdown-toggle.region-specific.display-northeast {
+    display: block !important;
+  }
+  .coco .navbar-nav .dropdown .dropdown-toggle.region-specific.display-coco {
+    display: block !important;
+  }
+
+  /* Hide region-specific dropdown menus by default on mobile */
+  .navbar-nav .dropdown .dropdown-toggle.region-specific + .dropdown-menu {
+    display: none !important;
+  }
+
+  /* Show region-specific dropdown menus only on their designated domains */
+  .ccmnet .navbar-nav .dropdown .dropdown-toggle.region-specific.display-ccmnet + .dropdown-menu {
+    display: block !important;
+  }
+  .campus-champions .navbar-nav .dropdown .dropdown-toggle.region-specific.display-campus-champions + .dropdown-menu {
+    display: block !important;
+  }
+  .careers-cyberteam .navbar-nav .dropdown .dropdown-toggle.region-specific.display-careers + .dropdown-menu {
+    display: block !important;
+  }
+  .northeast-cyberteam .navbar-nav .dropdown .dropdown-toggle.region-specific.display-northeast + .dropdown-menu {
+    display: block !important;
+  }
+  .coco .navbar-nav .dropdown .dropdown-toggle.region-specific.display-coco + .dropdown-menu {
+    display: block !important;
+  }
   #secondaryNav.navbar li.nav-item a.nav-link {
     padding: 0px 15px !important;
   }
@@ -679,8 +841,18 @@ li.dropdown-item a.nav-link:active {
     background-color: var(--secondary-navbar-background) !important;
   }
   #secondaryNav a.dropdown-item {
-    color: var(--secondary-navbar-link);
-    padding: 0px 25px !important;
+    color: var(--secondary-navbar-link) !important;
+    font-size: 0.85em !important;
+    padding: 8px 25px !important;
+  }
+  #secondaryNav a.dropdown-item:hover {
+    color: var(--secondary-navbar-link-hover) !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* Align secondaryNavbarResponsive items to the right on mobile */
+  #secondaryNavbarResponsive {
+    justify-content: flex-end;
   }
 }
 @media screen and (max-width: 575.98px) {
@@ -2079,7 +2251,6 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
   }
 .ccmnet #secondaryNavbarResponsive {
   width: 100%;
-  justify-content: space-evenly;
 }
 }
 .ccmnet .navbar li.nav-item a.nav-link, .ccmnet .navbar li.nav-item span.nav-link {
@@ -2179,6 +2350,41 @@ button.copyclip:has(:hover, + details.search-ci-links summary:hover) {
   margin-bottom: 1rem;
   border: 1px solid #cccccc;
   border-radius: 0.25rem;
+}
+
+/* Improve accordion styling for field group details */
+.field-group-details {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  margin-bottom: 1.5rem;
+  background-color: #f8f9fa;
+}
+
+.field-group-details summary {
+  padding: 1rem;
+  background-color: #e9ecef;
+  border-bottom: 1px solid #dee2e6;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.1rem;
+  position: relative;
+}
+
+.field-group-details summary:hover {
+  background-color: #dee2e6;
+}
+
+
+/* Add padding to the content area */
+.field-group-details > .fieldset-wrapper,
+.field-group-details > div:not(summary) {
+  padding: 1rem;
+}
+
+/* Style nested fieldsets within the accordion */
+.field-group-details .field-group-fieldset {
+  margin: 1.5rem 1rem;
+  padding: 1rem;
 }
 
 .top-80 {
@@ -2475,6 +2681,12 @@ form .label-description {
   margin: 0;
 }
 
+/* Reduce spacing for radio buttons and checkboxes */
+.js-form-type-radio.form-item,
+.js-form-type-checkbox.form-item {
+  margin: 0.5rem 0;
+}
+
 .form-item .field-label {
   padding: 0.25rem 0 0.25rem 0;
 }
@@ -2559,4 +2771,8 @@ html:has(#edit-recur-type-wrapper) {
   width: 120px;
   height: auto;
   margin: 1.5rem 0 0.75rem 0;
+}
+
+#edit-actions {
+  margin: 20px 0 50px;
 }
