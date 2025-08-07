@@ -1,0 +1,40 @@
+uuid: 841b05a8-3cd6-4415-a159-42b3131d3ea3
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.mentorship_status
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: nect_views_block__mentorship_status_block_1
+theme: nect
+region: tags_page_researchers
+weight: 0
+provider: null
+plugin: 'views_block:mentorship_status-block_1'
+settings:
+  id: 'views_block:mentorship_status-block_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '/taxonomy/term/*'
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+      ccmnet_org: ccmnet_org
