@@ -1,0 +1,33 @@
+uuid: 0ddf6b41-efad-46ff-befc-d4212bcc0ffe
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.past_affinity_group
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - ood
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: ood_pastaffinitygroup_2
+theme: ood
+region: primary_sidebar
+weight: -5
+provider: null
+plugin: 'facet_block:past_affinity_group'
+settings:
+  id: 'facet_block:past_affinity_group'
+  label: 'Affinity Group'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: ood_pastaffinitygroup_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events/past

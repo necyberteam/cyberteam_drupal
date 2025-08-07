@@ -1,0 +1,33 @@
+uuid: 45ac36fb-5d6c-45b2-b6ef-1bad02a088b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.organization_cyberteam_people
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - ood
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: ood_organizationcyberteampeople_2
+theme: ood
+region: primary_sidebar
+weight: -46
+provider: null
+plugin: 'facet_block:organization_cyberteam_people'
+settings:
+  id: 'facet_block:organization_cyberteam_people'
+  label: Organization
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: ood_organizationcyberteampeople_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people

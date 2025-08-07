@@ -1,0 +1,33 @@
+uuid: 0db5e1b4-527d-4959-b613-0bbc029b8878
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.content_type
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - ood
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: ood_category_2
+theme: ood
+region: primary_sidebar
+weight: -12
+provider: null
+plugin: 'facet_block:content_type'
+settings:
+  id: 'facet_block:content_type'
+  label: 'Content Type'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: ood_category_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources
