@@ -1,0 +1,15 @@
+uuid: a1b0705c-10bd-45b0-93dd-27f3a29696ac
+langcode: en
+status: true
+dependencies:
+  module:
+    - ccmnet
+id: ccmnet.cron_author_update
+configuration:
+  email_body:
+    content:
+      value: '<p>Someone is interested in your mentorship request.</p><p>You can review interested people and when you are ready to choose someone you can edit the Mentorship to add their name, change the state of the Mentorship to "In Progress", and save.</p><p>Please <a href="{{ url }}">{{ title }}</a> to view Mentorship.</p>'
+      format: basic_html
+  email_subject:
+    value: 'Interest in your Mentorship'
+
