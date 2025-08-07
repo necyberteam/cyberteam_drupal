@@ -178,6 +178,7 @@ runs:
       run: ddev delete -O -y
 
     - name: Merge Group
+      shell: bash
       if: ${{ github.event_name == 'merge_group' }}
       run: |
         echo 'Let Merge Queue pass'
