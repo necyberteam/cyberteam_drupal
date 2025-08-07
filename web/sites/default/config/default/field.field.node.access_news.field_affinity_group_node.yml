@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.node.field_affinity_group_node
     - node.type.access_news
-    - node.type.affinity_group
 id: node.access_news.field_affinity_group_node
 field_name: field_affinity_group_node
 entity_type: node
@@ -17,13 +16,10 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:node'
+  handler: views
   handler_settings:
-    target_bundles:
-      affinity_group: affinity_group
-    sort:
-      field: _none
-      direction: ASC
-    auto_create: false
-    auto_create_bundle: ''
+    view:
+      view_name: affinity_group_entity_reference
+      display_name: entity_reference_1
+      arguments: {  }
 field_type: entity_reference
