@@ -36,8 +36,9 @@ runs:
         path: backups/
         workflow: backupdb.yml
         branch: main
-      
+
     - name: Setup DDEV Base
+      if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
       uses: ./.github/actions/ddev-base
       with:
         site: ${{ inputs.site }}
@@ -46,6 +47,7 @@ runs:
         amp_uid: ${{ inputs.amp_uid }}
 
     - name: Download files
+      if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
@@ -55,6 +57,7 @@ runs:
         ddev exec vendor/bin/robo gh:pullfiles
 
     - name: Setup Node.js
+      if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
       uses: actions/setup-node@v4
       with:
         node-version: '20'
@@ -62,12 +65,14 @@ runs:
         cache-dependency-path: tests/cypress/package-lock.json
 
     - name: Install Cypress dependencies
+      if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
       shell: bash
       run: |
         cd tests/cypress
         npm ci
 
     - name: Install Cypress system dependencies
+      if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
       shell: bash
       run: |
         sudo apt-get update
@@ -79,6 +84,7 @@ runs:
         sudo apt-get install -y google-chrome-stable
 
     - name: Verify site accessibility
+      if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
       shell: bash
       env:
         SITE: ${{ inputs.site }}
@@ -93,6 +99,7 @@ runs:
 
     - name: Run Cypress tests
       shell: bash
+      if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
       env:
         SITE: ${{ inputs.site }}
         DIR: ${{ inputs.directory }}
@@ -105,7 +112,7 @@ runs:
         xvfb-run -a npx cypress run --config baseUrl=https://$SITE.ddev.site --spec "cypress/e2e/$DIR/**/*.js"
 
     - name: Check for screenshots
-      if: always()
+      if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
       shell: bash
       run: |
         echo "Checking for Cypress screenshots..."
@@ -117,7 +124,7 @@ runs:
         fi
 
     - name: Upload screenshots on failure
-      if: failure()
+      if: ${{ failure() && !cancelled() && hashFiles('tests/cypress/cypress/screenshots/**/*.png') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
       uses: actions/upload-artifact@v4
       with:
         name: cypress-screenshots-${{ inputs.site }}-${{ inputs.directory }}
@@ -125,7 +132,7 @@ runs:
         if-no-files-found: ignore
 
     - name: Upload screenshots to Slack
-      if: failure() && inputs.slack_bot_token != ''
+      if: ${{ failure() && inputs.slack_bot_token != '' && !cancelled() && hashFiles('tests/cypress/cypress/screenshots/**/*.png') == '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
       shell: bash
       env:
         SLACK_BOT_TOKEN: ${{ inputs.slack_bot_token }}
@@ -133,7 +140,7 @@ runs:
         if [ -d "tests/cypress/cypress/screenshots" ]; then
           echo "Uploading screenshots to Slack..."
           cd tests/cypress/cypress/screenshots
-          
+
           # Find and upload first few screenshot files (limit to avoid spam)
           count=0
           find . -name "*.png" -type f | head -3 | while read screenshot; do
@@ -150,7 +157,7 @@ runs:
         fi
 
     - name: Notify Slack on failure
-      if: failure() && inputs.slack_webhook != ''
+      if: ${{ failure() && inputs.slack_bot_token != '' && !cancelled() && hashFiles('tests/cypress/cypress/screenshots/**/*.png') == '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
@@ -159,16 +166,21 @@ runs:
         SLACK_CHANNEL: cypress-git-notifications
 
     - name: Get Drupal logs on failure
-      if: failure()
+      if: ${{ failure() && !cancelled() && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
       shell: bash
       run: |
         echo "Attempting to get Drupal logs..."
         ddev drush wd-show --count=10000 || echo "Could not retrieve Drupal logs (Drupal may not be fully set up)"
 
     - name: Cleanup DDEV
-      if: always()
+      if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
       shell: bash
       run: ddev delete -O -y
+
+    - name: Merge Group
+      if: ${{ github.event_name == 'merge_group' }}
+      run: |
+        echo 'Let Merge Queue pass'
 
 branding:
   icon: 'check-circle'
