@@ -225,7 +225,7 @@ GITHUB_TOKEN=$token'>.env");
     $snap_name = preg_replace('/[^A-Za-z0-9\-]/', '-', $snap_name);
     $is_ddev = file_exists('/.ddev') || getenv('DDEV_PROJECT') || file_exists('/var/www/html/.ddev');
     if ($is_ddev) {
-      $this->_exec("drush sql-dump --result-file=backups/snapshots/" . $date . "_" . $branch . "_" . $snap_name . ".sql");
+      $this->_exec("drush sql-dump --result-file=backups/snapshots/" . $date . "_" . $branch . "_" . $snap_name . ".sql.gz");
     } else {
       $this->_exec("ddev export-db --file=backups/snapshots/" . $date . "_" . $branch . "_" . $snap_name . ".sql");
     }

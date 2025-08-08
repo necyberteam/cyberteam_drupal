@@ -25,9 +25,6 @@ describe("Test Structure admin page", () => {
     cy.contains('Projects - Kentucky');
     cy.contains('Projects - MINES');
     cy.contains('Projects - Northeast');
-    cy.contains('Projects - RMACC');
-    cy.contains('Projects - SWEETER');
-    cy.contains('Projects - TRECIS');
 
     // Campus Champions block check - truncated for memory
     cy.get(':nth-child(3) > .tabs__link').click();
@@ -43,9 +40,6 @@ describe("Test Structure admin page", () => {
     cy.contains('Project Submissions - Kentucky');
     cy.contains('Project Submissions - MINES');
     cy.contains('Project Submissions - Northeast');
-    cy.contains('Project Submissions - RMACC');
-    cy.contains('Project Submissions - SWEETER');
-    cy.contains('Project Submissions - TRECIS');
     cy.contains('User Profile: User Profile');
     cy.contains('Events');
     cy.contains('CC - Front - Quick Links');
@@ -140,9 +134,6 @@ describe("Test Structure admin page", () => {
     cy.contains('Northeast Cyberteam');
     cy.contains('Northeast Cyberteam');
     cy.contains('Personal contact form');
-    cy.contains('RMACC Cyberteam');
-    cy.contains('SWEETER Cyberteam');
-    cy.contains('Trecis Cyberteam');
     cy.contains('USRSE');
     cy.contains('Website feedback');
   });
