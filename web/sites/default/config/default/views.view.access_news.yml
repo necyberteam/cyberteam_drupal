@@ -16,6 +16,7 @@ dependencies:
   module:
     - content_moderation
     - datetime
+    - domain_access
     - node
     - options
     - svg_image
@@ -461,56 +462,6 @@ display:
           expose:
             operator_limit_selection: false
             operator_list: {  }
-        field_affiliation_value:
-          id: field_affiliation_value
-          table: node__field_affiliation
-          field: field_affiliation_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: list_field
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_affiliation_value_op
-            label: 'Affiliation (field_affiliation)'
-            description: null
-            use_operator: false
-            operator: field_affiliation_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_affiliation_value
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: true
-          group_info:
-            label: Affiliation
-            description: ''
-            identifier: field_affiliation_value
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items:
-              1:
-                title: 'ACCESS Collaboration'
-                operator: or
-                value:
-                  'ACCESS Collaboration': 'ACCESS Collaboration'
-              2:
-                title: Community
-                operator: or
-                value:
-                  Community: Community
-          reduce_duplicates: false
         field_affinity_group_target_id:
           id: field_affinity_group_target_id
           table: node__field_affinity_group
@@ -705,6 +656,46 @@ display:
           hierarchy: false
           limit: true
           error_message: true
+        field_domain_access_target_id:
+          id: field_domain_access_target_id
+          table: node__field_domain_access
+          field: field_domain_access_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: domain_access_filter
+          operator: in
+          value:
+            amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -713,7 +704,7 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: 'my-5 pb-5 border-black border-b font-medium leading-5'
+          row_class: 'cc-override my-5 pb-5 border-black border-b font-medium leading-5 border-bottom'
           default_row_class: true
       row:
         type: fields
@@ -743,6 +734,14 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.body'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_affiliation'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_image'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_published_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.body'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_affiliation'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_image'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_published_date'
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_affiliation'
         - 'config:field.storage.node.field_image'
@@ -1214,7 +1213,9 @@ display:
       css_class: ' p-4 mb-6'
       group_by: true
       exposed_block: true
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
     cache_metadata:
       max-age: -1
       contexts:
@@ -1224,6 +1225,14 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.body'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_affiliation'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_image'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_published_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.body'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_affiliation'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_image'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_published_date'
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_affiliation'
         - 'config:field.storage.node.field_image'
@@ -1569,6 +1578,8 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_published_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_published_date'
         - 'config:field.storage.node.field_published_date'
   block_3:
     id: block_3
@@ -1939,6 +1950,8 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_published_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_published_date'
         - 'config:field.storage.node.field_published_date'
   latest_news_block:
     id: latest_news_block
@@ -2193,7 +2206,9 @@ display:
             value: '<a class="text-white text-sm uppercase no-underline hover--text-light-teal hover--underline" href="/announcements">See all</a>'
             format: full_html
           tokenize: false
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: false
     cache_metadata:
       max-age: -1
       contexts:
@@ -2428,6 +2443,10 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.body'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.field.storage.node.field_published_date'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.body'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.field.storage.node.field_published_date'
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_published_date'
         - 'config:workflow_list'
