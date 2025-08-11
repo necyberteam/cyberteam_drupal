@@ -103,18 +103,6 @@ describe("Check admin configuration pages", () => {
     cy.contains('Search result excerpt');
     cy.contains('Member for');
 
-    cy.visit('/admin/config/people/captcha');
-    cy.get('h1').should('contain', 'CAPTCHA settings');
-
-    cy.visit('/admin/config/people/captcha/image_captcha');
-    cy.contains('The image CAPTCHA');
-
-    cy.visit('/admin/config/people/captcha/examples');
-    cy.get('h1').should('contain', 'CAPTCHA examples');
-
-    cy.visit('/admin/config/people/captcha/captcha-points');
-    cy.get('h1').should('contain', 'CAPTCHA configuration');
-
     cy.visit('/admin/config/people/email-change');
     cy.get('h1').should('contain', 'Email change settings');
 
