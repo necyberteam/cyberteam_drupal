@@ -20,6 +20,9 @@ use Drupal\views\ViewExecutable;
 function campuschampions_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'user_form') {
     $form['field_carnegie_code']['widget'][0]['value']['#autocomplete_route_name'] = 'campuschampions.autocomplete';
+    
+    // Add validation for Carnegie code field
+    $form['#validate'][] = 'campuschampions_user_form_validate';
   }
   global $user;
   if ($form_id == 'webform_submission_join_campus_champions_add_form') {
@@ -380,6 +383,30 @@ function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, V
     // Designation.
     if (!isset($row['webform_submission_value']) || !$row['webform_submission_value']) {
       $row['webform_submission_value'] = 'Champion';
+    }
+  }
+}
+
+/**
+ * Validate Carnegie code field on user forms.
+ */
+function campuschampions_user_form_validate(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  $carnegie_code = $form_state->getValue('field_carnegie_code');
+  
+  if (!empty($carnegie_code) && !empty($carnegie_code[0]['value'])) {
+    $code = $carnegie_code[0]['value'];
+    
+    // Validate that the Carnegie code exists in the database
+    $query = \Drupal::database()
+      ->select('carnegie_codes', 'cc')
+      ->fields('cc', ['UNITID'])
+      ->condition('UNITID', $code, '=')
+      ->range(0, 1);
+    
+    $result = $query->execute()->fetchField();
+    
+    if (empty($result)) {
+      $form_state->setErrorByName('field_carnegie_code', t('The Carnegie code "@code" is not valid. Please enter a valid Carnegie classification code or leave blank for non-academic institutions.', ['@code' => $code]));
     }
   }
 }
