@@ -367,3 +367,28 @@ function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, V
     }
   }
 }
+
+/**
+ * Implements hook_views_pre_view().
+ */
+function campuschampions_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
+  $current_domain_name = \Drupal::service('access_misc.sitetools')->getDomain();
+  if ($view->id() == 'mentorship_facet_search' &&
+    $view->getDisplay()->view->element['#display_id'] == 'block_1' &&
+    $current_domain_name == 'campus-champions')
+  {
+    $options = array(
+      'id' => 'area_text_custom',
+      'table' => 'views',
+      'field' => 'area_text_custom',
+      'relationship' => 'none',
+      'group_type' => 'none',
+      'admin_label' => '',
+      'empty' => TRUE,
+      'tokenize' => FALSE,
+      'content' => '<a class="btn btn-primary rounded-pill" href="https://ccmnet.org/mentorships?f[0]=mentorship_program:910">See All</a>',
+      'plugin_id' => 'text_custom',
+    );
+    $view->setHandler('block_1', 'footer', 'area_text_custom', $options);
+  }
+}
