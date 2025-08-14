@@ -16,6 +16,7 @@ dependencies:
   module:
     - content_moderation
     - datetime
+    - domain_access
     - node
     - options
     - svg_image
@@ -461,56 +462,6 @@ display:
           expose:
             operator_limit_selection: false
             operator_list: {  }
-        field_affiliation_value:
-          id: field_affiliation_value
-          table: node__field_affiliation
-          field: field_affiliation_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: list_field
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_affiliation_value_op
-            label: 'Affiliation (field_affiliation)'
-            description: null
-            use_operator: false
-            operator: field_affiliation_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_affiliation_value
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: true
-          group_info:
-            label: Affiliation
-            description: ''
-            identifier: field_affiliation_value
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items:
-              1:
-                title: 'ACCESS Collaboration'
-                operator: or
-                value:
-                  'ACCESS Collaboration': 'ACCESS Collaboration'
-              2:
-                title: Community
-                operator: or
-                value:
-                  Community: Community
-          reduce_duplicates: false
         field_affinity_group_target_id:
           id: field_affinity_group_target_id
           table: node__field_affinity_group
@@ -705,6 +656,46 @@ display:
           hierarchy: false
           limit: true
           error_message: true
+        field_domain_access_target_id:
+          id: field_domain_access_target_id
+          table: node__field_domain_access
+          field: field_domain_access_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: domain_access_filter
+          operator: in
+          value:
+            amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -713,7 +704,7 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: 'my-5 pb-5 border-black border-b font-medium leading-5'
+          row_class: 'cc-override my-5 pb-5 border-black border-b font-medium leading-5 border-bottom'
           default_row_class: true
       row:
         type: fields
@@ -727,7 +718,7 @@ display:
           query_tags: {  }
           contextual_filters_or: false
       relationships: {  }
-      css_class: ''
+      css_class: 'card mt-4 p-3'
       group_by: true
       link_display: custom_url
       link_url: /announcements
@@ -1572,7 +1563,9 @@ display:
       css_class: ' p-4 mb-6'
       group_by: true
       exposed_block: true
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
     cache_metadata:
       max-age: -1
       contexts:
@@ -1945,69 +1938,6 @@ display:
     position: 2
     display_options:
       fields:
-        title:
-          id: title
-          table: node_field_data
-          field: title
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: Title
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
         field_published_date:
           id: field_published_date
           table: node__field_published_date
@@ -2016,7 +1946,7 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: field
-          label: Date
+          label: ''
           exclude: false
           alter:
             alter_text: false
@@ -2049,7 +1979,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -2081,8 +2011,8 @@ display:
           admin_label: ''
           entity_type: node
           plugin_id: moderation_state_field
-          label: 'Moderation state'
-          exclude: false
+          label: ''
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -2114,7 +2044,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -2126,6 +2056,69 @@ display:
           type: content_moderation_state
           settings: {  }
           group_column: entity_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: true
+            text: '{{ title }} - {{ moderation_state }}'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -2200,44 +2193,11 @@ display:
         groups:
           1: AND
       style:
-        type: table
+        type: default
         options:
           grouping: {  }
-          row_class: mb-3
+          row_class: 'pb-3 mb-3'
           default_row_class: true
-          columns:
-            title: title
-            field_published_date: field_published_date
-            moderation_state: moderation_state
-          default: '-1'
-          info:
-            title:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_published_date:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            moderation_state:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-          override: true
-          sticky: false
-          summary: ''
-          empty_table: false
-          caption: ''
-          description: ''
       row:
         type: fields
         options: {  }
@@ -2284,7 +2244,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: false
-          content: "<div class=\"card mt-4\">\r\n<div class=\"card-body\">\r\n<h3 class=\"card-title\">My Announcements</h3>"
+          content: '<h3 class="card-title">My Announcements</h3>'
           tokenize: false
       footer:
         area_text_custom:
@@ -2298,7 +2258,9 @@ display:
           empty: false
           content: '</div></div>'
           tokenize: false
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
     cache_metadata:
       max-age: -1
       contexts:
@@ -2563,7 +2525,9 @@ display:
             value: '<a class="text-white text-sm uppercase no-underline hover--text-light-teal hover--underline" href="/announcements">See all</a>'
             format: full_html
           tokenize: false
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: false
     cache_metadata:
       max-age: -1
       contexts:
