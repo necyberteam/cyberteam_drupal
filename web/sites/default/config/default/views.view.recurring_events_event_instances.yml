@@ -852,7 +852,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: 'No events or trainings are currently scheduled.'
+            value: '<p>No events or trainings are currently scheduled.</p>'
             format: basic_html
           tokenize: false
       sorts:
@@ -1592,6 +1592,453 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user.permissions
+      tags: {  }
+  block_1:
+    id: block_1
+    display_title: 'ACCESS & NAIRR Office Hours Block'
+    display_plugin: block
+    position: 1
+    display_options:
+      title: 'Upcoming Office Hours'
+      fields:
+        date__value:
+          id: date__value
+          table: eventinstance_field_data
+          field: date__value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventinstance
+          entity_field: date
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: "{% set start = date__value__value %}\r\n{% set end = date__end_value__value %}\r\n\r\n{{ start|date('l, n/j/Y') }}\r\n<br>\r\n{{ start|date('g:i A') }} - {{ end|date('g:i A T') }}\r\n"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: div
+          element_class: 'text-white font-medium'
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: daterange_custom
+          settings:
+            timezone_override: ''
+            date_format: 'l, n/j/Y g:i A'
+            from_to: start_date
+            separator: '-'
+          group_column: entity_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        date__end_value:
+          id: date__end_value
+          table: eventinstance_field_data
+          field: date__end_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventinstance
+          entity_field: date
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: true
+            text: "{% set start = date__value %}\r\n{% set end = date__end_value__end_value %}\r\n\r\n{{ start|date('l, n/j/Y') }}\r\n<br>\r\n{{ start|date('g:i A') }} - {{ end|date('g:i A T') }}"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: daterange_default
+          settings:
+            timezone_override: ''
+            format_type: medium
+            from_to: end_date
+            separator: '-'
+          group_column: entity_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+      pager:
+        type: some
+        options:
+          offset: 0
+          items_per_page: 4
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: 'No office hours are currently scheduled.'
+            format: basic_html
+          tokenize: false
+      sorts:
+        date__value:
+          id: date__value
+          table: eventinstance_field_data
+          field: date__value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventinstance
+          entity_field: date
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: 'Event Date'
+            field_identifier: date__value
+          exposed: false
+          granularity: second
+        title:
+          id: title
+          table: eventseries_field_data
+          field: title
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          entity_type: eventseries
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: title
+          exposed: false
+      filters:
+        status:
+          id: status
+          table: eventinstance_field_data
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventinstance
+          entity_field: status
+          plugin_id: boolean
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: Published
+            description: ''
+            use_operator: false
+            operator: status_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: status
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        date__value:
+          id: date__value
+          table: eventinstance_field_data
+          field: date__value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventinstance
+          entity_field: date
+          plugin_id: datetime
+          operator: '>='
+          value:
+            min: ''
+            max: ''
+            value: today
+            type: offset
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          use_tokens: false
+        field_event_no_listing_value:
+          id: field_event_no_listing_value
+          table: eventseries__field_event_no_listing
+          field: field_event_no_listing_value
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          plugin_id: boolean
+          operator: '='
+          value: '0'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_affiliation_value:
+          id: field_affiliation_value
+          table: eventseries__field_affiliation
+          field: field_affiliation_value
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            access_nairr_office_hours: access_nairr_office_hours
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      style:
+        type: default
+        options:
+          grouping: {  }
+          row_class: mb-3
+          default_row_class: true
+      row:
+        type: fields
+        options:
+          default_field_elements: true
+          inline:
+            date__value: date__value
+            title: title
+            view_eventseries: view_eventseries
+            view_eventinstance: view_eventinstance
+            title_2: title_2
+            title_1: title_1
+          separator: ''
+          hide_empty: false
+      defaults:
+        empty: false
+        title: false
+        pager: false
+        use_more: false
+        use_more_always: false
+        use_more_text: false
+        link_display: false
+        link_url: false
+        style: false
+        row: false
+        fields: false
+        sorts: false
+        filters: false
+        filter_groups: false
+        header: false
+        footer: false
+      display_description: ''
+      use_more: false
+      use_more_always: true
+      use_more_text: 'All Events'
+      link_display: custom_url
+      link_url: '/events?f[0]=custom_event_affiliation%3AACCESS %26 NAIRR Office Hours'
+      header:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: false
+          content: '<h2>Upcoming Office Hours</h2>'
+          tokenize: false
+      footer:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<a class="text-sm text-black uppercase underline hover--text-dark-teal hover--no-underline" href="/events?f[0]=custom_event_affiliation%3AACCESS %26 NAIRR Office Hours">See all</a>'
+            format: full_html
+          tokenize: false
+      display_extenders:
+        jsonapi_views:
+          enabled: true
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
         - user.permissions
       tags: {  }
   block_3:

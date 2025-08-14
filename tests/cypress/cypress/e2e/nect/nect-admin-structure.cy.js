@@ -88,7 +88,6 @@ describe("Test Structure admin page", () => {
     cy.contains('Affinity Contact Group');
     cy.contains('Affinity Group: Affinity Group - link to users');
     cy.contains('Exposed form: cssn_directory-page_1');
-    cy.contains('Q&A Tool');
     cy.contains('Exposed form: affinity_group_search-page_1');
     cy.contains('Affinity Groups with Tag');
     cy.contains('Community persona block');
@@ -379,7 +378,6 @@ describe("Test Structure admin page", () => {
     cy.contains('Infrastructure News');
     cy.contains('Interested in Project');
     cy.contains('Knowledge Base Resources Search');
-    cy.contains('Maillog overview');
     cy.contains('Match Engagements submissions');
     cy.contains('match engagement view');
     cy.contains('match interested users');
@@ -414,7 +412,6 @@ describe("Test Structure admin page", () => {
     cy.contains('Reference: ACCESS Active Resources from CiDeR ID');
     cy.contains('Regional About');
     cy.contains('Related Blog');
-    cy.contains('Resource Catalog Carousel API');
     cy.contains('Resources');
     cy.contains('Resources Entity Reference');
     cy.contains('Search Knowledge Base Resources');

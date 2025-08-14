@@ -67,9 +67,13 @@ runs:
           echo "Downloading custom database: $DATABASE"
           wget -O backups/site.sql.gz "$DATABASE"
         else
-          echo "Using GitHub artifact database"
-          gh auth status
-          ddev exec vendor/bin/robo gh:pulldb
+          echo "Using existing backup file (should already exist from previous step)"
+          if [ -f "backups/site.sql.gz" ]; then
+            echo "✅ Found existing backup file: backups/site.sql.gz"
+          else
+            echo "❌ No backup file found - this action requires a database file"
+            exit 1
+          fi
         fi
 
     - name: Import database and deploy
@@ -78,12 +82,12 @@ runs:
         AMP_UID: ${{ inputs.amp_uid }}
       run: |
         # Use DDEV's fast database import
-        ddev import-db --src=backups/site.sql.gz
+        ddev import-db --file=backups/site.sql.gz
         # Run post-import setup (equivalent to robo did without db import)
         ddev drush deploy -y
         ddev drush cim -y
-        # Enable maillog module for testing
-        ddev drush en maillog -y
+        # Enable symfony_mailer_log module for testing
+        ddev drush en symfony_mailer_log -y
         ddev drush cr
 
     - name: Clear watchdog logs

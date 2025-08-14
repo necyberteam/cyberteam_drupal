@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.eventinstance.domain_access
     - search_api.index.events
   module:
     - better_exposed_filters
@@ -401,7 +402,7 @@ display:
             preserve_tags: ''
             html: false
           element_type: ''
-          element_class: event-tags
+          element_class: 'event-tags  pb-2'
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
@@ -416,6 +417,80 @@ display:
           use_highlighting: false
           multi_type: separator
           multi_separator: ''
+        domain_access:
+          id: domain_access
+          table: search_api_datasource_events_entity_eventinstance
+          field: domain_access
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventinstance
+          plugin_id: search_api_field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: { }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api_entity
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+            display_methods:
+              domain:
+                display_method: label
       pager:
         type: full
         options:
@@ -726,7 +801,7 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: 'grid grid-flow-col gap-1 border-b border-solid border-dark-teal mb-4 pb-4'
+          row_class: 'grid grid-flow-col gap-1 border-b border-solid border-dark-teal mb-3 pb-2'
           default_row_class: true
       row:
         type: fields
@@ -763,14 +838,18 @@ display:
         - url.query_args
         - user.permissions
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.domain_access'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.domain_access'
+        - 'config:field.storage.eventinstance.domain_access'
         - 'config:search_api.index.events'
         - 'search_api_list:events'
-  page_1:
-    id: page_1
-    display_title: 'Page :: Upcoming'
-    display_plugin: page
-    position: 2
+  block_1:
+    id: block_1
+    display_title: ood_upcoming_list
+    display_plugin: block
+    position: 3
     display_options:
+      title: 'Upcoming Events'
       fields:
         id:
           id: id
@@ -868,7 +947,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"text-dark-teal flex flex-col justify-items-center font-bold me-7 mr-5\">\r\n<div class=\"text-center text-xl\">{{ date_1__value|date(\"D\") }}</div>\r\n<div class=\"text-center text-4xl\">{{ date_1__value|date(\"j\") }}</div>\r\n<div class=\"text-center text-xl\">{{ date_1__value|date(\"M\") }}</div>\r\n</div>"
+            text: '{{ date_1__value|date("n/d/Y") }}'
             make_link: false
             path: ''
             absolute: false
@@ -899,7 +978,7 @@ display:
           element_label_class: ''
           element_label_colon: false
           element_wrapper_type: div
-          element_wrapper_class: row-span-4
+          element_wrapper_class: ''
           element_default_classes: true
           empty: ''
           hide_empty: false
@@ -910,7 +989,7 @@ display:
           settings:
             timezone_override: ''
             format_type: html_date
-            from_to: both
+            from_to: start_date
             separator: '-'
           group_column: value
           group_columns: {  }
@@ -939,7 +1018,7 @@ display:
           entity_type: eventinstance
           plugin_id: search_api_field
           label: ''
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: '{{ date__value }} :: {{ date__end_value }}'
@@ -1016,7 +1095,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/events/{{ id }}" class="block my-1 text-2xl font-bold leading-none text-dark-teal no-underline">{{ title }}</a>'
+            text: '<a href="/events/{{ id }}" class="block my-1 text-2xl font-bold leading-none text-dark-teal no-underline hover--underline">{{ title }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -1057,124 +1136,17 @@ display:
           use_highlighting: false
           multi_type: separator
           multi_separator: ', '
-        location:
-          id: location
+        domain_access:
+          id: domain_access
           table: search_api_datasource_events_entity_eventinstance
-          field: location
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: eventinstance
-          plugin_id: search_api
-          label: ''
-          exclude: false
-          alter:
-            alter_text: true
-            text: '<i class="fa-solid fa-location-dot text-dark-teal"></i> <span class="text-dark-teal">{{ location|length > 80 ? location|slice(0, 80)|raw ~ ''...'' : location|raw }}</span>'
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: false
-          empty: ''
-          hide_empty: true
-          empty_zero: true
-          hide_alter_empty: true
-          link_to_item: false
-          use_highlighting: false
-          multi_type: separator
-          multi_separator: ', '
-        custom_event_tags:
-          id: custom_event_tags
-          table: search_api_index_events
-          field: custom_event_tags
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: search_api
-          label: ''
-          exclude: false
-          alter:
-            alter_text: true
-            text: '<a href="/tags/{{ custom_event_tags }}" class="inline-block text-nowrap  text-truncate text-xs no-underline font-normal mb-1 me-1 mr-1 px-2 py-1  border-dark-teal hover--border-black border text-dark-teal hover--text-black">{{ custom_event_tags }}</a>'
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: event-tags
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: false
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          link_to_item: false
-          use_highlighting: false
-          multi_type: separator
-          multi_separator: ''
-        id_1:
-          id: id_1
-          table: search_api_datasource_events_entity_eventinstance
-          field: id
+          field: domain_access
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: eventinstance
           plugin_id: search_api_field
           label: ''
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -1207,20 +1179,19 @@ display:
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
-          element_wrapper_type: div
-          element_wrapper_class: row-span-4
-          element_default_classes: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
           empty: ''
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: number_integer
+          click_sort_column: target_id
+          type: entity_reference_label
           settings:
-            thousand_separator: ''
-            prefix_suffix: true
-          group_column: value
-          group_columns: {  }
+            link: true
+          group_column: target_id
+          group_columns: { }
           group_rows: true
           delta_limit: 0
           delta_offset: 0
@@ -1230,25 +1201,209 @@ display:
           separator: ', '
           field_api_classes: false
           field_rendering: true
-          fallback_handler: search_api_numeric
+          fallback_handler: search_api_entity
           fallback_options:
-            set_precision: false
-            precision: 0
-            decimal: .
-            separator: ','
-            format_plural: false
-            format_plural_string: !!binary MQNAY291bnQ=
-            prefix: ''
-            suffix: ''
             link_to_item: false
             use_highlighting: false
             multi_type: separator
             multi_separator: ', '
-            format_plural_values:
-              - '1'
-              - '@count'
+            display_methods:
+              domain:
+                display_method: label
+      pager:
+        type: some
+        options:
+          offset: 0
+          items_per_page: 5
+      cache:
+        type: search_api_tag
+        options: { }
+      filters:
+        date_1:
+          id: date_1
+          table: search_api_index_events
+          field: date
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_date
+          operator: '>='
+          value:
+            min: ''
+            max: ''
+            value: today
+            type: offset
+          group: 1
+          exposed: false
+          expose:
+            operator_id: date_1_op
+            label: 'Event Date'
+            description: ''
+            use_operator: false
+            operator: date_1_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: date_1
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              student: '0'
+              mentor: '0'
+              professional_mentor: '0'
+              researcher: '0'
+              representative: '0'
+              administrator: '0'
+              masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+              cssn: '0'
+              affinity_group_leader: '0'
+              match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
+              coco_pm: '0'
+              cnctci_pm: '0'
+              news_pm: '0'
+              kb_pm: '0'
+              careers_sc: '0'
+              ccmnet_pm: '0'
+              consultant: '0'
+              match_sc: '0'
+              cip: '0'
+              site_developer: '0'
+              ccmnet: '0'
+              ccmnet_admin: '0'
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        custom_event_no_show:
+          id: custom_event_no_show
+          table: search_api_index_events
+          field: custom_event_no_show
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_boolean
+          operator: '!='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
       defaults:
+        cache: false
+        title: false
+        css_class: false
+        pager: false
         fields: false
+        filters: false
+        filter_groups: false
+        header: false
+        footer: false
+      css_class: 'upcoming p-4 mb-4'
+      display_description: 'Open On Demand Home Page'
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<h2>Upcoming Events</h2>'
+            format: full_html
+          tokenize: false
+      footer:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<a href="/events'' class="text-uppercase">All Events</a>'
+            format: full_html
+          tokenize: false
+      display_extenders:
+        jsonapi_views:
+          enabled: true
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - user.permissions
+      tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.domain_access'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.domain_access'
+        - 'config:field.storage.eventinstance.domain_access'
+        - 'config:search_api.index.events'
+        - 'search_api_list:events'
+  page_1:
+    id: page_1
+    display_title: 'Page :: Upcoming'
+    display_plugin: page
+    position: 2
+    display_options:
+      defaults:
+        fields: true
       display_description: ''
       exposed_block: true
       display_extenders:
@@ -1265,11 +1420,24 @@ display:
         - url.site
         - user.permissions
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.domain_access'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.domain_access'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.en.facets.facet.custom_event_affiliation'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.en.facets.facet.custom_event_affinity_group'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.en.facets.facet.custom_event_skill_level'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.en.facets.facet.custom_event_tags'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.en.facets.facet.custom_event_type'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.facets.facet.custom_event_affiliation'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.facets.facet.custom_event_affinity_group'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.facets.facet.custom_event_skill_level'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.facets.facet.custom_event_tags'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.facets.facet.custom_event_type'
         - 'config:facets.facet.custom_event_affiliation'
         - 'config:facets.facet.custom_event_affinity_group'
         - 'config:facets.facet.custom_event_skill_level'
         - 'config:facets.facet.custom_event_tags'
         - 'config:facets.facet.custom_event_type'
+        - 'config:field.storage.eventinstance.domain_access'
         - 'config:search_api.index.events'
         - 'search_api_list:events'
   page_2:
@@ -1545,10 +1713,23 @@ display:
         - url.site
         - user.permissions
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.domain_access'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.domain_access'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.en.facets.facet.past_affinity_group'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.en.facets.facet.past_event_affiliation'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.en.facets.facet.past_event_tags'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.en.facets.facet.past_event_type'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.en.facets.facet.past_skill_level'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.facets.facet.past_affinity_group'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.facets.facet.past_event_affiliation'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.facets.facet.past_event_tags'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.facets.facet.past_event_type'
+        - 'config:domain.config.openondemand_cyberinfrastructure_org.facets.facet.past_skill_level'
         - 'config:facets.facet.past_affinity_group'
         - 'config:facets.facet.past_event_affiliation'
         - 'config:facets.facet.past_event_tags'
         - 'config:facets.facet.past_event_type'
         - 'config:facets.facet.past_skill_level'
+        - 'config:field.storage.eventinstance.domain_access'
         - 'config:search_api.index.events'
         - 'search_api_list:events'

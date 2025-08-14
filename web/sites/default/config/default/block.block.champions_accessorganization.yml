@@ -1,0 +1,29 @@
+uuid: 6b793971-a476-4394-8639-f7e49324bd4b
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.access_organization_campus_champions
+  module:
+    - facets
+    - system
+  theme:
+    - champions
+id: champions_accessorganization
+theme: champions
+region: primary_sidebar
+weight: 0
+provider: null
+plugin: 'facet_block:access_organization_campus_champions'
+settings:
+  id: 'facet_block:access_organization_campus_champions'
+  label: Organization
+  label_display: visible
+  provider: facets
+  context_mapping: { }
+  block_id: champions_accessorganization
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /current-champions

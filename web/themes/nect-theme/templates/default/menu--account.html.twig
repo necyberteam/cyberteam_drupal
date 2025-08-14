@@ -49,14 +49,20 @@
 				{% set title %}
 				  <i class="bi bi-box-arrow-in-left" aria-hidden="true"></i> {{ item.title }}
 				{% endset %}
-				{{ link(title, item.url, { 'class':['nav-link', item.is_expanded ? 'dropdown-toggle', 'btn btn-outline-dark my-1 my-lg-0 my-sm-1 ml-lg-2 ml-3'] }) }}
+        {{ link(title, item.url, { 'class':['nav-link', item.is_expanded ? 'dropdown-toggle', 'btn btn-outline-dark my-1 my-lg-0 my-sm-1 ml-lg-2 ml-3'], 'data-toggle': item.is_expanded ? 'dropdown' : '' }) }}
         {% elseif item.title == "My account" %}
   				{% set title %}
   				  <i class="bi bi-person" aria-hidden="true"></i> My profile
   				{% endset %}
-  				{{ link(title, item.url, { 'class':['nav-link', item.is_expanded ? 'dropdown-toggle'] }) }}
+          {% if item.is_expanded %}
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+               role="button" aria-haspopup="true"
+               aria-expanded="false">{{ title }}</a>
+          {% else %}
+            {{ link(title, item.url, { 'class':['nav-link'] }) }}
+          {% endif %}
       {% else %}
-				{{ link(item.title, item.url, { 'class':['nav-link', item.is_expanded ? 'dropdown-toggle'] }) }}
+        {{ link(item.title, item.url, { 'class':['nav-link', item.is_expanded ? 'dropdown-toggle'], 'data-toggle': item.is_expanded ? 'dropdown' : '' }) }}
 			{% endif %}
       {% else %}
 		{% if item.title == "divider" %}

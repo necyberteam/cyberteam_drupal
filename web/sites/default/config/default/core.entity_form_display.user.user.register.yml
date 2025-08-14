@@ -60,6 +60,16 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_access_organization:
+    type: entity_reference_autocomplete
+    weight: 3
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_current_degree_program:
     type: string_textfield
     weight: 6
@@ -180,7 +190,6 @@ content:
 hidden:
   contact: true
   field_academic_status: true
-  field_access_organization: true
   field_askci_username: true
   field_blocked_ag_tax: true
   field_carnegie_code: true

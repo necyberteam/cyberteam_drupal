@@ -1,4 +1,4 @@
-{% set front_div = "w-100 py-3" %}
+{% set front_div = "w-100 pt-3" %}
 {% block navbar %}
 	{% if logged_in %}
 	<nav class="navbar navbar-expand-lg secondary-nav navbar-light bg-light" id="secondaryNav">
@@ -58,7 +58,7 @@
 {% endblock %}
 
 {% block footer %}
-<footer class="footer mt-5">
+<footer class="footer">
   {% if page.first_footer or page.second_footer or page.third_footer %}
   <div class="container-fluid footer-main pt-3">
 	<div class="row mx-auto">
@@ -112,7 +112,11 @@
                 under grant numbers
               </p>
               <p>
-                1534949, 1835725, 2138286, 2303692, and 2411375.
+                <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=1534949">1534949</a>,
+                <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=1835725">1835725</a>,
+                <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2138286">2138286</a>,
+                <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2303692">2303692</a>, and
+                <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2411375">2411375</a>.
               </p>
             </div>
           </div>
@@ -120,6 +124,7 @@
             <a href="https://openondemand.org/">openondemand.org</a> |
             <a href="about-open-ondemand-community-portal">About</a> |
             <a href="/connectci-privacy-policy">Privacy Policy</a> |
+            <a href="/code-of-conduct">Code of Conduct</a> |
             <a href="https://connect.cyberinfrastructure.org">Connect.CI</a> |
             <a href="/contact/{{domain_name|replace({'-':'_'})}}">Contact Us</a>
           </p>

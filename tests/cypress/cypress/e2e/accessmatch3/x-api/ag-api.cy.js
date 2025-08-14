@@ -26,10 +26,12 @@ describe("Test Affinity Group API", () => {
     cy.get('input[data-drupal-selector="edit-field-affinity-group-node-0-target-id"]').type('test-affinity-group-api{downArrow}{enter}', {delay: 0});
     cy.get('#edit-submit').click();
 
-    cy.request('/api/1.0/affinity_groups/test.group.api')
+    cy.request('/api/1.1/affinity_groups/test.group.api')
       .then((response) => {
         const ag = response.body;
+        cy.screenshot('ag-api-response');
         expect(ag[0].title).to.eq('test-affinity-group-api');
+        expect(ag[0].field_group_id).to.eq('test.group.api');
       });
 
     cy.request('/api/1.1/events/ag/test.group.api')
