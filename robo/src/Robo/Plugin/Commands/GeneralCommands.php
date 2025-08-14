@@ -279,7 +279,7 @@ GITHUB_TOKEN=$token'>.env");
     if ($module == 'drupal/core') {
       $this->say("Updating Drupal core");
       $this->_exec("composer update drupal/core-recommended drupal/core-composer-scaffold drupal/core-dev --ignore-platform-reqs -W >log.txt 2>&1");
-      $this->composer_updates('/Upgrading (drupal)\/core \((.* \=\> .*)\)$/mU', TRUE);
+      $this->composer_updates('/Upgrading (drupal)\/core \((.* => .*)\)$/mU', TRUE);
     }
     elseif (!empty($module)) {
       echo $version;
@@ -291,7 +291,7 @@ GITHUB_TOKEN=$token'>.env");
         $this->say("Updating $module minor release");
         $this->_exec("composer update $module --no-scripts --ignore-platform-reqs >log.txt 2>&1");
       }
-      $this->composer_updates('/Upgrading .*\/(.*)\((.* \=\> .*)\)$/m', TRUE);
+      $this->composer_updates('/Upgrading .*\/(.*)\((.* => .*)\)$/m', TRUE);
     }
   }
 
