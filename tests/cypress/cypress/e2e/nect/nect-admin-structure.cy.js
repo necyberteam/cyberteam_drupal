@@ -145,7 +145,7 @@ describe("Test Structure admin page", () => {
     cy.get('h1').should('contain', 'Content types');
 
     cy.contains('ACCESS Active Resources from CiDeR');
-    cy.contains('ACCESS Announcements');
+    cy.contains('Announcement');
     cy.contains('ACCESS Organization');
     cy.contains('Affinity Group');
     cy.contains('Article');
