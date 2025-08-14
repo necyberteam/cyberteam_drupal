@@ -6,13 +6,16 @@ dependencies:
     - field.storage.node.field_community
     - field.storage.node.field_end_date
     - field.storage.node.field_location
+    - field.storage.node.field_published_date
     - field.storage.node.field_start_date
     - field.storage.node.field_track
+    - node.type.access_news
     - node.type.community_events
     - taxonomy.vocabulary.affinity_groups
     - taxonomy.vocabulary.track
   module:
     - datetime
+    - domain_access
     - node
     - taxonomy
     - user
@@ -498,22 +501,24 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<p>No upcoming events.</p>'
+            value: '<p class="mb-3">No upcoming announcements.</p>'
             format: full_no_editor
           tokenize: false
       sorts:
-        field_start_date_value:
-          id: field_start_date_value
-          table: node__field_start_date
-          field: field_start_date_value
+        created:
+          id: created
+          table: node_field_data
+          field: created
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: datetime
-          order: ASC
+          entity_type: node
+          entity_field: created
+          plugin_id: date
+          order: DESC
           expose:
             label: ''
-            field_identifier: field_start_date_value
+            field_identifier: ''
           exposed: false
           granularity: second
       arguments: {  }
@@ -706,7 +711,12 @@ display:
       relationships: {  }
       css_class: 'row my-auto'
       header: {  }
-      footer: {  }
+      footer:
+        area:
+          id: area
+          table: views
+          field: area
+          plugin_id: text
       display_extenders: {  }
     cache_metadata:
       max-age: -1
@@ -716,6 +726,16 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_community'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_end_date'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_location'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_start_date'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_track'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_community'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_end_date'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_location'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_start_date'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_track'
         - 'config:field.storage.node.field_community'
         - 'config:field.storage.node.field_end_date'
         - 'config:field.storage.node.field_location'
@@ -729,321 +749,16 @@ display:
     display_options:
       title: 'Affinity Group Events'
       fields:
-        field_start_date:
-          id: field_start_date
-          table: node__field_start_date
-          field: field_start_date
+        field_published_date:
+          id: field_published_date
+          table: node__field_published_date
+          field: field_published_date
           relationship: none
           group_type: group
           admin_label: ''
           plugin_id: field
           label: ''
-          exclude: true
-          alter:
-            alter_text: false
-            text: "{% set start_month = field_start_date__value|date(\"M\") %}\r\n{{ start_month }}"
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: datetime_plain
-          settings:
-            timezone_override: ''
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        field_end_date:
-          id: field_end_date
-          table: node__field_end_date
-          field: field_end_date
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: ''
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: false
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: datetime_plain
-          settings:
-            timezone_override: ''
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        field_community:
-          id: field_community
-          table: node__field_community
-          field: field_community
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: ''
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: false
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: false
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        view_node:
-          id: view_node
-          table: node
-          field: view_node
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          plugin_id: entity_link
-          label: ''
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: false
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          text: view
-          output_url_as_text: true
-          absolute: false
-        field_location:
-          id: field_location
-          table: node__field_location
-          field: field_location
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: ''
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: false
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        field_track:
-          id: field_track
-          table: node__field_track
-          field: field_track
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: ''
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -1083,11 +798,12 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
+          click_sort_column: value
+          type: datetime_custom
           settings:
-            link: false
-          group_column: target_id
+            timezone_override: ''
+            date_format: n/d/Y
+          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -1110,8 +826,8 @@ display:
           label: ''
           exclude: false
           alter:
-            alter_text: true
-            text: "{% set timezone = field_start_date|render|date(\"T\") %}\r\n{% set start_month = field_start_date|render|date(\"M\") %}\r\n{% set start_day = field_start_date|render|date(\"j\") %}\r\n{% set start_year = field_start_date|render|date(\"Y\") %}\r\n{% set start_time = field_start_date|render|date(\"g:ia\") %}\r\n{% set end_month = field_end_date|render|date(\"M\") %}\r\n{% set end_day = field_end_date|render|date(\"j\") %}\r\n{% set end_year = field_end_date|render|date(\"Y\") %}\r\n{% set end_time = field_end_date|render|date(\"g:ia\") %}\r\n\r\n<a class=\"card\" href=\"{{ view_node }}\"><h6 class=\"card-header text-center\">{{ field_community }}</h6><div class=\"card-body\"><h6 class=\"mb-1 text-truncate\">{{ title }}</h6><div class=\"d-flex flex-column w-100 justify-content-between\"><small class=\"text-truncate\"><i class=\"bi bi-geo\"></i> {{ field_location }}</small><small class=\"text-truncate\"><i class=\"bi bi-calendar\"></i> {% if field_end_date %}{% if start_month == end_month %}{{ start_month }}{% if start_day == end_day %} {{ start_day }}, {{ start_year }} {{ start_time }}-{{ end_time }} {{ timezone }}{% else %} {{ start_day }}-{{ end_day }}, {{ start_year }}{% endif %}\r\n{% else %}{{ start_month }} {{ start_day }}{% if start_year == end_year %} - {{ end_month }} {{ end_day }}, {{ start_year }}{% else %}, {{ start_year }} - {{ end_month }} {{ end_day }}, {{ end_year }}{% endif %}{% endif %}{% else %}{{ field_start_date|render|date(\"M d, Y\") }} {{ start_time }}{% if field_end_date %}-{{ end_time }}{% endif %} {{ timezone }}{% endif %}</small></div></div></a>"
+            alter_text: false
+            text: '{{ field_published_date }} - {{ title }}'
             make_link: false
             path: ''
             absolute: false
@@ -1136,8 +852,8 @@ display:
             trim: false
             preserve_tags: ''
             html: false
-          element_type: ''
-          element_class: ''
+          element_type: div
+          element_class: mb-3
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
@@ -1151,7 +867,7 @@ display:
           click_sort_column: value
           type: string
           settings:
-            link_to_entity: false
+            link_to_entity: true
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -1166,7 +882,7 @@ display:
         type: some
         options:
           offset: 0
-          items_per_page: 8
+          items_per_page: 5
       arguments: {  }
       filters:
         status:
@@ -1186,28 +902,15 @@ display:
           id: type
           table: node_field_data
           field: type
-          entity_type: node
-          entity_field: type
-          plugin_id: bundle
-          value:
-            community_events: community_events
-          expose:
-            operator_limit_selection: false
-            operator_list: {  }
-        field_start_date_value:
-          id: field_start_date_value
-          table: node__field_start_date
-          field: field_start_date_value
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: datetime
-          operator: '>='
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          operator: in
           value:
-            min: ''
-            max: ''
-            value: now
-            type: date
+            access_news: access_news
           group: 1
           exposed: false
           expose:
@@ -1224,9 +927,7 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
+            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -1239,7 +940,46 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          use_tokens: false
+        field_domain_access_target_id:
+          id: field_domain_access_target_id
+          table: node__field_domain_access
+          field: field_domain_access_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: domain_access_filter
+          operator: in
+          value:
+            campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -1248,7 +988,7 @@ display:
         type: default
         options:
           grouping: {  }
-          row_class: 'col-md-6 col-xl-4 mb-3'
+          row_class: ''
           default_row_class: false
       row:
         type: fields
@@ -1267,9 +1007,26 @@ display:
         arguments: false
         filters: false
         filter_groups: false
-      css_class: 'row mx-auto'
+        footer: false
+      css_class: ''
       display_description: ''
+      footer:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<a href="/announcements" class="btn btn-outline-primary mt-3">View all Announcements</a>'
+            format: full_html
+          tokenize: false
       display_extenders:
+        jsonapi_views:
+          enabled: true
         simple_sitemap_display_extender: {  }
       block_description: 'CommunityEvents - CC Front'
       block_category: 'Community Events'
@@ -1283,11 +1040,9 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
-        - 'config:field.storage.node.field_community'
-        - 'config:field.storage.node.field_end_date'
-        - 'config:field.storage.node.field_location'
-        - 'config:field.storage.node.field_start_date'
-        - 'config:field.storage.node.field_track'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_published_date'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_published_date'
+        - 'config:field.storage.node.field_published_date'
   comm_events_affinity_group:
     id: comm_events_affinity_group
     display_title: 'Affinity Group'
@@ -1890,6 +1645,16 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_community'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_end_date'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_location'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_start_date'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_track'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_community'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_end_date'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_location'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_start_date'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_track'
         - 'config:field.storage.node.field_community'
         - 'config:field.storage.node.field_end_date'
         - 'config:field.storage.node.field_location'

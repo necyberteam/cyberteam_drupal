@@ -22,7 +22,6 @@ describe("Unauthenticated user tests the Announcements Page", () => {
     cy.checkBreadcrumbs(crumbs);
 
     //Filter Section on announcements
-    cy.get("#edit-field-affiliation-value--2").select("Community"); //Affiliation field
     cy.get("#edit-tid--2").select("ai"); //Tag field
     cy.get("#edit-submit-access-news--2").click(); //Filter button
 
