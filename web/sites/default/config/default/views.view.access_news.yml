@@ -1205,11 +1205,361 @@ display:
             value: '<p class="font-bold">No announcements.</p>'
             format: basic_html
           tokenize: false
+      filters:
+        combine:
+          id: combine
+          table: views
+          field: combine
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: combine
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: combine_op
+            label: Search
+            description: ''
+            use_operator: false
+            operator: combine_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: combine
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              student: '0'
+              mentor: '0'
+              professional_mentor: '0'
+              researcher: '0'
+              representative: '0'
+              administrator: '0'
+              masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+              cssn: '0'
+              affinity_group_leader: '0'
+              match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
+              coco_pm: '0'
+              cnctci_pm: '0'
+              news_pm: '0'
+              kb_pm: '0'
+              careers_sc: '0'
+              ccmnet_pm: '0'
+              consultant: '0'
+              match_sc: '0'
+              cip: '0'
+              site_developer: '0'
+              ccmnet: '0'
+              ccmnet_admin: '0'
+              ondemand: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          fields:
+            title: title
+            body: body
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          value:
+            access_news: access_news
+          group: 1
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        field_affiliation_value:
+          id: field_affiliation_value
+          table: node__field_affiliation
+          field: field_affiliation_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_affiliation_value_op
+            label: 'Affiliation (field_affiliation)'
+            description: null
+            use_operator: false
+            operator: field_affiliation_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_affiliation_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: true
+          group_info:
+            label: Affiliation
+            description: ''
+            identifier: field_affiliation_value
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: 'ACCESS Collaboration'
+                operator: or
+                value:
+                  'ACCESS Collaboration': 'ACCESS Collaboration'
+              2:
+                title: Community
+                operator: or
+                value:
+                  Community: Community
+          reduce_duplicates: false
+        field_affinity_group_node_target_id:
+          id: field_affinity_group_node_target_id
+          table: node__field_affinity_group_node
+          field: field_affinity_group_node_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: numeric
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_affinity_group_node_target_id_op
+            label: 'Affinity Group'
+            description: ''
+            use_operator: false
+            operator: field_affinity_group_node_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_affinity_group_node_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              student: '0'
+              mentor: '0'
+              professional_mentor: '0'
+              researcher: '0'
+              representative: '0'
+              administrator: '0'
+              masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+              cssn: '0'
+              affinity_group_leader: '0'
+              match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
+              coco_pm: '0'
+              cnctci_pm: '0'
+              news_pm: '0'
+              kb_pm: '0'
+              careers_sc: '0'
+              ccmnet_pm: '0'
+              consultant: '0'
+              match_sc: '0'
+              cip: '0'
+              site_developer: '0'
+              ccmnet: '0'
+              ccmnet_admin: '0'
+              ondemand: '0'
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          use_tokens: 0
+        moderation_state:
+          id: moderation_state
+          table: node_field_data
+          field: moderation_state
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: moderation_state_filter
+          operator: in
+          value:
+            editorial-published: editorial-published
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        tid:
+          id: tid
+          table: taxonomy_index
+          field: tid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: tid_op
+            label: Tags
+            description: ''
+            use_operator: false
+            operator: tid_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: tid
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              student: '0'
+              mentor: '0'
+              professional_mentor: '0'
+              researcher: '0'
+              steering_committee: '0'
+              regional_admin: '0'
+              leadership: '0'
+              representative: '0'
+              administrator: '0'
+              masquerade: '0'
+              regional_expert: '0'
+              campuschampionsadmin: '0'
+              exportpeople: '0'
+              research_computing_facilitator: '0'
+              research_software_engineer: '0'
+              ci_systems_engineer: '0'
+              mentee: '0'
+              student_champion: '0'
+              domain_champion: '0'
+              cssn: '0'
+              affinity_group_leader: '0'
+              match_pm: '0'
+              sc: '0'
+              lt: '0'
+              ra: '0'
+              coco_pm: '0'
+              cnctci_pm: '0'
+              news_pm: '0'
+              kb_pm: '0'
+              careers_sc: '0'
+              ccmnet_pm: '0'
+              consultant: '0'
+              match_sc: '0'
+              cip: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: tags
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
       defaults:
         empty: false
         css_class: false
         group_by: false
         fields: false
+        filters: false
+        filter_groups: false
       css_class: ' p-4 mb-6'
       group_by: true
       exposed_block: true
