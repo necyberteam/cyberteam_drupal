@@ -7,6 +7,7 @@ describe("Project test as admin", () => {
     cy.get('#edit-field-user-first-name-0-value').type('Test', { delay: 0 });
     cy.get('#edit-field-user-last-name-0-value').clear();
     cy.get('#edit-field-user-last-name-0-value').type('Smith', { delay: 0 });
+    cy.get('#edit-field-carnegie-code-0-value').clear(); // Clear invalid Carnegie code from sanitization
     cy.get('#edit-field-access-organization-0-target-id').type('MGHPCC', { delay: 0 });
     cy.get('input[name="roles[mentor]"]').check();
     cy.get('input[name="roles[student]"]').check();

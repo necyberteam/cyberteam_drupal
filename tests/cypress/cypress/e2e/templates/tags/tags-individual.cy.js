@@ -5,7 +5,7 @@ describe("test individual tags page", () => {
     cy.contains('bioinformatics');
     cy.contains('Mentors and Regional Facilitators');
     cy.contains('Brett Milash');
-    cy.contains('RMACC');
+    cy.contains('Campus Champions');
     cy.contains('Topics from Ask.CI');
     cy.contains('There are no Blog Entries associated with this topic.');
     cy.contains('Export Mailing List').should('not.exist');
