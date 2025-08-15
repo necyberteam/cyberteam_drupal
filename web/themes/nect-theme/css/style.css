@@ -2725,6 +2725,51 @@ html:has(#edit-recur-type-wrapper) {
   margin: 1.5rem 0 0.75rem 0;
 }
 
+.form-item-search-api-fulltext {
+  margin: 0 0 1.5rem 0;
+}
+
+div:has(.facets-widget-checkbox) h2:not(.md--hidden) {
+  font-size: 1.2rem;
+}
+
+div .collapsiblockTitle {
+  position: relative;
+
+  button {
+    background-image: none;
+    &:after {
+      content: "\f282";
+      position: absolute;
+      font-family: bootstrap-icons !important;
+      color: var(--text);
+      top: -5px;
+      right: 5px;
+      rotate: 180deg;
+    }
+  }
+}
+
+.collapsiblockTitle.collapsiblockTitleCollapsed button:after {
+  rotate: 0deg;
+}
+
+@media only screen and (max-width: 991.98px) {
+  .sidebar:has(.facets-checkbox) {
+    border: 3px solid var(--secondary);
+    padding: 1rem;
+    margin: 1rem !important;
+
+    .views-exposed-form {
+      margin: 0;
+    }
+
+    button h2 {
+      color: var(--text);
+    }
+  }
+}
+
 #user-form #edit-actions {
   margin: 20px 0 50px;
 }

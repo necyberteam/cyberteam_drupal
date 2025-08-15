@@ -69,7 +69,9 @@ describe('Tests the CSSN Directory Page', () => {
         cy.get('#skills-reset-all').click()
 
         // Check the "Show more" link for Organizations facet.
-        cy.get('.block-facet-blockaccess-organization .facets-soft-limit-link').click()
+        cy.get('.block-facet-blockaccess-organization .facets-soft-limit-link')
+          .first()
+          .click()
 
         // Check the organizations facet.
         cy.get('#access-organization-4191').click() // Massachusetts Green High Performance Computing Center

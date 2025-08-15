@@ -46,6 +46,7 @@
  */
 #}
 {% set front_div = front_div|default("w-100 py-3 bg-light") %}
+{% set pagePath = path('<current>') %}
 
 <div class="wrapper">
 	<a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
@@ -240,10 +241,31 @@
   {% endif %}
   {% block main_wrapper_classes %}
     {% if sidebar_first_classes is null %}
-      {% set sidebar_first_classes = "order-2 order-lg-1 col-lg-3 col-12 mx-auto" %}
+      {% set sidebar_first_classes = "sidebar order-2 order-lg-1 col-lg-3 col-12 mx-auto" %}
+
+      {% if pagePath == '/knowledge-base/resources' or
+            pagePath == '/knowledge-base/resources/mentorship' or
+            pagePath == '/affinity-groups' or
+            pagePath == '/people' or
+            pagePath == '/mentorships' or
+            pagePath == '/members' or
+            pagePath == '/events' %}
+        {% set sidebar_first_classes = "sidebar order-1 order-lg-1 col-lg-3 mx-auto" %}
+      {% endif %}
     {% endif %}
+
     {% if main_wrapper_classes is null %}
-      {% set main_wrapper_classes = "order-1 order-lg-2 col-lg-9 col-12 mx-auto" %}
+      {% set main_wrapper_classes = "main-content order-1 order-lg-2 col-lg-9 col-12 mx-auto" %}
+
+      {% if pagePath == '/knowledge-base/resources' or
+            pagePath == '/knowledge-base/resources/mentorship' or
+            pagePath == '/affinity-groups' or
+            pagePath == '/people' or
+            pagePath == '/mentorships' or
+            pagePath == '/members' or
+            pagePath == '/events' %}
+        {% set main_wrapper_classes = "main-content order-2 order-lg-2 col-lg-9 col-12 mx-auto" %}
+      {% endif %}
     {% endif %}
   {% if domain_name != "ccmnet" %}
     <div class="row">

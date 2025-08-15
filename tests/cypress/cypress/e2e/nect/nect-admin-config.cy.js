@@ -352,7 +352,7 @@ describe("Check admin configuration pages", () => {
     cy.get('#edit-logon-button-text').should('have.value', 'Login with ACCESS CI');
 
     cy.visit('/admin/services/constantcontact-token');
-    cy.get('h1').should('contain', 'Constant Contact Tools');
+    cy.get('h1').should('contain', 'Constant Contact');
 
     cy.visit('/admin/config/services/jsonapi');
     cy.get('h1').should('contain', 'JSON:API');

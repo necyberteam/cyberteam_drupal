@@ -1,0 +1,33 @@
+uuid: dad22fb4-0093-4d72-b13b-3d517e68ac1e
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.past_event_tags
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - aspTheme
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: asptheme_pasteventtags_1
+theme: aspTheme
+region: sidebar_first
+weight: -3
+provider: null
+plugin: 'facet_block:past_event_tags'
+settings:
+  id: 'facet_block:past_event_tags'
+  label: Tags
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: asptheme_pasteventtags_1
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events/past
