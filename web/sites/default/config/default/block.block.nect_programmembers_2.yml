@@ -1,0 +1,33 @@
+uuid: fbba46fd-98ee-4c7f-9d9f-5da117387dec
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.program_members
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - nect
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: nect_programmembers_2
+theme: nect
+region: primary_sidebar
+weight: 22
+provider: null
+plugin: 'facet_block:program_members'
+settings:
+  id: 'facet_block:program_members'
+  label: Program
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_programmembers_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /members
