@@ -50,6 +50,7 @@ jobs:
           ddev drush user-create authenticated_test_user --mail="authenticated@amptesting.com" --password="6%l7iF}6(4tI"
           ddev drush user-create administrator_test_user --mail="administrator@amptesting.com" --password="b8QW]X9h7#5n"
           ddev drush user-add-role "administrator" administrator_test_user
+          ddev drush sql-query "TRUNCATE TABLE node__field_domain_source"
           ddev drush en amp_dev
           ddev drush pmu amp_dev
           ddev drush pmu symfony_mailer
