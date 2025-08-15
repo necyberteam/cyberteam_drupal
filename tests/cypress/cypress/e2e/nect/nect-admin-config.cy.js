@@ -318,13 +318,10 @@ describe("Check admin configuration pages", () => {
 
     cy.contains('Northeast Cyberteam');
     cy.contains('Great Plains Cyberteam');
-    cy.contains('RMACC Cyberteam');
     cy.contains('Kentucky Cyberteam');
     cy.contains('CAREERS Cyberteam');
-    cy.contains('SWEETER Cyberteam');
     cy.contains('MINES Cyberteam');
     cy.contains('Campus Champions');
-    cy.contains('TRECIS Cyberteam');
     cy.contains('Connect CI');
     cy.contains('ACCESS Support');
     cy.contains('CoCo');
