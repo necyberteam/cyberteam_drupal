@@ -133,7 +133,7 @@ runs:
 
     - name: Upload screenshots to Slack
       shell: bash
-      if: ${{ failure() && inputs.slack_bot_token != '' && !cancelled() && hashFiles('tests/cypress/cypress/screenshots/**/*.png') == '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
+      if: ${{ failure() && inputs.slack_bot_token != '' && !cancelled() && hashFiles('tests/cypress/cypress/screenshots/**/*.png') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
       env:
         SLACK_BOT_TOKEN: ${{ inputs.slack_bot_token }}
       run: |
@@ -157,11 +157,20 @@ runs:
         fi
 
     - name: Notify Slack on failure
-      if: ${{ failure() && inputs.slack_bot_token != '' && !cancelled() && hashFiles('tests/cypress/cypress/screenshots/**/*.png') == '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
+      if: ${{ failure() && inputs.slack_bot_token != '' && !cancelled() && hashFiles('tests/cypress/cypress/screenshots/**/*.png') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
         SLACK_MESSAGE: 'Cypress tests failed for ${{ inputs.site }}-${{ inputs.directory }}. Screenshots also uploaded above.'
+        SLACK_TITLE: "Cypress Test Failure"
+        SLACK_CHANNEL: cypress-git-notifications
+
+    - name: Notify Slack on failure (no screenshots)
+      if: ${{ failure() && inputs.slack_webhook != '' && !cancelled() && hashFiles('tests/cypress/cypress/screenshots/**/*.png') == '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
+        SLACK_MESSAGE: 'Cypress tests failed for ${{ inputs.site }}-${{ inputs.directory }}. No screenshots were generated.'
         SLACK_TITLE: "Cypress Test Failure"
         SLACK_CHANNEL: cypress-git-notifications
 
