@@ -395,3 +395,22 @@ function campuschampions_user_form_validate(array &$form, \Drupal\Core\Form\Form
     }
   }
 }
+
+/**
+ * Implements hook_cron().
+ */
+function campuschampions_cron() {
+  // Update Campus Champions stats once per day.
+  $currentTime = \Drupal::time()->getCurrentTime();
+  $lastRun = \Drupal::state()->get('cc_stats_last_update', 0);
+  
+  // Run if it's been more than 24 hours since last update
+  $secondsSinceLastRun = $currentTime - $lastRun;
+  $hoursInterval = 24; // Update every 24 hours
+  
+  if ($secondsSinceLastRun >= ($hoursInterval * 3600)) {
+    \Drupal::logger('campuschampions')->info('Updating Campus Champions stats via cron');
+    \Drupal::service('cc.getStats')->setState();
+    \Drupal::state()->set('cc_stats_last_update', $currentTime);
+  }
+}
