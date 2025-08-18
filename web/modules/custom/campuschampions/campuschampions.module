@@ -252,22 +252,6 @@ function campuschampions_redirect_to_profile_page_form_submit($form, &$form_stat
 }
 
 /**
- * Implements hook_views_pre_view().
- */
-function campuschampions_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
-  if ($view->id() == 'access_news' && $display_id === 'block_1') {
-    $view_filters = $view->display_handler->getOption('filters');
-    $domain = \Drupal::service('access_misc.sitetools')->getDomainId();
-
-    $view_filters['field_domain_access_target_id']['value'] = [];
-    $view_filters['field_domain_access_target_id']['value'][$domain] = $domain;
-
-    //field_domain_access_target_id
-    $view->display_handler->setOption('filters', $view_filters);
-  }
-}
-
-/**
  * Implements HOOK_views_data_export_row_alter().
  *
  * Fill out data about the associated intstitution (Carnegie code).
@@ -369,6 +353,42 @@ function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, V
     if (!isset($row['webform_submission_value']) || !$row['webform_submission_value']) {
       $row['webform_submission_value'] = 'Champion';
     }
+  }
+}
+
+/**
+ * Implements hook_views_pre_view().
+ */
+function campuschampions_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
+  if ($view->id() == 'access_news' && $display_id === 'block_1') {
+    $view_filters = $view->display_handler->getOption('filters');
+    $domain = \Drupal::service('access_misc.sitetools')->getDomainId();
+
+    $view_filters['field_domain_access_target_id']['value'] = [];
+    $view_filters['field_domain_access_target_id']['value'][$domain] = $domain;
+
+    //field_domain_access_target_id
+    $view->display_handler->setOption('filters', $view_filters);
+  }
+  
+  $current_domain_name = \Drupal::service('access_misc.sitetools')->getDomain();
+  if ($view->id() == 'mentorship_facet_search' &&
+    $view->getDisplay()->view->element['#display_id'] == 'block_1' &&
+    $current_domain_name == 'campus-champions')
+  {
+    $options = array(
+      'id' => 'area_text_custom',
+      'table' => 'views',
+      'field' => 'area_text_custom',
+      'relationship' => 'none',
+      'group_type' => 'none',
+      'admin_label' => '',
+      'empty' => TRUE,
+      'tokenize' => FALSE,
+      'content' => '<a class="btn btn-primary rounded-pill" href="https://ccmnet.org/mentorships?f[0]=mentorship_program:910">See All</a>',
+      'plugin_id' => 'text_custom',
+    );
+    $view->setHandler('block_1', 'footer', 'area_text_custom', $options);
   }
 }
 
