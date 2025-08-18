@@ -93,7 +93,8 @@ $report_list . '
      * @usage campuschampions:generateBreakdownStats
      */
     public function generateBreakdownStats($options = array()) {
-        $dir = 'public://';
+        $env = getenv('PANTHEON_ENVIRONMENT');
+        $dir = $env == 'local' ? 'public://' : '/files' ;
         $file = 'cc-breakdown-stats.json';
         $path = $dir . $file;
 
@@ -180,6 +181,9 @@ $report_list . '
             return;
         }
 
+        // Store stats in state for the homepage block
+        \Drupal::state()->set('cc_stats', json_encode($data));
+        
         $fileRepository = \Drupal::service('file.repository');
         $result = $fileRepository->writeData(
             json_encode($data),
@@ -211,6 +215,35 @@ $report_list . '
         $this->output()->writeln('');
         $this->io()->table(
             ['Type', 'Count'],
+            $o
+        );
+    }
+
+    /**
+     * Update Campus Champions stats immediately.
+     *
+     * @command campuschampions:update-stats
+     * @aliases cc-stats
+     * @usage campuschampions:update-stats
+     *   Force update of Campus Champions homepage stats
+     */
+    public function updateStats($options = []) {
+        $this->output()->writeln('Updating Campus Champions stats...');
+        
+        \Drupal::service('cc.getStats')->setState();
+        \Drupal::state()->set('cc_stats_last_update', \Drupal::time()->getCurrentTime());
+        
+        $stats = json_decode(\Drupal::state()->get('cc_stats'), true);
+        
+        $this->output()->writeln('<info>Stats updated successfully!</info>');
+        
+        $o = [];
+        foreach ($stats as $key => $val) {
+            $o[] = [ucfirst($key), number_format($val)];
+        }
+
+        $this->io()->table(
+            ['Metric', 'Count'],
             $o
         );
     }

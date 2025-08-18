@@ -257,6 +257,9 @@ function campuschampions_redirect_to_profile_page_form_submit($form, &$form_stat
  * Fill out data about the associated intstitution (Carnegie code).
  */
 function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, ViewExecutable $view) {
+  // Static cache for the Carnegie lookup instance and lat/lon data
+  static $carnegie_db = NULL;
+  static $org_locations = NULL;
 
   if ($view->id() == 'campus_champions_user_export' && $view->current_display == 'ccusers_data_export') {
 
@@ -274,92 +277,74 @@ function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, V
     $row['field_carnegie_code_lat'] = '';
     $row['field_carnegie_code_lon'] = '';
 
-    // If no Carnegie Code set, try to look it up based on the user's institution.
-    if (empty($cc)) {
-      $mail = strip_tags((string) $row['mail']);
-      $user = user_load_by_mail($mail);
-      $carnegie_code = NULL;
-
-      // Try to get the ACCESS Organization first.
-      $org = $user->get('field_access_organization')->getValue();
-      if (!empty($org)) {
-
-        $org = Node::load($org[0]['target_id']);
-        $carnegie_code = $org->get('field_carnegie_code')->getValue();
+    // Only get Carnegie data if a code exists - don't try to populate missing ones.
+    if (!empty($cc)) {
+      // Initialize static caches
+      if ($carnegie_db === NULL) {
+        $carnegie_db = new CarnegieCodesLookup();
       }
-      else {
-        // If there isn't an ACCESS organization, try the institution field.
-        $institution = $user->get('field_institution')->getValue();
-        if (empty($institution)) {
-          return;
+      if ($org_locations === NULL) {
+        $org_locations = [];
+      }
+      
+      // Get data based on carnegie code.
+      $db = $carnegie_db;
+      $results = $db->lookupByUnitId($cc, [
+        'NAME',
+        'CITY',
+        'STABBR',
+        'BASIC2021',
+        'MSI',
+      ]);
+
+      if ($results !== FALSE) {
+        $row['field_carnegie_code'] = $cc;
+        $row['field_carnegie_code_location'] = $results['CITY'] . ', ' . $results['STABBR'];
+        $row['field_carnegie_code_classification'] = $results['BASIC2021'];
+        $row['field_carnegie_code_msi'] = $results['MSI'];
+        $row['field_carnegie_code_site'] = $results['NAME'];
+        $row['field_carnegie_code_region'] = CarnegieCodesLookup::region($results['STABBR']);
+
+        $row['field_carnegie_code_eps_lookup'] = 0;
+        if (CarnegieCodesLookup::isEpscor($results['STABBR'])) {
+          $row['field_carnegie_code_eps_lookup'] = 1;
         }
 
-        // Try to find by institution name.
-        $query = \Drupal::database()
-          ->select('carnegie_codes', 'cc')
-          ->fields('cc', ['UNITID']);
-        $query->condition($query->orConditionGroup()
-          ->condition('NAME', $institution[0]['value'], '=')
-          ->condition('NAME', $institution[0]['value'] . '%', 'LIKE')
+        $row['field_carnegie_code_type_id'] = CarnegieCodesLookup::typeId(
+          $row['field_carnegie_code_msi'],
+          $row['field_carnegie_code_eps_lookup'],
+          $row['field_carnegie_code']
         );
-        $carnegie_code = $query->execute()
-          ->fetchField();
-      }
+        $row['field_carnegie_code_type'] = CarnegieCodesLookup::type($row['field_carnegie_code_type_id']);
 
-      if (!$carnegie_code) {
-        return;
-      }
+        // Try to retrieve the LAT and LON from the ACCESS organization (with caching)
+        if (isset($org_locations[$cc])) {
+          // Use cached values
+          $row['field_carnegie_code_lat'] = $org_locations[$cc]['lat'];
+          $row['field_carnegie_code_lon'] = $org_locations[$cc]['lon'];
+        } else {
+          // Look it up and cache it
+          $nids = \Drupal::entityQuery('node')
+            ->condition('type', 'access_organization')
+            ->condition('field_carnegie_code', $cc, '=')
+            ->range(0, 1)
+            ->accessCheck(FALSE)
+            ->execute();
 
-      $user->set('field_carnegie_code', $carnegie_code);
-      $user->save();
-
-      $cc = $carnegie_code;
-    }
-
-    // Get data based on carnegie code.
-    $db = new CarnegieCodesLookup();
-    $results = $db->lookupByUnitId($cc, [
-      'NAME',
-      'CITY',
-      'STABBR',
-      'BASIC2021',
-      'MSI',
-    ]);
-
-    if ($results !== FALSE) {
-      $row['field_carnegie_code'] = $cc;
-      $row['field_carnegie_code_location'] = $results['CITY'] . ', ' . $results['STABBR'];
-      $row['field_carnegie_code_classification'] = $results['BASIC2021'];
-      $row['field_carnegie_code_msi'] = $results['MSI'];
-      $row['field_carnegie_code_site'] = $results['NAME'];
-      $row['field_carnegie_code_region'] = CarnegieCodesLookup::region($results['STABBR']);
-
-      $row['field_carnegie_code_eps_lookup'] = 0;
-      if (CarnegieCodesLookup::isEpscor($results['STABBR'])) {
-        $row['field_carnegie_code_eps_lookup'] = 1;
-      }
-
-      $row['field_carnegie_code_type_id'] = CarnegieCodesLookup::typeId(
-        $row['field_carnegie_code_msi'],
-        $row['field_carnegie_code_eps_lookup'],
-        $row['field_carnegie_code']
-      );
-      $row['field_carnegie_code_type'] = CarnegieCodesLookup::type($row['field_carnegie_code_type_id']);
-
-      // Try to retrieve the LAT and LON from the ACCESS organization.
-      $nids = \Drupal::entityQuery('node')
-        ->condition('type', 'access_organization')
-        ->condition('field_carnegie_code', $cc, '=')
-        ->range(0, 1)
-        ->accessCheck(FALSE)
-        ->execute();
-
-      if (!empty($nids)) {
-        $rows = Node::loadMultiple($nids);
-
-        foreach ($rows as $org) {
-          $row['field_carnegie_code_lat'] = $org->field_latitude ? $org->field_latitude->value : NULL;
-          $row['field_carnegie_code_lon'] = $org->field_longitude ? $org->field_longitude->value : NULL;
+          if (!empty($nids)) {
+            $rows = Node::loadMultiple($nids);
+            foreach ($rows as $org) {
+              $lat = $org->field_latitude ? $org->field_latitude->value : NULL;
+              $lon = $org->field_longitude ? $org->field_longitude->value : NULL;
+              $row['field_carnegie_code_lat'] = $lat;
+              $row['field_carnegie_code_lon'] = $lon;
+              // Cache for future rows
+              $org_locations[$cc] = ['lat' => $lat, 'lon' => $lon];
+            }
+          } else {
+            // Cache that we found nothing for this code
+            $org_locations[$cc] = ['lat' => NULL, 'lon' => NULL];
+          }
         }
       }
     }
@@ -428,5 +413,24 @@ function campuschampions_user_form_validate(array &$form, \Drupal\Core\Form\Form
     if (empty($result)) {
       $form_state->setErrorByName('field_carnegie_code', t('The Carnegie code "@code" is not valid. Please enter a valid Carnegie classification code or leave blank for non-academic institutions.', ['@code' => $code]));
     }
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function campuschampions_cron() {
+  // Update Campus Champions stats once per day.
+  $currentTime = \Drupal::time()->getCurrentTime();
+  $lastRun = \Drupal::state()->get('cc_stats_last_update', 0);
+  
+  // Run if it's been more than 24 hours since last update
+  $secondsSinceLastRun = $currentTime - $lastRun;
+  $hoursInterval = 24; // Update every 24 hours
+  
+  if ($secondsSinceLastRun >= ($hoursInterval * 3600)) {
+    \Drupal::logger('campuschampions')->info('Updating Campus Champions stats via cron');
+    \Drupal::service('cc.getStats')->setState();
+    \Drupal::state()->set('cc_stats_last_update', $currentTime);
   }
 }
