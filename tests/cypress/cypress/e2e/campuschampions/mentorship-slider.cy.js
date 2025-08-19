@@ -30,7 +30,8 @@ describe('Campus Champions Mentorship Slider', () => {
 
   it('should display footer with Campus Champions specific content', () => {
     cy.get('#block-champions-views-block-mentorship-facet-search-block-1 footer a.btn, #block-champions-views-block-mentorship-facet-search-block-1-2 footer a.btn')
-      .should('contain.text', 'See All');
+      .should('contain.text', 'See All')
+      .and('have.attr', 'href', 'https://ccmnet.org/mentorships?f%5B0%5D=mentorship_program%3A910');
     
     // Check CCMNet logo
     cy.get('#block-champions-views-block-mentorship-facet-search-block-1 footer img[alt="CCMNET Logo"], #block-champions-views-block-mentorship-facet-search-block-1-2 footer img[alt="CCMNET Logo"]')
