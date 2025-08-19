@@ -388,15 +388,114 @@ describe("CCMNet Mentorship Email Notifications", () => {
     });
   });
 
+  it("Sends Campus Champions interest notification emails when someone clicks 'interested'", () => {
+    // Create a Campus Champions specific mentorship (must be on CCMNet domain)
+    cy.loginWith("pecan@pie.org", "Pecan");
+    cy.visit("/node/add/mentorship_engagement");
+    
+    cy.get("#edit-field-me-looking-for-mentor").check();
+    cy.get("#edit-title-0-value").type("CC Interest Test - Email Verification");
+    cy.get("#edit-body-0-summary").type("Campus Champions mentorship for testing interest emails");
+    
+    cy.get('.form-item-body-0-value .ck-content').then(el => {
+      const editor = el[0].ckeditorInstance;
+      editor.setData('Testing interest notifications for Campus Champions mentorships.');
+    });
+
+    cy.get("details.tags summary").click();
+    cy.get("#tag-ai").click();
+    
+    // Key difference: Select Campus Champions program (ID 910)
+    cy.get('#edit-field-mentorship-program-910').check();
+    cy.get('#edit-field-me-state').select('Recruiting');
+    cy.get(".node-mentorship-engagement-form #edit-submit").click();
+
+    // Approve the mentorship as admin
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.visit("/admin/content");
+    cy.get(':nth-child(1) > .views-field-operations > .dropbutton-wrapper > .dropbutton-widget > .dropbutton > .edit > a').click();
+    cy.get('#edit-field-ccmnet-approved-value').check();
+    cy.get('form.node-mentorship-engagement-edit-form #edit-submit').click();
+
+    // Clear mailpit before expressing interest
+    cy.clearMailpit();
+
+    // Login as different user and express interest
+    cy.loginWith("walnut@pie.org", "Walnut");
+    cy.visit("/mentorships");
+    cy.get('h2.ccmnet-link a').contains('CC Interest Test - Email Verification').click({ force: true });
+    
+    // Click the "I'm Interested" button
+    cy.get('a[href*="/interested"]').click();
+    
+    // Should be redirected back to mentorship page
+    cy.url().should('include', '/mentorships/');
+    cy.contains('You have been added to the interested list');
+
+    // Check the state to make sure the button click worked
+    cy.drush('state:get', ['access_mentorship_interested']).then((result) => {
+      cy.log('Interest state after button click:', result.stdout);
+      
+      const state = result.stdout.trim();
+      if (state === '0' || state === '' || state === 'null') {
+        cy.fail('Interest state was not set properly after button click. State: ' + state);
+      } else {
+        cy.log('State looks good, contains:', state);
+      }
+    });
+
+    // Run cron with test mode to bypass time restrictions
+    cy.exec('CYPRESS_TEST_MODE=true drush cron');
+
+    // Check for author notification email
+    cy.waitForEmail({
+      to: 'pecan@pie.org',
+      subject: 'Interest in your Mentorship'
+    }, 8000).then((message) => {
+      cy.assertEmailContent(message, {
+        subject: 'Interest in your Mentorship',
+        from: 'noreply@ccmnet.org',
+        to: 'pecan@pie.org',
+        htmlContains: 'Someone is interested in your mentorship request'
+      });
+    });
+
+    // Check for Campus Champions admin summary email (goes to champions_mentorship_admin role)
+    cy.waitForEmail({
+      subject: 'Daily mentorship interest summary'
+    }, 8000).then((message) => {
+      cy.assertEmailContent(message, {
+        subject: 'Daily mentorship interest summary',
+        from: 'noreply@ccmnet.org',
+        htmlContains: 'CC Interest Test - Email Verification' // Should contain our test mentorship title
+      });
+    });
+  });
+
+  it("Tests Campus Champions mentorship filter functionality", () => {
+    // Go to CCMNet mentorships page with Campus Champions filter
+    cy.visit("/mentorships?f%5B0%5D=mentorship_program%3A910");
+    
+    // Check that we have the Campus Champions filter applied
+    cy.url().should('include', 'f%5B0%5D=mentorship_program%3A910');
+    
+    // Verify that the mentorships page loads
+    cy.get('h1, .page-title').should('exist');
+    
+    // Verify mentorships content area exists (may be empty if no matching items)
+    cy.get('body').should('contain.text', 'mentorships');
+  });
+
   it("Cleanup - Delete test mentorships", () => {
     // Login as admin to cleanup
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
     cy.visit("/admin/content");
 
-    // Delete test mentorships
+    // Delete test mentorships (including Campus Champions ones)
     const testTitles = [
       'Test Mentorship for Email Verification',
-      'Mentee Test - Email Verification'
+      'Mentee Test - Email Verification',
+      'CC Interest Test - Email Verification'
     ];
 
     testTitles.forEach(title => {
