@@ -355,7 +355,7 @@ describe("CCMNet Mentorship Email Notifications", () => {
       cy.clearMailpit();
       
       // Run cron with CYPRESS_TEST_MODE environment variable
-      cy.exec('CYPRESS_TEST_MODE=true drush cron');
+      cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush cron');
       
       // Debug: Check what happened
       cy.drush('state:get', ['access_mentorship_interested']).then((result) => {
@@ -445,7 +445,7 @@ describe("CCMNet Mentorship Email Notifications", () => {
     });
 
     // Run cron with test mode to bypass time restrictions
-    cy.exec('CYPRESS_TEST_MODE=true drush cron');
+    cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush cron');
 
     // Check for author notification email
     cy.waitForEmail({
