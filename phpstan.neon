@@ -1,3 +1,6 @@
+includes:
+  - phpstan-baseline.neon
+
 parameters:
   level: 0
   paths:
@@ -16,6 +19,3 @@ parameters:
     # Exclude themes with their own git repos
     - web/themes/contrib/campus-champions-theme/*
     - web/themes/contrib/asp-theme/*
-  ignoreErrors:
-    - identifier: missingType.iterableValue
-    - identifier: missingType.generics
