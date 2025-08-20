@@ -1,0 +1,21 @@
+includes:
+  - phpstan-baseline.neon
+
+parameters:
+  level: 0
+  paths:
+    - web/modules/custom
+    - web/themes/custom
+  excludePaths:
+    - web/modules/custom/*/tests/*
+    - web/themes/custom/*/tests/*
+    # Exclude modules with their own git repos - they handle their own linting
+    - web/modules/custom/access/*
+    - web/modules/custom/operations_cider/*
+    - web/modules/custom/infrastructure_news/*
+    - web/modules/custom/amp_dev/*
+    - web/modules/custom/drupal_seamless_cilogon/*
+    - web/modules/custom/webform_submission_search_api/*
+    # Exclude themes with their own git repos
+    - web/themes/contrib/campus-champions-theme/*
+    - web/themes/contrib/asp-theme/*

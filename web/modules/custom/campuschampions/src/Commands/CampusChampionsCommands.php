@@ -46,11 +46,11 @@ class CampusChampionsCommands extends DrushCommands
             $view->setArguments([$affinityGroup->id()]); // contextual filter
             $view->execute();
             $rendered = $view->render();
-            $output = \Drupal::service('renderer')->renderPlain($rendered);
+            $output = \Drupal::service('renderer')->renderInIsolation($rendered);
 
             $filename = 'affinity-groups/affinity_group_' . $affinityGroup->getTitle() . '_'. date('Y_m_d') . '.csv';
             $filepath = "sites/default/files/" . $filename;
-            file_unmanaged_save_data($output, "public://{$filename}", FILE_EXISTS_REPLACE);
+            \Drupal::service('file_system')->saveData($output, "public://{$filename}", \Drupal\Core\File\FileExists::Replace);
 
             array_push($reports, (object)[
                 'name' => $affinityGroup->getTitle(),
@@ -188,7 +188,7 @@ $report_list . '
         $result = $fileRepository->writeData(
             json_encode($data),
             $path,
-            FileSystemInterface::EXISTS_REPLACE
+            \Drupal\Core\File\FileExists::Replace
         );
 
         if (!$result) {
