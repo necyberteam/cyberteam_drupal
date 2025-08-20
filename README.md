@@ -24,6 +24,42 @@ We switched to the robo command so we could remove BLT as it's no longer support
 | gh:pullfiles     | Daily github action pulls in last pantheon backup and cleans up the private files directory to decrease the size and places it into an [artifact](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/backupfiles.yml).  This pulls the latest artifact. |
 | gh:pr            | This command will create a github pull request. It will ask you for the description and then fill in the rest of the template for you.                                                                                                                                 |
 
+## Code Quality
+
+This project uses PHPStan for static analysis to catch issues like undefined variables, type errors, and deprecated functions before they reach production.
+
+### Linting Commands
+```bash
+# Run PHPStan analysis
+ddev composer lint:phpstan
+
+# Run PHPCS coding standards check  
+ddev composer lint:phpcs
+
+# Run all linting checks
+ddev composer lint:all
+```
+
+### Pre-commit Hook
+A Git pre-commit hook automatically runs linting on staged PHP files before each commit, preventing issues like undefined variables from reaching production.
+
+- Bypass if needed: `git commit --no-verify`
+- Configuration: `phpstan.neon` (level 0, scans custom modules/themes)
+- Baseline: `phpstan-baseline.neon` (allows gradual adoption by ignoring existing issues)
+
+### Nested Repository Linting
+Several custom modules (ACCESS, Campus Champions, etc.) are managed as separate git repositories within this project. Each nested repository with active development has its own PHPStan setup:
+
+- **Main repository**: Uses the root `phpstan.neon` and Drupal's autoloader
+- **Nested repositories**: Have their own `phpstan.neon` and wrapper scripts that use the parent Drupal installation's context
+
+For example, the ACCESS module (`web/modules/custom/access/`) has:
+- Its own `phpstan.neon` configuration
+- A wrapper script at `scripts/run-phpstan.sh` that uses the parent's PHPStan binary
+- Its own pre-commit hook configuration
+
+This ensures code quality checks work correctly even in nested git repositories that depend on the parent Drupal installation.
+
 ## Testing
 
 ### Cypress Testing

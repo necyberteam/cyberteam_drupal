@@ -19,7 +19,7 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase {
   /**
    * {@inheritdoc}
    */
-  public function execute(WebformSubmission $entity = NULL) {
+  public function execute(?WebformSubmission $entity = NULL) {
     // Update the status of the submission to 'approved'.
     $sid = $entity->id();
     $webform_submission = WebformSubmission::load($sid);
@@ -76,7 +76,7 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     // @see Drupal\Core\Field\FieldUpdateActionBase::access().
     return $object->access('update', $account, $return_as_object);
   }
@@ -136,7 +136,7 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase {
     $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
     if ($result['result'] != TRUE) {
       $message = t('There was a problem sending your email notification to @email.', ['@email' => $to]);
-      drupal_set_message($message, 'error');
+      \Drupal::messenger()->addError($message);
       \Drupal::logger('mail-log')->error($message);
       return;
     }

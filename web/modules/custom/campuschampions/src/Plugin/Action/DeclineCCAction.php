@@ -21,7 +21,7 @@ class DeclineCCAction extends ViewsBulkOperationsActionBase
      * 
      * {@inheritdoc}
      */
-    public function execute(WebformSubmission $entity = null)
+    public function execute(?WebformSubmission $entity = null)
     {
         $sid = $entity->id();
         $webform_submission = WebformSubmission::load($sid);
@@ -33,7 +33,7 @@ class DeclineCCAction extends ViewsBulkOperationsActionBase
     /**
      * {@inheritdoc}
      */
-    public function access($object, AccountInterface $account = null, $return_as_object = false)
+    public function access($object, ?AccountInterface $account = null, $return_as_object = false)
     {
         // @see Drupal\Core\Field\FieldUpdateActionBase::access().
         return $object->access('update', $account, $return_as_object);

@@ -58,7 +58,7 @@ class IsCCAction extends ViewsBulkOperationsActionBase
     /**
      * {@inheritdoc}
      */
-    public function access($object, AccountInterface $account = null, $return_as_object = false)
+    public function access($object, ?AccountInterface $account = null, $return_as_object = false)
     {
         return $object->access('update', $account, $return_as_object);
     }

@@ -21,7 +21,7 @@ class StoreStats {
   /**
    * Get stats.
    *
-   * @return array
+   * Sets $this->data with JSON encoded stats.
    */
   public function getStats() {
     $data = [

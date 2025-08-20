@@ -1,0 +1,41 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 24
+			path: web/modules/custom/campuschampions/src/Commands/CampusChampionsCommands.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 1
+			path: web/modules/custom/campuschampions/src/Controller/JsonApiCCController.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 1
+			path: web/modules/custom/campuschampions/src/Form/RemoveChampionForm.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 5
+			path: web/modules/custom/campuschampions/src/Plugin/Action/ApproveCCAction.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 1
+			path: web/modules/custom/campuschampions/src/Plugin/Block/CampusChampionsBlock.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 1
+			path: web/modules/custom/campuschampions/src/Plugin/CarnegieCodesLookup.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 5
+			path: web/modules/custom/campuschampions/src/Plugin/StoreStats.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 7
+			path: web/modules/custom/campuschampions/src/Plugin/WebformHandler/CreateUserHandler.php

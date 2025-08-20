@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2b17d0840ab4cd05094bb9403ac5eb58",
+    "content-hash": "6d003a52d7ba68937a643f1cb3e69d80",
     "packages": [
         {
             "name": "access/drupal_seamless_cilogon",
@@ -98,18 +98,30 @@
         },
         {
             "name": "amp/access",
-            "version": "3.0.x-dev",
+            "version": "dev-precommit-linting-setup",
             "source": {
                 "type": "git",
                 "url": "https://github.com/necyberteam/access.git",
-                "reference": "e1278bbfe6e27a5382f7f7c64d9efd5745dddf48"
+                "reference": "7cba34e3212c52ea333423fcd65128453b6d4e27"
             },
             "require": {
                 "gioni06/gpt3-tokenizer": "^1.2",
                 "openai-php/client": "^0.4.1"
             },
-            "default-branch": true,
+            "require-dev": {
+                "mglaman/phpstan-drupal": "*",
+                "phpstan/extension-installer": "*",
+                "phpstan/phpstan": "*"
+            },
             "type": "drupal-custom-module",
+            "scripts": {
+                "lint": [
+                    "../../../../vendor/bin/phpstan analyse --configuration=phpstan.neon --memory-limit=512M"
+                ],
+                "lint:baseline": [
+                    "../../../../vendor/bin/phpstan analyse --configuration=phpstan.neon --memory-limit=512M --generate-baseline"
+                ]
+            },
             "license": [
                 "GPL-2.0+"
             ],
@@ -124,7 +136,7 @@
                 "issues": "https://github.com/necyberteam/access/issues",
                 "source": "https://github.com/necyberteam/access"
             },
-            "time": "2025-08-18T14:07:50+00:00"
+            "time": "2025-08-19T21:24:25+00:00"
         },
         {
             "name": "arthurkushman/query-path",
