@@ -1472,7 +1472,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{% set recruiting = '' %}\r\n{% set star = '' %}\r\n{% set color = 'purple' %}\r\n\r\n\r\n  {% if field_me_state == 'Recruiting' %}\r\n    {% set star = '<img src=\"/modules/custom/access/modules/ccmnet/images/star-w.png\" alt=\"star\" />' %}\r\n  {% endif %}\r\n  {% if field_mentee is empty %}\r\n    {% set recruiting = 'Mentee' %}\r\n    {% set color = 'red' %}\r\n  {% endif %}\r\n  {% if field_mentor is empty %}\r\n    {% set recruiting = 'Mentor' %}\r\n    {% set color = 'teal' %}\r\n  {% endif %}\r\n\r\n  <div class=\"position-relative rounded-bottom-left mb-3 border border-ccmnet-blue bg-white h-325\">\r\n    <div class=\"bg-{{ color }} px-3 py-2 text-white align-middle d-flex\">\r\n      {{ star | raw }}\r\n      <div class=\"text-uppercase ml-2\">\r\n        {{ field_me_state }}{% if recruiting is not empty %}: {{ recruiting }}{% endif %}\r\n      </div>\r\n    </div>\r\n    <div class=\"p-3\">\r\n      <h2 class=\"ccmnet-link\">{{ title }}</h2>\r\n      <p class=\"text-small\">{{ body }}</p>\r\n      <div class=\"square-tags pr-5 text-small\">\r\n        {{ field_tags }}\r\n        <span class=\"more_text\"></span>\r\n      </div>\r\n    </div>\r\n    <a class=\"text-white corner-triangle text-uppercase bg-{{ color }}\" href=\"/node/{{ nid }}\">More</a>\r\n  </div>"
+            text: "{% set recruiting = '' %}\r\n{% set star = '' %}\r\n{% set color = 'purple' %}\r\n\r\n\r\n  {% if field_me_state == 'Recruiting' %}\r\n    {% set star = '<img src=\"/modules/custom/access/modules/ccmnet/images/star-w.png\" alt=\"star\" />' %}\r\n  {% endif %}\r\n  {% if field_mentee is empty %}\r\n    {% set recruiting = 'Mentee' %}\r\n    {% set color = 'red' %}\r\n  {% endif %}\r\n  {% if field_mentor is empty %}\r\n    {% set recruiting = 'Mentor' %}\r\n    {% set color = 'teal' %}\r\n  {% endif %}\r\n\r\n  <div class=\"position-relative rounded-bottom-left mb-3 border border-ccmnet-blue bg-white\">\r\n    <div class=\"bg-{{ color }} px-3 py-2 text-white align-middle d-flex\">\r\n      {{ star | raw }}\r\n      <div class=\"text-uppercase ml-2\">\r\n        {{ field_me_state }}{% if recruiting is not empty %}: {{ recruiting }}{% endif %}\r\n      </div>\r\n    </div>\r\n    <div class=\"p-3\">\r\n      <h2 class=\"ccmnet-link\">{{ title }}</h2>\r\n      <p class=\"text-small\">{{ body }}</p>\r\n      <div class=\"square-tags pr-5 text-small\">\r\n        {{ field_tags }}\r\n        <span class=\"more_text\"></span>\r\n      </div>\r\n    </div>\r\n    <a class=\"text-white corner-triangle text-uppercase bg-{{ color }}\" href=\"/node/{{ nid }}\">More</a>\r\n  </div>"
             make_link: false
             path: ''
             absolute: false
@@ -1760,63 +1760,6 @@ display:
         - 'config:field.storage.node.field_tags'
         - 'config:search_api.index.mentorship_engagement'
         - 'search_api_list:mentorship_engagement'
-  page_1:
-    id: page_1
-    display_title: Page
-    display_plugin: page
-    position: 1
-    display_options:
-      exposed_block: true
-      display_extenders:
-        jsonapi_views:
-          enabled: true
-      path: mentorships
-    cache_metadata:
-      max-age: -1
-      contexts:
-        - 'languages:language_content'
-        - 'languages:language_interface'
-        - url
-        - url.query_args
-        - url.site
-        - 'user.node_grants:view'
-      tags:
-        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.facets.facet.me_tags'
-        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.facets.facet.mentee'
-        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.facets.facet.mentor'
-        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.facets.facet.mentorship_program'
-        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.facets.facet.state'
-        - 'config:domain.config.campuschampions_cyberinfrastructure_org.facets.facet.me_tags'
-        - 'config:domain.config.campuschampions_cyberinfrastructure_org.facets.facet.mentee'
-        - 'config:domain.config.campuschampions_cyberinfrastructure_org.facets.facet.mentor'
-        - 'config:domain.config.campuschampions_cyberinfrastructure_org.facets.facet.mentorship_program'
-        - 'config:domain.config.campuschampions_cyberinfrastructure_org.facets.facet.state'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.body'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_me_state'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_mentee'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_mentor'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_mentorship_program'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_tags'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.body'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_me_state'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_mentee'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_mentor'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_mentorship_program'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_tags'
-        - 'config:facets.facet.me_tags'
-        - 'config:facets.facet.mentee'
-        - 'config:facets.facet.mentor'
-        - 'config:facets.facet.mentorship_program'
-        - 'config:facets.facet.state'
-        - 'config:field.storage.node.body'
-        - 'config:field.storage.node.field_me_state'
-        - 'config:field.storage.node.field_mentee'
-        - 'config:field.storage.node.field_mentor'
-        - 'config:field.storage.node.field_mentorship_program'
-        - 'config:field.storage.node.field_tags'
-        - 'config:search_api.index.mentorship_engagement'
-        - 'search_api_list:mentorship_engagement'
-        - taxonomy_term_list
   block_2:
     id: block_2
     display_title: 'Block - CCMNet'
@@ -2302,7 +2245,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{% set recruiting = '' %}\r\n{% set star = '' %}\r\n{% set color = 'purple' %}\r\n\r\n\r\n  {% if field_me_state == 'Recruiting' %}\r\n    {% set star = '<img src=\"/modules/custom/access/modules/ccmnet/images/star-w.png\" alt=\"star\" />' %}\r\n  {% endif %}\r\n  {% if field_mentee is empty %}\r\n    {% set recruiting = 'Mentee' %}\r\n    {% set color = 'red' %}\r\n  {% endif %}\r\n  {% if field_mentor is empty %}\r\n    {% set recruiting = 'Mentor' %}\r\n    {% set color = 'teal' %}\r\n  {% endif %}\r\n\r\n  <div class=\"position-relative rounded-bottom-left mb-3 border border-ccmnet-blue bg-white h-325\">\r\n    <div class=\"bg-{{ color }} px-3 py-2 text-white align-middle d-flex\">\r\n      {{ star | raw }}\r\n      <div class=\"text-uppercase ml-2\">\r\n        {{ field_me_state }}{% if recruiting is not empty %}: {{ recruiting }}{% endif %}\r\n      </div>\r\n    </div>\r\n    <div class=\"p-3\">\r\n      <h2 class=\"ccmnet-link\">{{ title }}</h2>\r\n      <p class=\"text-small\">{{ body }}</p>\r\n      <div class=\"square-tags pr-5 text-small\">\r\n        {{ field_tags }}\r\n        <span class=\"more_text\"></span>\r\n      </div>\r\n    </div>\r\n    <a class=\"text-white corner-triangle text-uppercase bg-{{ color }}\" href=\"/node/{{ nid }}\">More</a>\r\n  </div>"
+            text: "{% set recruiting = '' %}\r\n{% set star = '' %}\r\n{% set color = 'purple' %}\r\n\r\n\r\n  {% if field_me_state == 'Recruiting' %}\r\n    {% set star = '<img src=\"/modules/custom/access/modules/ccmnet/images/star-w.png\" alt=\"star\" />' %}\r\n  {% endif %}\r\n  {% if field_mentee is empty %}\r\n    {% set recruiting = 'Mentee' %}\r\n    {% set color = 'red' %}\r\n  {% endif %}\r\n  {% if field_mentor is empty %}\r\n    {% set recruiting = 'Mentor' %}\r\n    {% set color = 'teal' %}\r\n  {% endif %}\r\n\r\n  <div class=\"position-relative rounded-bottom-left mb-3 border border-ccmnet-blue bg-white h-325 overflow-hidden\">\r\n    <div class=\"bg-{{ color }} px-3 py-2 text-white align-middle d-flex\">\r\n      {{ star | raw }}\r\n      <div class=\"text-uppercase ml-2\">\r\n        {{ field_me_state }}{% if recruiting is not empty %}: {{ recruiting }}{% endif %}\r\n      </div>\r\n    </div>\r\n    <div class=\"p-3\">\r\n      <h2 class=\"ccmnet-link\">{{ title }}</h2>\r\n      <p class=\"text-small\">{{ body }}</p>\r\n      <div class=\"square-tags pr-5 text-small\">\r\n        {{ field_tags }}\r\n        <span class=\"more_text\"></span>\r\n      </div>\r\n    </div>\r\n    <a class=\"text-white corner-triangle text-uppercase bg-{{ color }}\" href=\"/node/{{ nid }}\">More</a>\r\n  </div>"
             make_link: false
             path: ''
             absolute: false
@@ -2580,3 +2523,60 @@ display:
         - 'config:field.storage.node.field_tags'
         - 'config:search_api.index.mentorship_engagement'
         - 'search_api_list:mentorship_engagement'
+  page_1:
+    id: page_1
+    display_title: Page
+    display_plugin: page
+    position: 1
+    display_options:
+      exposed_block: true
+      display_extenders:
+        jsonapi_views:
+          enabled: true
+      path: mentorships
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - url.site
+        - 'user.node_grants:view'
+      tags:
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.facets.facet.me_tags'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.facets.facet.mentee'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.facets.facet.mentor'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.facets.facet.mentorship_program'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.en.facets.facet.state'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.facets.facet.me_tags'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.facets.facet.mentee'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.facets.facet.mentor'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.facets.facet.mentorship_program'
+        - 'config:domain.config.campuschampions_cyberinfrastructure_org.facets.facet.state'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.body'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_me_state'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_mentee'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_mentor'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_mentorship_program'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_tags'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.body'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_me_state'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_mentee'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_mentor'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_mentorship_program'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_tags'
+        - 'config:facets.facet.me_tags'
+        - 'config:facets.facet.mentee'
+        - 'config:facets.facet.mentor'
+        - 'config:facets.facet.mentorship_program'
+        - 'config:facets.facet.state'
+        - 'config:field.storage.node.body'
+        - 'config:field.storage.node.field_me_state'
+        - 'config:field.storage.node.field_mentee'
+        - 'config:field.storage.node.field_mentor'
+        - 'config:field.storage.node.field_mentorship_program'
+        - 'config:field.storage.node.field_tags'
+        - 'config:search_api.index.mentorship_engagement'
+        - 'search_api_list:mentorship_engagement'
+        - taxonomy_term_list
