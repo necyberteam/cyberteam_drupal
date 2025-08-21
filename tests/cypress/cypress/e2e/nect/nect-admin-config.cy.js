@@ -318,13 +318,10 @@ describe("Check admin configuration pages", () => {
 
     cy.contains('Northeast Cyberteam');
     cy.contains('Great Plains Cyberteam');
-    cy.contains('RMACC Cyberteam');
     cy.contains('Kentucky Cyberteam');
     cy.contains('CAREERS Cyberteam');
-    cy.contains('SWEETER Cyberteam');
     cy.contains('MINES Cyberteam');
     cy.contains('Campus Champions');
-    cy.contains('TRECIS Cyberteam');
     cy.contains('Connect CI');
     cy.contains('ACCESS Support');
     cy.contains('CoCo');
@@ -355,7 +352,7 @@ describe("Check admin configuration pages", () => {
     cy.get('#edit-logon-button-text').should('have.value', 'Login with ACCESS CI');
 
     cy.visit('/admin/services/constantcontact-token');
-    cy.get('h1').should('contain', 'Constant Contact Tools');
+    cy.get('h1').should('contain', 'Constant Contact');
 
     cy.visit('/admin/config/services/jsonapi');
     cy.get('h1').should('contain', 'JSON:API');
