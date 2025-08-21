@@ -33,7 +33,7 @@ describe("Tests of the knowledge-base page", () => {
     cy.contains('VIDEO LEARNING CENTER')
       .should('have.attr', 'href', 'https://support.access-ci.org/video-learning-center');
     cy.contains('ACCESS RESOURCE ADVISOR')
-      .should('have.attr', 'href', 'https://ara.access-ci.org');
+      .should('have.attr', 'href', 'https://ara.access-ci.org/');
     cy.get('.btn.btn-primary.mt-8')
       .contains('Visit documentation')
       .should('have.attr', 'href'); // TODO , 'https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/overview');
