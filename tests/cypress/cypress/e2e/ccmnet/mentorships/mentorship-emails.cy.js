@@ -427,6 +427,9 @@ describe("CCMNet Mentorship Email Notifications", () => {
     // Clear mailpit before expressing interest
     cy.clearMailpit();
 
+    // Clear interest state right before testing the button to ensure clean state
+    cy.drush('state:delete', ['access_mentorship_interested']);
+
     // Login as different user and express interest
     cy.loginWith("walnut@pie.org", "Walnut");
     cy.visit("/mentorships");
