@@ -348,8 +348,12 @@ describe("CCMNet Mentorship Email Notifications", () => {
       
       cy.log('Found node ID:', nodeId);
       
-      // Set the interested state with our test mentorship
-      cy.drush('state:set', ['access_mentorship_interested', `"[${nodeId}]"`]);
+      // Now actually click the "I'm Interested" button to set the state
+      cy.loginWith("walnut@pie.org", "Walnut");
+      cy.visit("/mentorships");
+      cy.get('h2.ccmnet-link a').contains('Test Mentorship for Email Verification').click({ force: true });
+      cy.get('a[href*="/interested"]').click();
+      cy.contains('You have been added to the interested list');
       
       // Clear mailpit before running cron
       cy.clearMailpit();
@@ -389,6 +393,9 @@ describe("CCMNet Mentorship Email Notifications", () => {
   });
 
   it("Sends Campus Champions interest notification emails when someone clicks 'interested'", () => {
+    // Clear any existing interest state to ensure clean test
+    cy.drush('state:delete', ['access_mentorship_interested']);
+    
     // Create a Campus Champions specific mentorship (must be on CCMNet domain)
     cy.loginWith("pecan@pie.org", "Pecan");
     cy.visit("/node/add/mentorship_engagement");
