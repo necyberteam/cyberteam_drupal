@@ -24,7 +24,7 @@ describe("Tests of the knowledge-base page", () => {
     cy.contains('Video learning center')
       .should('have.attr', 'href', '/video-learning-center');
     cy.contains('ACCESS Resource Advisor')
-      .should('have.attr', 'href', 'https://ara.access-ci.org/');
+      .should('have.attr', 'href', 'https://ara.access-ci.org');
     cy.get('.btn.btn-primary.ms-0')
       .contains('Open a help ticket')
       .should('have.attr', 'href', '/help-ticket');
