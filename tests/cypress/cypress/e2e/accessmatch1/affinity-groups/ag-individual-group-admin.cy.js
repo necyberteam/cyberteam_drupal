@@ -33,7 +33,7 @@ describe("Admin user tests the Individual Affinity Groups", () => {
     // the first the dropdown the shows up.
     cy.get('#edit-field-resources-entity-reference-0-target-id').clear();
     cy.get('#edit-field-resources-entity-reference-0-target-id')
-      .type('dummy-ci-link-for-testing-knowledge-base')
+      .type('access-support-ci-link-for-testing')
       .wait(1000)
       .type('{downarrow}{enter}');
 
