@@ -48,17 +48,10 @@ class CarnegieCodesLookup {
   );
 
   /**
-   * Select db.
-   *
-   * @var \Drupal\Core\Database\Query\SelectInterface
-   */
-  private $dbLookup;
-
-  /**
    * Constructor.
    */
   public function __construct() {
-    $this->dbLookup = \Drupal::database()->select('carnegie_codes', 'cc');
+    // No longer store the query builder
   }
 
   /**
@@ -68,9 +61,11 @@ class CarnegieCodesLookup {
    *   Fields specified.
    */
   public function lookupByUnitId($unitId, $fields) {
-    $this->dbLookup->fields('cc', $fields);
-    $this->dbLookup->condition('UNITID', $unitId);
-    $result = $this->dbLookup->execute()->fetchAssoc();
+    // Create a fresh query for each lookup
+    $query = \Drupal::database()->select('carnegie_codes', 'cc');
+    $query->fields('cc', $fields);
+    $query->condition('UNITID', $unitId);
+    $result = $query->execute()->fetchAssoc();
     return $result;
   }
 
@@ -90,16 +85,11 @@ class CarnegieCodesLookup {
    * type_id = MSI + 10 * EPS_lookup + 100 * non-academy
    *
    * @param int $msi
-   * @param string $stabbr
+   * @param int $eps_lookup
    * @param string|int $cc
    * @return int
    */
-  public static function typeId($msi, $stabbr, $cc) {
-    $eps_lookup = 0;
-    if (self::isEpscor($stabbr)) {
-      $eps_lookup = 1;
-    }
-
+  public static function typeId($msi, $eps_lookup, $cc) {
     $nonacademy = 0;
     if (is_numeric($cc)) {
       $nonacademy = $cc > 9999 ? 0 : 1;

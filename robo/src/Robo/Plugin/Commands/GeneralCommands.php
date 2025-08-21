@@ -414,7 +414,8 @@ GITHUB_TOKEN=$token'>.env");
         'events',
         'knowledge-base',
         'knowledge-base-resources',
-        'api',
+        'x-api',
+        'qa-bot',
       ];
 
       foreach ($sub_dirs as $dir) {
