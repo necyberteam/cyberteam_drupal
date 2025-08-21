@@ -429,6 +429,11 @@ describe("CCMNet Mentorship Email Notifications", () => {
 
     // Clear interest state right before testing the button to ensure clean state
     cy.drush('state:delete', ['access_mentorship_interested']);
+    
+    // Verify state was cleared
+    cy.drush('state:get', ['access_mentorship_interested']).then((result) => {
+      cy.log('State after clearing:', result.stdout);
+    });
 
     // Login as different user and express interest
     cy.loginWith("walnut@pie.org", "Walnut");
@@ -442,13 +447,22 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.url().should('include', '/mentorships/');
     cy.contains('You have been added to the interested list');
 
+    // Verify the mentorship page shows the user as interested
+    cy.reload();
+    cy.contains("I'm no longer Interested").should('exist');
+
     // Check the state to make sure the button click worked
     cy.drush('state:get', ['access_mentorship_interested']).then((result) => {
       cy.log('Interest state after button click:', result.stdout);
+      cy.log('Raw result object:', JSON.stringify(result));
       
       const state = result.stdout.trim();
+      cy.log('Trimmed state value:', state);
+      cy.log('State type:', typeof state);
+      cy.log('State length:', state.length);
+      
       if (state === '0' || state === '' || state === 'null') {
-        cy.fail('Interest state was not set properly after button click. State: ' + state);
+        cy.fail('Interest state was not set properly after button click. State: [' + state + ']');
       } else {
         cy.log('State looks good, contains:', state);
       }
