@@ -394,7 +394,7 @@ describe("CCMNet Mentorship Email Notifications", () => {
 
   it("Sends Campus Champions interest notification emails when someone clicks 'interested'", () => {
     // Clear any existing interest state to ensure clean test
-    cy.drush('state:delete', ['access_mentorship_interested']);
+    cy.exec('ddev exec drush state:delete access_mentorship_interested -y', { failOnNonZeroExit: false });
     
     // Create a Campus Champions specific mentorship (must be on CCMNet domain)
     cy.loginWith("pecan@pie.org", "Pecan");
@@ -428,161 +428,27 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.clearMailpit();
 
     // Clear interest state right before testing the button to ensure clean state
-    cy.task('log', '--- Clearing interest state before test ---');
-    cy.drush('state:delete', ['access_mentorship_interested']);
-    
-    // Verify state was cleared
-    cy.drush('state:get', ['access_mentorship_interested']).then((result) => {
-      cy.task('log', 'State after clearing: [' + result.stdout + ']');
-      cy.task('log', 'Clear result code: ' + result.code);
-    });
+    cy.exec('ddev exec drush state:delete access_mentorship_interested -y', { failOnNonZeroExit: false });
 
     // Login as different user and express interest
     cy.loginWith("walnut@pie.org", "Walnut");
     cy.visit("/mentorships");
     cy.get('h2.ccmnet-link a').contains('CC Interest Test - Email Verification').click({ force: true });
     
-    // Try to get the node ID from the URL
-    cy.url().then(url => {
-      const nodeMatch = url.match(/\/node\/(\d+)|\/mentorships\/(\d+)/);
-      if (nodeMatch) {
-        const nodeId = nodeMatch[1] || nodeMatch[2];
-        cy.task('log', 'Current mentorship node ID: ' + nodeId);
-      } else {
-        cy.task('log', 'Could not extract node ID from URL: ' + url);
-      }
-    });
-    
-    // Log the current page URL and content before clicking
-    cy.url().then(url => {
-      cy.task('log', 'URL before clicking interested: ' + url);
-    });
-    cy.get('a[href*="/interested"]').should('exist').then($link => {
-      const href = $link.attr('href');
-      cy.task('log', 'Interested link href: ' + href);
-    });
     
     // Click the "I'm Interested" button
     cy.get('a[href*="/interested"]').click();
     
-    // Log the response page
-    cy.url().then(url => {
-      cy.task('log', 'URL after clicking interested: ' + url);
-    });
-    
-    // Check for any error messages on the page
-    cy.get('body').then($body => {
-      if ($body.find('.messages--error').length > 0) {
-        const errorMsg = $body.find('.messages--error').text();
-        cy.task('log', 'ERROR MESSAGE FOUND: ' + errorMsg);
-      }
-      if ($body.find('.messages--warning').length > 0) {
-        const warningMsg = $body.find('.messages--warning').text();
-        cy.task('log', 'WARNING MESSAGE FOUND: ' + warningMsg);
-      }
-      // Check for success message
-      if ($body.find('.messages--status').length > 0) {
-        const statusMsg = $body.find('.messages--status').text();
-        cy.task('log', 'STATUS MESSAGE: ' + statusMsg);
-      }
-    });
-    
-    // Should be redirected back to mentorship page
+    // Should be redirected back to mentorship page with success message
     cy.url().should('include', '/mentorships/');
     cy.contains('You have been added to the interested list');
 
-    // Verify the mentorship page shows the user as interested
+    // Verify the mentorship page shows the user is now interested
     cy.reload();
     cy.contains("I'm no longer Interested").should('exist');
 
-    // Wait a moment for the state to be saved
-    cy.wait(1000);
-    
-    // Check the state to make sure the button click worked - try both drush wrapper and direct exec
-    cy.task('log', 'About to check state with drush command...');
-    
-    // Try direct exec first to see if it's a drush wrapper issue
-    cy.exec('ddev exec drush state:get access_mentorship_interested -y', { timeout: 30000, failOnNonZeroExit: false }).then((directResult) => {
-      cy.task('log', '=== DIRECT DRUSH COMMAND RESULT ===');
-      cy.task('log', 'Direct drush exit code: ' + directResult.code);
-      cy.task('log', 'Direct drush stdout: [' + directResult.stdout + ']');
-      if (directResult.stderr) {
-        cy.task('log', 'Direct drush stderr: ' + directResult.stderr);
-      }
-    });
-    
-    // Now try the drush wrapper separately
-    cy.drush('state:get', ['access_mentorship_interested']).then((result) => {
-      cy.task('log', '=== DRUSH WRAPPER RESULT ===');
-      cy.task('log', 'DRUSH WRAPPER COMPLETED SUCCESSFULLY');
-      cy.task('log', 'Wrapper exit code: ' + result.code);
-      cy.task('log', 'Wrapper stdout: [' + result.stdout + ']');
-      if (result.stderr) {
-        cy.task('log', 'Wrapper stderr: ' + result.stderr);
-      }
-      
-      const state = result.stdout.trim();
-      cy.task('log', 'Trimmed state value: [' + state + ']');
-      cy.task('log', 'State type: ' + typeof state);
-      cy.task('log', 'State length: ' + state.length);
-      
-      // Try to parse the state if it looks like JSON
-      let parsedState = null;
-      try {
-        if (state && state !== '0' && state !== 'null') {
-          parsedState = JSON.parse(state);
-          cy.task('log', 'Parsed state: ' + JSON.stringify(parsedState));
-        }
-      } catch (e) {
-        cy.task('log', 'Could not parse state as JSON: ' + e.message);
-      }
-      
-      // Check if the "no longer interested" button appears to verify the UI state
-      cy.get('body').then($body => {
-        const noLongerLink = $body.find('a:contains("no longer Interested")');
-        const interestedLinks = $body.find('a[href*="/interested"]');
-        
-        if (noLongerLink.length > 0) {
-          cy.task('log', 'UI shows "no longer interested" button - user is marked as interested');
-        } else if (interestedLinks.length > 0) {
-          cy.task('log', 'UI still shows "interested" button with text: ' + interestedLinks.text());
-        }
-      });
-      
-      if (state === '0' || state === '' || state === 'null' || state === '[]') {
-        cy.task('log', 'State appears empty but Drupal logs show user was added to interested list');
-        cy.task('log', 'This suggests the interest was recorded but state format may be different');
-        cy.task('log', '=== END DEBUGGING ===');
-        
-        // Since the Drupal logs show it's working, let's continue with cron instead of failing
-        cy.task('log', 'Continuing test despite empty state since Drupal logs show interest was recorded');
-      } else {
-        cy.task('log', 'State looks good, contains: ' + state);
-        cy.task('log', '=== END DEBUGGING ===');
-      }
-    });
-
     // Run cron with test mode to bypass time restrictions
-    cy.task('log', '--- Running cron with CYPRESS_TEST_MODE=true ---');
-    cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush cron').then((result) => {
-      cy.task('log', 'Cron execution result:');
-      cy.task('log', 'Exit code: ' + result.code);
-      cy.task('log', 'Stdout: ' + result.stdout);
-      if (result.stderr) {
-        cy.task('log', 'Stderr: ' + result.stderr);
-      }
-    });
-    
-    // Also try to run just the access_match_engagement cron hook directly
-    cy.task('log', '--- Testing access_match_engagement cron hook directly ---');
-    cy.exec('ddev exec drush php-eval "\\Drupal::moduleHandler()->invoke(\'access_match_engagement\', \'cron\');"').then((result) => {
-      cy.task('log', 'Direct cron hook result:');
-      cy.task('log', 'Exit code: ' + result.code);
-      cy.task('log', 'Stdout: ' + result.stdout);
-      if (result.stderr) {
-        cy.task('log', 'Stderr: ' + result.stderr);
-      }
-    });
+    cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush cron');
 
     // Check for author notification email
     cy.waitForEmail({
