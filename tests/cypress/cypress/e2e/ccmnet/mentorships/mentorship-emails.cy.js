@@ -428,11 +428,13 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.clearMailpit();
 
     // Clear interest state right before testing the button to ensure clean state
+    cy.task('log', '--- Clearing interest state before test ---');
     cy.drush('state:delete', ['access_mentorship_interested']);
     
     // Verify state was cleared
     cy.drush('state:get', ['access_mentorship_interested']).then((result) => {
-      cy.log('State after clearing:', result.stdout);
+      cy.task('log', 'State after clearing: [' + result.stdout + ']');
+      cy.task('log', 'Clear result code: ' + result.code);
     });
 
     // Login as different user and express interest
@@ -440,15 +442,24 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.visit("/mentorships");
     cy.get('h2.ccmnet-link a').contains('CC Interest Test - Email Verification').click({ force: true });
     
+    // Try to get the node ID from the URL
+    cy.url().then(url => {
+      const nodeMatch = url.match(/\/node\/(\d+)|\/mentorships\/(\d+)/);
+      if (nodeMatch) {
+        const nodeId = nodeMatch[1] || nodeMatch[2];
+        cy.task('log', 'Current mentorship node ID: ' + nodeId);
+      } else {
+        cy.task('log', 'Could not extract node ID from URL: ' + url);
+      }
+    });
+    
     // Log the current page URL and content before clicking
     cy.url().then(url => {
-      cy.log('URL before clicking interested:', url);
-      console.log('URL before clicking interested:', url);
+      cy.task('log', 'URL before clicking interested: ' + url);
     });
     cy.get('a[href*="/interested"]').should('exist').then($link => {
       const href = $link.attr('href');
-      cy.log('Interested link href:', href);
-      console.log('Interested link href:', href);
+      cy.task('log', 'Interested link href: ' + href);
     });
     
     // Click the "I'm Interested" button
@@ -456,21 +467,23 @@ describe("CCMNet Mentorship Email Notifications", () => {
     
     // Log the response page
     cy.url().then(url => {
-      cy.log('URL after clicking interested:', url);
-      console.log('URL after clicking interested:', url);
+      cy.task('log', 'URL after clicking interested: ' + url);
     });
     
     // Check for any error messages on the page
     cy.get('body').then($body => {
       if ($body.find('.messages--error').length > 0) {
         const errorMsg = $body.find('.messages--error').text();
-        cy.log('ERROR MESSAGE FOUND:', errorMsg);
-        console.error('ERROR MESSAGE FOUND:', errorMsg);
+        cy.task('log', 'ERROR MESSAGE FOUND: ' + errorMsg);
       }
       if ($body.find('.messages--warning').length > 0) {
         const warningMsg = $body.find('.messages--warning').text();
-        cy.log('WARNING MESSAGE FOUND:', warningMsg);
-        console.warn('WARNING MESSAGE FOUND:', warningMsg);
+        cy.task('log', 'WARNING MESSAGE FOUND: ' + warningMsg);
+      }
+      // Check for success message
+      if ($body.find('.messages--status').length > 0) {
+        const statusMsg = $body.find('.messages--status').text();
+        cy.task('log', 'STATUS MESSAGE: ' + statusMsg);
       }
     });
     
@@ -487,53 +500,48 @@ describe("CCMNet Mentorship Email Notifications", () => {
     
     // Check the state to make sure the button click worked
     cy.drush('state:get', ['access_mentorship_interested']).then((result) => {
-      // Use both cy.log and console.log for visibility in GitHub Actions
-      console.log('=== DEBUGGING INTEREST STATE ===');
-      console.log('Interest state after button click:', result.stdout);
-      console.log('Raw result object:', JSON.stringify(result));
-      console.log('Result exitCode:', result.code);
-      
-      cy.log('Interest state after button click:', result.stdout);
-      cy.log('Raw result object:', JSON.stringify(result));
-      cy.log('Result exitCode:', result.code);
+      // Use cy.task for visibility in GitHub Actions
+      cy.task('log', '=== DEBUGGING INTEREST STATE ===');
+      cy.task('log', 'Interest state after button click: ' + result.stdout);
+      cy.task('log', 'Raw result object: ' + JSON.stringify(result));
+      cy.task('log', 'Result exitCode: ' + result.code);
       
       const state = result.stdout.trim();
-      console.log('Trimmed state value: [' + state + ']');
-      console.log('State type:', typeof state);
-      console.log('State length:', state.length);
-      
-      cy.log('Trimmed state value: [' + state + ']');
-      cy.log('State type:', typeof state);
-      cy.log('State length:', state.length);
+      cy.task('log', 'Trimmed state value: [' + state + ']');
+      cy.task('log', 'State type: ' + typeof state);
+      cy.task('log', 'State length: ' + state.length);
       
       // Try to parse the state if it looks like JSON
       let parsedState = null;
       try {
         if (state && state !== '0' && state !== 'null') {
           parsedState = JSON.parse(state);
-          console.log('Parsed state:', JSON.stringify(parsedState));
-          cy.log('Parsed state:', JSON.stringify(parsedState));
+          cy.task('log', 'Parsed state: ' + JSON.stringify(parsedState));
         }
       } catch (e) {
-        console.log('Could not parse state as JSON:', e.message);
-        cy.log('Could not parse state as JSON:', e.message);
+        cy.task('log', 'Could not parse state as JSON: ' + e.message);
       }
       
       if (state === '0' || state === '' || state === 'null' || state === '[]') {
         // Also check if the "no longer interested" button appears, which would indicate the state was set
         cy.get('body').then($body => {
           if ($body.find('a:contains("no longer Interested")').length > 0) {
-            console.error('INCONSISTENCY: "No longer interested" button exists but state appears empty');
-            cy.log('INCONSISTENCY: "No longer interested" button exists but state appears empty');
+            cy.task('log', 'INCONSISTENCY: "No longer interested" button exists but state appears empty');
+          }
+          // Log the actual button text we see
+          const interestedLinks = $body.find('a[href*="/interested"]');
+          if (interestedLinks.length > 0) {
+            cy.task('log', 'Found interested button with text: ' + interestedLinks.text());
           }
         });
-        console.error('FAILURE: Interest state was not set properly after button click. State: [' + state + ']');
-        console.log('=== END DEBUGGING ===');
-        cy.fail('Interest state was not set properly after button click. State: [' + state + ']');
+        cy.task('log', 'FAILURE: Interest state was not set properly after button click. State: [' + state + ']');
+        cy.task('log', '=== END DEBUGGING ===');
+        
+        // Use expect with a descriptive message that will show in the test output
+        expect(state, `Expected state to contain interest data, but got: "${state}"`).to.not.be.oneOf(['0', '', 'null', '[]']);
       } else {
-        console.log('State looks good, contains:', state);
-        cy.log('State looks good, contains:', state);
-        console.log('=== END DEBUGGING ===');
+        cy.task('log', 'State looks good, contains: ' + state);
+        cy.task('log', '=== END DEBUGGING ===');
       }
     });
 
