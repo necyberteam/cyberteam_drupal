@@ -440,8 +440,39 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.visit("/mentorships");
     cy.get('h2.ccmnet-link a').contains('CC Interest Test - Email Verification').click({ force: true });
     
+    // Log the current page URL and content before clicking
+    cy.url().then(url => {
+      cy.log('URL before clicking interested:', url);
+      console.log('URL before clicking interested:', url);
+    });
+    cy.get('a[href*="/interested"]').should('exist').then($link => {
+      const href = $link.attr('href');
+      cy.log('Interested link href:', href);
+      console.log('Interested link href:', href);
+    });
+    
     // Click the "I'm Interested" button
     cy.get('a[href*="/interested"]').click();
+    
+    // Log the response page
+    cy.url().then(url => {
+      cy.log('URL after clicking interested:', url);
+      console.log('URL after clicking interested:', url);
+    });
+    
+    // Check for any error messages on the page
+    cy.get('body').then($body => {
+      if ($body.find('.messages--error').length > 0) {
+        const errorMsg = $body.find('.messages--error').text();
+        cy.log('ERROR MESSAGE FOUND:', errorMsg);
+        console.error('ERROR MESSAGE FOUND:', errorMsg);
+      }
+      if ($body.find('.messages--warning').length > 0) {
+        const warningMsg = $body.find('.messages--warning').text();
+        cy.log('WARNING MESSAGE FOUND:', warningMsg);
+        console.warn('WARNING MESSAGE FOUND:', warningMsg);
+      }
+    });
     
     // Should be redirected back to mentorship page
     cy.url().should('include', '/mentorships/');
@@ -451,20 +482,58 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.reload();
     cy.contains("I'm no longer Interested").should('exist');
 
+    // Wait a moment for the state to be saved
+    cy.wait(1000);
+    
     // Check the state to make sure the button click worked
     cy.drush('state:get', ['access_mentorship_interested']).then((result) => {
+      // Use both cy.log and console.log for visibility in GitHub Actions
+      console.log('=== DEBUGGING INTEREST STATE ===');
+      console.log('Interest state after button click:', result.stdout);
+      console.log('Raw result object:', JSON.stringify(result));
+      console.log('Result exitCode:', result.code);
+      
       cy.log('Interest state after button click:', result.stdout);
       cy.log('Raw result object:', JSON.stringify(result));
+      cy.log('Result exitCode:', result.code);
       
       const state = result.stdout.trim();
-      cy.log('Trimmed state value:', state);
+      console.log('Trimmed state value: [' + state + ']');
+      console.log('State type:', typeof state);
+      console.log('State length:', state.length);
+      
+      cy.log('Trimmed state value: [' + state + ']');
       cy.log('State type:', typeof state);
       cy.log('State length:', state.length);
       
-      if (state === '0' || state === '' || state === 'null') {
+      // Try to parse the state if it looks like JSON
+      let parsedState = null;
+      try {
+        if (state && state !== '0' && state !== 'null') {
+          parsedState = JSON.parse(state);
+          console.log('Parsed state:', JSON.stringify(parsedState));
+          cy.log('Parsed state:', JSON.stringify(parsedState));
+        }
+      } catch (e) {
+        console.log('Could not parse state as JSON:', e.message);
+        cy.log('Could not parse state as JSON:', e.message);
+      }
+      
+      if (state === '0' || state === '' || state === 'null' || state === '[]') {
+        // Also check if the "no longer interested" button appears, which would indicate the state was set
+        cy.get('body').then($body => {
+          if ($body.find('a:contains("no longer Interested")').length > 0) {
+            console.error('INCONSISTENCY: "No longer interested" button exists but state appears empty');
+            cy.log('INCONSISTENCY: "No longer interested" button exists but state appears empty');
+          }
+        });
+        console.error('FAILURE: Interest state was not set properly after button click. State: [' + state + ']');
+        console.log('=== END DEBUGGING ===');
         cy.fail('Interest state was not set properly after button click. State: [' + state + ']');
       } else {
+        console.log('State looks good, contains:', state);
         cy.log('State looks good, contains:', state);
+        console.log('=== END DEBUGGING ===');
       }
     });
 
