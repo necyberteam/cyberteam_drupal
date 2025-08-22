@@ -1472,7 +1472,780 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{% set recruiting = '' %}\r\n{% set star = '' %}\r\n{% set color = 'purple' %}\r\n\r\n\r\n  {% if field_me_state == 'Recruiting' %}\r\n    {% set star = '<img src=\"/modules/custom/access/modules/ccmnet/images/star-w.png\" alt=\"star\" />' %}\r\n  {% endif %}\r\n  {% if field_mentee is empty %}\r\n    {% set recruiting = 'Mentee' %}\r\n    {% set color = 'red' %}\r\n  {% endif %}\r\n  {% if field_mentor is empty %}\r\n    {% set recruiting = 'Mentor' %}\r\n    {% set color = 'teal' %}\r\n  {% endif %}\r\n\r\n  <div class=\"position-relative rounded-bottom-left mb-3 border border-ccmnet-blue bg-white h-325\">\r\n    <div class=\"bg-{{ color }} px-3 py-2 text-white align-middle d-flex\">\r\n      {{ star | raw }}\r\n      <div class=\"text-uppercase ml-2\">\r\n        {{ field_me_state }}{% if recruiting is not empty %}: {{ recruiting }}{% endif %}\r\n      </div>\r\n    </div>\r\n    <div class=\"p-3\">\r\n      <h2 class=\"ccmnet-link\">{{ title }}</h2>\r\n      <p class=\"text-small\">{{ body }}</p>\r\n      <div class=\"square-tags pr-5 text-small\">\r\n        {{ field_tags }}\r\n        <span class=\"more_text\"></span>\r\n      </div>\r\n    </div>\r\n    <a class=\"text-white corner-triangle text-uppercase bg-{{ color }}\" href=\"/node/{{ nid }}\">More</a>\r\n  </div>"
+            text: "{% set recruiting = '' %}\r\n{% set star = '' %}\r\n{% set color = 'purple' %}\r\n\r\n\r\n  {% if field_me_state == 'Recruiting' %}\r\n    {% set star = '<img src=\"/modules/custom/access/modules/ccmnet/images/star-w.png\" alt=\"star\" />' %}\r\n  {% endif %}\r\n  {% if field_mentee is empty %}\r\n    {% set recruiting = 'Mentee' %}\r\n    {% set color = 'red' %}\r\n  {% endif %}\r\n  {% if field_mentor is empty %}\r\n    {% set recruiting = 'Mentor' %}\r\n    {% set color = 'teal' %}\r\n  {% endif %}\r\n\r\n  <div class=\"position-relative rounded-bottom-left mb-3 border border-ccmnet-blue bg-white\">\r\n    <div class=\"bg-{{ color }} px-3 py-2 text-white align-middle d-flex\">\r\n      {{ star | raw }}\r\n      <div class=\"text-uppercase ml-2\">\r\n        {{ field_me_state }}{% if recruiting is not empty %}: {{ recruiting }}{% endif %}\r\n      </div>\r\n    </div>\r\n    <div class=\"p-3\">\r\n      <h2 class=\"ccmnet-link\">{{ title }}</h2>\r\n      <p class=\"text-small\">{{ body }}</p>\r\n      <div class=\"square-tags pr-5 text-small\">\r\n        {{ field_tags }}\r\n        <span class=\"more_text\"></span>\r\n      </div>\r\n    </div>\r\n    <a class=\"text-white corner-triangle text-uppercase bg-{{ color }}\" href=\"/node/{{ nid }}\">More</a>\r\n  </div>"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: false
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api_entity
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+            display_methods:
+              affinity_groups:
+                display_method: label
+              organization_type:
+                display_method: label
+              region:
+                display_method: label
+                view_mode: default
+              regional_experts:
+                display_method: label
+              skill_level:
+                display_method: label
+              state:
+                display_method: label
+              tags:
+                display_method: label
+                view_mode: default
+              track:
+                display_method: label
+      pager:
+        type: none
+        options:
+          offset: 0
+      filters:
+        field_me_state:
+          id: field_me_state
+          table: search_api_index_mentorship_engagement
+          field: field_me_state
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_term
+          operator: or
+          value:
+            827: 827
+            828: 828
+            829: 829
+            830: 830
+            886: 886
+            831: 831
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: state
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+        field_ccmnet_approved:
+          id: field_ccmnet_approved
+          table: search_api_index_mentorship_engagement
+          field: field_ccmnet_approved
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_boolean
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_domain_access:
+          id: field_domain_access
+          table: search_api_index_mentorship_engagement
+          field: field_domain_access
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_string
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: campuschampions_cyberinfrastructure_org
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      style:
+        type: default
+        options:
+          grouping: {  }
+          row_class: 'col col-lg-4'
+          default_row_class: false
+      row:
+        type: fields
+        options: {  }
+      defaults:
+        css_class: false
+        pager: false
+        style: false
+        row: false
+        fields: false
+        filters: false
+        filter_groups: false
+        header: false
+        footer: false
+      css_class: 'bg-ccmnet-navy px-3 py-5 full-width-bg'
+      header:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: false
+          content: '<h2 class="text-large text-white text-center mb-3">Campus Champions NAIRR AI Mentorships</h2><p class="text-white text-center mb-5">The Campus Champions AI mentorship program connects experienced Campus Champions with newer Champions and researchers, at their own institution or across campuses, for regular check-ins, personalized guidance, and project-focused support. By building facilitation skills and fostering collaboration, the program strengthens a sustainable network that empowers AI research nationwide.</p>'
+          tokenize: false
+      footer:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: false
+          content: '<div class="text-center"><a class="btn btn-rounded bg-ccmnet-lightblue text-white m-0 text-decoration-none mt-5 px-5 mb-3 d-inline-block" href="https://ccmnet.org/mentorships?f%5B0%5D=mentorship_program%3A910">See All</a></div><div class="text-center mt-3"><div class="d-flex align-items-center justify-content-center"><img src="/themes/contrib/campus-champions-theme/img/logos/CCMNet-logo.svg" alt="CCMNET Logo" style="max-width: 50px; height: auto;" class="mr-3" /><span class="text-white">Powered by <a href="https://ccmnet.org" class="text-white" target="_blank">CCMNet</a></span></div></div>'
+          tokenize: false
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - 'user.node_grants:view'
+      tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.body'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_me_state'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_mentee'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_mentor'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_tags'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.body'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_me_state'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_mentee'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_mentor'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_tags'
+        - 'config:field.storage.node.body'
+        - 'config:field.storage.node.field_me_state'
+        - 'config:field.storage.node.field_mentee'
+        - 'config:field.storage.node.field_mentor'
+        - 'config:field.storage.node.field_tags'
+        - 'config:search_api.index.mentorship_engagement'
+        - 'search_api_list:mentorship_engagement'
+  block_2:
+    id: block_2
+    display_title: 'Block - CCMNet'
+    display_plugin: block
+    position: 3
+    display_options:
+      fields:
+        nid:
+          id: nid
+          table: search_api_datasource_mentorship_engagement_entity_node
+          field: nid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: search_api_field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: false
+          fallback_handler: search_api_numeric
+          fallback_options:
+            set_precision: false
+            precision: 0
+            decimal: .
+            separator: ''
+            format_plural: false
+            format_plural_string: !!binary MQNAY291bnQ=
+            prefix: ''
+            suffix: ''
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+            format_plural_values:
+              - '1'
+              - '@count'
+        body:
+          id: body
+          table: search_api_datasource_mentorship_engagement_entity_node
+          field: body
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: search_api_field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 250
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: true
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: false
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: text_summary_or_trimmed
+          settings:
+            trim_length: 250
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+        field_tags:
+          id: field_tags
+          table: search_api_datasource_mentorship_engagement_entity_node
+          field: field_tags
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: search_api_field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: false
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: '  '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api_entity
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+            display_methods:
+              affinity_groups:
+                display_method: label
+              organization_type:
+                display_method: label
+              region:
+                display_method: label
+                view_mode: default
+              regional_experts:
+                display_method: label
+              skill_level:
+                display_method: label
+              state:
+                display_method: label
+              tags:
+                display_method: label
+                view_mode: default
+              track:
+                display_method: label
+        title:
+          id: title
+          table: search_api_datasource_mentorship_engagement_entity_node
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: search_api_field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+        field_mentor:
+          id: field_mentor
+          table: search_api_datasource_mentorship_engagement_entity_node
+          field: field_mentor
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: search_api_field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api_entity
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+            display_methods:
+              user:
+                display_method: label
+                view_mode: default
+        field_mentee:
+          id: field_mentee
+          table: search_api_datasource_mentorship_engagement_entity_node
+          field: field_mentee
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: search_api_field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api_entity
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+            display_methods:
+              user:
+                display_method: label
+                view_mode: default
+        field_me_state:
+          id: field_me_state
+          table: search_api_datasource_mentorship_engagement_entity_node
+          field: field_me_state
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: search_api_field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: true
+            text: "{% set recruiting = '' %}\r\n{% set star = '' %}\r\n{% set color = 'purple' %}\r\n\r\n\r\n  {% if field_me_state == 'Recruiting' %}\r\n    {% set star = '<img src=\"/modules/custom/access/modules/ccmnet/images/star-w.png\" alt=\"star\" />' %}\r\n  {% endif %}\r\n  {% if field_mentee is empty %}\r\n    {% set recruiting = 'Mentee' %}\r\n    {% set color = 'red' %}\r\n  {% endif %}\r\n  {% if field_mentor is empty %}\r\n    {% set recruiting = 'Mentor' %}\r\n    {% set color = 'teal' %}\r\n  {% endif %}\r\n\r\n  <div class=\"position-relative rounded-bottom-left mb-3 border border-ccmnet-blue bg-white h-325 overflow-hidden\">\r\n    <div class=\"bg-{{ color }} px-3 py-2 text-white align-middle d-flex\">\r\n      {{ star | raw }}\r\n      <div class=\"text-uppercase ml-2\">\r\n        {{ field_me_state }}{% if recruiting is not empty %}: {{ recruiting }}{% endif %}\r\n      </div>\r\n    </div>\r\n    <div class=\"p-3\">\r\n      <h2 class=\"ccmnet-link\">{{ title }}</h2>\r\n      <p class=\"text-small\">{{ body }}</p>\r\n      <div class=\"square-tags pr-5 text-small\">\r\n        {{ field_tags }}\r\n        <span class=\"more_text\"></span>\r\n      </div>\r\n    </div>\r\n    <a class=\"text-white corner-triangle text-uppercase bg-{{ color }}\" href=\"/node/{{ nid }}\">More</a>\r\n  </div>"
             make_link: false
             path: ''
             absolute: false
@@ -1710,7 +2483,7 @@ display:
         filter_groups: false
         header: false
         footer: false
-      css_class: 'bg-ccmnet-navy px-3 py-5 full-width-bg'
+      css_class: 'bg-ccmnet-navy px-3 py-5 full-width-bg slider'
       header:
         area_text_custom:
           id: area_text_custom
@@ -1721,7 +2494,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: false
-          content: '<h2 class="text-large text-white text-center mb-3">Campus Champions NAIRR AI Mentorships</h2><p class="text-white text-center mb-5">The Campus Champions AI mentorship program connects experienced Campus Champions with newer Champions and researchers, at their own institution or across campuses, for regular check-ins, personalized guidance, and project-focused support. By building facilitation skills and fostering collaboration, the program strengthens a sustainable network that empowers AI research nationwide.</p>'
+          content: '<h2 class="text-large text-white text-center mb-5">Featured Mentorships</h2>'
           tokenize: false
       footer:
         area_text_custom:
@@ -1733,7 +2506,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: false
-          content: '<a class="btn btn-rounded bg-ccmnet-lightblue text-white m-0 text-decoration-none mt-5 px-5 mb-3" href="https://ccmnet.org/mentorships">See All</a><div class="text-center mt-3 d-flex align-items-center justify-content-center"><img src="/themes/nect-theme/img/ccmnet-logo-sq.gif" alt="CCMNET Logo" style="max-width: 80px;" class="mr-3" /><span class="text-white">Powered by <a href="https://ccmnet.org" class="text-white" target="_blank">CCMNet</a></span></div>'
+          content: '<a class="btn btn-rounded bg-ccmnet-lightblue text-white m-0 text-decoration-none mt-5 px-5 mb-3" href="https://ccmnet.org/mentorships">See All</a>'
           tokenize: false
       display_extenders: {  }
     cache_metadata:
@@ -1743,16 +2516,6 @@ display:
         - 'languages:language_interface'
         - 'user.node_grants:view'
       tags:
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.body'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_me_state'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_mentee'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_mentor'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.node.field_tags'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.body'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_me_state'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_mentee'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_mentor'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.node.field_tags'
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_me_state'
         - 'config:field.storage.node.field_mentee'
