@@ -59,10 +59,6 @@ describe("CCMNet Mentorship Email Notifications", () => {
       });
     });
 
-    // Debug: Check what emails were actually sent
-    cy.getMailpitMessages().then((messages) => {
-      cy.log('All emails sent:', messages.map(m => ({ subject: m.Subject, to: m.To })));
-    });
 
     // Check for admin notification email - correct subject from template
     cy.waitForEmail({
@@ -92,6 +88,7 @@ describe("CCMNet Mentorship Email Notifications", () => {
     // Approve the mentorship
     cy.get('#edit-field-ccmnet-approved-value').check();
     cy.get('form.node-mentorship-engagement-edit-form #edit-submit').click();
+
 
     // Check for approval notification email
     cy.waitForEmail({
@@ -216,14 +213,6 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.get('#edit-field-me-state').select('In Progress');
     cy.get('form.node-mentorship-engagement-edit-form #edit-submit').click();
 
-    // Debug: Check what emails were actually sent
-    cy.getMailpitMessages().then((messages) => {
-      cy.log('All emails after state change:', messages.map(m => ({ 
-        subject: m.Subject, 
-        to: m.To,
-        from: m.From 
-      })));
-    });
 
     // Check for in progress notification email - correct subject from actual email
     cy.waitForEmail({
@@ -255,7 +244,7 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.get("details.tags summary").click();
     cy.get("#tag-ai").click();
 
-    cy.get('#edit-field-me-state').select('Recruiting');
+    cy.get('#edit-field-me-state').select('827');
     cy.get(".node-mentorship-engagement-form #edit-submit").click();
     
     // Verify we're on the created mentorship page
@@ -296,7 +285,11 @@ describe("CCMNet Mentorship Email Notifications", () => {
     // Use arrow keys - most reliable method
     cy.get('#edit-field-mentee-0-target-id').type('{downArrow}{enter}');
 
+    // Verify the form state before submitting
+    cy.get('#edit-field-me-looking-for-mentee').should('be.checked');
+
     cy.get('form.node-mentorship-engagement-edit-form #edit-submit').click();
+
 
     // Check for mentee notification email
     cy.waitForEmail({
@@ -361,10 +354,6 @@ describe("CCMNet Mentorship Email Notifications", () => {
       // Run cron with CYPRESS_TEST_MODE environment variable
       cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush cron');
       
-      // Debug: Check what happened
-      cy.drush('state:get', ['access_mentorship_interested']).then((result) => {
-        cy.log('State after cron:', result.stdout);
-      });
       
       // Check for author notification email
       cy.waitForEmail({
