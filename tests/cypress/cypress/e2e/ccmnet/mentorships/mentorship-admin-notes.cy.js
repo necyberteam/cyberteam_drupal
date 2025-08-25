@@ -2,11 +2,11 @@ describe("Admin Notes on Mentorships", () => {
 
   it("Admin can add notes that are not visible to mentorship creator", () => {
     // First create a test mentorship to work with
-    cy.loginWith("pecan@pie.org", "Pecan")
+    cy.loginWith("walnut@pie.org", "Walnut")
     cy.visit("/node/add/mentorship_engagement")
 
     // Verify that regular users cannot see the admin notes field when creating
-    cy.get('#edit-field-notes-0-value').should('not.exist');
+    cy.get('#edit-field-admin-notes-0-value').should('not.exist');
 
     // Create a simple mentorship for testing
     cy.get("#edit-field-me-looking-for-mentor").check()
@@ -44,13 +44,13 @@ describe("Admin Notes on Mentorships", () => {
     cy.get('body').should('contain', 'Admin Notes Test Mentorship');
     
     // Add admin notes to the field
-    cy.get('#edit-field-notes-0-value').should('exist').clear().type('This is an admin-only note that should not be visible to the mentorship creator');
+    cy.get('#edit-field-admin-notes-0-value').should('exist').clear().type('This is an admin-only note that should not be visible to the mentorship creator');
     
     // Save the mentorship - use more generic form selector
     cy.get('form #edit-submit, input[value="Save"]').first().click();
     
     // Now login as the mentorship creator and verify they cannot see the admin note
-    cy.loginWith("pecan@pie.org", "Pecan");
+    cy.loginWith("walnut@pie.org", "Walnut");
     cy.visit("/mentorships");
     
     // Navigate to the mentorship
@@ -69,7 +69,7 @@ describe("Admin Notes on Mentorships", () => {
         cy.get('.col-12 #block-nect-local-tasks a').contains('Edit').click();
         
         // Verify admin notes field is not visible to the creator
-        cy.get('#edit-field-notes-0-value').should('not.exist');
+        cy.get('#edit-field-admin-notes-0-value').should('not.exist');
         
         // Verify the note content is not visible in any form fields
         cy.get('body').should('not.contain', 'This is an admin-only note');
