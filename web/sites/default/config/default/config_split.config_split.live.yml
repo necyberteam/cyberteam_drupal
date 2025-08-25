@@ -11,11 +11,25 @@ no_patching: false
 storage: folder
 folder: sites/default/config/live
 module:
+  autoban: 0
+  autoban_ban: 0
+  captcha: 0
+  image_captcha: 0
   crawler_rate_limit: 0
   drupal_seamless_cilogon: 0
+  recaptcha: 0
+  recaptcha_v3: 0
 theme: {  }
 complete_list:
   - access_affinitygroup.settings
+  - autoban.autoban.denied
+  - autoban.autoban.honeypot_urls
+  - autoban.autoban.honeypot_urls_2
+  - autoban.autoban.honeypot_urls_3
+  - autoban.autoban.not_found
+  - autoban.settings
   - recurring_events_registration.registrant.config
   - user_profiles.settings
+  - captcha.captcha_point.contact_message_personal_form
+  - captcha.captcha_point.contact_message_form
 partial_list: {  }

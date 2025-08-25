@@ -54,6 +54,11 @@ else {
   $env = getenv('PANTHEON_ENVIRONMENT');
 }
 
+// Detect DDEV as local environment
+if (empty($env) && getenv('IS_DDEV_PROJECT') == 'true') {
+  $env = 'local';
+}
+
 if (isset($env)) {
   // Per environment settings.
   switch ($env) {

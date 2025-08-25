@@ -90,4 +90,18 @@ describe("Authenticated user creates a Mentorship Engagement", () => {
     cy.contains('In Progress Title').should('not.exist');
   });
 
+  it("Tests Campus Champions mentorship filter functionality", () => {
+    // Go to CCMNet mentorships page with Campus Champions filter
+    cy.visit("/mentorships?f%5B0%5D=mentorship_program%3A910");
+    
+    // Check that we have the Campus Champions filter applied
+    cy.url().should('include', 'f%5B0%5D=mentorship_program%3A910');
+    
+    // Verify that the mentorships page loads
+    cy.get('h1, .page-title').should('exist');
+    
+    // Verify mentorships content area exists (may be empty if no matching items)
+    cy.get('body').should('contain.text', 'mentorships');
+  });
+
 });

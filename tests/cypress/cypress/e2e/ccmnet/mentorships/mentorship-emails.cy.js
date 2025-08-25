@@ -59,10 +59,6 @@ describe("CCMNet Mentorship Email Notifications", () => {
       });
     });
 
-    // Debug: Check what emails were actually sent
-    cy.getMailpitMessages().then((messages) => {
-      cy.log('All emails sent:', messages.map(m => ({ subject: m.Subject, to: m.To })));
-    });
 
     // Check for admin notification email - correct subject from template
     cy.waitForEmail({
@@ -92,6 +88,7 @@ describe("CCMNet Mentorship Email Notifications", () => {
     // Approve the mentorship
     cy.get('#edit-field-ccmnet-approved-value').check();
     cy.get('form.node-mentorship-engagement-edit-form #edit-submit').click();
+
 
     // Check for approval notification email
     cy.waitForEmail({
@@ -216,14 +213,6 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.get('#edit-field-me-state').select('In Progress');
     cy.get('form.node-mentorship-engagement-edit-form #edit-submit').click();
 
-    // Debug: Check what emails were actually sent
-    cy.getMailpitMessages().then((messages) => {
-      cy.log('All emails after state change:', messages.map(m => ({ 
-        subject: m.Subject, 
-        to: m.To,
-        from: m.From 
-      })));
-    });
 
     // Check for in progress notification email - correct subject from actual email
     cy.waitForEmail({
@@ -255,7 +244,7 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.get("details.tags summary").click();
     cy.get("#tag-ai").click();
 
-    cy.get('#edit-field-me-state').select('Recruiting');
+    cy.get('#edit-field-me-state').select('827');
     cy.get(".node-mentorship-engagement-form #edit-submit").click();
     
     // Verify we're on the created mentorship page
@@ -296,7 +285,11 @@ describe("CCMNet Mentorship Email Notifications", () => {
     // Use arrow keys - most reliable method
     cy.get('#edit-field-mentee-0-target-id').type('{downArrow}{enter}');
 
+    // Verify the form state before submitting
+    cy.get('#edit-field-me-looking-for-mentee').should('be.checked');
+
     cy.get('form.node-mentorship-engagement-edit-form #edit-submit').click();
+
 
     // Check for mentee notification email
     cy.waitForEmail({
@@ -348,19 +341,19 @@ describe("CCMNet Mentorship Email Notifications", () => {
       
       cy.log('Found node ID:', nodeId);
       
-      // Set the interested state with our test mentorship
-      cy.drush('state:set', ['access_mentorship_interested', `"[${nodeId}]"`]);
+      // Now actually click the "I'm Interested" button to set the state
+      cy.loginWith("walnut@pie.org", "Walnut");
+      cy.visit("/mentorships");
+      cy.get('h2.ccmnet-link a').contains('Test Mentorship for Email Verification').click({ force: true });
+      cy.get('a[href*="/interested"]').click();
+      cy.contains('You have been added to the interested list');
       
       // Clear mailpit before running cron
       cy.clearMailpit();
       
       // Run cron with CYPRESS_TEST_MODE environment variable
-      cy.exec('CYPRESS_TEST_MODE=true drush cron');
+      cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush cron');
       
-      // Debug: Check what happened
-      cy.drush('state:get', ['access_mentorship_interested']).then((result) => {
-        cy.log('State after cron:', result.stdout);
-      });
       
       // Check for author notification email
       cy.waitForEmail({
@@ -388,15 +381,100 @@ describe("CCMNet Mentorship Email Notifications", () => {
     });
   });
 
+  it("Sends Campus Champions interest notification emails when someone clicks 'interested'", () => {
+    // Clear any existing interest state to ensure clean test
+    cy.exec('ddev exec drush state:delete access_mentorship_interested -y', { failOnNonZeroExit: false });
+    
+    // Create a Campus Champions specific mentorship (must be on CCMNet domain)
+    cy.loginWith("pecan@pie.org", "Pecan");
+    cy.visit("/node/add/mentorship_engagement");
+    
+    cy.get("#edit-field-me-looking-for-mentor").check();
+    cy.get("#edit-title-0-value").type("CC Interest Test - Email Verification");
+    cy.get("#edit-body-0-summary").type("Campus Champions mentorship for testing interest emails");
+    
+    cy.get('.form-item-body-0-value .ck-content').then(el => {
+      const editor = el[0].ckeditorInstance;
+      editor.setData('Testing interest notifications for Campus Champions mentorships.');
+    });
+
+    cy.get("details.tags summary").click();
+    cy.get("#tag-ai").click();
+    
+    // Key difference: Select Campus Champions program (ID 910)
+    cy.get('#edit-field-mentorship-program-910').check();
+    cy.get('#edit-field-me-state').select('Recruiting');
+    cy.get(".node-mentorship-engagement-form #edit-submit").click();
+
+    // Approve the mentorship as admin
+    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    cy.visit("/admin/content");
+    cy.get(':nth-child(1) > .views-field-operations > .dropbutton-wrapper > .dropbutton-widget > .dropbutton > .edit > a').click();
+    cy.get('#edit-field-ccmnet-approved-value').check();
+    cy.get('form.node-mentorship-engagement-edit-form #edit-submit').click();
+
+    // Clear mailpit before expressing interest
+    cy.clearMailpit();
+
+    // Clear interest state right before testing the button to ensure clean state
+    cy.exec('ddev exec drush state:delete access_mentorship_interested -y', { failOnNonZeroExit: false });
+
+    // Login as different user and express interest
+    cy.loginWith("walnut@pie.org", "Walnut");
+    cy.visit("/mentorships");
+    cy.get('h2.ccmnet-link a').contains('CC Interest Test - Email Verification').click({ force: true });
+    
+    
+    // Click the "I'm Interested" button
+    cy.get('a[href*="/interested"]').click();
+    
+    // Should be redirected back to mentorship page with success message
+    cy.url().should('include', '/mentorships/');
+    cy.contains('You have been added to the interested list');
+
+    // Verify the mentorship page shows the user is now interested
+    cy.reload();
+    cy.contains("I'm no longer Interested").should('exist');
+
+    // Run cron with test mode to bypass time restrictions
+    cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush cron');
+
+    // Check for author notification email
+    cy.waitForEmail({
+      to: 'pecan@pie.org',
+      subject: 'Interest in your Mentorship'
+    }, 8000).then((message) => {
+      cy.assertEmailContent(message, {
+        subject: 'Interest in your Mentorship',
+        from: 'noreply@ccmnet.org',
+        to: 'pecan@pie.org',
+        htmlContains: 'Someone is interested in your mentorship request'
+      });
+    });
+
+    // Check for Campus Champions admin summary email (goes to champions_mentorship_admin role)
+    cy.waitForEmail({
+      subject: 'Daily mentorship interest summary'
+    }, 8000).then((message) => {
+      cy.assertEmailContent(message, {
+        subject: 'Daily mentorship interest summary',
+        from: 'noreply@ccmnet.org',
+        htmlContains: 'CC Interest Test - Email Verification' // Should contain our test mentorship title
+      });
+    });
+  });
+
+
   it("Cleanup - Delete test mentorships", () => {
     // Login as admin to cleanup
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
     cy.visit("/admin/content");
 
-    // Delete test mentorships
+    // Delete test mentorships (including Campus Champions ones)
     const testTitles = [
       'Test Mentorship for Email Verification',
-      'Mentee Test - Email Verification'
+      'Mentee Test - Email Verification',
+      'CC Interest Test - Email Verification'
     ];
 
     testTitles.forEach(title => {
