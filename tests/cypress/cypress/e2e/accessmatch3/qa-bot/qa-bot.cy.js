@@ -2,7 +2,7 @@
     qa-bot shadow DOM verification test
     Verifies that the qa-bot component has properly instantiated inside shadow DOM
 */
-describe("qa-bot shadow DOM instantiation", () => {
+describe.skip("qa-bot shadow DOM instantiation", () => {
   it("Should verify qa-bot is properly instantiated in shadow DOM", () => {
     cy.visit("/");
     

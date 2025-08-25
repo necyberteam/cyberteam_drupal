@@ -9,6 +9,8 @@
 
 describe("Authenticated user tests the Events Form without Affinity Group", () => {
   it("Should test Events Form for authenticated user", () => {
+    cy.clearMailpit();
+
     // login user with the "authenticated" role
     cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
     cy.visit("/");
@@ -51,6 +53,8 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
 
     // Registration
     cy.get('input[data-drupal-selector="edit-event-registration-0-registration"]').check();
+    cy.get("#edit-event-registration-0-capacity").type("1", { delay: 0 });
+    cy.get('input[data-drupal-selector="edit-event-registration-0-waitlist"]').check();
 
     //Save As Selection
     cy.get("#edit-moderation-state-0-state").select("Published");
@@ -67,5 +71,18 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.screenshot('before-submit');
     cy.get("#edit-submit").click();
     cy.screenshot('after-submit');
+
+    // Check for content published message.
+    cy.waitForEmail({
+      to: 'supportapiaccess@access-ci.org',
+      subject: 'Your Event was published'
+    }).then((message) => {
+      cy.assertEmailContent(message, {
+        subject: 'Your Event was published',
+        from: 'supportapiaccess@access-ci.org',
+        to: 'supportapiaccess@access-ci.org',
+      });
+    });
+
   });
 });

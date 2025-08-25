@@ -20,6 +20,10 @@ $settings['container_yamls'][] = __DIR__ . '/services.yml';
 $config['config_split.config_split.local']['status'] = FALSE;
 $config['config_split.config_split.live']['status'] = FALSE;
 
+$config['environment_indicator.indicator']['bg_color'] = '#27391C';
+$config['environment_indicator.indicator']['fg_color'] = '#FFFFFF';
+$config['environment_indicator.indicator']['name'] = 'MD';
+
 $settings['file_scan_ignore_directories'] = [
   'node_modules',
   'bower_components',
@@ -50,12 +54,27 @@ else {
   $env = getenv('PANTHEON_ENVIRONMENT');
 }
 
+// Detect DDEV as local environment
+if (empty($env) && getenv('IS_DDEV_PROJECT') == 'true') {
+  $env = 'local';
+}
+
 if (isset($env)) {
   // Per environment settings.
   switch ($env) {
     case 'dev':
       $config['system.logging']['error_level'] = 'verbose';
+
+      $config['environment_indicator.indicator']['bg_color'] = '#7F8CAA';
+      $config['environment_indicator.indicator']['fg_color'] = '#FFFFFF';
+      $config['environment_indicator.indicator']['name'] = 'Dev';
       break;
+
+    case 'test':
+      $config['environment_indicator.indicator']['bg_color'] = '#FE7743';
+      $config['environment_indicator.indicator']['fg_color'] = '#FFFFFF';
+      $config['environment_indicator.indicator']['name'] = 'Test';
+     break;
 
     case 'local':
       $config['config_split.config_split.local']['status'] = TRUE;
@@ -63,10 +82,18 @@ if (isset($env)) {
       $config['system.performance']['css']['preprocess'] = FALSE;
       $config['system.performance']['js']['preprocess'] = FALSE;
       $settings['container_yamls'][] = __DIR__ . '/../development.services.yml';
+
+      $config['environment_indicator.indicator']['bg_color'] = '#00809D';
+      $config['environment_indicator.indicator']['fg_color'] = '#FFFFFF';
+      $config['environment_indicator.indicator']['name'] = 'Local';
       break;
 
     case 'live':
       $config['config_split.config_split.live']['status'] = TRUE;
+
+      $config['environment_indicator.indicator']['bg_color'] = '#DC2525';
+      $config['environment_indicator.indicator']['fg_color'] = '#FFFFFF';
+      $config['environment_indicator.indicator']['name'] = 'Prod';
       break;
   }
 }

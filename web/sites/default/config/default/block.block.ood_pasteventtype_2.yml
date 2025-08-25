@@ -1,0 +1,33 @@
+uuid: 23b4d856-3917-4c75-902d-6dc3b59cb9b4
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.past_event_type
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - ood
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: ood_pasteventtype_2
+theme: ood
+region: primary_sidebar
+weight: -9
+provider: null
+plugin: 'facet_block:past_event_type'
+settings:
+  id: 'facet_block:past_event_type'
+  label: 'Event Type'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: ood_pasteventtype_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events/past
