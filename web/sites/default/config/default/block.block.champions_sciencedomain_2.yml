@@ -1,0 +1,33 @@
+uuid: 7ca2015a-b4c7-4e27-aa48-996d1a1f791c
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.science_domain
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - champions
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: champions_sciencedomain_2
+theme: champions
+region: primary_sidebar
+weight: 13
+provider: null
+plugin: 'facet_block:science_domain'
+settings:
+  id: 'facet_block:science_domain'
+  label: 'Science Domain'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: champions_sciencedomain_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources

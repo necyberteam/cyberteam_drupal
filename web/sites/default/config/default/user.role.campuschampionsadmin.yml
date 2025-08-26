@@ -2,10 +2,16 @@ uuid: 16879d3e-a99f-43e0-88b3-0da0a2c0b0e4
 langcode: en
 status: true
 dependencies:
+  config:
+    - node.type.mentorship_engagement
+    - workflows.workflow.editorial
+    - workflows.workflow.editorial_eventinstance
   module:
     - actions_permissions
+    - content_moderation
     - field_permissions
     - file
+    - node
 id: campuschampionsadmin
 label: CampusChampionsAdmin
 weight: 2
@@ -13,5 +19,22 @@ is_admin: null
 permissions:
   - 'create field_carnegie_code'
   - 'delete own files'
+  - 'edit any mentorship_engagement content'
   - 'execute campuschampions_approve_cc_action all'
   - 'execute campuschampions_approve_cc_decline all'
+  - 'use editorial transition archive'
+  - 'use editorial transition archived_draft'
+  - 'use editorial transition archived_published'
+  - 'use editorial transition create_new_draft'
+  - 'use editorial transition publish'
+  - 'use editorial transition request_adjustment'
+  - 'use editorial transition review_to_review'
+  - 'use editorial transition send_for_review'
+  - 'use editorial_eventinstance transition archive'
+  - 'use editorial_eventinstance transition archived_draft'
+  - 'use editorial_eventinstance transition archived_published'
+  - 'use editorial_eventinstance transition create_new_draft'
+  - 'use editorial_eventinstance transition publish'
+  - 'use editorial_eventinstance transition request_adjustment'
+  - 'use editorial_eventinstance transition review_to_review'
+  - 'use editorial_eventinstance transition send_for_review'

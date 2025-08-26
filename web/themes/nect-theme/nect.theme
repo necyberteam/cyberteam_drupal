@@ -48,12 +48,6 @@ function nect_form_system_theme_settings_alter(&$form, FormStateInterface &$form
     '#default_value' => theme_get_setting('gpct_front_text'),
     '#description'   => t("This text will be placed in the frontpage banner."),
   ];
-  $form['rmacc_front_text'] = [
-    '#type'          => 'textarea',
-    '#title'         => t('RMACC Front Text'),
-    '#default_value' => theme_get_setting('rmacc_front_text'),
-    '#description'   => t("This text will be placed in the frontpage banner."),
-  ];
   $form['careers_front_text'] = [
     '#type'          => 'textarea',
     '#title'         => t('CAREERS Front Text'),
@@ -66,22 +60,10 @@ function nect_form_system_theme_settings_alter(&$form, FormStateInterface &$form
     '#default_value' => theme_get_setting('kentucky_front_text'),
     '#description'   => t("This text will be placed in the frontpage banner."),
   ];
-  $form['sweeter_front_text'] = [
-    '#type'          => 'textarea',
-    '#title'         => t('SWEETER Front Text'),
-    '#default_value' => theme_get_setting('sweeter_front_text'),
-    '#description'   => t("This text will be placed in the frontpage banner."),
-  ];
   $form['mines_front_text'] = [
     '#type'          => 'textarea',
     '#title'         => t('MINES Front Text'),
     '#default_value' => theme_get_setting('mines_front_text'),
-    '#description'   => t("This text will be placed in the frontpage banner."),
-  ];
-  $form['trecis_front_text'] = [
-    '#type'          => 'textarea',
-    '#title'         => t('TRECIS Front Text'),
-    '#default_value' => theme_get_setting('trecis_front_text'),
     '#description'   => t("This text will be placed in the frontpage banner."),
   ];
   $form['connectci_front_text'] = [
@@ -247,12 +229,9 @@ function nect_preprocess_page(&$variables) {
   $variables['attributes']['displayName'] = $user->getDisplayName();
   $variables['nect_front_text'] = theme_get_setting('nect_front_text');
   $variables['gpct_front_text'] = theme_get_setting('gpct_front_text');
-  $variables['rmacc_front_text'] = theme_get_setting('rmacc_front_text');
   $variables['careers_front_text'] = theme_get_setting('careers_front_text');
   $variables['kentucky_front_text'] = theme_get_setting('kentucky_front_text');
-  $variables['sweeter_front_text'] = theme_get_setting('sweeter_front_text');
   $variables['mines_front_text'] = theme_get_setting('mines_front_text');
-  $variables['trecis_front_text'] = theme_get_setting('trecis_front_text');
   $variables['connectci_front_text'] = theme_get_setting('connectci_front_text');
   $variables['amp_front_text'] = theme_get_setting('amp_front_text');
   $variables['coco_front_text'] = theme_get_setting('coco_front_text');

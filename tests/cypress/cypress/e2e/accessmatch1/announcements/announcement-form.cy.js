@@ -20,7 +20,7 @@ describe("Authenticated user tests the Announcement Form without adding an Affin
     cy.visit("/node/add/access_news");
 
     // Page Title
-    cy.get(".page-title").contains("Create ACCESS Announcements");
+    cy.get(".page-title").contains("Create Announcement");
 
     // Form Title Field
     cy.get("#edit-title-0-value").type("Cypress-Created-Announcement");
@@ -45,7 +45,7 @@ describe("Authenticated user tests the Announcement Form without adding an Affin
     // Submission and confirmation
     cy.get("#edit-submit").click();
     cy.contains(
-      "ACCESS Announcements Cypress-Created-Announcement has been created."
+      "Announcement Cypress-Created-Announcement has been created."
     );
 
     // test announcement appears on the Announcements page in My Announcements box
