@@ -145,7 +145,7 @@ describe("Verify the the community-outreach tag page", () => {
       cy.visit("/events/add");
 
       //Page Title
-      cy.get("#block-claro-page-title").contains("Create ACCESS Event");
+      cy.get("#block-claro-page-title").contains("Create Community Event");
 
       //User filling out form title
       cy.get("#edit-title-0-value").type("example-event", { delay: 0 });

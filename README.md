@@ -24,6 +24,59 @@ We switched to the robo command so we could remove BLT as it's no longer support
 | gh:pullfiles     | Daily github action pulls in last pantheon backup and cleans up the private files directory to decrease the size and places it into an [artifact](https://github.com/necyberteam/cyberteam_drupal/actions/workflows/backupfiles.yml).  This pulls the latest artifact. |
 | gh:pr            | This command will create a github pull request. It will ask you for the description and then fill in the rest of the template for you.                                                                                                                                 |
 
+## Testing
+
+### Cypress Testing
+
+This project includes Cypress for end-to-end testing. The Cypress configuration is located in `tests/cypress/`.
+
+#### Configuring the Base URL
+
+The base URL for testing is configured in `tests/cypress/cypress.config.js`. By default, it's set to the local DDEV environment.
+
+**Available URLs for testing:**
+- **Local DDEV**: `https://cyberteam-drupal.ddev.site` (default)
+- **Access Match**: `https://accessmatch.ddev.site`
+- **CCMNet**: `https://ccmnet.ddev.site`
+- **ConnectCI**: `https://connectci.ddev.site`
+- **CRCT**: `https://crct.ddev.site`
+- **Campus Champions**: `https://campuschampions.ddev.site`
+- **COCO**: `https://coco.ddev.site`
+- **Great Plains**: `https://greatplains.ddev.site`
+- **KYCT**: `https://kyct.ddev.site`
+- **NECT**: `https://nect.ddev.site`
+- **OnDemand**: `https://ondemand.ddev.site`
+
+#### Running Cypress Tests
+
+1. **Navigate to the Cypress directory:**
+   ```bash
+   cd tests/cypress
+   ```
+
+2. **Run with a specific URL using environment variable:**
+   ```bash
+   # Test accessmatch domain
+   CYPRESS_BASE_URL=https://accessmatch.ddev.site npm run cypress:run
+   
+   # Test crct domain
+   CYPRESS_BASE_URL=https://crct.ddev.site npm run cypress:open
+   
+   # Test production (if available)
+   CYPRESS_BASE_URL=https://your-production-site.com npm run cypress:run
+   ```
+
+#### Using Robo for Cypress
+
+You can also run Cypress tests using the robo command:
+```bash
+vendor/bin/robo cypress [test_name]
+```
+
+For example:
+- `vendor/bin/robo cypress` - Runs tests on accessmatch1
+- `vendor/bin/robo cypress crct` - Runs tests on crct domain
+
 ## Github Actions
 
 | Workflow                                                                                                                                                                                                                                                                                                                                                                                              | Ran                            | Description                                                                                                                                                                                                                                                                                                                                                                                                                                   |

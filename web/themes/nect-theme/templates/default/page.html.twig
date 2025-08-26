@@ -46,6 +46,7 @@
  */
 #}
 {% set front_div = front_div|default("w-100 py-3 bg-light") %}
+{% set pagePath = path('<current>') %}
 
 <div class="wrapper">
 	<a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
@@ -104,18 +105,12 @@
         <img src="/themes/nect-theme/img/logo.png" class="logo" alt="Northeast Cyberteam">
         {% elseif domain_name == "great-plains-cyberteam" %}
         <img src="/themes/nect-theme/img/GP.cyberteam_logo.jpg" class="logo" alt="Great Plains Cyberteam">
-        {% elseif domain_name == "rmacc-cyberteam" %}
-        <img src="/themes/nect-theme/img/rmacc.ctlogo.png" class="logo" alt="RMACC Cyberteam">
         {% elseif domain_name == "careers-cyberteam" %}
         <img src="/themes/nect-theme/img/careerslogo.flat.png" class="logo" alt="CAREERS Cyberteam">
         {% elseif domain_name == "kentucky-cyberteam" %}
         <img src="/themes/nect-theme/img/kyctlogo.png" class="logo" alt="Kentucky Cyberteam">
-        {% elseif domain_name == "sweeter-cyberteam" %}
-        <img src="/themes/nect-theme/img/sweeter.logo.png" class="logo" alt="SWEETER Cyberteam">
         {% elseif domain_name == "mines-cyberteam" %}
         <img src="/themes/nect-theme/img/mines.logo.png" class="logo" alt="MINES Cyberteam">
-        {% elseif domain_name == "trecis-cyberteam" %}
-        <img src="/themes/nect-theme/img/trecis.logo.png" class="logo" alt="TRECIS Cyberteam">
         {% elseif domain_name == "connect-ci" %}
         <img src="/themes/nect-theme/img/ConnectCI-Logo.jpg" class="logo" alt="Connect CI">
         {% elseif domain_name == "coco" %}
@@ -154,18 +149,12 @@
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
     {% elseif domain_name == "great-plains-cyberteam" %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/greatplainsct.background.jpg')">
-    {% elseif domain_name == "rmacc-cyberteam" %}
-    <header class="masthead" style="background-image: url('/themes/nect-theme/img/rmacc.background.jpg')">
     {% elseif domain_name == "careers-cyberteam" %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/crct.background.jpg')">
     {% elseif domain_name == "kentucky-cyberteam" %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/kyct.background.jpg')">
-    {% elseif domain_name == "sweeter-cyberteam" %}
-    <header class="masthead" style="background-image: url('/themes/nect-theme/img/sweeter.background.jpg')">
     {% elseif domain_name == "mines-cyberteam" %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/mines.background.jpg')">
-    {% elseif domain_name == "trecis-cyberteam" %}
-    <header class="masthead" style="background-image: url('/themes/nect-theme/img/trecis.background.jpg')">
     {% elseif domain_name == "connect-ci" %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
     {% elseif domain_name == "coco" %}
@@ -186,18 +175,12 @@
                 {{ nect_front_text | raw }}
               {% elseif domain_name == "great-plains-cyberteam" %}
                 {{ gpct_front_text | raw }}
-              {% elseif domain_name == "rmacc-cyberteam" %}
-                {{ rmacc_front_text | raw }}
               {% elseif domain_name == "careers-cyberteam" %}
                 {{ careers_front_text | raw }}
               {% elseif domain_name == "kentucky-cyberteam" %}
                 {{ kentucky_front_text | raw }}
-              {% elseif domain_name == "sweeter-cyberteam" %}
-                {{ sweeter_front_text | raw }}
               {% elseif domain_name == "mines-cyberteam" %}
                 {{ mines_front_text | raw }}
-              {% elseif domain_name == "trecis-cyberteam" %}
-                {{ trecis_front_text | raw }}
               {% elseif domain_name == "connect-ci" %}
                 {{ connectci_front_text | raw }}
               {% elseif domain_name == "coco" %}
@@ -258,10 +241,31 @@
   {% endif %}
   {% block main_wrapper_classes %}
     {% if sidebar_first_classes is null %}
-      {% set sidebar_first_classes = "order-2 order-lg-1 col-lg-3 col-12 mx-auto" %}
+      {% set sidebar_first_classes = "sidebar order-2 order-lg-1 col-lg-3 col-12 mx-auto" %}
+
+      {% if pagePath == '/knowledge-base/resources' or
+            pagePath == '/knowledge-base/resources/mentorship' or
+            pagePath == '/affinity-groups' or
+            pagePath == '/people' or
+            pagePath == '/mentorships' or
+            pagePath == '/members' or
+            pagePath == '/events' %}
+        {% set sidebar_first_classes = "sidebar order-1 order-lg-1 col-lg-3 mx-auto" %}
+      {% endif %}
     {% endif %}
+
     {% if main_wrapper_classes is null %}
-      {% set main_wrapper_classes = "order-1 order-lg-2 col-lg-9 col-12 mx-auto" %}
+      {% set main_wrapper_classes = "main-content order-1 order-lg-2 col-lg-9 col-12 mx-auto" %}
+
+      {% if pagePath == '/knowledge-base/resources' or
+            pagePath == '/knowledge-base/resources/mentorship' or
+            pagePath == '/affinity-groups' or
+            pagePath == '/people' or
+            pagePath == '/mentorships' or
+            pagePath == '/members' or
+            pagePath == '/events' %}
+        {% set main_wrapper_classes = "main-content order-2 order-lg-2 col-lg-9 col-12 mx-auto" %}
+      {% endif %}
     {% endif %}
   {% if domain_name != "ccmnet" %}
     <div class="row">

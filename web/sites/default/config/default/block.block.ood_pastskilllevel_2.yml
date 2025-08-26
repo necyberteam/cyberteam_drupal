@@ -1,0 +1,33 @@
+uuid: 58c244f1-97b7-4efc-95dc-9c729deab73d
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.past_skill_level
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - ood
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: ood_pastskilllevel_2
+theme: ood
+region: primary_sidebar
+weight: -1
+provider: null
+plugin: 'facet_block:past_skill_level'
+settings:
+  id: 'facet_block:past_skill_level'
+  label: 'Skill Level'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: ood_pastskilllevel_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events/past

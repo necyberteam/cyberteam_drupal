@@ -1,0 +1,24 @@
+uuid: fbbc2e5c-42ee-4089-a504-00af24b1174f
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - champions
+id: champions_accessciuserlogin
+theme: champions
+region: below_main_content
+weight: 2
+provider: null
+plugin: access_ci_user_login
+settings:
+  id: access_ci_user_login
+  label: 'Access CI User Login'
+  label_display: '0'
+  provider: access_misc
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /user/login

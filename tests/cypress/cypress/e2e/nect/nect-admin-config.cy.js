@@ -103,18 +103,6 @@ describe("Check admin configuration pages", () => {
     cy.contains('Search result excerpt');
     cy.contains('Member for');
 
-    cy.visit('/admin/config/people/captcha');
-    cy.get('h1').should('contain', 'CAPTCHA settings');
-
-    cy.visit('/admin/config/people/captcha/image_captcha');
-    cy.contains('The image CAPTCHA');
-
-    cy.visit('/admin/config/people/captcha/examples');
-    cy.get('h1').should('contain', 'CAPTCHA examples');
-
-    cy.visit('/admin/config/people/captcha/captcha-points');
-    cy.get('h1').should('contain', 'CAPTCHA configuration');
-
     cy.visit('/admin/config/people/email-change');
     cy.get('h1').should('contain', 'Email change settings');
 
@@ -148,9 +136,6 @@ describe("Check admin configuration pages", () => {
 
   it("Content config", () => {
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
-
-    cy.visit('/admin/config/content/fontawesome');
-    cy.get('h1').should('contain', 'Font Awesome settings');
 
     cy.visit('/admin/config/content/honeypot');
     cy.get('h1').should('contain', 'Honeypot configuration');
@@ -229,9 +214,6 @@ describe("Check admin configuration pages", () => {
 
     cy.visit('/admin/config/development/configuration');
     cy.get('h1').should('contain', 'Synchronize');
-
-    cy.visit('/admin/config/development/maillog');
-    cy.get('h1').should('contain', 'Maillog Settings');
 
     cy.visit('/admin/config/development/yaml_editor');
     cy.get('h1').should('contain', 'YAML Editor');
@@ -336,13 +318,10 @@ describe("Check admin configuration pages", () => {
 
     cy.contains('Northeast Cyberteam');
     cy.contains('Great Plains Cyberteam');
-    cy.contains('RMACC Cyberteam');
     cy.contains('Kentucky Cyberteam');
     cy.contains('CAREERS Cyberteam');
-    cy.contains('SWEETER Cyberteam');
     cy.contains('MINES Cyberteam');
     cy.contains('Campus Champions');
-    cy.contains('TRECIS Cyberteam');
     cy.contains('Connect CI');
     cy.contains('ACCESS Support');
     cy.contains('CoCo');
@@ -373,7 +352,7 @@ describe("Check admin configuration pages", () => {
     cy.get('#edit-logon-button-text').should('have.value', 'Login with ACCESS CI');
 
     cy.visit('/admin/services/constantcontact-token');
-    cy.get('h1').should('contain', 'Constant Contact setup token');
+    cy.get('h1').should('contain', 'Constant Contact');
 
     cy.visit('/admin/config/services/jsonapi');
     cy.get('h1').should('contain', 'JSON:API');

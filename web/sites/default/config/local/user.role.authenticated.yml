@@ -13,6 +13,7 @@ dependencies:
     - node.type.mentorship_engagement
     - taxonomy.vocabulary.tags
     - workflows.workflow.editorial
+    - workflows.workflow.editorial_eventinstance
     - workflows.workflow.match_engagement
   module:
     - access_by_ref
@@ -108,7 +109,9 @@ permissions:
   - 'use domain switcher block'
   - 'use editorial transition archived_draft'
   - 'use editorial transition create_new_draft'
+  - 'use editorial transition review_to_review'
   - 'use editorial transition send_for_review'
+  - 'use editorial_eventinstance transition review_to_review'
   - 'use match_engagement transition complete_engagement'
   - 'use match_engagement transition create_new_draft'
   - 'use match_engagement transition finished_adding_information'
