@@ -44,14 +44,6 @@ field_settings:
     label: 'Custom Event Tags'
     property_path: search_api_custom_event_tags
     type: text
-  domain_access:
-    label: 'Domain access'
-    datasource_id: 'entity:eventinstance'
-    property_path: domain_access
-    type: string
-    dependencies:
-      module:
-        - domain_access
   custom_event_title:
     label: 'Event Title'
     property_path: search_api_custom_event_title
@@ -68,6 +60,14 @@ field_settings:
     dependencies:
       module:
         - recurring_events
+  domain_access:
+    label: 'Domain access'
+    datasource_id: 'entity:eventinstance'
+    property_path: domain_access
+    type: string
+    dependencies:
+      module:
+        - domain_access
   event_affiliation:
     label: 'Event Affiliation'
     datasource_id: 'entity:eventinstance'
@@ -132,8 +132,8 @@ processor_settings:
   domain_access: {  }
   entity_status: {  }
   entity_type: {  }
-  eventinstance_domain: {  }
   event_tags: {  }
+  eventinstance_domain: {  }
   highlight:
     weights:
       postprocess_query: 0

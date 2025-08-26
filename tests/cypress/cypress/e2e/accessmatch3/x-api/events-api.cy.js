@@ -141,12 +141,14 @@ describe("Test Events API", () => {
         // Should return events within the specified range
         const today = new Date();
         const twoWeeksLater = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000);
+        const todayStr = today.toISOString().split('T')[0];
+        const twoWeeksLaterStr = twoWeeksLater.toISOString().split('T')[0];
         
         response.body.forEach(event => {
           if (event.date) {
-            const eventDate = new Date(event.date);
-            expect(eventDate >= today).to.be.true;
-            expect(eventDate <= twoWeeksLater).to.be.true;
+            const eventDateStr = event.date.split('T')[0];
+            expect(eventDateStr >= todayStr).to.be.true;
+            expect(eventDateStr <= twoWeeksLaterStr).to.be.true;
           }
         });
       });
