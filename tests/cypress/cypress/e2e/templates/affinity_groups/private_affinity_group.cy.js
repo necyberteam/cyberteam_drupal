@@ -19,6 +19,7 @@ describe("Create private group and test visibility", () => {
 
   it("Anon user does not see private group", () => {
     cy.visit('/affinity-groups');
+    cy.get('input[name="search_api_fulltext"]').type('test', { delay: 50 });
     cy.contains('test-private-affinity-group').should('not.exist');
   });
 
