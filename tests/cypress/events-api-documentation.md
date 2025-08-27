@@ -32,6 +32,37 @@ Each event contains the following fields:
 - `created` - Creation timestamp in UTC (YYYY-MM-DDTHH:MM:SSZ)
 - `changed` - Last modified timestamp in UTC (YYYY-MM-DDTHH:MM:SSZ)
 
+## Search Parameters
+
+### Full-Text Search
+Search across event titles, descriptions, speakers, tags, and other content:
+
+**Parameter:** `search_api_fulltext`
+
+**Examples:**
+```
+# Search for Python-related events
+/api/2.1/events?search_api_fulltext=python
+
+# Search for workshops
+/api/2.1/events?search_api_fulltext=workshop
+
+# Search with multiple terms (OR logic)
+/api/2.1/events?search_api_fulltext=machine+learning
+
+# Combine search with date filtering
+/api/2.1/events?search_api_fulltext=python&beginning_date_relative=today
+
+# Combine search with faceted filtering
+/api/2.1/events?search_api_fulltext=workshop&f[0]=skill_level:beginner
+```
+
+**Notes:**
+- Search uses OR logic for multiple terms
+- Searches across: title, description, speakers, tags, location, and event type
+- Maximum search term length: 128 characters
+- Case-insensitive matching
+
 ## Date Filtering Parameters
 
 ### Relative Date Parameters
@@ -149,6 +180,17 @@ Multiple filters are combined with AND logic:
 GET /api/2.1/events?beginning_date_relative=today
 ```
 
+### Search for specific topics
+```
+GET /api/2.1/events?search_api_fulltext=python
+GET /api/2.1/events?search_api_fulltext=machine+learning
+```
+
+### Search upcoming events by topic
+```
+GET /api/2.1/events?search_api_fulltext=workshop&beginning_date_relative=today
+```
+
 ### Get events for a specific month
 ```
 GET /api/2.1/events?beginning_date=2024-08-01&end_date=2024-08-31
@@ -255,8 +297,9 @@ The `timezone` parameter controls how relative dates are calculated:
 - Both `YYYY-MM-DD` and `YYYY-MM-DD HH:MM:SS` formats work for absolute dates
 
 ### Test Coverage
-The API includes comprehensive test coverage with 28 automated tests covering:
+The API includes comprehensive test coverage with 28+ automated tests covering:
 - All 16 event fields validation
+- Full-text search functionality
 - Relative and absolute date filtering
 - Faceted search capabilities
 - Performance and error handling
