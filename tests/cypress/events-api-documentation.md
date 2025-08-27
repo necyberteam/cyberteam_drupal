@@ -4,7 +4,7 @@
 The Events API provides access to event data with comprehensive filtering capabilities. This API supports both relative date filtering (dynamic dates like "today", "+1week") and absolute date filtering (fixed dates like "2024-08-30").
 
 ## Endpoints
-- `/api/2.1/events` - Legacy endpoint (uses Eastern Time for date fields)
+- `/api/2.0/events` - Legacy endpoint (uses Eastern Time for date fields)
 - `/api/2.1/events` - Current endpoint (uses UTC for all date fields)
 
 ## Method
