@@ -380,15 +380,15 @@ describe("Test Events API", () => {
         expect(response.status).to.eq(200);
         expect(response.body).to.be.an('array');
         
-        // Check if events have proper date formatting
+        // Check if events have proper UTC date formatting
         response.body.forEach(event => {
           if (event.date) {
-            // Verify start date is in proper ISO format
-            expect(event.date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/);
+            // Verify start date is in UTC format with Z suffix
+            expect(event.date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
           }
           if (event.date_1) {
-            // Verify end date is in proper ISO format  
-            expect(event.date_1).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/);
+            // Verify end date is in UTC format with Z suffix
+            expect(event.date_1).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
           }
         });
       });
@@ -524,7 +524,7 @@ describe("Test Events API", () => {
           // Verify changed field exists and format
           expect(event).to.have.property('changed');
           expect(event.changed).to.be.a('string');
-          expect(event.changed).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{4}$/);
+          expect(event.changed).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
           
           cy.log(`Sample changed timestamp: ${event.changed}`);
           
