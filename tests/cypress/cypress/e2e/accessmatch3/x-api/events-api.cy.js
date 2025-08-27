@@ -69,23 +69,49 @@ describe("Test Events API", () => {
 
   it("Test date filtering with beginning_date_relative parameter", () => {
     // Test filtering events from today using relative date parameter
-    cy.request('/api/2.1/events?beginning_date_relative=today')
-      .then((response) => {
-        expect(response.status).to.eq(200);
-        expect(response.body).to.be.an('array');
+    // First, get ALL events to compare
+    cy.request('/api/2.1/events')
+      .then((allEventsResponse) => {
+        const allEvents = allEventsResponse.body;
         
-        // Use UTC date since v2.1 defaults to UTC timezone for relative dates
-        const today = new Date().toISOString().split('T')[0];
-        cy.log(`Today's date (local): ${today}`);
-        cy.log(`Events returned: ${response.body.length}`);
-        
-        // Verify all returned events are today or later
-        response.body.forEach((event, index) => {
-          if (event.date) {
-            const eventDate = event.date.split('T')[0];
-            expect(eventDate >= today, `Event date ${eventDate} should be >= ${today}`).to.be.true;
-          }
-        });
+        // Now test with relative date filter
+        cy.request('/api/2.1/events?beginning_date_relative=today')
+          .then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body).to.be.an('array');
+            
+            // Use UTC date since v2.1 defaults to UTC timezone for relative dates
+            const today = new Date().toISOString().split('T')[0];
+            cy.log(`Today's date (UTC): ${today}`);
+            cy.log(`All events: ${allEvents.length}, Filtered events: ${response.body.length}`);
+            
+            // CRITICAL: The filtered count should be less than or equal to all events
+            // If relative filtering doesn't work, this would return ALL events
+            expect(response.body.length).to.be.at.most(allEvents.length);
+            
+            // Count events that should be filtered out (past events)
+            const pastEvents = allEvents.filter(event => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                return eventDate < today;
+              }
+              return false;
+            });
+            
+            if (pastEvents.length > 0) {
+              // If there are past events, filtered results MUST be less than all events
+              cy.log(`Past events that should be filtered out: ${pastEvents.length}`);
+              expect(response.body.length).to.be.lessThan(allEvents.length);
+            }
+            
+            // Verify all returned events are today or later
+            response.body.forEach((event, index) => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                expect(eventDate >= today, `Event date ${eventDate} should be >= ${today}`).to.be.true;
+              }
+            });
+          });
       });
   });
   
@@ -111,43 +137,91 @@ describe("Test Events API", () => {
 
   it("Test date filtering with end_date_relative parameter", () => {
     // Test filtering events within the next week using relative dates
-    cy.request('/api/2.1/events?beginning_date_relative=today&end_date_relative=+1week')
-      .then((response) => {
-        expect(response.status).to.eq(200);
-        expect(response.body).to.be.an('array');
+    // First, get ALL events to compare
+    cy.request('/api/2.1/events')
+      .then((allEventsResponse) => {
+        const allEvents = allEventsResponse.body;
         
-        const todayStr = new Date().toISOString().split('T')[0];
-        const nextWeekStr = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-        
-        // Verify all returned events are within the date range
-        response.body.forEach(event => {
-          if (event.date) {
-            const eventDate = event.date.split('T')[0];
-            expect(eventDate >= todayStr).to.be.true;
-            expect(eventDate <= nextWeekStr).to.be.true;
-          }
-        });
+        cy.request('/api/2.1/events?beginning_date_relative=today&end_date_relative=+1week')
+          .then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body).to.be.an('array');
+            
+            const todayStr = new Date().toISOString().split('T')[0];
+            const nextWeekStr = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            
+            cy.log(`All events: ${allEvents.length}, Filtered events: ${response.body.length}`);
+            cy.log(`Date range: ${todayStr} to ${nextWeekStr}`);
+            
+            // Count events that should be filtered out (before today or after next week)
+            const eventsOutsideRange = allEvents.filter(event => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                return eventDate < todayStr || eventDate > nextWeekStr;
+              }
+              return false;
+            });
+            
+            if (eventsOutsideRange.length > 0) {
+              // If there are events outside the range, filtered results MUST be less than all events
+              cy.log(`Events outside date range that should be filtered out: ${eventsOutsideRange.length}`);
+              expect(response.body.length).to.be.lessThan(allEvents.length);
+            }
+            
+            // Verify all returned events are within the date range
+            response.body.forEach(event => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                expect(eventDate >= todayStr, `Event date ${eventDate} should be >= ${todayStr}`).to.be.true;
+                expect(eventDate <= nextWeekStr, `Event date ${eventDate} should be <= ${nextWeekStr}`).to.be.true;
+              }
+            });
+          });
       });
   });
 
   it("Test multiple date range parameters", () => {
     // Test combining different date ranges with relative dates
-    cy.request('/api/2.1/events?beginning_date_relative=today&end_date_relative=+2week')
-      .then((response) => {
-        expect(response.status).to.eq(200);
-        expect(response.body).to.be.an('array');
+    // First, get ALL events to compare
+    cy.request('/api/2.1/events')
+      .then((allEventsResponse) => {
+        const allEvents = allEventsResponse.body;
         
-        // Should return events within the specified range
-        const todayStr = new Date().toISOString().split('T')[0];
-        const twoWeeksLaterStr = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-        
-        response.body.forEach(event => {
-          if (event.date) {
-            const eventDateStr = event.date.split('T')[0];
-            expect(eventDateStr >= todayStr).to.be.true;
-            expect(eventDateStr <= twoWeeksLaterStr).to.be.true;
-          }
-        });
+        cy.request('/api/2.1/events?beginning_date_relative=today&end_date_relative=+2week')
+          .then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body).to.be.an('array');
+            
+            const todayStr = new Date().toISOString().split('T')[0];
+            const twoWeeksLaterStr = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            
+            cy.log(`All events: ${allEvents.length}, Filtered events: ${response.body.length}`);
+            cy.log(`Date range: ${todayStr} to ${twoWeeksLaterStr}`);
+            
+            // Count events that should be filtered out (before today or after 2 weeks)
+            const eventsOutsideRange = allEvents.filter(event => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                return eventDate < todayStr || eventDate > twoWeeksLaterStr;
+              }
+              return false;
+            });
+            
+            if (eventsOutsideRange.length > 0) {
+              // If there are events outside the range, filtered results MUST be less than all events
+              cy.log(`Events outside date range that should be filtered out: ${eventsOutsideRange.length}`);
+              expect(response.body.length).to.be.lessThan(allEvents.length);
+            }
+            
+            // Verify all returned events are within the specified range
+            response.body.forEach(event => {
+              if (event.date) {
+                const eventDateStr = event.date.split('T')[0];
+                expect(eventDateStr >= todayStr, `Event date ${eventDateStr} should be >= ${todayStr}`).to.be.true;
+                expect(eventDateStr <= twoWeeksLaterStr, `Event date ${eventDateStr} should be <= ${twoWeeksLaterStr}`).to.be.true;
+              }
+            });
+          });
       });
   });
 
@@ -311,31 +385,48 @@ describe("Test Events API", () => {
 
   it("Test past date ranges", () => {
     // Test filtering for past events with relative dates
-    cy.request('/api/2.1/events?beginning_date_relative=-1month&end_date_relative=today')
-      .then((response) => {
-        expect(response.status).to.eq(200);
-        expect(response.body).to.be.an('array');
+    // First, get ALL events to compare
+    cy.request('/api/2.1/events')
+      .then((allEventsResponse) => {
+        const allEvents = allEventsResponse.body;
         
-        cy.log(`Events in past month: ${response.body.length}`);
-        
-        const today = new Date();
-        const lastMonth = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
-        
-        // Verify all returned events are in the past range
-        response.body.forEach((event, index) => {
-          if (event.date) {
-            const eventDate = new Date(event.date);
-            cy.log(`Event ${index}: date = ${event.date}`);
+        cy.request('/api/2.1/events?beginning_date_relative=-1month&end_date_relative=today')
+          .then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body).to.be.an('array');
             
-            // Convert to date-only comparison to avoid time precision issues
-            const eventDateOnly = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
-            const lastMonthOnly = new Date(lastMonth.getFullYear(), lastMonth.getMonth(), lastMonth.getDate());
-            const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const today = new Date();
+            const lastMonth = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+            const todayStr = today.toISOString().split('T')[0];
+            const lastMonthStr = lastMonth.toISOString().split('T')[0];
             
-            expect(eventDateOnly >= lastMonthOnly, `Event date ${eventDate.toDateString()} should be >= ${lastMonth.toDateString()}`).to.be.true;
-            expect(eventDateOnly <= todayOnly, `Event date ${eventDate.toDateString()} should be <= ${today.toDateString()}`).to.be.true;
-          }
-        });
+            cy.log(`All events: ${allEvents.length}, Filtered events: ${response.body.length}`);
+            cy.log(`Date range: ${lastMonthStr} to ${todayStr}`);
+            
+            // Count events that should be filtered out (before last month or after today)
+            const eventsOutsideRange = allEvents.filter(event => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                return eventDate < lastMonthStr || eventDate > todayStr;
+              }
+              return false;
+            });
+            
+            if (eventsOutsideRange.length > 0) {
+              // If there are events outside the range, filtered results MUST be less than all events
+              cy.log(`Events outside past month range that should be filtered out: ${eventsOutsideRange.length}`);
+              expect(response.body.length).to.be.lessThan(allEvents.length);
+            }
+            
+            // Verify all returned events are in the past range
+            response.body.forEach((event, index) => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                expect(eventDate >= lastMonthStr, `Event date ${eventDate} should be >= ${lastMonthStr}`).to.be.true;
+                expect(eventDate <= todayStr, `Event date ${eventDate} should be <= ${todayStr}`).to.be.true;
+              }
+            });
+          });
       });
   });
 
@@ -446,24 +537,47 @@ describe("Test Events API", () => {
 
   it("Test Event Date Relative filter with proper parameters", () => {
     // Test filtering events within the next week using correct relative date parameters
-    cy.request('/api/2.1/events?beginning_date_relative=today&end_date_relative=+1week')
-      .then((response) => {
-        expect(response.status).to.eq(200);
-        expect(response.body).to.be.an('array');
-        cy.log(`Events with proper relative date filter: ${response.body.length}`);
+    // First, get ALL events to compare
+    cy.request('/api/2.1/events')
+      .then((allEventsResponse) => {
+        const allEvents = allEventsResponse.body;
         
-        // Verify filtering works
-        const now = new Date();
-        const todayLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const today = todayLocal.toLocaleDateString('en-CA');
-        const nextWeek = new Date(todayLocal.getTime() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-CA');
-        
-        response.body.forEach(event => {
-          if (event.date) {
-            const eventDate = event.date.split('T')[0];
-            expect(eventDate >= today && eventDate <= nextWeek, `Event date ${eventDate} should be between ${today} and ${nextWeek}`).to.be.true;
-          }
-        });
+        cy.request('/api/2.1/events?beginning_date_relative=today&end_date_relative=+1week')
+          .then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body).to.be.an('array');
+            
+            const now = new Date();
+            const todayLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const today = todayLocal.toLocaleDateString('en-CA');
+            const nextWeek = new Date(todayLocal.getTime() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-CA');
+            
+            cy.log(`All events: ${allEvents.length}, Filtered events: ${response.body.length}`);
+            cy.log(`Date range: ${today} to ${nextWeek}`);
+            
+            // Count events that should be filtered out (before today or after next week)
+            const eventsOutsideRange = allEvents.filter(event => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                return eventDate < today || eventDate > nextWeek;
+              }
+              return false;
+            });
+            
+            if (eventsOutsideRange.length > 0) {
+              // If there are events outside the range, filtered results MUST be less than all events
+              cy.log(`Events outside date range that should be filtered out: ${eventsOutsideRange.length}`);
+              expect(response.body.length).to.be.lessThan(allEvents.length);
+            }
+            
+            // Verify filtering works
+            response.body.forEach(event => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                expect(eventDate >= today && eventDate <= nextWeek, `Event date ${eventDate} should be between ${today} and ${nextWeek}`).to.be.true;
+              }
+            });
+          });
       });
   });
 
@@ -488,26 +602,47 @@ describe("Test Events API", () => {
 
   it("Test combined date range filters with proper parameters", () => {
     // Test combining both start and end date filters using correct parameters
-    cy.request('/api/2.1/events?beginning_date_relative=today&end_date_relative=+1month')
-      .then((response) => {
-        expect(response.status).to.eq(200);
-        expect(response.body).to.be.an('array');
-        cy.log(`Events with combined date filters: ${response.body.length}`);
+    // First, get ALL events to compare
+    cy.request('/api/2.1/events')
+      .then((allEventsResponse) => {
+        const allEvents = allEventsResponse.body;
         
-        // Verify events fall within the specified range
-        if (response.body.length > 0) {
-          const now = new Date();
-          const todayLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-          const today = todayLocal.toLocaleDateString('en-CA');
-          const nextMonth = new Date(todayLocal.getTime() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-CA');
-          
-          response.body.forEach(event => {
-            if (event.date) {
-              const eventDate = event.date.split('T')[0];
-              expect(eventDate >= today && eventDate <= nextMonth, `Event date ${eventDate} should be between ${today} and ${nextMonth}`).to.be.true;
+        cy.request('/api/2.1/events?beginning_date_relative=today&end_date_relative=+1month')
+          .then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body).to.be.an('array');
+            
+            const now = new Date();
+            const todayLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const today = todayLocal.toLocaleDateString('en-CA');
+            const nextMonth = new Date(todayLocal.getTime() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-CA');
+            
+            cy.log(`All events: ${allEvents.length}, Filtered events: ${response.body.length}`);
+            cy.log(`Date range: ${today} to ${nextMonth}`);
+            
+            // Count events that should be filtered out (before today or after next month)
+            const eventsOutsideRange = allEvents.filter(event => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                return eventDate < today || eventDate > nextMonth;
+              }
+              return false;
+            });
+            
+            if (eventsOutsideRange.length > 0) {
+              // If there are events outside the range, filtered results MUST be less than all events
+              cy.log(`Events outside date range that should be filtered out: ${eventsOutsideRange.length}`);
+              expect(response.body.length).to.be.lessThan(allEvents.length);
             }
+            
+            // Verify events fall within the specified range
+            response.body.forEach(event => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                expect(eventDate >= today && eventDate <= nextMonth, `Event date ${eventDate} should be between ${today} and ${nextMonth}`).to.be.true;
+              }
+            });
           });
-        }
       });
   });
 
@@ -622,32 +757,53 @@ describe("Test Events API", () => {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const todayStr = today.toLocaleDateString('en-CA');
     
-    // Test relative date filter
-    cy.request('/api/2.1/events?beginning_date_relative=today')
-      .then((relativeResponse) => {
-        expect(relativeResponse.status).to.eq(200);
-        cy.log(`Events from relative 'today' filter: ${relativeResponse.body.length}`);
+    // First get all events to compare
+    cy.request('/api/2.1/events')
+      .then((allEventsResponse) => {
+        const allEvents = allEventsResponse.body;
         
-        // Test absolute date filter for same day
-        cy.request(`/api/2.1/events?beginning_date=${todayStr}`)
-          .then((absoluteResponse) => {
-            expect(absoluteResponse.status).to.eq(200);
-            cy.log(`Events from absolute '${todayStr}' filter: ${absoluteResponse.body.length}`);
+        // Test relative date filter
+        cy.request('/api/2.1/events?beginning_date_relative=today')
+          .then((relativeResponse) => {
+            expect(relativeResponse.status).to.eq(200);
+            cy.log(`All events: ${allEvents.length}, Events from relative 'today' filter: ${relativeResponse.body.length}`);
             
-            // Both should return events starting from today
-            relativeResponse.body.forEach(event => {
+            // Count events that should be filtered out (before today)
+            const pastEvents = allEvents.filter(event => {
               if (event.date) {
                 const eventDate = event.date.split('T')[0];
-                expect(eventDate >= todayStr, `Relative filter: Event date ${eventDate} should be >= ${todayStr}`).to.be.true;
+                return eventDate < todayStr;
               }
+              return false;
             });
             
-            absoluteResponse.body.forEach(event => {
-              if (event.date) {
-                const eventDate = event.date.split('T')[0];
-                expect(eventDate >= todayStr, `Absolute filter: Event date ${eventDate} should be >= ${todayStr}`).to.be.true;
-              }
-            });
+            if (pastEvents.length > 0) {
+              // If there are past events, relative filtered results MUST be less than all events
+              cy.log(`Past events that should be filtered out by relative filter: ${pastEvents.length}`);
+              expect(relativeResponse.body.length).to.be.lessThan(allEvents.length);
+            }
+            
+            // Test absolute date filter for same day
+            cy.request(`/api/2.1/events?beginning_date=${todayStr}`)
+              .then((absoluteResponse) => {
+                expect(absoluteResponse.status).to.eq(200);
+                cy.log(`Events from absolute '${todayStr}' filter: ${absoluteResponse.body.length}`);
+                
+                // Both should return events starting from today
+                relativeResponse.body.forEach(event => {
+                  if (event.date) {
+                    const eventDate = event.date.split('T')[0];
+                    expect(eventDate >= todayStr, `Relative filter: Event date ${eventDate} should be >= ${todayStr}`).to.be.true;
+                  }
+                });
+                
+                absoluteResponse.body.forEach(event => {
+                  if (event.date) {
+                    const eventDate = event.date.split('T')[0];
+                    expect(eventDate >= todayStr, `Absolute filter: Event date ${eventDate} should be >= ${todayStr}`).to.be.true;
+                  }
+                });
+              });
           });
       });
   });
@@ -675,21 +831,41 @@ describe("Test Events API", () => {
     // Test combining absolute beginning_date with relative end_date_relative
     const absoluteStart = '2022-01-01';
     
-    cy.request(`/api/2.1/events?beginning_date=${absoluteStart}&end_date_relative=+1year`)
-      .then((response) => {
-        expect(response.status).to.eq(200);
-        expect(response.body).to.be.an('array');
-        cy.log(`Events starting after ${absoluteStart} with relative end: ${response.body.length}`);
+    // First get all events to compare
+    cy.request('/api/2.1/events')
+      .then((allEventsResponse) => {
+        const allEvents = allEventsResponse.body;
         
-        // Verify the combination works as expected
-        if (response.body.length > 0) {
-          response.body.forEach(event => {
-            if (event.date) {
-              const eventDate = event.date.split('T')[0];
-              expect(eventDate >= absoluteStart, `Event date ${eventDate} should be >= ${absoluteStart}`).to.be.true;
+        cy.request(`/api/2.1/events?beginning_date=${absoluteStart}&end_date_relative=+1year`)
+          .then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body).to.be.an('array');
+            
+            cy.log(`All events: ${allEvents.length}, Events starting after ${absoluteStart} with relative end: ${response.body.length}`);
+            
+            // Count events that should be filtered out (before absoluteStart)
+            const eventsBefore = allEvents.filter(event => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                return eventDate < absoluteStart;
+              }
+              return false;
+            });
+            
+            if (eventsBefore.length > 0) {
+              // If there are events before absoluteStart, filtered results MUST be less than all events
+              cy.log(`Events before ${absoluteStart} that should be filtered out: ${eventsBefore.length}`);
+              expect(response.body.length).to.be.lessThan(allEvents.length);
             }
+            
+            // Verify the combination works as expected
+            response.body.forEach(event => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                expect(eventDate >= absoluteStart, `Event date ${eventDate} should be >= ${absoluteStart}`).to.be.true;
+              }
+            });
           });
-        }
       });
   });
   
@@ -816,27 +992,49 @@ describe("Test Events API", () => {
 
   it("Test timezone parameter with relative date offsets", () => {
     // Test timezone parameter with +1week, -1month etc
-    cy.request('/api/2.1/events?beginning_date_relative=-1month&end_date_relative=+1month&timezone=Europe/London')
-      .then((response) => {
-        expect(response.status).to.eq(200);
-        expect(response.body).to.be.an('array');
+    // First get all events to compare
+    cy.request('/api/2.1/events')
+      .then((allEventsResponse) => {
+        const allEvents = allEventsResponse.body;
         
-        cy.log(`London timezone date range events: ${response.body.length}`);
-        
-        // Verify dates are in expected range
-        const oneMonthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-        const oneMonthFromNow = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-        
-        response.body.forEach(event => {
-          if (event.date) {
-            const eventDate = event.date.split('T')[0];
-            // Note: exact comparison is tricky due to timezone differences, 
-            // but we can verify format and reasonable date range
-            expect(eventDate).to.match(/^\d{4}-\d{2}-\d{2}$/);
-            expect(eventDate >= '2020-01-01').to.be.true; // Reasonable lower bound
-            expect(eventDate <= '2030-12-31').to.be.true; // Reasonable upper bound
-          }
-        });
+        cy.request('/api/2.1/events?beginning_date_relative=-1month&end_date_relative=+1month&timezone=Europe/London')
+          .then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body).to.be.an('array');
+            
+            cy.log(`All events: ${allEvents.length}, London timezone date range events: ${response.body.length}`);
+            
+            // Verify dates are in expected range
+            const oneMonthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            const oneMonthFromNow = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            
+            // Count events that should be filtered out (before -1month or after +1month)
+            const eventsOutsideRange = allEvents.filter(event => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                // Using looser bounds due to timezone calculation complexity
+                return eventDate < oneMonthAgo || eventDate > oneMonthFromNow;
+              }
+              return false;
+            });
+            
+            if (eventsOutsideRange.length > 0) {
+              // If there are events outside the range, filtered results MUST be less than all events
+              cy.log(`Events outside date range that should be filtered out: ${eventsOutsideRange.length}`);
+              expect(response.body.length).to.be.lessThan(allEvents.length);
+            }
+            
+            response.body.forEach(event => {
+              if (event.date) {
+                const eventDate = event.date.split('T')[0];
+                // Note: exact comparison is tricky due to timezone differences, 
+                // but we can verify format and reasonable date range
+                expect(eventDate).to.match(/^\d{4}-\d{2}-\d{2}$/);
+                expect(eventDate >= '2020-01-01').to.be.true; // Reasonable lower bound
+                expect(eventDate <= '2030-12-31').to.be.true; // Reasonable upper bound
+              }
+            });
+          });
       });
   });
 
