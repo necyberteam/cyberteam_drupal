@@ -59,7 +59,7 @@ Use these for dynamic date filtering that updates daily:
 /api/2.1/events?beginning_date_relative=-1month&end_date_relative=today
 ```
 
-**Note:** Relative date calculations use the server's timezone (Eastern Time). For example, "today" means today in ET, not UTC.
+**Note:** Relative date calculations default to UTC timezone. Use the `timezone` parameter to specify a different timezone for calculations. For example, "today" means today in UTC unless overridden with the `timezone` parameter.
 
 ### Absolute Date Parameters
 Use these for fixed date filtering:
