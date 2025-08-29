@@ -1,0 +1,80 @@
+uuid: d9d6a20e-6cfc-4178-b3aa-b346a7125b4d
+langcode: en
+status: true
+dependencies:
+  config:
+    - search_api.index.events
+    - views.view.events_facet
+  module:
+    - search_api
+id: event_affiliation_recorded_webinars
+name: 'Event Affiliation - recorded Webinars block'
+weight: 0
+min_count: 1
+missing: false
+missing_label: others
+url_alias: event_affiliation
+facet_source_id: 'search_api:views_block__events_facet__recorded_webinars_block'
+field_identifier: event_affiliation
+query_operator: or
+hard_limit: 0
+exclude: false
+use_hierarchy: false
+keep_hierarchy_parents_active: false
+hierarchy:
+  type: taxonomy
+  config: {  }
+expand_hierarchy: false
+enable_parent_when_child_gets_disabled: true
+widget:
+  type: checkbox
+  config:
+    show_numbers: false
+    soft_limit: 0
+    show_reset_link: true
+    reset_text: All
+    hide_reset_when_no_selection: true
+    soft_limit_settings:
+      show_less_label: 'Show less'
+      show_more_label: 'Show more'
+empty_behavior:
+  behavior: none
+only_visible_when_facet_source_is_visible: false
+show_only_one_result: false
+show_title: false
+processor_configs:
+  active_widget_order:
+    processor_id: active_widget_order
+    weights:
+      sort: 20
+    settings:
+      sort: DESC
+  count_widget_order:
+    processor_id: count_widget_order
+    weights:
+      sort: 30
+    settings:
+      sort: DESC
+  display_value_widget_order:
+    processor_id: display_value_widget_order
+    weights:
+      sort: 40
+    settings:
+      sort: ASC
+  hierarchy_processor:
+    processor_id: hierarchy_processor
+    weights:
+      build: 100
+    settings: {  }
+  replace:
+    processor_id: replace
+    weights:
+      post_query: 50
+    settings:
+      replacements: "cu_rmacc_webinars|CU-RMACC\r\nnairr_pilot_partner_series |NAIRR Partner Series"
+  url_processor_handler:
+    processor_id: url_processor_handler
+    weights:
+      pre_query: 50
+      build: 15
+    settings: {  }
