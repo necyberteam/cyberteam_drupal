@@ -5903,7 +5903,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"bg-md-teal font-bold text-white float-right rounded-md px-2\">\r\n  {{ event_affiliation|replace({'cu_rmacc_webinars': \"CU-RMACC\", 'nairr_pilot_partner_series': \"NAIRR Pilot Partner Series\"}) }}\r\n</div>"
+            text: "<div class=\"bg-md-teal font-bold text-white float-right rounded-md px-2\">\r\n  {{ event_affiliation|replace({\r\n'cu_rmacc_webinars': \"CU-RMACC\", \r\n'nairr_pilot_partner_series': \"NAIRR Pilot Partner Series\",\r\n'access_nairr_office_hours': \"\",\r\n'ACCESS Collaboration': \"\",\r\n'Community': \"\",\r\n'nairr_pilot': \"\"\r\n}) }}\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -5943,7 +5943,7 @@ display:
           link_to_item: false
           use_highlighting: false
           multi_type: separator
-          multi_separator: ', '
+          multi_separator: ' '
         date_1:
           id: date_1
           table: search_api_datasource_events_entity_eventinstance
