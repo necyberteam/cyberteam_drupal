@@ -227,7 +227,7 @@ GITHUB_TOKEN=$token'>.env");
     if ($is_ddev) {
       $this->_exec("drush sql-dump --result-file=backups/snapshots/" . $date . "_" . $branch . "_" . $snap_name . ".sql.gz");
     } else {
-      $this->_exec("ddev export-db --file=backups/snapshots/" . $date . "_" . $branch . "_" . $snap_name . ".sql");
+      $this->_exec("ddev export-db --file=backups/snapshots/" . $date . "_" . $branch . "_" . $snap_name . ".sql.gz");
     }
   }
 
