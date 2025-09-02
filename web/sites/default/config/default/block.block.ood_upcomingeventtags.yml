@@ -7,6 +7,7 @@ dependencies:
   module:
     - facets
     - system
+    - user
   theme:
     - ood
 id: ood_upcomingeventtags
@@ -27,3 +28,10 @@ visibility:
     id: request_path
     negate: false
     pages: /events
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

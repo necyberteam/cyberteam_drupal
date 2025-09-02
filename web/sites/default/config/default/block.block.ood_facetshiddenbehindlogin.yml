@@ -1,0 +1,38 @@
+uuid: c0e9abe5-0d8e-4b9b-b37e-6cff70d27d7d
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:8f722eff-af35-458d-9f84-a157335beb73'
+  module:
+    - block_content
+    - system
+    - user
+  theme:
+    - ood
+id: ood_facetshiddenbehindlogin
+theme: ood
+region: primary_sidebar
+weight: 0
+provider: null
+plugin: 'block_content:8f722eff-af35-458d-9f84-a157335beb73'
+settings:
+  id: 'block_content:8f722eff-af35-458d-9f84-a157335beb73'
+  label: 'Facets hidden behind login'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      anonymous: anonymous
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/members\r\n/community/cssn/directory\r\n/events\r\n/events/past\r\n/knowledge-base/resources"
