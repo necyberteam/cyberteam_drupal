@@ -8,6 +8,7 @@ dependencies:
     - collapsiblock
     - facets
     - system
+    - user
   theme:
     - nect
 third_party_settings:
@@ -31,3 +32,10 @@ visibility:
     id: request_path
     negate: false
     pages: /knowledge-base/resources/mentorship
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated
