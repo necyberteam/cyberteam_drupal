@@ -8,6 +8,7 @@ dependencies:
     - collapsiblock
     - facets
     - system
+    - user
   theme:
     - champions
 third_party_settings:
@@ -16,7 +17,7 @@ third_party_settings:
 id: champions_affinitygroupcategory_2
 theme: champions
 region: primary_sidebar
-weight: 3
+weight: -86
 provider: null
 plugin: 'facet_block:affinity_group_category'
 settings:
@@ -31,3 +32,10 @@ visibility:
     id: request_path
     negate: false
     pages: /affinity-groups
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

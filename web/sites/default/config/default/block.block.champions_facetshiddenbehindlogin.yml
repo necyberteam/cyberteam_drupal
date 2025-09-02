@@ -1,0 +1,38 @@
+uuid: 463832dd-9a73-4c1e-b63a-3a7374e4eb22
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:8f722eff-af35-458d-9f84-a157335beb73'
+  module:
+    - block_content
+    - system
+    - user
+  theme:
+    - champions
+id: champions_facetshiddenbehindlogin
+theme: champions
+region: primary_sidebar
+weight: -64
+provider: null
+plugin: 'block_content:8f722eff-af35-458d-9f84-a157335beb73'
+settings:
+  id: 'block_content:8f722eff-af35-458d-9f84-a157335beb73'
+  label: 'Facets hidden behind login'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      anonymous: anonymous
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/current-champions\r\n/affinity-groups\r\n/knowledge-base/resources "

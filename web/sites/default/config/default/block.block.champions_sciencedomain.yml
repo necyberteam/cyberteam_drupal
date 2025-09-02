@@ -8,12 +8,13 @@ dependencies:
     - domain
     - facets
     - system
+    - user
   theme:
     - champions
 id: champions_sciencedomain
 theme: champions
 region: primary_sidebar
-weight: 12
+weight: -77
 provider: null
 plugin: 'facet_block:science_domain'
 settings:
@@ -35,3 +36,10 @@ visibility:
     id: request_path
     negate: false
     pages: /knowledge-base/resources
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated
