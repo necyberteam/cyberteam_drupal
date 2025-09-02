@@ -195,12 +195,13 @@ if (isset($env)) {
     case 'live':
       // Enhanced bot detection and facet limiting.
       if (isset($_SERVER['QUERY_STRING'])) {
-        // Count the number of facet parameters in the query string.
-        $query_string = urldecode($_SERVER['QUERY_STRING']);
-        
-        // Match both f[0], f[1], etc. patterns
-        preg_match_all('/f\[\d+\]/', $query_string, $matches);
-        $facet_count = count($matches[0]);
+        // Count actual facet parameters, not string occurrences
+        $facet_count = 0;
+        foreach ($_GET as $key => $value) {
+          if (preg_match('/^f\[\d+\]$/', $key)) {
+            $facet_count++;
+          }
+        }
         
         // Only check faceted pages
         if ($facet_count > 0) {
