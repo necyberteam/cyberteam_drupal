@@ -208,8 +208,12 @@ if (isset($env)) {
           $bot_reason = '';
           $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
           
-          // 1. Known bot User-Agent strings (including partial matches)
-          $known_bots = [
+          // Skip bot detection for AJAX requests (they come from real users already on site)
+          $is_ajax = isset($_GET['_drupal_ajax']) || isset($_SERVER['HTTP_X_REQUESTED_WITH']);
+          
+          // 1. Known bot User-Agent strings (including partial matches) - skip for AJAX
+          if (!$is_ajax) {
+            $known_bots = [
             'bot', 'Bot', 'BOT', 'crawler', 'Crawler', 'spider', 'Spider',
             'AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot', 'PetalBot', 'BLEXBot', 
             'YandexBot', 'Googlebot', 'bingbot', 'Baiduspider', 'Sogou', 'Exabot', 
@@ -220,18 +224,19 @@ if (isset($env)) {
             'DataForSeoBot', 'SeznamBot', 'BingPreview', 'PageSpeed', 'Lighthouse',
             'Chrome-Lighthouse', 'HeadlessChrome', 'PhantomJS', 'SlimerJS',
             'CensysInspect', 'NetcraftSurveyAgent', 'masscan', 'nmap',
-          ];
-          
-          foreach ($known_bots as $bot) {
-            if (stripos($user_agent, $bot) !== FALSE) {
-              $is_bot = TRUE;
-              $bot_reason = 'Known bot UA: ' . $bot;
-              break;
+            ];
+            
+            foreach ($known_bots as $bot) {
+              if (stripos($user_agent, $bot) !== FALSE) {
+                $is_bot = TRUE;
+                $bot_reason = 'Known bot UA: ' . $bot;
+                break;
+              }
             }
           }
           
-          // 2. Suspicious User-Agent patterns
-          if (!$is_bot) {
+          // 2. Suspicious User-Agent patterns - skip for AJAX
+          if (!$is_bot && !$is_ajax) {
             // Empty or missing User-Agent (very suspicious)
             if (empty($user_agent)) {
               $is_bot = TRUE;
@@ -256,8 +261,8 @@ if (isset($env)) {
             }
           }
           
-          // 3. Check request headers for bot indicators
-          if (!$is_bot) {
+          // 3. Check request headers for bot indicators - skip for AJAX
+          if (!$is_bot && !$is_ajax) {
             // Missing common browser headers
             if (!isset($_SERVER['HTTP_ACCEPT']) || 
                 !isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ||
@@ -272,8 +277,8 @@ if (isset($env)) {
             }
           }
           
-          // 4. Check for suspicious request patterns
-          if (!$is_bot && isset($_SERVER['HTTP_REFERER'])) {
+          // 4. Check for suspicious request patterns - skip for AJAX
+          if (!$is_bot && !$is_ajax && isset($_SERVER['HTTP_REFERER'])) {
             // Direct deep-link to faceted search (no referrer from same domain)
             $host = $_SERVER['HTTP_HOST'];
             if (strpos($_SERVER['HTTP_REFERER'], $host) === FALSE && $facet_count >= 2) {
