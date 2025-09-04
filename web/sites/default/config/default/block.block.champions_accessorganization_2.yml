@@ -1,9 +1,9 @@
-uuid: 1ca60398-def4-4fdb-93fd-0eb777a2a07f
+uuid: 579414b9-b7cd-448e-a915-d6cb98bf0498
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.content_type
+    - facets.facet.access_organization_campus_champions
   module:
     - collapsiblock
     - facets
@@ -14,24 +14,24 @@ dependencies:
 third_party_settings:
   collapsiblock:
     collapse_action: 3
-id: champions_category_2
+id: champions_accessorganization_2
 theme: champions
 region: primary_sidebar
-weight: -73
+weight: -63
 provider: null
-plugin: 'facet_block:content_type'
+plugin: 'facet_block:access_organization_campus_champions'
 settings:
-  id: 'facet_block:content_type'
-  label: 'Content Type'
+  id: 'facet_block:access_organization_campus_champions'
+  label: Organization
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: champions_category_2
+  block_id: champions_accessorganization_2
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/resources
+    pages: /current-champions
   user_role:
     id: user_role
     negate: false

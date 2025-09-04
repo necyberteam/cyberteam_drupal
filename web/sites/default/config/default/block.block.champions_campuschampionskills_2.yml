@@ -1,18 +1,22 @@
-uuid: c22ab02e-00f6-49d1-9bac-d3aac22bbc62
+uuid: 82d75f7d-22b3-4ca7-b542-7f46b7d347d0
 langcode: en
 status: true
 dependencies:
   config:
     - facets.facet.campus_champion_skills
   module:
+    - collapsiblock
     - facets
     - system
   theme:
     - champions
-id: champions_campuschampionskills
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: champions_campuschampionskills_2
 theme: champions
 region: primary_sidebar
-weight: -90
+weight: -64
 provider: null
 plugin: 'facet_block:campus_champion_skills'
 settings:
@@ -21,7 +25,7 @@ settings:
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: champions_campuschampionskills
+  block_id: champions_campuschampionskills_2
 visibility:
   request_path:
     id: request_path
