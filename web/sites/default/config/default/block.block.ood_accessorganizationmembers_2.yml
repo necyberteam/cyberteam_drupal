@@ -1,33 +1,37 @@
-uuid: 7d4175ae-f2d6-42d5-8a30-b8055a924fd6
+uuid: 66fca0ea-d52a-4795-90e0-8fec75bfe5c9
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.custom_event_affiliation
+    - facets.facet.access_organization_members
   module:
+    - collapsiblock
     - facets
     - system
     - user
   theme:
     - ood
-id: ood_upcomingeventaffiliation
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: ood_accessorganizationmembers_2
 theme: ood
 region: primary_sidebar
-weight: -53
+weight: -34
 provider: null
-plugin: 'facet_block:custom_event_affiliation'
+plugin: 'facet_block:access_organization_members'
 settings:
-  id: 'facet_block:custom_event_affiliation'
-  label: 'Event Affiliation'
+  id: 'facet_block:access_organization_members'
+  label: Organization
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: ood_upcomingeventaffiliation
+  block_id: ood_accessorganizationmembers_2
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /events
+    pages: /members
   user_role:
     id: user_role
     negate: false
