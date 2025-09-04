@@ -1,9 +1,9 @@
-uuid: 84a22858-327c-4101-9fd2-fcdca5715166
+uuid: aad52d36-87c9-4051-a73c-5a1e5cb69e05
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.past_event_tags
+    - facets.facet.roles
   module:
     - collapsiblock
     - facets
@@ -14,24 +14,24 @@ dependencies:
 third_party_settings:
   collapsiblock:
     collapse_action: 3
-id: ood_pasteventtags_2
+id: ood_roles_2
 theme: ood
 region: primary_sidebar
-weight: -6
+weight: -30
 provider: null
-plugin: 'facet_block:past_event_tags'
+plugin: 'facet_block:roles'
 settings:
-  id: 'facet_block:past_event_tags'
-  label: 'Event Tags'
+  id: 'facet_block:roles'
+  label: Roles
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: ood_pasteventtags_2
+  block_id: ood_roles_2
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /events/past
+    pages: /community/cssn/directory
   user_role:
     id: user_role
     negate: false

@@ -1,9 +1,9 @@
-uuid: b78848e6-824b-4ec5-a19e-890434d860e7
+uuid: 2ef6e6de-d1b1-4bd3-9bf3-a8be816a9982
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.custom_event_type
+    - facets.facet.skills
   module:
     - collapsiblock
     - facets
@@ -13,21 +13,21 @@ dependencies:
 third_party_settings:
   collapsiblock:
     collapse_action: 3
-id: ood_upcomingeventtype_2
+id: ood_skills_2
 theme: ood
 region: primary_sidebar
-weight: -60
+weight: -25
 provider: null
-plugin: 'facet_block:custom_event_type'
+plugin: 'facet_block:skills'
 settings:
-  id: 'facet_block:custom_event_type'
-  label: 'Event Type'
+  id: 'facet_block:skills'
+  label: Skills
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: ood_upcomingeventtype_2
+  block_id: ood_skills_2
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /events
+    pages: /community/cssn/directory
