@@ -45,8 +45,8 @@ describe("Test Affinity Groups page for anonymous users", () => {
     cy.visit('/affinity-groups');
     cy.wait(2000);
     
-    // Click "Show more" to expand tags list
-    cy.get('a.facets-soft-limit-link:visible').first().click();
+    // Click "Show more" to expand tags list - try the last one instead of first  
+    cy.get('ul[data-drupal-facet-alias="affinity_search_tags"]').parent().find('a.facets-soft-limit-link').last().click();
     cy.wait(500);
     
     // Test the AI tag (tag ID 271)

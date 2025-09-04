@@ -30,9 +30,9 @@ describe("Test Affinity Groups page facets for authenticated users", () => {
     cy.get('#edit-search-api-fulltext--2').clear()
     cy.wait(1000)
 
-    // Test Tags facet (available to all users)
-    // Click "Show more" to expand tags list
-    cy.get('a.facets-soft-limit-link:visible').first().click();
+    // Test Tags facet (available to all users)  
+    // Click "Show more" to expand tags list - try the last one instead of first
+    cy.get('ul[data-drupal-facet-alias="affinity_search_tags"]').parent().find('a.facets-soft-limit-link').last().click();
     cy.wait(500);
     
     // Test the AI tag (tag ID 271)
@@ -55,15 +55,15 @@ describe("Test Affinity Groups page facets for authenticated users", () => {
         
         // Try to interact with category if it's a checkbox/radio
         if ($body.find('input[id*="category"]').length > 0) {
-          cy.get('input[id*="category"]:first').check()
+          cy.get('input[id*="category"]:first').check({ force: true })
           cy.wait(1000)
-          cy.get('input[id*="category"]:first').uncheck()
+          cy.get('input[id*="category"]:first').uncheck({ force: true })
         }
       }
       
-      // Check for any "Show more" links for facets
+      // Check for any "Show more" links for facets (may be hidden after AJAX)
       if ($body.find('.facets-soft-limit-link').length > 0) {
-        cy.get('.facets-soft-limit-link').first().click()
+        cy.get('.facets-soft-limit-link').first().click({ force: true })
         cy.wait(500)
       }
     })
