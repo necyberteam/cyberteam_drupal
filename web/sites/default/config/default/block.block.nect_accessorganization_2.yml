@@ -1,0 +1,41 @@
+uuid: 1b0ffa06-fed3-491f-8873-db08aec459fe
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.access_organization
+  module:
+    - collapsiblock
+    - facets
+    - system
+    - user
+  theme:
+    - nect
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: nect_accessorganization_2
+theme: nect
+region: primary_sidebar
+weight: 33
+provider: null
+plugin: 'facet_block:access_organization'
+settings:
+  id: 'facet_block:access_organization'
+  label: Organization
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_accessorganization_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

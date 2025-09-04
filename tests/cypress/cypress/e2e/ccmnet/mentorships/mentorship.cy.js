@@ -75,22 +75,26 @@ describe("Authenticated user creates a Mentorship Engagement", () => {
     cy.get('#edit-submit').click();
   });
 
-  it("Check Mentorships page", () => {
+  it("Check Mentorships page as authenticated user", () => {
+    cy.loginWith("pecan@pie.org", "Pecan")
     cy.visit("/mentorships");
 
-    // check 'In Progress' filter.
-    cy.get('#state-829').check();
+    // check 'In Progress' filter (requires authentication).
+    cy.get('#state-829').should('exist').check();
     cy.contains('In Progress Title');
     cy.contains('Recruiting Title').should('not.exist');
 
     // uncheck 'In Progress' filter and check 'Recruiting' filter.
     cy.get('#state-829').uncheck();
-    cy.get('#state-827').check();
+    cy.get('#state-827').should('exist').check();
     cy.contains('Recruiting Title');
     cy.contains('In Progress Title').should('not.exist');
   });
 
-  it("Tests Campus Champions mentorship filter functionality", () => {
+  it("Tests Campus Champions mentorship filter functionality as authenticated user", () => {
+    // Login first since program filters require authentication
+    cy.loginWith("pecan@pie.org", "Pecan")
+    
     // Go to CCMNet mentorships page with Campus Champions filter
     cy.visit("/mentorships?f%5B0%5D=mentorship_program%3A910");
     

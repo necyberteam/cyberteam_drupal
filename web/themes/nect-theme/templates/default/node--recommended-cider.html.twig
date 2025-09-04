@@ -6,12 +6,12 @@
 #}
 
 <div  class="card accordion-item resources">
-  <div class="card-header accordion-header resources"  id="recommended-resource-header-{{node.id}}" data-bs-toggle="collapse" data-bs-target="#recommended-resource-body-{{node.id}}" aria-expanded="false" aria-controls="recommended-resource-body-{{node.id}}">
+  <div class="card-header accordion-header resources"  id="recommended-resource-header-{{node.id}}" data-toggle="collapse" data-target="#recommended-resource-body-{{node.id}}" aria-expanded="false" aria-controls="recommended-resource-body-{{node.id}}">
     <button class="btn btn-block text-left accordion-btn resources" type="button" data-toggle="collapse" data-target="#recommended-resource-body-{{node.id}}" aria-expanded="false" aria-controls="recommended-resource-body-{{node.id}}">
       {{ content.field_cider_resource }}
     </button>
   </div>
-  <div id="recommended-resource-body-{{node.id}}" class="collapse collapse" aria-labelledby="recommended-resource-header-{{node.id}}">
+  <div id="recommended-resource-body-{{node.id}}" class="collapse" aria-labelledby="recommended-resource-header-{{node.id}}">
     <div class="card-body   accordion-body resources">
       {{ content.body[0]}}
     </div>
