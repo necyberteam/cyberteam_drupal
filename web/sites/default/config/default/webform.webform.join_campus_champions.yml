@@ -58,7 +58,9 @@ elements: |-
   processed_text:
     '#type': processed_text
     '#admin_title': 'Account Details'
-    '#text': '<h2>Account Details</h2><p>Do you have an ACCESS ID you''d like to use?</p><p><a class="btn btn-outline-light rounded-pill" href="/login">Login with ACCESS CI</a></p>'
+    '#access_create_roles':
+      - anonymous
+    '#text': '<h2>Account Details</h2><p>Do you have an ACCESS ID you''d like to use?</p><p><a class="btn btn-primary rounded-pill" href="/login">Login with ACCESS CI</a></p>'
     '#format': full_html
   carnegie_classification:
     '#type': textfield
