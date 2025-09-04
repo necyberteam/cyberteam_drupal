@@ -1,9 +1,9 @@
-uuid: d94ce664-4bc0-4dbb-a134-31bcd0073d9f
+uuid: 0489b466-3a25-4a5a-9cb2-4a84821ee4bf
 langcode: en
 status: true
 dependencies:
   config:
-    - facets.facet.tags
+    - facets.facet.user_skills_cyberteam_people
   module:
     - collapsiblock
     - facets
@@ -13,21 +13,21 @@ dependencies:
 third_party_settings:
   collapsiblock:
     collapse_action: 3
-id: nect_tags_2
+id: nect_userskillscyberteampeople_2
 theme: nect
 region: primary_sidebar
-weight: 45
+weight: 3
 provider: null
-plugin: 'facet_block:tags'
+plugin: 'facet_block:user_skills_cyberteam_people'
 settings:
-  id: 'facet_block:tags'
-  label: Topics
+  id: 'facet_block:user_skills_cyberteam_people'
+  label: Skills
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_tags_2
+  block_id: nect_userskillscyberteampeople_2
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /knowledge-base/resources
+    pages: /people
