@@ -2,7 +2,7 @@ describe("Test registration page for becoming a campus champion", () => {
   it("test the proccess of submitting a form to become a student campus champion", () => {
     cy.visit('/form/join-campus-champions');
     cy.contains('Join Campus Champions');
-    cy.contains('To Join the Campus Champions, we need a letter of collaboration');
+    cy.contains('To join please submit a collaboration letter from your institution using this template.');
     cy.contains('Letter of Collaboration');
 
     cy.get('#edit-letter-of-collaboration-upload')
