@@ -8,6 +8,7 @@ dependencies:
     - collapsiblock
     - facets
     - system
+    - user
   theme:
     - nect
 third_party_settings:
@@ -16,7 +17,7 @@ third_party_settings:
 id: nect_affinitygroupcategory_2
 theme: nect
 region: primary_sidebar
-weight: 6
+weight: 9
 provider: null
 plugin: 'facet_block:affinity_group_category'
 settings:
@@ -31,3 +32,10 @@ visibility:
     id: request_path
     negate: false
     pages: "/affinity_groups\r\n/affinity-groups"
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated
