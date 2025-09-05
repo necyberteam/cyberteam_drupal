@@ -7,12 +7,13 @@ dependencies:
   module:
     - facets
     - system
+    - user
   theme:
     - nect
 id: nect_organizationcyberteampeople
 theme: nect
 region: primary_sidebar
-weight: 3
+weight: 4
 provider: null
 plugin: 'facet_block:organization_cyberteam_people'
 settings:
@@ -27,3 +28,10 @@ visibility:
     id: request_path
     negate: false
     pages: /people
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

@@ -1,11 +1,12 @@
 /*
     This test is specifically focused on the Events page tested for an unauthenticated user.
-    This test checks for major functions like:
-    Filter Functionality,
-    Headers,
-    Testing created event
+    This test checks for major functions available to anonymous users:
+    - Event Type facet (only facet available to anonymous users)
+    - Headers
+    - Search functionality
+    - Testing created event
 
-    Test breadcrumbs
+    Event Affiliation and Skill Level facets are only available to authenticated users.
 
 */
 describe('Unauthenticated user tests the Events Page', () => {
@@ -17,30 +18,36 @@ describe('Unauthenticated user tests the Events Page', () => {
     cy.contains('My Events')
     cy.contains('+ Add Event')
 
-    cy.get('#custom-event-type-training').check()
+    // Verify Event Affiliation facet does NOT exist for anonymous users
+    cy.get('#custom-event-affiliation-community').should('not.exist')
+    
+    // Verify Event Skill Level facet does NOT exist for anonymous users  
+    cy.get('#custom-event-skill-level-advanced').should('not.exist')
+    
+    // Verify reset buttons for restricted facets don't exist
+    cy.get('#custom-event-affiliation-reset-all').should('not.exist')
+    cy.get('#custom-event-skill-level-reset-all').should('not.exist')
+
+    // Test Event Type facet (should be available for anonymous users)
+    cy.get('#custom-event-type-conference').should('exist').check()
     cy.wait(1000)
-    cy.get('#custom-event-affiliation-community').check()
-    cy.wait(1000)
-    cy.get('#custom-event-skill-level-advanced').check()
-    cy.wait(1000)
-    cy.contains('cypress-example-event')
+    
+    // Look for the anonymous test event that should be visible
+    cy.contains('cypress anonymous test event')
       .closest('.views-row')
       .within(() => {
-        cy.contains('Zoom');
+        cy.contains('Online');
         cy.get('.views-field-date-1')
           .find('.text-dark-teal')
           .within(() => {
-            cy.get('div.text-4xl').should('have.text', '12');
-            cy.get('div.text-xl').eq(1).should('have.text', 'Dec');
+            cy.get('div.text-4xl').should('have.text', '15');
+            cy.get('div.text-xl').eq(1).should('have.text', 'Nov');
           });
-        cy.get('[href="/tags/login"]').contains('login');
       });
 
+    // Reset event type facet
     cy.get('#custom-event-type-reset-all').check()
     cy.wait(1000)
-    cy.get('#custom-event-affiliation-reset-all').check()
-    cy.wait(1000)
-    cy.get('#custom-event-skill-level-reset-all').check()
 
     cy.get('#edit-search-api-fulltext--2').type('Random string', { delay: 0 })
     cy.wait(1000)
@@ -48,48 +55,54 @@ describe('Unauthenticated user tests the Events Page', () => {
 
     cy.get('#edit-search-api-fulltext--2').clear()
     cy.wait(1000)
-    cy.get('#edit-search-api-fulltext--2').type('example', { delay: 0 })
-    cy.wait(1000)
-    cy.contains('cypress-example-event')
+    cy.get('#edit-search-api-fulltext--2').type('cypress anonymous', { delay: 0 })
+    cy.wait(2000)
+    
+    // Look for the anonymous test event in search results
+    cy.contains('cypress anonymous test event')
       .closest('.views-row')
       .within(() => {
-        cy.contains('Zoom');
+        cy.contains('Online');
         cy.get('.views-field-date-1')
           .find('.text-dark-teal')
           .within(() => {
-            cy.get('div.text-4xl').should('have.text', '12');
-            cy.get('div.text-xl').eq(1).should('have.text', 'Dec');
+            cy.get('div.text-4xl').should('have.text', '15');
+            cy.get('div.text-xl').eq(1).should('have.text', 'Nov');
           });
-        cy.get('[href="/tags/login"]').contains('login');
       });
-    cy.contains('cypress-example-event').click()
+    
+    // Click on the event to test individual event page
+    cy.contains('cypress anonymous test event').click()
+    
+    // Test individual event page
+    cy.url().should('include', '/events/')
 
 
     // Event Date
     cy.get('.field--name-date').contains(
-      '12/12/26'
+      '11/15/26'
     )
 
     // Event Location
-    cy.get('.field--name-location').contains('Zoom')
+    cy.get('.field--name-location').contains('Online')
 
     // Event Tags
-    cy.get('.field__item.me-2 a').contains('login')
+    cy.get('.field__item.me-2 a').contains('training')
 
     //Event Contact
     cy.get('#block-asptheme-eventinstancesidebar').contains('Contact')
-    cy.get('#block-asptheme-eventinstancesidebar').contains('Pecan Pie')
+    cy.get('#block-asptheme-eventinstancesidebar').contains('Test Contact')
 
-    // Registration Button Not sure how to correctly reference the btn
+    // Registration Button
     cy.get('.field__item .btn').contains('Register')
       .should('have.attr', 'href')
 
-    // Event Skill Level
-    cy.get('#block-asptheme-eventinstancesidebar').contains('Skill Level')
-    cy.get('#block-asptheme-eventinstancesidebar img[alt="Advanced"]').should('be.visible')
-
-    // Event Type
+    // Event Type (should be visible to anonymous users)
     cy.get('#block-asptheme-eventinstancesidebar').contains('Event Type')
-    cy.get('#block-asptheme-eventinstancesidebar').contains('Training')
+    cy.get('#block-asptheme-eventinstancesidebar').contains('Conference')
+    
+    // Verify that Skill Level section does NOT exist for anonymous users
+    // (since we didn't set a skill level for this test event)
+    cy.get('#block-asptheme-eventinstancesidebar').should('not.contain', 'Skill Level')
   })
 })

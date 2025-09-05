@@ -8,6 +8,7 @@ dependencies:
     - collapsiblock
     - facets
     - system
+    - user
   theme:
     - ood
 third_party_settings:
@@ -16,7 +17,7 @@ third_party_settings:
 id: ood_upcomingaffinitygroup_2
 theme: ood
 region: primary_sidebar
-weight: -53
+weight: -56
 provider: null
 plugin: 'facet_block:custom_event_affinity_group'
 settings:
@@ -31,3 +32,10 @@ visibility:
     id: request_path
     negate: false
     pages: /events
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

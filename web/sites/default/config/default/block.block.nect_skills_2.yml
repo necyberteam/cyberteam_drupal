@@ -1,0 +1,33 @@
+uuid: ea1f7277-fe58-4dfe-9d9b-94830106ce3b
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.skills
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - nect
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: nect_skills_2
+theme: nect
+region: primary_sidebar
+weight: 35
+provider: null
+plugin: 'facet_block:skills'
+settings:
+  id: 'facet_block:skills'
+  label: Skills
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_skills_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory

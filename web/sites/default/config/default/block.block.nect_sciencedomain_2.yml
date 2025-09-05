@@ -7,6 +7,7 @@ dependencies:
   module:
     - collapsiblock
     - facets
+    - user
   theme:
     - nect
 third_party_settings:
@@ -15,7 +16,7 @@ third_party_settings:
 id: nect_sciencedomain_2
 theme: nect
 region: primary_sidebar
-weight: 43
+weight: 49
 provider: null
 plugin: 'facet_block:science_domain'
 settings:
@@ -25,4 +26,11 @@ settings:
   provider: facets
   context_mapping: {  }
   block_id: nect_sciencedomain_2
-visibility: {  }
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

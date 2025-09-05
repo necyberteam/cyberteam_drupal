@@ -7,12 +7,13 @@ dependencies:
   module:
     - facets
     - system
+    - user
   theme:
     - nect
 id: nect_roles
 theme: nect
 region: primary_sidebar
-weight: 25
+weight: 28
 provider: null
 plugin: 'facet_block:roles'
 settings:
@@ -27,3 +28,10 @@ visibility:
     id: request_path
     negate: false
     pages: /community/cssn/directory
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated
