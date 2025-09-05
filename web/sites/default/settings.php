@@ -280,12 +280,11 @@ if (isset($env)) {
           }
           
           // 4. Check for suspicious request patterns - skip for AJAX
-          if (!$is_bot && !$is_ajax && isset($_SERVER['HTTP_REFERER'])) {
-            // Direct deep-link to faceted search (no referrer from same domain)
-            $host = $_SERVER['HTTP_HOST'];
-            if (strpos($_SERVER['HTTP_REFERER'], $host) === FALSE && $facet_count >= 2) {
+          if (!$is_bot && !$is_ajax) {
+            // Direct faceted search with no referrer (systematic bot crawling pattern)
+            if (!isset($_SERVER['HTTP_REFERER']) && $facet_count >= 1) {
               $is_bot = TRUE;
-              $bot_reason = 'Direct deep-link to multi-facet';
+              $bot_reason = 'Faceted search with no referrer';
             }
           }
           
