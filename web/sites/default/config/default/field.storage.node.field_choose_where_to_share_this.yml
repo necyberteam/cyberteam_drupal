@@ -1,0 +1,33 @@
+uuid: 9c89c730-eebf-4758-a7d3-9ba6fa7e6183
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_choose_where_to_share_this
+field_name: field_choose_where_to_share_this
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: on_the_announcements_page
+      label: 'on the Announcements page'
+    -
+      value: in_the_access_support_bi_weekly_digest
+      label: 'in the ACCESS Support Bi-Weekly Digest'
+    -
+      value: on_your_affinity_group_page
+      label: 'on your Affinity Group page'
+    -
+      value: email_to_your_affinity_group
+      label: 'email to your Affinity Group'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
