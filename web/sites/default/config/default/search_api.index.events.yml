@@ -8,6 +8,7 @@ dependencies:
     - search_api.server.default_server
   module:
     - access_misc
+    - access_news
     - ccmnet
     - cssn
     - field_inheritance
@@ -30,10 +31,6 @@ field_settings:
     label: 'Custom Event Affiliation'
     property_path: search_api_custom_event_affiliation
     type: string
-  custom_event_no_show:
-    label: 'Event No Show'
-    property_path: search_api_custom_event_no_show
-    type: boolean
   custom_event_skill_level:
     label: 'Custom Event Skill Level'
     property_path: search_api_custom_event_skill_level
@@ -119,6 +116,10 @@ field_settings:
     dependencies:
       module:
         - recurring_events
+  where_to_share:
+    label: 'Event Where to Share'
+    property_path: search_api_where_to_share
+    type: string
 datasource_settings:
   'entity:eventinstance':
     bundles:
@@ -130,6 +131,8 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  announcement_tags: {  }
+  custom_announcement_affinity_group: {  }
   custom_event_affiliation: {  }
   custom_event_no_show: {  }
   custom_event_skill_level: {  }
@@ -139,6 +142,7 @@ processor_settings:
   entity_status: {  }
   entity_type: {  }
   event_tags: {  }
+  event_where_to_share: {  }
   highlight:
     weights:
       postprocess_query: 0

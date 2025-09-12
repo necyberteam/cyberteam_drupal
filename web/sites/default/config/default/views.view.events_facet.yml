@@ -729,16 +729,19 @@ display:
           parse_mode: terms
           min_length: null
           fields: {  }
-        custom_event_no_show:
-          id: custom_event_no_show
+        where_to_share:
+          id: where_to_share
           table: search_api_index_events
-          field: custom_event_no_show
+          field: where_to_share
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: search_api_boolean
-          operator: '!='
-          value: '1'
+          plugin_id: search_api_string
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: on_the_announcements_page
           group: 1
           exposed: false
           expose:
@@ -755,6 +758,9 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -4172,44 +4178,6 @@ display:
           parse_mode: terms
           min_length: null
           fields: {  }
-        custom_event_no_show:
-          id: custom_event_no_show
-          table: search_api_index_events
-          field: custom_event_no_show
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: search_api_boolean
-          operator: '!='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
         date:
           id: date
           table: search_api_index_events
@@ -4519,6 +4487,50 @@ display:
               ccmnet: '0'
               ccmnet_admin: '0'
               ondemand: '0'
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        where_to_share:
+          id: where_to_share
+          table: search_api_index_events
+          field: where_to_share
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_string
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: on_the_announcements_page
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
             min_placeholder: ''
             max_placeholder: ''
             placeholder: ''
@@ -5570,44 +5582,6 @@ display:
           parse_mode: terms
           min_length: null
           fields: {  }
-        custom_event_no_show:
-          id: custom_event_no_show
-          table: search_api_index_events
-          field: custom_event_no_show
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: search_api_boolean
-          operator: '!='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
         event_affiliation:
           id: event_affiliation
           table: search_api_index_events
@@ -5663,6 +5637,50 @@ display:
             min: ''
             max: ''
             value: ''
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        where_to_share:
+          id: where_to_share
+          table: search_api_index_events
+          field: where_to_share
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_string
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: on_the_announcements_page
           group: 1
           exposed: false
           expose:
@@ -6467,44 +6485,6 @@ display:
           parse_mode: terms
           min_length: null
           fields: {  }
-        custom_event_no_show:
-          id: custom_event_no_show
-          table: search_api_index_events
-          field: custom_event_no_show
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: search_api_boolean
-          operator: '!='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
         event_affiliation:
           id: event_affiliation
           table: search_api_index_events
@@ -6547,6 +6527,50 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        where_to_share:
+          id: where_to_share
+          table: search_api_index_events
+          field: where_to_share
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_string
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: on_the_announcements_page
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -6611,12 +6635,15 @@ display:
         - user.permissions
       tags:
         - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.event_affiliation_upcoming_webinars'
+        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.event_topic_recorded_webinars'
         - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.topic_upcoming_webinars_block'
         - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.event_affiliation_upcoming_webinars'
+        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.event_topic_recorded_webinars'
         - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.topic_upcoming_webinars_block'
         - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.domain_access'
         - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.domain_access'
         - 'config:facets.facet.event_affiliation_upcoming_webinars'
+        - 'config:facets.facet.event_topic_recorded_webinars'
         - 'config:facets.facet.topic_upcoming_webinars_block'
         - 'config:field.storage.eventinstance.domain_access'
         - 'config:search_api.index.events'
