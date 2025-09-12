@@ -20,7 +20,7 @@ use Drupal\views\ViewExecutable;
 function campuschampions_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'user_form') {
     $form['field_carnegie_code']['widget'][0]['value']['#autocomplete_route_name'] = 'campuschampions.autocomplete';
-    
+
     // Add validation for Carnegie code field
     $form['#validate'][] = 'campuschampions_user_form_validate';
   }
@@ -30,9 +30,13 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
     $user = \Drupal::currentUser();
     if ($user->isAuthenticated()) {
       $account = User::load($user->id());
+      $form['elements']['username']['#access'] = FALSE;
       $form['elements']['username']['#default_value'] = $account->name->value;
+      $form['elements']['user_first_name']['#access'] = FALSE;
       $form['elements']['user_first_name']['#default_value'] = $account->field_user_first_name->value;
+      $form['elements']['user_last_name']['#access'] = FALSE;
       $form['elements']['user_last_name']['#default_value'] = $account->field_user_last_name->value;
+      $form['elements']['user_email']['#access'] = FALSE;
       $form['elements']['user_email']['#default_value'] = $account->mail->value;
       $form['elements']['username']['#attributes'] = ['readonly' => 'readonly'];
       $form['elements']['user_first_name']['#attributes'] = ['readonly' => 'readonly'];
@@ -286,7 +290,7 @@ function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, V
       if ($org_locations === NULL) {
         $org_locations = [];
       }
-      
+
       // Get data based on carnegie code.
       $db = $carnegie_db;
       $results = $db->lookupByUnitId($cc, [
@@ -377,19 +381,19 @@ function campuschampions_views_pre_view(ViewExecutable $view, $display_id, array
  */
 function campuschampions_user_form_validate(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
   $carnegie_code = $form_state->getValue('field_carnegie_code');
-  
+
   if (!empty($carnegie_code) && !empty($carnegie_code[0]['value'])) {
     $code = $carnegie_code[0]['value'];
-    
+
     // Validate that the Carnegie code exists in the database
     $query = \Drupal::database()
       ->select('carnegie_codes', 'cc')
       ->fields('cc', ['UNITID'])
       ->condition('UNITID', $code, '=')
       ->range(0, 1);
-    
+
     $result = $query->execute()->fetchField();
-    
+
     if (empty($result)) {
       $form_state->setErrorByName('field_carnegie_code', t('The Carnegie code "@code" is not valid. Please enter a valid Carnegie classification code or leave blank for non-academic institutions.', ['@code' => $code]));
     }
@@ -403,11 +407,11 @@ function campuschampions_cron() {
   // Update Campus Champions stats once per day.
   $currentTime = \Drupal::time()->getCurrentTime();
   $lastRun = \Drupal::state()->get('cc_stats_last_update', 0);
-  
+
   // Run if it's been more than 24 hours since last update
   $secondsSinceLastRun = $currentTime - $lastRun;
   $hoursInterval = 24; // Update every 24 hours
-  
+
   if ($secondsSinceLastRun >= ($hoursInterval * 3600)) {
     \Drupal::logger('campuschampions')->info('Updating Campus Champions stats via cron');
     \Drupal::service('cc.getStats')->setState();
