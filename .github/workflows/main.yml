@@ -60,7 +60,7 @@ jobs:
       - name: Store md file status
         run: |
           branch="${GITHUB_REF#refs/heads/}"
-          filename="blt/md/$branch"
+          filename="robo/assets/md/$branch"
           file_exists=false
           if [ -f "$filename" ]; then
             file_exists=true

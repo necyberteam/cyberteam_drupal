@@ -102,8 +102,8 @@ Cypress.Commands.add('waitForEmail', (criteria, timeout = 10000) => {
         throw new Error(`Email not found after ${timeout}ms with criteria: ${JSON.stringify(criteria)}`);
       }
       
-      // Wait 500ms and try again
-      cy.wait(500);
+      // Wait 2000ms (2 seconds) and try again to avoid triggering autoban
+      cy.wait(2000);
       return checkForEmail();
     });
   };

@@ -7,12 +7,13 @@ dependencies:
   module:
     - facets
     - system
+    - user
   theme:
     - nect
 id: nect_programmembers
 theme: nect
 region: primary_sidebar
-weight: 21
+weight: 24
 provider: null
 plugin: 'facet_block:program_members'
 settings:
@@ -27,3 +28,10 @@ visibility:
     id: request_path
     negate: false
     pages: /members
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

@@ -1,0 +1,41 @@
+uuid: 579414b9-b7cd-448e-a915-d6cb98bf0498
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.access_organization_campus_champions
+  module:
+    - collapsiblock
+    - facets
+    - system
+    - user
+  theme:
+    - champions
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: champions_accessorganization_2
+theme: champions
+region: primary_sidebar
+weight: -63
+provider: null
+plugin: 'facet_block:access_organization_campus_champions'
+settings:
+  id: 'facet_block:access_organization_campus_champions'
+  label: Organization
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: champions_accessorganization_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /current-champions
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

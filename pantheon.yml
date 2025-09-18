@@ -4,6 +4,13 @@ api_version: 1
 # Update PHP version
 php_version: 8.2
 build_step: false
+
+# Emergency bot protection - block heavily targeted faceted search paths
+protected_web_paths:
+  - /members
+  - /current-champions
+  - /community/cssn/directory
+  - /people
 workflows:
   sync_code:
     after:
