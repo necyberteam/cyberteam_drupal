@@ -7,7 +7,7 @@ use_admin_theme: false
 limit: 10
 date_format: 'F jS, Y h:iA'
 title: '[registrant:email]'
-email_notifications: false
+email_notifications: true
 email_notifications_queue: false
 successfully_registered: 'Your registration was received. You will receive an email after your registration is approved.'
 successfully_registered_waitlist: 'Successfully registered to the waitlist.'
@@ -47,4 +47,4 @@ notifications:
   registration_reminder:
     enabled: true
     subject: 'Reminder for Event [registrant:eventinstance:title]'
-    body: "Dear [registrant:field_first_name] [registrant:field_last_name],\r\n\r\nThank you for registering for [registrant:eventinstance:title] ([eventinstance:url]) on [registrant:eventinstance:date]. \r\n\r\nHere are the details:\r\nLocation (if applicable): [registrant:eventseries:field_location]\r\nTime: [registrant:eventinstance:date] - [registrant:eventinstance:end_date]\r\n\r\nKind regards,\r\nACCESS Support"
+    body: "Dear [registrant:field_first_name] [registrant:field_last_name],\r\n\r\nThank you for registering for [registrant:eventinstance:title] ([eventinstance:url]) on [registrant:eventinstance:date]. \r\n\r\nHere are the details:\r\nLocation (if applicable): [registrant:eventseries:field_location]\r\nTime: [registrant:eventinstance:date] - [registrant:eventinstance:end_date]\r\n\r\n[eventseries:reminder_message]\r\n\r\nKind regards,\r\nACCESS Support"
