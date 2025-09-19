@@ -47,11 +47,8 @@ function campuschampions_form_alter(&$form, &$form_state, $form_id) {
     $form['elements']['carnegie_classification']['#autocomplete_route_name'] = 'campuschampions.autocomplete';
 
     // Reorder form.
-    $cc_checkbox = $form['elements']['i_can_t_find_my_carnegie_code'];
     $user_institution = $form['elements']['user_institution'];
-    unset($form['elements']['i_can_t_find_my_carnegie_code']);
     unset($form['elements']['user_institution']);
-    $form['elements']['i_can_t_find_my_carnegie_code'] = $cc_checkbox;
     $form['elements']['user_institution'] = $user_institution;
 
     if ($form['#validate'] != 'validate_form') {
