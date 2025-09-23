@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.body
     - field.storage.node.field_affiliation
+    - field.storage.node.field_choose_where_to_share_this
     - field.storage.node.field_published_date
     - search_api.server.default_server
   module:
@@ -43,6 +44,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_affiliation
+  field_choose_where_to_share_this:
+    label: 'Choose where to share this announcement'
+    datasource_id: 'entity:node'
+    property_path: field_choose_where_to_share_this
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_choose_where_to_share_this
   field_published_date:
     label: 'Published Date'
     datasource_id: 'entity:node'
@@ -74,13 +83,13 @@ processor_settings:
   announcement_tags: {  }
   custom_announcement_affinity_group: {  }
   custom_event_affiliation: {  }
-  custom_event_no_show: {  }
   custom_event_skill_level: {  }
   custom_event_title: {  }
   custom_event_type: {  }
   custom_value: {  }
   entity_type: {  }
   event_tags: {  }
+  event_where_to_share: {  }
   language_with_fallback: {  }
   mentee_name: {  }
   rendered_item: {  }
