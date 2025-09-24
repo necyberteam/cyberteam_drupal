@@ -16,7 +16,7 @@ describe('Tests the NAIRR Pilot Webinars Page for anonymous users', () => {
         // Test breadcrumbs
         const crumbs = [
             ['Support', '/'],
-            ['Knowledge Base', null],
+            ['Knowledge Base', '/knowledge-base'],
             ['NAIRR Pilot Webinars', null]
         ];
         cy.checkBreadcrumbs(crumbs);
@@ -25,7 +25,7 @@ describe('Tests the NAIRR Pilot Webinars Page for anonymous users', () => {
         cy.get('.page-title').contains('NAIRR Pilot Webinars')
 
         // Hero CTA section
-        cy.contains('Watch recorded webinars')
+        cy.contains('Recordings of past webinars')
         cy.get('a[href="https://www.youtube.com/@NAIRRPilot/videos"]').should('contain', 'NAIRR Pilot youtube')
 
         // Main content sections
@@ -50,28 +50,28 @@ describe('Tests the NAIRR Pilot Webinars Page for anonymous users', () => {
         cy.wait(500)
 
         // Test Topic facets
-        cy.get('#topic-cpu-bound').should('exist').check({ force: true })
+        cy.get('#topic-ai').should('exist').check({ force: true })
         cy.wait(1000)
 
         // Verify topic filter is applied
         cy.url().should('include', 'topic')
 
         // Uncheck to reset
-        cy.get('#topic-cpu-bound').uncheck({ force: true })
+        cy.get('#topic-ai').uncheck({ force: true })
         cy.wait(500)
 
         // Test another topic facet
-        cy.get('#topic-dmtcp').should('exist').check({ force: true })
+        cy.get('#topic-nairr-pilot').should('exist').check({ force: true })
         cy.wait(1000)
-        cy.get('#topic-dmtcp').uncheck({ force: true })
+        cy.get('#topic-nairr-pilot').uncheck({ force: true })
         cy.wait(500)
 
         // Verify upcoming webinars content
         cy.get('.view-events-facet.view-display-id-upcoming_webinars').within(() => {
             cy.contains('Upcoming Webinars')
             // Check for webinar entries if they exist
-            cy.get('body').then($body => {
-                if ($body.find('.views-row').length > 0) {
+            cy.get('.views-row').then($rows => {
+                if ($rows.length > 0) {
                     cy.get('.views-row').first().within(() => {
                         // Should have title link
                         cy.get('a[href*="/events/"]').should('exist')
@@ -86,13 +86,13 @@ describe('Tests the NAIRR Pilot Webinars Page for anonymous users', () => {
         cy.get('.view-events-facet.view-display-id-recorded_webinars_block').within(() => {
             cy.contains('Recorded Webinars')
             // Check for recorded webinar entries
-            cy.get('body').then($body => {
-                if ($body.find('.views-row').length > 0) {
+            cy.get('.views-row').then($rows => {
+                if ($rows.length > 0) {
                     cy.get('.views-row').first().within(() => {
                         // Should have title link
                         cy.get('a[href*="/events/"]').should('exist')
-                        // Should have date
-                        cy.get('.views-field-date-1').should('exist')
+                        // Should have date/time info
+                        cy.get('.font-bold').should('exist')
                     })
                 }
             })
@@ -127,21 +127,19 @@ describe('Tests the NAIRR Pilot Webinars Page for anonymous users', () => {
         cy.visit('/support/knowledge-base/nairr-pilot-webinars')
 
         // Test search with specific term
-        cy.get('#edit-search-api-fulltext').type('CU-RMACC', { delay: 0 })
-        cy.get('#edit-submit-events-facet').click()
+        cy.get('#edit-search-api-fulltext').type('CU-RMACC{enter}', { delay: 0 })
         cy.wait(2000)
 
         // Check if results are filtered
         cy.url().should('include', 'search_api_fulltext=CU-RMACC')
 
-        // Clear search
-        cy.get('#edit-search-api-fulltext').clear()
-        cy.get('#edit-submit-events-facet').click()
+        // Clear search - use enter key instead of hidden submit button
+        cy.get('#edit-search-api-fulltext').clear().type('{enter}')
+        cy.wait(1000)
         cy.wait(1000)
 
         // Test search with no results
-        cy.get('#edit-search-api-fulltext').type('nonexistentterm12345', { delay: 0 })
-        cy.get('#edit-submit-events-facet').click()
+        cy.get('#edit-search-api-fulltext').type('nonexistentterm12345{enter}', { delay: 0 })
         cy.wait(2000)
 
         // Should show no results or empty state
