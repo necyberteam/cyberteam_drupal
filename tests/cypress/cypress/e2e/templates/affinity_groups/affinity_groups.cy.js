@@ -5,7 +5,7 @@ describe("Go over the Affinity Groups Page which has the title 'Affinity Groups'
     cy.contains('Affinity Group');
     cy.contains('Description');
     cy.contains('Join');
-    cy.contains('Request an Affinity Group');
+    cy.contains('Request a Group');
   });
 
   it("Authenticated user tests the affinity group", () => {
@@ -15,7 +15,7 @@ describe("Go over the Affinity Groups Page which has the title 'Affinity Groups'
     cy.contains('Affinity Group');
     cy.contains('Description');
     cy.contains('Join');
-    cy.contains('Request an Affinity Group');
+    cy.contains('Request a Group');
   });
 
 });
