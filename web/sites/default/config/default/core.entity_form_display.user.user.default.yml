@@ -15,9 +15,11 @@ dependencies:
     - field.field.user.user.field_current_occupation
     - field.field.user.user.field_cv_resume
     - field.field.user.user.field_degree
+    - field.field.user.user.field_discourse_openondemand_org
     - field.field.user.user.field_domain_access
     - field.field.user.user.field_domain_admin
     - field.field.user.user.field_domain_all_affiliates
+    - field.field.user.user.field_github_username
     - field.field.user.user.field_hpc_experience
     - field.field.user.user.field_institution
     - field.field.user.user.field_is_cc
@@ -143,6 +145,22 @@ content:
     region: content
     settings:
       progress_indicator: throbber
+    third_party_settings: {  }
+  field_discourse_openondemand_org:
+    type: string_textfield
+    weight: 25
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_github_username:
+    type: string_textfield
+    weight: 24
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_hpc_experience:
     type: string_textarea
