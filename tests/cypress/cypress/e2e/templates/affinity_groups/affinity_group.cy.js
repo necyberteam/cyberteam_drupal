@@ -60,13 +60,13 @@ describe("test an Affinity Group page", () => {
     cy.visit('/affinity-groups/ai-institutes-cyberinfrastructure');
     cy.contains('Recommended Resources');
     cy.contains('NCSA Delta GPU (Delta GPU)');
-    cy.contains('The Delta GPU resource comprises 5 different node configurations').should('not.be.visible');
-    cy.contains('NCSA Delta GPU (Delta GPU)').click();
-    cy.wait(500);
-    cy.contains('The Delta GPU resource comprises 5 different node configurations');
-    cy.contains('NCSA Delta GPU (Delta GPU)').click();
-    cy.wait(500);
-    cy.contains('The Delta GPU resource comprises 5 different node configurations').should('not.be.visible');
+    cy.contains('The Delta GPU resource comprises 4 different node configurations').should('not.be.visible');
+    cy.get('button').contains('NCSA Delta GPU (Delta GPU)').click();
+    cy.wait(300);
+    cy.contains('The Delta GPU resource comprises 4 different node configurations');
+    cy.get('button').contains('NCSA Delta GPU (Delta GPU)').click();
+    cy.wait(300);
+    cy.contains('The Delta GPU resource comprises 4 different node configurations').should('not.be.visible');
   });
 
   it("Unauthenticated user tests another AG with Allocated CiDeR Resources", () => {
@@ -76,11 +76,11 @@ describe("test an Affinity Group page", () => {
     cy.contains('Associated Resources');
     cy.contains('NCSA Delta GPU (Delta GPU)');
     cy.contains('The Delta GPU resource comprises 5 different node configurations').should('not.be.visible');
-    cy.contains('NCSA Delta GPU (Delta GPU)').click();
-    cy.wait(500);
+    cy.get('button').contains('NCSA Delta GPU (Delta GPU)').click();
+    cy.wait(300);
     cy.contains('The Delta GPU resource comprises 5 different node configurations');
-    cy.contains('NCSA Delta GPU (Delta GPU)').click();
-    cy.wait(500);
+    cy.get('button').contains('NCSA Delta GPU (Delta GPU)').click();
+    cy.wait(300);
     cy.contains('The Delta GPU resource comprises 5 different node configurations').should('not.be.visible');
   });
 

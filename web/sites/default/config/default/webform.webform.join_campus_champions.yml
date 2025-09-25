@@ -40,14 +40,42 @@ elements: |-
     '#access_view_roles':
       - campuschampionsadmin
     '#access': false
-  letter_of_collaboration_helper:
-    '#type': webform_markup
-    '#markup': '<h6>To Join the Campus Champions, we need a letter of collaboration from your institution. Please <a href="/sites/default/files/campuschampions_collaborationletter_yourinstitutionname_template_2022_09_21.docx">download this template letter</a>. It needs to be completed before you can join the Campus Champions. Thank you!</h6>'
+  champion_user_type:
+    '#type': radios
+    '#title': 'I am joining as a...'
+    '#options':
+      user_student: 'Student Champion'
+      user_champion: Champion
+    '#required': true
   letter_of_collaboration:
     '#type': webform_document_file
     '#title': 'Letter of Collaboration'
     '#required': true
     '#max_filesize': '32'
+  letter_of_collaboration_helper:
+    '#type': webform_markup
+    '#markup': '<p class="small">To join please submit a collaboration letter from your institution <a href="/sites/default/files/campuschampions_collaborationletter_yourinstitutionname_template_2022_09_21.docx">using this template</a>.</p>'
+  processed_text:
+    '#type': processed_text
+    '#admin_title': 'Account Details'
+    '#access_create_roles':
+      - anonymous
+    '#text': '<h2>Account Details</h2><p>Do you have an ACCESS ID you''d like to use?</p><p><a class="btn btn-primary rounded-pill" href="/login">Login with ACCESS CI</a></p>'
+    '#format': full_html
+  carnegie_classification:
+    '#type': textfield
+    '#title': 'Carnegie Classification'
+    '#description': 'Enter your institution name to lookup your Carnegie Code.'
+    '#states':
+      required:
+        - ':input[name="i_can_t_find_my_carnegie_code"]':
+            empty: true
+        - or
+        - ':input[name="i_can_t_find_my_carnegie_code"]':
+            unchecked: true
+  i_can_t_find_my_carnegie_code:
+    '#type': checkbox
+    '#title': "I can't find my Carnegie Code"
   username:
     '#type': textfield
     '#title': Username
@@ -65,13 +93,6 @@ elements: |-
     '#type': email
     '#title': Email
     '#description': '<span style="-webkit-text-stroke-width:0px; background-color:#ffffff; color:#6c757d; display:inline !important; float:none; font-family:museo-sans,sans-serif; font-size:12.8px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; orphans:2; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-indent:0px; text-transform:none; white-space:normal; widows:2; word-spacing:0px">A valid email address. All emails from the system will be sent to this address. The email address is not made public and will only be used if you wish to receive a new password or wish to receive certain news or notifications by email.</span>'
-    '#required': true
-  champion_user_type:
-    '#type': radios
-    '#title': 'I am joining as a...'
-    '#options':
-      user_student: 'Student Champion'
-      user_champion: Champion
     '#required': true
   student_info:
     '#type': webform_section
@@ -132,20 +153,6 @@ elements: |-
       '#type': email
       '#title': 'Supervisor Email'
       '#required': true
-  carnegie_classification:
-    '#type': textfield
-    '#title': 'Carnegie Classification'
-    '#description': 'Enter your institution name to lookup your Carnegie Code.'
-    '#states':
-      required:
-        - ':input[name="i_can_t_find_my_carnegie_code"]':
-            empty: true
-        - or
-        - ':input[name="i_can_t_find_my_carnegie_code"]':
-            unchecked: true
-  i_can_t_find_my_carnegie_code:
-    '#type': checkbox
-    '#title': "I can't find my Carnegie Code"
   user_institution:
     '#type': webform_section
     '#title': Institution

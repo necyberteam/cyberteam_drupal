@@ -7,12 +7,13 @@ dependencies:
   module:
     - facets
     - system
+    - user
   theme:
     - ood
 id: ood_skilllevel
 theme: ood
 region: primary_sidebar
-weight: -15
+weight: -14
 provider: null
 plugin: 'facet_block:skill_level'
 settings:
@@ -21,9 +22,16 @@ settings:
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_skilllevel
+  block_id: ood_skilllevel
 visibility:
   request_path:
     id: request_path
     negate: false
     pages: /knowledge-base/resources
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated
