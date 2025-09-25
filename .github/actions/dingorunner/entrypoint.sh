@@ -137,6 +137,7 @@ then
   rm -fR docroot/sites/example.sites.php
   rm -fR tests
   rm -fR web/themes/contrib/bootstrap5/dist/bootstrap/5.2.3/.github/
+  find web/modules/custom/ \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
 
   git checkout .gitignore
 
