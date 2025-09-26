@@ -22,7 +22,7 @@ describe("Test Affinity Groups page facets for authenticated users", () => {
     cy.contains('Affinity Group');
     cy.contains('Description');
     cy.contains('Join');
-    cy.contains('Request an Affinity Group');
+    cy.contains('Request a Group');
 
     // Test search functionality
     cy.get('#edit-search-api-fulltext--2').type('test search', { delay: 0 })

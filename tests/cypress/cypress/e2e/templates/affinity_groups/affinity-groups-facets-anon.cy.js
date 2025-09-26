@@ -18,7 +18,7 @@ describe("Test Affinity Groups page for anonymous users", () => {
     cy.contains('Affinity Groups');
     cy.contains('Affinity Group');
     cy.contains('Description');
-    cy.contains('Request an Affinity Group');
+    cy.contains('Request a Group');
 
     // Test search functionality (should work for anonymous users)
     cy.get('#edit-search-api-fulltext--2').type('test search', { delay: 0 })

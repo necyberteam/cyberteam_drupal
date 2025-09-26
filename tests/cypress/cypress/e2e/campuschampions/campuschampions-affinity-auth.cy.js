@@ -3,7 +3,7 @@ describe("Affinity Group tests", () => {
     cy.loginUser('authenticated@amptesting.com', '6%l7iF}6(4tI');
     cy.visit('/affinity-groups');
     cy.contains('Affinity Group');
-    cy.get('#requestAffinityWide > .btn').contains('Request an Affinity Group').click();
+    cy.get('#requestAffinityWide > .btn').contains('Request a Group').click();
 
     cy.contains('Approved').should('not.exist');
 
