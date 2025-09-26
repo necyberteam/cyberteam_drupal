@@ -501,8 +501,9 @@ describe("Test Events API", () => {
             expect(response.status).to.eq(200);
             expect(response.body).to.be.an('array');
             
+            // Use UTC calendar month arithmetic to match API's -1month calculation
             const today = new Date();
-            const lastMonth = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+            const lastMonth = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth() - 1, today.getUTCDate()));
             const todayStr = today.toISOString().split('T')[0];
             const lastMonthStr = lastMonth.toISOString().split('T')[0];
             
@@ -721,10 +722,9 @@ describe("Test Events API", () => {
             expect(response.status).to.eq(200);
             expect(response.body).to.be.an('array');
             
-            const now = new Date();
-            const todayLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            const today = todayLocal.toLocaleDateString('en-CA');
-            const nextWeek = new Date(todayLocal.getTime() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-CA');
+            // Use UTC dates to match API's default timezone for relative dates
+            const today = new Date().toISOString().split('T')[0];
+            const nextWeek = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
             
             cy.log(`All events: ${allEvents.length}, Filtered events: ${response.body.length}`);
             cy.log(`Date range: ${today} to ${nextWeek}`);
@@ -786,10 +786,9 @@ describe("Test Events API", () => {
             expect(response.status).to.eq(200);
             expect(response.body).to.be.an('array');
             
-            const now = new Date();
-            const todayLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            const today = todayLocal.toLocaleDateString('en-CA');
-            const nextMonth = new Date(todayLocal.getTime() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-CA');
+            // Use UTC dates to match API's default timezone for relative dates
+            const today = new Date().toISOString().split('T')[0];
+            const nextMonth = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
             
             cy.log(`All events: ${allEvents.length}, Filtered events: ${response.body.length}`);
             cy.log(`Date range: ${today} to ${nextMonth}`);
