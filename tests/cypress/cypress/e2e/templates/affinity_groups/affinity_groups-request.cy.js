@@ -1,9 +1,9 @@
-describe("Visitor tests 'Request An Affinity Group' page", () => {
+describe("Visitor tests 'Request a Group' page", () => {
 
   it("Authenticated user fills out affinity group form", () => {
     cy.loginUser("authenticated@amptesting.com", "6%l7iF}6(4tI");
     cy.visit('/affinity-groups');
-    cy.contains('Request an Affinity Group').click();
+    cy.contains('Request a Group').click();
     cy.url().should('include', 'form/affinity-group-request');
     cy.contains('Affinity Group Request');
     cy.contains('Affinity Group Name');
