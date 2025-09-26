@@ -1067,6 +1067,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 10
           total_pages: null
           id: 0
@@ -1081,7 +1082,6 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          pagination_heading_level: h4
       exposed_form:
         type: basic
         options:
@@ -1171,16 +1171,17 @@ display:
           group: 1
           expose:
             operator: ''
-        field_event_no_listing_value:
-          id: field_event_no_listing_value
-          table: eventseries__field_event_no_listing
-          field: field_event_no_listing_value
+        field_choose_where_to_share_this_value:
+          id: field_choose_where_to_share_this_value
+          table: eventseries__field_choose_where_to_share_this
+          field: field_choose_where_to_share_this_value
           relationship: eventseries_id
           group_type: group
           admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '0'
+          plugin_id: list_field
+          operator: or
+          value:
+            on_the_announcements_page: on_the_announcements_page
           group: 1
           exposed: false
           expose:
@@ -1197,6 +1198,7 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
+            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -1209,6 +1211,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          reduce_duplicates: false
       style:
         type: default
         options:
@@ -1274,6 +1277,8 @@ display:
         - url
         - url.query_args
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.field_video'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.field_video'
         - 'config:field.storage.eventinstance.field_video'
   data_export_1:
     id: data_export_1
@@ -1405,6 +1410,8 @@ display:
         - request_format
         - url
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.field_video'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.field_video'
         - 'config:field.storage.eventinstance.field_video'
   data_export_2:
     id: data_export_2
@@ -1540,6 +1547,8 @@ display:
         - request_format
         - url
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.field_video'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.field_video'
         - 'config:field.storage.eventinstance.field_video'
   data_export_3:
     id: data_export_3
@@ -2790,6 +2799,10 @@ display:
         - request_format
         - url
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.field_video'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_event_speakers'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.field_video'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_event_speakers'
         - 'config:field.storage.eventinstance.field_video'
         - 'config:field.storage.eventseries.field_event_speakers'
   data_export_4:
@@ -3956,6 +3969,8 @@ display:
         - request_format
         - url
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.field_video'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.field_video'
         - 'config:field.storage.eventinstance.field_video'
   data_export_5:
     id: data_export_5
@@ -5211,6 +5226,10 @@ display:
         - request_format
         - url
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.field_video'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_event_speakers'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.field_video'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_event_speakers'
         - 'config:field.storage.eventinstance.field_video'
         - 'config:field.storage.eventseries.field_event_speakers'
   data_export_6:
@@ -6440,6 +6459,10 @@ display:
         - request_format
         - url
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.field_video'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_event_speakers'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.field_video'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_event_speakers'
         - 'config:field.storage.eventinstance.field_video'
         - 'config:field.storage.eventseries.field_event_speakers'
   data_export_7:
@@ -7696,5 +7719,9 @@ display:
         - request_format
         - url
       tags:
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.field_video'
+        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_event_speakers'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.field_video'
+        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_event_speakers'
         - 'config:field.storage.eventinstance.field_video'
         - 'config:field.storage.eventseries.field_event_speakers'
