@@ -248,13 +248,15 @@ describe("Test Events API", () => {
       .then((allEventsResponse) => {
         const allEvents = allEventsResponse.body;
         
-        cy.request('/api/2.2/events?beginning_date_relative=today&end_date_relative=+1week')
+        cy.request('/api/2.2/events?beginning_date_relative=today&end_date_relative=+1week&timezone=UTC')
           .then((response) => {
             expect(response.status).to.eq(200);
             expect(response.body).to.be.an('array');
             
-            const todayStr = new Date().toISOString().split('T')[0];
-            const nextWeekStr = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            // Use UTC timezone for consistent behavior
+            const now = new Date();
+            const todayStr = now.toISOString().split('T')[0];
+            const nextWeekStr = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
             
             cy.log(`All events: ${allEvents.length}, Filtered events: ${response.body.length}`);
             cy.log(`Date range: ${todayStr} to ${nextWeekStr}`);
@@ -275,11 +277,21 @@ describe("Test Events API", () => {
             }
             
             // Verify all returned events are within the date range
-            response.body.forEach(event => {
+            cy.log(`Testing ${response.body.length} events against range ${todayStr} to ${nextWeekStr}`);
+            response.body.forEach((event, index) => {
               if (event.date) {
-                const eventDate = event.date.split('T')[0];
-                expect(eventDate >= todayStr, `Event date ${eventDate} should be >= ${todayStr}`).to.be.true;
-                expect(eventDate <= nextWeekStr, `Event date ${eventDate} should be <= ${nextWeekStr}`).to.be.true;
+                const eventDateObj = new Date(event.date);
+                const eventDateStr = eventDateObj.toISOString().split('T')[0];
+                const eventDateUTC = new Date(eventDateStr + 'T00:00:00Z');
+                const todayUTC = new Date(todayStr + 'T00:00:00Z');
+                const nextWeekUTC = new Date(nextWeekStr + 'T23:59:59Z');
+                
+                if (index < 5) { // Log first 5 events for debugging
+                  cy.log(`Event ${index}: ${event.date} -> ${eventDateStr}, today: ${todayStr}, nextWeek: ${nextWeekStr}`);
+                }
+                
+                expect(eventDateUTC >= todayUTC, `Event date ${eventDateStr} should be >= ${todayStr}`).to.be.true;
+                expect(eventDateUTC <= nextWeekUTC, `Event date ${eventDateStr} should be <= ${nextWeekStr}`).to.be.true;
               }
             });
           });
@@ -293,13 +305,15 @@ describe("Test Events API", () => {
       .then((allEventsResponse) => {
         const allEvents = allEventsResponse.body;
         
-        cy.request('/api/2.2/events?beginning_date_relative=today&end_date_relative=+2week')
+        cy.request('/api/2.2/events?beginning_date_relative=today&end_date_relative=+2week&timezone=UTC')
           .then((response) => {
             expect(response.status).to.eq(200);
             expect(response.body).to.be.an('array');
             
-            const todayStr = new Date().toISOString().split('T')[0];
-            const twoWeeksLaterStr = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            // Use UTC timezone for consistent behavior
+            const now = new Date();
+            const todayStr = now.toISOString().split('T')[0];
+            const twoWeeksLaterStr = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
             
             cy.log(`All events: ${allEvents.length}, Filtered events: ${response.body.length}`);
             cy.log(`Date range: ${todayStr} to ${twoWeeksLaterStr}`);
@@ -322,9 +336,14 @@ describe("Test Events API", () => {
             // Verify all returned events are within the specified range
             response.body.forEach(event => {
               if (event.date) {
-                const eventDateStr = event.date.split('T')[0];
-                expect(eventDateStr >= todayStr, `Event date ${eventDateStr} should be >= ${todayStr}`).to.be.true;
-                expect(eventDateStr <= twoWeeksLaterStr, `Event date ${eventDateStr} should be <= ${twoWeeksLaterStr}`).to.be.true;
+                const eventDateObj = new Date(event.date);
+                const eventDateStr = eventDateObj.toISOString().split('T')[0];
+                const eventDateUTC = new Date(eventDateStr + 'T00:00:00Z');
+                const todayUTC = new Date(todayStr + 'T00:00:00Z');
+                const twoWeeksLaterUTC = new Date(twoWeeksLaterStr + 'T23:59:59Z');
+                
+                expect(eventDateUTC >= todayUTC, `Event date ${eventDateStr} should be >= ${todayStr}`).to.be.true;
+                expect(eventDateUTC <= twoWeeksLaterUTC, `Event date ${eventDateStr} should be <= ${twoWeeksLaterStr}`).to.be.true;
               }
             });
           });
@@ -393,7 +412,7 @@ describe("Test Events API", () => {
         cy.log(`Total events without filters: ${totalEvents}`);
         
         // Test date filtering with relative dates
-        cy.request('/api/2.2/events?beginning_date_relative=today&end_date_relative=+1week')
+        cy.request('/api/2.2/events?beginning_date_relative=today&end_date_relative=+1week&timezone=UTC')
           .then((dateFilteredResponse) => {
             const dateFilteredCount = dateFilteredResponse.body.length;
             cy.log(`Events with date filter: ${dateFilteredCount}`);
@@ -526,11 +545,21 @@ describe("Test Events API", () => {
             }
             
             // Verify all returned events are in the past range
+            // Note: Event dates are in UTC (ending with 'Z'), so we need to compare UTC dates
             response.body.forEach((event, index) => {
               if (event.date) {
-                const eventDate = event.date.split('T')[0];
-                expect(eventDate >= lastMonthStr, `Event date ${eventDate} should be >= ${lastMonthStr}`).to.be.true;
-                expect(eventDate <= todayStr, `Event date ${eventDate} should be <= ${todayStr}`).to.be.true;
+                // Parse the UTC date from the event
+                const eventDateObj = new Date(event.date);
+                const eventDateStr = eventDateObj.toISOString().split('T')[0];
+                
+                // For date-only comparison, we need to be lenient about timezone boundaries
+                // An event on 2025-09-26 UTC might be 2025-09-25 or 2025-09-27 in local time
+                const eventDateUTC = new Date(eventDateStr + 'T00:00:00Z');
+                const lastMonthUTC = new Date(lastMonthStr + 'T00:00:00Z');
+                const todayUTC = new Date(todayStr + 'T23:59:59Z');
+                
+                expect(eventDateUTC >= lastMonthUTC, `Event date ${eventDateStr} should be >= ${lastMonthStr}`).to.be.true;
+                expect(eventDateUTC <= todayUTC, `Event date ${eventDateStr} should be <= ${todayStr}`).to.be.true;
               }
             });
           });
@@ -717,7 +746,7 @@ describe("Test Events API", () => {
       .then((allEventsResponse) => {
         const allEvents = allEventsResponse.body;
         
-        cy.request('/api/2.2/events?beginning_date_relative=today&end_date_relative=+1week')
+        cy.request('/api/2.2/events?beginning_date_relative=today&end_date_relative=+1week&timezone=UTC')
           .then((response) => {
             expect(response.status).to.eq(200);
             expect(response.body).to.be.an('array');
@@ -747,8 +776,13 @@ describe("Test Events API", () => {
             // Verify filtering works
             response.body.forEach(event => {
               if (event.date) {
-                const eventDate = event.date.split('T')[0];
-                expect(eventDate >= today && eventDate <= nextWeek, `Event date ${eventDate} should be between ${today} and ${nextWeek}`).to.be.true;
+                const eventDateObj = new Date(event.date);
+                const eventDateStr = eventDateObj.toISOString().split('T')[0];
+                const eventDateUTC = new Date(eventDateStr + 'T00:00:00Z');
+                const todayUTC = new Date(today + 'T00:00:00Z');
+                const nextWeekUTC = new Date(nextWeek + 'T23:59:59Z');
+                
+                expect(eventDateUTC >= todayUTC && eventDateUTC <= nextWeekUTC, `Event date ${eventDateStr} should be between ${today} and ${nextWeek}`).to.be.true;
               }
             });
           });
@@ -781,7 +815,7 @@ describe("Test Events API", () => {
       .then((allEventsResponse) => {
         const allEvents = allEventsResponse.body;
         
-        cy.request('/api/2.2/events?beginning_date_relative=today&end_date_relative=+1month')
+        cy.request('/api/2.2/events?beginning_date_relative=today&end_date_relative=+1month&timezone=UTC')
           .then((response) => {
             expect(response.status).to.eq(200);
             expect(response.body).to.be.an('array');
@@ -811,8 +845,13 @@ describe("Test Events API", () => {
             // Verify events fall within the specified range
             response.body.forEach(event => {
               if (event.date) {
-                const eventDate = event.date.split('T')[0];
-                expect(eventDate >= today && eventDate <= nextMonth, `Event date ${eventDate} should be between ${today} and ${nextMonth}`).to.be.true;
+                const eventDateObj = new Date(event.date);
+                const eventDateStr = eventDateObj.toISOString().split('T')[0];
+                const eventDateUTC = new Date(eventDateStr + 'T00:00:00Z');
+                const todayUTC = new Date(today + 'T00:00:00Z');
+                const nextMonthUTC = new Date(nextMonth + 'T23:59:59Z');
+                
+                expect(eventDateUTC >= todayUTC && eventDateUTC <= nextMonthUTC, `Event date ${eventDateStr} should be between ${today} and ${nextMonth}`).to.be.true;
               }
             });
           });
