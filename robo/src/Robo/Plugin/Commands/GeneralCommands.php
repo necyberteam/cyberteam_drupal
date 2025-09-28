@@ -535,6 +535,7 @@ GITHUB_TOKEN=$token'>.env");
     }
     $domain_id = $this->ask("Which domain should be the default?");
     $default_domain = $domains[$domain_id]['id'];
+    $this->_exec("rm robo/assets/md/md-*");
     $this->_exec("touch robo/assets/md/$branch");
     $this->_exec("echo '$default_domain'>>robo/assets/md/$branch");
   }
