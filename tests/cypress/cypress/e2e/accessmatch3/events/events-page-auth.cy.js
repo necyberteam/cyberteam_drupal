@@ -27,7 +27,7 @@ describe('Authenticated user tests the Events Page', () => {
         cy.wait(1000)
         
         // Test Event Affiliation facet (only available to authenticated users)
-        cy.get('#custom-event-affiliation-community').should('exist').check()
+        cy.get('#affiliation-community').should('exist').check()
         cy.wait(1000)
         
         // Test Event Skill Level facet (only available to authenticated users)  
@@ -50,7 +50,7 @@ describe('Authenticated user tests the Events Page', () => {
         // Reset all facets
         cy.get('#custom-event-type-reset-all').check()
         cy.wait(1000)
-        cy.get('#custom-event-affiliation-reset-all').check()
+        cy.get('#affiliation-reset-all').check()
         cy.wait(1000)
         cy.get('#custom-event-skill-level-reset-all').check()
         cy.wait(1000)
