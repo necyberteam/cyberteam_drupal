@@ -4735,8 +4735,8 @@ display:
           use_highlighting: false
           multi_type: separator
           multi_separator: ', '
-        event_summary:
-          id: event_summary
+        summary:
+          id: summary
           table: search_api_datasource_events_entity_eventinstance
           field: event_summary
           relationship: none
@@ -4843,7 +4843,7 @@ display:
           use_highlighting: false
           multi_type: separator
           multi_separator: ', '
-          filter_type: xss
+          filter_type: xss_admin
         contact:
           id: contact
           table: search_api_datasource_events_entity_eventinstance
@@ -4898,8 +4898,8 @@ display:
           use_highlighting: false
           multi_type: separator
           multi_separator: ', '
-        event_affiliation:
-          id: event_affiliation
+        affiliation:
+          id: affiliation
           table: search_api_datasource_events_entity_eventinstance
           field: event_affiliation
           relationship: none
@@ -5340,8 +5340,8 @@ display:
           use_highlighting: false
           multi_type: separator
           multi_separator: ', '
-        custom_event_tags:
-          id: custom_event_tags
+        tags:
+          id: tags
           table: search_api_index_events
           field: custom_event_tags
           relationship: none
@@ -5393,8 +5393,8 @@ display:
           use_highlighting: false
           multi_type: separator
           multi_separator: ', '
-        field_video:
-          id: field_video
+        video:
+          id: video
           table: search_api_datasource_events_entity_eventinstance
           field: field_video
           relationship: none
@@ -5480,8 +5480,8 @@ display:
               video:
                 display_method: label
                 view_mode: default
-        date:
-          id: date
+        start_date:
+          id: start_date
           table: search_api_datasource_events_entity_eventinstance
           field: date
           relationship: none
@@ -5554,8 +5554,8 @@ display:
             use_highlighting: false
             multi_type: separator
             multi_separator: ', '
-        date_1:
-          id: date_1
+        end_date:
+          id: end_date
           table: search_api_datasource_events_entity_eventinstance
           field: date
           relationship: none
@@ -5712,6 +5712,59 @@ display:
           entity_type: eventinstance
           plugin_id: search_api
           label: Speakers
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          link_to_item: false
+          use_highlighting: false
+          multi_type: separator
+          multi_separator: ', '
+        affinity_group:
+          id: affinity_group
+          table: search_api_index_events
+          field: custom_event_affinity_group
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api
+          label: affinity_group
           exclude: false
           alter:
             alter_text: false
@@ -6272,13 +6325,6 @@ display:
             root_node_name: response
             item_node_name: item
             format_output: false
-      row:
-        type: data_field
-        options:
-          field_options:
-            description:
-              alias: ''
-              raw_output: true
       defaults:
         pager: false
         fields: false

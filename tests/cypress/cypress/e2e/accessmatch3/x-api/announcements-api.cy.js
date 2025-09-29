@@ -15,8 +15,8 @@ describe("Test Announcements API", () => {
       
       // Test that all expected fields are present
       const expectedFields = [
-        'title', 'body', 'field_published_date', 'custom_announcement_ag',
-        'custom_announcement_tags', 'field_affiliation'
+        'title', 'body', 'published_date', 'affinity_group',
+        'tags', 'affiliation'
       ];
       
       expectedFields.forEach(field => {
@@ -26,11 +26,11 @@ describe("Test Announcements API", () => {
       // Test field types and that they contain actual data
       expect(announcement.title).to.be.a('string').and.not.be.empty;
       expect(announcement.body).to.be.a('string');
-      expect(announcement.field_published_date).to.be.a('string').and.not.be.empty;
+      expect(announcement.published_date).to.be.a('string').and.not.be.empty;
       
       // Log announcement details for debugging
       cy.log('Found announcement:', announcement.title);
-      cy.log('Published date:', announcement.field_published_date);
+      cy.log('Published date:', announcement.published_date);
       cy.log('Tags:', announcement.custom_announcement_tags);
       cy.log('Affinity Group:', announcement.custom_announcement_ag);
     });
@@ -195,8 +195,8 @@ describe("Test Announcements API", () => {
         // If results exist, verify dates are within range
         if (response.body.length > 0) {
           response.body.forEach((announcement) => {
-            if (announcement.field_published_date) {
-              const publishedDate = new Date(announcement.field_published_date);
+            if (announcement.published_date) {
+              const publishedDate = new Date(announcement.published_date);
               const start = new Date(startDate);
               const end = new Date(endDate);
               

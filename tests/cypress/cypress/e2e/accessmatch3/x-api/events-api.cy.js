@@ -11,9 +11,9 @@ describe("Test Events API", () => {
           
           // Test that all expected fields are present (comprehensive field list)
           const expectedFields = [
-            'id', 'title', 'description', 'date', 'date_1', 'location',
-            'event_type', 'event_affiliation', 'custom_event_tags', 'skill_level',
-            'speakers', 'event_summary', 'contact', 'registration', 'field_video', 'created', 'changed'
+            'id', 'title', 'description', 'start_date', 'end_date', 'location',
+            'event_type', 'affiliation', 'tags', 'skill_level',
+            'speakers', 'summary', 'contact', 'registration', 'video', 'created', 'changed'
           ];
           
           expectedFields.forEach(field => {
@@ -30,17 +30,17 @@ describe("Test Events API", () => {
           expect(event.description).to.be.a('string');
           expect(event.location).to.be.a('string');
           expect(event.event_type).to.be.a('string');
-          expect(event.event_affiliation).to.be.a('string');
-          expect(event.custom_event_tags).to.be.a('string');
+          expect(event.affiliation).to.be.a('string');
+          expect(event.tags).to.be.a('string');
           expect(event.changed).to.be.a('string');
-          expect(event.event_summary).to.be.a('string'); // Test new summary field
+          expect(event.summary).to.be.a('string'); // Test new summary field
           
           // Test date field format and content
-          if (event.date && event.date !== '') {
-            expect(event.date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
+          if (event.start_date && event.start_date !== '') {
+            expect(event.start_date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
           }
-          if (event.date_1 && event.date_1 !== '') {
-            expect(event.date_1).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
+          if (event.end_date && event.end_date !== '') {
+            expect(event.end_date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
           }
           if (event.created && event.created !== '') {
             expect(event.created).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
@@ -55,7 +55,7 @@ describe("Test Events API", () => {
           cy.log(`Event Description: "${event.description}"`);
           cy.log(`Event Summary: "${event.event_summary}"`);
           cy.log(`Event Type: "${event.event_type}"`);
-          cy.log(`Event Date: "${event.date}"`);
+          cy.log(`Event Date: "${event.start_date}"`);
         } else {
           cy.log('WARNING: No events returned by API');
           expect(response.body.length, 'API should return at least one event').to.be.greaterThan(0);
@@ -73,22 +73,22 @@ describe("Test Events API", () => {
         const event = response.body[0];
         
         // Critical test: ensure we're not just getting empty strings for everything
-        const hasContent = event.id !== '' || event.title !== '' || event.date !== '';
+        const hasContent = event.id !== '' || event.title !== '' || event.start_date !== '';
         expect(hasContent, 'API should return events with actual content, not empty strings').to.be.true;
         
         // If the API is returning empty data, fail with helpful message
-        if (event.id === '' && event.title === '' && event.date === '') {
+        if (event.id === '' && event.title === '' && event.start_date === '') {
           throw new Error('API is returning events with empty fields - check view configuration');
         }
         
         // Test that at least some events have meaningful data
         let eventsWithContent = 0;
         response.body.forEach((event, index) => {
-          if (event.id !== '' || event.title !== '' || event.date !== '') {
+          if (event.id !== '' || event.title !== '' || event.start_date !== '') {
             eventsWithContent++;
           }
           if (index < 3) { // Log first 3 events for debugging
-            cy.log(`Event ${index}: id="${event.id}", title="${event.title}", date="${event.date}"`);
+            cy.log(`Event ${index}: id="${event.id}", title="${event.title}", date="${event.start_date}"`);
           }
         });
         
@@ -108,21 +108,21 @@ describe("Test Events API", () => {
           
           response.body.forEach((event, index) => {
             // Test that summary field exists
-            expect(event).to.have.property('event_summary');
-            expect(event.event_summary).to.be.a('string');
+            expect(event).to.have.property('summary');
+            expect(event.summary).to.be.a('string');
             
             // Log summary content for debugging (first 5 events)
             if (index < 5) {
-              cy.log(`Event ${index} summary: "${event.event_summary}" (${event.event_summary.length} chars)`);
+              cy.log(`Event ${index} summary: "${event.summary}" (${event.summary.length} chars)`);
             }
             
             // If summary has content, test constraints
-            if (event.event_summary && event.event_summary !== '') {
+            if (event.summary && event.summary !== '') {
               eventsWithSummary++;
               // Test 150 character limit
-              expect(event.event_summary.length, `Event ${index} summary should be <= 150 characters`).to.be.at.most(150);
+              expect(event.summary.length, `Event ${index} summary should be <= 150 characters`).to.be.at.most(150);
               // Summary should have meaningful content (not just whitespace)
-              expect(event.event_summary.trim(), `Event ${index} summary should not be just whitespace`).to.not.equal('');
+              expect(event.summary.trim(), `Event ${index} summary should not be just whitespace`).to.not.equal('');
             }
           });
           
@@ -197,8 +197,8 @@ describe("Test Events API", () => {
             
             // Count events that should be filtered out (past events)
             const pastEvents = allEvents.filter(event => {
-              if (event.date) {
-                const eventDate = event.date.split('T')[0];
+              if (event.start_date) {
+                const eventDate = event.start_date.split('T')[0];
                 return eventDate < today;
               }
               return false;
@@ -212,8 +212,8 @@ describe("Test Events API", () => {
             
             // Verify all returned events are today or later
             response.body.forEach((event, index) => {
-              if (event.date) {
-                const eventDate = event.date.split('T')[0];
+              if (event.start_date) {
+                const eventDate = event.start_date.split('T')[0];
                 expect(eventDate >= today, `Event date ${eventDate} should be >= ${today}`).to.be.true;
               }
             });
@@ -233,8 +233,8 @@ describe("Test Events API", () => {
         
         // Verify all returned events are from the start date or later
         response.body.forEach(event => {
-          if (event.date) {
-            const eventDate = event.date.split('T')[0];
+          if (event.start_date) {
+            const eventDate = event.start_date.split('T')[0];
             expect(eventDate >= startDate, `Event date ${eventDate} should be >= ${startDate}`).to.be.true;
           }
         });
@@ -263,8 +263,8 @@ describe("Test Events API", () => {
             
             // Count events that should be filtered out (before today or after next week)
             const eventsOutsideRange = allEvents.filter(event => {
-              if (event.date) {
-                const eventDate = event.date.split('T')[0];
+              if (event.start_date) {
+                const eventDate = event.start_date.split('T')[0];
                 return eventDate < todayStr || eventDate > nextWeekStr;
               }
               return false;
@@ -279,15 +279,15 @@ describe("Test Events API", () => {
             // Verify all returned events are within the date range
             cy.log(`Testing ${response.body.length} events against range ${todayStr} to ${nextWeekStr}`);
             response.body.forEach((event, index) => {
-              if (event.date) {
-                const eventDateObj = new Date(event.date);
+              if (event.start_date) {
+                const eventDateObj = new Date(event.start_date);
                 const eventDateStr = eventDateObj.toISOString().split('T')[0];
                 const eventDateUTC = new Date(eventDateStr + 'T00:00:00Z');
                 const todayUTC = new Date(todayStr + 'T00:00:00Z');
                 const nextWeekUTC = new Date(nextWeekStr + 'T23:59:59Z');
                 
                 if (index < 5) { // Log first 5 events for debugging
-                  cy.log(`Event ${index}: ${event.date} -> ${eventDateStr}, today: ${todayStr}, nextWeek: ${nextWeekStr}`);
+                  cy.log(`Event ${index}: ${event.start_date} -> ${eventDateStr}, today: ${todayStr}, nextWeek: ${nextWeekStr}`);
                 }
                 
                 expect(eventDateUTC >= todayUTC, `Event date ${eventDateStr} should be >= ${todayStr}`).to.be.true;
@@ -320,8 +320,8 @@ describe("Test Events API", () => {
             
             // Count events that should be filtered out (before today or after 2 weeks)
             const eventsOutsideRange = allEvents.filter(event => {
-              if (event.date) {
-                const eventDate = event.date.split('T')[0];
+              if (event.start_date) {
+                const eventDate = event.start_date.split('T')[0];
                 return eventDate < todayStr || eventDate > twoWeeksLaterStr;
               }
               return false;
@@ -335,8 +335,8 @@ describe("Test Events API", () => {
             
             // Verify all returned events are within the specified range
             response.body.forEach(event => {
-              if (event.date) {
-                const eventDateObj = new Date(event.date);
+              if (event.start_date) {
+                const eventDateObj = new Date(event.start_date);
                 const eventDateStr = eventDateObj.toISOString().split('T')[0];
                 const eventDateUTC = new Date(eventDateStr + 'T00:00:00Z');
                 const todayUTC = new Date(todayStr + 'T00:00:00Z');
@@ -531,8 +531,8 @@ describe("Test Events API", () => {
             
             // Count events that should be filtered out (before last month or after today)
             const eventsOutsideRange = allEvents.filter(event => {
-              if (event.date) {
-                const eventDate = event.date.split('T')[0];
+              if (event.start_date) {
+                const eventDate = event.start_date.split('T')[0];
                 return eventDate < lastMonthStr || eventDate > todayStr;
               }
               return false;
@@ -547,9 +547,9 @@ describe("Test Events API", () => {
             // Verify all returned events are in the past range
             // Note: Event dates are in UTC (ending with 'Z'), so we need to compare UTC dates
             response.body.forEach((event, index) => {
-              if (event.date) {
+              if (event.start_date) {
                 // Parse the UTC date from the event
-                const eventDateObj = new Date(event.date);
+                const eventDateObj = new Date(event.start_date);
                 const eventDateStr = eventDateObj.toISOString().split('T')[0];
                 
                 // For date-only comparison, we need to be lenient about timezone boundaries
@@ -677,13 +677,13 @@ describe("Test Events API", () => {
         
         // Check if events have proper UTC date formatting
         response.body.forEach(event => {
-          if (event.date) {
+          if (event.start_date) {
             // Verify start date is in UTC format with Z suffix
-            expect(event.date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
+            expect(event.start_date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
           }
-          if (event.date_1) {
+          if (event.end_date) {
             // Verify end date is in UTC format with Z suffix
-            expect(event.date_1).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
+            expect(event.end_date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
           }
         });
       });
@@ -760,8 +760,8 @@ describe("Test Events API", () => {
             
             // Count events that should be filtered out (before today or after next week)
             const eventsOutsideRange = allEvents.filter(event => {
-              if (event.date) {
-                const eventDate = event.date.split('T')[0];
+              if (event.start_date) {
+                const eventDate = event.start_date.split('T')[0];
                 return eventDate < today || eventDate > nextWeek;
               }
               return false;
@@ -775,8 +775,8 @@ describe("Test Events API", () => {
             
             // Verify filtering works
             response.body.forEach(event => {
-              if (event.date) {
-                const eventDateObj = new Date(event.date);
+              if (event.start_date) {
+                const eventDateObj = new Date(event.start_date);
                 const eventDateStr = eventDateObj.toISOString().split('T')[0];
                 const eventDateUTC = new Date(eventDateStr + 'T00:00:00Z');
                 const todayUTC = new Date(today + 'T00:00:00Z');
@@ -800,8 +800,8 @@ describe("Test Events API", () => {
         
         // Verify all events are within the date range
         response.body.forEach(event => {
-          if (event.date) {
-            const eventDate = event.date.split('T')[0];
+          if (event.start_date) {
+            const eventDate = event.start_date.split('T')[0];
             expect(eventDate <= endDate, `Event date ${eventDate} should be <= ${endDate}`).to.be.true;
           }
         });
@@ -829,8 +829,8 @@ describe("Test Events API", () => {
             
             // Count events that should be filtered out (before today or after next month)
             const eventsOutsideRange = allEvents.filter(event => {
-              if (event.date) {
-                const eventDate = event.date.split('T')[0];
+              if (event.start_date) {
+                const eventDate = event.start_date.split('T')[0];
                 return eventDate < today || eventDate > nextMonth;
               }
               return false;
@@ -844,8 +844,8 @@ describe("Test Events API", () => {
             
             // Verify events fall within the specified range
             response.body.forEach(event => {
-              if (event.date) {
-                const eventDateObj = new Date(event.date);
+              if (event.start_date) {
+                const eventDateObj = new Date(event.start_date);
                 const eventDateStr = eventDateObj.toISOString().split('T')[0];
                 const eventDateUTC = new Date(eventDateStr + 'T00:00:00Z');
                 const todayUTC = new Date(today + 'T00:00:00Z');
@@ -934,8 +934,8 @@ describe("Test Events API", () => {
         
         // Verify returned events match the specified date
         response.body.forEach(event => {
-          if (event.date) {
-            const eventDate = event.date.split('T')[0];
+          if (event.start_date) {
+            const eventDate = event.start_date.split('T')[0];
             expect(eventDate).to.eq(testDate);
           }
         });
@@ -955,8 +955,8 @@ describe("Test Events API", () => {
         
         // Verify all returned events fall within the date range
         response.body.forEach(event => {
-          if (event.date) {
-            const eventDate = event.date.split('T')[0];
+          if (event.start_date) {
+            const eventDate = event.start_date.split('T')[0];
             expect(eventDate >= startDate && eventDate <= endDate, `Event date ${eventDate} should be between ${startDate} and ${endDate}`).to.be.true;
           }
         });
@@ -982,8 +982,8 @@ describe("Test Events API", () => {
             
             // Count events that should be filtered out (before today)
             const pastEvents = allEvents.filter(event => {
-              if (event.date) {
-                const eventDate = event.date.split('T')[0];
+              if (event.start_date) {
+                const eventDate = event.start_date.split('T')[0];
                 return eventDate < todayStr;
               }
               return false;
@@ -1003,15 +1003,15 @@ describe("Test Events API", () => {
                 
                 // Both should return events starting from today
                 relativeResponse.body.forEach(event => {
-                  if (event.date) {
-                    const eventDate = event.date.split('T')[0];
+                  if (event.start_date) {
+                    const eventDate = event.start_date.split('T')[0];
                     expect(eventDate >= todayStr, `Relative filter: Event date ${eventDate} should be >= ${todayStr}`).to.be.true;
                   }
                 });
                 
                 absoluteResponse.body.forEach(event => {
-                  if (event.date) {
-                    const eventDate = event.date.split('T')[0];
+                  if (event.start_date) {
+                    const eventDate = event.start_date.split('T')[0];
                     expect(eventDate >= todayStr, `Absolute filter: Event date ${eventDate} should be >= ${todayStr}`).to.be.true;
                   }
                 });
@@ -1031,8 +1031,8 @@ describe("Test Events API", () => {
         
         // Verify all returned events are in 2022
         response.body.forEach(event => {
-          if (event.date) {
-            const eventDate = event.date.split('T')[0];
+          if (event.start_date) {
+            const eventDate = event.start_date.split('T')[0];
             expect(eventDate >= '2022-01-01' && eventDate <= '2022-12-31').to.be.true;
           }
         });
@@ -1057,8 +1057,8 @@ describe("Test Events API", () => {
             
             // Count events that should be filtered out (before absoluteStart)
             const eventsBefore = allEvents.filter(event => {
-              if (event.date) {
-                const eventDate = event.date.split('T')[0];
+              if (event.start_date) {
+                const eventDate = event.start_date.split('T')[0];
                 return eventDate < absoluteStart;
               }
               return false;
@@ -1072,8 +1072,8 @@ describe("Test Events API", () => {
             
             // Verify the combination works as expected
             response.body.forEach(event => {
-              if (event.date) {
-                const eventDate = event.date.split('T')[0];
+              if (event.start_date) {
+                const eventDate = event.start_date.split('T')[0];
                 expect(eventDate >= absoluteStart, `Event date ${eventDate} should be >= ${absoluteStart}`).to.be.true;
               }
             });
@@ -1123,8 +1123,8 @@ describe("Test Events API", () => {
             // Verify all dates are in UTC format
             if (utcResponse.body.length > 0) {
               utcResponse.body.forEach(event => {
-                expect(event.date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
-                expect(event.date_1).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
+                expect(event.start_date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
+                expect(event.end_date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
                 expect(event.created).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
                 expect(event.changed).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
               });
@@ -1154,8 +1154,8 @@ describe("Test Events API", () => {
             // All output should still be in UTC format regardless of timezone param
             if (etResponse.body.length > 0) {
               etResponse.body.forEach(event => {
-                expect(event.date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
-                expect(event.date_1).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
+                expect(event.start_date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
+                expect(event.end_date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
                 expect(event.created).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
                 expect(event.changed).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
               });
@@ -1176,7 +1176,7 @@ describe("Test Events API", () => {
         // Verify all output is still in UTC format
         if (response.body.length > 0) {
           response.body.forEach(event => {
-            expect(event.date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
+            expect(event.start_date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
           });
         }
       });
@@ -1222,8 +1222,8 @@ describe("Test Events API", () => {
             
             // Count events that should be filtered out (before -1month or after +1month)
             const eventsOutsideRange = allEvents.filter(event => {
-              if (event.date) {
-                const eventDate = event.date.split('T')[0];
+              if (event.start_date) {
+                const eventDate = event.start_date.split('T')[0];
                 // Using looser bounds due to timezone calculation complexity
                 return eventDate < oneMonthAgo || eventDate > oneMonthFromNow;
               }
@@ -1237,8 +1237,8 @@ describe("Test Events API", () => {
             }
             
             response.body.forEach(event => {
-              if (event.date) {
-                const eventDate = event.date.split('T')[0];
+              if (event.start_date) {
+                const eventDate = event.start_date.split('T')[0];
                 // Note: exact comparison is tricky due to timezone differences, 
                 // but we can verify format and reasonable date range
                 expect(eventDate).to.match(/^\d{4}-\d{2}-\d{2}$/);

@@ -1146,8 +1146,8 @@ display:
     position: 1
     display_options:
       fields:
-        field_published_date:
-          id: field_published_date
+        published_date:
+          id: published_date
           table: search_api_datasource_announcements_entity_node
           field: field_published_date
           relationship: none
@@ -1361,8 +1361,8 @@ display:
             multi_type: separator
             multi_separator: ', '
             filter_type: xss
-        custom_announcement_ag:
-          id: custom_announcement_ag
+        affinity_group:
+          id: affinity_group
           table: search_api_index_announcements
           field: custom_announcement_ag
           relationship: none
@@ -1414,7 +1414,7 @@ display:
           use_highlighting: false
           multi_type: separator
           multi_separator: ', '
-        custom_announcement_tags:
+        tags:
           id: custom_announcement_tags
           table: search_api_index_announcements
           field: custom_announcement_tags
@@ -1467,8 +1467,8 @@ display:
           use_highlighting: false
           multi_type: separator
           multi_separator: ', '
-        field_affiliation:
-          id: field_affiliation
+        affiliation:
+          id: affiliation
           table: search_api_datasource_announcements_entity_node
           field: field_affiliation
           relationship: none
@@ -2298,6 +2298,51 @@ display:
               1: {  }
               2: {  }
               3: {  }
+        search_api_fulltext:
+          id: search_api_fulltext
+          table: search_api_index_announcements
+          field: search_api_fulltext
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_fulltext
+          operator: and
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: 'search_api_fulltext'
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            expose_fields: false
+            placeholder: ''
+            searched_fields_id: ''
+            value_maxlength: 128
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          parse_mode: terms
+          min_length: null
+          fields: {  }
       filter_groups:
         operator: AND
         groups:
@@ -2349,3 +2394,4 @@ display:
         - 'config:field.storage.node.field_published_date'
         - 'config:search_api.index.announcements'
         - 'search_api_list:announcements'
+
