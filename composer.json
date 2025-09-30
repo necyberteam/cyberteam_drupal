@@ -136,6 +136,10 @@
     "drupal/multiple_registration": "^3.0",
     "drupal/nocurrent_pass": "^1.0",
     "drupal/nodeaccess": "dev-1.x#9933a1c",
+    "drupal/openapi": "^2.3",
+    "drupal/openapi_rest": "^2.0@RC",
+    "drupal/openapi_ui": "^1.0@RC",
+    "drupal/openapi_ui_swagger": "^1.1",
     "drupal/pantheon_advanced_page_cache": "^2.0",
     "drupal/pathauto": "^1.8",
     "drupal/private_files_download_permission": "^3.1",
@@ -195,7 +199,8 @@
     "oit/facets_honeypot": "^1.0",
     "oomphinc/composer-installers-extender": "^2.0",
     "pantheon-systems/quicksilver-pushback": "^2",
-    "politsin/jquery-ui-touch-punch": "^1.0"
+    "politsin/jquery-ui-touch-punch": "^1.0",
+    "swagger-api/swagger-ui": "^3.52"
   },
   "require-dev": {
     "amp/amp_dev": "dev-main",
@@ -289,7 +294,18 @@
   },
   "scripts": {
     "robo": "robo --ansi",
-    "robo-ci": "robo --no-ansi"
+    "robo-ci": "robo --no-ansi",
+    "post-install-cmd": [
+      "@setup-swagger-ui"
+    ],
+    "post-update-cmd": [
+      "@setup-swagger-ui"
+    ],
+    "setup-swagger-ui": [
+      "rm -rf web/libraries/swagger-ui",
+      "mkdir -p web/libraries/swagger-ui",
+      "cp -r vendor/swagger-api/swagger-ui/dist web/libraries/swagger-ui/dist"
+    ]
   },
   "autoload": {
     "psr-4": {
