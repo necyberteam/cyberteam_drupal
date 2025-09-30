@@ -25,7 +25,7 @@ describe('Tests the NAIRR Pilot Webinars Page for anonymous users', () => {
         cy.get('.page-title').contains('NAIRR Pilot Webinars')
 
         // Hero CTA section
-        cy.contains('Recordings of past webinars')
+        cy.contains('Watch recorded webinars')
         cy.get('a[href="https://www.youtube.com/@NAIRRPilot/videos"]').should('contain', 'NAIRR Pilot youtube')
 
         // Main content sections
