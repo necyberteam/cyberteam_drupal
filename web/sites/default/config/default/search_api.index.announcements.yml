@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.body
     - field.storage.node.field_affiliation
+    - field.storage.node.field_domain_access
     - field.storage.node.field_published_date
     - search_api.server.default_server
   module:
@@ -43,6 +44,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_affiliation
+  field_domain_access:
+    label: 'Domain Access'
+    datasource_id: 'entity:node'
+    property_path: field_domain_access
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_domain_access
   field_published_date:
     label: 'Published Date'
     datasource_id: 'entity:node'
