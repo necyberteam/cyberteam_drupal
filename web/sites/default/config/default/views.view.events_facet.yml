@@ -5963,16 +5963,19 @@ display:
           parse_mode: terms
           min_length: null
           fields: {  }
-        custom_event_no_show:
-          id: custom_event_no_show
+        where_to_share:
+          id: where_to_share
           table: search_api_index_events
-          field: custom_event_no_show
+          field: where_to_share
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: search_api_boolean
-          operator: '!='
-          value: '1'
+          plugin_id: search_api_string
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: on_the_announcements_page
           group: 1
           exposed: false
           expose:
@@ -5989,6 +5992,9 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
