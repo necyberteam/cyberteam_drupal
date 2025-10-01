@@ -1,0 +1,116 @@
+uuid: 2ea0c123-fe4a-43e2-a86f-7641856ec0e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - field.storage.node.field_affiliation
+    - field.storage.node.field_domain_access
+    - field.storage.node.field_published_date
+    - search_api.server.default_server
+  module:
+    - access_misc
+    - access_news
+    - ccmnet
+    - cssn
+    - node
+    - webform_submission_search_api
+id: announcements
+name: Announcements
+description: ''
+read_only: false
+field_settings:
+  body:
+    label: Body
+    datasource_id: 'entity:node'
+    property_path: body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.body
+  custom_announcement_ag:
+    label: 'Custom Affinity Group field for Announcement'
+    property_path: search_api_custom_announcement_ag
+    type: string
+  custom_announcement_tags:
+    label: 'Announcement Tags'
+    property_path: search_api_custom_announcement_tags
+    type: string
+  field_affiliation:
+    label: Affiliation
+    datasource_id: 'entity:node'
+    property_path: field_affiliation
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_affiliation
+  field_domain_access:
+    label: 'Domain Access'
+    datasource_id: 'entity:node'
+    property_path: field_domain_access
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_domain_access
+  field_published_date:
+    label: 'Published Date'
+    datasource_id: 'entity:node'
+    property_path: field_published_date
+    type: date
+    dependencies:
+      config:
+        - field.storage.node.field_published_date
+  title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: string
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - access_news
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  announcement_tags: {  }
+  custom_announcement_affinity_group: {  }
+  custom_event_affiliation: {  }
+  custom_event_no_show: {  }
+  custom_event_skill_level: {  }
+  custom_event_title: {  }
+  custom_event_type: {  }
+  custom_value: {  }
+  entity_type: {  }
+  event_tags: {  }
+  language_with_fallback: {  }
+  mentee_name: {  }
+  rendered_item: {  }
+  user_affinity_groups: {  }
+  user_badges: {  }
+  user_interests: {  }
+  user_skills: {  }
+  user_skills_id: {  }
+  webform_submission_category: {  }
+  webform_submission_description: {  }
+  webform_submission_domain: {  }
+  webform_submission_skill_level: {  }
+  webform_submission_tags: {  }
+  webform_submission_title: {  }
+  webform_submission_vote_count: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  cron_limit: 50
+  delete_on_fail: true
+  index_directly: true
+  track_changes_in_references: true
+server: default_server

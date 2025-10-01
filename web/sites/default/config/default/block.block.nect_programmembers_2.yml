@@ -8,6 +8,7 @@ dependencies:
     - collapsiblock
     - facets
     - system
+    - user
   theme:
     - nect
 third_party_settings:
@@ -16,7 +17,7 @@ third_party_settings:
 id: nect_programmembers_2
 theme: nect
 region: primary_sidebar
-weight: 22
+weight: 25
 provider: null
 plugin: 'facet_block:program_members'
 settings:
@@ -31,3 +32,10 @@ visibility:
     id: request_path
     negate: false
     pages: /members
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

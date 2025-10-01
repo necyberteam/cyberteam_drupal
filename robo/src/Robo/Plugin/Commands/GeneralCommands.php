@@ -227,7 +227,7 @@ GITHUB_TOKEN=$token'>.env");
     if ($is_ddev) {
       $this->_exec("drush sql-dump --result-file=backups/snapshots/" . $date . "_" . $branch . "_" . $snap_name . ".sql.gz");
     } else {
-      $this->_exec("ddev export-db --file=backups/snapshots/" . $date . "_" . $branch . "_" . $snap_name . ".sql");
+      $this->_exec("ddev export-db --file=backups/snapshots/" . $date . "_" . $branch . "_" . $snap_name . ".sql.gz");
     }
   }
 
@@ -279,7 +279,7 @@ GITHUB_TOKEN=$token'>.env");
     if ($module == 'drupal/core') {
       $this->say("Updating Drupal core");
       $this->_exec("composer update drupal/core-recommended drupal/core-composer-scaffold drupal/core-dev --ignore-platform-reqs -W >log.txt 2>&1");
-      $this->composer_updates('/Upgrading (drupal)\/core \((.* \=\> .*)\)$/mU', TRUE);
+      $this->composer_updates('/Upgrading (drupal)\/core \((.* => .*)\)$/mU', TRUE);
     }
     elseif (!empty($module)) {
       echo $version;
@@ -291,7 +291,7 @@ GITHUB_TOKEN=$token'>.env");
         $this->say("Updating $module minor release");
         $this->_exec("composer update $module --no-scripts --ignore-platform-reqs >log.txt 2>&1");
       }
-      $this->composer_updates('/Upgrading .*\/(.*)\((.* \=\> .*)\)$/m', TRUE);
+      $this->composer_updates('/Upgrading .*\/(.*)\((.* => .*)\)$/m', TRUE);
     }
   }
 
@@ -535,6 +535,7 @@ GITHUB_TOKEN=$token'>.env");
     }
     $domain_id = $this->ask("Which domain should be the default?");
     $default_domain = $domains[$domain_id]['id'];
+    $this->_exec("rm robo/assets/md/md-*");
     $this->_exec("touch robo/assets/md/$branch");
     $this->_exec("echo '$default_domain'>>robo/assets/md/$branch");
   }

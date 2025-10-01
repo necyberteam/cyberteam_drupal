@@ -8,6 +8,7 @@ dependencies:
     - collapsiblock
     - facets
     - system
+    - user
   theme:
     - ood
 third_party_settings:
@@ -16,7 +17,7 @@ third_party_settings:
 id: ood_sciencedomain_2
 theme: ood
 region: primary_sidebar
-weight: -16
+weight: -15
 provider: null
 plugin: 'facet_block:science_domain'
 settings:
@@ -31,3 +32,10 @@ visibility:
     id: request_path
     negate: false
     pages: /knowledge-base/resources
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

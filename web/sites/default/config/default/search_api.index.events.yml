@@ -3,6 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.eventinstance.domain_access
+    - field.storage.eventinstance.field_video
     - search_api.server.default_server
   module:
     - access_misc
@@ -27,6 +29,10 @@ field_settings:
   custom_event_affiliation:
     label: 'Custom Event Affiliation'
     property_path: search_api_custom_event_affiliation
+    type: string
+  custom_event_affinity_group:
+    label: 'Custom Event Affinity Group'
+    property_path: search_api_custom_event_affinity_group
     type: string
   custom_event_no_show:
     label: 'Event No Show'
@@ -66,8 +72,8 @@ field_settings:
     property_path: domain_access
     type: string
     dependencies:
-      module:
-        - domain_access
+      config:
+        - field.storage.eventinstance.domain_access
   event_affiliation:
     label: 'Event Affiliation'
     datasource_id: 'entity:eventinstance'
@@ -84,6 +90,14 @@ field_settings:
     dependencies:
       module:
         - field_inheritance
+  field_video:
+    label: Video
+    datasource_id: 'entity:eventinstance'
+    property_path: field_video
+    type: string
+    dependencies:
+      config:
+        - field.storage.eventinstance.field_video
   skill_level:
     label: 'Skill Level'
     datasource_id: 'entity:eventinstance'
@@ -120,20 +134,16 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
-  content_access:
-    weights:
-      preprocess_query: -30
   custom_event_affiliation: {  }
+  custom_event_affinity_group: {  }
   custom_event_no_show: {  }
   custom_event_skill_level: {  }
   custom_event_title: {  }
   custom_event_type: {  }
   custom_value: {  }
-  domain_access: {  }
   entity_status: {  }
   entity_type: {  }
   event_tags: {  }
-  eventinstance_domain: {  }
   highlight:
     weights:
       postprocess_query: 0
@@ -232,6 +242,7 @@ processor_settings:
   user_skills_id: {  }
   webform_submission_category: {  }
   webform_submission_description: {  }
+  webform_submission_domain: {  }
   webform_submission_skill_level: {  }
   webform_submission_tags: {  }
   webform_submission_title: {  }
