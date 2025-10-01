@@ -2,7 +2,7 @@ describe("Affinity Groups tests anon", () => {
   it("Visitor runs through the affinity group page", () => {
     cy.visit('/affinity-groups');
     cy.contains('Affinity Groups');
-    cy.contains('Request an Affinity Group');
+    cy.contains('Request a Group');
   });
 
   it("Visitor runs through access-support page", () => {

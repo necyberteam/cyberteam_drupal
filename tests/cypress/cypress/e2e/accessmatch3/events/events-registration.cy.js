@@ -25,7 +25,7 @@ describe('Test the registration feature', () => {
         subject: 'Registration Pending for cypress-example-event',
         from: 'noreply@support.access-ci.org',
         to: 'administrator@amptesting.com',
-        htmlContains: 'You will receive another email shortly to confirm your registration status'
+        htmlContains: 'You will receive another email once your registration has been reviewed and approved. Approval typically takes 1-2 business days'
       });
     });
 
