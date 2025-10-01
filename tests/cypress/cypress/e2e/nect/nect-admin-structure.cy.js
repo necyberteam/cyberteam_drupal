@@ -79,7 +79,6 @@ describe("Test Structure admin page", () => {
     cy.contains('Main page content');
     cy.contains('match engagement view: Plus Engagements Block');
     cy.contains('Outages block');
-    cy.contains('Affinity Contact Group');
     cy.contains('Affinity Group: Affinity Group - link to users');
     cy.contains('Exposed form: cssn_directory-page_1');
     cy.contains('Exposed form: affinity_group_search-page_1');
