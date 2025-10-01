@@ -3314,10 +3314,8 @@ display:
         options:
           offset: 0
       access:
-        type: role
-        options:
-          role:
-            authenticated: authenticated
+        type: ViewsCustomAccess
+        options: {  }
       arguments:
         nid:
           id: nid
@@ -3890,6 +3888,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:
