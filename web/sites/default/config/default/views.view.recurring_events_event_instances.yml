@@ -5258,6 +5258,47 @@ display:
                 title: Unpublished
                 operator: '='
                 value: '0'
+        field_choose_where_to_share_this_value:
+          id: field_choose_where_to_share_this_value
+          table: eventseries__field_choose_where_to_share_this
+          field: field_choose_where_to_share_this_value
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            in_the_access_support_bi_weekly_digest: in_the_access_support_bi_weekly_digest
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
       filter_groups:
         operator: AND
         groups:
