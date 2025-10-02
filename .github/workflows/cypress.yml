@@ -6,6 +6,9 @@ on:
     inputs:
       database:
         description: 'Recent database dump to use (leave blank to use artifact)'
+      database_branch:
+        description: 'Branch to download database artifact from (default: main)'
+        default: 'main'
       sites:
         description: 'Specify which sites to test or leave the default to run all tests.'
         default: 'accessmatch1, accessmatch2, accessmatch3, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect, ondemand'
@@ -30,6 +33,7 @@ jobs:
           site: "accessmatch"
           directory: "accessmatch1"
           database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -46,6 +50,7 @@ jobs:
           site: "accessmatch"
           directory: "accessmatch2"
           database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -62,6 +67,7 @@ jobs:
           site: "accessmatch"
           directory: "accessmatch3"
           database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -78,6 +84,7 @@ jobs:
           site: "ccmnet"
           directory: "ccmnet"
           database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -94,6 +101,7 @@ jobs:
           site: "connectci"
           directory: "connectci"
           database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -110,6 +118,7 @@ jobs:
           site: "crct"
           directory: "crct"
           database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -126,6 +135,7 @@ jobs:
           site: "campuschampions"
           directory: "campuschampions"
           database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -142,6 +152,7 @@ jobs:
           site: "coco"
           directory: "coco"
           database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -158,6 +169,7 @@ jobs:
           site: "greatplains"
           directory: "greatplains"
           database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -174,6 +186,7 @@ jobs:
           site: "kyct"
           directory: "kyct"
           database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -190,6 +203,7 @@ jobs:
           site: "nect"
           directory: "nect"
           database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -206,6 +220,7 @@ jobs:
           site: "ondemand"
           directory: "ondemand"
           database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
           amp_uid: ${{ secrets.AMP_UID }}
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
