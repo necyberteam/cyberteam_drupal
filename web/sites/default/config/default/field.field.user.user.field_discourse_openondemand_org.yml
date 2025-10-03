@@ -1,0 +1,49 @@
+uuid: b1891c35-2148-4db4-973d-05fbfb11eaad
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_discourse_openondemand_org
+  module:
+    - multiple_registration
+    - user
+third_party_settings:
+  multiple_registration:
+    user_additional_register_form_required:
+      authenticated: 0
+      student: 0
+      mentor: 0
+      researcher: 0
+      representative: 0
+      research_computing_facilitator: 0
+      research_software_engineer: 0
+      ci_systems_engineer: 0
+      student_champion: 0
+      domain_champion: 0
+      ccmnet: 0
+      ondemand: 0
+    user_additional_register_form:
+      authenticated: 0
+      student: 0
+      mentor: 0
+      researcher: 0
+      representative: 0
+      research_computing_facilitator: 0
+      research_software_engineer: 0
+      ci_systems_engineer: 0
+      student_champion: 0
+      domain_champion: 0
+      ccmnet: 0
+      ondemand: 0
+id: user.user.field_discourse_openondemand_org
+field_name: field_discourse_openondemand_org
+entity_type: user
+bundle: user
+label: 'discourse.openondemand.org username'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
