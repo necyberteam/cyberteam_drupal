@@ -714,7 +714,18 @@ form #tag-suggestions strong {
   }
 }
 
-body.page-node-type-affinity-group .layout__region--second {
-  word-break: break-word;
+body.page-node-type-affinity-group {
+  .layout__region--second {
+    word-break: break-word;
+  }
+}
+
+.page-node-type-access-news {
+  .layout__region--second .page-title:first-child {
+    display: none;
+  }
+  .layout__region--second:not(:has(.field--name-field-affinity-group-node)) .page-title:last-child {
+    display: none;
+  }
 }
 
