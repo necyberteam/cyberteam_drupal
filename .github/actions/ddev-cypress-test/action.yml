@@ -12,6 +12,10 @@ inputs:
   database:
     description: 'Custom database URL (optional)'
     required: false
+  database_branch:
+    description: 'Branch to download database artifact from'
+    required: false
+    default: 'main'
   github_token:
     description: 'GitHub token for authentication'
     required: true
@@ -35,7 +39,7 @@ runs:
         name: amp-daily-backup
         path: backups/
         workflow: backupdb.yml
-        branch: main
+        branch: ${{ inputs.database_branch }}
 
     - name: Setup DDEV Base
       if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
