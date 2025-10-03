@@ -15,9 +15,11 @@ dependencies:
     - field.field.user.user.field_current_occupation
     - field.field.user.user.field_cv_resume
     - field.field.user.user.field_degree
+    - field.field.user.user.field_discourse_openondemand_org
     - field.field.user.user.field_domain_access
     - field.field.user.user.field_domain_admin
     - field.field.user.user.field_domain_all_affiliates
+    - field.field.user.user.field_github_username
     - field.field.user.user.field_hpc_experience
     - field.field.user.user.field_institution
     - field.field.user.user.field_is_cc
@@ -44,6 +46,22 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 0
+    region: content
+  field_discourse_openondemand_org:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_github_username:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
     region: content
 hidden:
   field_academic_status: true
