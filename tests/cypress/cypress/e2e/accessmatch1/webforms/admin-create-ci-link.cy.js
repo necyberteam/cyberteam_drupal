@@ -15,9 +15,10 @@ describe("Admin user uses form to create a KB Resource", () => {
     cy.get("#edit-category").select("Learning");
     cy.get("#edit-skill-level-304").check(); // beginner level
     cy.get("#edit-skill-level-305").check(); // intermediate level
-    cy.get("#edit-description-html-value").type(
-      "Dummy description for ci-link 'cypress-ci-link-for-testing'"
-    );
+    cy.get('.form-item-description-html-value .ck-content').then(el => {
+      const editor = el[0].ckeditorInstance
+      editor.setData("Dummy description for ci-link 'cypress-ci-link-for-testing'")
+    });
 
     // add title & url for a link
     cy.get("#edit-link-to-resource-items-0-item-title").type(
