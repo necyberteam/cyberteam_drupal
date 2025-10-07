@@ -1,0 +1,23 @@
+uuid: d7b53faf-2b48-45f1-b9c1-788748ab1527
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_choose_where_to_share_this
+    - node.type.access_news
+  module:
+    - options
+id: node.access_news.field_choose_where_to_share_this
+field_name: field_choose_where_to_share_this
+entity_type: node
+bundle: access_news
+label: 'Choose where to share this announcement'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: on_the_announcements_page
+default_value_callback: ''
+settings: {  }
+field_type: list_string

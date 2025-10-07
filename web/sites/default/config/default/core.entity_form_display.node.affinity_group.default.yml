@@ -24,6 +24,7 @@ dependencies:
     - field.field.node.affinity_group.field_image
     - field.field.node.affinity_group.field_list_id
     - field.field.node.affinity_group.field_mailing_list
+    - field.field.node.affinity_group.field_meeting_notes_link
     - field.field.node.affinity_group.field_persona_source
     - field.field.node.affinity_group.field_recommended_access_res
     - field.field.node.affinity_group.field_resources_entity_reference
@@ -213,6 +214,14 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_meeting_notes_link:
+    type: link_default
+    weight: 34
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   field_persona_source:
     type: options_select
