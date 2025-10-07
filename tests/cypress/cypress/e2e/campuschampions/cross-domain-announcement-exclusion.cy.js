@@ -21,6 +21,7 @@ describe("Cross-Domain Announcement Exclusion Test", () => {
     cy.visit('/node/add/access_news');
     cy.get('#edit-title-0-value').type(ccTitle);
     cy.get('#tag-ai').click();
+    cy.get('#edit-body-0-summary').type('Summary for Campus Champions announcement');
     cy.get('.ck-editor__editable').type('This should only appear on Campus Champions domain.');
     cy.get('[name="moderation_state[0][state]"]').select('Published');
     cy.get('#edit-submit').click();
@@ -57,6 +58,7 @@ describe("Cross-Domain Announcement Exclusion Test", () => {
       cy.get('#edit-title-0-value').type(accessTitle);
       cy.get('#edit-field-affiliation').select('ACCESS Collaboration');
       cy.get('#tag-ai').click();
+      cy.get('#edit-body-0-summary').type('Summary for ACCESS announcement');
       cy.get('.ck-editor__editable').type('This should only appear on ACCESS domain.');
       cy.get('[name="moderation_state[0][state]"]').select('Published');
       cy.get('#edit-submit').click();
