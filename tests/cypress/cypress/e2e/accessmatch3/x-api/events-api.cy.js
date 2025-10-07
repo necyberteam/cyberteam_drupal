@@ -822,7 +822,10 @@ describe("Test Events API", () => {
             
             // Use UTC dates to match API's default timezone for relative dates
             const today = new Date().toISOString().split('T')[0];
-            const nextMonth = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            // Calculate +1 month by adding 1 to the month (not 30 days, since months have different lengths)
+            const todayDate = new Date();
+            const nextMonthDate = new Date(todayDate.getFullYear(), todayDate.getMonth() + 1, todayDate.getDate());
+            const nextMonth = nextMonthDate.toISOString().split('T')[0];
             
             cy.log(`All events: ${allEvents.length}, Filtered events: ${response.body.length}`);
             cy.log(`Date range: ${today} to ${nextMonth}`);
