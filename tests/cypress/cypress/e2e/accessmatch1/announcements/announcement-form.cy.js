@@ -31,6 +31,10 @@ describe("Authenticated user tests the Announcement Form without adding an Affin
     // Tags
     cy.get("#tag-ai").click();
 
+    // Body content (required)
+    cy.get('#edit-body-0-summary').type('Summary for Cypress test announcement');
+    cy.get('.ck-editor__editable').type('This is a test announcement created by Cypress for testing purposes.');
+
     // Date for Announcement
     cy.get(
       "#edit-field-published-date-wrapper > .form-datetime-wrapper"
