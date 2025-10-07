@@ -1880,16 +1880,17 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           use_tokens: false
-        field_event_no_listing_value:
-          id: field_event_no_listing_value
-          table: eventseries__field_event_no_listing
-          field: field_event_no_listing_value
+        field_affiliation_value:
+          id: field_affiliation_value
+          table: eventseries__field_affiliation
+          field: field_affiliation_value
           relationship: eventseries_id
           group_type: group
           admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '0'
+          plugin_id: list_field
+          operator: or
+          value:
+            access_nairr_office_hours: access_nairr_office_hours
           group: 1
           exposed: false
           expose:
@@ -1906,6 +1907,7 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
+            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -1918,17 +1920,18 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_affiliation_value:
-          id: field_affiliation_value
-          table: eventseries__field_affiliation
-          field: field_affiliation_value
+          reduce_duplicates: false
+        field_choose_where_to_share_this_value:
+          id: field_choose_where_to_share_this_value
+          table: eventseries__field_choose_where_to_share_this
+          field: field_choose_where_to_share_this_value
           relationship: eventseries_id
           group_type: group
           admin_label: ''
           plugin_id: list_field
           operator: or
           value:
-            access_nairr_office_hours: access_nairr_office_hours
+            on_the_announcements_page: on_the_announcements_page
           group: 1
           exposed: false
           expose:
@@ -3111,6 +3114,47 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           use_tokens: 0
+        field_choose_where_to_share_this_value:
+          id: field_choose_where_to_share_this_value
+          table: eventseries__field_choose_where_to_share_this
+          field: field_choose_where_to_share_this_value
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            on_the_announcements_page: on_the_announcements_page
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
       filter_groups:
         operator: AND
         groups:
@@ -3288,6 +3332,7 @@ display:
     display_plugin: block
     position: 1
     display_options:
+      enabled: false
       title: 'Upcoming Events'
       fields:
         title:
@@ -4192,6 +4237,47 @@ display:
                 value:
                   Community: Community
           reduce_duplicates: false
+        field_choose_where_to_share_this_value:
+          id: field_choose_where_to_share_this_value
+          table: eventseries__field_choose_where_to_share_this
+          field: field_choose_where_to_share_this_value
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            on_the_announcements_page: on_the_announcements_page
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
       filter_groups:
         operator: AND
         groups:
@@ -4370,6 +4456,7 @@ display:
     display_plugin: block
     position: 1
     display_options:
+      enabled: true
       title: 'Latest Events'
       fields:
         date__value:
@@ -4868,16 +4955,17 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           use_tokens: false
-        field_event_no_listing_value:
-          id: field_event_no_listing_value
-          table: eventseries__field_event_no_listing
-          field: field_event_no_listing_value
+        field_choose_where_to_share_this_value:
+          id: field_choose_where_to_share_this_value
+          table: eventseries__field_choose_where_to_share_this
+          field: field_choose_where_to_share_this_value
           relationship: eventseries_id
           group_type: group
           admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '0'
+          plugin_id: list_field
+          operator: or
+          value:
+            on_the_announcements_page: on_the_announcements_page
           group: 1
           exposed: false
           expose:
@@ -4894,6 +4982,7 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
+            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -4906,6 +4995,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          reduce_duplicates: false
       filter_groups:
         operator: AND
         groups:
@@ -4959,6 +5049,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      enabled: false
       pager:
         type: none
         options:
@@ -5167,6 +5258,47 @@ display:
                 title: Unpublished
                 operator: '='
                 value: '0'
+        field_choose_where_to_share_this_value:
+          id: field_choose_where_to_share_this_value
+          table: eventseries__field_choose_where_to_share_this
+          field: field_choose_where_to_share_this_value
+          relationship: eventseries_id
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            in_the_access_support_bi_weekly_digest: in_the_access_support_bi_weekly_digest
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
       filter_groups:
         operator: AND
         groups:

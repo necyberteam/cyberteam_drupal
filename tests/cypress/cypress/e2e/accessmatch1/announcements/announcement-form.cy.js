@@ -43,6 +43,13 @@ describe("Authenticated user tests the Announcement Form without adding an Affin
     // Affiliation Field
     cy.get("#edit-field-affiliation").select("Community");
 
+    // Choose where to share this field - test the new field
+    cy.get("#edit-field-choose-where-to-share-this").should("exist");
+    // Verify default is "on the Announcements page"
+    cy.get('input[name="field_choose_where_to_share_this[on_the_announcements_page]"]').should("be.checked");
+    // Select additional option - "in the ACCESS Support Bi-Weekly Digest"
+    cy.get('input[name="field_choose_where_to_share_this[in_the_access_support_bi_weekly_digest]"]').check();
+
     // Save As Field
     cy.get('[name="moderation_state[0][state]"]').select("Published");
 
