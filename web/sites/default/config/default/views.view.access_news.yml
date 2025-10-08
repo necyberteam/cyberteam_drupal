@@ -2937,18 +2937,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-      style:
-        type: default
-        options:
-          grouping: {  }
-          row_class: my-5
-          default_row_class: true
-          uses_fields: false
-      row:
-        type: 'entity:node'
-        options:
-          relationship: none
-          view_mode: alt_teaser
       filters:
         field_choose_where_to_share_this_value:
           id: field_choose_where_to_share_this_value
@@ -2991,16 +2979,28 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      style:
+        type: default
+        options:
+          grouping: {  }
+          row_class: my-5
+          default_row_class: true
+          uses_fields: false
+      row:
+        type: 'entity:node'
+        options:
+          relationship: none
+          view_mode: alt_teaser
       defaults:
         style: false
         row: false
         fields: false
         filters: false
         filter_groups: false
-      filter_groups:
-        operator: AND
-        groups:
-          1: AND
       display_description: ''
       exposed_block: true
       display_extenders: {  }
