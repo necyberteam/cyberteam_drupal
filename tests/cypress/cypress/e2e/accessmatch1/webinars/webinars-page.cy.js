@@ -25,7 +25,7 @@ describe('Tests the NAIRR Pilot Webinars Page for anonymous users', () => {
         cy.get('.page-title').contains('NAIRR Pilot Webinars')
 
         // Hero CTA section
-        cy.contains('Recordings of past webinars')
+        cy.contains('Watch recorded webinars')
         cy.get('a[href="https://www.youtube.com/@NAIRRPilot/videos"]').should('contain', 'NAIRR Pilot youtube')
 
         // Main content sections
@@ -67,19 +67,21 @@ describe('Tests the NAIRR Pilot Webinars Page for anonymous users', () => {
         cy.wait(500)
 
         // Verify upcoming webinars content
-        cy.get('.view-events-facet.view-display-id-upcoming_webinars').within(() => {
-            cy.contains('Upcoming Webinars')
-            // Check for webinar entries if they exist
-            cy.get('.views-row').then($rows => {
-                if ($rows.length > 0) {
-                    cy.get('.views-row').first().within(() => {
-                        // Should have title link
-                        cy.get('a[href*="/events/"]').should('exist')
-                        // Should have date/time info
-                        cy.get('.font-bold').should('exist')
-                    })
-                }
-            })
+        cy.get('.view-events-facet.view-display-id-upcoming_webinars').should('exist')
+        cy.get('.view-events-facet.view-display-id-upcoming_webinars').contains('Upcoming Webinars')
+
+        // Check for webinar entries if they exist
+        cy.get('.view-events-facet.view-display-id-upcoming_webinars').then($container => {
+            if ($container.find('.views-row').length > 0) {
+                cy.get('.view-events-facet.view-display-id-upcoming_webinars .views-row').first().within(() => {
+                    // Should have title link
+                    cy.get('a[href*="/events/"]').should('exist')
+                    // Should have date/time info
+                    cy.get('.font-bold').should('exist')
+                })
+            } else {
+                cy.log('No upcoming webinars found')
+            }
         })
 
         // Verify recorded webinars content

@@ -10,7 +10,9 @@ describe("Check admin configuration pages", () => {
 
     cy.contains('Academic Status');
     cy.contains('Allocated Resources');
-    cy.contains('askci username');
+    cy.contains('Ask.CI Username');
+    cy.contains('GitHub Username');
+    cy.contains('Open OnDemand Discourse Username');
     cy.contains('Badges');
     cy.contains('Bio');
     cy.contains('Blocked Affinity Groups');
@@ -43,7 +45,9 @@ describe("Check admin configuration pages", () => {
     cy.contains('Last Name');
     cy.contains('Preferred pronouns');
     cy.contains('Organization');
-    cy.contains('askci username');
+    cy.contains('Ask.CI Username');
+    cy.contains('GitHub Username');
+    cy.contains('Open OnDemand Discourse Username');
     cy.contains('Job Title');
     cy.contains('Bio');
     cy.contains('Badges');
@@ -73,7 +77,9 @@ describe("Check admin configuration pages", () => {
     cy.visit('/admin/config/people/accounts/display');
     cy.get('h1').should('contain', 'Manage display');
 
-    cy.contains('askci username');
+    cy.contains('Ask.CI Username');
+    cy.contains('GitHub Username');
+    cy.contains('Open OnDemand Discourse Username');
     cy.contains('Academic Status');
     cy.contains('Organization');
     cy.contains('Blocked Affinity Groups');
@@ -125,6 +131,7 @@ describe("Check admin configuration pages", () => {
     cy.contains('/user/register/student_champion');
     cy.contains('/user/register/domain_champion');
     cy.contains('/user/register/ccmnet');
+    cy.contains('/user/register/ondemand');
 
     cy.visit('/admin/config/people/realname');
     cy.get('h1').should('contain', 'Real name');

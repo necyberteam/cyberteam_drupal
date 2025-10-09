@@ -13,6 +13,7 @@ dependencies:
     - field.storage.node.field_github_organization
     - field.storage.node.field_image
     - field.storage.node.field_mailing_list
+    - field.storage.node.field_meeting_notes_link
     - field.storage.node.field_resources_entity_reference
     - field.storage.node.field_slack
     - field.storage.node.field_tags
@@ -26,16 +27,17 @@ dependencies:
     - node.type.affinity_group
     - user.role.authenticated
   module:
+    - access_affinitygroup
     - csv_serialization
     - domain
     - flag
-    - image
     - link
     - node
     - options
     - realname
     - rest
     - serialization
+    - svg_image
     - taxonomy
     - text
     - user
@@ -368,6 +370,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 0
           total_pages: 1
           id: 0
@@ -505,12 +508,14 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url.query_args
+        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_tags'
+        - flag.flag.affinity_group
   all:
     id: all
     display_title: 'All Affinity Groups - ASP'
@@ -1162,12 +1167,14 @@ display:
         - 'languages:language_interface'
         - url.query_args
         - url.site
+        - user
         - 'user.node_grants:view'
       tags:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_affinity_group'
         - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_tags'
+        - flag.flag.affinity_group
   block_1:
     id: block_1
     display_title: MembersLink
@@ -1835,7 +1842,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: default
           exception:
             value: all
@@ -1861,6 +1868,7 @@ display:
           validate_options: {  }
           break_phrase: false
           not: false
+          target_entity_type_id: user
       style:
         type: default
         options:
@@ -1901,6 +1909,7 @@ display:
         - 'config:field.storage.node.field_image'
         - 'config:field.storage.node.field_slack'
         - 'config:field.storage.node.field_tags'
+        - flag.flag.affinity_group
   block_2:
     id: block_2
     display_title: 'Affinity Groups by User'
@@ -2133,6 +2142,7 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.field_affinity_group'
+        - flag.flag.affinity_group
   block_3:
     id: block_3
     display_title: 'Affinity Groups by User with More'
@@ -2366,6 +2376,7 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.field_affinity_group'
+        - flag.flag.affinity_group
   block_4:
     id: block_4
     display_title: 'Affinity Groups Card View'
@@ -2614,11 +2625,13 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url.query_args
+        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
+        - flag.flag.affinity_group
   block_5:
     id: block_5
     display_title: 'List of Affinity Groups by User with More'
@@ -2852,6 +2865,7 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.field_affinity_group'
+        - flag.flag.affinity_group
   block_6:
     id: block_6
     display_title: 'KB Affinity Groups Card View'
@@ -3100,11 +3114,13 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url.query_args
+        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:
         - 'config:field.storage.node.body'
         - 'config:field.storage.node.field_image'
+        - flag.flag.affinity_group
   block_7:
     id: block_7
     display_title: 'Affinity Group - link to users'
@@ -3314,10 +3330,8 @@ display:
         options:
           offset: 0
       access:
-        type: role
-        options:
-          role:
-            authenticated: authenticated
+        type: ViewsCustomAccess
+        options: {  }
       arguments:
         nid:
           id: nid
@@ -3397,9 +3411,10 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - user
         - 'user.node_grants:view'
-        - user.roles
-      tags: {  }
+      tags:
+        - flag.flag.affinity_group
   block_8:
     id: block_8
     display_title: 'Affinity Group Buttons'
@@ -3775,6 +3790,73 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        field_meeting_notes_link:
+          id: field_meeting_notes_link
+          table: node__field_meeting_notes_link
+          field: field_meeting_notes_link
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: uri
+          type: link
+          settings:
+            trim_length: 80
+            url_only: true
+            url_plain: true
+            rel: '0'
+            target: '0'
+          group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         nothing:
           id: nothing
           table: views
@@ -3787,7 +3869,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"py-3 border-top border-bottom\">        \r\n<p>Members get updates about announcements, events, and outages.</p>\r\n  <div class=\"affinity-group-buttons d-flex justify-content-start flex-wrap flex\">\r\n        {% if flagged %}\r\n        <div class=\"bg-orange bg-orange-500 border-4 border-orange btn cursor-default text-white my-2 ms-0 me-4 mr-4  ml-0\">\r\n            <i class=\"bi bi-path-check-fill\"></i> Member\r\n        </div>\r\n        {% endif %}\r\n        {% if link_flag %}\r\n        <div class=\"affinity-group-flag my-2 ms-0 me-4 mr-4  ml-0 \">{{ link_flag }}</div>\r\n        {% else %}\r\n        <a href=\"/user\" class=\"btn btn-secondary disabled my-2 ms-0 me-4  mr-4  ml-0\" disabled>Join</a>\r\n        {% endif %}        \r\n        {% if field_slack %}\r\n        <a href=\"{{ field_slack }}\" target=\"_blank\" class=\"btn btn-primary my-2 ms-0 me-4 mr-4 ml-0\">Slack</a>\r\n        {% endif %}\r\n        {% if field_ask_ci_locale %}\r\n        <a href=\"{{ field_ask_ci_locale }}\" target=\"_blank\" class=\"btn btn-primary my-2 ms-0 me-4 mr-4 ml-0\">Q&amp;A</a>\r\n        {% endif %}\r\n        {% if field_github_organization %}\r\n        <a href=\"{{ field_github_organization }}\" target=\"_blank\" class=\"btn btn-primary my-2 ms-0 me-4 mr-4 ml-0\" >GitHub</a>\r\n        {% endif %}\r\n        {% if field_mailing_list %}\r\n        <a href=\"{{ field_mailing_list }}\" target=\"_blank\" class=\"btn btn-primary my-2 mx-0\"  style=\"width: fit-content\">Email</a>\r\n        {% endif %}\r\n      </div>\r\n</div>"
+            text: "<div class=\"py-3 border-top border-bottom\">        \r\n<p>Members get updates about announcements, events, and outages.</p>\r\n  <div class=\"affinity-group-buttons d-flex justify-content-start flex-wrap flex\">\r\n        {% if flagged %}\r\n        <div class=\"bg-orange bg-orange-500 border-4 border-orange btn cursor-default text-white my-2 ms-0 me-4 mr-4  ml-0\">\r\n            <i class=\"bi bi-path-check-fill\"></i> Member\r\n        </div>\r\n        {% endif %}\r\n        {% if link_flag %}\r\n        <div class=\"affinity-group-flag my-2 ms-0 me-4 mr-4  ml-0 \">{{ link_flag }}</div>\r\n        {% else %}\r\n        <a href=\"/user\" class=\"btn btn-secondary disabled my-2 ms-0 me-4  mr-4  ml-0\" disabled>Join</a>\r\n        {% endif %}        \r\n        {% if field_meeting_notes_link %}\r\n        <a href=\"{{ field_meeting_notes_link }}\" target=\"_blank\" class=\"btn btn-primary my-2 ms-0 me-4 mr-4 ml-0\">Meeting Notes</a>\r\n        {% endif %}\r\n        {% if field_slack %}\r\n        <a href=\"{{ field_slack }}\" target=\"_blank\" class=\"btn btn-primary my-2 ms-0 me-4 mr-4 ml-0\">Slack</a>\r\n        {% endif %}\r\n        {% if field_ask_ci_locale %}\r\n        <a href=\"{{ field_ask_ci_locale }}\" target=\"_blank\" class=\"btn btn-primary my-2 ms-0 me-4 mr-4 ml-0\">Q&amp;A</a>\r\n        {% endif %}\r\n        {% if field_github_organization %}\r\n        <a href=\"{{ field_github_organization }}\" target=\"_blank\" class=\"btn btn-primary my-2 ms-0 me-4 mr-4 ml-0\" >GitHub</a>\r\n        {% endif %}\r\n        {% if field_mailing_list %}\r\n        <a href=\"{{ field_mailing_list }}\" target=\"_blank\" class=\"btn btn-primary my-2 mx-0\"  style=\"width: fit-content\">Email</a>\r\n        {% endif %}\r\n      </div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -3890,13 +3972,16 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:
         - 'config:field.storage.node.field_ask_ci_locale'
         - 'config:field.storage.node.field_github_organization'
         - 'config:field.storage.node.field_mailing_list'
+        - 'config:field.storage.node.field_meeting_notes_link'
         - 'config:field.storage.node.field_slack'
+        - flag.flag.affinity_group
   data_export_1:
     id: data_export_1
     display_title: 'Data export'
@@ -4973,6 +5058,7 @@ display:
         - 'config:field.storage.user.field_user_first_name'
         - 'config:field.storage.user.field_user_last_name'
         - 'config:field.storage.user.user_picture'
+        - flag.flag.affinity_group
   group:
     id: group
     display_title: 'Affinity Group'
@@ -6304,6 +6390,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:
@@ -6319,6 +6406,7 @@ display:
         - 'config:field.storage.node.field_resources_entity_reference'
         - 'config:field.storage.node.field_slack'
         - 'config:field.storage.node.field_tags'
+        - flag.flag.affinity_group
   people:
     id: people
     display_title: People
@@ -7034,3 +7122,4 @@ display:
         - 'config:field.storage.user.field_user_first_name'
         - 'config:field.storage.user.field_user_last_name'
         - 'config:field.storage.user.user_picture'
+        - flag.flag.affinity_group

@@ -1,19 +1,20 @@
-uuid: c907da16-531b-458a-a4e3-c8ce74d17d40
+uuid: ae66d86b-d332-42de-87f0-5fa06441e778
 langcode: en
 status: true
 dependencies:
   module:
     - field_permissions
-    - recurring_events
+    - link
+    - node
 third_party_settings:
   field_permissions:
-    permission_type: public
-id: eventseries.field_broadcast_affinity_groups
-field_name: field_broadcast_affinity_groups
-entity_type: eventseries
-type: boolean
+    permission_type: custom
+id: node.field_meeting_notes_link
+field_name: field_meeting_notes_link
+entity_type: node
+type: link
 settings: {  }
-module: core
+module: link
 locked: false
 cardinality: 1
 translatable: true

@@ -15,7 +15,7 @@ describe("Test Announcements API", () => {
       
       // Test that all expected fields are present
       const expectedFields = [
-        'title', 'body', 'published_date', 'affinity_group',
+        'title', 'body', 'summary', 'published_date', 'affinity_group',
         'tags', 'affiliation'
       ];
       
@@ -26,13 +26,16 @@ describe("Test Announcements API", () => {
       // Test field types and that they contain actual data
       expect(announcement.title).to.be.a('string').and.not.be.empty;
       expect(announcement.body).to.be.a('string');
+      expect(announcement.summary).to.be.a('string');
       expect(announcement.published_date).to.be.a('string').and.not.be.empty;
       
       // Log announcement details for debugging
       cy.log('Found announcement:', announcement.title);
       cy.log('Published date:', announcement.published_date);
-      cy.log('Tags:', announcement.custom_announcement_tags);
-      cy.log('Affinity Group:', announcement.custom_announcement_ag);
+      cy.log('Body length:', announcement.body ? announcement.body.length : 'null');
+      cy.log('Summary length:', announcement.summary ? announcement.summary.length : 'null');
+      cy.log('Tags:', announcement.tags);
+      cy.log('Affinity Group:', announcement.affinity_group);
     });
   });
 

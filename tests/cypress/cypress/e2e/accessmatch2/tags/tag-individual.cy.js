@@ -266,7 +266,10 @@ describe("Verify the the community-outreach tag page", () => {
       cy.get('#edit-title').type('dummy-ci-link-for-testing-community-outreach-tag', { delay: 0 });
       cy.get('#edit-category').select('Learning');
       cy.get('#edit-skill-level-304').check();  // beginner level
-      cy.get('#edit-description').type("Dummy description for ci-link 'dummy-ci-link-for-testing-community-outreach-tag'", { delay: 0 });
+      cy.get('.form-item-description-html-value .ck-content').then(el => {
+        const editor = el[0].ckeditorInstance
+        editor.setData("Dummy description for ci-link 'dummy-ci-link-for-testing-community-outreach-tag'")
+      });
       cy.get('.tags').contains('community-outreach').click();
       cy.get('.form-item-domain').find('input').type('ACCESS{enter}', { delay: 0 });
       cy.get('#edit-submit').click();
