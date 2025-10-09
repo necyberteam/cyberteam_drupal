@@ -27,3 +27,11 @@ jobs:
           PR_BRANCH: ${{ env.PR_BRANCH }}
           SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY}}
           terminus_api: ${{ secrets.TERMINUS_API }}
+
+      - name: Recreate md-dev branch
+        if: env.PR_BRANCH == 'md-dev'
+        run: |
+          git checkout main
+          git pull origin main
+          git checkout -b md-dev
+          git push origin md-dev

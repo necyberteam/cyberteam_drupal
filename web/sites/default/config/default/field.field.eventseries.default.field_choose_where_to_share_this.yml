@@ -1,0 +1,23 @@
+uuid: a3266b17-ae35-4985-94a7-f393b26c6bdc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.eventseries.field_choose_where_to_share_this
+    - recurring_events.eventseries_type.default
+  module:
+    - options
+id: eventseries.default.field_choose_where_to_share_this
+field_name: field_choose_where_to_share_this
+entity_type: eventseries
+bundle: default
+label: 'Choose where to share this Event'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: on_the_announcements_page
+default_value_callback: ''
+settings: {  }
+field_type: list_string
