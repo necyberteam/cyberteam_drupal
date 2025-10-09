@@ -186,6 +186,15 @@ runs:
         SLACK_TITLE: "Cypress Test Failure"
         SLACK_CHANNEL: cypress-git-notifications
 
+    - name: Slack - give link back to action if A11y reports exist
+      if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.json') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
+        SLACK_MESSAGE: 'Cypress A11y reports are available as an artifact in the GitHub Action run. View at: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+        SLACK_TITLE: "Cypress A11y Reports Available"
+        SLACK_CHANNEL: cypress-git-notifications
+
     - name: Get Drupal logs on failure
       shell: bash
       if: ${{ failure() && !cancelled() && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
