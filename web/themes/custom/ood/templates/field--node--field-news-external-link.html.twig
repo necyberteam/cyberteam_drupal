@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Display Coordinator name as a link to Community Persona page
+ */
+#}
+
+  <div>
+  {% for item in items %}
+    <div>
+      <a class="btn-primary btn btn-rounded text-white m-0 text-decoration-none mt-1 px-5 mb-3" href='{{ item.content['#url'].uri }}'>
+        {% if not (item.content['#title'] starts with 'http') %}
+          {{item.content['#title']}}
+        {% else %}
+          Visit Website
+        {% endif %}
+      </a>
+    </div>
+  {% endfor %}
+</div>
