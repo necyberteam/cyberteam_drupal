@@ -127,6 +127,14 @@ runs:
           echo "No screenshots directory found"
         fi
 
+    - name: Upload A11y reports
+      if: hashFiles('tests/cypress/cypress-a11y-reports/*.json') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: cypress-a11y-report-${{ inputs.site }}-${{ inputs.directory }}
+        path: tests/cypress/cypress-a11y-reports
+        if-no-files-found: ignore
+
     - name: Upload screenshots on failure
       if: ${{ failure() && !cancelled() && hashFiles('tests/cypress/cypress/screenshots/**/*.png') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
       uses: actions/upload-artifact@v4
