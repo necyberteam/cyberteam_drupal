@@ -45,17 +45,41 @@ module.exports = defineConfig({
           const reportDir = config.env.A11Y_REPORT_DIR || 'cypress-a11y-reports';
           ensureDir(reportDir);
 
-          // Write JSON (one file per test)
+          // Create base filenames
           const base = payload.fileBase || `report_${Date.now()}`;
-          const jsonPath = path.join(reportDir, `${base}.json`);
-          fs.writeFileSync(jsonPath, JSON.stringify(payload.results, null, 2));
 
-          // Append CSV summary (create header if new)
+          // Write CSV instead of JSON for each test
+          const detailedCsvPath = path.join(reportDir, `${base}.csv`);
+
+          // Convert violations to CSV format with detailed node information
+          const csvHeader = 'impact,id,description,help,helpUrl,tags,html,target,failureSummary\n';
+
+          let csvRows = [];
+
+          // Expand each violation to include node-specific details
+          (payload.results.violations || []).forEach(violation => {
+            // Process each node for this violation
+            violation.nodes.forEach(node => {
+              csvRows.push([
+                violation.impact || '',
+                violation.id || '',
+                JSON.stringify(violation.description || ''),
+                JSON.stringify(violation.help || ''),
+                JSON.stringify(violation.helpUrl || ''),
+                JSON.stringify((violation.tags || []).join(';')),
+                JSON.stringify(node.html || ''),
+                JSON.stringify((node.target || []).join(';')),
+                JSON.stringify(node.failureSummary || '')
+              ].join(','));
+            });
+          });
+
+          fs.writeFileSync(detailedCsvPath, csvHeader + csvRows.join('\n'));          // Append CSV summary (create header if new)
           const csvPath = path.join(reportDir, `summary.csv`);
           if (!fs.existsSync(csvPath)) {
             fs.writeFileSync(
               csvPath,
-              'spec,url,violations,critical,serious,moderate,minor,json\n'
+              'spec,url,violations,critical,serious,moderate,minor,csv\n'
             );
           }
           const counts = { critical: 0, serious: 0, moderate: 0, minor: 0 };
@@ -68,11 +92,11 @@ module.exports = defineConfig({
             JSON.stringify(payload.url || ''),
             (payload.results.violations || []).length,
             counts.critical, counts.serious, counts.moderate, counts.minor,
-            JSON.stringify(path.basename(jsonPath)),
+            JSON.stringify(path.basename(detailedCsvPath)),
           ].join(',') + '\n';
           fs.appendFileSync(csvPath, line);
 
-          return { jsonPath, csvPath, counts };
+          return { detailedCsvPath, csvPath, counts };
         },
         log(msg) {
           console.log(msg);
