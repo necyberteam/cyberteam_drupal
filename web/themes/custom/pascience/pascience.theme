@@ -1,0 +1,219 @@
+<?php
+
+/**
+ * @file
+ * Bootstrap sub-theme.
+ *
+ * Place your custom PHP code in this file.
+ */
+
+use Drupal\Component\Utility\Html;
+use Drupal\Component\Utility\UrlHelper;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\user\Entity\User;
+
+/**
+ * Implements hook_preprocess_html() for block templates.
+ */
+function pascience_preprocess_html(&$variables) {
+  $path = \Drupal::service('path.current')->getPath();
+  $path_args = explode('/', $path);
+  if (isset($path_args[1]) && isset($path_args[2]) && ($path_args[1] == 'node') && (is_numeric($path_args[2]))) {
+    $variables['attributes']['class'][] = 'page-node-' . $path_args[2];
+  } else {
+    $variables['attributes']['class'][] = 'page' . implode('-', $path_args);
+  }
+}
+
+/**
+ *
+ */
+function pascience_form_system_theme_settings_alter(&$form, FormStateInterface &$form_state, $form_id = NULL) {
+  // Work-around for a core bug affecting admin themes. See issue #943212.
+  if (isset($form_id)) {
+    return;
+  }
+
+  $form['pascience_front_text'] = [
+    '#type'          => 'textarea',
+    '#title'         => t('Open OnDemand Front Text'),
+    '#default_value' => theme_get_setting('pascience_front_text'),
+    '#description'   => t("This text will be placed in the frontpage banner."),
+  ];
+}
+
+/**
+ * Implements hook_form_id_alter().
+ */
+function pascience_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'search_block_form') {
+    $form['keys']['#attributes']['placeholder'] = t('Search');
+  }
+  if ($form_id == 'search_form') {
+    $form['keys']['#title_display'] = 'invisible';
+    $form['keys']['#attributes']['placeholder'] = t('Search');
+  }
+  if ($form_id == 'user_form') {
+    $form['field_region']['#description_display'] = 'before';
+  }
+  if ($form_id == 'user_login_form') {
+    $form['name']['#prefix'] = '<div class="col-lg-6 col-md-8 mx-auto text-center card my-4"><div class="card-body"><div class="mb-2"><img src="/themes/contrib/campus-champions-theme/img/campus-champions-logo-sq.gif" alt="Campus Champions account"/><img src="/themes/nect-theme/img/ccmnet-logo-sq.gif" alt="CCMNet account"><img src="/themes/nect-theme/img/careerslogo.flat.png" alt="Careers Cyberteam"><img src="/themes/nect-theme/img/logo.png" alt="NE Cyberteam"><img src="/themes/custom/ood/ood-img/ood-community-portal.png" alt="Open OnDemand account"><a href="/user/register/ondemand">Create account</a></div><div class="control-group form-group">';
+    $form['name']['#attributes']['placeholder'][] = $form['name']['#title'] . '*';
+    $form['name']['#attributes']['class'][] = 'form-control';
+    $form['name']['#title_display'] = 'invisible';
+    $form['name']['#suffix'] = '</div>';
+    $form['pass']['#prefix'] = '<div class="control-group form-group">';
+    $form['pass']['#suffix'] = '</div>';
+    $form['pass']['#attributes']['placeholder'][] = $form['pass']['#title'] . '*';
+    $form['pass']['#attributes']['class'][] = 'form-control';
+    $form['pass']['#title_display'] = 'invisible';
+    $form['actions']['#prefix'] = '<div class="success">';
+    $form['actions']['#suffix'] = '<a class="btn btn-secondary m-1" href="/user/password">Forgot Password</a></div></div></div>';
+    $form['actions']['submit']['#attributes']['class'][] = 'btn btn-success m-1';
+    unset($form['name']['#description']);
+    unset($form['pass']['#description']);
+  }
+
+  if ($form_id == 'contact_message_questions_form') {
+    // Name.
+    $form['name']['#prefix'] = '<div class="control-group form-group">';
+    $form['name']['#suffix'] = '</div>';
+    $form['name']['#attributes']['placeholder'][] = $form['name']['#title'] . '*';
+    $form['name']['#attributes']['class'][] = 'form-control';
+    unset($form['name']['#title']);
+
+    // Mail.
+    $form['mail']['#prefix'] = '<div class="control-group form-group">';
+    $form['mail']['#suffix'] = '</div>';
+    $form['mail']['#attributes']['placeholder'][] = $form['mail']['#title'] . '*';
+    $form['mail']['#attributes']['class'][] = 'form-control';
+    unset($form['mail']['#title']);
+
+    // Phone.
+    $form['field_phone']['widget'][0]['value']['#attributes']['class'][] = 'form-control';
+    $form['field_phone']['widget'][0]['value']['#attributes']['required'][] = 'required';
+    $form['field_phone']['widget'][0]['value']['#attributes']['placeholder'][] = $form['field_phone']['widget'][0]['#title'] . '*';
+    $form['field_phone']['widget'][0]['#title'] = '';
+    unset($form['field_phone']['widget'][0]['value']['#title']);
+    $form['field_phone']['widget'][0]['#prefix'] = '<div class="control-group form-group">';
+    $form['field_phone']['widget'][0]['#suffix'] = '</div>';
+
+    // Subject.
+    $form['subject']['widget'][0]['value']['#attributes']['class'][] = 'form-control';
+    $form['subject']['widget'][0]['value']['#attributes']['required'][] = 'required';
+    $form['subject']['widget'][0]['value']['#attributes']['placeholder'][] = $form['subject']['widget'][0]['#title'] . '*';
+    $form['subject']['widget'][0]['#title'] = '';
+    unset($form['subject']['widget'][0]['value']['#title']);
+    $form['subject']['widget'][0]['#prefix'] = '<div class="control-group form-group">';
+    $form['subject']['widget'][0]['#suffix'] = '</div>';
+
+    // Message.
+    $form['message']['widget'][0]['value']['#attributes']['class'][] = 'form-control';
+    $form['message']['widget'][0]['value']['#attributes']['required'][] = 'required';
+    $form['message']['widget'][0]['value']['#attributes']['placeholder'][] = $form['message']['widget'][0]['#title'] . '*';
+    $form['message']['widget'][0]['#title'] = '';
+    unset($form['message']['widget'][0]['value']['#title']);
+    $form['message']['widget'][0]['#prefix'] = '<div class="control-group form-group">';
+    $form['message']['widget'][0]['#suffix'] = '</div>';
+
+    // Submit.
+    $form['actions']['#prefix'] = '<div class="success">';
+    $form['actions']['#suffix'] = '</div>';
+    $form['actions']['submit']['#attributes']['class'][] = 'btn btn-success';
+    $form['actions']['preview']['#attributes']['class'][] = 'btn btn-primary';
+  }
+}
+
+/**
+ *
+ */
+function pascience_template_preprocess_default_variables_alter(&$variables) {
+  $domain = \Drupal::config('domain.settings');
+  $token = \Drupal::token();
+  $domainName = t('[domain:name]');
+  $variables['cur_domain_name'] = Html::getClass($token->replace($domainName));
+}
+
+/**
+ *
+ */
+function pascience_preprocess_menu_local_task(&$variables) {
+  /** @var \Drupal\Core\Url $url */
+  $url = $variables['link']['#url'];
+  if ($url instanceof Url && $url->getRouteName() == 'role_delegation.edit_form') {
+    $variables['link']['#options']['attributes']['class'][] = 'd-none';
+  }
+}
+
+/**
+ *
+ */
+function pascience_preprocess_menu(&$variables) {
+  $user = User::load(\Drupal::currentUser()->id());
+  $variables['attributes']['uname'] = $user->getDisplayName();
+}
+
+/**
+ *
+ */
+function pascience_preprocess_menu_main(&$variables) {
+  $url = $variables['link']['#url'];
+  if (UrlHelper::isExternal($url)) {
+    $variables['link']['#options']['attributes']['target'][] = '_blank';
+  }
+}
+
+/**
+ *
+ */
+function pascience_preprocess_page(&$variables) {
+  $user = User::load(\Drupal::currentUser()->id());
+  $variables['attributes']['displayName'] = $user->getDisplayName();
+  $variables['pascience_front_text'] = theme_get_setting('pascience_front_text');
+
+  $domain = \Drupal::config('domain.settings');
+  $token = \Drupal::token();
+  $domainName = t('[domain:name]');
+  $variables['domain_name'] = Html::getClass($token->replace($domainName));
+  $siteConfig = \Drupal::config('system.site');
+  $variables['site_name'] = $siteConfig->get('name');
+  $variables['site_slogan'] = $siteConfig->get('slogan');
+
+  $variables['view_id'] = \Drupal::routeMatch()->getParameter('view_id');
+  $variables['display_id'] = \Drupal::routeMatch()->getParameter('display_id');
+}
+
+/**
+ *
+ */
+function pascience_preprocess_node__organization(&$variables) {
+  $node = $variables['node'];
+  $variables['field_type'] = $node->field_type->view();
+  $variables['field_organization_tags'] = $node->field_organization_tags->view();
+}
+
+/**
+ * Implements hook_theme_suggestions_container_alter().
+ */
+function pascience_theme_suggestions_container_alter(&$suggestions, array $variables) {
+  $element = $variables['element'];
+
+  // Get the current path.
+  $current_path = \Drupal::service('path.current')->getPath();
+  // Explode the path by '/' to get an array of parts.
+  $path_parts = explode('/', $current_path);
+  // Get the last part of the array (the last segment of the URL).
+  $last_part = end($path_parts);
+
+  $suggestions[] = 'container__' . $last_part;
+
+  if (isset($element['#type']) && $element['#type'] == 'view') {
+    $suggestions[] = 'container__' . $element['#name'];
+    $suggestions[] = 'container__' . $element['#name'] . '__' . $element['#display_id'];
+  }
+
+  if (isset($element['#type']) && $element['#type'] == 'container' && isset($element['children']['#type'])) {
+    $suggestions[] = 'container__' . $element['children']['#type'];
+  }
+}
