@@ -130,8 +130,6 @@ runs:
     - name: Add A11y reports to cypress-a11y repo.
       shell: bash
       if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
-      with:
-        github_token: ${{ inputs.github_token }}
       run: |
         # Use github_token to clone git@github.com:necyberteam/cypress-a11y.git to /tmp/cypress-a11y
         echo "Cloning cypress-a11y repo..."
@@ -148,6 +146,8 @@ runs:
         git commit -m "Add A11y reports for ${{ inputs.site }}-${{ inputs.directory }} on $date (run $runner_id on branch $current_branch)" || echo "No changes to commit"
         git push origin gh-pages
         echo "A11y reports added to cypress-a11y repo."
+      env:
+        github_token: ${{ inputs.github_token }}
 
     - name: Upload A11y reports
       if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
