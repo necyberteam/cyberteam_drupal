@@ -167,7 +167,7 @@ runs:
       shell: bash
       if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
       run: |
-        echo "A11y Report: https://necyberteam.github.io/cypress-a11y/reports/$DATE/$CURRENT_BRANCH/${{ github.run_id }}/summary.html" >> $GITHUB_STEP_SUMMARY
+        echo "A11y Report: https://necyberteam.github.io/cypress-a11y/reports/${{ env.DATE }}/${{ env.CURRENT_BRANCH }}/${{ github.run_id }}/summary.html" >> $GITHUB_STEP_SUMMARY
 
     - name: Upload A11y reports
       if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
@@ -233,7 +233,7 @@ runs:
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
-        SLACK_MESSAGE: '❗️❗️ Cypress A11y reports are here: https://necyberteam.github.io/cypress-a11y/reports/$DATE/$CURRENT_BRANCH/${{ github.run_id }}/summary.html The action ran is here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} ❗️❗️'
+        SLACK_MESSAGE: '❗️❗️ Cypress A11y reports are here: https://necyberteam.github.io/cypress-a11y/reports/${{ env.DATE }}/${{ env.CURRENT_BRANCH }}/${{ github.run_id }}/summary.html The action ran is here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} ❗️❗️'
         SLACK_TITLE: "Cypress A11y Reports Available"
         SLACK_CHANNEL: cypress-git-notifications
 
