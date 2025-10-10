@@ -1,0 +1,15 @@
+uuid: 2d415592-ba24-417a-903a-2514546ac43b
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.pasciencedmz_connectci_org
+  module:
+    - domain_access
+id: domain_access_remove_editor_action_pasciencedmz_connectci_org
+label: 'Remove editors from the PA Science domain'
+type: user
+plugin: domain_access_remove_editor_action
+configuration:
+  domain_id:
+    - pasciencedmz_connectci_org
