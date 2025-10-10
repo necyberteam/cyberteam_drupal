@@ -127,6 +127,27 @@ runs:
           echo "No screenshots directory found"
         fi
 
+    - name: Add A11y reports to cypress-a11y repo.
+      if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
+      with:
+        github_token: ${{ inputs.github_token }}
+      run: |
+        # Use github_token to clone git@github.com:necyberteam/cypress-a11y.git to /tmp/cypress-a11y
+        echo "Cloning cypress-a11y repo..."
+        git clone https://x-access-token:${{ inputs.github_token }}@github.com/necyberteam/cypress-a11y.git /tmp/cypress-a11y
+        date=$(date +%Y-%m-%d-%H%M%S)
+        runner_id=${{ github.run_id }}
+        current_branch=${{ github.ref_name }}
+        mkdir -p /tmp/cypress-a11y/reports/$date/$current_branch/$runner_id
+        cp -r tests/cypress/cypress-a11y-reports/* /tmp/cypress-a11y/reports/$date/$current_branch/$runner_id/
+        cd /tmp/cypress-a11y
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add .
+        git commit -m "Add A11y reports for ${{ inputs.site }}-${{ inputs.directory }} on $date (run $runner_id on branch $current_branch)" || echo "No changes to commit"
+        git push origin gh-pages
+        echo "A11y reports added to cypress-a11y repo."
+
     - name: Upload A11y reports
       if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
       uses: actions/upload-artifact@v4
