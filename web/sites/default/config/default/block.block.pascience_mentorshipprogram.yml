@@ -1,0 +1,37 @@
+uuid: 38c5dfdb-31f7-4616-9e8f-073acf248be0
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.mentorship_program
+  module:
+    - facets
+    - system
+    - user
+  theme:
+    - pascience
+id: pascience_mentorshipprogram
+theme: pascience
+region: primary_sidebar
+weight: 38
+provider: null
+plugin: 'facet_block:mentorship_program'
+settings:
+  id: 'facet_block:mentorship_program'
+  label: 'Mentorship Program'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_mentorshipprogram
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /mentorships
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

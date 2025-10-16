@@ -1,0 +1,27 @@
+uuid: fff96308-8a4d-4594-83d2-cdf79a5dd770
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - pascience
+_core:
+  default_config_hash: 9EoWV2Lot6FVSr50t4hoKgiz1LIXYWNG-IIPYsWxBqo
+id: pascience_responsive_system_main
+theme: pascience
+region: content
+weight: 5
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "!/taxonomy/term/*\r\n!/project/*"

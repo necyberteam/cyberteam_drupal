@@ -1,0 +1,32 @@
+uuid: 51a15ca2-1a23-4e91-b579-9e291124c2a4
+langcode: en
+status: true
+dependencies:
+  config:
+    - webform.webform.amp_newsletter
+  module:
+    - system
+    - webform
+  theme:
+    - pascience
+id: pascience_webform
+theme: pascience
+region: content
+weight: 37
+provider: null
+plugin: webform_block
+settings:
+  id: webform_block
+  label: 'Get updates about AMP'
+  label_display: visible
+  provider: webform
+  webform_id: amp_newsletter
+  default_data: ''
+  redirect: false
+  lazy: false
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /amp-front-page

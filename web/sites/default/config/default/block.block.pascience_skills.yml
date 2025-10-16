@@ -1,0 +1,29 @@
+uuid: 02576440-a57b-446b-a19d-a89583855306
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.skills
+  module:
+    - facets
+    - system
+  theme:
+    - pascience
+id: pascience_skills
+theme: pascience
+region: primary_sidebar
+weight: 34
+provider: null
+plugin: 'facet_block:skills'
+settings:
+  id: 'facet_block:skills'
+  label: Skills
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_skills
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory

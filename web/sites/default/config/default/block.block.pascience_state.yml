@@ -1,0 +1,37 @@
+uuid: 3fa52a57-043c-44ea-9799-6d2455cbab43
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.state
+  module:
+    - facets
+    - system
+    - user
+  theme:
+    - pascience
+id: pascience_state
+theme: pascience
+region: primary_sidebar
+weight: 30
+provider: null
+plugin: 'facet_block:state'
+settings:
+  id: 'facet_block:state'
+  label: Status
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_state
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /mentorships
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

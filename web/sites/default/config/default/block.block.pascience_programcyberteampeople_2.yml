@@ -1,0 +1,41 @@
+uuid: d39f19c6-0555-4ea7-8d37-ea0e479fc33a
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.program
+  module:
+    - collapsiblock
+    - facets
+    - system
+    - user
+  theme:
+    - pascience
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: pascience_programcyberteampeople_2
+theme: pascience
+region: primary_sidebar
+weight: 7
+provider: null
+plugin: 'facet_block:program'
+settings:
+  id: 'facet_block:program'
+  label: Program
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_programcyberteampeople_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

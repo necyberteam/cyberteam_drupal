@@ -1,0 +1,29 @@
+uuid: 3722b992-9624-43a6-982a-5f489ff6610b
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.tags
+  module:
+    - facets
+    - system
+  theme:
+    - pascience
+id: pascience_tags
+theme: pascience
+region: primary_sidebar
+weight: 44
+provider: null
+plugin: 'facet_block:tags'
+settings:
+  id: 'facet_block:tags'
+  label: Topics
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_tags
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources
