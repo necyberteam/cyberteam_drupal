@@ -432,8 +432,7 @@ body {
   }
 
   img {
-    max-width: 100%;
-    object-fit: contain;
+    max-width: 100%
   }
 
   .btn {
@@ -714,7 +713,114 @@ form #tag-suggestions strong {
   }
 }
 
-body.page-node-type-affinity-group .layout__region--second {
-  word-break: break-word;
+body.page-node-type-affinity-group {
+  .layout__region--second {
+    word-break: break-word;
+  }
+}
+
+.page-node-type-access-news {
+  .layout__region--second .page-title:first-child {
+    display: none;
+  }
+  .layout__region--second:not(:has(.field--name-field-affinity-group-node)) .page-title:last-child {
+    display: none;
+  }
+}
+
+/* Status Messages - OnDemand Brand Styling */
+.open-ondemand {
+  .messages__wrapper {
+    margin: 1.5rem 0;
+  }
+
+  .messages {
+    position: relative;
+    padding: 1rem 1.25rem 1rem 3.5rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    font-family: "Source Sans 3", sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-left: 4px solid;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .messages:before {
+    content: '';
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.5rem;
+    height: 1.5rem;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  /* Status Messages (Success) */
+  .messages--status {
+    background-color: #f0f9f4;
+    border-left-color: var(--ood-red);
+    color: #232323;
+  }
+
+  .messages--status:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Ccircle cx='12' cy='12' r='11' fill='%23ca1236'/%3E%3Cpath d='M7 12l3 3 7-7' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  /* Error Messages */
+  .messages--error {
+    background-color: #fff5f5;
+    border-left-color: #dc2626;
+    color: #232323;
+  }
+
+  .messages--error:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Ccircle cx='12' cy='12' r='11' fill='%23dc2626'/%3E%3Cpath d='M12 7v6m0 4h.01' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+
+  /* Warning Messages */
+  .messages--warning {
+    background-color: #fffbeb;
+    border-left-color: #f59e0b;
+    color: #232323;
+  }
+
+  .messages--warning:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M12 2L2 20h20L12 2z' fill='%23f59e0b'/%3E%3Cpath d='M12 9v5m0 3h.01' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+
+  /* Info Messages */
+  .messages--info {
+    background-color: #eff6ff;
+    border-left-color: #3b82f6;
+    color: #232323;
+  }
+
+  .messages--info:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Ccircle cx='12' cy='12' r='11' fill='%233b82f6'/%3E%3Cpath d='M12 11v6m0-8h.01' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+
+  .messages em.placeholder {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--ood-red);
+  }
+
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .messages {
+      padding: 0.875rem 1rem 0.875rem 3rem;
+      font-size: 0.9375rem;
+    }
+
+    .messages:before {
+      width: 1.25rem;
+      height: 1.25rem;
+      left: 0.75rem;
+    }
+  }
 }
 

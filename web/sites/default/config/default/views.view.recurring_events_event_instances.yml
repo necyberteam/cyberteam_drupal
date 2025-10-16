@@ -1316,7 +1316,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: false
-          content: '<h2 class="text-white">Training and Events</h2>'
+          content: '<h3 class="mt-0 text-white">Training and Events</h3>'
           tokenize: false
       footer:
         area:
@@ -3314,14 +3314,6 @@ display:
         - url
         - user.permissions
       tags:
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_affiliation'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_affinity_group_node'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_event_type'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_tags'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_affiliation'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_affinity_group_node'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_event_type'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_tags'
         - 'config:field.storage.eventseries.field_affiliation'
         - 'config:field.storage.eventseries.field_affinity_group_node'
         - 'config:field.storage.eventseries.field_event_type'
@@ -4438,14 +4430,6 @@ display:
         - url
         - user.permissions
       tags:
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_affiliation'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_affinity_group_node'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_event_type'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_tags'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_affiliation'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_affinity_group_node'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_event_type'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_tags'
         - 'config:field.storage.eventseries.field_affiliation'
         - 'config:field.storage.eventseries.field_affinity_group_node'
         - 'config:field.storage.eventseries.field_event_type'
@@ -4831,7 +4815,7 @@ display:
         type: some
         options:
           offset: 0
-          items_per_page: 2
+          items_per_page: 3
       sorts:
         date__value:
           id: date__value
@@ -5035,7 +5019,9 @@ display:
       use_more: false
       use_more_always: true
       use_more_text: 'All Events'
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
     cache_metadata:
       max-age: -1
       contexts:
@@ -5299,6 +5285,46 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        domain_access_target_id:
+          id: domain_access_target_id
+          table: eventinstance__domain_access
+          field: domain_access_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: domain_access_filter
+          operator: in
+          value:
+            amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
