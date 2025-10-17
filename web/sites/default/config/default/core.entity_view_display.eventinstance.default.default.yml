@@ -9,6 +9,7 @@ dependencies:
   module:
     - datetime_range
     - link
+    - options
     - text
 _core:
   default_config_hash: lFFUFIZPBUZQjrIYYvP6U1hzVLGjKMl0DYK93zPM_80
@@ -19,10 +20,10 @@ mode: default
 content:
   choose_where_to_share_this:
     type: list_default
-    label: visible
+    label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 52
+    weight: 8
     region: content
   content_moderation_control:
     settings: {  }
@@ -101,6 +102,8 @@ hidden:
   event_ical_link: true
   event_summary: true
   event_type: true
+  post_survey_url: true
+  pre_survey_url: true
   register_button: true
   registration: true
   search_api_excerpt: true
