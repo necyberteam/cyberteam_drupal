@@ -1,0 +1,25 @@
+uuid: f414a2c5-aa57-41cc-8589-1fc50bf5d3fa
+langcode: en
+status: true
+dependencies:
+  module:
+    - cssn
+    - system
+  theme:
+    - pascience
+id: pascience_communitypersonablock_2
+theme: pascience
+region: primary_sidebar
+weight: 14
+provider: null
+plugin: cssn_block
+settings:
+  id: cssn_block
+  label: 'Community persona block'
+  label_display: '0'
+  provider: cssn
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/community-persona\r\n/community-persona/*\r\n!/community-persona/add-interest\r\n!/community-persona/add-skill\r\n"

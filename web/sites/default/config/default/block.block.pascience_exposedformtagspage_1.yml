@@ -1,0 +1,28 @@
+uuid: 19eecd0f-400f-4022-87e8-808299d6fed1
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.tags
+  module:
+    - system
+    - views
+  theme:
+    - pascience
+id: pascience_exposedformtagspage_1
+theme: pascience
+region: exposed_filters
+weight: 1
+provider: null
+plugin: 'views_exposed_filter_block:tags-page_1'
+settings:
+  id: 'views_exposed_filter_block:tags-page_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /tags

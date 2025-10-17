@@ -1,0 +1,25 @@
+uuid: 296b02d7-aa99-40c6-a949-8f1d437c77fb
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_misc
+    - system
+  theme:
+    - pascience
+id: pascience_accessciuserlogin
+theme: pascience
+region: below_main_content
+weight: 4
+provider: null
+plugin: access_ci_user_login
+settings:
+  id: access_ci_user_login
+  label: 'Access CI User Login'
+  label_display: '0'
+  provider: access_misc
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /user/login

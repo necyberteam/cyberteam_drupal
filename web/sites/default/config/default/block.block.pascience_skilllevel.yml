@@ -1,0 +1,37 @@
+uuid: 40ce4131-1374-4ffa-ba68-bf2b1a29c74f
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.skill_level
+  module:
+    - facets
+    - system
+    - user
+  theme:
+    - pascience
+id: pascience_skilllevel
+theme: pascience
+region: primary_sidebar
+weight: 50
+provider: null
+plugin: 'facet_block:skill_level'
+settings:
+  id: 'facet_block:skill_level'
+  label: 'Skill Level'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_skilllevel
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

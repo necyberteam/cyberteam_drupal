@@ -1,0 +1,29 @@
+uuid: ff0ef218-e79e-438f-86a6-818555e23579
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - pascience
+id: pascience_exposedformpeople_card_viewcard_greatplains
+theme: pascience
+region: exposed_filters
+weight: 18
+provider: null
+plugin: 'views_exposed_filter_block:people_card_view-card_greatplains'
+settings:
+  id: 'views_exposed_filter_block:people_card_view-card_greatplains'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people_card_greatplains\r\n/people/card/great-plains"

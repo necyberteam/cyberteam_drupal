@@ -1,0 +1,29 @@
+uuid: b67e585b-5e8f-40f1-b177-e822c7d81ae2
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.me_tags
+  module:
+    - facets
+    - system
+  theme:
+    - pascience
+id: pascience_metags
+theme: pascience
+region: primary_sidebar
+weight: 36
+provider: null
+plugin: 'facet_block:me_tags'
+settings:
+  id: 'facet_block:me_tags'
+  label: Tags
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_metags
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /mentorships

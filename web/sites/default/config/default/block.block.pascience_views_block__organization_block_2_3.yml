@@ -1,0 +1,33 @@
+uuid: 28f2f4db-0db0-4722-8767-f0fee608fda3
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.organization
+  module:
+    - taxonomy
+    - views
+  theme:
+    - pascience
+id: pascience_views_block__organization_block_2_3
+theme: pascience
+region: tags_page_blog
+weight: 0
+provider: null
+plugin: 'views_block:organization-block_2'
+settings:
+  id: 'views_block:organization-block_2'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles:
+      tags: tags

@@ -1,0 +1,28 @@
+uuid: ad518466-87fa-496b-9fdc-9a821d6009c0
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.cyberteam_people_facets
+  module:
+    - system
+    - views
+  theme:
+    - pascience
+id: pascience_exposedformcyberteam_people_facetspage_1
+theme: pascience
+region: primary_sidebar
+weight: 1
+provider: null
+plugin: 'views_exposed_filter_block:cyberteam_people_facets-page_1'
+settings:
+  id: 'views_exposed_filter_block:cyberteam_people_facets-page_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people

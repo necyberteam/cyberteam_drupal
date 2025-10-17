@@ -1,0 +1,39 @@
+uuid: ddff73ff-55aa-4607-bc6f-80e5d1388fa6
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:c735f916-82a5-4d2a-8581-2a7552c4304a'
+  module:
+    - block_content
+    - system
+    - user
+  theme:
+    - pascience
+id: pascience_logintoaddprojectbutton
+theme: pascience
+region: view_type_buttons
+weight: 9
+provider: null
+plugin: 'block_content:c735f916-82a5-4d2a-8581-2a7552c4304a'
+settings:
+  id: 'block_content:c735f916-82a5-4d2a-8581-2a7552c4304a'
+  label: 'login to add project button'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /projects
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      anonymous: anonymous

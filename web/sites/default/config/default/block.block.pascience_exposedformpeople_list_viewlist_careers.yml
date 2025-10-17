@@ -1,0 +1,29 @@
+uuid: 96a038fa-08f8-41d7-97b1-777964a83006
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - pascience
+id: pascience_exposedformpeople_list_viewlist_careers
+theme: pascience
+region: exposed_filters
+weight: 28
+provider: null
+plugin: 'views_exposed_filter_block:people_list_view-list_careers'
+settings:
+  id: 'views_exposed_filter_block:people_list_view-list_careers'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list/careers

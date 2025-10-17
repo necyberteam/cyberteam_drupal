@@ -1,0 +1,29 @@
+uuid: b4613e66-8ba0-47da-a1b8-518d60f5f094
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.tags_ci_mentorship
+  module:
+    - facets
+    - system
+  theme:
+    - pascience
+id: pascience_tagscimentorship
+theme: pascience
+region: primary_sidebar
+weight: 13
+provider: null
+plugin: 'facet_block:tags_ci_mentorship'
+settings:
+  id: 'facet_block:tags_ci_mentorship'
+  label: Tags
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_tagscimentorship
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources/mentorship

@@ -1,0 +1,27 @@
+uuid: 516d4b05-8b54-4ac4-84fb-2db809de4c97
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - pascience
+_core:
+  default_config_hash: KHQIJ7Vfl25lTjzIc7qIvnuistt-Mw2O0kG4jCofmkI
+id: pascience_messages_2
+theme: pascience
+region: view_type_buttons
+weight: 1
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: visible
+  provider: system
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    context_mapping: {  }
+    pages: ''

@@ -1,0 +1,33 @@
+uuid: ea694480-a1f8-44d2-95b0-f81c73755cef
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.tags
+  module:
+    - collapsiblock
+    - facets
+    - system
+  theme:
+    - pascience
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: pascience_tags_2
+theme: pascience
+region: primary_sidebar
+weight: 45
+provider: null
+plugin: 'facet_block:tags'
+settings:
+  id: 'facet_block:tags'
+  label: Topics
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_tags_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources
