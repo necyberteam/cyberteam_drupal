@@ -1278,10 +1278,6 @@ display:
         - url.query_args
         - user.permissions
       tags:
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_affiliation'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_event_type'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_affiliation'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_event_type'
         - 'config:field.storage.eventseries.field_affiliation'
         - 'config:field.storage.eventseries.field_event_type'
   admin_page:
@@ -2483,10 +2479,6 @@ display:
         - url.query_args
         - user.permissions
       tags:
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_affiliation'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_event_type'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_affiliation'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_event_type'
         - 'config:field.storage.eventseries.field_affiliation'
         - 'config:field.storage.eventseries.field_event_type'
   block_1:
@@ -3315,8 +3307,6 @@ display:
         - url.query_args
         - user.permissions
       tags:
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventseries.field_event_no_listing'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventseries.field_event_no_listing'
         - 'config:field.storage.eventseries.field_event_no_listing'
   page_1:
     id: page_1
@@ -3324,6 +3314,7 @@ display:
     display_plugin: page
     position: 3
     display_options:
+      enabled: false
       title: 'My Events'
       fields:
         title:
@@ -3556,52 +3547,6 @@ display:
             field_identifier: title
           exposed: false
       filters:
-        uid_raw:
-          id: uid_raw
-          table: users_field_data
-          field: uid_raw
-          relationship: uid
-          group_type: group
-          admin_label: ''
-          entity_type: user
-          plugin_id: numeric
-          operator: '='
-          value:
-            min: ''
-            max: ''
-            value: '[current-user:uid]'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          use_tokens: 1
         title:
           id: title
           table: eventseries_field_data
@@ -3679,10 +3624,102 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           use_tokens: 0
+        uid_raw:
+          id: uid_raw
+          table: users_field_data
+          field: uid_raw
+          relationship: uid
+          group_type: group
+          admin_label: ''
+          entity_type: user
+          plugin_id: numeric
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: '[current-user:uid]'
+          group: 2
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          use_tokens: 1
+        field_other_authors_target_id:
+          id: field_other_authors_target_id
+          table: eventseries__field_other_authors
+          field: field_other_authors_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: numeric
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: '1985'
+          group: 2
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          use_tokens: 0
       filter_groups:
         operator: AND
         groups:
           1: AND
+          2: OR
       defaults:
         title: false
         use_ajax: false

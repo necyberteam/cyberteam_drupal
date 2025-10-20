@@ -15,6 +15,7 @@ dependencies:
     - field.field.eventseries.default.field_event_type
     - field.field.eventseries.default.field_event_virtual_meeting_link
     - field.field.eventseries.default.field_location
+    - field.field.eventseries.default.field_other_authors
     - field.field.eventseries.default.field_registration
     - field.field.eventseries.default.field_skill_level
     - field.field.eventseries.default.field_summary
@@ -146,6 +147,16 @@ content:
     weight: 12
     region: content
     settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_other_authors:
+    type: entity_reference_autocomplete
+    weight: 30
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
