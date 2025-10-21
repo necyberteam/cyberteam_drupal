@@ -1,6 +1,7 @@
 @import url("../../../nect-theme/css/style.css");
 :root {
   --pa-blue: #1c4c84;
+  --navbar-link: var(--pa-blue);
   --default-hover: #18aeef;
   --header-gray: #dddee0;
   --primary: var(--pa-blue);
@@ -317,102 +318,15 @@ body {
     color: #232323;
   }
 
-  [id="block-ood-oodprimarymenu"] {
-    ul {
-      display: flex;
-      width: fit-content;
-      justify-content: flex-end;
-      margin-bottom: 7px;
-      margin-left: auto;
-      margin-right: 0.75rem;
-      padding-left: 0;
-    }
-
-    li {
-      list-style: none;
-      padding: 0 0.5rem;
-      margin-bottom: 0.75rem;
-      text-align: end;
-    }
-
-    li a:hover,
-    li a.is-active {
-      border-bottom: 2px solid #232323;
-      padding-bottom: 2px;
-    }
-    a {
-      font-weight: bold;
-      color: #232323;
-    }
-  }
-
-  @media screen and (min-width: 1080px) {
-    [id="block-ood-oodprimarymenu"] li {
-      padding: 0 1rem;
-    }
-  }
-
-  @media screen and (max-width: 768px) {
-    [id="block-ood-oodprimarymenu"] ul {
-      flex-direction: column;
-    }
-  }
-
   @media screen and (max-width: 575.98px) {
     .navbar-brand .logo {
       max-width: 275px !important;
     }
   }
 
-  [id="block-ood-page-title"],
-  .masthead {
-    position: relative;
-    overflow: hidden;
-    background-color: var(--ood-red);
-    .container {
-      margin: 0 15px;
-      max-width: 100%;
-    }
-    .site-heading {
-      padding: 30px 0;
-    }
-
-    h1 {
-      max-width: 1140px;
-      font-size: 1.8em;
-      font-weight: normal;
-      color: var(--light-text);
-      margin: 0 auto;
-      padding: 0 1.25rem;
-    }
-
-    h2 {
-      max-width: 1140px;
-      font-size: 1.8em;
-      line-height: 1.1;
-      text-align: left;
-      margin: 0 auto;
-    }
-  }
-
-  [id="block-ood-page-title"] {
-    padding: 15px 0 8px;
-  }
-
   @media screen and (min-width: 1024px) {
     .masthead {
       max-height: 100px;
-    }
-
-    [id="block-ood-page-title"]:after,
-    .masthead:after {
-      content: "";
-      position: absolute;
-      right: -205px;
-      top: -50px;
-      border-left: 150px solid transparent;
-      border-right: 150px solid transparent;
-      border-bottom: 150px solid #fff;
     }
   }
 
@@ -703,3 +617,6 @@ body.page-node-type-affinity-group .layout__region--second {
   word-break: break-word;
 }
 
+[id="block-pascience-main-menu"] {
+  margin-left: auto;
+}
