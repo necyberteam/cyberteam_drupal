@@ -1,0 +1,23 @@
+uuid: deda67c4-b4c3-4abf-9d7a-fd288aa7aa04
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.eventseries.field_post_survey_timing
+    - recurring_events.eventseries_type.default
+id: eventseries.default.field_post_survey_timing
+field_name: field_post_survey_timing
+entity_type: eventseries
+bundle: default
+label: 'Post Survey Timing'
+description: 'How many hours after the event should the survey get emailed. Recommended 2 hours. Minimum 2 hours / Maximum 48'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 2
+  max: 48
+  prefix: ''
+  suffix: hours
+field_type: integer
