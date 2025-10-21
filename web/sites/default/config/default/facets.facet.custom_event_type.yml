@@ -49,14 +49,8 @@ processor_configs:
       sort: 20
     settings:
       sort: ASC
-  count_widget_order:
-    processor_id: count_widget_order
-    weights:
-      sort: 30
-    settings:
-      sort: DESC
-  display_value_widget_order:
-    processor_id: display_value_widget_order
+  raw_value_widget_order:
+    processor_id: raw_value_widget_order
     weights:
       sort: 40
     settings:
@@ -71,7 +65,7 @@ processor_configs:
     weights:
       post_query: 50
     settings:
-      replacements: "Training|Training\r\noffice_hours|Office Hours\r\nConference|Conference"
+      replacements: "Training|Training\r\nOffice Hours|Office Hours\r\nConference|Conference\r\nzz_other|Other"
   url_processor_handler:
     processor_id: url_processor_handler
     weights:
