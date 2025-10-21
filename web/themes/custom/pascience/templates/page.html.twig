@@ -7,27 +7,13 @@
 	{% endif %}
 	  <div class="container">
 	    <div id="secondaryNavbarResponsive" style="margin-left: auto; margin-right: 0;">
-        <ul class="top-left-menu navbar-nav">
-          <li class="nav-item">
-            <a href="https://openondemand.org/" class="nav-link">openondemand.org</a>
-          </li>
-          <li class="nav-item">
-            <a href="https://openondemand.org/run-open-ondemand" class="nav-link">Run OOD</a>
-          </li>
-          <li class="nav-item">
-            <a href="https://openondemand.org/administer-open-ondemand" class="nav-link">Administer OOD</a>
-          </li>
-          <li class="nav-item">
-            <a href="https://openondemand.org/get-involved" class="nav-link">Get Involved</a>
-          </li>
-          <li class="nav-item">
-            <a href="https://openondemand.org/support" class="nav-link">Support</a>
-          </li>
-        </ul>
 		  {% if page.secondary_menu and logged_in %}
 			  {{ page.secondary_menu }}
 		  {% else %}
         <ul class="navbar-nav">
+          <li class="nav-item">
+            <a href="/user/register/pascience" class="nav-link" data-drupal-link-system-path="/user/register/pascience">Join</a>
+          </li>
           <li class="nav-item">
             <a href="/user/login?current={{ path("<current>") }}" class="nav-link" data-drupal-link-system-path="user/login">Log in</a>
           </li>
