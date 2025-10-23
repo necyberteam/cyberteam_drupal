@@ -5,6 +5,8 @@ dependencies:
   config:
     - core.entity_view_mode.eventinstance.list
     - field.field.eventinstance.default.domain_access
+    - field.field.eventinstance.default.field_post_survey_reminder_sent
+    - field.field.eventinstance.default.field_post_survey_sent
     - field.field.eventinstance.default.field_video
     - recurring_events.eventinstance_type.default
   module:
@@ -116,6 +118,44 @@ content:
     third_party_settings: {  }
     weight: 53
     region: content
+  post_survey_email_text:
+    type: text_default
+    label: visible
+    settings: {  }
+    third_party_settings: {  }
+    weight: 59
+    region: content
+  post_survey_url:
+    type: link
+    label: visible
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 60
+    region: content
+  pre_survey_email_text:
+    type: text_default
+    label: visible
+    settings: {  }
+    third_party_settings: {  }
+    weight: 61
+    region: content
+  pre_survey_url:
+    type: link
+    label: visible
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 62
+    region: content
   register_button:
     settings: {  }
     third_party_settings: {  }
@@ -179,5 +219,7 @@ content:
 hidden:
   body: true
   domain_access: true
+  field_post_survey_reminder_sent: true
+  field_post_survey_sent: true
   field_video: true
   search_api_excerpt: true
