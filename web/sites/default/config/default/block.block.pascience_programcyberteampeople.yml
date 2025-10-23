@@ -5,6 +5,7 @@ dependencies:
   config:
     - facets.facet.program
   module:
+    - domain
     - facets
     - system
     - user
@@ -22,7 +23,7 @@ settings:
   label_display: visible
   provider: facets
   context_mapping: {  }
-  block_id: nect_programcyberteampeople
+  block_id: pascience_programcyberteampeople
 visibility:
   request_path:
     id: request_path
@@ -35,3 +36,10 @@ visibility:
       user: '@user.current_user_context:current_user'
     roles:
       authenticated: authenticated
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      nectd8_wpi_edu: nectd8_wpi_edu
