@@ -1,0 +1,26 @@
+uuid: 7b5006af-468e-43ae-bce8-22b24473fa97
+langcode: en
+status: true
+dependencies:
+  module:
+    - campuschampions
+    - system
+  theme:
+    - pascience
+id: pascience_socialauthgooglelogin
+theme: pascience
+region: below_main_content
+weight: 4
+provider: null
+plugin: socialauthgoogle
+settings:
+  id: socialauthgoogle
+  label: 'Social Auth Google Login'
+  label_display: '0'
+  provider: campuschampions
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /google-signin

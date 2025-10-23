@@ -1,0 +1,28 @@
+uuid: 05bf27b5-1ac7-4bb7-ae2b-532f7e39dcc7
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.search_ci_links
+  module:
+    - system
+    - views
+  theme:
+    - pascience
+id: pascience_exposedformsearch_ci_linkspage_2
+theme: pascience
+region: primary_sidebar
+weight: 10
+provider: null
+plugin: 'views_exposed_filter_block:search_ci_links-page_2'
+settings:
+  id: 'views_exposed_filter_block:search_ci_links-page_2'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources/mentorship

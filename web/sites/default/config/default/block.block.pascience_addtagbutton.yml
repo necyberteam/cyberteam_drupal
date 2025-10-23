@@ -1,0 +1,31 @@
+uuid: dd81d5eb-7ad6-4987-b22e-5e910dcd1416
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:a04b64b7-05c1-4846-9621-75fc93707b52'
+  module:
+    - block_content
+    - system
+  theme:
+    - pascience
+id: pascience_addtagbutton
+theme: pascience
+region: view_type_buttons
+weight: 7
+provider: null
+plugin: 'block_content:a04b64b7-05c1-4846-9621-75fc93707b52'
+settings:
+  id: 'block_content:a04b64b7-05c1-4846-9621-75fc93707b52'
+  label: 'add tag button'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/tags\r\n/tags/hierarchal"

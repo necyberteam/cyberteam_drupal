@@ -1,0 +1,40 @@
+uuid: 69ef6fdf-394b-4d18-a504-f7b74804649a
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:6654a8c4-300d-4eb2-b0fd-1cc0d50845cf'
+  module:
+    - block_content
+    - system
+    - user
+  theme:
+    - pascience
+id: pascience_addnewsbutton
+theme: pascience
+region: view_type_buttons
+weight: 15
+provider: null
+plugin: 'block_content:6654a8c4-300d-4eb2-b0fd-1cc0d50845cf'
+settings:
+  id: 'block_content:6654a8c4-300d-4eb2-b0fd-1cc0d50845cf'
+  label: 'add news button'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /news
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      administrator: administrator
+      campuschampionsadmin: campuschampionsadmin

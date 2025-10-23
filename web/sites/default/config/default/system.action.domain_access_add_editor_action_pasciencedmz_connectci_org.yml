@@ -1,0 +1,15 @@
+uuid: e0d10193-1e04-44ec-a26c-39a50a17fb17
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.pasciencedmz_connectci_org
+  module:
+    - domain_access
+id: domain_access_add_editor_action_pasciencedmz_connectci_org
+label: 'Add editors to the PA Science domain'
+type: user
+plugin: domain_access_add_editor_action
+configuration:
+  domain_id:
+    - pasciencedmz_connectci_org

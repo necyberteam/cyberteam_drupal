@@ -1,0 +1,29 @@
+uuid: 29369f97-62b8-4b2c-9734-34d8c42dd02c
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.user_skills_members
+  module:
+    - facets
+    - system
+  theme:
+    - pascience
+id: pascience_userskillsmembers
+theme: pascience
+region: primary_sidebar
+weight: 20
+provider: null
+plugin: 'facet_block:user_skills_members'
+settings:
+  id: 'facet_block:user_skills_members'
+  label: Skills
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_userskillsmembers
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /members

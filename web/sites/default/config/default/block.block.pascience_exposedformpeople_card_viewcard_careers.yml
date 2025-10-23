@@ -1,0 +1,29 @@
+uuid: 0f7a9095-0337-4a19-9ace-f6923bec835a
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_card_view
+  module:
+    - system
+    - views
+  theme:
+    - pascience
+id: pascience_exposedformpeople_card_viewcard_careers
+theme: pascience
+region: exposed_filters
+weight: 17
+provider: null
+plugin: 'views_exposed_filter_block:people_card_view-card_careers'
+settings:
+  id: 'views_exposed_filter_block:people_card_view-card_careers'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people_card_careers\r\n/people/card/careers"

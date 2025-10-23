@@ -1,0 +1,29 @@
+uuid: 9f37b5ca-a4e0-406b-89bd-f73b12f2af52
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.user_skills_cyberteam_people
+  module:
+    - facets
+    - system
+  theme:
+    - pascience
+id: pascience_userskillscyberteampeople
+theme: pascience
+region: primary_sidebar
+weight: 2
+provider: null
+plugin: 'facet_block:user_skills_cyberteam_people'
+settings:
+  id: 'facet_block:user_skills_cyberteam_people'
+  label: Skills
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_userskillscyberteampeople
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people

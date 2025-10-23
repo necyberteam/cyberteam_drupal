@@ -1,0 +1,37 @@
+uuid: e1077fb7-0264-4a2b-9ec2-a5969edd648a
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.roles
+  module:
+    - facets
+    - system
+    - user
+  theme:
+    - pascience
+id: pascience_roles
+theme: pascience
+region: primary_sidebar
+weight: 28
+provider: null
+plugin: 'facet_block:roles'
+settings:
+  id: 'facet_block:roles'
+  label: Roles
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_roles
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /community/cssn/directory
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

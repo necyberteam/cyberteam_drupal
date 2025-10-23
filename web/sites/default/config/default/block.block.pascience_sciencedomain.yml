@@ -1,0 +1,37 @@
+uuid: f52b5755-1a08-44ff-936b-9ab5426af657
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.science_domain
+  module:
+    - facets
+    - system
+    - user
+  theme:
+    - pascience
+id: pascience_sciencedomain
+theme: pascience
+region: primary_sidebar
+weight: 48
+provider: null
+plugin: 'facet_block:science_domain'
+settings:
+  id: 'facet_block:science_domain'
+  label: 'Science Domain'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_sciencedomain
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

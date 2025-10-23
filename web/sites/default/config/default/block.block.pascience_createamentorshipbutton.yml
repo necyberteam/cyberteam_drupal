@@ -1,0 +1,38 @@
+uuid: 26fbdc76-dd48-46a7-aa9e-3d44d794fee5
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:0a2db5a5-0dd8-4e34-8c00-a0d18b7afb3c'
+  module:
+    - block_content
+    - domain
+    - system
+  theme:
+    - pascience
+id: pascience_createamentorshipbutton
+theme: pascience
+region: content
+weight: 0
+provider: null
+plugin: 'block_content:0a2db5a5-0dd8-4e34-8c00-a0d18b7afb3c'
+settings:
+  id: 'block_content:0a2db5a5-0dd8-4e34-8c00-a0d18b7afb3c'
+  label: 'create a mentorship button'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      ccmnet_org: ccmnet_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: /mentorships

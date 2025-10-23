@@ -1,0 +1,37 @@
+uuid: 73afd996-d1bd-4200-b485-a58329b8793b
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.mentee
+  module:
+    - facets
+    - system
+    - user
+  theme:
+    - pascience
+id: pascience_mentee
+theme: pascience
+region: primary_sidebar
+weight: 42
+provider: null
+plugin: 'facet_block:mentee'
+settings:
+  id: 'facet_block:mentee'
+  label: Mentee
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_mentee
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /mentorships
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated
