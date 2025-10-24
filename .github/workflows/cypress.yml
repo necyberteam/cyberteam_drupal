@@ -76,7 +76,7 @@ jobs:
   axe:
     name: run axe accessibility tests
     runs-on: ubuntu-latest
-    if: ${{ contains(github.event.head_commit.message, '#a11y') }} || ${{ contains(github.event.pull_request.title, '#a11y) }}
+    if: contains(github.event.head_commit.message, '#a11y') || contains(github.event.pull_request.title, '#a11y') || contains(github.event.pull_request.body, '#a11y')
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/ddev-cypress-test
