@@ -76,7 +76,7 @@ jobs:
   axe:
     name: run axe accessibility tests
     runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.message, '#a11y')"
+    if: github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/ddev-cypress-test
