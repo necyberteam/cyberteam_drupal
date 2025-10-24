@@ -73,6 +73,23 @@ jobs:
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
           slack_bot_token: ${{ secrets.SLACK_TOKEN }}
 
+  axe:
+    name: run axe accessibility tests
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '#a11y') || contains(github.event.pull_request.title, '#a11y') || contains(github.event.pull_request.body, '#a11y')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress-test
+        with:
+          site: "accessmatch"
+          directory: "axe"
+          database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          slack_bot_token: ${{ secrets.SLACK_TOKEN }}
+
   ccmnet:
     name: ccmnet
     runs-on: ubuntu-latest
@@ -238,7 +255,7 @@ jobs:
           gh pr comment ${{ github.event.inputs.prnum }} -R ${{ github.server_url }}/${{ github.repository }} --body "🤖 -=-=-=- Cypress Test has failed 😩 -=-=-=- 🤖"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Slack Notification Success
         uses: rtCamp/action-slack-notify@v2
         env:

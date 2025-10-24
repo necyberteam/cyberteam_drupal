@@ -58,10 +58,10 @@ The base URL for testing is configured in `tests/cypress/cypress.config.js`. By 
    ```bash
    # Test accessmatch domain
    CYPRESS_BASE_URL=https://accessmatch.ddev.site npm run cypress:run
-   
+
    # Test crct domain
    CYPRESS_BASE_URL=https://crct.ddev.site npm run cypress:open
-   
+
    # Test production (if available)
    CYPRESS_BASE_URL=https://your-production-site.com npm run cypress:run
    ```
@@ -108,7 +108,7 @@ For example:
    ```bash
    vendor/bin/robo ddevsetup [GITHUB_TOKEN] [AMP_UID]
    ```
-   
+
    Or setup manually:
    ```bash
    ddev start
@@ -152,4 +152,3 @@ The email secret is the email you use with pantheon and the token can be setup u
 You can create, open, and ssh into your codespaces using Github CLI, see [install instructions](https://github.com/cli/cli#installation) to install on your local system. Once installed check out the [documentation](https://docs.github.com/en/codespaces/developing-in-codespaces/using-github-codespaces-with-github-cli) for commands you can use. You can authorize Github CLI by running the following command:
 
 ```gh auth login```
-
