@@ -76,7 +76,7 @@ jobs:
   axe:
     name: run axe accessibility tests
     runs-on: ubuntu-latest
-    if: ${{ contains(github.event.head_commit.message, '#axe') }}
+    if: "contains(github.event.head_commit.message, '#axe')"
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/ddev-cypress-test
