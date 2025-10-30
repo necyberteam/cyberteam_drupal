@@ -8,7 +8,7 @@ id: access_misc.registration_approved
 configuration:
   email_body:
     content:
-      value: '<p dir="ltr">Dear {{ name }},</p><p dir="ltr">Congratulations! Your registration for&nbsp; <strong>{{ title_link|raw }}</strong> on {{ start_date }} has been confirmed.</p><p dir="ltr">Here are the details:</p><ul><li dir="ltr"><strong>Location (if applicable):</strong> {{ location }}</li><li dir="ltr"><strong>Time:</strong> {{ event_start_time }} - {{ event_end_time }}</li></ul><p>{% if pre_survey_url %}</p><p>{{ pre_survey_text }}</p><p>{{ pre_survey_url }}</p><p>{% endif %}</p><p dir="ltr">We are glad you are going to attend!</p><p>Kind regards,<br>ACCESS Support</p>'
+      value: '<p dir="ltr">Dear {{ name }},</p><p dir="ltr">Congratulations! Your registration for&nbsp; <strong>{{ title_link|raw }}</strong> on {{ start_date }} has been confirmed.</p><p dir="ltr">Here are the details:</p><ul><li dir="ltr"><strong>Location (if applicable):</strong> {{ location }}</li><li dir="ltr"><strong>Time:</strong> {{ event_start_time }} - {{ event_end_time }}</li></ul><p>{% if pre_survey_url %}</p><p>{{ pre_survey_text }}</p><p>&lt;a href="{{ pre_survey_url }}"&gt;{{ pre_survey_url }}&lt;/a&gt;</p><p>{% endif %}</p><p dir="ltr">We are glad you are going to attend!</p><p>Kind regards,<br>ACCESS Support</p>'
       format: basic_html
   email_subject:
     value: 'Registration Confirmed for {{ title }}'

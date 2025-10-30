@@ -8,7 +8,7 @@ id: access_misc.register
 configuration:
   email_body:
     content:
-      value: '<p>Dear {{ name }},</p><p>Thank you for registering for <strong>{{ title_link|raw }}</strong> scheduled for {{ start_date }}. Your registration has been submitted and is under review.</p><p>You will receive another email once your registration has been reviewed and approved. Approval typically takes 1-2 business days.</p><p>{% if screen_survey_url %}</p><p>{{ screen_survey_text }}</p><p>{{ screen_survey_url }}</p><p>{% endif %}</p><p>Kind regards,<br>ACCESS Support</p>'
+      value: '<p>Dear {{ name }},</p><p>Thank you for registering for <strong>{{ title_link|raw }}</strong> scheduled for {{ start_date }}. Your registration has been submitted and is under review.</p><p>You will receive another email once your registration has been reviewed and approved. Approval typically takes 1-2 business days.</p><p>{% if screen_survey_url %}</p><p>{{ screen_survey_text }}</p><p>&lt;a href="{{ screen_survey_url }}"&gt;{{ screen_survey_url }}&lt;/a&gt;</p><p>{% endif %}</p><p>Kind regards,<br>ACCESS Support</p>'
       format: basic_html
   email_subject:
     value: 'Registration Pending for {{ title }}'
