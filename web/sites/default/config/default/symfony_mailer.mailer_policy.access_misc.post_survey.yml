@@ -1,0 +1,15 @@
+uuid: 748cc096-51e3-4ab3-a03a-b1d59f6a2bf1
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_misc
+id: access_misc.post_survey
+configuration:
+  email_body:
+    content:
+      value: '<p>Dear {{ name }},</p><p>Thank you for participating in <a href="{{ title_link|raw }}"><strong>{{ title }}</strong></a>. We''d appreciate it if you participated in our survey.</p><p>{% if post_survey_url %}</p><p>{{ post_survey_text }}</p><p><a href="{{ post_survey_url }}">{{ post_survey_url }}</a></p><p>{% endif %}</p><p>Kind regards,<br>ACCESS Support</p>'
+      format: basic_html
+  email_subject:
+    value: 'Please participate in our survey for {{ title }}'
+
