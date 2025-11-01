@@ -35,10 +35,10 @@ function pascience_form_system_theme_settings_alter(&$form, FormStateInterface &
     return;
   }
 
-  $form['pascience_front_text'] = [
+  $form['pascience_text'] = [
     '#type'          => 'textarea',
-    '#title'         => t('Open OnDemand Front Text'),
-    '#default_value' => theme_get_setting('pascience_front_text'),
+    '#title'         => t('PA Science Front Text'),
+    '#default_value' => theme_get_setting('pascience_text'),
     '#description'   => t("This text will be placed in the frontpage banner."),
   ];
 }
@@ -170,7 +170,7 @@ function pascience_preprocess_menu_main(&$variables) {
 function pascience_preprocess_page(&$variables) {
   $user = User::load(\Drupal::currentUser()->id());
   $variables['attributes']['displayName'] = $user->getDisplayName();
-  $variables['pascience_front_text'] = theme_get_setting('pascience_front_text');
+  $variables['pascience_text'] = theme_get_setting('pascience_text');
 
   $domain = \Drupal::config('domain.settings');
   $token = \Drupal::token();
