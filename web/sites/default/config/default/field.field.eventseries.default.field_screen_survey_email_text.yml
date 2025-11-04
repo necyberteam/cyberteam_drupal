@@ -1,0 +1,24 @@
+uuid: eeb21a7d-6bc4-4250-b6a0-4f15f1f46bdd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.eventseries.field_screen_survey_email_text
+    - filter.format.email_html
+    - recurring_events.eventseries_type.default
+  module:
+    - text
+id: eventseries.default.field_screen_survey_email_text
+field_name: field_screen_survey_email_text
+entity_type: eventseries
+bundle: default
+label: 'Screen Survey Email Text'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - email_html
+field_type: text_long
