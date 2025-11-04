@@ -171,9 +171,21 @@ elements: |-
     mobile_phone:
       '#type': tel
       '#title': 'Mobile Phone'
+      '#access_create_roles':
+        - administrator
+      '#access_update_roles':
+        - administrator
+      '#access_view_roles':
+        - administrator
     work_phone:
       '#type': webform_telephone
       '#title': 'Work Phone'
+      '#access_create_roles':
+        - administrator
+      '#access_update_roles':
+        - administrator
+      '#access_view_roles':
+        - administrator
       '#type__access': false
       '#phone__international': false
   project_personnel:
@@ -351,7 +363,7 @@ elements: |-
     project_description:
       '#type': textarea
       '#title': 'Project Description'
-      '#description': 'Provide a description of the project and its history, progress, and/or current status.'
+      '#description': '<p><span class="_1e0c1bgi" data-ep-placeholder-id="gin-redirect-entrypoint" data-testid="comment-base-item-20011">Provide a description of the project—its history, progress, and current status—and include the names and institutional affiliations of any collaborators</span></p>'
       '#required': true
     project_information_subsection:
       '#type': webform_section
