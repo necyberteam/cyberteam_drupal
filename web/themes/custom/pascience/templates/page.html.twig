@@ -46,7 +46,13 @@
 {% endblock %}
 
 {% block footer %}
-<footer class="footer">
+{%
+  set footer_classes = [
+    is_front ? '' : 'mt-5',
+    'footer',
+  ]
+%}
+<footer class="{{ footer_classes|join(' ') }}">
   {% if page.first_footer or page.second_footer or page.third_footer %}
   <div class="container-fluid footer-main pt-3">
 	<div class="row mx-auto">
