@@ -127,6 +127,56 @@ runs:
           echo "No screenshots directory found"
         fi
 
+    - name: Store date
+      shell: bash
+      run: |
+        echo "DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
+
+    - name: Store branch
+      shell: bash
+      run: |
+        if [[ $GITHUB_REF == refs/pull/* ]]; then
+          # For pull requests, use the head branch name
+          current_branch=${{ github.head_ref }}
+        else
+          # For direct branch pushes
+          current_branch="${GITHUB_REF#refs/heads/}"
+        fi
+        echo "CURRENT_BRANCH=$current_branch" >> $GITHUB_ENV
+
+    - name: Add A11y reports to cypress-a11y repo.
+      shell: bash
+      if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
+      run: |
+        # Use github_token to clone git@github.com:necyberteam/cypress-a11y.git to /tmp/cypress-a11y
+        echo "Cloning cypress-a11y repo..."
+        git clone https://x-access-token:${{ inputs.github_token }}@github.com/necyberteam/cypress-a11y.git /tmp/cypress-a11y
+        mkdir -p /tmp/cypress-a11y/reports/$DATE/$CURRENT_BRANCH/${{ github.run_id }}
+        cp -r tests/cypress/cypress-a11y-reports/* /tmp/cypress-a11y/reports/$DATE/$CURRENT_BRANCH/${{ github.run_id }}/
+        cd /tmp/cypress-a11y
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add .
+        git commit -m "Add A11y reports for ${{ inputs.site }}-${{ inputs.directory }} on $DATE (run ${{ github.run_id }} on branch $CURRENT_BRANCH)" || echo "No changes to commit"
+        git push origin gh-pages
+        echo "A11y reports added to cypress-a11y repo."
+      env:
+        github_token: ${{ inputs.github_token }}
+
+    - name: Summary
+      shell: bash
+      if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
+      run: |
+        echo "A11y Report: https://necyberteam.github.io/cypress-a11y/reports/${{ env.DATE }}/${{ env.CURRENT_BRANCH }}/${{ github.run_id }}/summary.html" >> $GITHUB_STEP_SUMMARY
+
+    - name: Upload A11y reports
+      if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: cypress-a11y-report-${{ inputs.site }}-${{ inputs.directory }}
+        path: tests/cypress/cypress-a11y-reports
+        if-no-files-found: ignore
+
     - name: Upload screenshots on failure
       if: ${{ failure() && !cancelled() && hashFiles('tests/cypress/cypress/screenshots/**/*.png') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
       uses: actions/upload-artifact@v4
@@ -176,6 +226,15 @@ runs:
         SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
         SLACK_MESSAGE: 'Cypress tests failed for ${{ inputs.site }}-${{ inputs.directory }}. No screenshots were generated.'
         SLACK_TITLE: "Cypress Test Failure"
+        SLACK_CHANNEL: cypress-git-notifications
+
+    - name: Slack - give link back to action if A11y reports exist
+      if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
+        SLACK_MESSAGE: '❗️❗️ Cypress A11y reports are here: https://necyberteam.github.io/cypress-a11y/reports/${{ env.DATE }}/${{ env.CURRENT_BRANCH }}/${{ github.run_id }}/summary.html The action ran is here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} ❗️❗️'
+        SLACK_TITLE: "Cypress A11y Reports Available"
         SLACK_CHANNEL: cypress-git-notifications
 
     - name: Get Drupal logs on failure
