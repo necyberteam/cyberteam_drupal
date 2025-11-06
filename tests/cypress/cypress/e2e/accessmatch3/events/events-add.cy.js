@@ -73,14 +73,13 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.screenshot('after-submit');
 
     // Check for content published message.
+    // Note: site_mail is disabled, so email has no TO field and author is in BCC
     cy.waitForEmail({
-      to: 'supportapiaccess@access-ci.org',
       subject: 'Your Event was published'
     }).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'Your Event was published',
         from: 'supportapiaccess@access-ci.org',
-        to: 'supportapiaccess@access-ci.org',
       });
     });
 
@@ -139,14 +138,13 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.get("#edit-submit").click();
 
     // Check for content published message.
+    // Note: site_mail is disabled, so email has no TO field and author is in BCC
     cy.waitForEmail({
-      to: 'supportapiaccess@access-ci.org',
       subject: 'Your Event was published'
     }).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'Your Event was published',
         from: 'supportapiaccess@access-ci.org',
-        to: 'supportapiaccess@access-ci.org',
       });
     });
   });
