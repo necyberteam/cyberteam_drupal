@@ -1,0 +1,20 @@
+uuid: c1e2c2c2-76f2-44d5-bc75-f9645619ad04
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_misc
+id: access_misc_project.project_flagged
+configuration:
+  email_body:
+    content:
+      value: '<p>{{ flagged_name }} just flagged the project <a href="{{ url }}">{{ title }}</a></p>'
+      format: basic_html
+  email_from:
+    addresses:
+      -
+        value: '<site>'
+        display: ''
+  email_subject:
+    value: '{{ title }} - interest shown on project'
+
