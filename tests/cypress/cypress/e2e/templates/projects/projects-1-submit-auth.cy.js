@@ -11,7 +11,7 @@ describe("test submit project form", () => {
     cy.contains('First');
     cy.contains('Last');
     cy.contains('Email');
-    cy.contains('Mobile Phone');
+    // cy.contains('Mobile Phone'); // Mobile phone field is hidden for non-administrators
     cy.contains('Work Phone');
     cy.contains('Ext:');
     cy.contains('Project Information');
