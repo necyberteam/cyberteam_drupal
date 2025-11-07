@@ -118,4 +118,29 @@ describe('Test the registration feature', () => {
 
   })
 
+  it('Should verify registration page UI enhancements', () => {
+    cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
+
+    cy.visit('/events')
+    cy.get('#edit-search-api-fulltext--2').type('example', { delay: 0 })
+    cy.wait(1000)
+    cy.contains('cypress-example-event').click()
+    cy.contains('Registrations').click()
+
+    // Verify event title appears in page title
+    cy.title().should('include', 'cypress-example-event')
+
+    // Verify # column exists in the registration table
+    cy.get('table thead th').first().should('contain', '#')
+
+    // Verify Total Registrants display exists (e.g., "2 of 25 registrants")
+    // The text pattern should match "X of Y registrants" where X and Y are numbers
+    cy.contains(/\d+\s+of\s+\d+\s+registrants/i).should('be.visible')
+
+    // Verify the registration table has numbered rows
+    cy.get('table tbody tr').first().within(() => {
+      cy.get('td').first().should('match', /\d+/)
+    })
+  })
+
 })
