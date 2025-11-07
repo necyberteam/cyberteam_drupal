@@ -213,21 +213,6 @@ elements: |-
       '#selection_handler': 'default:user'
       '#selection_settings':
         include_anonymous: false
-        filter:
-          type: role
-          role:
-            mentor: mentor
-            researcher: researcher
-            student: 0
-            professional_mentor: 0
-            sc: 0
-            ra: 0
-            representative: 0
-            administrator: 0
-            masquerade: 0
-            regional_expert: 0
-            campuschampionsadmin: 0
-            exportpeople: 0
     students:
       '#type': entity_autocomplete
       '#title': Student-facilitators
@@ -240,21 +225,6 @@ elements: |-
       '#selection_handler': 'default:user'
       '#selection_settings':
         include_anonymous: false
-        filter:
-          type: role
-          role:
-            student: student
-            mentor: 0
-            professional_mentor: 0
-            researcher: 0
-            sc: 0
-            ra: 0
-            representative: 0
-            administrator: 0
-            masquerade: 0
-            regional_expert: 0
-            campuschampionsadmin: 0
-            exportpeople: 0
     mentor:
       '#type': entity_autocomplete
       '#title': Mentor(s)
@@ -265,26 +235,11 @@ elements: |-
       '#selection_handler': 'default:user'
       '#selection_settings':
         include_anonymous: false
-        filter:
-          type: role
-          role:
-            mentor: mentor
-            researcher: researcher
-            student: 0
-            professional_mentor: 0
-            sc: 0
-            ra: 0
-            representative: 0
-            administrator: 0
-            masquerade: 0
-            regional_expert: 0
-            campuschampionsadmin: 0
-            exportpeople: 0
     student:
       '#type': entity_autocomplete
       '#title': Student-facilitator(s)
       '#multiple': true
-      '#description': 'Type the student-facilitator&#39;s name and select them from the dropdown list.'
+      '#description': "<p>Type the student-facilitator's name and select them from the dropdown list.</p>"
       '#wrapper_attributes':
         class:
           - region-specific
@@ -323,20 +278,8 @@ elements: |-
       '#selection_settings':
         include_anonymous: false
         filter:
-          type: role
-          role:
-            student: student
-            mentor: 0
-            professional_mentor: 0
-            researcher: 0
-            sc: 0
-            ra: 0
-            representative: 0
-            administrator: 0
-            masquerade: 0
-            regional_expert: 0
-            campuschampionsadmin: 0
-            exportpeople: 0
+          type: _none
+        target_bundles: null
     mentee_s_:
       '#type': entity_autocomplete
       '#title': Mentee(s)
@@ -359,21 +302,6 @@ elements: |-
       '#selection_handler': 'default:user'
       '#selection_settings':
         include_anonymous: false
-        filter:
-          type: role
-          role:
-            student: student
-            mentor: 0
-            professional_mentor: 0
-            researcher: 0
-            sc: 0
-            ra: 0
-            representative: 0
-            administrator: 0
-            masquerade: 0
-            regional_expert: 0
-            campuschampionsadmin: 0
-            exportpeople: 0
   project_information:
     '#type': webform_section
     '#title': 'Project Information'
