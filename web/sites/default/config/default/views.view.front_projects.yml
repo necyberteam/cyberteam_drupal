@@ -243,6 +243,7 @@ display:
           webform_element_format: link
           webform_multiple_value: true
           webform_multiple_delta: 0
+          webform_check_access: 1
         webform_submission_value_1:
           id: webform_submission_value_1
           table: webform_submission_field_project_project_title
@@ -255,7 +256,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"card h-100 list-group-item-action\">\r\n<h6 class=\"card-header text-center\">{{ webform_submission_value_2 }}</h6>\r\n<a href=\"/project/{{ sid }}\" class=\"stretched-link\"><div class=\"img-row\">{% if webform_submission_value %}<img src=\"{{ webform_submission_value }}\" class=\"card-img-top\">{% else %}<img src=\"/themes/nect-theme/img/ctportal-logo.jpg\" class=\"card-img-top\">{% endif %}</div></a>\r\n<div class=\"card-body text-center\">\r\n<h3>{{ webform_submission_value_1 }}</h3>\r\n{% if webform_submission_value_3 %}<div class=\"above-stretched-link\">{{ webform_submission_value_3 }}</div>{% endif %}\r\n</div>\r\n</div>"
+            text: "<div class=\"card h-100 list-group-item-action\">\r\n<h6 class=\"card-header text-center text-white bg-black\">{{ webform_submission_value_2 }}</h6>\r\n<a href=\"/project/{{ sid }}\" class=\"stretched-link\"><div class=\"img-row\">{% if webform_submission_value %}<img src=\"{{ webform_submission_value }}\" class=\"card-img-top\">{% else %}<img src=\"/themes/nect-theme/img/ctportal-logo.jpg\" class=\"card-img-top\">{% endif %}</div></a>\r\n<div class=\"card-body text-center\">\r\n<h3>{{ webform_submission_value_1 }}</h3>\r\n{% if webform_submission_value_3 %}<div class=\"above-stretched-link square-tags\">{{ webform_submission_value_3|replace({\",\" : \"\"})|raw }}</div>{% endif %}\r\n</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -295,6 +296,7 @@ display:
           webform_element_format: value
           webform_multiple_value: true
           webform_multiple_delta: 0
+          webform_check_access: 1
       pager:
         type: none
         options:
@@ -445,7 +447,7 @@ display:
           query_tags: {  }
           contextual_filters_or: false
       relationships: {  }
-      css_class: mb-3
+      css_class: 'bg-slider px-3 py-5 full-width-bg slider mt-5'
       header:
         area:
           id: area
@@ -462,6 +464,141 @@ display:
           tokenize: false
       footer: {  }
       display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - user
+      tags: {  }
+  block_pascience:
+    id: block_pascience
+    display_title: pascience-Block
+    display_plugin: block
+    position: 1
+    display_options:
+      enabled: true
+      filters:
+        webform_id:
+          id: webform_id
+          table: webform_submission
+          field: webform_id
+          entity_type: webform_submission
+          entity_field: webform_id
+          plugin_id: bundle
+          value:
+            project: project
+          group: 1
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        webform_submission_value:
+          id: webform_submission_value
+          table: webform_submission_field_project_approved
+          field: webform_submission_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_checkbox_filter
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        webform_submission_value_1:
+          id: webform_submission_value_1
+          table: webform_submission_field_project_region
+          field: webform_submission_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_field_filter
+          operator: contains
+          value: '933'
+          group: 2
+          exposed: false
+          expose:
+            operator_id: webform_submission_value_1_op
+            label: Region
+            description: null
+            use_operator: false
+            operator: webform_submission_value_1_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: webform_submission_value_1
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: null
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+          2: OR
+      defaults:
+        access: true
+        title: true
+        css_class: true
+        filters: false
+        filter_groups: false
+        header: false
+      display_description: ''
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<a href="/projects"><h1 class="text-center text-dark mb-3">Collaborative Projects</h1></a>'
+            format: full_no_editor
+          tokenize: false
+      display_extenders:
+        jsonapi_views:
+          enabled: true
     cache_metadata:
       max-age: -1
       contexts:

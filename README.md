@@ -58,10 +58,10 @@ The base URL for testing is configured in `tests/cypress/cypress.config.js`. By 
    ```bash
    # Test accessmatch domain
    CYPRESS_BASE_URL=https://accessmatch.ddev.site npm run cypress:run
-   
+
    # Test crct domain
    CYPRESS_BASE_URL=https://crct.ddev.site npm run cypress:open
-   
+
    # Test production (if available)
    CYPRESS_BASE_URL=https://your-production-site.com npm run cypress:run
    ```
@@ -76,6 +76,84 @@ vendor/bin/robo cypress [test_name]
 For example:
 - `vendor/bin/robo cypress` - Runs tests on accessmatch1
 - `vendor/bin/robo cypress crct` - Runs tests on crct domain
+
+### Accessibility Testing with Axe
+
+This project includes automated accessibility testing using [axe-core](https://github.com/dequelabs/axe-core) and [cypress-axe](https://github.com/component-driven/cypress-axe).
+
+#### Running Accessibility Tests
+
+Accessibility tests are located in `tests/cypress/cypress/e2e/axe/` and test key pages across the site for WCAG compliance.
+
+**Local Testing:**
+```bash
+cd tests/cypress
+# Run all accessibility tests (default domain: accessmatch)
+CYPRESS_BASE_URL=https://accessmatch.ddev.site npm run cypress:run -- --spec "cypress/e2e/axe/**/*.js"
+
+# Or test on a different domain
+CYPRESS_BASE_URL=https://connectci.ddev.site npm run cypress:run -- --spec "cypress/e2e/axe/**/*.js"
+```
+
+**GitHub Actions:**
+The accessibility tests run automatically when you include `#a11y` in your:
+- Commit message
+- Pull request title
+- Pull request body
+
+Example commit: `git commit -m "Fix navigation aria-labels #a11y"`
+
+#### Accessibility Reports
+
+When tests run, detailed HTML and CSV reports are generated in `tests/cypress/cypress-a11y-reports/`:
+- **summary.html** - Overview of all violations grouped by severity
+- **Individual HTML reports** - Detailed breakdown for each tested page
+- **CSV files** - Violation data for further analysis
+
+**In CI/CD**, reports are:
+1. Uploaded to the [cypress-a11y repository](https://necyberteam.github.io/cypress-a11y/) at `reports/YYYYMMDD/BRANCH_NAME/RUN_ID/summary.html`
+2. Available as GitHub Actions artifacts (downloadable for 90 days)
+3. Linked in the GitHub Actions run summary
+4. Posted to Slack (#cypress-git-notifications) with direct links
+
+#### Controlling Test Failures
+
+By default, accessibility tests **report violations but do not fail**. This allows you to track and fix issues progressively.
+
+To make tests fail on specific severity levels, set the `CYPRESS_A11Y_FAIL_ON` environment variable:
+
+```bash
+# Fail on critical issues only
+CYPRESS_A11Y_FAIL_ON=critical npm run cypress:run
+
+# Fail on serious and critical issues
+CYPRESS_A11Y_FAIL_ON=serious,critical npm run cypress:run
+```
+
+**Severity Levels:**
+- **Critical** - Serious impact on accessibility, must be fixed
+- **Serious** - Significant barrier for some users
+- **Moderate** - Noticeable issue but not blocking
+- **Minor** - Small improvements that enhance accessibility
+
+#### Custom Accessibility Helper
+
+The project includes a custom `cy.a11yCheckWithReport()` command that:
+- Runs axe-core analysis on the current page
+- Generates detailed HTML and CSV reports
+- Logs violation counts by severity
+- Optionally fails tests based on severity thresholds
+
+**Example usage:**
+```javascript
+describe('My Page Accessibility', () => {
+  it('should be accessible', () => {
+    cy.visit('/my-page');
+    cy.injectAxe();
+    cy.a11yCheckWithReport();
+  });
+});
+```
 
 ## Github Actions
 
@@ -108,7 +186,7 @@ For example:
    ```bash
    vendor/bin/robo ddevsetup [GITHUB_TOKEN] [AMP_UID]
    ```
-   
+
    Or setup manually:
    ```bash
    ddev start

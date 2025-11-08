@@ -1,0 +1,41 @@
+uuid: 3686095a-57c0-4d3d-aab2-4eded599d774
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.mentor
+  module:
+    - collapsiblock
+    - facets
+    - system
+    - user
+  theme:
+    - pascience
+third_party_settings:
+  collapsiblock:
+    collapse_action: 3
+id: pascience_mentor_2
+theme: pascience
+region: primary_sidebar
+weight: 41
+provider: null
+plugin: 'facet_block:mentor'
+settings:
+  id: 'facet_block:mentor'
+  label: Mentor
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_mentor_2
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /mentorships
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

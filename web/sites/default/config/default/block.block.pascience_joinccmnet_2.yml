@@ -1,0 +1,38 @@
+uuid: 7df6f83c-bc00-44bc-b2e3-69ab3c66e81e
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:06fd0027-5665-4663-a27d-05803e8f50d1'
+  module:
+    - block_content
+    - domain
+    - system
+  theme:
+    - pascience
+id: pascience_joinccmnet_2
+theme: pascience
+region: content
+weight: 3
+provider: null
+plugin: 'block_content:06fd0027-5665-4663-a27d-05803e8f50d1'
+settings:
+  id: 'block_content:06fd0027-5665-4663-a27d-05803e8f50d1'
+  label: 'Join CCMnet'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      ccmnet_org: ccmnet_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/user/login\r\n/user/register"

@@ -1,0 +1,29 @@
+uuid: e92c240b-64c7-4079-bc7b-c8168c45b659
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - pascience
+id: pascience_exposedformpeople_list_viewlist_kentucky
+theme: pascience
+region: exposed_filters
+weight: 30
+provider: null
+plugin: 'views_exposed_filter_block:people_list_view-list_kentucky'
+settings:
+  id: 'views_exposed_filter_block:people_list_view-list_kentucky'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /people/list/kentucky

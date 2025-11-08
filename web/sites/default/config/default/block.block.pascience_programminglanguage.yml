@@ -1,0 +1,37 @@
+uuid: 73f479b4-e2c3-4d82-9f75-e0b8210ae320
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.programming_language
+  module:
+    - facets
+    - system
+    - user
+  theme:
+    - pascience
+id: pascience_programminglanguage
+theme: pascience
+region: primary_sidebar
+weight: 46
+provider: null
+plugin: 'facet_block:programming_language'
+settings:
+  id: 'facet_block:programming_language'
+  label: 'Programming Language'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_programminglanguage
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

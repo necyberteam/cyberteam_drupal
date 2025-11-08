@@ -1,0 +1,29 @@
+uuid: e9eade50-e760-4ed2-bff9-cb679dfc7817
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.program_people_page
+  module:
+    - facets
+    - system
+  theme:
+    - pascience
+id: pascience_programpeoplepage
+theme: pascience
+region: primary_sidebar
+weight: 19
+provider: null
+plugin: 'facet_block:program_people_page'
+settings:
+  id: 'facet_block:program_people_page'
+  label: Program
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_programpeoplepage
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /people

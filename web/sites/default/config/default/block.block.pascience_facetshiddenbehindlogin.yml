@@ -1,0 +1,38 @@
+uuid: ec3bedb3-9495-4c98-a00e-459f022427b7
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:8f722eff-af35-458d-9f84-a157335beb73'
+  module:
+    - block_content
+    - system
+    - user
+  theme:
+    - pascience
+id: pascience_facetshiddenbehindlogin
+theme: pascience
+region: primary_sidebar
+weight: 54
+provider: null
+plugin: 'block_content:8f722eff-af35-458d-9f84-a157335beb73'
+settings:
+  id: 'block_content:8f722eff-af35-458d-9f84-a157335beb73'
+  label: 'Facets hidden behind login'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      anonymous: anonymous
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/people\r\n/community/cssn/directory\r\n/mentorships\r\n/members\r\n/affinity-groups\r\n/knowledge-base/resources\r\n/knowledge-base/resources/mentorship"

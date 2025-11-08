@@ -4,11 +4,8 @@ status: true
 dependencies:
   config:
     - user.role.administrator
-    - user.role.careers_sc
-    - user.role.lt
     - user.role.masquerade
-    - user.role.ra
-    - user.role.sc
+    - user.role.pascience_manager
     - webform.webform.project
   module:
     - user
@@ -1091,10 +1088,7 @@ display:
           role:
             administrator: administrator
             masquerade: masquerade
-            sc: sc
-            lt: lt
-            ra: ra
-            careers_sc: careers_sc
+            pascience_manager: pascience_manager
       cache:
         type: tag
         options: {  }
@@ -1869,6 +1863,87 @@ display:
         - user
         - user.roles
       tags: {  }
+  page_pa_science_submissions:
+    id: page_pa_science_submissions
+    display_title: pa-science
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'PA-Science project submissions'
+      filters:
+        webform_id:
+          id: webform_id
+          table: webform_submission
+          field: webform_id
+          entity_type: webform_submission
+          entity_field: webform_id
+          plugin_id: bundle
+          value:
+            project: project
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        webform_submission_value:
+          id: webform_submission_value
+          table: webform_submission_field_project_region
+          field: webform_submission_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_field_filter
+          operator: contains
+          value: '933'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: ''
+      display_extenders:
+        jsonapi_views:
+          enabled: true
+      path: project-submissions
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url.query_args
+        - user
+        - user.roles
+      tags: {  }
   rmacc:
     id: rmacc
     display_title: RMACC
@@ -2121,3 +2196,4 @@ display:
         - user
         - user.roles
       tags: {  }
+

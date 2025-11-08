@@ -1,0 +1,126 @@
+{% set front_div = "w-100 pt-3" %}
+{% block navbar %}
+	{% if logged_in %}
+	<nav class="navbar navbar-expand-lg secondary-nav navbar-light bg-light" id="secondaryNav">
+	{% else %}
+	<nav class="navbar navbar-expand secondary-nav navbar-light bg-light " id="secondaryNav">
+	{% endif %}
+	  <div class="container">
+	    <div id="secondaryNavbarResponsive" style="margin-left: auto; margin-right: 0;">
+		  {% if page.secondary_menu and logged_in %}
+			  {{ page.secondary_menu }}
+		  {% else %}
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a href="/user/register/pascience" class="nav-link" data-drupal-link-system-path="/user/register/pascience">Join</a>
+          </li>
+          <li class="nav-item">
+            <a href="/user/login?current={{ path("<current>") }}" class="nav-link" data-drupal-link-system-path="user/login">Log in</a>
+          </li>
+        </ul>
+		  {% endif %}
+      </div>
+	  </div>
+	</nav>
+	 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow-sm" id="mainNav">
+		  <div class="container">
+      <div>
+        <a class="nsf-logo" href="https://www.nsf.gov/" target="_blank" rel="noopener">
+          <img width="82" height="82" src="/themes/contrib/asp-theme/images/logos/NSF_logo.svg">
+        </a>
+        <a class="navbar-brand" href="/">
+          <img src="/themes/nect-theme/img/pascience-logo.png" class="logo" alt="PA Science">
+        </a>
+      </div>
+
+			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+			  <i class="bi bi-list" aria-hidden="true"></i>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+        {% if page.primary_menu %}
+          {{ page.primary_menu }}
+        {% endif %}
+		</div>
+	 </nav>
+{% endblock %}
+
+{% block footer %}
+{%
+  set footer_classes = [
+    is_front ? '' : 'mt-5',
+    'footer',
+  ]
+%}
+<footer class="{{ footer_classes|join(' ') }}">
+  {% if page.first_footer or page.second_footer or page.third_footer %}
+  <div class="container-fluid footer-main pt-3">
+	<div class="row mx-auto">
+	  {% if page.first_footer %}
+	  {% if page.second_footer and page.third_footer %}
+	  <div class="col-md-4 mx-auto">
+	  {% elseif (page.second_footer and not page.third_footer) or (page.third_footer and not page.second_footer) %}
+	  <div class="col-md-6 mx-auto">
+	  {% else %}
+	  <div class="col-12 mx-auto">
+	  {% endif %}
+		{{ page.first_footer }}
+	  </div>
+	  {% endif %}
+	  {% if page.second_footer %}
+	  {% if page.first_footer and page.third_footer %}
+	  <div class="col-md-4 mx-auto">
+	  {% elseif (page.first_footer and not page.third_footer) or (page.third_footer and not page.first_footer) %}
+	  <div class="col-md-6 mx-auto">
+	  {% else %}
+	  <div class="col-12 mx-auto">
+	  {% endif %}
+		{{ page.second_footer }}
+	  </div>
+	  {% endif %}
+	  {% if page.third_footer %}
+	  {% if page.first_footer and page.second_footer %}
+	  <div class="col-md-4 mx-auto">
+	  {% elseif (page.first_footer and not page.second_footer) or (page.second_footer and not page.first_footer) %}
+	  <div class="col-md-6 mx-auto">
+	  {% else %}
+	  <div class="col-12 mx-auto">
+	  {% endif %}
+		{{ page.third_footer }}
+	  </div>
+	  {% endif %}
+	</div>
+  </div>
+  {% endif %}
+  <div class="container-fluid footer-sub">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-10 mx-auto">
+          <div class="d-flex">
+            <a class="nsf-logo" href="https://www.nsf.gov/" target="_blank" rel="noopener">
+              <img width="120" height="120" src="/themes/nect-theme/img/NSF_logo.svg">
+            </a>
+            <div>
+              <p class="nsf-text">This material is based upon work supported by the
+                <a href="https://nsf.gov" target="_blank">U.S. National Science Foundation</a>
+                under Grant No. 2346589. Any opinions, findings, and conclusions or recommendations
+                expressed in this material are those of the author(s) and do not necessarily reflect
+                the views of the National Science Foundation.
+              </p>
+            </div>
+          </div>
+          <p class="copyright">Copyright &copy; {{ 'now'|date('Y') }},
+            PA Science DMZ |
+            <a href="/connectci-privacy-policy">Privacy Policy</a> |
+            <a href="/code-of-conduct">Code of Conduct</a> |
+            <a href="https://connect.cyberinfrastructure.org">Connect.CI</a> |
+            <a href="/contact/{{domain_name|replace({'-':'_'})}}">Contact Us</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+{% endblock %}
+
+{% extends "themes/custom/ood/templates/default/page.html.twig" %}

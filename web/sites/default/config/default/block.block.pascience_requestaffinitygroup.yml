@@ -1,0 +1,31 @@
+uuid: 46ac70b2-30f5-4ad9-80a0-290e8e9d44e3
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:7fef300f-2419-4df0-8f53-c0e771d0bc1e'
+  module:
+    - block_content
+    - system
+  theme:
+    - pascience
+id: pascience_requestaffinitygroup
+theme: pascience
+region: view_type_buttons
+weight: 11
+provider: null
+plugin: 'block_content:7fef300f-2419-4df0-8f53-c0e771d0bc1e'
+settings:
+  id: 'block_content:7fef300f-2419-4df0-8f53-c0e771d0bc1e'
+  label: 'request affinity group'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /affinity-groups

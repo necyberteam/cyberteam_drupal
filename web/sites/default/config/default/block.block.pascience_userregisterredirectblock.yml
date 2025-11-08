@@ -1,0 +1,33 @@
+uuid: 8e58c601-fcec-40b2-96fa-ae0d36ee4382
+langcode: en
+status: true
+dependencies:
+  module:
+    - ccmnet
+    - system
+    - user
+  theme:
+    - pascience
+id: pascience_userregisterredirectblock
+theme: pascience
+region: content
+weight: 0
+provider: null
+plugin: user_register_redirect_block
+settings:
+  id: user_register_redirect_block
+  label: 'User Register Redirect Block'
+  label_display: '0'
+  provider: ccmnet
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /user/register
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

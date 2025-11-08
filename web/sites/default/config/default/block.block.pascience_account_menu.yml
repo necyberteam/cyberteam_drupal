@@ -1,0 +1,35 @@
+uuid: b07ad0be-43d5-4d0a-9268-56439e904017
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.account
+  module:
+    - domain
+    - system
+  theme:
+    - pascience
+_core:
+  default_config_hash: DweBpscQZdG0-fHkSpUzdYucrNH45G_KF7Z82V-oyQM
+id: pascience_account_menu
+theme: pascience
+region: secondary_menu
+weight: 0
+provider: null
+plugin: 'system_menu_block:account'
+settings:
+  id: 'system_menu_block:account'
+  label: 'User account menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: true
+visibility:
+  domain:
+    id: domain
+    negate: true
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      amp_cyberinfrastructure_org: amp_cyberinfrastructure_org
