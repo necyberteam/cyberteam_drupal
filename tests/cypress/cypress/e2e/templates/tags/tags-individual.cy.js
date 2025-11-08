@@ -56,6 +56,7 @@ describe("test individual tags page", () => {
     cy.get('input[name="project_title"]').type('test-project-title', { delay: 0 });
 
     cy.get('input[name="region[345]"]').check(); // At-Large
+    cy.get('select[name="status"]').select('In Progress');
     cy.get('input[name="tags[682]"]').check(); // Login tag
     cy.get('input[name="tags[683]"]').check(); // Password tag
     cy.get('input[name="project_leader[first]"]').clear();

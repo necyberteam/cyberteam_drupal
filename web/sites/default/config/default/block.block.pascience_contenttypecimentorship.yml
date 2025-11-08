@@ -1,0 +1,37 @@
+uuid: fd7797ab-17c4-4d03-bc8f-bb573ce04bc1
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.content_type_mentorship
+  module:
+    - facets
+    - system
+    - user
+  theme:
+    - pascience
+id: pascience_contenttypecimentorship
+theme: pascience
+region: primary_sidebar
+weight: 11
+provider: null
+plugin: 'facet_block:content_type_mentorship'
+settings:
+  id: 'facet_block:content_type_mentorship'
+  label: 'Content Type'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_contenttypecimentorship
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /knowledge-base/resources/mentorship
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

@@ -1,0 +1,37 @@
+uuid: e72b0c3a-037f-4b7b-ae5b-5ea90c683e25
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.affinity_group_category
+  module:
+    - facets
+    - system
+    - user
+  theme:
+    - pascience
+id: pascience_affinitygroupcategory
+theme: pascience
+region: primary_sidebar
+weight: 8
+provider: null
+plugin: 'facet_block:affinity_group_category'
+settings:
+  id: 'facet_block:affinity_group_category'
+  label: Category
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: nect_affinitygroupcategory
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/affinity_groups\r\n/affinity-groups"
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

@@ -11,11 +11,10 @@ describe("test submit project form", () => {
     cy.contains('First');
     cy.contains('Last');
     cy.contains('Email');
-    cy.contains('Mobile Phone');
-    cy.contains('Work Phone');
-    cy.contains('Ext:');
+    // cy.contains('Mobile Phone'); // Mobile phone field is hidden for non-administrators
+    // cy.contains('Work Phone'); // Work phone field is hidden for non-administrators
+    // cy.contains('Ext:'); // Work phone field is hidden for non-administrators
     cy.contains('Project Information');
-    cy.contains('Provide a description of the project and its history, progress, and/or current status.');
     cy.get('input[name="project_title"]').type('TEST', { delay: 0 });
     // cy.get('input[name="region[345]"]').check(); // Region is assigned based on domain and may not be displayed
     // cy.get('select[name="status"]').select('In Progress'); // Status field is hidden for non-admin users

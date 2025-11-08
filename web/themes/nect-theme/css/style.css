@@ -162,6 +162,7 @@ html:has(body.ccmnet) {
 .coco .region-specific:not(.display-coco) { display: none !important; }
 .usrse .region-specific:not(.display-usrse) { display: none !important; }
 .ccmnet .region-specific:not(.display-ccmnet) { display: none !important; }
+.pa-science .region-specific:not(.display-pa-science) { display: none !important; }
 
 .campus-champions .hide-campus-champions { display: none !important; }
 .careers-cyberteam .hide-careers { display: none !important; }
@@ -172,6 +173,7 @@ html:has(body.ccmnet) {
 .coco .hide-coco { display: none !important; }
 .usrse .hide-usrse { display: none !important; }
 .ccmnet .hide-ccmnet { display: none !important; }
+.pa-science .hide-pa-science { display: none !important; }
 
 .coco #mainNav #navbarResponsive, .usrse #mainNav #navbarResponsive, .coco #mainNav .navbar-toggler, .usrse #mainNav .navbar-toggler { display: none !important; }
 
@@ -697,6 +699,7 @@ li.dropdown-item a.nav-link:active {
   .navbar-nav .dropdown .hide-campus-champions + .dropdown-menu,
   .navbar-nav .dropdown .hide-careers + .dropdown-menu,
   .navbar-nav .dropdown .hide-northeast + .dropdown-menu,
+  .navbar-nav .dropdown .hide-pa-science + .dropdown-menu,
   .navbar-nav .dropdown .hide-coco + .dropdown-menu {
     display: none !important;
   }
@@ -706,6 +709,7 @@ li.dropdown-item a.nav-link:active {
   .navbar-nav .dropdown .display-campus-champions + .dropdown-menu,
   .navbar-nav .dropdown .display-careers + .dropdown-menu,
   .navbar-nav .dropdown .display-northeast + .dropdown-menu,
+  .navbar-nav .dropdown .display-pa-science + .dropdown-menu,
   .navbar-nav .dropdown .display-coco + .dropdown-menu {
     display: block !important;
   }
@@ -748,6 +752,9 @@ li.dropdown-item a.nav-link:active {
   .coco .navbar-nav .dropdown .dropdown-toggle.display-coco {
     display: block !important;
   }
+  .pa-science .navbar-nav .dropdown .dropdown-toggle.display-pa-science {
+    display: block !important;
+  }
 
   /* Hide region-specific dropdown toggles by default on mobile */
   .navbar-nav .dropdown .dropdown-toggle.region-specific {
@@ -770,6 +777,9 @@ li.dropdown-item a.nav-link:active {
   .coco .navbar-nav .dropdown .dropdown-toggle.region-specific.display-coco {
     display: block !important;
   }
+  .pa-science .navbar-nav .dropdown .dropdown-toggle.region-specific.display-pa-science {
+    display: block !important;
+  }
 
   /* Hide region-specific dropdown menus by default on mobile */
   .navbar-nav .dropdown .dropdown-toggle.region-specific + .dropdown-menu {
@@ -790,6 +800,9 @@ li.dropdown-item a.nav-link:active {
     display: block !important;
   }
   .coco .navbar-nav .dropdown .dropdown-toggle.region-specific.display-coco + .dropdown-menu {
+    display: block !important;
+  }
+  .pa-science .navbar-nav .dropdown .dropdown-toggle.region-specific.display-pa-science + .dropdown-menu {
     display: block !important;
   }
   #secondaryNav.navbar li.nav-item a.nav-link {
@@ -2774,9 +2787,10 @@ div .collapsiblockTitle {
   margin: 20px 0 50px;
 }
 @media (min-width: 768px) {
-.layout__region.layout__region--first {
-  box-sizing: border-box;
-  padding-right: 1.5rem;
+  .layout__region.layout__region--first {
+    box-sizing: border-box;
+    padding-right: 1.5rem;
+  }
 }
 
 /* Utility classes */
@@ -2790,4 +2804,8 @@ div .collapsiblockTitle {
 .eventseries-default-add-form,
 .eventseries-default-edit-form {
   margin-bottom: 50px;
+}
+
+.tabledrag-toggle-weight-wrapper.webform-multiple-tabledrag-toggle-weight {
+  display: none;
 }

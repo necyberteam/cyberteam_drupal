@@ -1,0 +1,27 @@
+uuid: 4d5b4cea-b41b-48b0-af35-0b9266f98d6c
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - pascience
+_core:
+  default_config_hash: 7rR9chwXvdM2H8OYMAYx9Zj3GGlPMrZp_M3ZA4thYTk
+id: pascience_page_title
+theme: pascience
+region: title_area
+weight: 0
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    context_mapping: {  }
+    pages: "/user/*\r\n!/user/register\r\n!/user/login\r\n!/user/*/*\r\n/resource/*\r\n/amp-front-page\r\n/mentorships/*\r\n/community-persona/*\r\n!/community-persona/add-interest\r\n!/community-persona/add-skill\r\n<front>"

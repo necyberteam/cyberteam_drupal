@@ -163,6 +163,8 @@
     <header class="masthead" style="background-color:#ca1236">
     {% elseif domain_name == "ccmnet" %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/people-bg.jpg')">
+    {% elseif domain_name == "pa-science" %}
+    <header class="masthead" style="background-image: url('/themes/custom/pascience/img/pascience/pa-science-bg.jpg')">
     {% else %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
     {% endif %}
@@ -191,6 +193,8 @@
                 {{ ccmnet_front_text | raw }}
               {% elseif domain_name == "open-ondemand" %}
                 {{ ood_front_text | raw }}
+              {% elseif domain_name == "pa-science" %}
+                {{ pascience_text | raw }}
               {% endif %}
               </h2>
               <ul class="d-none bi-list mt-5 mx-auto">

@@ -1,0 +1,31 @@
+uuid: 57dcc372-3e01-49eb-81bb-efb9221348b6
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:01c27d44-d42d-4a7d-b73a-b66f98b0f769'
+  module:
+    - block_content
+    - system
+  theme:
+    - pascience
+id: pascience_addresourcebutton
+theme: pascience
+region: view_type_buttons
+weight: 10
+provider: null
+plugin: 'block_content:01c27d44-d42d-4a7d-b73a-b66f98b0f769'
+settings:
+  id: 'block_content:01c27d44-d42d-4a7d-b73a-b66f98b0f769'
+  label: 'add resource button'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/ci-links\r\n/ci-links-card"

@@ -1,0 +1,43 @@
+uuid: d97cccbc-8a4b-4a02-aff0-5dd52a9309f8
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:06fd0027-5665-4663-a27d-05803e8f50d1'
+  module:
+    - block_content
+    - domain
+    - system
+  theme:
+    - pascience
+id: pascience_joinccmnet
+theme: pascience
+region: content
+weight: 0
+provider: null
+plugin: 'block_content:06fd0027-5665-4663-a27d-05803e8f50d1'
+settings:
+  id: 'block_content:06fd0027-5665-4663-a27d-05803e8f50d1'
+  label: 'Join CCMnet'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      nectd8_wpi_edu: nectd8_wpi_edu
+      greatplains_wpi_edu: greatplains_wpi_edu
+      kycyberteam_cyberinfrastructure_org: kycyberteam_cyberinfrastructure_org
+      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
+      ccmnet_org: ccmnet_org
+      pasciencedmz_connectci_org: pasciencedmz_connectci_org
+  request_path:
+    id: request_path
+    negate: false
+    pages: /user/login
