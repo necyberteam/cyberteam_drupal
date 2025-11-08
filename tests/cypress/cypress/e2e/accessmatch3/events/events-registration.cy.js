@@ -133,9 +133,11 @@ describe('Test the registration feature', () => {
     // Verify # column exists in the registration table
     cy.get('table thead th').first().should('contain', '#')
 
-    // Verify Total Registrants display exists (e.g., "2 of 25 registrants")
-    // The text pattern should match "X of Y registrants" where X and Y are numbers
-    cy.contains(/\d+\s+of\s+\d+\s+registrants/i).should('be.visible')
+    // Verify registration counts are displayed clearly
+    cy.contains(/Capacity:\s*\d+/i).should('be.visible')
+    cy.contains(/Approved:\s*\d+/i).should('be.visible')
+    cy.contains(/Unapproved:\s*\d+/i).should('be.visible')
+    cy.contains(/Waitlist:\s*\d+/i).should('be.visible')
 
     // Verify the registration table has numbered rows
     cy.get('table tbody tr').first().within(() => {
