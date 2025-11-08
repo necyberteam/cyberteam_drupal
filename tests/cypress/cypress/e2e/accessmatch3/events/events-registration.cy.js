@@ -1,5 +1,42 @@
 describe('Test the registration feature', () => {
 
+  before(() => {
+    // Clean up existing registrations and clear mailpit before tests
+    cy.clearMailpit();
+
+    cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
+    cy.visit('/events')
+    cy.get('#edit-search-api-fulltext--2').type('example', { delay: 0 })
+    cy.wait(1000)
+    cy.contains('cypress-example-event').click()
+
+    // Delete all existing registrations
+    cy.get('body').then($body => {
+      if ($body.text().includes('Registrations')) {
+        cy.contains('Registrations').click()
+        cy.wait(1000)
+
+        // Delete registrations if any exist
+        cy.get('body').then($registrationsBody => {
+          if ($registrationsBody.find('table tbody tr').length > 0) {
+            cy.get('table tbody tr').each(() => {
+              // Open the dropbutton in the first row
+              cy.get('table tbody tr').first().within(() => {
+                cy.get('.dropbutton-toggle button').click({force: true})
+                cy.wait(200)
+                cy.get('a[href*="/delete"]').first().click({force: true})
+              })
+              cy.wait(500)
+              // Wait for the modal dialog and click the delete button
+              cy.get('.ui-dialog-buttonpane button.button--primary').should('be.visible').click()
+              cy.wait(1000)
+            })
+          }
+        })
+      }
+    })
+  })
+
   it('Approve registration as admin', () => {
     cy.clearMailpit();
 
@@ -116,6 +153,33 @@ describe('Test the registration feature', () => {
       });
     });
 
+  })
+
+  it('Should verify registration page UI enhancements', () => {
+    cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
+
+    cy.visit('/events')
+    cy.get('#edit-search-api-fulltext--2').type('example', { delay: 0 })
+    cy.wait(1000)
+    cy.contains('cypress-example-event').click()
+    cy.contains('Registrations').click()
+
+    // Verify event title appears in page title
+    cy.title().should('include', 'cypress-example-event')
+
+    // Verify # column exists in the registration table
+    cy.get('table thead th').first().should('contain', '#')
+
+    // Verify registration counts are displayed clearly
+    cy.contains(/Capacity:\s*\d+/i).should('be.visible')
+    cy.contains(/Approved:\s*\d+/i).should('be.visible')
+    cy.contains(/Unapproved:\s*\d+/i).should('be.visible')
+    cy.contains(/Waitlist:\s*\d+/i).should('be.visible')
+
+    // Verify the registration table has numbered rows
+    cy.get('table tbody tr').first().within(() => {
+      cy.get('td').first().invoke('text').then(text => text.trim()).should('match', /^\d+$/)
+    })
   })
 
 })
