@@ -30,19 +30,19 @@ display:
       fields:
         id:
           id: id
-          table: eventseries_field_data
+          table: eventinstance_field_data
           field: id
-          relationship: eventseries_id
+          relationship: none
           group_type: group
           admin_label: 'Edit Instance'
-          entity_type: eventseries
+          entity_type: eventinstance
           entity_field: id
           plugin_id: field
           label: 'Edit Instance'
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/events/series/{{ id }}/edit" title="edit"><i class="bi bi-pencil"></i></a>'
+            text: '<a href="/events/{{ id }}/edit" title="edit"><i class="bi bi-pencil"></i></a>'
             make_link: false
             path: ''
             absolute: false
@@ -96,19 +96,19 @@ display:
           field_api_classes: false
         id_2:
           id: id_2
-          table: eventinstance_field_data
+          table: eventseries_field_data
           field: id
-          relationship: none
+          relationship: eventseries_id
           group_type: group
           admin_label: 'Edit Series'
-          entity_type: eventinstance
+          entity_type: eventseries
           entity_field: id
           plugin_id: field
           label: 'Edit Series'
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '<a href="/events/series/{{ id_2 }}/edit" title="edit"><i class="bi bi-pencil-square"></i></a>'
             make_link: false
             path: ''
             absolute: false
