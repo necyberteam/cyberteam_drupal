@@ -140,11 +140,27 @@ Cypress.Commands.add('assertEmailContent', (message, expectations) => {
   if (expectations.bodyContains || expectations.htmlContains) {
     cy.getMailpitMessage(message.ID).then((fullMessage) => {
       if (expectations.bodyContains) {
-        expect(fullMessage.Text || '').to.contain(expectations.bodyContains);
+        const text = fullMessage.Text || '';
+        // Support both string and array of strings
+        if (Array.isArray(expectations.bodyContains)) {
+          expectations.bodyContains.forEach(str => {
+            expect(text).to.contain(str);
+          });
+        } else {
+          expect(text).to.contain(expectations.bodyContains);
+        }
       }
       
       if (expectations.htmlContains) {
-        expect(fullMessage.HTML || '').to.contain(expectations.htmlContains);
+        const html = fullMessage.HTML || '';
+        // Support both string and array of strings
+        if (Array.isArray(expectations.htmlContains)) {
+          expectations.htmlContains.forEach(text => {
+            expect(html).to.contain(text);
+          });
+        } else {
+          expect(html).to.contain(expectations.htmlContains);
+        }
       }
     });
   }
