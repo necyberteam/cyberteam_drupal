@@ -43,6 +43,10 @@ elements: |-
       - sc
       - lt
       - ra
+  received_sent:
+    '#type': hidden
+    '#title': 'Received Sent'
+    '#default_value': '0'
   approved:
     '#type': checkbox
     '#title': 'Accept and Publish'
@@ -62,6 +66,10 @@ elements: |-
       - sc
       - lt
       - ra
+  accept_and_publish_sent:
+    '#type': hidden
+    '#title': 'Accept and Publish Sent'
+    '#default_value': '0'
   project_title:
     '#type': textfield
     '#title': 'Project Title'
@@ -137,7 +145,6 @@ elements: |-
         ':input[name="approved_milestones"]':
           checked: true
     '#states_clear': false
-    '#required': true
   project_leader_info:
     '#type': webform_section
     '#title': 'Project Leader'
@@ -610,6 +617,17 @@ elements: |-
     '#access_create_roles': {  }
     '#access_update_roles': {  }
     '#access_view_roles': {  }
+  notify_managers_of_update:
+    '#type': checkbox
+    '#title': 'Notify PA Science DMZ Program Managers of this update'
+    '#default_value': '0'
+    '#access_create_roles': {  }
+    '#access_update_roles':
+      - administrator
+      - authenticated
+    '#access_view_roles':
+      - administrator
+      - authenticated
   actions_01:
     '#type': webform_actions
     '#title': 'Submit button(s)'

@@ -1,0 +1,31 @@
+uuid: 7cc157f8-176d-491f-a107-3d66263d95aa
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_misc
+id: access_misc_project.project_updated_pascience
+configuration:
+  email_subject:
+    value: 'Project Updated: {{ project_title }}'
+  email_body:
+    content:
+      value: |
+        <p>Hello,</p>
+        <p>A project submission has been updated and may require your attention.</p>
+        <p><strong>Project Details:</strong></p>
+        <ul>
+          <li><strong>Title:</strong> {{ project_title }}</li>
+          <li><strong>Project Leader:</strong> {{ project_leader_first }} {{ project_leader_last }}</li>
+          <li><strong>Contact Email:</strong> {{ contact_email|raw }}</li>
+          <li><strong>Submitted by:</strong> {{ submitted_by }}</li>
+          <li><strong>Last updated:</strong> {{ updated_date }}</li>
+          <li><strong>Current Status:</strong> {{ status }}</li>
+          <li><strong>Received:</strong> {{ received }}</li>
+          <li><strong>Approved:</strong> {{ approved }}</li>
+        </ul>
+        <p>To review this updated project submission, please visit:<br>
+        <a href="{{ edit_url }}">{{ edit_url }}</a></p>
+        <hr>
+        <p><small>This is an automated message from the ConnectCI Portal.</small></p>
+      format: email_html
