@@ -1,0 +1,31 @@
+uuid: 1f43884e-d185-420a-8d5b-ba3ff678b67c
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_misc
+id: access_misc_project.project_created_pascience
+configuration:
+  email_subject:
+    value: 'New Project Submission: {{ project_title }}'
+  email_body:
+    content:
+      value: |
+        <p>Hello,</p>
+        <p>A new project has been submitted to PA Science DMZ and requires your review.</p>
+        <p><strong>Project Details:</strong></p>
+        <ul>
+          <li><strong>Title:</strong> {{ project_title }}</li>
+          <li><strong>Project Leader:</strong> {{ project_leader_first }} {{ project_leader_last }}</li>
+          <li><strong>Contact Email:</strong> {{ contact_email|raw }}</li>
+          <li><strong>Submitted by:</strong> {{ submitted_by }} on {{ created_date }}</li>
+        </ul>
+        <p><strong>Project Description:</strong><br>
+        {{ project_description }}</p>
+        <p><strong>Next Steps:</strong><br>
+        To review and mark this project as "Received", please visit:<br>
+        <a href="{{ edit_url }}">{{ edit_url }}</a></p>
+        <p>For questions, please contact {{ submitted_by }} or the project leader at {{ contact_email|raw }}.</p>
+        <hr>
+        <p><small>This is an automated message from the ConnectCI Portal.</small></p>
+      format: email_html
