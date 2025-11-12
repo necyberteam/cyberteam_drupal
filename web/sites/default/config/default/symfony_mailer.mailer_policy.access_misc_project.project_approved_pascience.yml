@@ -1,0 +1,40 @@
+uuid: b509d617-c2e9-4f4c-aae3-88f12c195afe
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_misc
+id: access_misc_project.project_approved_pascience
+configuration:
+  email_subject:
+    value: 'Project Approved and Published: {{ project_title }}'
+  email_body:
+    content:
+      value: |
+        <p>Dear {{ submitted_by }},</p>
+        <p>Great news! Your project has been approved and is now published on the PA Science DMZ portal.</p>
+        <p><strong>Project Details:</strong></p>
+        <ul>
+          <li><strong>Title:</strong> {{ project_title }}</li>
+          <li><strong>Project Leader:</strong> {{ project_leader_first }} {{ project_leader_last }}</li>
+          <li><strong>Approved on:</strong> {{ approved_date }}</li>
+          <li><strong>Current Status:</strong> {{ status }}</li>
+        </ul>
+        <p>Your project is now visible on the Projects page and will appear in the project carousel. Depending on your project status, researchers and students may be able to express interest in joining your project.</p>
+        <p><strong>View your published project:</strong><br>
+        <a href="{{ public_url }}">{{ public_url }}</a></p>
+        <p><strong>Manage your project submission:</strong><br>
+        <a href="{{ edit_url }}">{{ edit_url }}</a></p>
+        <p><strong>Next Steps:</strong></p>
+        <ul>
+          <li>Keep your project information updated as it progresses</li>
+          <li>Update milestones and deliverables as they are completed</li>
+          <li>Change the project status as needed (Recruiting, In Progress, etc.)</li>
+        </ul>
+        <p>You can edit your project at any time using the management link above.</p>
+        <p>Congratulations and best of luck with your project!</p>
+        <p>Best regards,<br>
+        PA Science DMZ Team</p>
+        <hr>
+        <p><small>This is an automated message from the ConnectCI Portal.</small></p>
+      format: email_html

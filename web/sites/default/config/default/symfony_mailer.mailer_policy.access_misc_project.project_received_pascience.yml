@@ -1,0 +1,29 @@
+uuid: 35cc9329-d8f9-4b55-83ac-fb66c2951287
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_misc
+id: access_misc_project.project_received_pascience
+configuration:
+  email_subject:
+    value: 'Project Submission Received: {{ project_title }}'
+  email_body:
+    content:
+      value: |
+        <p>Dear {{ submitted_by }},</p>
+        <p>Thank you for submitting your project to PA Science DMZ.</p>
+        <p><strong>Project:</strong> {{ project_title }}<br>
+        <strong>Submitted on:</strong> {{ created_date }}<br>
+        <strong>Reference ID:</strong> {{ submission_id }}</p>
+        <p><strong>What happens next?</strong><br>
+        Please complete the additional project information fields and check the "Notify PA Science DMZ Program Managers of this update" box when you're ready for our team to review your submission—you will receive another notification once your project has been approved and published.</p>
+        <p>You can view or edit your project submission at any time:<br>
+        <a href="{{ edit_url }}">{{ edit_url }}</a></p>
+        <p>If you have any questions or need to make changes, please contact us or edit your submission directly.</p>
+        <p>Thank you for your participation in the PA Science DMZ program!</p>
+        <p>Best regards,<br>
+        PA Science DMZ Team</p>
+        <hr>
+        <p><small>This is an automated message from the ConnectCI Portal.</small></p>
+      format: email_html
