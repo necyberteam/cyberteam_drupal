@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - field.storage.eventseries.field_post_survey_email_text
-    - filter.format.email_html
+    - filter.format.basic_html
     - recurring_events.eventseries_type.default
   module:
     - text
@@ -20,5 +20,5 @@ default_value: {  }
 default_value_callback: ''
 settings:
   allowed_formats:
-    - email_html
+    - basic_html
 field_type: text_long
