@@ -40,8 +40,8 @@ third_party_settings:
   field_group:
     group_surveys:
       children:
-        - field_pre_survey_url
         - field_pre_survey_email_text
+        - field_pre_survey_url
       label: 'Pre Survey'
       region: content
       parent_name: ''
@@ -57,10 +57,8 @@ third_party_settings:
         required_fields: true
     group_post_survey:
       children:
-        - field_post_survey_url
         - field_post_survey_email_text
-        - field_post_survey_sent
-        - field_post_survey_reminder_sent
+        - field_post_survey_url
       label: 'Post Survey'
       region: content
       parent_name: ''
@@ -221,7 +219,7 @@ content:
     third_party_settings: {  }
   field_post_survey_url:
     type: link_default
-    weight: 27
+    weight: 29
     region: content
     settings:
       placeholder_url: ''
@@ -237,7 +235,7 @@ content:
     third_party_settings: {  }
   field_pre_survey_url:
     type: link_default
-    weight: 26
+    weight: 28
     region: content
     settings:
       placeholder_url: ''
@@ -261,7 +259,7 @@ content:
     third_party_settings: {  }
   field_screen_survey_url:
     type: link_default
-    weight: 33
+    weight: 35
     region: content
     settings:
       placeholder_url: ''
