@@ -244,7 +244,7 @@
 	<div class="container{% if is_front %} main-container mt-3{% else %} mt-4{% endif %}">
   {% endif %}
 
-  <div>
+  <div{% if page.below_title_page_top %} class="mb-5"{% endif %}>
     {{ page.title_area }}
     {{ page.below_title_page_top }}
   </div>
