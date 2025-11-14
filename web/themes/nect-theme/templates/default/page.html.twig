@@ -243,6 +243,12 @@
   {% else %}
 	<div class="container{% if is_front %} main-container mt-3{% else %} mt-4{% endif %}">
   {% endif %}
+
+  <div>
+    {{ page.title_area }}
+    {{ page.below_title_page_top }}
+  </div>
+
   {% block main_wrapper_classes %}
     {% if sidebar_first_classes is null %}
       {% set sidebar_first_classes = "sidebar order-2 order-lg-1 col-lg-3 col-12 mx-auto" %}
@@ -275,8 +281,6 @@
     <div class="row">
     {% if page.primary_sidebar or page.secondary_sidebar %}
       <div class="{{ main_wrapper_classes }}">
-        {{ page.page_top }}
-        {{ page.title_area }}
         {{ page.view_type_buttons }}
         {{ page.drupal_tabs }}
         {{ page.exposed_filters }}
@@ -307,8 +311,6 @@
       </div>{% endif %}
     {% else %}
       <div class="col-12 mx-auto">
-        {{ page.page_top }}
-        {{ page.title_area }}
         {{ page.view_type_buttons }}
         {{ page.drupal_tabs }}
         {{ page.exposed_filters }}
@@ -332,7 +334,6 @@
     {% endif %}
   </div>
   {% else %}
-    {{ page.page_top }}
     {% if not is_front %}
     <div id="ccmnet-page-title">
       <div class="ccmnet-page-title-bg-1"></div>
