@@ -244,10 +244,12 @@
 	<div class="container{% if is_front %} main-container mt-3{% else %} mt-4{% endif %}">
   {% endif %}
 
-  <div{% if page.below_title_page_top %} class="mb-5"{% endif %}>
-    {{ page.title_area }}
-    {{ page.below_title_page_top }}
-  </div>
+  {% if domain_name != "ccmnet" %}
+    <div{% if page.below_title_page_top %} class="mb-5"{% endif %}>
+      {{ page.title_area }}
+      {{ page.below_title_page_top }}
+    </div>
+  {% endif %}
 
   {% block main_wrapper_classes %}
     {% if sidebar_first_classes is null %}
@@ -347,6 +349,11 @@
     </div>
     {% endif %}
     <div class="container{% if is_front %} main-container mt-3 mt-4 pt-2 pb-5{% else %} py-5{% endif %}">
+      {% if page.below_title_page_top %}
+        <div class="mb-5">
+          {{ page.below_title_page_top }}
+        </div>
+      {% endif %}
       <div class="row">
         {% if page.primary_sidebar or page.secondary_sidebar %}
           <div class="{{ main_wrapper_classes }}">
