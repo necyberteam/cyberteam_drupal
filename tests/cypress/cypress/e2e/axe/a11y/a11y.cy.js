@@ -466,4 +466,3 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
   });
 
 });
-
