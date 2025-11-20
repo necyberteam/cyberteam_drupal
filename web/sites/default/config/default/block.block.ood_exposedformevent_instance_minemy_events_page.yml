@@ -1,0 +1,28 @@
+uuid: 8c3bf2f2-47b1-4959-90b8-421c6a2f1bbe
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.event_instance_mine
+  module:
+    - system
+    - views
+  theme:
+    - ood
+id: ood_exposedformevent_instance_minemy_events_page
+theme: ood
+region: content
+weight: 0
+provider: null
+plugin: 'views_exposed_filter_block:event_instance_mine-my_events_page'
+settings:
+  id: 'views_exposed_filter_block:event_instance_mine-my_events_page'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /events/mine
