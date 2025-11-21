@@ -162,7 +162,7 @@ runs:
         echo "Cloning cypress-a11y repo..."
         git clone https://x-access-token:${{ inputs.github_token }}@github.com/necyberteam/cypress-a11y.git /tmp/cypress-a11y
         mkdir -p /tmp/cypress-a11y/reports/$DATE/$CURRENT_BRANCH/${{ github.run_id }}
-        cp -r tests/cypress/cypress-a11y-reports/* /tmp/cypress-a11y/reports/$DATE/$CURRENT_BRANCH/${{ github.run_id }}/
+        cp -r tests/cypress/cypress-a11y-reports/* /tmp/cypress-a11y/reports/$DATE/$CURRENT_BRANCH/$SUBDIR/${{ github.run_id }}/
         cd /tmp/cypress-a11y
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -172,12 +172,15 @@ runs:
         echo "A11y reports added to cypress-a11y repo."
       env:
         github_token: ${{ inputs.github_token }}
+        SUBDIR: ${{ inputs.subdirectory }}
 
     - name: Summary
       shell: bash
       if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
       run: |
-        echo "A11y Report: https://necyberteam.github.io/cypress-a11y/reports/${{ env.DATE }}/${{ env.CURRENT_BRANCH }}/${{ github.run_id }}/summary.html" >> $GITHUB_STEP_SUMMARY
+        echo "A11y Report $SUBDIR: https://necyberteam.github.io/cypress-a11y/reports/${{ env.DATE }}/${{ env.CURRENT_BRANCH }}/$SUBDIR/${{ github.run_id }}/summary.html" >> $GITHUB_STEP_SUMMARY
+      env:
+        SUBDIR: ${{ inputs.subdirectory }}
 
     - name: Upload A11y reports
       if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}

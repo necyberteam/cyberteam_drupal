@@ -108,6 +108,7 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
   });
 
   it('Add tags to profile', () => {
+    cy.loginAs('pecan@pie.org', 'Pecan');
     checkMultipleUrls([
       '/add-interest',
       '/add-skill'
