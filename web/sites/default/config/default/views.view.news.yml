@@ -1604,7 +1604,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"card mb-3\">\r\n<div class=\"card-body\">\r\n<h5>{{ title }}</h5>\r\n{% if field_author %}{{ field_author }}<br>{% endif %}\r\n{% if field_published_date %}{{ field_published_date }}<br>{% endif %}\r\n{% if field_publication %}{{ field_publication }}<br>{% endif %}\r\n{{ body }}\r\n<a href=\"{{ view_node }}\" class=\"btn btn-sm btn-primary\">Read More</a>\r\n</div>\r\n</div>"
+            text: "<div class=\"card mb-3\">\r\n<div class=\"card-body\">\r\n<h3>{{ title }}</h3>\r\n{% if field_author %}{{ field_author }}<br>{% endif %}\r\n{% if field_published_date %}{{ field_published_date }}<br>{% endif %}\r\n{% if field_publication %}{{ field_publication }}<br>{% endif %}\r\n{{ body }}\r\n<a href=\"{{ view_node }}\" class=\"btn btn-sm btn-primary\">Read More</a>\r\n</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -1753,52 +1753,6 @@ display:
             group_items: {  }
           reduce_duplicates: true
           vid: region
-          type: select
-          hierarchy: false
-          limit: true
-          error_message: true
-        field_community_target_id_1:
-          id: field_community_target_id_1
-          table: node__field_community
-          field: field_community_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: taxonomy_index_tid
-          operator: or
-          value:
-            352: 352
-          group: 2
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: true
-          vid: affinity_groups
           type: select
           hierarchy: false
           limit: true
