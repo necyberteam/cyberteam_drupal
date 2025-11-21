@@ -161,7 +161,7 @@ runs:
         # Use github_token to clone git@github.com:necyberteam/cypress-a11y.git to /tmp/cypress-a11y
         echo "Cloning cypress-a11y repo..."
         git clone https://x-access-token:${{ inputs.github_token }}@github.com/necyberteam/cypress-a11y.git /tmp/cypress-a11y
-        mkdir -p /tmp/cypress-a11y/reports/$DATE/$CURRENT_BRANCH/${{ github.run_id }}
+        mkdir -p /tmp/cypress-a11y/reports/$DATE/$CURRENT_BRANCH/$SUBDIR/${{ github.run_id }}
         cp -r tests/cypress/cypress-a11y-reports/* /tmp/cypress-a11y/reports/$DATE/$CURRENT_BRANCH/$SUBDIR/${{ github.run_id }}/
         cd /tmp/cypress-a11y
         git config user.name "github-actions[bot]"
@@ -246,7 +246,7 @@ runs:
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
-        SLACK_MESSAGE: '❗️❗️ Cypress A11y reports are here: https://necyberteam.github.io/cypress-a11y/reports/${{ env.DATE }}/${{ env.CURRENT_BRANCH }}/${{ github.run_id }}/summary.html The action ran is here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} ❗️❗️'
+        SLACK_MESSAGE: '❗️❗️ Cypress A11y reports are here: https://necyberteam.github.io/cypress-a11y/reports/${{ env.DATE }}/${{ env.CURRENT_BRANCH }}/${{ env.SUBDIR }}/${{ github.run_id }}/summary.html The action ran is here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} ❗️❗️'
         SLACK_TITLE: "Cypress A11y Reports Available"
         SLACK_CHANNEL: cypress-git-notifications
 

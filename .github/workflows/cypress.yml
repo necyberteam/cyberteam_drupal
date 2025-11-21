@@ -127,6 +127,24 @@ jobs:
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
           slack_bot_token: ${{ secrets.SLACK_TOKEN }}
 
+  axe-openondemand:
+    name: run axe accessibility tests on openOnDemand site
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '#a11y') || contains(github.event.pull_request.title, '#a11y') || contains(github.event.pull_request.body, '#a11y')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress-test
+        with:
+          site: "ondemand"
+          directory: "axe"
+          subdirectory: "openondemand"
+          database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          slack_bot_token: ${{ secrets.SLACK_TOKEN }}
+
   ccmnet:
     name: ccmnet
     runs-on: ubuntu-latest
