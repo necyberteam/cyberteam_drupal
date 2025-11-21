@@ -806,7 +806,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: true
-          content: "<div class=\"bg-light-teal bg-light d-flex flex p-4 mb-2 prose max-w-full items-center align-items-center\">\r\n  <h3 class=\"m-0 me-4 mr-3 pt-2\">Upcoming Events</h3>\r\n  <a class=\"me-4 mr-3\" href=\"/events/past\">Past Events</a>\r\n  <a class=\"me-4 mr-3\" href=\"/events/mine\">\r\n    My Events\r\n  </a>\r\n  <a href=\"/events/add\" class=\"btn-sm btn-small btn-secondary-outline py-0 px-4 btn btn-md-teal ms-auto ml-auto\" data-drupal-link-system-path=\"events/add\">+ Add Event</a>\r\n</div>"
+          content: "<div class=\"bg-light-teal bg-light d-flex flex p-4 mb-2 prose max-w-full items-center align-items-center\">\r\n  <span class=\"h5 font-weight-bold m-0 me-4 mr-3 pt-2\">Upcoming Events</span>\r\n  <a class=\"me-4 mr-3\" href=\"/events/past\">Past Events</a>\r\n  <a class=\"me-4 mr-3\" href=\"/events/mine\">\r\n    My Events\r\n  </a>\r\n  <a href=\"/events/add\" class=\"btn-sm btn-small btn-secondary-outline py-0 px-4 btn btn-md-teal ms-auto ml-auto\" data-drupal-link-system-path=\"events/add\">+ Add Event</a>\r\n</div>"
           tokenize: false
       footer: {  }
       display_extenders: {  }
@@ -819,8 +819,6 @@ display:
         - url.query_args
         - user.permissions
       tags:
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.domain_access'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.domain_access'
         - 'config:field.storage.eventinstance.domain_access'
         - 'config:search_api.index.events'
         - 'search_api_list:events'
@@ -1378,8 +1376,6 @@ display:
         - 'languages:language_interface'
         - user.permissions
       tags:
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.domain_access'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.domain_access'
         - 'config:field.storage.eventinstance.domain_access'
         - 'config:search_api.index.events'
         - 'search_api_list:events'
@@ -2989,10 +2985,6 @@ display:
         - url
         - user.permissions
       tags:
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.domain_access'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.field_video'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.domain_access'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.field_video'
         - 'config:field.storage.eventinstance.domain_access'
         - 'config:field.storage.eventinstance.field_video'
         - 'config:search_api.index.events'
@@ -4605,10 +4597,6 @@ display:
         - url
         - user.permissions
       tags:
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.domain_access'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.field_video'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.domain_access'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.field_video'
         - 'config:field.storage.eventinstance.domain_access'
         - 'config:field.storage.eventinstance.field_video'
         - 'config:search_api.index.events'
@@ -6380,10 +6368,6 @@ display:
         - url.query_args
         - user.permissions
       tags:
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.domain_access'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.field_video'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.domain_access'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.field_video'
         - 'config:field.storage.eventinstance.domain_access'
         - 'config:field.storage.eventinstance.field_video'
         - 'config:search_api.index.events'
@@ -6409,21 +6393,8 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - url.site
         - user.permissions
       tags:
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.custom_event_affiliation'
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.custom_event_affinity_group'
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.custom_event_skill_level'
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.custom_event_tags'
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.custom_event_type'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.custom_event_affiliation'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.custom_event_affinity_group'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.custom_event_skill_level'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.custom_event_tags'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.custom_event_type'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.domain_access'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.domain_access'
         - 'config:facets.facet.custom_event_affiliation'
         - 'config:facets.facet.custom_event_affinity_group'
         - 'config:facets.facet.custom_event_skill_level'
@@ -6708,21 +6679,8 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - url.site
         - user.permissions
       tags:
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.past_affinity_group'
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.past_event_affiliation'
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.past_event_tags'
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.past_event_type'
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.past_skill_level'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.past_affinity_group'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.past_event_affiliation'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.past_event_tags'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.past_event_type'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.past_skill_level'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.domain_access'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.domain_access'
         - 'config:facets.facet.past_affinity_group'
         - 'config:facets.facet.past_event_affiliation'
         - 'config:facets.facet.past_event_tags'
@@ -7573,17 +7531,8 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - url.site
         - user.permissions
       tags:
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.event_affiliation_recorded_webinars'
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.topic_recorded_webinars_block'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.event_affiliation_recorded_webinars'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.topic_recorded_webinars_block'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.domain_access'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.field_video'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.domain_access'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.field_video'
         - 'config:facets.facet.event_affiliation_recorded_webinars'
         - 'config:facets.facet.topic_recorded_webinars_block'
         - 'config:field.storage.eventinstance.domain_access'
@@ -8422,17 +8371,8 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - url.site
         - user.permissions
       tags:
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.event_affiliation_upcoming_webinars'
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.event_topic_recorded_webinars'
-        - 'config:domain.config.amp_cyberinfrastructure_org.en.facets.facet.topic_upcoming_webinars_block'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.event_affiliation_upcoming_webinars'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.event_topic_recorded_webinars'
-        - 'config:domain.config.amp_cyberinfrastructure_org.facets.facet.topic_upcoming_webinars_block'
-        - 'config:domain.config.nectd8_wpi_edu.en.field.storage.eventinstance.domain_access'
-        - 'config:domain.config.nectd8_wpi_edu.field.storage.eventinstance.domain_access'
         - 'config:facets.facet.event_affiliation_upcoming_webinars'
         - 'config:facets.facet.event_topic_recorded_webinars'
         - 'config:facets.facet.topic_upcoming_webinars_block'
