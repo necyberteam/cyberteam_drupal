@@ -9,6 +9,9 @@ inputs:
   directory:
     description: 'Test directory name'
     required: true
+  subdirectory:
+    description: 'Subdirectory within test directory (optional)'
+    required: false
   database:
     description: 'Custom database URL (optional)'
     required: false
@@ -107,11 +110,16 @@ runs:
       env:
         SITE: ${{ inputs.site }}
         DIR: ${{ inputs.directory }}
+        SUBDIR: ${{ inputs.subdirectory }}
         TERM: xterm
       run: |
         cd tests/cypress
         echo "Testing site URL: https://$SITE.ddev.site"
-        echo "Running tests from: cypress/e2e/$DIR/**/*.js"
+        if [ -n "$SUBDIR" ]; then
+          echo "Running tests from: cypress/e2e/$DIR/$SUBDIR/*.js"
+        else
+          echo "Running tests from: cypress/e2e/$DIR/**/*.js"
+        fi
         # Run Cypress tests (let it fail naturally to trigger failure handlers)
         xvfb-run -a npx cypress run --config baseUrl=https://$SITE.ddev.site --spec "cypress/e2e/$DIR/**/*.js"
 
