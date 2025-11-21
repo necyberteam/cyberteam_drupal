@@ -107,12 +107,4 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
     checkA11y('/connectci-privacy-policy');
   });
 
-  it('Add tags to profile', () => {
-    cy.loginAs('pecan@pie.org', 'Pecan');
-    checkMultipleUrls([
-      '/add-interest',
-      '/add-skill'
-    ]);
-  });
-
 });

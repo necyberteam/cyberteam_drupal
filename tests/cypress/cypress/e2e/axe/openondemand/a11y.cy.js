@@ -58,7 +58,7 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
   });
 
   it('Resources', () => {
-    cy.loginAs('pecan@pie.org', 'Pecan');
+    cy.loginUser('pecan@pie.org', 'Pecan');
     checkMultipleUrls([
       '/form/resource',
       '/knowledge-base/resources'
