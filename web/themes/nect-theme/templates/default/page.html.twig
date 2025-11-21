@@ -53,9 +53,9 @@
 	{% if page.primary_menu %}
 	 {% block navbar %}
 	{% if logged_in %}
-	<nav class="navbar navbar-expand-lg secondary-nav navbar-light bg-light" id="secondaryNav">
+	<nav class="navbar navbar-expand-lg secondary-nav navbar-light bg-light" id="secondaryNav" role="navigation" aria-label="Secondary">
 	{% else %}
-	<nav class="navbar navbar-expand secondary-nav navbar-light bg-light " id="secondaryNav">
+	<nav class="navbar navbar-expand secondary-nav navbar-light bg-light " id="secondaryNav" role="navigation" aria-label="Secondary">
 	{% endif %}
 	  <div class="container">
       {% if domain_name == "ccmnet" %}
@@ -88,15 +88,16 @@
       </div>
 	  </div>
 	</nav>
-	 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow-sm" id="mainNav">
+	 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow-sm" id="mainNav" role="navigation" aria-label="Main">
 		  <div class="container">
       {% if domain_name == "ccmnet" %}
         <div>
           <a class="nsf-logo" href="https://www.nsf.gov/" target="_blank" rel="noopener">
-            <img width="82" height="82" alt="" src="/themes/contrib/asp-theme/images/logos/NSF_logo.svg">
+            <img width="82" height="82" alt="NSF Logo" src="/themes/contrib/asp-theme/images/logos/NSF_logo.svg">
           </a>
           <a class="navbar-brand" href="/">
-            <img src="/themes/nect-theme/img/CCMNet-logo.jpg" class="logo" alt="CCMNet">
+            <img src="/themes/nect-theme/img/CCMNet-logo.jpg" class="logo" alt="">
+            <h1 class="sr-only">{{ site_name }}</h1>
           </a>
         </div>
       {% else %}
@@ -298,13 +299,13 @@
         {{ page.below_main_content }}
       </div>
       {% if page.primary_sidebar %}
-        <div class="{{ sidebar_first_classes }}">
+        <aside class="{{ sidebar_first_classes }}" role="complementary">
           {{ page.primary_sidebar }}
-        </div>
+        </aside>
       </div>{% endif %}{% if page.secondary_sidebar %}
-      <div class="order-3 order-lg-3 col-lg-3 col-12 mx-auto">
+      <aside class="order-3 order-lg-3 col-lg-3 col-12 mx-auto" role="complementary">
         {{ page.secondary_sidebar }}
-      </div>{% endif %}
+      </aside>{% endif %}
     {% else %}
       <div class="col-12 mx-auto">
         {{ page.page_top }}
@@ -334,7 +335,7 @@
   {% else %}
     {{ page.page_top }}
     {% if not is_front %}
-    <div id="ccmnet-page-title">
+    <header id="ccmnet-page-title" role="banner">
       <div class="ccmnet-page-title-bg-1"></div>
       <div class="container">
         <div class="row">
@@ -343,9 +344,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </header>
     {% endif %}
-    <div class="container{% if is_front %} main-container mt-3 mt-4 pt-2 pb-5{% else %} py-5{% endif %}">
+    <main class="container{% if is_front %} main-container mt-3 mt-4 pt-2 pb-5{% else %} py-5{% endif %}" role="main">
       <div class="row">
         {% if page.primary_sidebar or page.secondary_sidebar %}
           <div class="{{ main_wrapper_classes }}">
@@ -367,13 +368,13 @@
             {{ page.below_main_content }}
           </div>
           {% if page.primary_sidebar %}
-            <div class="{{ sidebar_first_classes }}">
+            <aside class="{{ sidebar_first_classes }}" role="complementary">
               {{ page.primary_sidebar }}
-            </div>
+            </aside>
           </div>{% endif %}{% if page.secondary_sidebar %}
-          <div class="order-3 order-lg-3 col-lg-3 col-12 mx-auto">
+          <aside class="order-3 order-lg-3 col-lg-3 col-12 mx-auto" role="complementary">
             {{ page.secondary_sidebar }}
-          </div>{% endif %}
+          </aside>{% endif %}
         {% else %}
           <div class="col-12 mx-auto">
             {{ page.view_type_buttons }}
@@ -396,7 +397,7 @@
           </div>
         {% endif %}
       </div>
-    </div>
+    </main>
   {% endif %}
 	</div>
   {% endblock %}
@@ -457,7 +458,7 @@
         <div class="row">
           <div class="col-2">
             <a class="nsf-logo" href="https://www.nsf.gov/" target="_blank" rel="noopener">
-              <img width="82" height="82" alt="" src="/themes/nect-theme/img/NSF_logo.svg">
+              <img width="82" height="82" alt="NSF Logo" src="/themes/nect-theme/img/NSF_logo.svg">
             </a>
           </div>
           <div class="col-10 col-md-8">
