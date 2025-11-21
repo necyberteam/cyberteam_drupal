@@ -115,13 +115,15 @@ runs:
       run: |
         cd tests/cypress
         echo "Testing site URL: https://$SITE.ddev.site"
-        if [ -n "$SUBDIR" ]; then
+        if [ -n "$SUBDIR" ] && [ "$SUBDIR" != "" ]; then
           echo "Running tests from: cypress/e2e/$DIR/$SUBDIR/*.js"
+          SPEC_PATH="cypress/e2e/$DIR/$SUBDIR/*.js"
         else
           echo "Running tests from: cypress/e2e/$DIR/**/*.js"
+          SPEC_PATH="cypress/e2e/$DIR/**/*.js"
         fi
         # Run Cypress tests (let it fail naturally to trigger failure handlers)
-        xvfb-run -a npx cypress run --config baseUrl=https://$SITE.ddev.site --spec "cypress/e2e/$DIR/**/*.js"
+        xvfb-run -a npx cypress run --config baseUrl=https://$SITE.ddev.site --spec "$SPEC_PATH"
 
     - name: Check for screenshots
       shell: bash

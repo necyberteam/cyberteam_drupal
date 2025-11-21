@@ -84,9 +84,7 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
     checkMultipleUrls([
       '/tags',
       '/form/request-tag',
-      '/tags/nlp',
-      '/add-interest',
-      '/add-skill'
+      '/tags/nlp'
     ]);
   });
 
@@ -107,6 +105,13 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
 
   it('privacy policy', () => {
     checkA11y('/connectci-privacy-policy');
+  });
+
+  it('Add tags to profile', () => {
+    checkMultipleUrls([
+      '/add-interest',
+      '/add-skill'
+    ]);
   });
 
 });
