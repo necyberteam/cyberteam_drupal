@@ -81,6 +81,8 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
   });
 
   it('Tags', () => {
+    cy.loginUser('pecan@pie.org', 'Pecan');
+
     checkMultipleUrls([
       '/tags',
       '/form/request-tag',
@@ -96,9 +98,14 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
     checkA11y('/events');
   });
 
+  it('user edit', () => {
+    cy.loginUser('pecan@pie.org', 'Pecan');
+    checkA11y('/user/edit');
+  });
+
   it('User pages', () => {
     checkMultipleUrls([
-      '/user/edit',
+      '/user',
       '/user/password'
     ]);
   });

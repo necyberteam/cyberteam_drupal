@@ -242,7 +242,7 @@
   {% if domain_name == "ccmnet" %}
   <div>
   {% else %}
-	<div class="container{% if is_front %} main-container mt-3{% else %} mt-4{% endif %}">
+	<main role="main" class="container{% if is_front %} main-container mt-3{% else %} mt-4{% endif %}">
   {% endif %}
   {% block main_wrapper_classes %}
     {% if sidebar_first_classes is null %}
@@ -331,7 +331,7 @@
         {{ page.below_main_content }}
       </div>
     {% endif %}
-  </div>
+  </main>
   {% else %}
     {{ page.page_top }}
     {% if not is_front %}
@@ -410,7 +410,7 @@
 </div>{# /.wrapper #}
 
 {% block footer %}
-<footer class="footer">
+<footer class="footer" role="contentinfo">
   {% if page.first_footer or page.second_footer or page.third_footer %}
   <div class="container-fluid footer-main pt-3">
 	<div class="row mx-auto">
