@@ -94,6 +94,7 @@ jobs:
   axe-campuschampions:
     name: run axe accessibility tests on campuschampions site
     runs-on: ubuntu-latest
+    needs: [axe-support]
     if: contains(github.event.head_commit.message, '#a11y') || contains(github.event.pull_request.title, '#a11y') || contains(github.event.pull_request.body, '#a11y')
     steps:
       - uses: actions/checkout@v4
@@ -112,6 +113,7 @@ jobs:
   axe-ccmnet:
     name: run axe accessibility tests on CCMNET site
     runs-on: ubuntu-latest
+    needs: [axe-campuschampions]
     if: contains(github.event.head_commit.message, '#a11y') || contains(github.event.pull_request.title, '#a11y') || contains(github.event.pull_request.body, '#a11y')
     steps:
       - uses: actions/checkout@v4
@@ -130,6 +132,7 @@ jobs:
   axe-connectci:
     name: run axe accessibility tests on connectci site
     runs-on: ubuntu-latest
+    needs: [axe-ccmnet]
     if: contains(github.event.head_commit.message, '#a11y') || contains(github.event.pull_request.title, '#a11y') || contains(github.event.pull_request.body, '#a11y')
     steps:
       - uses: actions/checkout@v4
@@ -148,6 +151,7 @@ jobs:
   axe-openondemand:
     name: run axe accessibility tests on openOnDemand site
     runs-on: ubuntu-latest
+    needs: [axe-connectci]
     if: contains(github.event.head_commit.message, '#a11y') || contains(github.event.pull_request.title, '#a11y') || contains(github.event.pull_request.body, '#a11y')
     steps:
       - uses: actions/checkout@v4
@@ -166,6 +170,7 @@ jobs:
   axe-pasciencedmz:
     name: run axe accessibility tests on pasciencedmz site
     runs-on: ubuntu-latest
+    needs: [axe-openondemand]
     if: contains(github.event.head_commit.message, '#a11y') || contains(github.event.pull_request.title, '#a11y') || contains(github.event.pull_request.body, '#a11y')
     steps:
       - uses: actions/checkout@v4
