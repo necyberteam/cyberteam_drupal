@@ -226,7 +226,9 @@
 	{% endif %}
 
   {% block headersection %}
-    {{ page.header }}
+    <div role="banner">
+      {{ page.header }}
+    </div>
   {% endblock %}
 
 	{% if is_front %}

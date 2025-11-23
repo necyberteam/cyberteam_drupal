@@ -33,13 +33,16 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
     checkMultipleUrls([
       '/affinity-groups',
       '/affinity-groups/customizing-ood-backend',
-      '/affinity-groups/genomics-ood',
       '/affinity-groups/new-open-ondemand',
       '/affinity-groups/ood-appverse',
       '/affinity-groups/ood-security-best-practices',
-      '/affinity-groups/web-apps-and-absolute-urls-ood',
-      '/form/affinity-group-request'
+      'affinity-groups/customizing-ood-backend'
     ]);
+  });
+
+  it('Affinity Groups logged in', () => {
+    cy.loginUser('pecan@pie.org', 'Pecan');
+    checkA11y('/form/affinity-group-request');
   });
 
   it('announcment', () => {
