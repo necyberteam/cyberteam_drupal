@@ -43,10 +43,12 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
   });
 
   it('Projects', () => {
-    checkMultipleUrls([
-      '/projects',
-      '/form/project'
-    ]);
+    checkA11y('/projects');
+  });
+
+  it('Projects', () => {
+    cy.loginUser('pecan@pie.org', 'Pecan');
+    checkA11y('/form/project');
   });
 
   it('Mentoring', () => {

@@ -165,7 +165,7 @@
     {% elseif domain_name == "ccmnet" %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/people-bg.jpg')">
     {% elseif domain_name == "pa-science" %}
-    <header class="masthead" style="background-image: url('/themes/custom/pascience/img/pascience/pa-science-bg.jpg')">
+    <header class="masthead" style="background-image: url('/themes/custom/pascience/img/pascience/pa-science-bg.jpg')" role="banner">
     {% else %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
     {% endif %}
@@ -226,9 +226,11 @@
 	{% endif %}
 
   {% block headersection %}
-    <div role="banner">
-      {{ page.header }}
-    </div>
+    {% if page.header %}
+      <div role="banner">
+        {{ page.header }}
+      </div>
+    {% endif %}
   {% endblock %}
 
 	{% if is_front %}
