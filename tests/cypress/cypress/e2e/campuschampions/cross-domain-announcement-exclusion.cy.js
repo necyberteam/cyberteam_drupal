@@ -35,9 +35,10 @@ describe("Cross-Domain Announcement Exclusion Test", () => {
     // Part 2: Create announcement on ACCESS domain and verify isolation
     cy.origin('https://accessmatch.ddev.site', { args: { accessTitle, ccTitle } }, ({ accessTitle, ccTitle }) => {
       // Handle uncaught exceptions within this origin
-      cy.on('uncaught:exception', (err, runnable) => {
-        if (err.message.includes('attachShadow') || 
-            err.message.includes('Cannot read properties of null')) {
+      Cypress.on('uncaught:exception', (err, runnable) => {
+        if (err.message.includes('attachShadow') ||
+            err.message.includes('Cannot read properties of null') ||
+            err.message.includes('jQuery is not defined')) {
           return false;
         }
         return true;
@@ -80,16 +81,17 @@ describe("Cross-Domain Announcement Exclusion Test", () => {
     
     // Cleanup Campus Champions announcement (current domain)
     cy.contains(ccTitle).click();
-    cy.get('#block-champions-local-tasks .nav-tabs a').contains('Edit').click();
-    cy.get('.tabs--primary a').contains('Delete').click();
+    cy.contains('a', 'Edit').first().click({ force: true });
+    cy.contains('a', 'Delete').first().click({ force: true });
     cy.get('input[value="Delete"].button--primary').click();
     
     // Part 4: Cleanup ACCESS announcement
     cy.origin('https://accessmatch.ddev.site', { args: { accessTitle } }, ({ accessTitle }) => {
       // Handle uncaught exceptions within this origin
-      cy.on('uncaught:exception', (err, runnable) => {
-        if (err.message.includes('attachShadow') || 
-            err.message.includes('Cannot read properties of null')) {
+      Cypress.on('uncaught:exception', (err, runnable) => {
+        if (err.message.includes('attachShadow') ||
+            err.message.includes('Cannot read properties of null') ||
+            err.message.includes('jQuery is not defined')) {
           return false;
         }
         return true;

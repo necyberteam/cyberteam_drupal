@@ -586,7 +586,7 @@ display:
               title:
                 plugin_id: default
                 advanced:
-                  placeholder_text: ''
+                  placeholder_text: 'Search My Events'
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
@@ -617,17 +617,6 @@ display:
           granularity: day
       arguments: {  }
       filters:
-        status:
-          id: status
-          table: eventinstance_field_data
-          field: status
-          entity_type: eventinstance
-          entity_field: status
-          plugin_id: boolean
-          value: '1'
-          group: 1
-          expose:
-            operator: ''
         field_other_authors_target_id:
           id: field_other_authors_target_id
           table: eventseries__field_other_authors
