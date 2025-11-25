@@ -9,6 +9,9 @@ inputs:
   directory:
     description: 'Test directory name'
     required: true
+  subdirectory:
+    description: 'Subdirectory within test directory (optional)'
+    required: false
   database:
     description: 'Custom database URL (optional)'
     required: false
@@ -107,13 +110,20 @@ runs:
       env:
         SITE: ${{ inputs.site }}
         DIR: ${{ inputs.directory }}
+        SUBDIR: ${{ inputs.subdirectory }}
         TERM: xterm
       run: |
         cd tests/cypress
         echo "Testing site URL: https://$SITE.ddev.site"
-        echo "Running tests from: cypress/e2e/$DIR/**/*.js"
+        if [ -n "$SUBDIR" ] && [ "$SUBDIR" != "" ]; then
+          echo "Running tests from: cypress/e2e/$DIR/$SUBDIR/*.js"
+          SPEC_PATH="cypress/e2e/$DIR/$SUBDIR/*.js"
+        else
+          echo "Running tests from: cypress/e2e/$DIR/**/*.js"
+          SPEC_PATH="cypress/e2e/$DIR/**/*.js"
+        fi
         # Run Cypress tests (let it fail naturally to trigger failure handlers)
-        xvfb-run -a npx cypress run --config baseUrl=https://$SITE.ddev.site --spec "cypress/e2e/$DIR/**/*.js"
+        xvfb-run -a npx cypress run --config baseUrl=https://$SITE.ddev.site --spec "$SPEC_PATH"
 
     - name: Check for screenshots
       shell: bash
@@ -151,8 +161,8 @@ runs:
         # Use github_token to clone git@github.com:necyberteam/cypress-a11y.git to /tmp/cypress-a11y
         echo "Cloning cypress-a11y repo..."
         git clone https://x-access-token:${{ inputs.github_token }}@github.com/necyberteam/cypress-a11y.git /tmp/cypress-a11y
-        mkdir -p /tmp/cypress-a11y/reports/$DATE/$CURRENT_BRANCH/${{ github.run_id }}
-        cp -r tests/cypress/cypress-a11y-reports/* /tmp/cypress-a11y/reports/$DATE/$CURRENT_BRANCH/${{ github.run_id }}/
+        mkdir -p /tmp/cypress-a11y/reports/$DATE/$CURRENT_BRANCH/$SUBDIR/${{ github.run_id }}
+        cp -r tests/cypress/cypress-a11y-reports/* /tmp/cypress-a11y/reports/$DATE/$CURRENT_BRANCH/$SUBDIR/${{ github.run_id }}/
         cd /tmp/cypress-a11y
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -162,12 +172,15 @@ runs:
         echo "A11y reports added to cypress-a11y repo."
       env:
         github_token: ${{ inputs.github_token }}
+        SUBDIR: ${{ inputs.subdirectory }}
 
     - name: Summary
       shell: bash
       if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
       run: |
-        echo "A11y Report: https://necyberteam.github.io/cypress-a11y/reports/${{ env.DATE }}/${{ env.CURRENT_BRANCH }}/${{ github.run_id }}/summary.html" >> $GITHUB_STEP_SUMMARY
+        echo "A11y Report $SUBDIR: https://necyberteam.github.io/cypress-a11y/reports/${{ env.DATE }}/${{ env.CURRENT_BRANCH }}/$SUBDIR/${{ github.run_id }}/summary.html" >> $GITHUB_STEP_SUMMARY
+      env:
+        SUBDIR: ${{ inputs.subdirectory }}
 
     - name: Upload A11y reports
       if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
@@ -233,7 +246,7 @@ runs:
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
-        SLACK_MESSAGE: '❗️❗️ Cypress A11y reports are here: https://necyberteam.github.io/cypress-a11y/reports/${{ env.DATE }}/${{ env.CURRENT_BRANCH }}/${{ github.run_id }}/summary.html The action ran is here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} ❗️❗️'
+        SLACK_MESSAGE: '❗️❗️ Cypress A11y reports are here: https://necyberteam.github.io/cypress-a11y/reports/${{ env.DATE }}/${{ env.CURRENT_BRANCH }}/${{ env.SUBDIR }}/${{ github.run_id }}/summary.html The action ran is here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} ❗️❗️'
         SLACK_TITLE: "Cypress A11y Reports Available"
         SLACK_CHANNEL: cypress-git-notifications
 

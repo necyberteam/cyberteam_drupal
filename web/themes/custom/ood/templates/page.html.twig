@@ -1,9 +1,9 @@
 {% set front_div = "w-100 pt-3" %}
 {% block navbar %}
 	{% if logged_in %}
-	<nav class="navbar navbar-expand-lg secondary-nav navbar-light bg-light" id="secondaryNav">
+	<nav class="navbar navbar-expand-lg secondary-nav navbar-light bg-light" id="secondaryNav" role="navigation" aria-label="Secondary">
 	{% else %}
-	<nav class="navbar navbar-expand secondary-nav navbar-light bg-light " id="secondaryNav">
+	<nav class="navbar navbar-expand secondary-nav navbar-light bg-light" id="secondaryNav" role="navigation" aria-label="Secondary">
 	{% endif %}
 	  <div class="container">
 	    <div id="secondaryNavbarResponsive" style="margin-left: auto; margin-right: 0;">
@@ -36,10 +36,13 @@
       </div>
 	  </div>
 	</nav>
-	 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow-sm" id="mainNav">
+	 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow-sm" id="mainNav" role="navigation" aria-label="main">
 		  <div class="container">
 			<a class="navbar-brand" href="/">
         <img src="/themes/nect-theme/img/ood-logo.png" class="logo" alt="Open OnDemand Community Portal">
+        {% if is_front %}
+          <h1 class="sr-only">{{ site_name }}</h1>
+        {% endif %}
       </a>
 
 			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,7 +107,7 @@
         <div class="col-lg-12 col-md-10 mx-auto">
           <div class="d-flex">
             <a class="nsf-logo" href="https://www.nsf.gov/" target="_blank" rel="noopener">
-              <img width="120" height="120" src="/themes/nect-theme/img/NSF_logo.svg">
+              <img width="120" height="120" alt="US National Science Foundation logo" src="/themes/nect-theme/img/NSF_logo.svg">
             </a>
             <div>
               <p class="nsf-text">This material is based upon work supported by the

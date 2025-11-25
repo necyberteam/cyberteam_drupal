@@ -53,9 +53,9 @@
 	{% if page.primary_menu %}
 	 {% block navbar %}
 	{% if logged_in %}
-	<nav class="navbar navbar-expand-lg secondary-nav navbar-light bg-light" id="secondaryNav">
+	<nav class="navbar navbar-expand-lg secondary-nav navbar-light bg-light" id="secondaryNav" role="navigation" aria-label="Secondary">
 	{% else %}
-	<nav class="navbar navbar-expand secondary-nav navbar-light bg-light " id="secondaryNav">
+	<nav class="navbar navbar-expand secondary-nav navbar-light bg-light " id="secondaryNav" role="navigation" aria-label="Secondary">
 	{% endif %}
 	  <div class="container">
       {% if domain_name == "ccmnet" %}
@@ -88,15 +88,16 @@
       </div>
 	  </div>
 	</nav>
-	 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow-sm" id="mainNav">
+	 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow-sm" id="mainNav" role="navigation" aria-label="Main">
 		  <div class="container">
       {% if domain_name == "ccmnet" %}
         <div>
           <a class="nsf-logo" href="https://www.nsf.gov/" target="_blank" rel="noopener">
-            <img width="82" height="82" src="/themes/contrib/asp-theme/images/logos/NSF_logo.svg">
+            <img width="82" height="82" alt="NSF Logo" src="/themes/contrib/asp-theme/images/logos/NSF_logo.svg">
           </a>
           <a class="navbar-brand" href="/">
-            <img src="/themes/nect-theme/img/CCMNet-logo.jpg" class="logo" alt="CCMNet">
+            <img src="/themes/nect-theme/img/CCMNet-logo.jpg" class="logo" alt="">
+            <h1 class="sr-only">{{ site_name }}</h1>
           </a>
         </div>
       {% else %}
@@ -164,7 +165,7 @@
     {% elseif domain_name == "ccmnet" %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/people-bg.jpg')">
     {% elseif domain_name == "pa-science" %}
-    <header class="masthead" style="background-image: url('/themes/custom/pascience/img/pascience/pa-science-bg.jpg')">
+    <header class="masthead" style="background-image: url('/themes/custom/pascience/img/pascience/pa-science-bg.jpg')" role="banner">
     {% else %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
     {% endif %}
@@ -225,7 +226,11 @@
 	{% endif %}
 
   {% block headersection %}
-    {{ page.header }}
+    {% if page.header %}
+      <div role="banner">
+        {{ page.header }}
+      </div>
+    {% endif %}
   {% endblock %}
 
 	{% if is_front %}
@@ -241,7 +246,7 @@
   {% if domain_name == "ccmnet" %}
   <div>
   {% else %}
-	<div class="container{% if is_front %} main-container mt-3{% else %} mt-4{% endif %}">
+	<main role="main" class="container{% if is_front %} main-container mt-3{% else %} mt-4{% endif %}">
   {% endif %}
 
   {% if domain_name != "ccmnet" %}
@@ -304,13 +309,13 @@
         {{ page.below_main_content }}
       </div>
       {% if page.primary_sidebar %}
-        <div class="{{ sidebar_first_classes }}">
+        <aside class="{{ sidebar_first_classes }}" role="complementary">
           {{ page.primary_sidebar }}
-        </div>
+        </aside>
       </div>{% endif %}{% if page.secondary_sidebar %}
-      <div class="order-3 order-lg-3 col-lg-3 col-12 mx-auto">
+      <aside class="order-3 order-lg-3 col-lg-3 col-12 mx-auto" role="complementary">
         {{ page.secondary_sidebar }}
-      </div>{% endif %}
+      </aside>{% endif %}
     {% else %}
       <div class="col-12 mx-auto">
         {{ page.view_type_buttons }}
@@ -334,10 +339,10 @@
         {{ page.below_main_content }}
       </div>
     {% endif %}
-  </div>
+  </main>
   {% else %}
     {% if not is_front %}
-    <div id="ccmnet-page-title">
+    <header id="ccmnet-page-title" role="banner">
       <div class="ccmnet-page-title-bg-1"></div>
       <div class="container">
         <div class="row">
@@ -346,9 +351,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </header>
     {% endif %}
-    <div class="container{% if is_front %} main-container mt-3 mt-4 pt-2 pb-5{% else %} py-5{% endif %}">
+    <main class="container{% if is_front %} main-container mt-3 mt-4 pt-2 pb-5{% else %} py-5{% endif %}" role="main">
       {% if page.below_title_page_top %}
         <div class="mb-5">
           {{ page.below_title_page_top }}
@@ -375,13 +380,13 @@
             {{ page.below_main_content }}
           </div>
           {% if page.primary_sidebar %}
-            <div class="{{ sidebar_first_classes }}">
+            <aside class="{{ sidebar_first_classes }}" role="complementary">
               {{ page.primary_sidebar }}
-            </div>
+            </aside>
           </div>{% endif %}{% if page.secondary_sidebar %}
-          <div class="order-3 order-lg-3 col-lg-3 col-12 mx-auto">
+          <aside class="order-3 order-lg-3 col-lg-3 col-12 mx-auto" role="complementary">
             {{ page.secondary_sidebar }}
-          </div>{% endif %}
+          </aside>{% endif %}
         {% else %}
           <div class="col-12 mx-auto">
             {{ page.view_type_buttons }}
@@ -404,7 +409,7 @@
           </div>
         {% endif %}
       </div>
-    </div>
+    </main>
   {% endif %}
 	</div>
   {% endblock %}
@@ -417,7 +422,7 @@
 </div>{# /.wrapper #}
 
 {% block footer %}
-<footer class="footer">
+<footer class="footer" role="contentinfo">
   {% if page.first_footer or page.second_footer or page.third_footer %}
   <div class="container-fluid footer-main pt-3">
 	<div class="row mx-auto">
@@ -465,7 +470,7 @@
         <div class="row">
           <div class="col-2">
             <a class="nsf-logo" href="https://www.nsf.gov/" target="_blank" rel="noopener">
-              <img width="82" height="82" src="/themes/nect-theme/img/NSF_logo.svg">
+              <img width="82" height="82" alt="NSF Logo" src="/themes/nect-theme/img/NSF_logo.svg">
             </a>
           </div>
           <div class="col-10 col-md-8">
