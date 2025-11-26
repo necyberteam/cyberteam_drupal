@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Component\Utility\Xss;
 
-class JsonApiCCController extends ControllerBase {
+final class JsonApiCCController extends ControllerBase {
 
   /**
    * The database connection.
