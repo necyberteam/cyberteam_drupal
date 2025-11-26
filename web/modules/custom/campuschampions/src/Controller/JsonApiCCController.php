@@ -2,38 +2,71 @@
 
 namespace Drupal\campuschampions\Controller;
 
+use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Database\Connection;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Component\Utility\Xss;
 
-class JsonApiCCController {
+class JsonApiCCController extends ControllerBase {
 
-    /**
-     * @return JsonResponse
-     * Autocomplete Carnegie Code based on institution name
-     */
-    public function handleAutocomplete(Request $request)
-    {
-        $results = [];
-        $input = $request->query->get('q');
-        if (!$input) {
-            return new JsonResponse($results);
-        }
-        $input = Xss::filter($input);
+  /**
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected Connection $database;
 
-        $database = \Drupal::database();
-        $query = $database->select('carnegie_codes', 'cc');
-        $query->condition('cc.NAME', '%' . $input . '%', 'LIKE');
-        $query->fields('cc', ['UNITID', 'NAME']);
-        $query->range(0, 10);
+  /**
+   * Constructs a JsonApiCCController object.
+   *
+   * @param \Drupal\Core\Database\Connection $database
+   *   The database connection.
+   */
+  public function __construct(Connection $database) {
+    $this->database = $database;
+  }
 
-        $rows = $query->execute();
-        foreach ($rows as $row) {
-            $results[] = [
-                'label' => $row->NAME,
-                'value' => $row->UNITID
-            ];
-        }
-        return new JsonResponse($results);
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container): static {
+    return new static(
+      $container->get('database')
+    );
+  }
+
+  /**
+   * Autocomplete Carnegie Code based on institution name.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request object.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   The JSON response.
+   */
+  public function handleAutocomplete(Request $request): JsonResponse {
+    $results = [];
+    $input = $request->query->get('q');
+    if (!$input) {
+      return new JsonResponse($results);
     }
+    $input = Xss::filter($input);
+
+    $query = $this->database->select('carnegie_codes', 'cc');
+    $query->condition('cc.NAME', '%' . $input . '%', 'LIKE');
+    $query->fields('cc', ['UNITID', 'NAME']);
+    $query->range(0, 25);
+
+    $rows = $query->execute();
+    foreach ($rows as $row) {
+      $results[] = [
+        'label' => $row->NAME,
+        'value' => $row->UNITID,
+      ];
+    }
+    return new JsonResponse($results);
+  }
+
 }
