@@ -12,6 +12,7 @@ dependencies:
     - field.field.registrant.default.field_post_survey_sent
     - field.field.registrant.default.field_pre_survey_delivery
     - field.field.registrant.default.field_pre_survey_sent
+    - field.field.registrant.default.field_screen_survey_sent
     - recurring_events_registration.registrant_type.default
 _core:
   default_config_hash: qhplWVZyVosMt2LNLkOBC9O84q51REg26rx97BOZFDM
@@ -43,6 +44,12 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_screen_survey_sent:
+    type: datetime_timestamp
+    weight: 26
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

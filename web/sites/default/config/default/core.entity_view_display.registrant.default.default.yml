@@ -12,6 +12,7 @@ dependencies:
     - field.field.registrant.default.field_post_survey_sent
     - field.field.registrant.default.field_pre_survey_delivery
     - field.field.registrant.default.field_pre_survey_sent
+    - field.field.registrant.default.field_screen_survey_sent
     - recurring_events_registration.registrant_type.default
   module:
     - user
@@ -158,6 +159,25 @@ content:
         refresh: 60
     third_party_settings: {  }
     weight: 11
+    region: content
+  field_screen_survey_sent:
+    type: timestamp
+    label: above
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+      tooltip:
+        date_format: long
+        custom_date_format: ''
+      time_diff:
+        enabled: false
+        future_format: '@interval hence'
+        past_format: '@interval ago'
+        granularity: 2
+        refresh: 60
+    third_party_settings: {  }
+    weight: 17
     region: content
   user_id:
     type: author
