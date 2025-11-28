@@ -570,7 +570,9 @@ function campuschampions_update_10001() {
  */
 function campuschampions_update_10002() {
   $schema = \Drupal::database()->schema();
-  $schema->dropTable('carnegie_codes');
+  if ($schema->tableExists('carnegie_codes')) {
+    $schema->dropTable('carnegie_codes');
+  }
 }
 
 /**
