@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * @file
  * Install, update and uninstall functions for the campus champions module.
  */
 
@@ -567,9 +568,7 @@ function campuschampions_update_10001() {
  */
 function campuschampions_update_10002() {
   $schema = \Drupal::database()->schema();
-  if ($schema->tableExists('carnegie_codes')) {
-    $schema->dropTable('carnegie_codes');
-  }
+  $schema->dropTable('carnegie_codes');
 }
 
 /**
@@ -1097,41 +1096,36 @@ function campuschampions_update_10004() {
   $inserted = 0;
   $skipped = 0;
 
-  // Wrap the import in a transaction.
-  $transaction = $connection->startTransaction();
-  try {
-    // Read each row
-    while (($data = fgetcsv($handle)) !== FALSE) {
-      // Skip if not enough columns
-      if (count($data) < count($header)) {
-        $skipped++;
-        continue;
+  // Read each row
+  while (($data = fgetcsv($handle)) !== FALSE) {
+    // Skip if not enough columns
+    if (count($data) < count($header)) {
+      $skipped++;
+      continue;
+    }
+
+    // Map CSV columns to database fields
+    $row_data = array_combine($header, $data);
+
+    // Convert empty strings to NULL for numeric fields
+    $record = [];
+    foreach ($row_data as $key => $value) {
+      if ($value === '' || $value === 'NA') {
+        $record[$key] = NULL;
+      } else {
+        $record[$key] = $value;
       }
+    }
 
-      // Map CSV columns to database fields
-      $row_data = array_combine($header, $data);
-
-      // Convert empty strings to NULL for numeric fields
-      $record = [];
-      foreach ($row_data as $key => $value) {
-        if ($value === '' || $value === 'NA') {
-          $record[$key] = NULL;
-        } else {
-          $record[$key] = $value;
-        }
-      }
-
+    try {
       $connection->insert('carnegie_codes')
         ->fields($record)
         ->execute();
       $inserted++;
+    } catch (\Exception $e) {
+      $skipped++;
+      \Drupal::logger('campuschampions')->error('Error inserting row: @message', ['@message' => $e->getMessage()]);
     }
-  } catch (\Exception $e) {
-    // Roll back the transaction and propagate the error.
-    $transaction->rollBack();
-    fclose($handle);
-    \Drupal::logger('campuschampions')->error('Error during CSV import: @message', ['@message' => $e->getMessage()]);
-    throw $e;
   }
 
   fclose($handle);
