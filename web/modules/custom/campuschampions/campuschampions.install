@@ -1098,36 +1098,41 @@ function campuschampions_update_10004() {
   $inserted = 0;
   $skipped = 0;
 
-  // Read each row
-  while (($data = fgetcsv($handle)) !== FALSE) {
-    // Skip if not enough columns
-    if (count($data) < count($header)) {
-      $skipped++;
-      continue;
-    }
-
-    // Map CSV columns to database fields
-    $row_data = array_combine($header, $data);
-
-    // Convert empty strings to NULL for numeric fields
-    $record = [];
-    foreach ($row_data as $key => $value) {
-      if ($value === '' || $value === 'NA') {
-        $record[$key] = NULL;
-      } else {
-        $record[$key] = $value;
+  // Wrap the import in a transaction.
+  $transaction = $connection->startTransaction();
+  try {
+    // Read each row
+    while (($data = fgetcsv($handle)) !== FALSE) {
+      // Skip if not enough columns
+      if (count($data) < count($header)) {
+        $skipped++;
+        continue;
       }
-    }
 
-    try {
+      // Map CSV columns to database fields
+      $row_data = array_combine($header, $data);
+
+      // Convert empty strings to NULL for numeric fields
+      $record = [];
+      foreach ($row_data as $key => $value) {
+        if ($value === '' || $value === 'NA') {
+          $record[$key] = NULL;
+        } else {
+          $record[$key] = $value;
+        }
+      }
+
       $connection->insert('carnegie_codes')
         ->fields($record)
         ->execute();
       $inserted++;
-    } catch (\Exception $e) {
-      $skipped++;
-      \Drupal::logger('campuschampions')->error('Error inserting row: @message', ['@message' => $e->getMessage()]);
     }
+  } catch (\Exception $e) {
+    // Roll back the transaction and propagate the error.
+    $transaction->rollBack();
+    fclose($handle);
+    \Drupal::logger('campuschampions')->error('Error during CSV import: @message', ['@message' => $e->getMessage()]);
+    throw $e;
   }
 
   fclose($handle);
