@@ -43,6 +43,10 @@ elements: |-
       - sc
       - lt
       - ra
+  received_sent:
+    '#type': hidden
+    '#title': 'Received Sent'
+    '#default_value': '0'
   approved:
     '#type': checkbox
     '#title': 'Accept and Publish'
@@ -62,6 +66,10 @@ elements: |-
       - sc
       - lt
       - ra
+  accept_and_publish_sent:
+    '#type': hidden
+    '#title': 'Accept and Publish Sent'
+    '#default_value': '0'
   project_title:
     '#type': textfield
     '#title': 'Project Title'
@@ -72,6 +80,10 @@ elements: |-
     '#options_display': side_by_side
     '#required': true
     '#states_clear': false
+    '#access_create_roles':
+      - administrator
+    '#access_update_roles':
+      - administrator
     '#target_type': taxonomy_term
     '#selection_handler': 'default:taxonomy_term'
     '#selection_settings':
@@ -167,9 +179,21 @@ elements: |-
     mobile_phone:
       '#type': tel
       '#title': 'Mobile Phone'
+      '#access_create_roles':
+        - administrator
+      '#access_update_roles':
+        - administrator
+      '#access_view_roles':
+        - administrator
     work_phone:
       '#type': webform_telephone
       '#title': 'Work Phone'
+      '#access_create_roles':
+        - administrator
+      '#access_update_roles':
+        - administrator
+      '#access_view_roles':
+        - administrator
       '#type__access': false
       '#phone__international': false
   project_personnel:
@@ -196,21 +220,6 @@ elements: |-
       '#selection_handler': 'default:user'
       '#selection_settings':
         include_anonymous: false
-        filter:
-          type: role
-          role:
-            mentor: mentor
-            researcher: researcher
-            student: 0
-            professional_mentor: 0
-            sc: 0
-            ra: 0
-            representative: 0
-            administrator: 0
-            masquerade: 0
-            regional_expert: 0
-            campuschampionsadmin: 0
-            exportpeople: 0
     students:
       '#type': entity_autocomplete
       '#title': Student-facilitators
@@ -223,21 +232,6 @@ elements: |-
       '#selection_handler': 'default:user'
       '#selection_settings':
         include_anonymous: false
-        filter:
-          type: role
-          role:
-            student: student
-            mentor: 0
-            professional_mentor: 0
-            researcher: 0
-            sc: 0
-            ra: 0
-            representative: 0
-            administrator: 0
-            masquerade: 0
-            regional_expert: 0
-            campuschampionsadmin: 0
-            exportpeople: 0
     mentor:
       '#type': entity_autocomplete
       '#title': Mentor(s)
@@ -248,58 +242,51 @@ elements: |-
       '#selection_handler': 'default:user'
       '#selection_settings':
         include_anonymous: false
-        filter:
-          type: role
-          role:
-            mentor: mentor
-            researcher: researcher
-            student: 0
-            professional_mentor: 0
-            sc: 0
-            ra: 0
-            representative: 0
-            administrator: 0
-            masquerade: 0
-            regional_expert: 0
-            campuschampionsadmin: 0
-            exportpeople: 0
     student:
       '#type': entity_autocomplete
       '#title': Student-facilitator(s)
       '#multiple': true
-      '#description': 'Type the student-facilitator&#39;s name and select them from the dropdown list.'
+      '#description': "<p>Type the student-facilitator's name and select them from the dropdown list.</p>"
       '#wrapper_attributes':
         class:
-          - 'region-specific display-careers display-kentucky display-mines display-northeast'
+          - region-specific
+          - display-careers
+          - display-kentucky
+          - display-mines
+          - display-northeast
+          - display-pa-science
       '#attributes':
         class:
-          - 'region-specific display-careers display-kentucky display-mines display-northeast'
+          - region-specific
+          - display-careers
+          - display-kentucky
+          - display-mines
+          - display-northeast
+          - display-pa-science
       '#label_attributes':
         class:
-          - 'region-specific display-careers display-kentucky display-mines display-northeast'
+          - region-specific
+          - display-careers
+          - display-kentucky
+          - display-mines
+          - display-northeast
+          - display-pa-science
       '#format_items': comma
       '#format_attributes':
         class:
-          - 'region-specific display-careers display-kentucky display-mines display-northeast'
+          - region-specific
+          - display-careers
+          - display-kentucky
+          - display-mines
+          - display-northeast
+          - display-pa-science
       '#target_type': user
       '#selection_handler': 'default:user'
       '#selection_settings':
         include_anonymous: false
         filter:
-          type: role
-          role:
-            student: student
-            mentor: 0
-            professional_mentor: 0
-            researcher: 0
-            sc: 0
-            ra: 0
-            representative: 0
-            administrator: 0
-            masquerade: 0
-            regional_expert: 0
-            campuschampionsadmin: 0
-            exportpeople: 0
+          type: _none
+        target_bundles: null
     mentee_s_:
       '#type': entity_autocomplete
       '#title': Mentee(s)
@@ -322,21 +309,6 @@ elements: |-
       '#selection_handler': 'default:user'
       '#selection_settings':
         include_anonymous: false
-        filter:
-          type: role
-          role:
-            student: student
-            mentor: 0
-            professional_mentor: 0
-            researcher: 0
-            sc: 0
-            ra: 0
-            representative: 0
-            administrator: 0
-            masquerade: 0
-            regional_expert: 0
-            campuschampionsadmin: 0
-            exportpeople: 0
   project_information:
     '#type': webform_section
     '#title': 'Project Information'
@@ -347,7 +319,7 @@ elements: |-
     project_description:
       '#type': textarea
       '#title': 'Project Description'
-      '#description': 'Provide a description of the project and its history, progress, and/or current status.'
+      '#description': '<p><span class="_1e0c1bgi" data-ep-placeholder-id="gin-redirect-entrypoint" data-testid="comment-base-item-20011">Provide a description of the project—its history, progress, and current status—and include the names and institutional affiliations of any collaborators</span></p>'
       '#required': true
     project_information_subsection:
       '#type': webform_section
@@ -645,6 +617,17 @@ elements: |-
     '#access_create_roles': {  }
     '#access_update_roles': {  }
     '#access_view_roles': {  }
+  notify_managers_of_update:
+    '#type': checkbox
+    '#title': 'Notify PA Science DMZ Program Managers of this update'
+    '#default_value': '0'
+    '#access_create_roles': {  }
+    '#access_update_roles':
+      - administrator
+      - authenticated
+    '#access_view_roles':
+      - administrator
+      - authenticated
   actions_01:
     '#type': webform_actions
     '#title': 'Submit button(s)'
@@ -802,6 +785,7 @@ access:
       - lt
       - ra
       - careers_sc
+      - pascience
     users: {  }
     permissions: {  }
   delete_any:

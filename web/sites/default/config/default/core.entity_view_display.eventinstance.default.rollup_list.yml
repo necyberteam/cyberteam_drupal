@@ -89,6 +89,14 @@ content:
     third_party_settings: {  }
     weight: 2
     region: content
+  other_authors:
+    type: entity_reference_label
+    label: visible
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 59
+    region: content
   post_survey_email_text:
     type: text_default
     label: visible
@@ -126,7 +134,6 @@ content:
       target: ''
     third_party_settings: {  }
     weight: 62
-    region: content
   register_button:
     settings: {  }
     third_party_settings: {  }
@@ -163,6 +170,7 @@ hidden:
   affinity_group: true
   affinity_group_node_ref: true
   body: true
+  choose_where_to_share_this: true
   contact: true
   content_moderation_control: true
   domain_access: true

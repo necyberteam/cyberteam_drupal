@@ -22,10 +22,10 @@ mode: default
 content:
   choose_where_to_share_this:
     type: list_default
-    label: above
+    label: visible
     settings: {  }
     third_party_settings: {  }
-    weight: 8
+    weight: 52
     region: content
   content_moderation_control:
     settings: {  }
@@ -66,6 +66,14 @@ content:
     third_party_settings: {  }
     weight: 4
     region: content
+  other_authors:
+    type: entity_reference_label
+    label: visible
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 59
+    region: content
   post_survey_email_text:
     type: text_default
     label: above
@@ -79,7 +87,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 10
-    region: content
   tags:
     type: entity_reference_label
     label: hidden
@@ -112,6 +119,7 @@ hidden:
   affinity_group: true
   affinity_group_node_ref: true
   body: true
+  choose_where_to_share_this: true
   contact: true
   domain_access: true
   event_affiliation: true

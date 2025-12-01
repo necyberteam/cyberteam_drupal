@@ -163,6 +163,8 @@
     <header class="masthead" style="background-color:#ca1236">
     {% elseif domain_name == "ccmnet" %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/people-bg.jpg')">
+    {% elseif domain_name == "pa-science" %}
+    <header class="masthead" style="background-image: url('/themes/custom/pascience/img/pascience/pa-science-bg.jpg')">
     {% else %}
     <header class="masthead" style="background-image: url('/themes/nect-theme/img/background.jpg')">
     {% endif %}
@@ -191,6 +193,8 @@
                 {{ ccmnet_front_text | raw }}
               {% elseif domain_name == "open-ondemand" %}
                 {{ ood_front_text | raw }}
+              {% elseif domain_name == "pa-science" %}
+                {{ pascience_text | raw }}
               {% endif %}
               </h2>
               <ul class="d-none bi-list mt-5 mx-auto">
@@ -239,6 +243,14 @@
   {% else %}
 	<div class="container{% if is_front %} main-container mt-3{% else %} mt-4{% endif %}">
   {% endif %}
+
+  {% if domain_name != "ccmnet" %}
+    <div{% if page.below_title_page_top %} class="mb-5"{% endif %}>
+      {{ page.title_area }}
+      {{ page.below_title_page_top }}
+    </div>
+  {% endif %}
+
   {% block main_wrapper_classes %}
     {% if sidebar_first_classes is null %}
       {% set sidebar_first_classes = "sidebar order-2 order-lg-1 col-lg-3 col-12 mx-auto" %}
@@ -271,8 +283,6 @@
     <div class="row">
     {% if page.primary_sidebar or page.secondary_sidebar %}
       <div class="{{ main_wrapper_classes }}">
-        {{ page.page_top }}
-        {{ page.title_area }}
         {{ page.view_type_buttons }}
         {{ page.drupal_tabs }}
         {{ page.exposed_filters }}
@@ -303,8 +313,6 @@
       </div>{% endif %}
     {% else %}
       <div class="col-12 mx-auto">
-        {{ page.page_top }}
-        {{ page.title_area }}
         {{ page.view_type_buttons }}
         {{ page.drupal_tabs }}
         {{ page.exposed_filters }}
@@ -328,7 +336,6 @@
     {% endif %}
   </div>
   {% else %}
-    {{ page.page_top }}
     {% if not is_front %}
     <div id="ccmnet-page-title">
       <div class="ccmnet-page-title-bg-1"></div>
@@ -342,6 +349,11 @@
     </div>
     {% endif %}
     <div class="container{% if is_front %} main-container mt-3 mt-4 pt-2 pb-5{% else %} py-5{% endif %}">
+      {% if page.below_title_page_top %}
+        <div class="mb-5">
+          {{ page.below_title_page_top }}
+        </div>
+      {% endif %}
       <div class="row">
         {% if page.primary_sidebar or page.secondary_sidebar %}
           <div class="{{ main_wrapper_classes }}">

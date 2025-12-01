@@ -1,0 +1,29 @@
+uuid: c619f01d-2fb0-4a03-8c16-96778f5fdb63
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.people_list_view
+  module:
+    - system
+    - views
+  theme:
+    - pascience
+id: pascience_exposedformpeople_list_viewlist_campus_champions
+theme: pascience
+region: exposed_filters
+weight: 27
+provider: null
+plugin: 'views_exposed_filter_block:people_list_view-list_campus_champions'
+settings:
+  id: 'views_exposed_filter_block:people_list_view-list_campus_champions'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/people_list_campus-champions\r\n/people/list/campus-champions"

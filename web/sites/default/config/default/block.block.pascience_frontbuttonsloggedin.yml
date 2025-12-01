@@ -1,0 +1,52 @@
+uuid: 578989da-559a-4190-8ea9-38ed39e35eec
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:cd1fbb36-c5ca-4286-9409-22772f091ade'
+  module:
+    - block_content
+    - domain
+    - system
+    - user
+  theme:
+    - pascience
+id: pascience_frontbuttonsloggedin
+theme: pascience
+region: projects_page
+weight: 4
+provider: null
+plugin: 'block_content:cd1fbb36-c5ca-4286-9409-22772f091ade'
+settings:
+  id: 'block_content:cd1fbb36-c5ca-4286-9409-22772f091ade'
+  label: 'Front Buttons Logged In '
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '<front>'
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      nectd8_wpi_edu: nectd8_wpi_edu
+      greatplains_wpi_edu: greatplains_wpi_edu
+      kycyberteam_cyberinfrastructure_org: kycyberteam_cyberinfrastructure_org
+      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
+      mines_cyberinfrastructure_org: mines_cyberinfrastructure_org
+      campuschampions_cyberinfrastructure_org: campuschampions_cyberinfrastructure_org

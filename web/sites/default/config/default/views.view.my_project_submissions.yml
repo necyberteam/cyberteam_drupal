@@ -650,6 +650,20 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: 'Find or create a project on the <a href="/projects">Projects page</a>.'
+            format: full_html
+          tokenize: false
       arguments:
         uid:
           id: uid
@@ -688,6 +702,7 @@ display:
           not: false
           target_entity_type_id: user
       defaults:
+        empty: false
         arguments: false
         header: false
         footer: false
