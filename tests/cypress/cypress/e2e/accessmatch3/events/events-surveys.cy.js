@@ -456,8 +456,15 @@ describe('Event Registration Surveys', () => {
                           cy.wait(200);
                           cy.get('a[href*="/delete"]').first().click({ force: true });
                         });
-                        cy.wait(500);
-                        cy.get('.ui-dialog-buttonpane button.button--primary').should('be.visible').click();
+                        cy.wait(1000);
+                        // Handle either modal dialog or regular delete form page
+                        cy.get('body').then($deleteBody => {
+                          if ($deleteBody.find('.ui-dialog-buttonpane button.button--primary').length > 0) {
+                            cy.get('.ui-dialog-buttonpane button.button--primary').click();
+                          } else if ($deleteBody.find('#edit-submit').length > 0) {
+                            cy.get('#edit-submit').click();
+                          }
+                        });
                         cy.wait(1000);
                         deleteRegistrations();
                       }
@@ -500,16 +507,30 @@ describe('Event Registration Surveys', () => {
 
               cy.get('body').then($regBody => {
                 if ($regBody.find('table tbody tr').length > 0) {
-                  cy.get('table tbody tr').each(() => {
-                    cy.get('table tbody tr').first().within(() => {
-                      cy.get('.dropbutton-toggle button').click({ force: true });
-                      cy.wait(200);
-                      cy.get('a[href*="/delete"]').first().click({ force: true });
+                  // Delete each registration using recursive approach
+                  const deletePastEventRegistrations = () => {
+                    cy.get('body').then($currentBody => {
+                      if ($currentBody.find('table tbody tr').length > 0) {
+                        cy.get('table tbody tr').first().within(() => {
+                          cy.get('.dropbutton-toggle button').click({ force: true });
+                          cy.wait(200);
+                          cy.get('a[href*="/delete"]').first().click({ force: true });
+                        });
+                        cy.wait(1000);
+                        // Handle either modal dialog or regular delete form page
+                        cy.get('body').then($deleteBody => {
+                          if ($deleteBody.find('.ui-dialog-buttonpane button.button--primary').length > 0) {
+                            cy.get('.ui-dialog-buttonpane button.button--primary').click();
+                          } else if ($deleteBody.find('#edit-submit').length > 0) {
+                            cy.get('#edit-submit').click();
+                          }
+                        });
+                        cy.wait(1000);
+                        deletePastEventRegistrations();
+                      }
                     });
-                    cy.wait(500);
-                    cy.get('.ui-dialog-buttonpane button.button--primary').should('be.visible').click();
-                    cy.wait(1000);
-                  });
+                  };
+                  deletePastEventRegistrations();
                 }
               });
             }
