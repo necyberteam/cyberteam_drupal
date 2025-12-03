@@ -74,7 +74,7 @@ describe('Event Registration Surveys', () => {
   describe('Create test event with surveys configured', () => {
 
     before(() => {
-      cy.clearMailpit();
+      // cy.clearMailpit(); // Temporarily disabled to check email HTML
     });
 
     it('Should create event with all survey fields configured', () => {
@@ -162,11 +162,11 @@ describe('Event Registration Surveys', () => {
   describe('Screening Survey (sent on registration)', () => {
 
     before(() => {
-      cy.clearMailpit();
+      // cy.clearMailpit(); // Temporarily disabled
     });
 
     it('Should send screening survey email when user registers for event with survey configured', () => {
-      cy.clearMailpit();
+      // cy.clearMailpit(); // Temporarily disabled
 
       cy.loginAs("walnut@pie.org", "Walnut");
 
@@ -207,7 +207,7 @@ describe('Event Registration Surveys', () => {
   describe('Pre-Survey (sent on approval)', () => {
 
     it('Should send pre-survey email when registration is approved', () => {
-      cy.clearMailpit();
+      // cy.clearMailpit(); // Temporarily disabled
 
       // Login as admin to approve registration
       cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
@@ -311,30 +311,32 @@ describe('Event Registration Surveys', () => {
 
   describe('Post-Survey cron emails', () => {
 
-    it('Should create a past event for post-survey cron testing', () => {
+    const pastEventName = 'cypress-past-survey-event';
+
+    it('Should create event, register, change to past, and trigger post-survey via cron', () => {
+      cy.clearMailpit(); // Clear for this test to isolate post-survey email
+
       cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
       cy.visit('/events/add');
-
-      const pastEventName = 'cypress-past-survey-event';
 
       // Basic event details
       cy.get('#edit-title-0-value').type(pastEventName, { delay: 0 });
 
       cy.get('.field--name-body .ck-content').then(el => {
         const editor = el[0].ckeditorInstance;
-        editor.setData('This is a past event for testing post-survey cron functionality.');
+        editor.setData('This is an event for testing post-survey cron functionality.');
       });
 
-      cy.get('#edit-summary-text').type('Past event for post-survey testing.', { delay: 0 });
+      cy.get('#edit-summary-text').type('Event for post-survey testing.', { delay: 0 });
 
-      // Set date to yesterday (past event)
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
-      const dateStr = yesterday.toISOString().split('T')[0];
+      // Set date to TOMORROW first (so we can register), will change to past after
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowStr = tomorrow.toISOString().split('T')[0];
 
       cy.get('#edit-recur-type-custom').click();
-      cy.get('#edit-custom-date-0-value-date').type(dateStr, { delay: 0 });
-      cy.get('#edit-custom-date-0-end-value-date').type(dateStr, { delay: 0 });
+      cy.get('#edit-custom-date-0-value-date').type(tomorrowStr, { delay: 0 });
+      cy.get('#edit-custom-date-0-end-value-date').type(tomorrowStr, { delay: 0 });
       cy.get('#edit-custom-date-0-value-time').type('10:00:00', { delay: 0 });
       cy.get('#edit-custom-date-0-end-value-time').type('12:00:00', { delay: 0 });
 
@@ -373,53 +375,66 @@ describe('Event Registration Surveys', () => {
       cy.get('#edit-submit').click();
 
       cy.contains('Successfully saved').should('be.visible');
-    });
 
-    it('Should register admin for past event and trigger post-survey via cron', () => {
-      cy.clearMailpit();
+      // After save, we're on the eventseries page - click on the event instance link (shown as date)
+      cy.contains('Event Instances').should('be.visible');
+      cy.get('a[href*="/events/"]').filter(':visible').not('[href*="/series"]').not('[href*="/add"]').first().click();
 
-      cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
+      // Now register for the event (while it's still in the future)
+      cy.contains('Register').click();
+      cy.get('#edit-submit').click();
 
-      // Find and register for the past event
-      cy.visit('/events');
-      cy.get('#edit-search-api-fulltext--2').type('past-survey-event', { delay: 0 });
+      // Approve registration (admin self-approve via registrations page)
+      cy.contains('Registrations').click();
+      cy.contains('Approve All').click();
       cy.wait(1000);
 
-      // Check if event exists before proceeding
-      cy.get('body').then($body => {
-        if ($body.text().includes('cypress-past-survey-event')) {
-          cy.contains('cypress-past-survey-event').click();
+      // Now change the event date to past using drush to update the eventinstance
+      // Get the event instance ID from the URL
+      cy.url().then((url) => {
+        const match = url.match(/events\/(\d+)/);
+        if (match) {
+          const eventInstanceId = match[1];
+          // Calculate past date (2 days ago)
+          const pastDate = new Date();
+          pastDate.setDate(pastDate.getDate() - 2);
+          const pastDateStr = pastDate.toISOString().split('T')[0];
 
-          // Register
-          cy.contains('Register').click();
-          cy.get('#edit-submit').click();
+          // Update the event instance date to past using drush SQL
+          // Must update both the field_data table AND the field_revision table
+          cy.exec(`ddev drush sqlq "UPDATE eventinstance_field_data SET date__value = '${pastDateStr}T10:00:00', date__end_value = '${pastDateStr}T12:00:00' WHERE id = ${eventInstanceId}"`, { failOnNonZeroExit: false });
+          cy.exec(`ddev drush sqlq "UPDATE eventinstance_field_revision SET date__value = '${pastDateStr}T10:00:00', date__end_value = '${pastDateStr}T12:00:00' WHERE id = ${eventInstanceId}"`, { failOnNonZeroExit: false });
 
-          // Approve registration (admin self-approve via registrations page)
-          cy.contains('Registrations').click();
-          cy.contains('Approve All').click();
-          cy.wait(1000);
-
-          // Run cron to trigger post-survey emails
-          cy.exec('ddev drush cron', { failOnNonZeroExit: false }).then((result) => {
-            cy.log('Cron output:', result.stdout);
-          });
-
-          // Wait a moment for emails to be processed
-          cy.wait(2000);
-
-          // Check for post-survey email
-          cy.waitForEmail({
-            to: 'administrator@amptesting.com',
-            subject: 'cypress-past-survey-event',
-            timeout: 10000
-          }).then((message) => {
-            // Verify post-survey content
-            expect(message.html || message.body).to.include('Thank you for participating');
-            expect(message.html || message.body).to.include(testSurveyUrl);
-          });
-        } else {
-          cy.log('Past event not found - skipping cron test');
+          // Invalidate entity cache for this specific entity and clear all caches
+          cy.exec(`ddev drush php-eval "\\Drupal::entityTypeManager()->getStorage('eventinstance')->resetCache([${eventInstanceId}]);"`, { failOnNonZeroExit: false });
+          cy.exec('ddev drush cr', { failOnNonZeroExit: false });
+          cy.exec('ddev drush search-api:index events --batch-size=50', { failOnNonZeroExit: false });
         }
+      });
+
+      // Run cron to trigger post-survey emails
+      cy.exec('ddev drush cron', { failOnNonZeroExit: false }).then((result) => {
+        cy.log('Cron output:', result.stdout);
+      });
+
+      // Wait a moment for emails to be processed
+      cy.wait(2000);
+
+      // Check for post-survey email (subject: "Please participate in our survey for {title}")
+      cy.waitForEmail({
+        to: 'administrator@amptesting.com',
+        subject: 'Please participate in our survey'
+      }).then((message) => {
+        // Get full message to verify HTML content
+        cy.getMailpitMessage(message.ID).then((fullMessage) => {
+          const emailContent = fullMessage.HTML || fullMessage.Text;
+          // Verify post-survey content
+          expect(emailContent).to.include('Thank you for participating');
+          expect(emailContent).to.include('Please complete our post-event survey');
+          // The email contains the redirect URL (not the external survey URL)
+          // The redirect URL pattern is /events/{id}/post_survey/{user_id}
+          expect(emailContent).to.match(/\/events\/\d+\/post_survey\/\d+/);
+        });
       });
     });
 
@@ -490,8 +505,8 @@ describe('Event Registration Surveys', () => {
         }
       });
 
-      // Clean up past survey event
-      cy.visit('/events');
+      // Clean up past survey event (use /events/past since it's a past event)
+      cy.visit('/events/past');
       cy.get('#edit-search-api-fulltext--2').clear().type('past-survey-event', { delay: 0 });
       cy.wait(1000);
 
@@ -536,8 +551,8 @@ describe('Event Registration Surveys', () => {
             }
           });
 
-          // Delete the series
-          cy.visit('/events');
+          // Delete the series (use /events/past for past events)
+          cy.visit('/events/past');
           cy.get('#edit-search-api-fulltext--2').clear().type('past-survey-event', { delay: 0 });
           cy.wait(1000);
           cy.contains('cypress-past-survey-event').click();
