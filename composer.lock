@@ -7854,27 +7854,28 @@
         },
         {
             "name": "drupal/recaptcha_v3",
-            "version": "2.0.1",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/recaptcha_v3.git",
-                "reference": "2.0.1"
+                "reference": "2.0.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/recaptcha_v3-2.0.1.zip",
-                "reference": "2.0.1",
-                "shasum": "f2226e4227d146df17d584b5307316da182f4e2a"
+                "url": "https://ftp.drupal.org/files/projects/recaptcha_v3-2.0.4.zip",
+                "reference": "2.0.4",
+                "shasum": "f108d19d1c14dac0ea2b16b1cc30f6066f3c00c2"
             },
             "require": {
-                "drupal/captcha": "*",
-                "drupal/core": "^9.5 || ^10"
+                "drupal/captcha": "^2.0",
+                "drupal/core": "^10 || ^11",
+                "google/recaptcha": "^1.3"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.1",
-                    "datestamp": "1692375692",
+                    "version": "2.0.4",
+                    "datestamp": "1739448400",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -7887,7 +7888,7 @@
             ],
             "authors": [
                 {
-                    "name": "B-Prod",
+                    "name": "b-prod",
                     "homepage": "https://www.drupal.org/user/407852"
                 },
                 {
@@ -7902,8 +7903,7 @@
             "description": "The reCaptcha V3 module provides integration with Google reCaptcha V3 and CAPTCHA module.",
             "homepage": "https://www.drupal.org/project/recaptcha_v3",
             "support": {
-                "source": "https://git.drupalcode.org/project/recaptcha_v3",
-                "error": "require.drupal/captcha : invalid version constraint (Could not parse version constraint ^2.0': Invalid version string \"^2.0'\")"
+                "source": "https://git.drupalcode.org/project/recaptcha_v3"
             }
         },
         {
