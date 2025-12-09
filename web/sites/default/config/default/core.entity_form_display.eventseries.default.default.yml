@@ -16,7 +16,13 @@ dependencies:
     - field.field.eventseries.default.field_event_virtual_meeting_link
     - field.field.eventseries.default.field_location
     - field.field.eventseries.default.field_other_authors
+    - field.field.eventseries.default.field_post_survey_email_text
+    - field.field.eventseries.default.field_post_survey_url
+    - field.field.eventseries.default.field_pre_survey_email_text
+    - field.field.eventseries.default.field_pre_survey_url
     - field.field.eventseries.default.field_registration
+    - field.field.eventseries.default.field_screen_survey_email_text
+    - field.field.eventseries.default.field_screen_survey_url
     - field.field.eventseries.default.field_skill_level
     - field.field.eventseries.default.field_summary
     - field.field.eventseries.default.field_tags
@@ -25,11 +31,65 @@ dependencies:
   module:
     - content_moderation
     - datetime_range
+    - field_group
     - link
     - recurring_events
     - recurring_events_registration
     - recurring_events_reminders
     - text
+third_party_settings:
+  field_group:
+    group_surveys:
+      children:
+        - field_pre_survey_email_text
+        - field_pre_survey_url
+      label: 'Pre Survey'
+      region: content
+      parent_name: ''
+      weight: 26
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: false
+        description: ''
+        required_fields: true
+    group_post_survey:
+      children:
+        - field_post_survey_email_text
+        - field_post_survey_url
+      label: 'Post Survey'
+      region: content
+      parent_name: ''
+      weight: 27
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: false
+        description: ''
+        required_fields: true
+    group_screening_survey:
+      children:
+        - field_screen_survey_email_text
+        - field_screen_survey_url
+      label: 'Screening Survey'
+      region: content
+      parent_name: ''
+      weight: 25
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: false
+        description: ''
+        required_fields: true
 _core:
   default_config_hash: gxaLz3x4MpP2pkxtz9c3I9kCvvDKvhfKG6dOBgvv_w0
 id: eventseries.default.default
@@ -65,7 +125,7 @@ content:
     third_party_settings: {  }
   domain_access:
     type: options_buttons
-    weight: 28
+    weight: 31
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -150,6 +210,14 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_post_survey_email_text:
+    type: text_textarea
+    weight: 28
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   field_other_authors:
     type: entity_reference_autocomplete
     weight: 30
@@ -160,9 +228,49 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_post_survey_url:
+    type: link_default
+    weight: 29
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_pre_survey_email_text:
+    type: text_textarea
+    weight: 27
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_pre_survey_url:
+    type: link_default
+    weight: 28
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
   field_registration:
     type: link_default
-    weight: 25
+    weight: 28
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_screen_survey_email_text:
+    type: text_textarea
+    weight: 34
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_screen_survey_url:
+    type: link_default
+    weight: 35
     region: content
     settings:
       placeholder_url: ''
@@ -196,7 +304,7 @@ content:
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 27
+    weight: 30
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -222,7 +330,7 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 26
+    weight: 29
     region: content
     settings:
       display_label: true
