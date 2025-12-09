@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - field.field.eventinstance.default.domain_access
+    - field.field.eventinstance.default.field_post_survey_reminder_sent
+    - field.field.eventinstance.default.field_post_survey_sent
     - field.field.eventinstance.default.field_video
     - recurring_events.eventinstance_type.default
     - workflows.workflow.editorial_eventinstance
@@ -39,6 +41,20 @@ content:
     weight: 26
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_post_survey_reminder_sent:
+    type: number
+    weight: 28
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_post_survey_sent:
+    type: number
+    weight: 27
+    region: content
+    settings:
+      placeholder: ''
     third_party_settings: {  }
   field_video:
     type: media_library_widget
