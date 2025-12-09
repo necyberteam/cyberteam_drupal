@@ -269,7 +269,13 @@ function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, V
     $row['field_carnegie_code'] = t('');
     $row['field_carnegie_code_location'] = '';
     $row['field_carnegie_code_classification'] = '';
-    $row['field_carnegie_code_msi'] = '';
+    $row['field_carnegie_code_hbcu'] = '';
+    $row['field_carnegie_code_pbi'] = '';
+    $row['field_carnegie_code_annhsi'] = '';
+    $row['field_carnegie_code_tribal'] = '';
+    $row['field_carnegie_code_aanapisi'] = '';
+    $row['field_carnegie_code_hsi'] = '';
+    $row['field_carnegie_code_nasnti'] = '';
     $row['field_carnegie_code_site'] = '';
     $row['field_carnegie_code_eps_lookup'] = '';
     $row['field_carnegie_code_type_id'] = '';
@@ -291,7 +297,7 @@ function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, V
       // Get data based on carnegie code.
       $db = $carnegie_db;
       $results = $db->lookupByUnitId($cc, [
-        'NAME',
+        'INSTNM',
         'CITY',
         'STABBR',
         'BASIC2021',
@@ -302,8 +308,14 @@ function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, V
         $row['field_carnegie_code'] = $cc;
         $row['field_carnegie_code_location'] = $results['CITY'] . ', ' . $results['STABBR'];
         $row['field_carnegie_code_classification'] = $results['BASIC2021'];
-        $row['field_carnegie_code_msi'] = $results['MSI'];
-        $row['field_carnegie_code_site'] = $results['NAME'];
+        $row['field_carnegie_code_hbcu'] = $results['HBCU'];
+        $row['field_carnegie_code_pbi'] = $results['PBI'];
+        $row['field_carnegie_code_annhsi'] = $results['ANNHSI'];
+        $row['field_carnegie_code_tribal'] = $results['TRIBAL'];
+        $row['field_carnegie_code_aanapisi'] = $results['AANAPISI'];
+        $row['field_carnegie_code_hsi'] = $results['HSI'];
+        $row['field_carnegie_code_nasnti'] = $results['NASNTI'];
+        $row['field_carnegie_code_site'] = $results['INSTNM'];
         $row['field_carnegie_code_region'] = CarnegieCodesLookup::region($results['STABBR']);
 
         $row['field_carnegie_code_eps_lookup'] = 0;
@@ -312,7 +324,13 @@ function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, V
         }
 
         $row['field_carnegie_code_type_id'] = CarnegieCodesLookup::typeId(
-          $row['field_carnegie_code_msi'],
+          $row['field_carnegie_code_hbcu'],
+          $row['field_carnegie_code_pbi'],
+          $row['field_carnegie_code_annhsi'],
+          $row['field_carnegie_code_tribal'],
+          $row['field_carnegie_code_aanapisi'],
+          $row['field_carnegie_code_hsi'],
+          $row['field_carnegie_code_nasnti'],
           $row['field_carnegie_code_eps_lookup'],
           $row['field_carnegie_code']
         );

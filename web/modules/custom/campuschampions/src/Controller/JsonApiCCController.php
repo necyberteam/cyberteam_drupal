@@ -23,8 +23,8 @@ class JsonApiCCController {
 
         $database = \Drupal::database();
         $query = $database->select('carnegie_codes', 'cc');
-        $query->condition('cc.NAME', '%' . $input . '%', 'LIKE');
-        $query->fields('cc', ['UNITID', 'NAME']);
+        $query->condition('cc.INSTNM', '%' . $input . '%', 'LIKE');
+        $query->fields('cc', ['UNITID', 'INSTNM']);
         $query->range(0, 10);
 
         $rows = $query->execute();
