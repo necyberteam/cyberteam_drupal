@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.appverse_software.body
+    - field.field.node.appverse_software.field_appverse_logo
     - field.field.node.appverse_software.field_appverse_software_doc
     - field.field.node.appverse_software.field_appverse_software_type
     - field.field.node.appverse_software.field_appverse_software_website
@@ -27,6 +28,15 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 105
+    region: content
+  field_appverse_logo:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 106
     region: content
   field_appverse_software_doc:
     type: link
