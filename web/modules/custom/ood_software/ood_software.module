@@ -1,0 +1,115 @@
+<?php
+
+/**
+ * @file
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Component\Serialization\Yaml;
+
+/**
+ * Implements hook_form_alter().
+ */
+function ood_software_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  // Alter the node edit form for 'software' content type.
+  if ($form_id === 'node_appverse_app_edit_form' || $form_id === 'node_appverse_app_form') {
+    $form['github_url']['widget'][0]['uri']['#placeholder'] = 'https://github.com/organization/repo';
+    unset($form['github_url']['widget'][0]['uri']['#description']);
+
+    // Add prefix/suffix to make the fieldset ajax-replaceable.
+    $form['group_github']['#prefix'] = '<div id="edit-group-github">';
+    $form['group_github']['#suffix'] = '</div>';
+
+    $form['group_github']['lookup_button'] = [
+      '#type' => 'button',
+      '#value' => t('Fetch Repo'),
+      '#limit_validation_errors' => array(),
+      '#weight' => 12,
+      '#attributes' => [
+        'class' => [
+          'ml-0'
+        ],
+      ],
+      '#ajax' => [
+        'callback' => 'ood_software_fetch_github_data',
+        'wrapper' => 'edit-group-github',
+      ],
+    ];
+
+    $form['actions']['submit']['#submit'][] = 'ood_software__edit_submit';
+  }
+}
+
+/**
+ * Ajax call to pull in Github data.
+ */
+function ood_software_fetch_github_data(array &$form, FormStateInterface $form_state) {
+  $repo = $form_state->getValue('github_url')[0]['uri'];
+  // $repo should be a github repo and I need to pull out the organization/repo part.
+  $parsed_url = parse_url($repo);
+  if (isset($parsed_url['host']) && $parsed_url['host'] === 'github.com') {
+    $path_parts = explode('/', trim($parsed_url['path'], '/'));
+    if (count($path_parts) >= 2) {
+      $organization = $path_parts[0];
+      $repository = $path_parts[1];
+      $repo = $organization . '/' . $repository;
+    }
+    else {
+      // Invalid GitHub URL format.
+      \Drupal::messenger()->addError(t('Invalid GitHub repository URL. Please enter a valid URL.'));
+      return $form['group_github'];
+    }
+  }
+  else {
+    // Not a GitHub URL.
+    \Drupal::messenger()->addError(t('The URL provided is not a valid GitHub repository URL.'));
+    return $form['group_github'];
+  }
+
+  $client = \Drupal::httpClient();
+
+  # Fetch and parse the manifest.yml file from the GitHub repository.
+  try {
+    // Fetch file: https://raw.githubusercontent.com/OSC/bc_osc_abaqus/master/manifest.yml
+    $request = $client->get("https://raw.githubusercontent.com/$repo/master/manifest.yml")->getBody()->getContents();
+    // Read and parse YAML content
+    $yaml = Yaml::decode($request);
+  } catch (\Exception $e) {
+    \Drupal::logger('github')->error('Failed to fetch or parse YAML file: @message', ['@message' => $e->getMessage()]);
+    \Drupal::messenger()->addError(t('The manifest.yml file could not be fetched or parsed from the repository. Please ensure the file exists and is valid YAML.'));
+  }
+
+  # Fetch README.md content for description if available.
+  try {
+    // Fetch file: https://raw.githubusercontent.com/OSC/bc_osc_abaqus/master/README.md
+    $readme_text = $client->get("https://raw.githubusercontent.com/$repo/master/README.md")->getBody()->getContents();
+    // Optionally, you could parse or process the README content here.
+    if (empty($yaml['description'])) {
+      $readme_text = 'No readme found.';
+    }
+  } catch (\Exception $e) {
+    // It's okay if README.md is not found; we can proceed without it.
+  }
+
+  // Set the form state value for organization.
+  //$form_state->setValue('organization', [['value' => $repo]]);
+  $form_state->setValue('body', [['value' => $yaml['description']]]);
+  $form_state->setValue('appverse_readme', [['value' => $readme_text]]);
+  $form_state->setValue('title', [['value' => $yaml['name']]]);
+
+  // Also update the form element to reflect the change.
+  //$form['organization']['widget'][0]['value']['#value'] = $repo;
+  $form['body']['widget'][0]['value']['#value'] = $yaml['description'];
+  $form['title']['widget'][0]['value']['#value'] = $yaml['name'];
+  $form['appverse_readme']['widget'][0]['value']['#value'] = $readme_text;
+
+  return $form['group_github'];
+}
+
+/**
+ * Form submit handler for science.
+ */
+function ood_software__edit_submit($form, FormStateInterface $form_state) {
+}
