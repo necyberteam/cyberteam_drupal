@@ -1,0 +1,26 @@
+uuid: ad0ebe49-1d06-4733-af7d-159cda8da431
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - filter.format.markdown
+    - node.type.appverse_software
+  module:
+    - text
+id: node.appverse_software.body
+field_name: body
+entity_type: node
+bundle: appverse_software
+label: 'Software Description'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+  required_summary: false
+  allowed_formats:
+    - markdown
+field_type: text_with_summary

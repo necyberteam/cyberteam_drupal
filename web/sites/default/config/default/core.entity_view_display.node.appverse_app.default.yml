@@ -1,0 +1,66 @@
+uuid: 1cc75a36-ec73-4f4b-a8dc-6e0d9bb12b37
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.appverse_app.body
+    - field.field.node.appverse_app.field_appverse_github_url
+    - field.field.node.appverse_app.field_appverse_readme
+    - field.field.node.appverse_app.field_appverse_software_implemen
+    - field.field.node.appverse_app.field_domain_access
+    - field.field.node.appverse_app.field_domain_all_affiliates
+    - field.field.node.appverse_app.field_domain_source
+    - node.type.appverse_app
+  module:
+    - link
+    - text
+    - user
+id: node.appverse_app.default
+targetEntityType: node
+bundle: appverse_app
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_appverse_github_url:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_appverse_readme:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_appverse_software_implemen:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  search_api_excerpt: true

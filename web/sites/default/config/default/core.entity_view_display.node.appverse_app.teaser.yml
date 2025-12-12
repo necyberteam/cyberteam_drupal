@@ -1,0 +1,43 @@
+uuid: f1f63513-9a0a-4b81-beac-ca83e211ce5f
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.appverse_app.body
+    - field.field.node.appverse_app.field_appverse_github_url
+    - field.field.node.appverse_app.field_appverse_readme
+    - field.field.node.appverse_app.field_appverse_software_implemen
+    - field.field.node.appverse_app.field_domain_access
+    - field.field.node.appverse_app.field_domain_all_affiliates
+    - field.field.node.appverse_app.field_domain_source
+    - node.type.appverse_app
+  module:
+    - text
+    - user
+id: node.appverse_app.teaser
+targetEntityType: node
+bundle: appverse_app
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_appverse_github_url: true
+  field_appverse_readme: true
+  field_appverse_software_implemen: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  search_api_excerpt: true

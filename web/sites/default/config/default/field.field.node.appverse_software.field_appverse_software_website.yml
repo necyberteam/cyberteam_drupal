@@ -1,0 +1,23 @@
+uuid: d1c79375-b862-4c39-93f3-eff7f607d984
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_appverse_software_website
+    - node.type.appverse_software
+  module:
+    - link
+id: node.appverse_software.field_appverse_software_website
+field_name: field_appverse_software_website
+entity_type: node
+bundle: appverse_software
+label: 'Software Website'
+description: 'Please enter the primary URL for information about the software. (If available)'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 0
+  link_type: 16
+field_type: link

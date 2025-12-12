@@ -1,0 +1,43 @@
+uuid: c1eb9ebf-f440-4e61-a48f-245280c0b467
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.appverse_software.body
+    - field.field.node.appverse_software.field_appverse_software_doc
+    - field.field.node.appverse_software.field_appverse_software_type
+    - field.field.node.appverse_software.field_appverse_software_website
+    - field.field.node.appverse_software.field_domain_access
+    - field.field.node.appverse_software.field_domain_all_affiliates
+    - field.field.node.appverse_software.field_domain_source
+    - node.type.appverse_software
+  module:
+    - text
+    - user
+id: node.appverse_software.teaser
+targetEntityType: node
+bundle: appverse_software
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_appverse_software_doc: true
+  field_appverse_software_type: true
+  field_appverse_software_website: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  search_api_excerpt: true

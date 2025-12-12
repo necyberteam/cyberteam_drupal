@@ -1,0 +1,33 @@
+uuid: a3e166c7-ecd5-406d-906f-9db2156cb34b
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_appverse_software_type
+field_name: field_appverse_software_type
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: licensed_software
+      label: 'Licensed Software'
+    -
+      value: open_source_software
+      label: 'Open-source Software'
+    -
+      value: widget
+      label: Widget
+    -
+      value: dashboard
+      label: Dashboard
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

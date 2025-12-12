@@ -1,0 +1,42 @@
+uuid: fa524855-c695-45f4-9123-9787c2854c68
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.affinity_group
+    - field.field.node.appverse_software.body
+    - field.field.node.appverse_software.field_appverse_software_doc
+    - field.field.node.appverse_software.field_appverse_software_type
+    - field.field.node.appverse_software.field_appverse_software_website
+    - field.field.node.appverse_software.field_domain_access
+    - field.field.node.appverse_software.field_domain_all_affiliates
+    - field.field.node.appverse_software.field_domain_source
+    - node.type.appverse_software
+  module:
+    - text
+    - user
+id: node.appverse_software.affinity_group
+targetEntityType: node
+bundle: appverse_software
+mode: affinity_group
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_appverse_software_doc: true
+  field_appverse_software_type: true
+  field_appverse_software_website: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  search_api_excerpt: true
