@@ -25,6 +25,7 @@
   --footer-link: var(--light-text);
   --footer-link-hover: #999999;
 
+  --header-gray: #dddee0;
   --d-teal: rgb(26 91 110);
   --dark-teal: var(--d-teal);
   --link: var(--primary);
@@ -37,7 +38,7 @@
   --navbar-dropdown-hover: var(--navbar-link);
 
   --ccmnet-navy: #04376F;
-  --ccmnet-lightblue: #06A9E5;
+  --ccmnet-lightblue: #0489ba;
   --ccmnet-lighterblue: #eff6fe;
   --ccmnet-lightishblue: #a3dff7;
   --ccmnet-hero: #283F72CC;
@@ -167,6 +168,9 @@ html:has(body.ccmnet) {
 .ccmnet .region-specific:not(.display-ccmnet) { display: none !important; }
 .pa-science .region-specific:not(.display-pa-science) { display: none !important; }
 
+/*
+* Also added to global.js to remove html.
+*/
 .campus-champions .hide-campus-champions { display: none !important; }
 .careers-cyberteam .hide-careers { display: none !important; }
 .great-plains-cyberteam .hide-great-plains { display: none !important; }
@@ -303,6 +307,11 @@ img::-moz-selection {
   color: var(--light-text);
   background-color: var(--primary);
   border-color: var(--primary);
+}
+.btn-header-gray {
+  background-color: var(--header-gray);
+  color: var(--text);
+  border-color: var(--header-gray);
 }
 .ccmnet .btn-primary, .ccmnet .btn-outline-dark, .ccmnet .btn-secondary, .ccmnet .btn-success, .ccmnet .btn-md-teal {
   border-radius: 20px;
@@ -1130,8 +1139,9 @@ footer .list-inline {
   letter-spacing: 0.04em;
   color: var(--footer-text);
 }
-.ccmnet .footer {
-  text-transform: none;
+.ccmnet .footer a {
+  color: var(--white);
+  text-decoration: underline;
 }
 .footer h4 {
   font-weight: 600;
