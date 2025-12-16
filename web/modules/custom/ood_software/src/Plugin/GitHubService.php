@@ -4,6 +4,10 @@ namespace Drupal\ood_software\Plugin;
 
 use Drupal\Component\Utility\Xss;
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\key\KeyRepositoryInterface;
+use GuzzleHttp\ClientInterface;
 
 /**
  * Pull Software from github.
@@ -13,70 +17,118 @@ class GitHubService {
   /**
    * Github owner.
    *
-   * @var
+   * @var string
    */
   protected $owner;
 
   /**
    * Github name.
    *
-   * @var
+   * @var string
    */
   protected $name;
 
   /**
    * Github data.
    *
-   * @array
+   * @var array
    */
   protected $data;
 
   /**
    * Manifest data.
    *
-   * @string
+   * @var array
    */
   protected $manifestData;
 
   /**
    * Is Archived.
    *
-   * @var
+   * @var bool
    */
   protected $isArchived;
 
   /**
    * Stars for repo.
    *
-   * @number
+   * @var int
    */
   protected $stars;
 
   /**
    * Repo readme.
    *
-   * @var
+   * @var string|null
    */
   protected $readme;
 
   /**
    * Repo name.
    *
-   * @var
+   * @var string
    */
   protected $repoName;
 
   /**
    * Repo description.
    *
-   * @var
+   * @var string
    */
   protected $description;
 
   /**
-   * Construct object.
+   * Last commited unix timestamp.
+   *
+   * @var int
    */
-  public function __construct() {
+  protected $lastComittedDate;
+
+  /**
+   * The HTTP client.
+   *
+   * @var \GuzzleHttp\ClientInterface
+   */
+  protected $httpClient;
+
+  /**
+   * The key repository service.
+   *
+   * @var \Drupal\key\KeyRepositoryInterface
+   */
+  protected $keyRepository;
+
+  /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
+   * The logger service.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelInterface
+   */
+  protected $logger;
+
+  /**
+   * Construct object.
+   *
+   * @param \GuzzleHttp\ClientInterface $http_client
+   *   The HTTP client.
+   * @param \Drupal\key\KeyRepositoryInterface $key_repository
+   *   The key repository service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
+   *   The logger factory service.
+   */
+  public function __construct(ClientInterface $http_client, KeyRepositoryInterface $key_repository, MessengerInterface $messenger, LoggerChannelFactoryInterface $logger_factory) {
+    $this->httpClient = $http_client;
+    $this->keyRepository = $key_repository;
+    $this->messenger = $messenger;
+    $this->logger = $logger_factory->get('ood_software');
   }
 
   /**
@@ -99,13 +151,13 @@ class GitHubService {
       }
       else {
         // Invalid GitHub URL format.
-        \Drupal::messenger()->addError(t('Invalid GitHub repository URL. Please enter a valid URL.'));
+        $this->messenger->addError($this->t('Invalid GitHub repository URL. Please enter a valid URL.'));
         return FALSE;
       }
     }
     else {
       // Not a GitHub URL.
-      \Drupal::messenger()->addError(t('The URL provided is not a valid GitHub repository URL.'));
+      $this->messenger->addError($this->t('The URL provided is not a valid GitHub repository URL.'));
       return FALSE;
     }
   }
@@ -114,10 +166,7 @@ class GitHubService {
    * Fetch github repo.
    */
   public function fetchRepoData() {
-    $client = \Drupal::httpClient();
-
-    $token = \Drupal::service('key.repository')->getKey('appverse_github')->getKeyValue();
-
+    $token = $this->keyRepository->getKey('appverse_github')->getKeyValue();
 
     $query = <<<'GRAPHQL'
     query($owner: String!, $name: String!) {
@@ -157,7 +206,7 @@ class GitHubService {
     }
     GRAPHQL;
 
-    $response = $client->post('https://api.github.com/graphql', [
+    $response = $this->httpClient->post('https://api.github.com/graphql', [
       'headers' => [
         'Authorization' => 'Bearer ' . $token,
         'Content-Type' => 'application/json',
@@ -173,21 +222,22 @@ class GitHubService {
 
     $data = Xss::filter($response->getBody());
 
-    $this->data = json_decode($data, true)['data']['repository'];
+    $this->data = json_decode($data, TRUE)['data']['repository'];
 
     $this->isArchived = $this->data['isArchived'];
     $this->stars = $this->data['stargazerCount'];
-    $this->readme = $this->data['readme']['text'] ?? null;
+    $this->readme = $this->data['readme']['text'] ?? NULL;
 
-    $manifest_text = $this->data['manifestYml']['text'] ?? null;
-    if ($manifest_text === null) {
-      \Drupal::messenger()->addError(t('The repository does not contain a manifest.yml file.'));
-      \Drupal::logger('ood_software')->error('The repository @repo does not contain a manifest.yml file.', ['@repo' => $this->owner . '/' . $this->name]);
+    $manifest_text = $this->data['manifestYml']['text'] ?? NULL;
+    if ($manifest_text === NULL) {
+      $this->messenger->addError($this->t('The repository does not contain a manifest.yml file.'));
+      $this->logger->error('The repository @repo does not contain a manifest.yml file.', ['@repo' => $this->owner . '/' . $this->name]);
       return;
     }
     $this->manifestData = Yaml::decode($manifest_text);
     $this->repoName = $this->manifestData['name'];
     $this->description = $this->manifestData['description'];
+    $this->lastComittedDate = strtotime($this->data['defaultBranchRef']['target']['committedDate']);
   }
 
   /**
@@ -238,4 +288,12 @@ class GitHubService {
   public function getDescription() {
     return $this->description;
   }
+
+  /**
+   * Get last committed date.
+   */
+  public function getLastComittedDate() {
+    return $this->lastComittedDate;
+  }
+
 }

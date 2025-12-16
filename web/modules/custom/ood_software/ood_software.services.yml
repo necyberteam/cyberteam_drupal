@@ -1,3 +1,4 @@
 services:
   ood_software.gh:
     class: Drupal\ood_software\Plugin\GitHubService
+    arguments: ['@http_client', '@key.repository', '@messenger', '@logger.factory']
