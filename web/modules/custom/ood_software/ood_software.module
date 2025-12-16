@@ -15,6 +15,23 @@ use Drupal\Component\Serialization\Yaml;
 function ood_software_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
   // Alter the node edit form for 'software' content type.
   if ($form_id === 'node_appverse_app_edit_form' || $form_id === 'node_appverse_app_form') {
+    // Get user roles.
+    $user = \Drupal::currentUser();
+    $roles = $user->getRoles();
+
+    // Hide fields controlled by repo.
+    if (!in_array('administrator', $roles)) {
+      $form['body']['#access'] = FALSE;
+      $form['field_appverse_readme']['#access'] = FALSE;
+      $form['field_appverse_lastupdated']['#access'] = FALSE;
+    }
+
+    $form['intro_text'] = [
+      '#type' => 'markup',
+      '#markup' => '<div class="mb-4"><strong>A structured README and .yml file is needed.</strong> The <a href="#">contributor documentation</a> has best practices in app integration.</div>',
+      '#weight' => -10,
+    ];
+
     $form['field_appverse_github_url']['widget'][0]['uri']['#placeholder'] = 'https://github.com/organization/repo';
     unset($form['field_appverse_github_url']['widget'][0]['uri']['#description']);
 
@@ -22,11 +39,14 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
     $form['group_github']['#prefix'] = '<div id="edit-group-github">';
     $form['group_github']['#suffix'] = '</div>';
 
+    // Place the button right after the github url field.
+    $lookup_button_weight = $form['field_appverse_github_url']['#weight'] + 1;
+
     $form['group_github']['lookup_button'] = [
       '#type' => 'button',
       '#value' => t('Fetch Repo'),
       '#limit_validation_errors' => array(),
-      '#weight' => 12,
+      '#weight' => $lookup_button_weight,
       '#attributes' => [
         'class' => [
           'ml-0'
@@ -38,7 +58,7 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
       ],
     ];
 
-    $form['actions']['submit']['#submit'][] = 'ood_software__edit_submit';
+    array_unshift($form['actions']['submit']['#submit'], 'ood_software__edit_submit');
   }
 }
 
@@ -48,22 +68,59 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
 function ood_software_fetch_github_data(array &$form, FormStateInterface $form_state) {
   $gh = \Drupal::service('ood_software.gh');
   $validUrl = $gh->parseUrl($form_state->getValue('field_appverse_github_url')[0]['uri']);
+  $suffix = '<div class="gh-url-suffix bg-header-gray p-3 mb-3" style="margin-top:-1.9rem;">';
   if ($validUrl) {
     $data = $gh->getData();
 
+    $readme = $gh->getReadme();
+    $license = $gh->getLicense();
+    $manifest = $gh->getManifestData();
+
+    if ($readme) {
+      $suffix .= '<i class="bi bi-check-lg text-success"></i> README<br/>';
+    } else {
+      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> No README detected.<br/>';
+    }
+
+    if ($manifest) {
+      $suffix .= '<i class="bi bi-check-lg text-success"></i> manifest.yml file<br/>';
+    } else {
+      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> No manifest.yml detected.<br/>';
+    }
+
+    if ($license) {
+      $suffix .= '<i class="bi bi-check-lg text-success"></i> LICENSE<br/>';
+    } else {
+      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> No license detected.<br/>';
+    }
+
+    if ($manifest) {
+      $role = $gh->getRole();
+      $suffix .= "<p class='pt-3'><strong>We've detected the following and pre-populated below:</strong></p>";
+      $suffix .= "<p><strong>Organization:</strong> Org here</p>";
+      if ($role) {
+        $suffix .= "<p><strong>App type:</strong> $role </p>";
+      }
+    }
+
     // Set value.
     $form_state->setValue('body', [['value' => $gh->getDescription()]]);
-    $form_state->setValue('field_appverse_readme', [['value' => $gh->getReadme()]]);
+    $form_state->setValue('field_appverse_readme', [['value' => $readme]]);
     $form_state->setValue('title', [['value' => $gh->getRepoName()]]);
     $form_state->setValue('field_appverse_lastupdated', [['value' => $gh->getLastComittedDate()]]);
 
     // Also update the form element to reflect the change.
     $form['body']['widget'][0]['value']['#value'] = $gh->getDescription();
-    $form['field_appverse_readme']['widget'][0]['value']['#value'] = $gh->getReadme();
+    $form['field_appverse_readme']['widget'][0]['value']['#value'] = $readme;
     $form['title']['widget'][0]['value']['#value'] = $gh->getRepoName();
     $form['field_appverse_lastupdated']['widget'][0]['value']['#value'] = $gh->getLastComittedDate();
 
+  } else {
+    $suffix .= '<i class="bi bi-x-lg text-danger"></i> Invalid GitHub URL provided.';
   }
+
+  $suffix .= '</div>';
+  $form['field_appverse_github_url']['widget'][0]['uri']['#suffix'] = $suffix;
 
   return $form['group_github'];
 
@@ -73,4 +130,20 @@ function ood_software_fetch_github_data(array &$form, FormStateInterface $form_s
  * Form submit handler for science.
  */
 function ood_software__edit_submit($form, FormStateInterface $form_state) {
+  $body = $form_state->getValue('body')[0]['value'];
+  $readme = $form_state->getValue('field_appverse_readme')[0]['value'];
+  $lastupdated = $form_state->getValue('field_appverse_lastupdated')[0]['value'];
+
+  // Only update if one of these fields is empty.
+  $gh = \Drupal::service('ood_software.gh');
+  $validUrl = $gh->parseUrl($form_state->getValue('field_appverse_github_url')[0]['uri']);
+  if ($validUrl) {
+    $data = $gh->getData();
+
+    if ($lastupdated != $gh->getLastComittedDate()) {
+      $form_state->setValue('body', [['value' => $gh->getDescription()]]);
+      $form_state->setValue('field_appverse_readme', [['value' => $gh->getReadme()]]);
+      $form_state->setValue('field_appverse_lastupdated', [['value' => $gh->getLastComittedDate()]]);
+    }
+  }
 }

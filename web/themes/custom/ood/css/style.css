@@ -13,6 +13,10 @@
   --tw-scale-y: 1;
 }
 
+.bg-header-gray {
+  background-color: var(--header-gray);
+}
+
 @font-face {
   font-family: "Serifa Std";
   src: url("/themes/custom/ood/fonts/SerifaStd-Black.woff2") format("woff2"), url("/themes/custom/ood/fonts/SerifaStd-Black.woff") format("woff");
@@ -824,3 +828,34 @@ body.page-node-type-affinity-group {
   }
 }
 
+/* Software/apps */
+.page-node-add-appverse_app {
+  #node-appverse-app-form {
+    max-width: 800px;
+  }
+
+  fieldset[data-drupal-selector="edit-group-github"] {
+    position: relative;
+  }
+
+  [data-drupal-selector="edit-field-appverse-github-url-wrapper"] {
+    width: 75%;
+    label {
+      display: block;
+    }
+    input {
+      width: -moz-available;
+      width: -webkit-fill-available;
+      width: fill-available;
+      width: fill-content;
+    }
+  }
+  [data-drupal-selector="edit-lookup-button"] {
+    position: absolute;
+    top: 175px;
+    right: 0;
+  }
+  .gh-url-suffix {
+    margin-top: -1.9rem;
+  }
+}

@@ -6,6 +6,7 @@ use Drupal\Component\Utility\Xss;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\key\KeyRepositoryInterface;
 use GuzzleHttp\ClientInterface;
 
@@ -13,6 +14,8 @@ use GuzzleHttp\ClientInterface;
  * Pull Software from github.
  */
 class GitHubService {
+
+  use StringTranslationTrait;
 
   /**
    * Github owner.
@@ -83,6 +86,20 @@ class GitHubService {
    * @var int
    */
   protected $lastComittedDate;
+
+  /**
+   * Repo license.
+   *
+   * @var string
+   */
+  protected $license;
+
+  /**
+   * Role - app type.
+   *
+   * @var string
+   */
+  protected $role;
 
   /**
    * The HTTP client.
@@ -227,6 +244,8 @@ class GitHubService {
     $this->isArchived = $this->data['isArchived'];
     $this->stars = $this->data['stargazerCount'];
     $this->readme = $this->data['readme']['text'] ?? NULL;
+    $this->lastComittedDate = strtotime($this->data['defaultBranchRef']['target']['committedDate']);
+    $this->license = $this->data['licenseInfo']['spdxId'] ?? 'NOASSERTION';
 
     $manifest_text = $this->data['manifestYml']['text'] ?? NULL;
     if ($manifest_text === NULL) {
@@ -237,7 +256,7 @@ class GitHubService {
     $this->manifestData = Yaml::decode($manifest_text);
     $this->repoName = $this->manifestData['name'];
     $this->description = $this->manifestData['description'];
-    $this->lastComittedDate = strtotime($this->data['defaultBranchRef']['target']['committedDate']);
+    $this->role = $this->manifestData['role'] ?? NULL;
   }
 
   /**
@@ -296,4 +315,17 @@ class GitHubService {
     return $this->lastComittedDate;
   }
 
+  /**
+   * Get license.
+   */
+  public function getLicense() {
+    return $this->license;
+  }
+
+  /**
+   * Get role.
+   */
+  public function getRole() {
+    return $this->role;
+  }
 }
