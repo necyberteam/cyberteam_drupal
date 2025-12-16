@@ -1,0 +1,24 @@
+uuid: 761bd2de-39af-4e2b-84be-67bf2ab7514e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.eventseries.field_pre_survey_email_text
+    - filter.format.basic_html
+    - recurring_events.eventseries_type.default
+  module:
+    - text
+id: eventseries.default.field_pre_survey_email_text
+field_name: field_pre_survey_email_text
+entity_type: eventseries
+bundle: default
+label: 'Pre-survey Email Text'
+description: 'Any message you want to add to the email that goes out with your pre-survey.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text_long

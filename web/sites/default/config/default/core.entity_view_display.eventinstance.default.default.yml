@@ -4,11 +4,14 @@ status: true
 dependencies:
   config:
     - field.field.eventinstance.default.domain_access
+    - field.field.eventinstance.default.field_post_survey_reminder_sent
+    - field.field.eventinstance.default.field_post_survey_sent
     - field.field.eventinstance.default.field_video
     - recurring_events.eventinstance_type.default
   module:
     - datetime_range
     - link
+    - options
     - text
 _core:
   default_config_hash: lFFUFIZPBUZQjrIYYvP6U1hzVLGjKMl0DYK93zPM_80
@@ -71,6 +74,19 @@ content:
     third_party_settings: {  }
     weight: 59
     region: content
+  post_survey_email_text:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  pre_survey_email_text:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
   tags:
     type: entity_reference_label
     label: hidden
@@ -110,6 +126,10 @@ hidden:
   event_ical_link: true
   event_summary: true
   event_type: true
+  field_post_survey_reminder_sent: true
+  field_post_survey_sent: true
+  post_survey_url: true
+  pre_survey_url: true
   register_button: true
   registration: true
   search_api_excerpt: true

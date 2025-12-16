@@ -1,0 +1,24 @@
+uuid: 24e7371b-091a-472b-bb5a-b7f45383c9b3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.eventseries.field_post_survey_email_text
+    - filter.format.basic_html
+    - recurring_events.eventseries_type.default
+  module:
+    - text
+id: eventseries.default.field_post_survey_email_text
+field_name: field_post_survey_email_text
+entity_type: eventseries
+bundle: default
+label: 'Post-survey Email Text'
+description: 'Any message you want to add to the email that goes out with your post-survey.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text_long
