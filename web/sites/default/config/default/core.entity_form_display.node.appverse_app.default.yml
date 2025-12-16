@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.appverse_app.body
     - field.field.node.appverse_app.field_appverse_github_url
+    - field.field.node.appverse_app.field_appverse_lastupdated
     - field.field.node.appverse_app.field_appverse_readme
     - field.field.node.appverse_app.field_appverse_software_implemen
     - field.field.node.appverse_app.field_domain_access
@@ -25,6 +26,7 @@ third_party_settings:
         - body
         - field_appverse_readme
         - title
+        - field_appverse_lastupdated
       label: Github
       region: content
       parent_name: ''
@@ -65,6 +67,13 @@ content:
     settings:
       placeholder_url: ''
       placeholder_title: ''
+    third_party_settings: {  }
+  field_appverse_lastupdated:
+    type: number
+    weight: 26
+    region: content
+    settings:
+      placeholder: ''
     third_party_settings: {  }
   field_appverse_readme:
     type: text_textarea

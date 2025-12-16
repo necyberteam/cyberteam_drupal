@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.appverse_app.body
     - field.field.node.appverse_app.field_appverse_github_url
+    - field.field.node.appverse_app.field_appverse_lastupdated
     - field.field.node.appverse_app.field_appverse_readme
     - field.field.node.appverse_app.field_appverse_software_implemen
     - field.field.node.appverse_app.field_domain_access
@@ -38,6 +39,15 @@ content:
       target: ''
     third_party_settings: {  }
     weight: 102
+    region: content
+  field_appverse_lastupdated:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 105
     region: content
   field_appverse_readme:
     type: text_default
