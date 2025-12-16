@@ -5,9 +5,12 @@ dependencies:
   config:
     - filter.format.basic_html
     - filter.format.filtered_html
+    - filter.format.markdown
     - node.type.access_news
     - node.type.affinity_group
     - node.type.article
+    - node.type.appverse_app
+    - node.type.appverse_software
     - node.type.blog_post
     - node.type.blog_post_region_
     - node.type.community_events
@@ -60,6 +63,10 @@ permissions:
   - 'bypass disabled login'
   - 'cancel account'
   - 'create access_news content'
+  - 'create appverse_app content'
+  - 'create appverse_app content on assigned domains'
+  - 'create appverse_software content'
+  - 'create appverse_software content on assigned domains'
   - 'create blog_post content'
   - 'create blog_post content on assigned domains'
   - 'create blog_post_region_ content'
@@ -83,6 +90,8 @@ permissions:
   - 'edit own access_news content'
   - 'edit own affinity_group content'
   - 'edit own article content'
+  - 'edit own appverse_app content'
+  - 'edit own appverse_software content'
   - 'edit own blog_post content'
   - 'edit own blog_post_region_ content'
   - 'edit own community_events content'
@@ -144,6 +153,7 @@ permissions:
   - 'use match_engagement transition start_engagement'
   - 'use text format basic_html'
   - 'use text format filtered_html'
+  - 'use text format markdown'
   - 'view eventinstance entity'
   - 'view eventseries entity'
   - 'view latest version'
