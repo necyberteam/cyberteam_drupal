@@ -28,7 +28,7 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
 
     $form['intro_text'] = [
       '#type' => 'markup',
-      '#markup' => '<div class="mb-4"><strong>A structured README and .yml file is needed.</strong> The <a href="#">contributor documentation</a> has best practices in app integration.</div>',
+      '#markup' => '<div class="mb-4"><strong>' . t('A structured README and .yml file is needed.') . '</strong> ' . t('The <a href=":url">contributor documentation</a> has best practices in app integration.', [':url' => '#']) . '</div>',
       '#weight' => -10,
     ];
 
@@ -77,29 +77,29 @@ function ood_software_fetch_github_data(array &$form, FormStateInterface $form_s
     $manifest = $gh->getManifestData();
 
     if ($readme) {
-      $suffix .= '<i class="bi bi-check-lg text-success"></i> README<br/>';
+      $suffix .= '<i class="bi bi-check-lg text-success"></i> ' . t('README') . '<br/>';
     } else {
-      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> No README detected.<br/>';
+      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> ' . t('No README detected.') . '<br/>';
     }
 
     if ($manifest) {
-      $suffix .= '<i class="bi bi-check-lg text-success"></i> manifest.yml file<br/>';
+      $suffix .= '<i class="bi bi-check-lg text-success"></i> ' . t('manifest.yml file') . '<br/>';
     } else {
-      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> No manifest.yml detected.<br/>';
+      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> ' . t('No manifest.yml detected.') . '<br/>';
     }
 
     if ($license) {
-      $suffix .= '<i class="bi bi-check-lg text-success"></i> LICENSE<br/>';
+      $suffix .= '<i class="bi bi-check-lg text-success"></i> ' . t('LICENSE') . '<br/>';
     } else {
-      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> No license detected.<br/>';
+      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> ' . t('No license detected.') . '<br/>';
     }
 
     if ($manifest) {
       $role = $gh->getRole();
-      $suffix .= "<p class='pt-3'><strong>We've detected the following and pre-populated below:</strong></p>";
-      $suffix .= "<p><strong>Organization:</strong> Org here</p>";
+      $suffix .= "<p class='pt-3'><strong>" . t("We've detected the following and pre-populated below:") . "</strong></p>";
+      $suffix .= "<p><strong>" . t('Organization:') . "</strong> Org here</p>";
       if ($role) {
-        $suffix .= "<p><strong>App type:</strong> $role </p>";
+        $suffix .= "<p><strong>" . t('App type:') . "</strong> $role </p>";
       }
     }
 
