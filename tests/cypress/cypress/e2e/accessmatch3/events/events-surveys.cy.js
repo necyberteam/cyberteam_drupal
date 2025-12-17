@@ -1,5 +1,5 @@
 /*
-  Test Event Registration Surveys feature
+  Test Event Registration Surveys and Reminders features
 
   This feature allows event creators to configure three types of surveys:
 
@@ -15,13 +15,19 @@
      - Fields: field_post_survey_url, field_post_survey_email_text
      - Purpose: Collect feedback after event attendance
      - Has redirect route: /events/{entity}/post_survey/{user}
+
+  4. Registration Reminders - Sent via cron before event starts
+     - Configured per-event with timing (e.g., 1 day before)
+     - Should NOT be sent if event has already started
+     - Should render HTML properly (not escaped)
 */
 
-describe('Event Registration Surveys', () => {
+describe('Event Registration Surveys and Reminders', () => {
 
   // Test event name used across tests
   const testEventName = 'cypress-survey-test-event';
   const testSurveyUrl = 'https://example.com/test-survey';
+  const testReminderHtml = '<p>This is a <strong>reminder</strong> with HTML formatting.</p>';
 
   describe('Survey form fields on Event Series', () => {
 
@@ -309,12 +315,12 @@ describe('Event Registration Surveys', () => {
 
   });
 
-  describe('Post-Survey cron emails', () => {
+  describe('Post-Survey cron emails and Reminder timing', () => {
 
     const pastEventName = 'cypress-past-survey-event';
 
-    it('Should create event, register, change to past, and trigger post-survey via cron', () => {
-      cy.clearMailpit(); // Clear for this test to isolate post-survey email
+    it('Should create event with post-survey AND reminder, register, change to past, trigger post-survey but NOT reminder', () => {
+      cy.clearMailpit(); // Clear for this test to isolate emails
 
       cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
       cy.visit('/events/add');
@@ -324,10 +330,10 @@ describe('Event Registration Surveys', () => {
 
       cy.get('.field--name-body .ck-content').then(el => {
         const editor = el[0].ckeditorInstance;
-        editor.setData('This is an event for testing post-survey cron functionality.');
+        editor.setData('This is an event for testing post-survey and reminder cron functionality.');
       });
 
-      cy.get('#edit-summary-text').type('Event for post-survey testing.', { delay: 0 });
+      cy.get('#edit-summary-text').type('Event for post-survey and reminder testing.', { delay: 0 });
 
       // Set date to TOMORROW first (so we can register), will change to past after
       const tomorrow = new Date();
@@ -355,14 +361,24 @@ describe('Event Registration Surveys', () => {
       // Wait for JS to show survey field groups after registration is checked
       cy.wait(500);
 
-      // Configure Post-Survey only (scroll to and expand fieldset first)
+      // Configure Post-Survey (scroll to and expand fieldset first)
       cy.get('#edit-group-post-survey').should('be.visible');
       cy.get('#edit-group-post-survey > summary').scrollIntoView().click();
       cy.get('#edit-field-post-survey-url-0-uri').type(testSurveyUrl + '?type=post-cron', { delay: 0 });
-      // Use CKEditor5 API for the text field
       cy.get('#edit-group-post-survey .ck-content').then(el => {
         const editor = el[0].ckeditorInstance;
         editor.setData('Please complete our post-event survey.');
+      });
+
+      // Configure Registration Reminder (to test that it does NOT send for past events)
+      // The reminder widget creates a fieldset inside registration_reminders[0][data]
+      cy.get('#edit-registration-reminders-0-data').scrollIntoView();
+      cy.get('input[name="registration_reminders[0][data][reminder]"]').check();
+      cy.get('input[name="registration_reminders[0][data][reminder_data][reminder_amount]"]').clear().type('1', { delay: 0 });
+      cy.get('select[name="registration_reminders[0][data][reminder_data][reminder_units]"]').select('days');
+      cy.get('#edit-registration-reminders-0-data .ck-content').then(el => {
+        const editor = el[0].ckeditorInstance;
+        editor.setData(testReminderHtml);
       });
 
       // Event Type and other required fields
@@ -400,9 +416,12 @@ describe('Event Registration Surveys', () => {
           pastDate.setDate(pastDate.getDate() - 2);
           const pastDateStr = pastDate.toISOString().split('T')[0];
 
+          // Set reminder_date to yesterday (should trigger cron pickup)
+          const yesterdayTimestamp = Math.floor((new Date().getTime() - 86400000) / 1000);
+
           // Update the event instance date to past using drush SQL
           // Must update both the field_data table AND the field_revision table
-          cy.exec(`ddev drush sqlq "UPDATE eventinstance_field_data SET date__value = '${pastDateStr}T10:00:00', date__end_value = '${pastDateStr}T12:00:00' WHERE id = ${eventInstanceId}"`, { failOnNonZeroExit: false });
+          cy.exec(`ddev drush sqlq "UPDATE eventinstance_field_data SET date__value = '${pastDateStr}T10:00:00', date__end_value = '${pastDateStr}T12:00:00', reminder_date = ${yesterdayTimestamp}, reminder_sent = NULL WHERE id = ${eventInstanceId}"`, { failOnNonZeroExit: false });
           cy.exec(`ddev drush sqlq "UPDATE eventinstance_field_revision SET date__value = '${pastDateStr}T10:00:00', date__end_value = '${pastDateStr}T12:00:00' WHERE id = ${eventInstanceId}"`, { failOnNonZeroExit: false });
 
           // Invalidate entity cache for this specific entity and clear all caches
@@ -412,7 +431,7 @@ describe('Event Registration Surveys', () => {
         }
       });
 
-      // Run cron to trigger post-survey emails
+      // Run cron to trigger post-survey emails (and attempt reminder)
       cy.exec('ddev drush cron', { failOnNonZeroExit: false }).then((result) => {
         cy.log('Cron output:', result.stdout);
       });
@@ -420,7 +439,7 @@ describe('Event Registration Surveys', () => {
       // Wait a moment for emails to be processed
       cy.wait(2000);
 
-      // Check for post-survey email (subject: "Please participate in our survey for {title}")
+      // Check for post-survey email (should be sent)
       cy.waitForEmail({
         to: 'administrator@amptesting.com',
         subject: 'Please participate in our survey'
@@ -432,8 +451,144 @@ describe('Event Registration Surveys', () => {
           expect(emailContent).to.include('Thank you for participating');
           expect(emailContent).to.include('Please complete our post-event survey');
           // The email contains the redirect URL (not the external survey URL)
-          // The redirect URL pattern is /events/{id}/post_survey/{user_id}
           expect(emailContent).to.match(/\/events\/\d+\/post_survey\/\d+/);
+        });
+      });
+
+      // Verify NO reminder email was sent (because event has already started)
+      cy.request({
+        method: 'GET',
+        url: Cypress.env('mailpitUrl') || 'http://127.0.0.1:8026/api/v1/search',
+        qs: { query: 'to:administrator@amptesting.com subject:Reminder' },
+        failOnStatusCode: false
+      }).then((response) => {
+        if (response.status === 200 && response.body.messages) {
+          expect(response.body.messages.length).to.equal(0,
+            'No reminder email should be sent for events that have already started');
+        }
+      });
+
+      // Check logs to confirm the reminder skip was logged
+      cy.exec('ddev drush watchdog:show --count=10 --type=access_events', { failOnNonZeroExit: false }).then((result) => {
+        expect(result.stdout).to.include('Skipped reminder');
+      });
+    });
+
+  });
+
+  describe('Registration Reminder with HTML content', () => {
+
+    const reminderEventName = 'cypress-reminder-html-event';
+
+    it('Should send reminder with properly rendered HTML (not escaped)', () => {
+      cy.clearMailpit();
+
+      cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
+      cy.visit('/events/add');
+
+      // Basic event details
+      cy.get('#edit-title-0-value').type(reminderEventName, { delay: 0 });
+
+      cy.get('.field--name-body .ck-content').then(el => {
+        const editor = el[0].ckeditorInstance;
+        editor.setData('This is a test event for reminder HTML testing.');
+      });
+
+      cy.get('#edit-summary-text').type('Reminder HTML test event.', { delay: 0 });
+
+      // Set date to far future (7 days from now) - event will NOT have started
+      const futureDate = new Date();
+      futureDate.setDate(futureDate.getDate() + 7);
+      const futureDateStr = futureDate.toISOString().split('T')[0];
+
+      cy.get('#edit-recur-type-custom').click();
+      cy.get('#edit-custom-date-0-value-date').type(futureDateStr, { delay: 0 });
+      cy.get('#edit-custom-date-0-end-value-date').type(futureDateStr, { delay: 0 });
+      cy.get('#edit-custom-date-0-value-time').type('14:00:00', { delay: 0 });
+      cy.get('#edit-custom-date-0-end-value-time').type('16:00:00', { delay: 0 });
+
+      // Event Location and Contact
+      cy.get('#edit-field-location-0-value').type('Online - Zoom', { delay: 0 });
+      cy.get('#edit-field-contact-0-value').type('Test Admin', { delay: 0 });
+
+      // Event Tag
+      cy.get('details.tags summary').click();
+      cy.get('#tag-training').click();
+
+      // Registration settings
+      cy.get('input[data-drupal-selector="edit-event-registration-0-registration"]').check();
+      cy.get('#edit-event-registration-0-capacity').type('10', { delay: 0 });
+
+      cy.wait(500);
+
+      // Configure Registration Reminder with HTML content
+      // The reminder widget creates a fieldset inside registration_reminders[0][data]
+      cy.get('#edit-registration-reminders-0-data').scrollIntoView();
+      cy.get('input[name="registration_reminders[0][data][reminder]"]').check();
+      cy.get('input[name="registration_reminders[0][data][reminder_data][reminder_amount]"]').clear().type('1', { delay: 0 });
+      cy.get('select[name="registration_reminders[0][data][reminder_data][reminder_units]"]').select('days');
+      cy.get('#edit-registration-reminders-0-data .ck-content').then(el => {
+        const editor = el[0].ckeditorInstance;
+        editor.setData(testReminderHtml);
+      });
+
+      // Event Type and other required fields
+      cy.get('#edit-field-event-type-training').click();
+      cy.get('#edit-field-affiliation-community').click();
+      cy.get('#edit-field-skill-level-beginner').click();
+
+      // Publish
+      cy.get('#edit-moderation-state-0-state').select('Published');
+      cy.get('#edit-submit').click();
+
+      cy.contains('Successfully saved').should('be.visible');
+
+      // Navigate to the event instance and register
+      cy.contains('Event Instances').should('be.visible');
+      cy.get('a[href*="/events/"]').filter(':visible').not('[href*="/series"]').not('[href*="/add"]').first().click();
+
+      // Register for the event
+      cy.contains('Register').click();
+      cy.get('#edit-submit').click();
+
+      // Approve registration
+      cy.contains('Registrations').click();
+      cy.contains('Approve All').click();
+      cy.wait(1000);
+
+      // Set reminder_date to past (yesterday) so cron will pick it up, but event stays in future
+      cy.url().then((url) => {
+        const match = url.match(/events\/(\d+)/);
+        if (match) {
+          const eventInstanceId = match[1];
+          const yesterdayTimestamp = Math.floor((new Date().getTime() - 86400000) / 1000);
+
+          cy.exec(`ddev drush sqlq "UPDATE eventinstance_field_data SET reminder_date = ${yesterdayTimestamp}, reminder_sent = NULL WHERE id = ${eventInstanceId}"`, { failOnNonZeroExit: false });
+          cy.exec(`ddev drush cr`, { failOnNonZeroExit: false });
+        }
+      });
+
+      // Run cron to trigger reminder email
+      cy.exec('ddev drush cron', { failOnNonZeroExit: false }).then((result) => {
+        cy.log('Cron output:', result.stdout);
+      });
+
+      cy.wait(2000);
+
+      // Check for reminder email with proper HTML
+      cy.waitForEmail({
+        to: 'administrator@amptesting.com',
+        subject: 'Reminder'
+      }).then((message) => {
+        cy.getMailpitMessage(message.ID).then((fullMessage) => {
+          const emailContent = fullMessage.HTML || fullMessage.Text;
+
+          // Verify the HTML content is NOT escaped (no &lt; or &gt;)
+          expect(emailContent).to.not.include('&lt;p&gt;');
+          expect(emailContent).to.not.include('&lt;strong&gt;');
+
+          // Verify HTML is properly rendered
+          expect(emailContent).to.include('<strong>reminder</strong>');
         });
       });
     });
@@ -556,6 +711,62 @@ describe('Event Registration Surveys', () => {
           cy.get('#edit-search-api-fulltext--2').clear().type('past-survey-event', { delay: 0 });
           cy.wait(1000);
           cy.contains('cypress-past-survey-event').click();
+          cy.get('.region-content').contains('Edit').click();
+          cy.contains('a', 'Edit the series').click();
+          cy.get('a[href*="/delete"]').first().click();
+          cy.get('#edit-submit').click();
+        }
+      });
+
+      // Clean up reminder HTML test event (future event)
+      cy.visit('/events');
+      cy.get('#edit-search-api-fulltext--2').clear().type('reminder-html-event', { delay: 0 });
+      cy.wait(1000);
+
+      cy.get('body').then($body => {
+        if ($body.text().includes('cypress-reminder-html-event')) {
+          cy.contains('cypress-reminder-html-event').click();
+
+          // Delete registrations if any exist
+          cy.get('body').then($eventBody => {
+            if ($eventBody.text().includes('Registrations')) {
+              cy.contains('Registrations').click();
+              cy.wait(500);
+
+              cy.get('body').then($regBody => {
+                if ($regBody.find('table tbody tr').length > 0) {
+                  const deleteReminderRegs = () => {
+                    cy.get('body').then($currentBody => {
+                      if ($currentBody.find('table tbody tr').length > 0) {
+                        cy.get('table tbody tr').first().within(() => {
+                          cy.get('.dropbutton-toggle button').click({ force: true });
+                          cy.wait(200);
+                          cy.get('a[href*="/delete"]').first().click({ force: true });
+                        });
+                        cy.wait(1000);
+                        cy.get('body').then($deleteBody => {
+                          if ($deleteBody.find('.ui-dialog-buttonpane button.button--primary').length > 0) {
+                            cy.get('.ui-dialog-buttonpane button.button--primary').click();
+                          } else if ($deleteBody.find('#edit-submit').length > 0) {
+                            cy.get('#edit-submit').click();
+                          }
+                        });
+                        cy.wait(1000);
+                        deleteReminderRegs();
+                      }
+                    });
+                  };
+                  deleteReminderRegs();
+                }
+              });
+            }
+          });
+
+          // Delete the event series
+          cy.visit('/events');
+          cy.get('#edit-search-api-fulltext--2').clear().type('reminder-html-event', { delay: 0 });
+          cy.wait(1000);
+          cy.contains('cypress-reminder-html-event').click();
           cy.get('.region-content').contains('Edit').click();
           cy.contains('a', 'Edit the series').click();
           cy.get('a[href*="/delete"]').first().click();
