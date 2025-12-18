@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - field.field.node.appverse_app.body
+    - field.field.node.appverse_app.field_add_implementation_tags
+    - field.field.node.appverse_app.field_appverse_app_type
     - field.field.node.appverse_app.field_appverse_github_url
     - field.field.node.appverse_app.field_appverse_lastupdated
     - field.field.node.appverse_app.field_appverse_readme
@@ -12,6 +14,7 @@ dependencies:
     - field.field.node.appverse_app.field_domain_access
     - field.field.node.appverse_app.field_domain_all_affiliates
     - field.field.node.appverse_app.field_domain_source
+    - field.field.node.appverse_app.field_license
     - node.type.appverse_app
   module:
     - content_moderation
@@ -29,6 +32,9 @@ third_party_settings:
         - field_appverse_readme
         - field_appverse_lastupdated
         - field_appvserse_organization
+        - field_appverse_app_type
+        - field_add_implementation_tags
+        - field_license
       label: Github
       region: content
       parent_name: ''
@@ -59,6 +65,18 @@ content:
   created:
     type: datetime_timestamp
     weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_add_implementation_tags:
+    type: options_buttons
+    weight: 21
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_appverse_app_type:
+    type: options_buttons
+    weight: 20
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -104,6 +122,12 @@ content:
       match_limit: 10
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_license:
+    type: options_buttons
+    weight: 22
+    region: content
+    settings: {  }
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default

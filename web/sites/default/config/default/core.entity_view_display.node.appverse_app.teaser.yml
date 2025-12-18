@@ -5,6 +5,8 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.appverse_app.body
+    - field.field.node.appverse_app.field_add_implementation_tags
+    - field.field.node.appverse_app.field_appverse_app_type
     - field.field.node.appverse_app.field_appverse_github_url
     - field.field.node.appverse_app.field_appverse_lastupdated
     - field.field.node.appverse_app.field_appverse_readme
@@ -13,6 +15,7 @@ dependencies:
     - field.field.node.appverse_app.field_domain_access
     - field.field.node.appverse_app.field_domain_all_affiliates
     - field.field.node.appverse_app.field_domain_source
+    - field.field.node.appverse_app.field_license
     - node.type.appverse_app
   module:
     - text
@@ -36,6 +39,8 @@ content:
     weight: 100
     region: content
 hidden:
+  field_add_implementation_tags: true
+  field_appverse_app_type: true
   field_appverse_github_url: true
   field_appverse_lastupdated: true
   field_appverse_readme: true
@@ -44,4 +49,5 @@ hidden:
   field_domain_access: true
   field_domain_all_affiliates: true
   field_domain_source: true
+  field_license: true
   search_api_excerpt: true

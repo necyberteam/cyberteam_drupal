@@ -347,9 +347,24 @@ class GitHubService {
   }
 
   /**
-   * Get role.
+   * Get AppType.
    */
-  public function getRole() {
+  public function getAppType() {
     return $this->role;
+  }
+
+  /**
+   * Get AppTypeId based on set role.
+   */
+  public function getAppTypeId() {
+    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['name' => $this->role, 'vid' => 'appvserse_app_type']);
+    return reset($terms)?->id();
+  }
+
+  /**
+   * Get license.
+   */
+  public function getLicenseInfo() {
+    return $this->license;
   }
 }

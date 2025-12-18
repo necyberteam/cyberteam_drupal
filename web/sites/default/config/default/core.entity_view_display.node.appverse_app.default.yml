@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - field.field.node.appverse_app.body
+    - field.field.node.appverse_app.field_add_implementation_tags
+    - field.field.node.appverse_app.field_appverse_app_type
     - field.field.node.appverse_app.field_appverse_github_url
     - field.field.node.appverse_app.field_appverse_lastupdated
     - field.field.node.appverse_app.field_appverse_readme
@@ -12,6 +14,7 @@ dependencies:
     - field.field.node.appverse_app.field_domain_access
     - field.field.node.appverse_app.field_domain_all_affiliates
     - field.field.node.appverse_app.field_domain_source
+    - field.field.node.appverse_app.field_license
     - node.type.appverse_app
   module:
     - link
@@ -28,6 +31,22 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 101
+    region: content
+  field_add_implementation_tags:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_appverse_app_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 107
     region: content
   field_appverse_github_url:
     type: link
@@ -72,6 +91,14 @@ content:
       link: true
     third_party_settings: {  }
     weight: 106
+    region: content
+  field_license:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 108
     region: content
   links:
     settings: {  }

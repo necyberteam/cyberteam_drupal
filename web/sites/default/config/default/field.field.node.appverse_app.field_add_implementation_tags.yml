@@ -1,0 +1,29 @@
+uuid: 8725fdef-fb15-4059-8d87-0217fed7b0ac
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_add_implementation_tags
+    - node.type.appverse_app
+    - taxonomy.vocabulary.appvserse_implementation_tags
+id: node.appverse_app.field_add_implementation_tags
+field_name: field_add_implementation_tags
+entity_type: node
+bundle: appverse_app
+label: 'Which of these apply to your App?'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      appvserse_implementation_tags: appvserse_implementation_tags
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
