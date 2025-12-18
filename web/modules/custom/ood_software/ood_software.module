@@ -104,26 +104,12 @@ function ood_software_fetch_github_data(array &$form, FormStateInterface $form_s
       }
     }
 
-    // Check for organization term, if it doesn't exist, create it then set it.
-    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['name' => $organization, 'vid' => 'appverse_organization']);
-    // If empty, create it.
-    if (empty($terms)) {
-      $org = \Drupal\taxonomy\Entity\Term::create([
-        'name' => $organization,
-        'vid' => 'appverse_organization',
-      ]);
-      $org->save();
-    }
-    else {
-      $org = reset($terms);
-    }
-
     // Also update the form element to reflect the change.
     $form['body']['widget'][0]['value']['#value'] = $gh->getDescription();
     $form['field_appverse_readme']['widget'][0]['value']['#value'] = $readme;
     $form['title']['widget'][0]['value']['#value'] = $gh->getRepoName();
     $form['field_appverse_lastupdated']['widget'][0]['value']['#value'] = $gh->getLastComittedDate();
-    $form['field_appvserse_organization']['widget'][0]['target_id']['#default_value'] = $org;
+    $form['field_appvserse_organization']['widget'][0]['target_id']['#value'] = $organization;
 
   } else {
     $suffix .= '<i class="bi bi-x-lg text-danger"></i> Invalid GitHub URL provided.';
