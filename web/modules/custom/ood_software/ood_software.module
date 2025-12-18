@@ -143,7 +143,7 @@ function ood_software_fetch_github_data(array &$form, FormStateInterface $form_s
 }
 
 /**
- * Form submit handler for science.
+ * Form submit handler to update hidden fields.
  */
 function ood_software__edit_submit($form, FormStateInterface $form_state) {
   $body = $form_state->getValue('body')[0]['value'];
@@ -161,5 +161,25 @@ function ood_software__edit_submit($form, FormStateInterface $form_state) {
       $form_state->setValue('field_appverse_readme', [['format' => 'markdown', 'value' => $gh->getDescription()]]);
       $form_state->setValue('field_appverse_lastupdated', [['value' => $gh->getLastComittedDate()]]);
     }
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ood_software_cron() {
+  // Get the queue.
+  $queue = \Drupal::queue('appverse_app_updater');
+
+  // Load all app nodes.
+  $nids = \Drupal::entityQuery('node')
+    ->condition('type', 'appverse_app')
+    ->accessCheck(FALSE)
+    ->execute();
+
+  // Add each node to the queue for processing.
+  foreach ($nids as $nid) {
+    $item = ['nid' => $nid];
+    $queue->createItem($item);
   }
 }
