@@ -1,0 +1,34 @@
+uuid: ed95e8f4-65da-41e3-848a-77cc27d260f4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_appvserse_organization
+    - node.type.appverse_app
+    - taxonomy.vocabulary.appverse_organization
+  module:
+    - label_help
+third_party_settings:
+  label_help:
+    label_help_description: 'Choose your organization or "Other" to add one'
+id: node.appverse_app.field_appvserse_organization
+field_name: field_appvserse_organization
+entity_type: node
+bundle: appverse_app
+label: 'Organization / Author'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      appverse_organization: appverse_organization
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

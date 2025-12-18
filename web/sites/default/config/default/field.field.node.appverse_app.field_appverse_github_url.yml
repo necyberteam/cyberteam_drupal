@@ -6,12 +6,16 @@ dependencies:
     - field.storage.node.field_appverse_github_url
     - node.type.appverse_app
   module:
+    - label_help
     - link
+third_party_settings:
+  label_help:
+    label_help_description: 'A structured README, manifest.yml, and LICENSE file is required.'
 id: node.appverse_app.field_appverse_github_url
 field_name: field_appverse_github_url
 entity_type: node
 bundle: appverse_app
-label: 'Git URL for your App'
+label: 'GitHub URL for your App'
 description: ''
 required: false
 translatable: false
