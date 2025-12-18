@@ -16,6 +16,9 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
   // Alter the node edit form for 'add software' content type.
   if ($form_id === 'node_appverse_software_edit_form' || $form_id === 'node_appverse_software_form') {
     $form['title']['widget'][0]['value']['#placeholder'] = t('Add title');
+    $form['body']['widget'][0]['#placeholder'] = t('Add description');
+    $form['field_appverse_software_doc']['widget'][0]['uri']['#placeholder'] = t('Add URL');
+    $form['field_appverse_software_website']['widget'][0]['uri']['#placeholder'] = t('Add URL');
   }
   // Alter the node edit form for 'add app' content type.
   if ($form_id === 'node_appverse_app_edit_form' || $form_id === 'node_appverse_app_form') {
