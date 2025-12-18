@@ -13,7 +13,11 @@ use Drupal\Component\Serialization\Yaml;
  * Implements hook_form_alter().
  */
 function ood_software_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
-  // Alter the node edit form for 'software' content type.
+  // Alter the node edit form for 'add software' content type.
+  if ($form_id === 'node_appverse_software_edit_form' || $form_id === 'node_appverse_software_form') {
+    $form['title']['widget'][0]['value']['#placeholder'] = t('Add title');
+  }
+  // Alter the node edit form for 'add app' content type.
   if ($form_id === 'node_appverse_app_edit_form' || $form_id === 'node_appverse_app_form') {
     // Get user roles.
     $user = \Drupal::currentUser();
