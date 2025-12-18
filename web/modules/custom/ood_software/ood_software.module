@@ -28,7 +28,7 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
 
     $form['intro_text'] = [
       '#type' => 'markup',
-      '#markup' => '<div class="mb-4"><strong>' . t('A structured README and .yml file is needed.') . '</strong> ' . t('The <a href=":url">contributor documentation</a> has best practices in app integration.', [':url' => '#']) . '</div>',
+      '#markup' => '<div class="mb-4">' . t('See the <strong><a href=":url">contributor documentation</a></strong> for best practices in app integration.', [':url' => '#']) . '</div>',
       '#weight' => -10,
     ];
 
@@ -75,6 +75,7 @@ function ood_software_fetch_github_data(array &$form, FormStateInterface $form_s
     $readme = $gh->getReadme();
     $license = $gh->getLicense();
     $manifest = $gh->getManifestData();
+    $organization = $gh->getOrganization();
 
     if ($readme) {
       $suffix .= '<i class="bi bi-check-lg text-success"></i> ' . t('README') . '<br/>';
@@ -97,23 +98,32 @@ function ood_software_fetch_github_data(array &$form, FormStateInterface $form_s
     if ($manifest) {
       $role = $gh->getRole();
       $suffix .= "<p class='pt-3'><strong>" . t("We've detected the following and pre-populated below:") . "</strong></p>";
-      $suffix .= "<p><strong>" . t('Organization:') . "</strong> Org here</p>";
+      $suffix .= "<p><strong>" . t('Organization: ') . "</strong>$organization</p>";
       if ($role) {
         $suffix .= "<p><strong>" . t('App type:') . "</strong> $role </p>";
       }
     }
 
-    // Set value.
-    $form_state->setValue('body', [['value' => $gh->getDescription()]]);
-    $form_state->setValue('field_appverse_readme', [['value' => $readme]]);
-    $form_state->setValue('title', [['value' => $gh->getRepoName()]]);
-    $form_state->setValue('field_appverse_lastupdated', [['value' => $gh->getLastComittedDate()]]);
+    // Check for organization term, if it doesn't exist, create it then set it.
+    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['name' => $organization, 'vid' => 'appverse_organization']);
+    // If empty, create it.
+    if (empty($terms)) {
+      $org = \Drupal\taxonomy\Entity\Term::create([
+        'name' => $organization,
+        'vid' => 'appverse_organization',
+      ]);
+      $org->save();
+    }
+    else {
+      $org = reset($terms);
+    }
 
     // Also update the form element to reflect the change.
     $form['body']['widget'][0]['value']['#value'] = $gh->getDescription();
     $form['field_appverse_readme']['widget'][0]['value']['#value'] = $readme;
     $form['title']['widget'][0]['value']['#value'] = $gh->getRepoName();
     $form['field_appverse_lastupdated']['widget'][0]['value']['#value'] = $gh->getLastComittedDate();
+    $form['field_appvserse_organization']['widget'][0]['target_id']['#default_value'] = $org;
 
   } else {
     $suffix .= '<i class="bi bi-x-lg text-danger"></i> Invalid GitHub URL provided.';

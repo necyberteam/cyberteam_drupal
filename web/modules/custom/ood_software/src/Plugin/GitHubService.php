@@ -95,6 +95,13 @@ class GitHubService {
   protected $license;
 
   /**
+   * Organization name.
+   *
+   * @var string
+   */
+  protected $organization;
+
+  /**
    * Role - app type.
    *
    * @var string
@@ -192,6 +199,15 @@ class GitHubService {
         stargazerCount
         forkCount
         pushedAt
+        owner {
+          login
+          ... on Organization {
+            name
+          }
+          ... on User {
+            name
+          }
+        }
         defaultBranchRef {
           name
           target {
@@ -246,6 +262,7 @@ class GitHubService {
     $this->readme = $this->data['readme']['text'] ?? NULL;
     $this->lastComittedDate = strtotime($this->data['defaultBranchRef']['target']['committedDate']);
     $this->license = $this->data['licenseInfo']['spdxId'] ?? 'NOASSERTION';
+    $this->organization = $this->data['owner']['name'];
 
     $manifest_text = $this->data['manifestYml']['text'] ?? NULL;
     if ($manifest_text === NULL) {
@@ -320,6 +337,13 @@ class GitHubService {
    */
   public function getLicense() {
     return $this->license;
+  }
+
+  /**
+   * Get Organization.
+   */
+  public function getOrganization() {
+    return $this->organization;
   }
 
   /**
