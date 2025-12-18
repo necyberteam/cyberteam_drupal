@@ -155,8 +155,6 @@ function ood_software__edit_submit($form, FormStateInterface $form_state) {
   $validUrl = $gh->parseUrl($form_state->getValue('field_appverse_github_url')[0]['uri']);
   if ($validUrl) {
     $data = $gh->getData();
-    kint($form['field_appverse_app_type']['widget']);
-    die();
 
     if ($lastupdated != $gh->getLastComittedDate()) {
       $form_state->setValue('body', [['format' => 'markdown', 'value' => $gh->getDescription()]]);
