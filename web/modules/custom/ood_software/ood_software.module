@@ -73,6 +73,7 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
     ];
 
     array_unshift($form['actions']['submit']['#submit'], 'ood_software__edit_submit');
+    $form['actions']['submit']['#submit'][] = 'ood_software__redirect_submit';
   }
 }
 
@@ -162,6 +163,16 @@ function ood_software__edit_submit($form, FormStateInterface $form_state) {
       $form_state->setValue('field_appverse_lastupdated', [['value' => $gh->getLastComittedDate()]]);
     }
   }
+}
+
+/**
+ * Form submit handler to redirect to user's my-apps page.
+ */
+function ood_software__redirect_submit($form, FormStateInterface $form_state) {
+  $current_user = \Drupal::currentUser();
+  $user_id = $current_user->id();
+  $url = \Drupal\Core\Url::fromUri('internal:/user/' . $user_id . '/my-apps');
+  $form_state->setRedirectUrl($url);
 }
 
 /**
