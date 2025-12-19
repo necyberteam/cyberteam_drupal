@@ -15,6 +15,7 @@ dependencies:
     - node.type.match_engagement
     - node.type.mentorship_engagement
     - taxonomy.vocabulary.tags
+    - workflows.workflow.appverse_editorial
     - workflows.workflow.editorial
     - workflows.workflow.editorial_eventinstance
     - workflows.workflow.match_engagement
@@ -114,6 +115,10 @@ permissions:
   - 'unflag outdated'
   - 'unflag skill'
   - 'unflag upvote'
+  - 'use appverse_editorial transition archived_draft'
+  - 'use appverse_editorial transition create_new_draft'
+  - 'use appverse_editorial transition review_to_review'
+  - 'use appverse_editorial transition send_for_review'
   - 'use domain nav block'
   - 'use domain switcher block'
   - 'use editorial transition archived_draft'
