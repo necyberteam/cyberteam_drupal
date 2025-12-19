@@ -168,18 +168,28 @@ function ood_software__edit_submit($form, FormStateInterface $form_state) {
  * Implements hook_cron().
  */
 function ood_software_cron() {
-  // Get the queue.
-  $queue = \Drupal::queue('appverse_app_updater');
+  $env = getenv('PANTHEON_ENVIRONMENT');
+  $cron_run = \Drupal::state()->get('ood_software.last_cron_run', 0);
 
-  // Load all app nodes.
-  $nids = \Drupal::entityQuery('node')
-    ->condition('type', 'appverse_app')
-    ->accessCheck(FALSE)
-    ->execute();
+//  if ( date('G', time()) == 00 && date('i', time()) < 25 && $env == 'live') {
+//    \Drupal::state()->set('ood_software.last_cron_run', 1);
+//  } elseif ($cron_run == 1) {
+    // Get the queue.
+    $queue = \Drupal::queue('appverse_app_updater');
 
-  // Add each node to the queue for processing.
-  foreach ($nids as $nid) {
-    $item = ['nid' => $nid];
-    $queue->createItem($item);
-  }
+    // Load all app nodes.
+    $nids = \Drupal::entityQuery('node')
+      ->condition('type', 'appverse_app')
+      ->accessCheck(FALSE)
+      ->execute();
+
+    // Add each node to the queue for processing.
+    foreach ($nids as $nid) {
+      $item = ['nid' => $nid];
+      $queue->createItem($item);
+    }
+
+    // Update last run timestamp.
+    \Drupal::state()->set('ood_software.last_cron_run', 0);
+//  }
 }
