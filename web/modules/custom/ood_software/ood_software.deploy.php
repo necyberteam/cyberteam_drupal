@@ -9,13 +9,13 @@
  */
 function ood_software_deploy_10000_terms() {
   $terms = [
-    'appvserse_app_type' => [
+    'appverse_app_type' => [
       'batch_connect',
       'dashboard',
       'passenger_app',
       'widget',
     ],
-    'appvserse_implementation_tags' => [
+    'appverse_implementation_tags' => [
       'docker',
       'containerized',
       'singularity',
