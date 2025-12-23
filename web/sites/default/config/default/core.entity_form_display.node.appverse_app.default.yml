@@ -95,6 +95,16 @@ content:
     settings:
       placeholder: ''
     third_party_settings: {  }
+  field_appverse_organization:
+    type: entity_reference_autocomplete
+    weight: 19
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_appverse_readme:
     type: text_textarea
     weight: 17
@@ -106,16 +116,6 @@ content:
   field_appverse_software_implemen:
     type: entity_reference_autocomplete
     weight: 8
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_appverse_organization:
-    type: entity_reference_autocomplete
-    weight: 19
     region: content
     settings:
       match_operator: CONTAINS

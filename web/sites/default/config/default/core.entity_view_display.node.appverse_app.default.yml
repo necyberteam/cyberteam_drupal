@@ -32,6 +32,11 @@ content:
     third_party_settings: {  }
     weight: 101
     region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
   field_add_implementation_tags:
     type: entity_reference_label
     label: above
@@ -69,6 +74,14 @@ content:
     third_party_settings: {  }
     weight: 105
     region: content
+  field_appverse_organization:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 106
+    region: content
   field_appverse_readme:
     type: text_default
     label: above
@@ -83,14 +96,6 @@ content:
       link: true
     third_party_settings: {  }
     weight: 104
-    region: content
-  field_appverse_organization:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 106
     region: content
   field_license:
     type: entity_reference_label
