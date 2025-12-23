@@ -850,6 +850,12 @@ body.page-node-type-affinity-group {
     display: none;
   }
 
+  [data-drupal-selector="edit-field-license-wrapper"] {
+    p {
+      margin: 0;
+    }
+  }
+
   #edit-field-license {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 200px));
@@ -859,6 +865,14 @@ body.page-node-type-affinity-group {
   #node-appverse-app-form {
     max-width: 800px;
     margin-bottom: 2rem;
+
+    a {
+      color: #000;
+      text-decoration: underline;
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
 
   fieldset[data-drupal-selector="edit-group-github"] {
@@ -911,6 +925,7 @@ body.page-node-type-affinity-group {
   #edit-field-license {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 200px));
+
   }
 
   .form-checkboxes {
