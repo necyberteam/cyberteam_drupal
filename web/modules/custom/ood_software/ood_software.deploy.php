@@ -288,13 +288,13 @@ function ood_software_deploy_10002_apps() {
     // Process app type.
     $app_type_tid = NULL;
     if (!empty($app_type)) {
-      $app_type_tid = _ood_software_get_or_create_term($app_type, 'appvserse_app_type');
+      $app_type_tid = _ood_software_get_or_create_term($app_type, 'appverse_app_type');
     }
 
     // Process organization.
     $organization_tid = NULL;
     if (!empty($organization)) {
-      $organization_tid = _ood_software_get_or_create_term($organization, 'appvserse_organization');
+      $organization_tid = _ood_software_get_or_create_term($organization, 'appverse_organization');
     }
 
     // Process license.
@@ -309,7 +309,7 @@ function ood_software_deploy_10002_apps() {
       $tag_list = array_map('trim', explode(',', $implementation_tags));
       foreach ($tag_list as $tag_name) {
         if (!empty($tag_name)) {
-          $tid = _ood_software_get_or_create_term($tag_name, 'appvserse_implementation_tags');
+          $tid = _ood_software_get_or_create_term($tag_name, 'appverse_implementation_tags');
           if ($tid) {
             $tag_tids[] = ['target_id' => $tid];
           }
@@ -327,7 +327,7 @@ function ood_software_deploy_10002_apps() {
         'uri' => $github_url,
         'title' => '',
       ],
-      'field_appvserse_organization' => $organization_tid ? ['target_id' => $organization_tid] : NULL,
+      'field_appverse_organization' => $organization_tid ? ['target_id' => $organization_tid] : NULL,
       'field_appverse_app_type' => $app_type_tid ? ['target_id' => $app_type_tid] : NULL,
       'field_license' => $license_tid ? ['target_id' => $license_tid] : NULL,
       'field_add_implementation_tags' => $tag_tids,
