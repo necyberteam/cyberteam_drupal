@@ -112,7 +112,7 @@ function ood_software_deploy_10001_software() {
     if (!empty($topic)) {
       $topics = array_map('trim', explode(',', $topic));
       foreach ($topics as $topic_name) {
-        $tid = _ood_software_get_or_create_term($topic_name, 'appverse_topics');
+        $tid = _ood_software_get_or_create_term($topic_name, 'appverse_science_domains');
         if ($tid) {
           $topic_tids[] = ['target_id' => $tid];
         }
@@ -291,6 +291,12 @@ function ood_software_deploy_10002_apps() {
       $app_type_tid = _ood_software_get_or_create_term($app_type, 'appvserse_app_type');
     }
 
+    // Process organization.
+    $organization_tid = NULL;
+    if (!empty($organization)) {
+      $organization_tid = _ood_software_get_or_create_term($organization, 'appvserse_organization');
+    }
+
     // Process license.
     $license_tid = NULL;
     if (!empty($license)) {
@@ -321,11 +327,12 @@ function ood_software_deploy_10002_apps() {
         'uri' => $github_url,
         'title' => '',
       ],
-      'field_appvserse_organization' => $organization,
+      'field_appvserse_organization' => $organization_tid ? ['target_id' => $organization_tid] : NULL,
       'field_appverse_app_type' => $app_type_tid ? ['target_id' => $app_type_tid] : NULL,
       'field_license' => $license_tid ? ['target_id' => $license_tid] : NULL,
       'field_add_implementation_tags' => $tag_tids,
       'status' => 1,
+      'moderation_state' => 'published',
     ]);
 
     $node->save();
