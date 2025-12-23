@@ -357,7 +357,7 @@ class GitHubService {
    * Get AppTypeId based on set role.
    */
   public function getAppTypeId() {
-    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['name' => $this->role, 'vid' => 'appvserse_app_type']);
+    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['name' => $this->role, 'vid' => 'appverse_app_type']);
     return reset($terms)?->id();
   }
 

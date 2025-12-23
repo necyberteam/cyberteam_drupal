@@ -8,6 +8,7 @@ dependencies:
   module:
     - content_moderation
     - node
+    - user
 id: my_appverse_apps
 label: 'My Appverse Apps'
 module: views
@@ -298,8 +299,9 @@ display:
           sort_asc_label: Asc
           sort_desc_label: Desc
       access:
-        type: none
-        options: {  }
+        type: perm
+        options:
+          perm: 'access content'
       cache:
         type: tag
         options: {  }
@@ -462,6 +464,7 @@ display:
         - url
         - url.query_args
         - 'user.node_grants:view'
+        - user.permissions
       tags:
         - 'config:field.storage.node.field_appverse_software_implemen'
   page_1:
@@ -482,5 +485,6 @@ display:
         - url
         - url.query_args
         - 'user.node_grants:view'
+        - user.permissions
       tags:
         - 'config:field.storage.node.field_appverse_software_implemen'

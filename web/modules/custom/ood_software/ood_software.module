@@ -124,7 +124,7 @@ function ood_software_fetch_github_data(array &$form, FormStateInterface $form_s
     $form['field_appverse_readme']['widget'][0]['value']['#value'] = $readme;
     $form['title']['widget'][0]['value']['#value'] = $gh->getRepoName();
     $form['field_appverse_lastupdated']['widget'][0]['value']['#value'] = $gh->getLastComittedDate();
-    $form['field_appvserse_organization']['widget'][0]['target_id']['#value'] = $organization;
+    $form['field_appverse_organization']['widget'][0]['target_id']['#value'] = $organization;
 
     // Set the app type checkbox - set both the value array and the checked property
     $apptype_id = $gh->getAppTypeId();
