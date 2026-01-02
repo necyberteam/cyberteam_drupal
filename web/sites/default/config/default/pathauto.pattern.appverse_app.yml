@@ -1,0 +1,22 @@
+uuid: 4fb9ded0-ed09-4380-ae85-5f4dc9de954b
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: appverse_app
+label: 'Appverse App'
+type: 'canonical_entities:node'
+pattern: '/appverse/[node:field_appverse_software_implemen]/[node:field_appverse_organization]-[node:title]'
+selection_criteria:
+  11974382-c135-4fdb-be19-d0e7435697e5:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 11974382-c135-4fdb-be19-d0e7435697e5
+    context_mapping:
+      node: node
+    bundles:
+      appverse_app: appverse_app
+selection_logic: and
+weight: -5
+relationships: {  }
