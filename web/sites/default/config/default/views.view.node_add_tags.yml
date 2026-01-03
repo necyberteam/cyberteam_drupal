@@ -350,11 +350,14 @@ display:
             group_items: {  }
           use_tokens: 0
       style:
-        type: default
+        type: html_list
         options:
           grouping: {  }
           row_class: 'text-sm leading-5'
           default_row_class: false
+          type: ul
+          wrapper_class: ''
+          class: 'list-none d-flex flex flex-wrap'
       row:
         type: fields
         options:
@@ -1103,8 +1106,26 @@ display:
           separator: ', '
           field_api_classes: false
           convert_spaces: false
+      style:
+        type: html_list
+        options:
+          grouping: {  }
+          row_class: 'text-sm leading-5'
+          default_row_class: false
+          type: ul
+          wrapper_class: ''
+          class: list-none
+      row:
+        type: fields
+        options:
+          default_field_elements: true
+          inline: {  }
+          separator: ''
+          hide_empty: false
       defaults:
         css_class: false
+        style: false
+        row: false
         fields: false
         header: false
         footer: false
@@ -1112,7 +1133,9 @@ display:
       display_description: ''
       header: {  }
       footer: {  }
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
     cache_metadata:
       max-age: -1
       contexts:
@@ -1402,14 +1425,34 @@ display:
         operator: AND
         groups:
           1: AND
+      style:
+        type: html_list
+        options:
+          grouping: {  }
+          row_class: 'text-sm leading-5'
+          default_row_class: false
+          type: ul
+          wrapper_class: ''
+          class: list-none
+      row:
+        type: fields
+        options:
+          default_field_elements: true
+          inline: {  }
+          separator: ''
+          hide_empty: false
       defaults:
+        style: false
+        row: false
         fields: false
         arguments: false
         filters: false
         filter_groups: false
       display_description: ''
       exposed_block: false
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: false
     cache_metadata:
       max-age: -1
       contexts:
