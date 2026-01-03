@@ -353,7 +353,7 @@ display:
         type: html_list
         options:
           grouping: {  }
-          row_class: 'text-sm leading-5'
+          row_class: 'text-sm leading-5 mb-0'
           default_row_class: false
           type: ul
           wrapper_class: ''
@@ -361,7 +361,7 @@ display:
       row:
         type: fields
         options:
-          default_field_elements: true
+          default_field_elements: false
           inline: {  }
           separator: ''
           hide_empty: false
@@ -1814,7 +1814,9 @@ display:
         filter_groups: false
       css_class: mb-10
       display_description: ''
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
       block_description: 'All tags block'
     cache_metadata:
       max-age: -1
