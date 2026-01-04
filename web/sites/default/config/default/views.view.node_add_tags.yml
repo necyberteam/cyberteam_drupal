@@ -357,7 +357,7 @@ display:
           default_row_class: false
           type: ul
           wrapper_class: ''
-          class: 'list-none d-flex flex flex-wrap'
+          class: 'list-none d-flex flex flex-wrap list-unstyled'
       row:
         type: fields
         options:
@@ -1114,7 +1114,7 @@ display:
           default_row_class: false
           type: ul
           wrapper_class: ''
-          class: list-none
+          class: 'list-none list-unstyled'
       row:
         type: fields
         options:
@@ -2177,7 +2177,9 @@ display:
         filters: false
         filter_groups: false
       css_class: mb-10
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: true
       path: tags
     cache_metadata:
       max-age: -1
