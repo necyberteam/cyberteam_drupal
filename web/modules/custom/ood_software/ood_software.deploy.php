@@ -237,7 +237,7 @@ function ood_software_deploy_10002_apps() {
   while (($data = fgetcsv($handle)) !== FALSE) {
     // Map CSV columns.
     // Software, App Name, GitHub URL, Organization / Author,
-    // App Type, License, Implementation Tags.
+    // App Type, License, Implementation Tags, Description, Stars, Last Commit, Is Archived.
     $software_name = $data[0] ?? '';
     $app_name = $data[1] ?? '';
     $github_url = $data[2] ?? '';
@@ -245,8 +245,18 @@ function ood_software_deploy_10002_apps() {
     $app_type = $data[4] ?? '';
     $license = $data[5] ?? '';
     $implementation_tags = $data[6] ?? '';
+    $description = $data[7] ?? '';
+    $stars = $data[8] ?? '';
+    $last_commit = $data[9] ?? '';
+    $is_archived = $data[10] ?? '';
 
     if (empty($app_name)) {
+      continue;
+    }
+
+    // Skip archived repositories.
+    if ($is_archived === 'true') {
+      \Drupal::logger('ood_software')->notice('Skipping archived repo: @url', ['@url' => $github_url]);
       continue;
     }
 
@@ -317,11 +327,21 @@ function ood_software_deploy_10002_apps() {
       }
     }
 
+    // Parse last commit date to timestamp if provided.
+    $last_updated = NULL;
+    if (!empty($last_commit)) {
+      $last_updated = strtotime($last_commit);
+    }
+
     // Create the node.
     $node = Node::create([
       'type' => 'appverse_app',
       'title' => $app_name,
       'uid' => 1985,
+      'body' => !empty($description) ? [
+        'value' => $description,
+        'format' => 'markdown',
+      ] : NULL,
       'field_appverse_software_implemen' => $software_nid ? ['target_id' => $software_nid] : NULL,
       'field_appverse_github_url' => [
         'uri' => $github_url,
@@ -331,6 +351,7 @@ function ood_software_deploy_10002_apps() {
       'field_appverse_app_type' => $app_type_tid ? ['target_id' => $app_type_tid] : NULL,
       'field_license' => $license_tid ? ['target_id' => $license_tid] : NULL,
       'field_add_implementation_tags' => $tag_tids,
+      'field_appverse_lastupdated' => $last_updated,
       'status' => 1,
       'moderation_state' => 'published',
     ]);
@@ -344,4 +365,106 @@ function ood_software_deploy_10002_apps() {
   \Drupal::logger('ood_software')->notice('Imported @count app nodes', ['@count' => $count]);
 
   return t('Successfully imported @count app entries.', ['@count' => $count]);
+}
+
+/**
+ * Add logos to software nodes.
+ */
+function ood_software_deploy_10003_logos() {
+  $module_path = \Drupal::service('extension.list.module')->getPath('ood_software');
+  $logos_dir = $module_path . '/logos';
+  $mapping_file = $logos_dir . '/mapping.php';
+
+  if (!file_exists($mapping_file)) {
+    \Drupal::logger('ood_software')->error('Logo mapping file not found at @path', ['@path' => $mapping_file]);
+    return;
+  }
+
+  $mapping = include $mapping_file;
+  $file_system = \Drupal::service('file_system');
+  $count = 0;
+
+  foreach ($mapping as $filename => $software_name) {
+    $logo_path = $logos_dir . '/' . $filename;
+
+    if (!file_exists($logo_path)) {
+      \Drupal::logger('ood_software')->warning('Logo file not found: @file', ['@file' => $filename]);
+      continue;
+    }
+
+    // Find the software node.
+    $software_nodes = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->loadByProperties([
+        'type' => 'appverse_software',
+        'title' => $software_name,
+      ]);
+
+    if (empty($software_nodes)) {
+      \Drupal::logger('ood_software')->warning('Software node not found for: @name', ['@name' => $software_name]);
+      continue;
+    }
+
+    $software_node = reset($software_nodes);
+
+    // Check if logo already exists.
+    if (!$software_node->get('field_appverse_logo')->isEmpty()) {
+      \Drupal::logger('ood_software')->notice('Logo already exists for: @name', ['@name' => $software_name]);
+      continue;
+    }
+
+    // Determine media bundle based on file extension.
+    $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+    $is_svg = ($extension === 'svg');
+
+    // Copy file to public files.
+    $destination_dir = 'public://appverse-logos';
+    $file_system->prepareDirectory($destination_dir, \Drupal\Core\File\FileSystemInterface::CREATE_DIRECTORY);
+    $destination = $destination_dir . '/' . $filename;
+
+    $file_data = file_get_contents($logo_path);
+    $file = \Drupal::service('file.repository')->writeData($file_data, $destination, \Drupal\Core\File\FileExists::Replace);
+
+    if (!$file) {
+      \Drupal::logger('ood_software')->error('Failed to copy logo: @file', ['@file' => $filename]);
+      continue;
+    }
+
+    // Create media entity.
+    if ($is_svg) {
+      $media = \Drupal\media\Entity\Media::create([
+        'bundle' => 'svg',
+        'name' => $software_name . ' logo',
+        'uid' => 1985,
+        'field_media_image_1' => [
+          'target_id' => $file->id(),
+          'alt' => $software_name . ' logo',
+        ],
+      ]);
+    }
+    else {
+      $media = \Drupal\media\Entity\Media::create([
+        'bundle' => 'image',
+        'name' => $software_name . ' logo',
+        'uid' => 1985,
+        'field_media_image' => [
+          'target_id' => $file->id(),
+          'alt' => $software_name . ' logo',
+        ],
+      ]);
+    }
+
+    $media->save();
+
+    // Attach media to software node.
+    $software_node->set('field_appverse_logo', ['target_id' => $media->id()]);
+    $software_node->save();
+
+    $count++;
+    \Drupal::logger('ood_software')->notice('Added logo for: @name', ['@name' => $software_name]);
+  }
+
+  \Drupal::logger('ood_software')->notice('Added @count logos to software nodes', ['@count' => $count]);
+
+  return t('Successfully added @count logos.', ['@count' => $count]);
 }
