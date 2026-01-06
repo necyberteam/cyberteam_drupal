@@ -468,3 +468,86 @@ function ood_software_deploy_10003_logos() {
 
   return t('Successfully added @count logos.', ['@count' => $count]);
 }
+
+/**
+ * Add menu links.
+ */
+function ood_software_deploy_10004_menus() {
+  $my_apps = [
+    'title' => 'My Apps',
+    'link' => ['uri' => 'internal:/appverse/my-apps'],
+    'menu_name' => 'account',
+    'weight' => 46,
+    'expanded' => FALSE,
+    'enabled' => TRUE,
+    'parent' => 'user.page',
+    'options' => [
+      'attributes' => [
+        'class' => ['region-specific', 'display-open-ondemand'],
+        'roles' => ['authenticated'],
+      ],
+    ],
+  ];
+  ood_software_links($my_apps);
+
+  $manage_apps = [
+    'title' => 'Manage Appverse Apps',
+    'link' => ['uri' => 'internal:/appverse/manage-apps'],
+    'menu_name' => 'account',
+    'weight' => 46,
+    'expanded' => FALSE,
+    'enabled' => TRUE,
+    'parent' => 'user.page',
+    'options' => [
+      'attributes' => [
+        'class' => ['region-specific', 'display-open-ondemand'],
+        'roles' => ['administrator', 'appverse_pm'],
+      ],
+    ],
+  ];
+  ood_software_links($manage_apps);
+}
+
+/**
+ * Create menu item.
+ */
+function ood_software_links($menu_link) {
+  $existing_links = \Drupal::entityTypeManager()
+    ->getStorage('menu_link_content')
+    ->loadByProperties([
+      'title' => $menu_link['title'],
+      'menu_name' => $menu_link['menu_name'],
+    ]);
+  if (empty($existing_links)) {
+    $roles = $menu_link['options']['attributes']['roles'];
+    // Added to variable to avoid saving roles directly to menu.
+    unset($menu_link['options']['attributes']['roles']);
+
+    $menu_link_entity = \Drupal\menu_link_content\Entity\MenuLinkContent::create($menu_link);
+    $menu_link_entity->save();
+    $mid = $menu_link_entity->id();
+
+    // Add roles that can see menu item.
+    if (isset($roles)) {
+      $delta = 0;
+      foreach ($roles as $role) {
+        \Drupal::database()->insert('menu_link_content__menu_item_roles')
+          ->fields([
+            'bundle' => 'account',
+            'deleted' => 0,
+            'entity_id' => $mid,
+            'revision_id' => $mid,
+            'langcode' => 'en',
+            'delta' => $delta,
+            'menu_item_roles_target_id' => $role,
+          ])
+          ->execute();
+        $delta++;
+      }
+    }
+    \Drupal::logger('ood_software')->notice('Added menu link: @title', ['@title' => $menu_link['title']]);
+  }
+  else {
+    \Drupal::logger('ood_software')->notice('Menu link already exists: @title', ['@title' => $menu_link['title']]);
+  }
+}
