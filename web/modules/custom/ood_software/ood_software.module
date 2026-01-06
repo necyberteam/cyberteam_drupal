@@ -75,6 +75,18 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
     array_unshift($form['actions']['submit']['#submit'], 'ood_software__edit_submit');
     $form['actions']['submit']['#submit'][] = 'ood_software__redirect_submit';
   }
+
+  if ($form_id === 'node_appverse_app_edit_form') {
+    // Disable the 'field_appverse_github_url' field if the node is published.
+    $node = $form_state->getFormObject()->getEntity();
+    $user_roles = \Drupal::currentUser()->getRoles();
+    if ($node->isPublished() && (!in_array('administrator', $user_roles) && !in_array('appverse_pm', $user_roles))) {
+      $form['field_appverse_github_url']['#disabled'] = TRUE;
+      $form['field_appverse_github_url']['widget'][0]['uri']['#attributes']['class'][] = 'form-control';
+      $form['field_appverse_organization']['#disabled'] = TRUE;
+    }
+  }
+
 }
 
 /**
