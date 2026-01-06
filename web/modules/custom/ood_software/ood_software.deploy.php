@@ -523,6 +523,10 @@ function ood_software_links($menu_link) {
     // Added to variable to avoid saving roles directly to menu.
     unset($menu_link['options']['attributes']['roles']);
 
+    // Move options into the link field structure.
+    $menu_link['link']['options'] = $menu_link['options'];
+    unset($menu_link['options']);
+
     $menu_link_entity = \Drupal\menu_link_content\Entity\MenuLinkContent::create($menu_link);
     $menu_link_entity->save();
     $mid = $menu_link_entity->id();
