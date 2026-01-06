@@ -171,7 +171,14 @@ class GitHubService {
         // If valid GitHub URL, fetch data.
         $this->fetchRepoData();
 
-        return TRUE;
+        if ($this->manifestData === FALSE) {
+          $this->messenger->addError($this->t('Please make sure you have the proper yml files added to your repository.'));
+          return FALSE;
+        }
+        else {
+          return TRUE;
+        }
+
       }
       else {
         // Invalid GitHub URL format.
@@ -267,6 +274,7 @@ class GitHubService {
     $manifest_text = $this->data['manifestYml']['text'] ?? NULL;
     if ($manifest_text === NULL) {
       $this->messenger->addError($this->t('The repository does not contain a manifest.yml file.'));
+      $this->manifestData = FALSE;
       $this->logger->error('The repository @repo does not contain a manifest.yml file.', ['@repo' => $this->owner . '/' . $this->name]);
       return;
     }
