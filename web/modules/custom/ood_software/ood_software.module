@@ -84,6 +84,7 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
       $form['field_appverse_github_url']['#disabled'] = TRUE;
       $form['field_appverse_github_url']['widget'][0]['uri']['#attributes']['class'][] = 'form-control';
       $form['field_appverse_organization']['#disabled'] = TRUE;
+      $form['field_license']['#disabled'] = TRUE;
     }
   }
 
