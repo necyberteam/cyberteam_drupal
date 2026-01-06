@@ -261,7 +261,7 @@ class GitHubService {
     $this->stars = $this->data['stargazerCount'];
     $this->readme = $this->data['readme']['text'] ?? NULL;
     $this->lastComittedDate = strtotime($this->data['defaultBranchRef']['target']['committedDate']);
-    $this->license = $this->data['licenseInfo']['spdxId'] ?? 'NOASSERTION';
+    $this->license = $this->data['licenseInfo']['spdxId'] ?? NULL;
     $this->organization = $this->data['owner']['name'];
 
     $manifest_text = $this->data['manifestYml']['text'] ?? NULL;
