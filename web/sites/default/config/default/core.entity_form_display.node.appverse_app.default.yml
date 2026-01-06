@@ -8,14 +8,15 @@ dependencies:
     - field.field.node.appverse_app.field_appverse_app_type
     - field.field.node.appverse_app.field_appverse_github_url
     - field.field.node.appverse_app.field_appverse_lastupdated
+    - field.field.node.appverse_app.field_appverse_organization
     - field.field.node.appverse_app.field_appverse_readme
     - field.field.node.appverse_app.field_appverse_software_implemen
-    - field.field.node.appverse_app.field_appverse_organization
     - field.field.node.appverse_app.field_domain_access
     - field.field.node.appverse_app.field_domain_all_affiliates
     - field.field.node.appverse_app.field_domain_source
     - field.field.node.appverse_app.field_license
     - node.type.appverse_app
+    - workflows.workflow.appverse_editorial
   module:
     - content_moderation
     - field_group
@@ -124,10 +125,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_license:
-    type: options_buttons
+    type: entity_reference_autocomplete
     weight: 22
     region: content
-    settings: {  }
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
