@@ -1054,7 +1054,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="#{{name__value|e}}" class="block font-base font-semibold leading-tight py-2 text-white-er no-underline hover--underline hover--text-light-teal">{{ name }}</a>'
+            text: "<a href=\"#{{ name__value|e|lower|replace({' ': '-'})|replace({'/': '-'}) }}\" class=\"block font-base font-semibold leading-tight py-2 text-white-er no-underline hover--underline hover--text-light-teal\">{{ name }}</a>"
             make_link: false
             path: ''
             absolute: false
@@ -1110,11 +1110,11 @@ display:
         type: html_list
         options:
           grouping: {  }
-          row_class: 'text-sm leading-5'
+          row_class: 'text-sm leading-5 m-0 p-0'
           default_row_class: false
           type: ul
           wrapper_class: ''
-          class: 'list-none list-unstyled'
+          class: 'list-none list-unstyled m-0 p-0'
       row:
         type: fields
         options:
@@ -1909,7 +1909,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: '<h2 id="{{name__value}}" class="mt-5">{{ name }}</h2>'
+            text: "<h2 id=\"{{ name__value|lower|replace({' ': '-'})|replace({'/': '-'}) }}\" class=\"mt-5\">{{ name }}</h2>"
             make_link: false
             path: ''
             absolute: false
