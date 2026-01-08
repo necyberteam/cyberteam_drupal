@@ -1,7 +1,10 @@
 <?php
+
 /**
+ * @file
  * Mapping of logo filenames to software names.
  */
+
 return [
   'abaqus.svg' => 'Abaqus',
   'amd-logo.svg' => 'AMDuProf',

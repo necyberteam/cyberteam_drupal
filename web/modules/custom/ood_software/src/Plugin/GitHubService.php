@@ -375,4 +375,5 @@ class GitHubService {
   public function getLicenseInfo() {
     return $this->license;
   }
+
 }

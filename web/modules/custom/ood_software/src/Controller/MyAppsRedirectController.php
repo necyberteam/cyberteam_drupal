@@ -19,7 +19,7 @@ class MyAppsRedirectController extends ControllerBase {
   public function redirectToMyApps() {
     $current_user = $this->currentUser();
     $uid = $current_user->id();
-    
+
     return new RedirectResponse("/user/{$uid}/my-apps");
   }
 

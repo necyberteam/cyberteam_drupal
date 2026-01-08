@@ -4,6 +4,11 @@
  * @file
  */
 
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+use Drupal\media\Entity\Media;
+use Drupal\Core\File\FileExists;
+use Drupal\Core\File\FileSystemInterface;
+use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
 
@@ -31,7 +36,7 @@ function ood_software_deploy_10000_terms() {
   ];
 
   foreach ($terms as $vocabulary_machine_name => $term_names) {
-    $vocabulary = \Drupal\taxonomy\Entity\Vocabulary::load($vocabulary_machine_name);
+    $vocabulary = Vocabulary::load($vocabulary_machine_name);
     if ($vocabulary) {
       foreach ($term_names as $term_name) {
         $terms = \Drupal::entityTypeManager()
@@ -41,7 +46,7 @@ function ood_software_deploy_10000_terms() {
             'vid' => $vocabulary_machine_name,
           ]);
         if (empty($terms)) {
-          $term = \Drupal\taxonomy\Entity\Term::create([
+          $term = Term::create([
             'name' => $term_name,
             'vid' => $vocabulary_machine_name,
           ]);
@@ -75,7 +80,7 @@ function ood_software_deploy_10001_software() {
 
   $count = 0;
   while (($data = fgetcsv($handle)) !== FALSE) {
-    // Map CSV columns: Name, Description, Software URL, Docs, License, Topic, Tags
+    // Map CSV columns: Name, Description, Software URL, Docs, License, Topic, Tags.
     $name = $data[0] ?? '';
     $description = $data[1] ?? '';
     $software_url = $data[2] ?? '';
@@ -419,11 +424,11 @@ function ood_software_deploy_10003_logos() {
 
     // Copy file to public files.
     $destination_dir = 'public://appverse-logos';
-    $file_system->prepareDirectory($destination_dir, \Drupal\Core\File\FileSystemInterface::CREATE_DIRECTORY);
+    $file_system->prepareDirectory($destination_dir, FileSystemInterface::CREATE_DIRECTORY);
     $destination = $destination_dir . '/' . $filename;
 
     $file_data = file_get_contents($logo_path);
-    $file = \Drupal::service('file.repository')->writeData($file_data, $destination, \Drupal\Core\File\FileExists::Replace);
+    $file = \Drupal::service('file.repository')->writeData($file_data, $destination, FileExists::Replace);
 
     if (!$file) {
       \Drupal::logger('ood_software')->error('Failed to copy logo: @file', ['@file' => $filename]);
@@ -432,7 +437,7 @@ function ood_software_deploy_10003_logos() {
 
     // Create media entity.
     if ($is_svg) {
-      $media = \Drupal\media\Entity\Media::create([
+      $media = Media::create([
         'bundle' => 'svg',
         'name' => $software_name . ' logo',
         'uid' => 1985,
@@ -443,7 +448,7 @@ function ood_software_deploy_10003_logos() {
       ]);
     }
     else {
-      $media = \Drupal\media\Entity\Media::create([
+      $media = Media::create([
         'bundle' => 'image',
         'name' => $software_name . ' logo',
         'uid' => 1985,
@@ -527,7 +532,7 @@ function ood_software_links($menu_link) {
     $menu_link['link']['options'] = $menu_link['options'];
     unset($menu_link['options']);
 
-    $menu_link_entity = \Drupal\menu_link_content\Entity\MenuLinkContent::create($menu_link);
+    $menu_link_entity = MenuLinkContent::create($menu_link);
     $menu_link_entity->save();
     $mid = $menu_link_entity->id();
 
