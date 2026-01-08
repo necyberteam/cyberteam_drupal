@@ -4,6 +4,7 @@ namespace Drupal\ood_software\Plugin;
 
 use Drupal\Component\Utility\Xss;
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -137,6 +138,13 @@ class GitHubService {
   protected $logger;
 
   /**
+   * The entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * Construct object.
    *
    * @param \GuzzleHttp\ClientInterface $http_client
@@ -147,12 +155,15 @@ class GitHubService {
    *   The messenger service.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
    *   The logger factory service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
    */
-  public function __construct(ClientInterface $http_client, KeyRepositoryInterface $key_repository, MessengerInterface $messenger, LoggerChannelFactoryInterface $logger_factory) {
+  public function __construct(ClientInterface $http_client, KeyRepositoryInterface $key_repository, MessengerInterface $messenger, LoggerChannelFactoryInterface $logger_factory, EntityTypeManagerInterface $entity_type_manager) {
     $this->httpClient = $http_client;
     $this->keyRepository = $key_repository;
     $this->messenger = $messenger;
     $this->logger = $logger_factory->get('ood_software');
+    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
@@ -365,7 +376,12 @@ class GitHubService {
    * Get AppTypeId based on set role.
    */
   public function getAppTypeId() {
-    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['name' => $this->role, 'vid' => 'appverse_app_type']);
+    $terms = $this->entityTypeManager
+      ->getStorage('taxonomy_term')
+      ->loadByProperties([
+        'name' => $this->role,
+        'vid' => 'appverse_app_type',
+      ]);
     return reset($terms)?->id();
   }
 

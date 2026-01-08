@@ -2,9 +2,9 @@
 
 namespace Drupal\ood_software\Plugin\QueueWorker;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
-use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\ood_software\Plugin\GitHubService;
 
@@ -18,6 +18,13 @@ use Drupal\ood_software\Plugin\GitHubService;
  * )
  */
 class AppverseAppUpdater extends QueueWorkerBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
 
   /**
    * The GitHub service.
@@ -35,11 +42,14 @@ class AppverseAppUpdater extends QueueWorkerBase implements ContainerFactoryPlug
    *   The plugin_id for the plugin instance.
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    * @param \Drupal\ood_software\Plugin\GitHubService $github_service
    *   The GitHub service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, GitHubService $github_service) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, GitHubService $github_service) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->entityTypeManager = $entity_type_manager;
     $this->githubService = $github_service;
   }
 
@@ -51,6 +61,7 @@ class AppverseAppUpdater extends QueueWorkerBase implements ContainerFactoryPlug
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('entity_type.manager'),
       $container->get('ood_software.gh')
     );
   }
@@ -60,7 +71,7 @@ class AppverseAppUpdater extends QueueWorkerBase implements ContainerFactoryPlug
    */
   public function processItem($data) {
     $nid = $data['nid'];
-    $node = Node::load($nid);
+    $node = $this->entityTypeManager->getStorage('node')->load($nid);
 
     if (!$node) {
       return;
@@ -70,7 +81,6 @@ class AppverseAppUpdater extends QueueWorkerBase implements ContainerFactoryPlug
 
     $validUrl = $this->githubService->parseUrl($github_url);
     if ($validUrl) {
-      $github_data = $this->githubService->getData();
       $lastupdated = $node->get('field_appverse_lastupdated')->value;
 
       if ($lastupdated != $this->githubService->getLastComittedDate()) {

@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Deployment functions for the ood_software module.
  */
 
 use Drupal\menu_link_content\Entity\MenuLinkContent;
@@ -75,12 +76,10 @@ function ood_software_deploy_10001_software() {
     return;
   }
 
-  // Read and skip header row.
-  $header = fgetcsv($handle);
-
   $count = 0;
   while (($data = fgetcsv($handle)) !== FALSE) {
-    // Map CSV columns: Name, Description, Software URL, Docs, License, Topic, Tags.
+    // Map CSV columns: Name, Description, Software URL, Docs, License, Topic,
+    // Tags.
     $name = $data[0] ?? '';
     $description = $data[1] ?? '';
     $software_url = $data[2] ?? '';
@@ -242,7 +241,8 @@ function ood_software_deploy_10002_apps() {
   while (($data = fgetcsv($handle)) !== FALSE) {
     // Map CSV columns.
     // Software, App Name, GitHub URL, Organization / Author,
-    // App Type, License, Implementation Tags, Description, Stars, Last Commit, Is Archived.
+    // App Type, License, Implementation Tags, Description, Stars, Last Commit,
+    // Is Archived.
     $software_name = $data[0] ?? '';
     $app_name = $data[1] ?? '';
     $github_url = $data[2] ?? '';
@@ -251,7 +251,6 @@ function ood_software_deploy_10002_apps() {
     $license = $data[5] ?? '';
     $implementation_tags = $data[6] ?? '';
     $description = $data[7] ?? '';
-    $stars = $data[8] ?? '';
     $last_commit = $data[9] ?? '';
     $is_archived = $data[10] ?? '';
 
