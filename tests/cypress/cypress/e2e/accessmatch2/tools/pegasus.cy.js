@@ -15,24 +15,24 @@ describe("Unauthenticated user tests the Pegaus Page", () => {
     );
 
     //Accordion Functionality
-    cy.get(":nth-child(2) > .bg-light-teal")
+    cy.get("details summary")
       .contains("Why use workflows")
       .click();
-    cy.get('[open=""] > .bg-white > :nth-child(1) > :nth-child(1)').contains(
+    cy.get("details[open] > .bg-white").contains(
       "Scientific Workflow Management Systems (WMS) such as Pegasus are vital tools for scientists and researchers in a wide range of fields."
     );
-    cy.get('[open=""] > .bg-white > :nth-child(1) > :nth-child(1)').contains(
+    cy.get("details[open] > .bg-white").contains(
       "Some reasons you should consider using a system like Pegasus WMS"
     );
 
     // Workflow section
-    cy.get('[open=""] .grid > :nth-child(1) .mb-0').contains(
+    cy.get("details[open] .grid > :nth-child(1) h4").contains(
       "REPRODUCIBILITY"
     );
-    cy.get('[open=""] .grid > :nth-child(2) .mb-0').contains(
+    cy.get("details[open] .grid > :nth-child(2) h4").contains(
       "AUTOMATION"
     );
-    cy.get('[open=""] .grid > :nth-child(3) .mb-0').contains(
+    cy.get("details[open] .grid > :nth-child(3) h4").contains(
       "SCALABILITY"
     );
   });
