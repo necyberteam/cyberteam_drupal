@@ -7042,7 +7042,7 @@ display:
           field: custom_event_tags
           relationship: none
           group_type: group
-          admin_label: ''
+          admin_label: 'TAGS - overridden in access_events module'
           plugin_id: search_api
           label: ''
           exclude: false
@@ -7085,9 +7085,9 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          link_to_item: true
+          link_to_item: false
           use_highlighting: false
-          multi_type: ul
+          multi_type: separator
           multi_separator: ', '
         field_video:
           id: field_video
@@ -7402,52 +7402,6 @@ display:
           parse_mode: terms
           min_length: null
           fields: {  }
-        event_affiliation:
-          id: event_affiliation
-          table: search_api_index_events
-          field: event_affiliation
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: search_api_options
-          operator: or
-          value:
-            access_nairr_office_hours: access_nairr_office_hours
-            'ACCESS Collaboration': 'ACCESS Collaboration'
-            Community: Community
-            nairr_pilot: nairr_pilot
-            nairr_pilot_partner_series: nairr_pilot_partner_series
-            cu_rmacc_webinars: cu_rmacc_webinars
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
         field_video:
           id: field_video
           table: search_api_index_events
