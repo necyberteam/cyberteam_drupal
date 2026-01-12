@@ -29,11 +29,11 @@ describe("Unauthenticated user tests the XDMoD Page", () => {
 
     //Accordion section and function
     cy.get("#using-xdmod > .colored-square").contains("Using XDMoD");
-    cy.get(":nth-child(3) > .bg-light-teal")
+    cy.get("details summary")
       .contains("What do I need to do to start using XDMoD?")
       .click();
-    cy.get('[open=""] > .bg-white').contains(
-      "Anyone with an ACCESS Identity can login to XDMoD. "
+    cy.get("details[open] > .bg-white").contains(
+      "Anyone with an ACCESS Identity can login to XDMoD."
     );
 
     //XDMOD Support Section The below five lines do not work for now
