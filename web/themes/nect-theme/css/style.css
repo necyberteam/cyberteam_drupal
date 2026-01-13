@@ -1709,7 +1709,7 @@ table.sticky-header th {
   }
 }
 
-.ccmnet .faq .svg-inline--fa {
+.ccmnet .faq .bi {
   width: 18px;
   font-size: 16px;
   border-radius: 50%;
@@ -1729,11 +1729,11 @@ table.sticky-header th {
   }
 }
 
-.ccmnet .q:hover .svg-inline--fa {
+.ccmnet .q:hover .bi {
   color: #ffffff;
   background-color: var(--ccmnet-navy);
 }
-.ccmnet .q:hover .svg-inline--fa {
+.ccmnet .q:hover .bi {
   background-color: white;
   color: var(--ccmnet-lightblue);
 }
@@ -1753,14 +1753,18 @@ table.sticky-header th {
   border-width: 0;
 }
 
-.ccmnet .q.collapsed .svg-inline--fa {
-  transform: rotate(180deg);
-
+.ccmnet .q .bi {
+  display: inline-block;
+  transition: transform 0.3s;
 }
-.ccmnet .search-ci-links .svg-inline--fa {
+.ccmnet .q.collapsed .bi {
+  transform: rotate(180deg);
+}
+.ccmnet .search-ci-links .bi {
   transition: 0.3s;
 }
-.ccmnet .search-ci-links details[open] .svg-inline--fa, .ccmnet details[open].search-ci-links > summary .svg-inline--fa {
+.ccmnet .search-ci-links details[open] .bi,
+.ccmnet details[open].search-ci-links > summary .bi {
   transform: rotate(180deg);
 }
 

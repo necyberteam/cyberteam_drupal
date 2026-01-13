@@ -10,10 +10,16 @@ dependencies:
     - node.type.affinity_group
     - node.type.appverse_app
     - node.type.appverse_software
+    - node.type.article
     - node.type.blog_post
     - node.type.blog_post_region_
+    - node.type.community_events
     - node.type.match_engagement
     - node.type.mentorship_engagement
+    - node.type.page
+    - node.type.press_release
+    - node.type.published_articles
+    - node.type.regional_about
     - taxonomy.vocabulary.tags
     - workflows.workflow.appverse_editorial
     - workflows.workflow.editorial
@@ -30,6 +36,7 @@ dependencies:
     - filter
     - flag
     - login_disable
+    - media
     - node
     - recurring_events
     - recurring_events_registration
@@ -69,25 +76,43 @@ permissions:
   - 'create blog_post_region_ content on assigned domains'
   - 'create match_engagement content'
   - 'create mentorship_engagement content'
+  - 'create remote_video media'
   - 'create terms in tags'
+  - 'create video media'
   - 'delete access_news revisions'
   - 'delete own access_news content'
+  - 'delete own affinity_group content'
+  - 'delete own article content'
   - 'delete own blog_post content'
   - 'delete own blog_post_region_ content'
+  - 'delete own community_events content'
   - 'delete own eventinstance entity'
   - 'delete own eventseries entity'
+  - 'delete own page content'
+  - 'delete own press_release content'
+  - 'delete own published_articles content'
+  - 'delete own regional_about content'
   - 'delete own registrant entities'
+  - 'delete own remote_video media'
+  - 'delete own video media'
   - 'edit own access_news content'
   - 'edit own affinity_group content'
   - 'edit own appverse_app content'
   - 'edit own appverse_software content'
+  - 'edit own article content'
   - 'edit own blog_post content'
   - 'edit own blog_post_region_ content'
+  - 'edit own community_events content'
   - 'edit own eventinstance entity'
   - 'edit own eventseries entity'
   - 'edit own match_engagement content'
   - 'edit own mentorship_engagement content'
+  - 'edit own page content'
+  - 'edit own press_release content'
+  - 'edit own regional_about content'
   - 'edit own registrant entities'
+  - 'edit own remote_video media'
+  - 'edit own video media'
   - 'edit own webform'
   - 'edit own webform submission'
   - 'flag affinity_group'
@@ -149,5 +174,6 @@ permissions:
   - 'view eventinstance entity'
   - 'view eventseries entity'
   - 'view latest version'
+  - 'view media'
   - 'view own unpublished content'
   - 'view own webform submission'
