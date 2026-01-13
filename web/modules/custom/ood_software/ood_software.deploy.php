@@ -513,6 +513,43 @@ function ood_software_deploy_10004_menus() {
 }
 
 /**
+ * Clear last updated field for apps missing body/readme to force GitHub sync.
+ */
+function ood_software_deploy_10005_force_app_sync() {
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+
+  // Find all appverse_app nodes.
+  $nids = $node_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('type', 'appverse_app')
+    ->execute();
+
+  $count = 0;
+  foreach ($nids as $nid) {
+    $node = $node_storage->load($nid);
+    if (!$node) {
+      continue;
+    }
+
+    // Check if body or readme is empty.
+    $body = $node->get('body')->value;
+    $readme = $node->get('field_appverse_readme')->value;
+
+    if (empty($body) || empty($readme)) {
+      // Clear the last updated field to force sync on next cron.
+      $node->set('field_appverse_lastupdated', NULL);
+      $node->save();
+      $count++;
+      \Drupal::logger('ood_software')->notice('Cleared last updated for: @title', ['@title' => $node->getTitle()]);
+    }
+  }
+
+  \Drupal::logger('ood_software')->notice('Cleared last updated for @count apps to force GitHub sync', ['@count' => $count]);
+
+  return t('Cleared last updated for @count apps. Run cron to sync from GitHub.', ['@count' => $count]);
+}
+
+/**
  * Create menu item.
  */
 function ood_software_links($menu_link) {
