@@ -550,6 +550,108 @@ function ood_software_deploy_10005_force_app_sync() {
 }
 
 /**
+ * Retry adding logos to software nodes (fixes field config to accept images).
+ */
+function ood_software_deploy_10006_logos_retry() {
+  $module_path = \Drupal::service('extension.list.module')->getPath('ood_software');
+  $logos_dir = $module_path . '/logos';
+  $mapping_file = $logos_dir . '/mapping.php';
+
+  if (!file_exists($mapping_file)) {
+    \Drupal::logger('ood_software')->error('Logo mapping file not found at @path', ['@path' => $mapping_file]);
+    return;
+  }
+
+  $mapping = include $mapping_file;
+  $file_system = \Drupal::service('file_system');
+  $count = 0;
+
+  foreach ($mapping as $filename => $software_name) {
+    $logo_path = $logos_dir . '/' . $filename;
+
+    if (!file_exists($logo_path)) {
+      \Drupal::logger('ood_software')->warning('Logo file not found: @file', ['@file' => $filename]);
+      continue;
+    }
+
+    // Find the software node.
+    $software_nodes = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->loadByProperties([
+        'type' => 'appverse_software',
+        'title' => $software_name,
+      ]);
+
+    if (empty($software_nodes)) {
+      \Drupal::logger('ood_software')->warning('Software node not found for: @name', ['@name' => $software_name]);
+      continue;
+    }
+
+    $software_node = reset($software_nodes);
+
+    // Check if logo already exists.
+    if (!$software_node->get('field_appverse_logo')->isEmpty()) {
+      \Drupal::logger('ood_software')->notice('Logo already exists for: @name', ['@name' => $software_name]);
+      continue;
+    }
+
+    // Determine media bundle based on file extension.
+    $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+    $is_svg = ($extension === 'svg');
+
+    // Copy file to public files.
+    $destination_dir = 'public://appverse-logos';
+    $file_system->prepareDirectory($destination_dir, FileSystemInterface::CREATE_DIRECTORY);
+    $destination = $destination_dir . '/' . $filename;
+
+    $file_data = file_get_contents($logo_path);
+    $file = \Drupal::service('file.repository')->writeData($file_data, $destination, FileExists::Replace);
+
+    if (!$file) {
+      \Drupal::logger('ood_software')->error('Failed to copy logo: @file', ['@file' => $filename]);
+      continue;
+    }
+
+    // Create media entity.
+    if ($is_svg) {
+      $media = Media::create([
+        'bundle' => 'svg',
+        'name' => $software_name . ' logo',
+        'uid' => 1985,
+        'field_media_image_1' => [
+          'target_id' => $file->id(),
+          'alt' => $software_name . ' logo',
+        ],
+      ]);
+    }
+    else {
+      $media = Media::create([
+        'bundle' => 'image',
+        'name' => $software_name . ' logo',
+        'uid' => 1985,
+        'field_media_image' => [
+          'target_id' => $file->id(),
+          'alt' => $software_name . ' logo',
+        ],
+      ]);
+    }
+
+    $media->save();
+
+    // Attach media to software node.
+    $software_node->set('field_appverse_logo', ['target_id' => $media->id()]);
+    $software_node->save();
+
+    $count++;
+    \Drupal::logger('ood_software')->notice('Added logo for: @name', ['@name' => $software_name]);
+  }
+
+  \Drupal::logger('ood_software')->notice('Added @count logos to software nodes', ['@count' => $count]);
+
+  return t('Successfully added @count logos.', ['@count' => $count]);
+}
+
+/**
  * Create menu item.
  */
 function ood_software_links($menu_link) {
