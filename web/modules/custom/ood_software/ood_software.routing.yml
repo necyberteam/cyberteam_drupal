@@ -1,0 +1,7 @@
+ood_software.my_apps_redirect:
+  path: '/appverse/my-apps'
+  defaults:
+    _controller: '\Drupal\ood_software\Controller\MyAppsRedirectController::redirectToMyApps'
+    _title: 'My Apps'
+  requirements:
+    _role: 'authenticated'
