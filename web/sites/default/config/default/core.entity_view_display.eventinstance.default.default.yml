@@ -11,7 +11,6 @@ dependencies:
   module:
     - datetime_range
     - link
-    - options
     - text
 _core:
   default_config_hash: lFFUFIZPBUZQjrIYYvP6U1hzVLGjKMl0DYK93zPM_80
@@ -20,13 +19,6 @@ targetEntityType: eventinstance
 bundle: default
 mode: default
 content:
-  choose_where_to_share_this:
-    type: list_default
-    label: visible
-    settings: {  }
-    third_party_settings: {  }
-    weight: 52
-    region: content
   content_moderation_control:
     settings: {  }
     third_party_settings: {  }
@@ -68,25 +60,25 @@ content:
     region: content
   other_authors:
     type: entity_reference_label
-    label: visible
+    label: above
     settings:
       link: true
     third_party_settings: {  }
-    weight: 59
+    weight: 10
     region: content
   post_survey_email_text:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 9
+    weight: 8
     region: content
   pre_survey_email_text:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 10
+    weight: 9
     region: content
   tags:
     type: entity_reference_label
