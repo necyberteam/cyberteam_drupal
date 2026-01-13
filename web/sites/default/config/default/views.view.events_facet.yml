@@ -7245,7 +7245,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: 'No Webinars Found'
+            value: 'No recorded events or trainings found.'
             format: basic_html
           tokenize: false
       sorts:
@@ -7521,34 +7521,8 @@ display:
       css_class: full-recorded-webinar
       use_ajax: false
       display_description: ''
-      header:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<h2>Recorded Webinars</h2>'
-            format: full_html
-          tokenize: false
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary block ms-0 my-10" href="https://www.youtube.com/@NAIRRPilot/videos">view all on youtube</a>'
-            format: full_html
-          tokenize: false
+      header: {  }
+      footer: {  }
       exposed_block: true
       display_extenders:
         jsonapi_views:
