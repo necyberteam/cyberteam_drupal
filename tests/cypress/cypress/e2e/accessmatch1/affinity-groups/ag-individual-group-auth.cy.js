@@ -34,8 +34,8 @@ function add_pecan_as_ag_coord() {
   cy.get('#edit-field-coordinator-1-target-id').clear();
   cy.get('#edit-field-coordinator-1-target-id')
     .type('Pecan Pie')
-    .get('#ui-id-2')  // this is the dropdown that shows up
-    .find('.ui-menu-item') //
+    .get('.ui-autocomplete')  // this is the dropdown that shows up
+    .find('.ui-menu-item')
     .first() // take the first one
     .click();
 

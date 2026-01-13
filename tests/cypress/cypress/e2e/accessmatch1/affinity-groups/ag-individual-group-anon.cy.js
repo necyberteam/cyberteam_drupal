@@ -55,7 +55,7 @@ describe("Anonymous user tests the Individual Affinity Groups page", () => {
     cy.get('.block-access-affinitygroup.block-affinity-bottom-left')
       .contains('See past events')
       .should('have.attr', 'href')
-      .and('contain', '/past-events');
+      .and('contain', '/events/past');
     cy.get('.block-access-affinitygroup.block-affinity-bottom-left')
       .contains('Announcements');
 
