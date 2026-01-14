@@ -29,8 +29,8 @@ $cookie_name = 'turnstile_verified';
 $cookie_duration = 86400; // 24 hours
 
 // Get the return URL from query parameter.
-// Decode it since it was URL-encoded when passed as a query parameter.
-$return_url = isset($_GET['return']) ? urldecode($_GET['return']) : '/';
+// The URL may be double-encoded (urlencode called twice), so decode twice.
+$return_url = isset($_GET['return']) ? urldecode(urldecode($_GET['return'])) : '/';
 
 // Sanitize return URL - must be a relative path on this domain.
 if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:]*$/', $return_url)) {
