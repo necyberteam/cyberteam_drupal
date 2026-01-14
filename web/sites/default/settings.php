@@ -190,144 +190,101 @@ if (defined(
 
 $env = getenv('PANTHEON_ENVIRONMENT');
 
-if (isset($env)) {
-  switch ($env) {
-    case 'live':
-      // Enhanced bot detection and facet limiting.
-      if (isset($_SERVER['QUERY_STRING'])) {
-        // Count unique facet parameters (deduplicate)
-        $facet_values = [];
-        foreach ($_GET as $key => $value) {
-          if (preg_match('/^f\[\d+\]$/', $key)) {
-            $facet_values[$value] = true;
-          }
+// Helper function to get Turnstile secrets.
+// Uses Pantheon Secrets on Pantheon, falls back to getenv() for local dev.
+function _get_turnstile_secret($name) {
+  if (function_exists('pantheon_get_secret')) {
+    $value = pantheon_get_secret($name);
+    if ($value) {
+      return $value;
+    }
+  }
+  return getenv($name) ?: '';
+}
+
+// Turnstile-based bot protection for faceted searches.
+// Enable on live environment OR when TURNSTILE_ENABLED is set.
+$enable_turnstile = ($env === 'live') || getenv('TURNSTILE_ENABLED');
+
+if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
+  // Count unique facet parameters.
+  // PHP parses f[0]=value as $_GET['f'][0], so check for 'f' array.
+  $facet_count = 0;
+  if (isset($_GET['f']) && is_array($_GET['f'])) {
+    $facet_count = count($_GET['f']);
+  }
+
+  // Only check faceted pages.
+  if ($facet_count > 0) {
+    $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+
+    // Skip verification for AJAX requests (real users already on site).
+    $is_ajax = isset($_GET['_drupal_ajax']) || isset($_SERVER['HTTP_X_REQUESTED_WITH']);
+
+    if (!$is_ajax) {
+      // First line of defense: block obvious bots immediately.
+      $known_bots = [
+        'bot', 'Bot', 'BOT', 'crawler', 'Crawler', 'spider', 'Spider',
+        'AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot', 'PetalBot', 'BLEXBot',
+        'YandexBot', 'Googlebot', 'bingbot', 'Baiduspider', 'Sogou', 'Exabot',
+        'facebot', 'ia_archiver', 'Screaming Frog', 'python', 'Python',
+        'Go-http-client', 'Java/', 'wget', 'curl', 'libwww', 'lwp-trivial',
+        'httrack', 'nutch', 'msnbot', 'Discordbot', 'WhatsApp', 'Twitterbot',
+        'facebookexternalhit', 'LinkedInBot', 'Slackbot', 'Telegram', 'Signal',
+        'DataForSeoBot', 'SeznamBot', 'BingPreview', 'PageSpeed', 'Lighthouse',
+        'Chrome-Lighthouse', 'HeadlessChrome', 'PhantomJS', 'SlimerJS',
+        'CensysInspect', 'NetcraftSurveyAgent', 'masscan', 'nmap',
+      ];
+
+      foreach ($known_bots as $bot) {
+        if (stripos($user_agent, $bot) !== FALSE) {
+          error_log('Blocked known bot faceted request: ' . $_SERVER['REQUEST_URI'] . ' | UA: ' . $user_agent);
+          header("HTTP/1.1 403 Forbidden");
+          echo 'Access denied.';
+          exit();
         }
-        $facet_count = count($facet_values);
-        
-        // Only check faceted pages
-        if ($facet_count > 0) {
-          $is_bot = FALSE;
-          $bot_reason = '';
-          $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-          
-          // Skip bot detection for AJAX requests (they come from real users already on site)
-          $is_ajax = isset($_GET['_drupal_ajax']) || isset($_SERVER['HTTP_X_REQUESTED_WITH']);
-          
-          // 1. Known bot User-Agent strings (including partial matches) - skip for AJAX
-          if (!$is_ajax) {
-            $known_bots = [
-            'bot', 'Bot', 'BOT', 'crawler', 'Crawler', 'spider', 'Spider',
-            'AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot', 'PetalBot', 'BLEXBot', 
-            'YandexBot', 'Googlebot', 'bingbot', 'Baiduspider', 'Sogou', 'Exabot', 
-            'facebot', 'ia_archiver', 'Screaming Frog', 'python', 'Python',
-            'Go-http-client', 'Java/', 'wget', 'curl', 'libwww', 'lwp-trivial',
-            'httrack', 'nutch', 'msnbot', 'Discordbot', 'WhatsApp', 'Twitterbot',
-            'facebookexternalhit', 'LinkedInBot', 'Slackbot', 'Telegram', 'Signal',
-            'DataForSeoBot', 'SeznamBot', 'BingPreview', 'PageSpeed', 'Lighthouse',
-            'Chrome-Lighthouse', 'HeadlessChrome', 'PhantomJS', 'SlimerJS',
-            'CensysInspect', 'NetcraftSurveyAgent', 'masscan', 'nmap',
-            ];
-            
-            foreach ($known_bots as $bot) {
-              if (stripos($user_agent, $bot) !== FALSE) {
-                $is_bot = TRUE;
-                $bot_reason = 'Known bot UA: ' . $bot;
-                break;
-              }
-            }
-          }
-          
-          // 2. Suspicious User-Agent patterns - skip for AJAX
-          if (!$is_bot && !$is_ajax) {
-            // Empty or missing User-Agent (very suspicious)
-            if (empty($user_agent)) {
-              $is_bot = TRUE;
-              $bot_reason = 'Empty User-Agent';
-            }
-            // Very short User-Agent (likely fake)
-            elseif (strlen($user_agent) < 20) {
-              $is_bot = TRUE;
-              $bot_reason = 'Suspiciously short UA';
-            }
-            // Generic HTTP libraries
-            elseif (preg_match('/^(Mozilla\/\d\.\d|Opera\/\d\.\d|Safari\/\d+)$/', $user_agent)) {
-              $is_bot = TRUE;
-              $bot_reason = 'Generic library UA';
-            }
-            // Outdated browser versions (often used by bots)
-            elseif (preg_match('/MSIE [5-8]\./', $user_agent) || 
-                    preg_match('/Firefox\/[1-3]\d\./', $user_agent) ||
-                    preg_match('/Chrome\/[1-4]\d\./', $user_agent)) {
-              $is_bot = TRUE;
-              $bot_reason = 'Outdated browser version';
-            }
-          }
-          
-          // 3. Check request headers for bot indicators - skip for AJAX
-          if (!$is_bot && !$is_ajax) {
-            // Missing common browser headers
-            if (!isset($_SERVER['HTTP_ACCEPT']) || 
-                !isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ||
-                !isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
-              $is_bot = TRUE;
-              $bot_reason = 'Missing browser headers';
-            }
-            // Suspicious Accept header
-            elseif (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] === '*/*') {
-              $is_bot = TRUE;
-              $bot_reason = 'Generic Accept header';
-            }
-          }
-          
-          // 4. Check for suspicious request patterns - skip for AJAX
-          if (!$is_bot && !$is_ajax) {
-            // Direct faceted search with no referrer (systematic bot crawling pattern)
-            if (!isset($_SERVER['HTTP_REFERER']) && $facet_count >= 1) {
-              $is_bot = TRUE;
-              $bot_reason = 'Faceted search with no referrer';
-            }
-          }
-          
-          // Apply different thresholds for bots vs regular users
-          if ($is_bot) {
-            // Bots: Block ANY faceted search
-            error_log('Blocked bot faceted request: ' . $_SERVER['REQUEST_URI'] . ' | UA: ' . $user_agent . ' | Reason: ' . $bot_reason);
-            
-            // Return 403 for bots
-            header("HTTP/1.1 403 Forbidden");
-            echo 'Access denied.';
-            exit();
-          }
-          elseif ($facet_count >= 2) {
-            // Regular users: Block only multiple facets
-            error_log('Blocked multi-facet request: ' . $_SERVER['REQUEST_URI'] . ' (Facets: ' . $facet_count . ') | UA: ' . $user_agent);
-            
-            // Return 503 Service Unavailable with a user-friendly message
-            header("HTTP/1.1 503 Service Unavailable");
-            header("Retry-After: 60");
-            
-            // Provide a simple HTML response
-            echo '<!DOCTYPE html>
+      }
+
+      // Second line of defense: Turnstile verification for everyone else.
+      $turnstile_secret = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
+      $cookie_name = 'turnstile_verified';
+
+      // Verify the cookie is valid (matches expected hash).
+      $cookie_valid = FALSE;
+      if (isset($_COOKIE[$cookie_name]) && !empty($turnstile_secret)) {
+        $expected_hash = hash('sha256', $turnstile_secret . $_SERVER['REMOTE_ADDR']);
+        $cookie_valid = hash_equals($expected_hash, $_COOKIE[$cookie_name]);
+      }
+
+      if (!$cookie_valid && !empty($turnstile_secret)) {
+        // No valid verification cookie - redirect to Turnstile challenge.
+        $return_url = $_SERVER['REQUEST_URI'];
+        $challenge_url = '/turnstile-verify.php?return=' . urlencode($return_url);
+
+        error_log('Redirecting to Turnstile: ' . $_SERVER['REQUEST_URI'] . ' | UA: ' . $user_agent);
+        header('Location: ' . $challenge_url);
+        exit();
+      }
+
+      // If Turnstile is not configured, fall back to blocking multiple facets.
+      if (empty($turnstile_secret) && $facet_count >= 2) {
+        error_log('Blocked multi-facet request (no Turnstile): ' . $_SERVER['REQUEST_URI']);
+        header("HTTP/1.1 503 Service Unavailable");
+        header("Retry-After: 60");
+        echo '<!DOCTYPE html>
 <html>
 <head>
     <title>Service Temporarily Unavailable</title>
 </head>
 <body>
     <h1>Service Temporarily Unavailable</h1>
-    <p>The page you requested is temporarily unavailable due to high server load.</p>
-    <p>Please try one of the following:</p>
-    <ul>
-        <li>Use fewer filters in your search</li>
-        <li>Try again in a few moments</li>
-        <li><a href="/">Return to the homepage</a></li>
-    </ul>
+    <p>Please use fewer filters or try again later.</p>
+    <p><a href="/">Return to the homepage</a></p>
 </body>
 </html>';
-            exit();
-          }
-        }
+        exit();
       }
-      break;
+    }
   }
 }
 
