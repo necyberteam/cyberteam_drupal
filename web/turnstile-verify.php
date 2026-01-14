@@ -33,7 +33,7 @@ $cookie_duration = 86400; // 24 hours
 $return_url = isset($_GET['return']) ? urldecode($_GET['return']) : '/';
 
 // Sanitize return URL - must be a relative path on this domain.
-if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+]*$/', $return_url)) {
+if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:]*$/', $return_url)) {
   $return_url = '/';
 }
 
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cf-turnstile-response
   $return_url = isset($_POST['return_url']) ? $_POST['return_url'] : '/';
 
   // Sanitize return URL again.
-  if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+]*$/', $return_url)) {
+  if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:]*$/', $return_url)) {
     $return_url = '/';
   }
 
