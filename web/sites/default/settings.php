@@ -473,6 +473,9 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
   header('Content-Type: text/plain');
   echo "Turnstile Verify Debug\n";
   echo "======================\n";
+  echo "REMOTE_ADDR: " . ($_SERVER['REMOTE_ADDR'] ?? 'not set') . "\n";
+  echo "X-Forwarded-For: " . ($_SERVER['HTTP_X_FORWARDED_FOR'] ?? 'not set') . "\n";
+  echo "cookie_hash_would_be: " . hash('sha256', $secret_key . $_SERVER['REMOTE_ADDR']) . "\n";
   echo "token_len: " . strlen($token) . "\n";
   echo "token_first20: " . substr($token, 0, 20) . "\n";
   echo "secret_key_len: " . strlen($secret_key) . "\n";
