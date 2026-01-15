@@ -252,6 +252,12 @@ function _serve_turnstile_challenge($return_url) {
     $return_url = '/';
   }
 
+  // Debug: check if we receive the POST.
+  $GLOBALS['_turnstile_post_debug'] = [
+    'method' => $_SERVER['REQUEST_METHOD'],
+    'has_token' => isset($_POST['cf-turnstile-response']) ? 'yes' : 'no',
+  ];
+
   // Handle form submission.
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cf-turnstile-response'])) {
     $token = $_POST['cf-turnstile-response'];
@@ -393,6 +399,12 @@ function _serve_turnstile_challenge($return_url) {
     // Show if secret was actually retrieved (masked).
     $sk = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
     echo 'secret_key_len=' . strlen($sk) . ' first5=' . substr($sk, 0, 5) . "\n";
+    // Show POST debug.
+    if (!empty($GLOBALS['_turnstile_post_debug'])) {
+      echo "\nPOST debug:\n";
+      echo 'method=' . $GLOBALS['_turnstile_post_debug']['method'] . "\n";
+      echo 'has_token=' . $GLOBALS['_turnstile_post_debug']['has_token'] . "\n";
+    }
     // Show verification debug if present (after POST).
     if (!empty($GLOBALS['_turnstile_verify_debug'])) {
       echo "\nVerification:\n";
