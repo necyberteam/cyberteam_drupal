@@ -378,7 +378,7 @@ function _serve_turnstile_challenge($return_url) {
     echo '<div class="error">' . htmlspecialchars($error) . '</div>';
   }
 
-  echo '<form method="POST" action="">
+  echo '<form method="POST" action="/turnstile-challenge">
       <input type="hidden" name="return_url" value="' . htmlspecialchars($return_url) . '">
       <div class="cf-turnstile" data-sitekey="' . htmlspecialchars($site_key) . '"></div>
       <button type="submit">Continue</button>
