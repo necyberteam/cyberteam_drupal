@@ -96,6 +96,13 @@ class GitHubService {
   protected $license;
 
   /**
+   * Repo license link.
+   *
+   * @var string
+   */
+  protected $licenseLink;
+
+  /**
    * Organization name.
    *
    * @var string
@@ -246,6 +253,7 @@ class GitHubService {
         licenseInfo {
           name
           spdxId
+          url
         }
         releases(first: 5, orderBy: {field: CREATED_AT, direction: DESC}) {
           nodes {
@@ -279,6 +287,7 @@ class GitHubService {
     $this->stars = $this->data['stargazerCount'];
     $this->readme = $this->data['readme']['text'] ?? NULL;
     $this->lastComittedDate = strtotime($this->data['defaultBranchRef']['target']['committedDate']);
+    $this->licenseLink = $this->data['licenseInfo']['url'] ?? NULL;
     $this->license = $this->data['licenseInfo']['spdxId'] ?? NULL;
     $this->organization = $this->data['owner']['name'];
 
@@ -349,6 +358,13 @@ class GitHubService {
    */
   public function getLastComittedDate() {
     return $this->lastComittedDate;
+  }
+
+  /**
+   * Get license.
+   */
+  public function getLicenseLink() {
+    return $this->licenseLink;
   }
 
   /**

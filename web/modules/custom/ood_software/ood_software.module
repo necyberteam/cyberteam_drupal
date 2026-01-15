@@ -171,6 +171,7 @@ function ood_software_fetch_github_data(array &$form, FormStateInterface $form_s
     $data = $gh->getData();
 
     $readme = $gh->getReadme();
+    $license_link = $gh->getLicenseLink();
     $license = $gh->getLicense();
     $manifest = $gh->getManifestData();
     $organization = $gh->getOrganization();
@@ -208,6 +209,11 @@ function ood_software_fetch_github_data(array &$form, FormStateInterface $form_s
     $form['title']['widget'][0]['value']['#value'] = $gh->getRepoName();
     $form['field_appverse_lastupdated']['widget'][0]['value']['#value'] = $gh->getLastComittedDate();
     $form['field_appverse_organization']['widget'][0]['target_id']['#value'] = $organization;
+
+    if ($license_link) {
+      $form['field_appverse_license_link']['widget'][0]['uri']['#value'] = $license_link;
+    }
+
     if ($license) {
       $form['field_license']['widget'][0]['target_id']['#value'] = $license;
     }
