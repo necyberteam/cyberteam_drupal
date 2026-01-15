@@ -202,9 +202,163 @@ function _get_turnstile_secret($name) {
   return getenv($name) ?: '';
 }
 
+/**
+ * Serve the Turnstile challenge page.
+ *
+ * This function handles both displaying the challenge form and processing
+ * the verification response. It runs before Drupal bootstraps to minimize
+ * server load from bot traffic.
+ */
+function _serve_turnstile_challenge($return_url) {
+  $site_key = _get_turnstile_secret('TURNSTILE_SITE_KEY');
+  $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
+  $cookie_name = 'turnstile_verified';
+  $cookie_duration = 86400; // 24 hours
+  $error = '';
+
+  // Sanitize return URL - must be a relative path on this domain.
+  if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:]*$/', $return_url)) {
+    $return_url = '/';
+  }
+
+  // Handle form submission.
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cf-turnstile-response'])) {
+    $token = $_POST['cf-turnstile-response'];
+    $post_return_url = isset($_POST['return_url']) ? $_POST['return_url'] : '/';
+
+    // Sanitize return URL again.
+    if (preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:]*$/', $post_return_url)) {
+      $return_url = $post_return_url;
+    }
+
+    // Verify with Cloudflare.
+    $ch = curl_init('https://challenges.cloudflare.com/turnstile/v0/siteverify');
+    curl_setopt_array($ch, [
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => http_build_query([
+        'secret' => $secret_key,
+        'response' => $token,
+        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
+      ]),
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_TIMEOUT => 10,
+    ]);
+
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($http_code === 200) {
+      $result = json_decode($response, true);
+
+      if (!empty($result['success'])) {
+        // Verification successful - set cookie and redirect.
+        $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+        setcookie($cookie_name, hash('sha256', $secret_key . $_SERVER['REMOTE_ADDR']), [
+          'expires' => time() + $cookie_duration,
+          'path' => '/',
+          'secure' => $secure,
+          'httponly' => true,
+          'samesite' => 'Lax',
+        ]);
+
+        header('Location: ' . $return_url);
+        exit();
+      }
+    }
+
+    // Verification failed.
+    $error = 'Verification failed. Please try again.';
+  }
+
+  // Calculate base path for "skip" link.
+  $base_path = strtok($return_url, '?');
+  $show_skip_link = ($base_path !== $return_url);
+
+  // Output the challenge page.
+  header('Content-Type: text/html; charset=UTF-8');
+  echo '<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify You\'re Human - ACCESS</title>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 { margin: 0 0 10px 0; color: #333; font-size: 24px; }
+    p { color: #666; margin: 0 0 24px 0; line-height: 1.5; }
+    .error { background: #fee; color: #c00; padding: 12px; border-radius: 4px; margin-bottom: 20px; }
+    .cf-turnstile { display: flex; justify-content: center; margin-bottom: 20px; }
+    button {
+      background: #0073e6;
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #005bb5; }
+    .skip-link { display: block; margin-top: 20px; color: #666; text-decoration: none; font-size: 14px; }
+    .skip-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Quick Verification</h1>
+    <p>To help protect our site from automated traffic, please complete this quick verification.</p>';
+
+  if (!empty($error)) {
+    echo '<div class="error">' . htmlspecialchars($error) . '</div>';
+  }
+
+  echo '<form method="POST" action="">
+      <input type="hidden" name="return_url" value="' . htmlspecialchars($return_url) . '">
+      <div class="cf-turnstile" data-sitekey="' . htmlspecialchars($site_key) . '"></div>
+      <button type="submit">Continue</button>
+    </form>';
+
+  if ($show_skip_link) {
+    echo '<a href="' . htmlspecialchars($base_path) . '" class="skip-link">Continue without filters &rarr;</a>';
+  }
+
+  echo '</div>
+</body>
+</html>';
+  exit();
+}
+
 // Turnstile-based bot protection for faceted searches.
 // Enable on live environment OR when TURNSTILE_ENABLED is set.
 $enable_turnstile = ($env === 'live') || getenv('TURNSTILE_ENABLED');
+
+// Handle Turnstile challenge page requests.
+// This intercepts /turnstile-challenge before Drupal routes it.
+if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-challenge') === 0) {
+  $return_url = isset($_GET['return']) ? $_GET['return'] : '/';
+  _serve_turnstile_challenge($return_url);
+}
 
 if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
   // Count unique facet parameters.
@@ -259,7 +413,7 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
       if (!$cookie_valid && !empty($turnstile_secret)) {
         // No valid verification cookie - redirect to Turnstile challenge.
         $return_url = $_SERVER['REQUEST_URI'];
-        $challenge_url = '/turnstile-verify.php?return=' . urlencode($return_url);
+        $challenge_url = '/turnstile-challenge?return=' . urlencode($return_url);
 
         error_log('Redirecting to Turnstile: ' . $_SERVER['REQUEST_URI'] . ' | UA: ' . $user_agent);
         header('Location: ' . $challenge_url);
