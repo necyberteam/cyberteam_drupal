@@ -8,9 +8,10 @@ dependencies:
     - field.field.node.appverse_app.field_appverse_app_type
     - field.field.node.appverse_app.field_appverse_github_url
     - field.field.node.appverse_app.field_appverse_lastupdated
+    - field.field.node.appverse_app.field_appverse_license_link
+    - field.field.node.appverse_app.field_appverse_organization
     - field.field.node.appverse_app.field_appverse_readme
     - field.field.node.appverse_app.field_appverse_software_implemen
-    - field.field.node.appverse_app.field_appverse_organization
     - field.field.node.appverse_app.field_domain_access
     - field.field.node.appverse_app.field_domain_all_affiliates
     - field.field.node.appverse_app.field_domain_source
@@ -73,6 +74,18 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
     weight: 105
+    region: content
+  field_appverse_license_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 110
     region: content
   field_appverse_organization:
     type: entity_reference_label
