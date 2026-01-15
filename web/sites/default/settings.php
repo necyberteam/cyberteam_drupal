@@ -191,14 +191,25 @@ if (defined(
 $env = getenv('PANTHEON_ENVIRONMENT');
 
 // Helper function to get Turnstile secrets.
-// Uses Pantheon Secrets on Pantheon, falls back to getenv() for local dev.
+// Reads from private secrets file (Pantheon) or env vars (local dev).
 function _get_turnstile_secret($name) {
-  if (function_exists('pantheon_get_secret')) {
-    $value = pantheon_get_secret($name);
-    if ($value) {
-      return $value;
+  static $secrets = null;
+
+  // Load secrets file once.
+  if ($secrets === null) {
+    $secrets_file = DRUPAL_ROOT . '/sites/default/files/private/.keys/secrets.json';
+    if (file_exists($secrets_file)) {
+      $secrets = json_decode(file_get_contents($secrets_file), true) ?: [];
+    } else {
+      $secrets = [];
     }
   }
+
+  if (isset($secrets[$name])) {
+    return $secrets[$name];
+  }
+
+  // Fall back to environment variables (local dev).
   return getenv($name) ?: '';
 }
 
@@ -412,7 +423,8 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
 
       if (!$cookie_valid && !empty($turnstile_secret)) {
         // No valid verification cookie - redirect to Turnstile challenge.
-        $return_url = $_SERVER['REQUEST_URI'];
+        // Decode REQUEST_URI first since it may already be encoded, then re-encode once.
+        $return_url = urldecode($_SERVER['REQUEST_URI']);
         $challenge_url = '/turnstile-challenge?return=' . urlencode($return_url);
 
         error_log('Redirecting to Turnstile: ' . $_SERVER['REQUEST_URI'] . ' | UA: ' . $user_agent);
