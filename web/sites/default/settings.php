@@ -594,6 +594,21 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
       }
 
       if (!$cookie_valid && !empty($turnstile_secret)) {
+        // DEBUG: Show why validation failed instead of redirecting
+        header('Content-Type: text/plain');
+        echo "Turnstile Validation Debug\n";
+        echo "==========================\n\n";
+        echo "REMOTE_ADDR: " . ($_SERVER['REMOTE_ADDR'] ?? 'not set') . "\n";
+        echo "X-Forwarded-For: " . ($_SERVER['HTTP_X_FORWARDED_FOR'] ?? 'not set') . "\n\n";
+        echo "Cookie present: " . (isset($_COOKIE[$cookie_name]) ? 'yes' : 'no') . "\n";
+        if (isset($_COOKIE[$cookie_name])) {
+          echo "Cookie value: " . $_COOKIE[$cookie_name] . "\n";
+          echo "Expected hash: " . hash('sha256', $turnstile_secret . $_SERVER['REMOTE_ADDR']) . "\n";
+          echo "Match: " . ($cookie_valid ? 'YES' : 'NO') . "\n";
+        }
+        echo "\nSecret key length: " . strlen($turnstile_secret) . "\n";
+        exit();
+
         // No valid verification cookie - redirect to Turnstile challenge.
         // Decode REQUEST_URI first since it may already be encoded, then re-encode once.
         $return_url = urldecode($_SERVER['REQUEST_URI']);
