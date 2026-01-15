@@ -210,14 +210,19 @@ function _get_turnstile_secret($name) {
 
     $secrets = [];
     $found_path = null;
+    $debug_info = [];
     foreach ($possible_paths as $path) {
-      if (file_exists($path)) {
-        $secrets = json_decode(file_get_contents($path), true) ?: [];
+      $exists = file_exists($path);
+      $debug_info[] = $path . ' => ' . ($exists ? 'EXISTS' : 'not found');
+      if ($exists && $found_path === null) {
+        $raw = file_get_contents($path);
+        $secrets = json_decode($raw, true) ?: [];
         $found_path = $path;
-        break;
+        $debug_info[] = 'raw_length=' . strlen($raw) . ' keys=' . implode(',', array_keys($secrets));
       }
     }
-
+    // Store debug info for display on challenge page.
+    $GLOBALS['_turnstile_debug'] = $debug_info;
   }
 
   if (isset($secrets[$name])) {
@@ -367,6 +372,17 @@ function _serve_turnstile_challenge($return_url) {
 
   if ($show_skip_link) {
     echo '<a href="' . htmlspecialchars($base_path) . '" class="skip-link">Continue without filters &rarr;</a>';
+  }
+
+  // Temporary debug output - remove after fixing.
+  if (!empty($GLOBALS['_turnstile_debug'])) {
+    echo '<pre style="margin-top:20px;padding:10px;background:#f0f0f0;font-size:11px;text-align:left;overflow:auto;">';
+    echo "Debug:\n";
+    foreach ($GLOBALS['_turnstile_debug'] as $line) {
+      echo htmlspecialchars($line) . "\n";
+    }
+    echo 'cwd=' . getcwd() . "\n";
+    echo '</pre>';
   }
 
   echo '</div>
