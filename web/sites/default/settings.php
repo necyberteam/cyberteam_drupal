@@ -197,11 +197,20 @@ function _get_turnstile_secret($name) {
 
   // Load secrets file once.
   if ($secrets === null) {
-    $secrets_file = DRUPAL_ROOT . '/sites/default/files/private/.keys/secrets.json';
-    if (file_exists($secrets_file)) {
-      $secrets = json_decode(file_get_contents($secrets_file), true) ?: [];
-    } else {
-      $secrets = [];
+    // Try possible paths for the secrets file on Pantheon.
+    // SFTP shows /files/private but actual path varies.
+    $possible_paths = [
+      __DIR__ . '/files/private/.keys/secrets.json',
+      '/code/web/sites/default/files/private/.keys/secrets.json',
+      '/files/private/.keys/secrets.json',
+    ];
+
+    $secrets = [];
+    foreach ($possible_paths as $path) {
+      if (file_exists($path)) {
+        $secrets = json_decode(file_get_contents($path), true) ?: [];
+        break;
+      }
     }
   }
 
