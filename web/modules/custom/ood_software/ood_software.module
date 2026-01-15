@@ -146,6 +146,9 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
     $form['actions']['submit']['#submit'][] = 'ood_software__redirect_submit';
   }
 
+  // Hide description for link.
+  unset($form['field_appverse_license_link']['widget'][0]['uri']['#description']);
+
   if ($form_id === 'node_appverse_app_edit_form') {
     // Disable the 'field_appverse_github_url' field if the node is published.
     $node = $form_state->getFormObject()->getEntity();
@@ -154,6 +157,7 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
       $form['field_appverse_github_url']['#disabled'] = TRUE;
       $form['field_appverse_github_url']['widget'][0]['uri']['#attributes']['class'][] = 'form-control';
       $form['field_appverse_organization']['#disabled'] = TRUE;
+      $form['field_appverse_license_link']['#disabled'] = TRUE;
       $form['field_license']['#disabled'] = TRUE;
     }
   }
