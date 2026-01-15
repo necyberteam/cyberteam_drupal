@@ -241,7 +241,7 @@ function _serve_turnstile_challenge($return_url) {
   $error = '';
 
   // Sanitize return URL - must be a relative path on this domain.
-  if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:]*$/', $return_url)) {
+  if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:\#\~\@\!\'\(\)\,\;\* ]*$/', $return_url)) {
     $return_url = '/';
   }
 
@@ -253,7 +253,7 @@ function _serve_turnstile_challenge($return_url) {
     $post_return_url = $_POST['return_url'] ?? $_GET['return_url'] ?? '/';
 
     // Sanitize return URL again.
-    if (preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:]*$/', $post_return_url)) {
+    if (preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:\#\~\@\!\'\(\)\,\;\* ]*$/', $post_return_url)) {
       $return_url = $post_return_url;
     }
 
@@ -411,7 +411,7 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
   $cookie_duration = 86400; // 24 hours
 
   // Sanitize return URL.
-  if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:]*$/', $return_url)) {
+  if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:\#\~\@\!\'\(\)\,\;\* ]*$/', $return_url)) {
     $return_url = '/';
   }
 
@@ -518,8 +518,7 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
 
       if (!$cookie_valid && !empty($turnstile_secret)) {
         // No valid verification cookie - redirect to Turnstile challenge.
-        $return_url = urldecode($_SERVER['REQUEST_URI']);
-        $challenge_url = '/turnstile-challenge?return=' . urlencode($return_url);
+        $challenge_url = '/turnstile-challenge?return=' . urlencode($_SERVER['REQUEST_URI']);
         header('Location: ' . $challenge_url);
         exit();
       }
