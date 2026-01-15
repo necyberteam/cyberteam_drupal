@@ -279,6 +279,14 @@ function _serve_turnstile_challenge($return_url) {
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
+    // Debug: store verification details.
+    $GLOBALS['_turnstile_verify_debug'] = [
+      'secret_key_len' => strlen($secret_key),
+      'secret_key_first5' => substr($secret_key, 0, 5),
+      'http_code' => $http_code,
+      'response' => $response,
+    ];
+
     if ($http_code === 200) {
       $result = json_decode($response, true);
 
@@ -382,6 +390,17 @@ function _serve_turnstile_challenge($return_url) {
       echo htmlspecialchars($line) . "\n";
     }
     echo 'cwd=' . getcwd() . "\n";
+    // Show if secret was actually retrieved (masked).
+    $sk = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
+    echo 'secret_key_len=' . strlen($sk) . ' first5=' . substr($sk, 0, 5) . "\n";
+    // Show verification debug if present (after POST).
+    if (!empty($GLOBALS['_turnstile_verify_debug'])) {
+      echo "\nVerification:\n";
+      echo 'secret_key_len=' . $GLOBALS['_turnstile_verify_debug']['secret_key_len'] . "\n";
+      echo 'secret_key_first5=' . $GLOBALS['_turnstile_verify_debug']['secret_key_first5'] . "\n";
+      echo 'http_code=' . $GLOBALS['_turnstile_verify_debug']['http_code'] . "\n";
+      echo 'response=' . $GLOBALS['_turnstile_verify_debug']['response'] . "\n";
+    }
     echo '</pre>';
   }
 
