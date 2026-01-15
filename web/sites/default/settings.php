@@ -255,13 +255,16 @@ function _serve_turnstile_challenge($return_url) {
   // Debug: check if we receive the POST.
   $GLOBALS['_turnstile_post_debug'] = [
     'method' => $_SERVER['REQUEST_METHOD'],
-    'has_token' => isset($_POST['cf-turnstile-response']) ? 'yes' : 'no',
+    'has_post_token' => isset($_POST['cf-turnstile-response']) ? 'yes' : 'no',
+    'has_get_token' => isset($_GET['cf-turnstile-response']) ? 'yes' : 'no',
   ];
 
   // Handle form submission.
-  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cf-turnstile-response'])) {
-    $token = $_POST['cf-turnstile-response'];
-    $post_return_url = isset($_POST['return_url']) ? $_POST['return_url'] : '/';
+  // Check both POST and GET since Pantheon may redirect POST to GET.
+  $turnstile_token = $_POST['cf-turnstile-response'] ?? $_GET['cf-turnstile-response'] ?? null;
+  if ($turnstile_token) {
+    $token = $turnstile_token;
+    $post_return_url = $_POST['return_url'] ?? $_GET['return_url'] ?? '/';
 
     // Sanitize return URL again.
     if (preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:]*$/', $post_return_url)) {
@@ -321,6 +324,7 @@ function _serve_turnstile_challenge($return_url) {
   $show_skip_link = ($base_path !== $return_url);
 
   // Output the challenge page.
+  // Uses JavaScript to submit via GET with token in URL (POST is redirected by Pantheon edge).
   header('Content-Type: text/html; charset=UTF-8');
   echo '<!DOCTYPE html>
 <html lang="en">
@@ -365,6 +369,7 @@ function _serve_turnstile_challenge($return_url) {
       transition: background 0.2s;
     }
     button:hover { background: #005bb5; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
     .skip-link { display: block; margin-top: 20px; color: #666; text-decoration: none; font-size: 14px; }
     .skip-link:hover { text-decoration: underline; }
   </style>
@@ -374,15 +379,36 @@ function _serve_turnstile_challenge($return_url) {
     <h1>Quick Verification</h1>
     <p>To help protect our site from automated traffic, please complete this quick verification.</p>';
 
-  if (!empty($error)) {
-    echo '<div class="error">' . htmlspecialchars($error) . '</div>';
+  // Show error from failed verification or other issues.
+  if (!empty($error) || isset($_GET['error'])) {
+    $error_msg = $error ?: 'Verification failed. Please try again.';
+    echo '<div class="error">' . htmlspecialchars($error_msg) . '</div>';
   }
 
-  echo '<form method="POST" action="/turnstile-challenge">
-      <input type="hidden" name="return_url" value="' . htmlspecialchars($return_url) . '">
-      <div class="cf-turnstile" data-sitekey="' . htmlspecialchars($site_key) . '"></div>
-      <button type="submit">Continue</button>
-    </form>';
+  // JavaScript handles form submission via GET with token in query string.
+  echo '<div id="error-msg" class="error" style="display:none;"></div>
+    <div class="cf-turnstile" data-sitekey="' . htmlspecialchars($site_key) . '" data-callback="onTurnstileSuccess"></div>
+    <button type="button" id="submit-btn" onclick="submitVerification()" disabled>Continue</button>
+    <script>
+      var turnstileToken = null;
+      var returnUrl = ' . json_encode($return_url) . ';
+
+      function onTurnstileSuccess(token) {
+        turnstileToken = token;
+        document.getElementById("submit-btn").disabled = false;
+      }
+
+      function submitVerification() {
+        if (!turnstileToken) {
+          document.getElementById("error-msg").textContent = "Please complete the verification first.";
+          document.getElementById("error-msg").style.display = "block";
+          return;
+        }
+        // Redirect to verify endpoint with token in URL (avoids POST redirect issue).
+        var verifyUrl = "/turnstile-verify?token=" + encodeURIComponent(turnstileToken) + "&return=" + encodeURIComponent(returnUrl);
+        window.location.href = verifyUrl;
+      }
+    </script>';
 
   if ($show_skip_link) {
     echo '<a href="' . htmlspecialchars($base_path) . '" class="skip-link">Continue without filters &rarr;</a>';
@@ -403,7 +429,8 @@ function _serve_turnstile_challenge($return_url) {
     if (!empty($GLOBALS['_turnstile_post_debug'])) {
       echo "\nPOST debug:\n";
       echo 'method=' . $GLOBALS['_turnstile_post_debug']['method'] . "\n";
-      echo 'has_token=' . $GLOBALS['_turnstile_post_debug']['has_token'] . "\n";
+      echo 'has_post_token=' . $GLOBALS['_turnstile_post_debug']['has_post_token'] . "\n";
+      echo 'has_get_token=' . $GLOBALS['_turnstile_post_debug']['has_get_token'] . "\n";
     }
     // Show verification debug if present (after POST).
     if (!empty($GLOBALS['_turnstile_verify_debug'])) {
@@ -425,6 +452,62 @@ function _serve_turnstile_challenge($return_url) {
 // Turnstile-based bot protection for faceted searches.
 // Enable on live environment OR when TURNSTILE_ENABLED is set.
 $enable_turnstile = ($env === 'live') || getenv('TURNSTILE_ENABLED');
+
+// Handle Turnstile verification endpoint (receives token via GET to avoid POST redirect issue).
+if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') === 0) {
+  $token = isset($_GET['token']) ? $_GET['token'] : '';
+  $return_url = isset($_GET['return']) ? $_GET['return'] : '/';
+  $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
+  $cookie_name = 'turnstile_verified';
+  $cookie_duration = 86400; // 24 hours
+
+  // Sanitize return URL.
+  if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:]*$/', $return_url)) {
+    $return_url = '/';
+  }
+
+  if (!empty($token) && !empty($secret_key)) {
+    // Verify with Cloudflare.
+    $ch = curl_init('https://challenges.cloudflare.com/turnstile/v0/siteverify');
+    curl_setopt_array($ch, [
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => http_build_query([
+        'secret' => $secret_key,
+        'response' => $token,
+        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
+      ]),
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_TIMEOUT => 10,
+    ]);
+
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($http_code === 200) {
+      $result = json_decode($response, true);
+
+      if (!empty($result['success'])) {
+        // Verification successful - set cookie and redirect.
+        $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+        setcookie($cookie_name, hash('sha256', $secret_key . $_SERVER['REMOTE_ADDR']), [
+          'expires' => time() + $cookie_duration,
+          'path' => '/',
+          'secure' => $secure,
+          'httponly' => true,
+          'samesite' => 'Lax',
+        ]);
+
+        header('Location: ' . $return_url);
+        exit();
+      }
+    }
+  }
+
+  // Verification failed - redirect back to challenge with error.
+  header('Location: /turnstile-challenge?return=' . urlencode($return_url) . '&error=1');
+  exit();
+}
 
 // Handle Turnstile challenge page requests.
 // This intercepts /turnstile-challenge before Drupal routes it.
