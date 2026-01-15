@@ -201,11 +201,11 @@ function _get_turnstile_secret($name) {
     // Try possible paths for the secrets file on Pantheon.
     // Per Pantheon docs, use relative path from Drupal root: sites/default/files/private
     // __DIR__ is web/sites/default, so we need to go up and use the Drupal root path.
-    $drupal_root = dirname(dirname(__DIR__));
+    // Per Pantheon docs example, use relative path: sites/default/files/private/file.json
     $possible_paths = [
-      $drupal_root . '/sites/default/files/private/.keys/secrets.json',
+      'sites/default/files/private/.keys/secrets.json',
       __DIR__ . '/files/private/.keys/secrets.json',
-      '/code/web/sites/default/files/private/.keys/secrets.json',
+      '/files/private/.keys/secrets.json',
     ];
 
     $secrets = [];
@@ -218,11 +218,6 @@ function _get_turnstile_secret($name) {
       }
     }
 
-    // Debug logging - remove after testing.
-    if (!$debug_logged) {
-      $debug_logged = true;
-      error_log('Turnstile secrets debug: drupal_root=' . $drupal_root . ' found_path=' . ($found_path ?: 'none') . ' tried=' . implode('|', $possible_paths) . ' keys=' . implode(',', array_keys($secrets)));
-    }
   }
 
   if (isset($secrets[$name])) {
