@@ -194,23 +194,34 @@ $env = getenv('PANTHEON_ENVIRONMENT');
 // Reads from private secrets file (Pantheon) or env vars (local dev).
 function _get_turnstile_secret($name) {
   static $secrets = null;
+  static $debug_logged = false;
 
   // Load secrets file once.
   if ($secrets === null) {
     // Try possible paths for the secrets file on Pantheon.
-    // SFTP shows /files/private but actual path varies.
+    // Per Pantheon docs, use relative path from Drupal root: sites/default/files/private
+    // __DIR__ is web/sites/default, so we need to go up and use the Drupal root path.
+    $drupal_root = dirname(dirname(__DIR__));
     $possible_paths = [
+      $drupal_root . '/sites/default/files/private/.keys/secrets.json',
       __DIR__ . '/files/private/.keys/secrets.json',
       '/code/web/sites/default/files/private/.keys/secrets.json',
-      '/files/private/.keys/secrets.json',
     ];
 
     $secrets = [];
+    $found_path = null;
     foreach ($possible_paths as $path) {
       if (file_exists($path)) {
         $secrets = json_decode(file_get_contents($path), true) ?: [];
+        $found_path = $path;
         break;
       }
+    }
+
+    // Debug logging - remove after testing.
+    if (!$debug_logged) {
+      $debug_logged = true;
+      error_log('Turnstile secrets debug: drupal_root=' . $drupal_root . ' found_path=' . ($found_path ?: 'none') . ' tried=' . implode('|', $possible_paths) . ' keys=' . implode(',', array_keys($secrets)));
     }
   }
 
