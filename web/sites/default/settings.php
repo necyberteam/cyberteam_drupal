@@ -209,20 +209,13 @@ function _get_turnstile_secret($name) {
     ];
 
     $secrets = [];
-    $found_path = null;
-    $debug_info = [];
     foreach ($possible_paths as $path) {
-      $exists = file_exists($path);
-      $debug_info[] = $path . ' => ' . ($exists ? 'EXISTS' : 'not found');
-      if ($exists && $found_path === null) {
+      if (file_exists($path)) {
         $raw = file_get_contents($path);
         $secrets = json_decode($raw, true) ?: [];
-        $found_path = $path;
-        $debug_info[] = 'raw_length=' . strlen($raw) . ' keys=' . implode(',', array_keys($secrets));
+        break;
       }
     }
-    // Store debug info for display on challenge page.
-    $GLOBALS['_turnstile_debug'] = $debug_info;
   }
 
   if (isset($secrets[$name])) {
@@ -243,7 +236,7 @@ function _get_turnstile_secret($name) {
 function _serve_turnstile_challenge($return_url) {
   $site_key = _get_turnstile_secret('TURNSTILE_SITE_KEY');
   $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-  $cookie_name = 'turnstile_verified';
+  $cookie_name = 'STYXKEY_turnstile_verified';
   $cookie_duration = 86400; // 24 hours
   $error = '';
 
@@ -251,13 +244,6 @@ function _serve_turnstile_challenge($return_url) {
   if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:]*$/', $return_url)) {
     $return_url = '/';
   }
-
-  // Debug: check if we receive the POST.
-  $GLOBALS['_turnstile_post_debug'] = [
-    'method' => $_SERVER['REQUEST_METHOD'],
-    'has_post_token' => isset($_POST['cf-turnstile-response']) ? 'yes' : 'no',
-    'has_get_token' => isset($_GET['cf-turnstile-response']) ? 'yes' : 'no',
-  ];
 
   // Handle form submission.
   // Check both POST and GET since Pantheon may redirect POST to GET.
@@ -287,14 +273,6 @@ function _serve_turnstile_challenge($return_url) {
     $response = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-
-    // Debug: store verification details.
-    $GLOBALS['_turnstile_verify_debug'] = [
-      'secret_key_len' => strlen($secret_key),
-      'secret_key_first5' => substr($secret_key, 0, 5),
-      'http_code' => $http_code,
-      'response' => $response,
-    ];
 
     if ($http_code === 200) {
       $result = json_decode($response, true);
@@ -414,35 +392,6 @@ function _serve_turnstile_challenge($return_url) {
     echo '<a href="' . htmlspecialchars($base_path) . '" class="skip-link">Continue without filters &rarr;</a>';
   }
 
-  // Temporary debug output - remove after fixing.
-  if (!empty($GLOBALS['_turnstile_debug'])) {
-    echo '<pre style="margin-top:20px;padding:10px;background:#f0f0f0;font-size:11px;text-align:left;overflow:auto;">';
-    echo "Debug:\n";
-    foreach ($GLOBALS['_turnstile_debug'] as $line) {
-      echo htmlspecialchars($line) . "\n";
-    }
-    echo 'cwd=' . getcwd() . "\n";
-    // Show if secret was actually retrieved (masked).
-    $sk = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-    echo 'secret_key_len=' . strlen($sk) . ' first5=' . substr($sk, 0, 5) . "\n";
-    // Show POST debug.
-    if (!empty($GLOBALS['_turnstile_post_debug'])) {
-      echo "\nPOST debug:\n";
-      echo 'method=' . $GLOBALS['_turnstile_post_debug']['method'] . "\n";
-      echo 'has_post_token=' . $GLOBALS['_turnstile_post_debug']['has_post_token'] . "\n";
-      echo 'has_get_token=' . $GLOBALS['_turnstile_post_debug']['has_get_token'] . "\n";
-    }
-    // Show verification debug if present (after POST).
-    if (!empty($GLOBALS['_turnstile_verify_debug'])) {
-      echo "\nVerification:\n";
-      echo 'secret_key_len=' . $GLOBALS['_turnstile_verify_debug']['secret_key_len'] . "\n";
-      echo 'secret_key_first5=' . $GLOBALS['_turnstile_verify_debug']['secret_key_first5'] . "\n";
-      echo 'http_code=' . $GLOBALS['_turnstile_verify_debug']['http_code'] . "\n";
-      echo 'response=' . $GLOBALS['_turnstile_verify_debug']['response'] . "\n";
-    }
-    echo '</pre>';
-  }
-
   echo '</div>
 </body>
 </html>';
@@ -453,34 +402,18 @@ function _serve_turnstile_challenge($return_url) {
 // Enable on live environment OR when TURNSTILE_ENABLED is set.
 $enable_turnstile = ($env === 'live') || getenv('TURNSTILE_ENABLED');
 
-// DEBUG: Log every request to see what's hitting settings.php
-error_log('Turnstile settings.php: URI=' . $_SERVER['REQUEST_URI'] . ' env=' . $env . ' enable=' . ($enable_turnstile ? 'yes' : 'no') . ' is_verify=' . (strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') === 0 ? 'yes' : 'no'));
-
 // Handle Turnstile verification endpoint (receives token via GET to avoid POST redirect issue).
 if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') === 0) {
   $token = isset($_GET['token']) ? $_GET['token'] : '';
   $return_url = isset($_GET['return']) ? $_GET['return'] : '/';
   $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-  $cookie_name = 'turnstile_verified';
+  $cookie_name = 'STYXKEY_turnstile_verified';
   $cookie_duration = 86400; // 24 hours
 
   // Sanitize return URL.
   if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:]*$/', $return_url)) {
     $return_url = '/';
   }
-
-  // Debug: output verification info instead of redirecting.
-  header('Content-Type: text/plain');
-  echo "Turnstile Verify Debug\n";
-  echo "======================\n";
-  echo "REMOTE_ADDR: " . ($_SERVER['REMOTE_ADDR'] ?? 'not set') . "\n";
-  echo "X-Forwarded-For: " . ($_SERVER['HTTP_X_FORWARDED_FOR'] ?? 'not set') . "\n";
-  echo "cookie_hash_would_be: " . hash('sha256', $secret_key . $_SERVER['REMOTE_ADDR']) . "\n";
-  echo "token_len: " . strlen($token) . "\n";
-  echo "token_first20: " . substr($token, 0, 20) . "\n";
-  echo "secret_key_len: " . strlen($secret_key) . "\n";
-  echo "secret_key_first5: " . substr($secret_key, 0, 5) . "\n";
-  echo "return_url: " . $return_url . "\n\n";
 
   if (!empty($token) && !empty($secret_key)) {
     // Verify with Cloudflare.
@@ -497,17 +430,11 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
     ]);
 
     $response = curl_exec($ch);
-    $curl_error = curl_error($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    echo "curl_error: " . ($curl_error ?: 'none') . "\n";
-    echo "http_code: " . $http_code . "\n";
-    echo "response: " . $response . "\n\n";
-
     if ($http_code === 200) {
       $result = json_decode($response, true);
-      echo "result_success: " . ($result['success'] ? 'true' : 'false') . "\n";
 
       if (!empty($result['success'])) {
         // Verification successful - set cookie and redirect.
@@ -520,15 +447,15 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
           'samesite' => 'Lax',
         ]);
 
-        echo "\nSUCCESS - Cookie set, would redirect to: " . $return_url . "\n";
+        header('Location: ' . $return_url);
         exit();
       }
     }
-  } else {
-    echo "SKIPPED: token or secret empty\n";
   }
 
-  echo "\nFAILED - Would redirect to challenge with error\n";
+  // Verification failed - redirect back to challenge with error.
+  $challenge_url = '/turnstile-challenge?return=' . urlencode($return_url) . '&error=1';
+  header('Location: ' . $challenge_url);
   exit();
 }
 
@@ -580,48 +507,25 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
 
       // Second line of defense: Turnstile verification for everyone else.
       $turnstile_secret = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-      $cookie_name = 'turnstile_verified';
+      $cookie_name = 'STYXKEY_turnstile_verified';
 
       // Verify the cookie is valid (matches expected hash).
       $cookie_valid = FALSE;
       if (isset($_COOKIE[$cookie_name]) && !empty($turnstile_secret)) {
         $expected_hash = hash('sha256', $turnstile_secret . $_SERVER['REMOTE_ADDR']);
         $cookie_valid = hash_equals($expected_hash, $_COOKIE[$cookie_name]);
-        // Debug: log cookie validation details.
-        error_log('Turnstile cookie check: cookie=' . substr($_COOKIE[$cookie_name], 0, 16) . '... expected=' . substr($expected_hash, 0, 16) . '... IP=' . $_SERVER['REMOTE_ADDR'] . ' secret_len=' . strlen($turnstile_secret) . ' valid=' . ($cookie_valid ? 'YES' : 'NO'));
-      } else {
-        error_log('Turnstile cookie check: cookie_set=' . (isset($_COOKIE[$cookie_name]) ? 'yes' : 'no') . ' secret_empty=' . (empty($turnstile_secret) ? 'yes' : 'no'));
       }
 
       if (!$cookie_valid && !empty($turnstile_secret)) {
-        // DEBUG: Show why validation failed instead of redirecting
-        header('Content-Type: text/plain');
-        echo "Turnstile Validation Debug\n";
-        echo "==========================\n\n";
-        echo "REMOTE_ADDR: " . ($_SERVER['REMOTE_ADDR'] ?? 'not set') . "\n";
-        echo "X-Forwarded-For: " . ($_SERVER['HTTP_X_FORWARDED_FOR'] ?? 'not set') . "\n\n";
-        echo "Cookie present: " . (isset($_COOKIE[$cookie_name]) ? 'yes' : 'no') . "\n";
-        if (isset($_COOKIE[$cookie_name])) {
-          echo "Cookie value: " . $_COOKIE[$cookie_name] . "\n";
-          echo "Expected hash: " . hash('sha256', $turnstile_secret . $_SERVER['REMOTE_ADDR']) . "\n";
-          echo "Match: " . ($cookie_valid ? 'YES' : 'NO') . "\n";
-        }
-        echo "\nSecret key length: " . strlen($turnstile_secret) . "\n";
-        exit();
-
         // No valid verification cookie - redirect to Turnstile challenge.
-        // Decode REQUEST_URI first since it may already be encoded, then re-encode once.
         $return_url = urldecode($_SERVER['REQUEST_URI']);
         $challenge_url = '/turnstile-challenge?return=' . urlencode($return_url);
-
-        error_log('Redirecting to Turnstile: ' . $_SERVER['REQUEST_URI'] . ' | UA: ' . $user_agent);
         header('Location: ' . $challenge_url);
         exit();
       }
 
       // If Turnstile is not configured, fall back to blocking multiple facets.
       if (empty($turnstile_secret) && $facet_count >= 2) {
-        error_log('Blocked multi-facet request (no Turnstile): ' . $_SERVER['REQUEST_URI']);
         header("HTTP/1.1 503 Service Unavailable");
         header("Retry-After: 60");
         echo '<!DOCTYPE html>
