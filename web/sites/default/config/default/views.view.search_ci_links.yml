@@ -683,11 +683,14 @@ display:
           field: webform_submission_domain
           plugin_id: search_api_string
       style:
-        type: default
+        type: html_list
         options:
           grouping: {  }
           row_class: ''
           default_row_class: true
+          type: ul
+          wrapper_class: ''
+          class: ''
       row:
         type: fields
       query:
@@ -956,7 +959,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - url.site
         - user
       tags:
         - 'config:facets.facet.content_type'
@@ -1607,7 +1609,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - url.site
         - user
       tags:
         - 'config:facets.facet.content_type_mentorship'
