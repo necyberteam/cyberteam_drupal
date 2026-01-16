@@ -22,9 +22,9 @@ use Drupal\views\ViewExecutable;
  */
 function campuschampions_views_data_export_row_alter_optimized(&$row, ResultRow $result, ViewExecutable $view) {
   if ($view->id() == 'campus_champions_user_export' && $view->current_display == 'ccusers_data_export') {
-    
+
     $cc = (string) $row['field_carnegie_code'];
-    
+
     // Initialize all fields with empty values.
     $row['field_carnegie_code'] = '';
     $row['field_carnegie_code_location'] = '';
@@ -37,52 +37,52 @@ function campuschampions_views_data_export_row_alter_optimized(&$row, ResultRow 
     $row['field_carnegie_code_region'] = '';
     $row['field_carnegie_code_lat'] = '';
     $row['field_carnegie_code_lon'] = '';
-    
+
     // Only process if Carnegie code exists.
     if (!empty($cc)) {
       // Use static caching to avoid repeated database lookups.
       static $carnegie_cache = [];
-      
+
       if (!isset($carnegie_cache[$cc])) {
         // Get data based on Carnegie code.
         $db = new CarnegieCodesLookup();
         $results = $db->lookupByUnitId($cc, [
-          'NAME',
+          'INSTNM',
           'CITY',
           'STABBR',
           'BASIC2021',
           'MSI',
         ]);
-        
+
         if ($results !== FALSE) {
           $carnegie_cache[$cc] = $results;
         } else {
           $carnegie_cache[$cc] = NULL;
         }
       }
-      
+
       $results = $carnegie_cache[$cc];
-      
+
       if ($results !== NULL) {
         $row['field_carnegie_code'] = $cc;
         $row['field_carnegie_code_location'] = $results['CITY'] . ', ' . $results['STABBR'];
         $row['field_carnegie_code_classification'] = $results['BASIC2021'];
         $row['field_carnegie_code_msi'] = $results['MSI'];
-        $row['field_carnegie_code_site'] = $results['NAME'];
+        $row['field_carnegie_code_site'] = $results['INSTNM'];
         $row['field_carnegie_code_region'] = CarnegieCodesLookup::region($results['STABBR']);
-        
+
         $row['field_carnegie_code_eps_lookup'] = 0;
         if (CarnegieCodesLookup::isEpscor($results['STABBR'])) {
           $row['field_carnegie_code_eps_lookup'] = 1;
         }
-        
+
         $row['field_carnegie_code_type_id'] = CarnegieCodesLookup::typeId(
           $row['field_carnegie_code_msi'],
           $row['field_carnegie_code_eps_lookup'],
           $row['field_carnegie_code']
         );
         $row['field_carnegie_code_type'] = CarnegieCodesLookup::type($row['field_carnegie_code_type_id']);
-        
+
         // For lat/lon, we would need to pre-populate these on the user entity
         // or create a separate lookup table to avoid the entity query.
         // For now, leaving them empty for performance.
@@ -90,7 +90,7 @@ function campuschampions_views_data_export_row_alter_optimized(&$row, ResultRow 
         $row['field_carnegie_code_lon'] = '';
       }
     }
-    
+
     // Designation - simplified without webform lookup.
     if (!isset($row['webform_submission_value']) || !$row['webform_submission_value']) {
       $row['webform_submission_value'] = 'Champion';
