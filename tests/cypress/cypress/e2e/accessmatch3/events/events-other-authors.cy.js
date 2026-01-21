@@ -94,6 +94,49 @@ describe('Test Other Authors feature for Event Series', () => {
     cy.get('#edit-submit').should('be.visible')
   })
 
+  it('Other author should be able to see Registrations button', () => {
+    cy.loginAs("walnut@pie.org", "Walnut");
+
+    cy.visit('/events')
+    cy.get('#edit-search-api-fulltext--2').type('example', { delay: 0 })
+    cy.wait(1000)
+    cy.contains('cypress-example-event').click()
+
+    // Verify Registrations button is visible in sidebar
+    cy.get('#block-asptheme-eventinstancesidebar').contains('Registrations').should('be.visible')
+  })
+
+  it('Other author should be able to access registrations page', () => {
+    cy.loginAs("walnut@pie.org", "Walnut");
+
+    cy.visit('/events')
+    cy.get('#edit-search-api-fulltext--2').type('example', { delay: 0 })
+    cy.wait(1000)
+    cy.contains('cypress-example-event').click()
+
+    // Click on Registrations button
+    cy.get('#block-asptheme-eventinstancesidebar').contains('Registrations').click()
+
+    // Verify we can access the registrations page
+    cy.url().should('include', '/registrations')
+
+    // Verify registration counts are displayed (proves we have access)
+    cy.contains(/Capacity:\s*\d+/i).should('be.visible')
+  })
+
+  it('Non-author user should NOT be able to see Registrations button', () => {
+    // Login as Pecan Pie who is not the creator or an other author
+    cy.loginAs("pecan@pie.org", "Pecan");
+
+    cy.visit('/events')
+    cy.get('#edit-search-api-fulltext--2').type('example', { delay: 0 })
+    cy.wait(1000)
+    cy.contains('cypress-example-event').click()
+
+    // Verify Registrations button is NOT visible in sidebar
+    cy.get('#block-asptheme-eventinstancesidebar').should('not.contain', 'Registrations')
+  })
+
   it('Non-author user should NOT be able to edit Event Series', () => {
     // Login as Pecan Pie who is not the creator or an other author
     cy.loginAs("pecan@pie.org", "Pecan");

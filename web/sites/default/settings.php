@@ -190,144 +190,357 @@ if (defined(
 
 $env = getenv('PANTHEON_ENVIRONMENT');
 
-if (isset($env)) {
-  switch ($env) {
-    case 'live':
-      // Enhanced bot detection and facet limiting.
-      if (isset($_SERVER['QUERY_STRING'])) {
-        // Count unique facet parameters (deduplicate)
-        $facet_values = [];
-        foreach ($_GET as $key => $value) {
-          if (preg_match('/^f\[\d+\]$/', $key)) {
-            $facet_values[$value] = true;
-          }
+// Helper function to get Turnstile secrets.
+// Reads from private secrets file (Pantheon) or env vars (local dev).
+function _get_turnstile_secret($name) {
+  static $secrets = null;
+  static $debug_logged = false;
+
+  // Load secrets file once.
+  if ($secrets === null) {
+    // Try possible paths for the secrets file on Pantheon.
+    // Per Pantheon docs, use relative path from Drupal root: sites/default/files/private
+    // __DIR__ is web/sites/default, so we need to go up and use the Drupal root path.
+    // Per Pantheon docs example, use relative path: sites/default/files/private/file.json
+    $possible_paths = [
+      'sites/default/files/private/.keys/secrets.json',
+      __DIR__ . '/files/private/.keys/secrets.json',
+      '/files/private/.keys/secrets.json',
+    ];
+
+    $secrets = [];
+    foreach ($possible_paths as $path) {
+      if (file_exists($path)) {
+        $raw = file_get_contents($path);
+        $secrets = json_decode($raw, true) ?: [];
+        break;
+      }
+    }
+  }
+
+  if (isset($secrets[$name])) {
+    return $secrets[$name];
+  }
+
+  // Fall back to environment variables (local dev).
+  return getenv($name) ?: '';
+}
+
+/**
+ * Serve the Turnstile challenge page.
+ *
+ * This function handles both displaying the challenge form and processing
+ * the verification response. It runs before Drupal bootstraps to minimize
+ * server load from bot traffic.
+ */
+function _serve_turnstile_challenge($return_url) {
+  $site_key = _get_turnstile_secret('TURNSTILE_SITE_KEY');
+  $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
+  $cookie_name = 'STYXKEY_turnstile_verified';
+  $cookie_duration = 86400; // 24 hours
+  $error = '';
+
+  // Sanitize return URL - must be a relative path on this domain.
+  if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:\#\~\@\!\'\(\)\,\;\* ]*$/', $return_url)) {
+    $return_url = '/';
+  }
+
+  // Handle form submission.
+  // Check both POST and GET since Pantheon may redirect POST to GET.
+  $turnstile_token = $_POST['cf-turnstile-response'] ?? $_GET['cf-turnstile-response'] ?? null;
+  if ($turnstile_token) {
+    $token = $turnstile_token;
+    $post_return_url = $_POST['return_url'] ?? $_GET['return_url'] ?? '/';
+
+    // Sanitize return URL again.
+    if (preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:\#\~\@\!\'\(\)\,\;\* ]*$/', $post_return_url)) {
+      $return_url = $post_return_url;
+    }
+
+    // Verify with Cloudflare.
+    $ch = curl_init('https://challenges.cloudflare.com/turnstile/v0/siteverify');
+    curl_setopt_array($ch, [
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => http_build_query([
+        'secret' => $secret_key,
+        'response' => $token,
+        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
+      ]),
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_TIMEOUT => 10,
+    ]);
+
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($http_code === 200) {
+      $result = json_decode($response, true);
+
+      if (!empty($result['success'])) {
+        // Verification successful - set cookie and redirect.
+        $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+        setcookie($cookie_name, hash('sha256', $secret_key . $_SERVER['REMOTE_ADDR']), [
+          'expires' => time() + $cookie_duration,
+          'path' => '/',
+          'secure' => $secure,
+          'httponly' => true,
+          'samesite' => 'Lax',
+        ]);
+
+        header('Location: ' . $return_url);
+        exit();
+      }
+    }
+
+    // Verification failed.
+    $error = 'Verification failed. Please try again.';
+  }
+
+  // Calculate base path for "skip" link.
+  $base_path = strtok($return_url, '?');
+  $show_skip_link = ($base_path !== $return_url);
+
+  // Output the challenge page.
+  // Uses JavaScript to submit via GET with token in URL (POST is redirected by Pantheon edge).
+  header('Content-Type: text/html; charset=UTF-8');
+  echo '<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify You\'re Human - ACCESS</title>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 { margin: 0 0 10px 0; color: #333; font-size: 24px; }
+    p { color: #666; margin: 0 0 24px 0; line-height: 1.5; }
+    .error { background: #fee; color: #c00; padding: 12px; border-radius: 4px; margin-bottom: 20px; }
+    .cf-turnstile { display: flex; justify-content: center; margin-bottom: 20px; }
+    button {
+      background: #0073e6;
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #005bb5; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    .skip-link { display: block; margin-top: 20px; color: #666; text-decoration: none; font-size: 14px; }
+    .skip-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Quick Verification</h1>
+    <p>To help protect our site from automated traffic, please complete this quick verification.</p>';
+
+  // Show error from failed verification or other issues.
+  if (!empty($error) || isset($_GET['error'])) {
+    $error_msg = $error ?: 'Verification failed. Please try again.';
+    echo '<div class="error">' . htmlspecialchars($error_msg) . '</div>';
+  }
+
+  // JavaScript handles form submission via GET with token in query string.
+  echo '<div id="error-msg" class="error" style="display:none;"></div>
+    <div class="cf-turnstile" data-sitekey="' . htmlspecialchars($site_key) . '" data-callback="onTurnstileSuccess"></div>
+    <button type="button" id="submit-btn" onclick="submitVerification()" disabled>Continue</button>
+    <script>
+      var turnstileToken = null;
+      var returnUrl = ' . json_encode($return_url) . ';
+
+      function onTurnstileSuccess(token) {
+        turnstileToken = token;
+        document.getElementById("submit-btn").disabled = false;
+      }
+
+      function submitVerification() {
+        if (!turnstileToken) {
+          document.getElementById("error-msg").textContent = "Please complete the verification first.";
+          document.getElementById("error-msg").style.display = "block";
+          return;
         }
-        $facet_count = count($facet_values);
-        
-        // Only check faceted pages
-        if ($facet_count > 0) {
-          $is_bot = FALSE;
-          $bot_reason = '';
-          $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-          
-          // Skip bot detection for AJAX requests (they come from real users already on site)
-          $is_ajax = isset($_GET['_drupal_ajax']) || isset($_SERVER['HTTP_X_REQUESTED_WITH']);
-          
-          // 1. Known bot User-Agent strings (including partial matches) - skip for AJAX
-          if (!$is_ajax) {
-            $known_bots = [
-            'bot', 'Bot', 'BOT', 'crawler', 'Crawler', 'spider', 'Spider',
-            'AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot', 'PetalBot', 'BLEXBot', 
-            'YandexBot', 'Googlebot', 'bingbot', 'Baiduspider', 'Sogou', 'Exabot', 
-            'facebot', 'ia_archiver', 'Screaming Frog', 'python', 'Python',
-            'Go-http-client', 'Java/', 'wget', 'curl', 'libwww', 'lwp-trivial',
-            'httrack', 'nutch', 'msnbot', 'Discordbot', 'WhatsApp', 'Twitterbot',
-            'facebookexternalhit', 'LinkedInBot', 'Slackbot', 'Telegram', 'Signal',
-            'DataForSeoBot', 'SeznamBot', 'BingPreview', 'PageSpeed', 'Lighthouse',
-            'Chrome-Lighthouse', 'HeadlessChrome', 'PhantomJS', 'SlimerJS',
-            'CensysInspect', 'NetcraftSurveyAgent', 'masscan', 'nmap',
-            ];
-            
-            foreach ($known_bots as $bot) {
-              if (stripos($user_agent, $bot) !== FALSE) {
-                $is_bot = TRUE;
-                $bot_reason = 'Known bot UA: ' . $bot;
-                break;
-              }
-            }
-          }
-          
-          // 2. Suspicious User-Agent patterns - skip for AJAX
-          if (!$is_bot && !$is_ajax) {
-            // Empty or missing User-Agent (very suspicious)
-            if (empty($user_agent)) {
-              $is_bot = TRUE;
-              $bot_reason = 'Empty User-Agent';
-            }
-            // Very short User-Agent (likely fake)
-            elseif (strlen($user_agent) < 20) {
-              $is_bot = TRUE;
-              $bot_reason = 'Suspiciously short UA';
-            }
-            // Generic HTTP libraries
-            elseif (preg_match('/^(Mozilla\/\d\.\d|Opera\/\d\.\d|Safari\/\d+)$/', $user_agent)) {
-              $is_bot = TRUE;
-              $bot_reason = 'Generic library UA';
-            }
-            // Outdated browser versions (often used by bots)
-            elseif (preg_match('/MSIE [5-8]\./', $user_agent) || 
-                    preg_match('/Firefox\/[1-3]\d\./', $user_agent) ||
-                    preg_match('/Chrome\/[1-4]\d\./', $user_agent)) {
-              $is_bot = TRUE;
-              $bot_reason = 'Outdated browser version';
-            }
-          }
-          
-          // 3. Check request headers for bot indicators - skip for AJAX
-          if (!$is_bot && !$is_ajax) {
-            // Missing common browser headers
-            if (!isset($_SERVER['HTTP_ACCEPT']) || 
-                !isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ||
-                !isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
-              $is_bot = TRUE;
-              $bot_reason = 'Missing browser headers';
-            }
-            // Suspicious Accept header
-            elseif (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] === '*/*') {
-              $is_bot = TRUE;
-              $bot_reason = 'Generic Accept header';
-            }
-          }
-          
-          // 4. Check for suspicious request patterns - skip for AJAX
-          if (!$is_bot && !$is_ajax) {
-            // Direct faceted search with no referrer (systematic bot crawling pattern)
-            if (!isset($_SERVER['HTTP_REFERER']) && $facet_count >= 1) {
-              $is_bot = TRUE;
-              $bot_reason = 'Faceted search with no referrer';
-            }
-          }
-          
-          // Apply different thresholds for bots vs regular users
-          if ($is_bot) {
-            // Bots: Block ANY faceted search
-            error_log('Blocked bot faceted request: ' . $_SERVER['REQUEST_URI'] . ' | UA: ' . $user_agent . ' | Reason: ' . $bot_reason);
-            
-            // Return 403 for bots
-            header("HTTP/1.1 403 Forbidden");
-            echo 'Access denied.';
-            exit();
-          }
-          elseif ($facet_count >= 2) {
-            // Regular users: Block only multiple facets
-            error_log('Blocked multi-facet request: ' . $_SERVER['REQUEST_URI'] . ' (Facets: ' . $facet_count . ') | UA: ' . $user_agent);
-            
-            // Return 503 Service Unavailable with a user-friendly message
-            header("HTTP/1.1 503 Service Unavailable");
-            header("Retry-After: 60");
-            
-            // Provide a simple HTML response
-            echo '<!DOCTYPE html>
+        // Redirect to verify endpoint with token in URL (avoids POST redirect issue).
+        var verifyUrl = "/turnstile-verify?token=" + encodeURIComponent(turnstileToken) + "&return=" + encodeURIComponent(returnUrl);
+        window.location.href = verifyUrl;
+      }
+    </script>';
+
+  if ($show_skip_link) {
+    echo '<a href="' . htmlspecialchars($base_path) . '" class="skip-link">Continue without filters &rarr;</a>';
+  }
+
+  echo '</div>
+</body>
+</html>';
+  exit();
+}
+
+// Turnstile-based bot protection for faceted searches.
+// Enable on live environment OR when TURNSTILE_ENABLED is set.
+$enable_turnstile = ($env === 'live') || getenv('TURNSTILE_ENABLED');
+
+// Handle Turnstile verification endpoint (receives token via GET to avoid POST redirect issue).
+if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') === 0) {
+  $token = isset($_GET['token']) ? $_GET['token'] : '';
+  $return_url = isset($_GET['return']) ? $_GET['return'] : '/';
+  $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
+  $cookie_name = 'STYXKEY_turnstile_verified';
+  $cookie_duration = 86400; // 24 hours
+
+  // Sanitize return URL.
+  if (!preg_match('/^\/[a-zA-Z0-9\-\_\/\?\&\=\[\]\%\.\+\:\#\~\@\!\'\(\)\,\;\* ]*$/', $return_url)) {
+    $return_url = '/';
+  }
+
+  if (!empty($token) && !empty($secret_key)) {
+    // Verify with Cloudflare.
+    $ch = curl_init('https://challenges.cloudflare.com/turnstile/v0/siteverify');
+    curl_setopt_array($ch, [
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => http_build_query([
+        'secret' => $secret_key,
+        'response' => $token,
+        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
+      ]),
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_TIMEOUT => 10,
+    ]);
+
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($http_code === 200) {
+      $result = json_decode($response, true);
+
+      if (!empty($result['success'])) {
+        // Verification successful - set cookie and redirect.
+        $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+        setcookie($cookie_name, hash('sha256', $secret_key . $_SERVER['REMOTE_ADDR']), [
+          'expires' => time() + $cookie_duration,
+          'path' => '/',
+          'secure' => $secure,
+          'httponly' => true,
+          'samesite' => 'Lax',
+        ]);
+
+        header('Location: ' . $return_url);
+        exit();
+      }
+    }
+  }
+
+  // Verification failed - redirect back to challenge with error.
+  $challenge_url = '/turnstile-challenge?return=' . urlencode($return_url) . '&error=1';
+  header('Location: ' . $challenge_url);
+  exit();
+}
+
+// Handle Turnstile challenge page requests.
+// This intercepts /turnstile-challenge before Drupal routes it.
+if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-challenge') === 0) {
+  $return_url = isset($_GET['return']) ? $_GET['return'] : '/';
+  _serve_turnstile_challenge($return_url);
+}
+
+if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
+  // Count unique facet parameters.
+  // PHP parses f[0]=value as $_GET['f'][0], so check for 'f' array.
+  $facet_count = 0;
+  if (isset($_GET['f']) && is_array($_GET['f'])) {
+    $facet_count = count($_GET['f']);
+  }
+
+  // Only check faceted pages.
+  if ($facet_count > 0) {
+    $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+
+    // Skip verification for AJAX requests (real users already on site).
+    $is_ajax = isset($_GET['_drupal_ajax']) || isset($_SERVER['HTTP_X_REQUESTED_WITH']);
+
+    if (!$is_ajax) {
+      // First line of defense: block obvious bots immediately.
+      $known_bots = [
+        'bot', 'Bot', 'BOT', 'crawler', 'Crawler', 'spider', 'Spider',
+        'AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot', 'PetalBot', 'BLEXBot',
+        'YandexBot', 'Googlebot', 'bingbot', 'Baiduspider', 'Sogou', 'Exabot',
+        'facebot', 'ia_archiver', 'Screaming Frog', 'python', 'Python',
+        'Go-http-client', 'Java/', 'wget', 'curl', 'libwww', 'lwp-trivial',
+        'httrack', 'nutch', 'msnbot', 'Discordbot', 'WhatsApp', 'Twitterbot',
+        'facebookexternalhit', 'LinkedInBot', 'Slackbot', 'Telegram', 'Signal',
+        'DataForSeoBot', 'SeznamBot', 'BingPreview', 'PageSpeed', 'Lighthouse',
+        'Chrome-Lighthouse', 'HeadlessChrome', 'PhantomJS', 'SlimerJS',
+        'CensysInspect', 'NetcraftSurveyAgent', 'masscan', 'nmap',
+      ];
+
+      foreach ($known_bots as $bot) {
+        if (stripos($user_agent, $bot) !== FALSE) {
+          error_log('Blocked known bot faceted request: ' . $_SERVER['REQUEST_URI'] . ' | UA: ' . $user_agent);
+          header("HTTP/1.1 403 Forbidden");
+          echo 'Access denied.';
+          exit();
+        }
+      }
+
+      // Second line of defense: Turnstile verification for everyone else.
+      $turnstile_secret = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
+      $cookie_name = 'STYXKEY_turnstile_verified';
+
+      // Verify the cookie is valid (matches expected hash).
+      $cookie_valid = FALSE;
+      if (isset($_COOKIE[$cookie_name]) && !empty($turnstile_secret)) {
+        $expected_hash = hash('sha256', $turnstile_secret . $_SERVER['REMOTE_ADDR']);
+        $cookie_valid = hash_equals($expected_hash, $_COOKIE[$cookie_name]);
+      }
+
+      if (!$cookie_valid && !empty($turnstile_secret)) {
+        // No valid verification cookie - redirect to Turnstile challenge.
+        $challenge_url = '/turnstile-challenge?return=' . urlencode($_SERVER['REQUEST_URI']);
+        header('Location: ' . $challenge_url);
+        exit();
+      }
+
+      // If Turnstile is not configured, fall back to blocking multiple facets.
+      if (empty($turnstile_secret) && $facet_count >= 2) {
+        header("HTTP/1.1 503 Service Unavailable");
+        header("Retry-After: 60");
+        echo '<!DOCTYPE html>
 <html>
 <head>
     <title>Service Temporarily Unavailable</title>
 </head>
 <body>
     <h1>Service Temporarily Unavailable</h1>
-    <p>The page you requested is temporarily unavailable due to high server load.</p>
-    <p>Please try one of the following:</p>
-    <ul>
-        <li>Use fewer filters in your search</li>
-        <li>Try again in a few moments</li>
-        <li><a href="/">Return to the homepage</a></li>
-    </ul>
+    <p>Please use fewer filters or try again later.</p>
+    <p><a href="/">Return to the homepage</a></p>
 </body>
 </html>';
-            exit();
-          }
-        }
+        exit();
       }
-      break;
+    }
   }
 }
 
