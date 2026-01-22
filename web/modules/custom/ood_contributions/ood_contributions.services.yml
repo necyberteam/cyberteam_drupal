@@ -1,0 +1,7 @@
+services:
+  ood_contributions.github_commits:
+    class: Drupal\ood_contributions\Service\GitHubCommitsService
+    arguments: ['@http_client', '@key.repository', '@logger.factory']
+  ood_contributions.commit_storage:
+    class: Drupal\ood_contributions\Service\CommitStorageService
+    arguments: ['@database', '@logger.factory']
