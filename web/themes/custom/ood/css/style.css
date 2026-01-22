@@ -939,3 +939,78 @@ body.page-node-type-affinity-group {
     padding: 1rem;
   }
 }
+
+.appverse-landing-top > div,
+.appverse-landing-cards > div {
+  flex-direction: column;
+}
+
+.appverse-landing {
+  .bracket-text,
+  .tood-appverse {
+    width: 100%;
+  }
+  .tood-appverse img {
+    width: 100%;
+    height: auto;
+  }
+  .bracket-text h2 {
+    font-size:2.2em;
+  }
+  .bracket-text img {
+    max-height: 175px;
+  }
+  .contribute,
+  .explore {
+    div {
+      padding: 2rem;
+      font-size: 1.7rem;
+    }
+    h2 {
+      font-size: 2.7rem;
+      margin-bottom: 0.5rem;
+    }
+    margin-bottom: 1rem;
+    background-color: #0076af;
+    border-radius: 1.5rem;
+    color: #fff;
+    img {
+      display: none;
+      padding: 1rem 0;
+      max-width: 200px;
+    }
+  }
+  .contribute {
+    background-color: #00857a;
+  }
+}
+
+@media (min-width: 540px) {
+  .appverse-landing {
+    .contribute,
+    .explore {
+      img {
+        display: block;
+      }
+    }
+  }
+}
+
+@media (min-width: 1280px) {
+  .appverse-landing-top > div,
+  .appverse-landing-cards > div {
+    flex-direction: row;
+  }
+
+  .appverse-landing {
+
+    .bracket-text,
+    .tood-appverse,
+    .contribute,
+    .explore {
+      width: 99%;
+      margin-right: 1%;
+      margin-bottom: 0;
+    }
+  }
+}
