@@ -478,10 +478,19 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
   if ($facet_count > 0) {
     $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 
+    // Skip verification for logged-in users.
+    $is_logged_in = FALSE;
+    foreach ($_COOKIE as $cookie_name => $cookie_value) {
+      if (strpos($cookie_name, 'SESS') === 0 || strpos($cookie_name, 'SSESS') === 0) {
+        $is_logged_in = TRUE;
+        break;
+      }
+    }
+
     // Skip verification for AJAX requests (real users already on site).
     $is_ajax = isset($_GET['_drupal_ajax']) || isset($_SERVER['HTTP_X_REQUESTED_WITH']);
 
-    if (!$is_ajax) {
+    if (!$is_ajax && !$is_logged_in) {
       // First line of defense: block obvious bots immediately.
       $known_bots = [
         'bot', 'Bot', 'BOT', 'crawler', 'Crawler', 'spider', 'Spider',

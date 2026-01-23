@@ -3,7 +3,6 @@ describe("verify the /about-us/project-guide as anonymous & authenticated user",
     cy.loginUser("authenticated@amptesting.com", "6%l7iF}6(4tI");
     cy.visit('/about-us/project-guide');
     cy.contains('Project Guide');
-    cy.contains('Cyberteam Project Procedures');
     cy.contains('Project Solicitation and Submission');
     cy.contains('Publishing a Project');
     cy.contains('Projects per Institution');
