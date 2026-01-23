@@ -55,18 +55,20 @@ elements: |-
     '#type': webform_term_select
     '#title': Tags
     '#multiple': true
+    '#placeholder': 'Start typing the name of your tag'
     '#select2': true
+    '#required': true
     '#label_attributes':
       class:
         - font-extrabold
         - w-full
     '#vocabulary': tags
     '#breadcrumb_delimiter': ''
-    '#required': true
   cider:
     '#type': webform_entity_select
     '#title': 'If you are an ACCESS RP, select one (or more) related CiDeR resources '
     '#multiple': true
+    '#placeholder': 'Start typing the name of your resource'
     '#select2': true
     '#label_attributes':
       class:
