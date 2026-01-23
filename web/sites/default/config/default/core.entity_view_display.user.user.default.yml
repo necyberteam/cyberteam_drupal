@@ -19,6 +19,7 @@ dependencies:
     - field.field.user.user.field_domain_access
     - field.field.user.user.field_domain_admin
     - field.field.user.user.field_domain_all_affiliates
+    - field.field.user.user.field_github_graph
     - field.field.user.user.field_github_username
     - field.field.user.user.field_hpc_experience
     - field.field.user.user.field_institution
@@ -31,6 +32,7 @@ dependencies:
     - field.field.user.user.field_user_preferred_pronouns
     - field.field.user.user.user_picture
   module:
+    - text
     - user
 _core:
   default_config_hash: V51QPCKkgNREKtSmB9Iu2wmAMEpktVpnzklWaZV8UYo
@@ -54,6 +56,13 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 2
+    region: content
+  field_github_graph:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
     region: content
   field_github_username:
     type: string
