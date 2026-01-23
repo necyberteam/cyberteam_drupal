@@ -39,18 +39,18 @@ describe("Verify the tags page", () => {
     cy.get('.views-element-container')
       .find('h2.mt-5')
       .each(($el) => {
-        // idText is the id of the h2, but with & replaced by &amp;
-        const idText = $el.text().replace(/&/g, '&amp;');
-        // cy.task('log', 'h2: ' + $el.text());
+        // slugify the h2 text to match the actual id attribute (lowercase, spaces to hyphens, remove special chars)
+        const slugifiedId = $el.text().toLowerCase().replace(/\//g, '-').replace(/\s+/g, '-');
+        // cy.task('log', 'h2: ' + $el.text() + ' -> id: ' + slugifiedId);
 
-        // verify there's a block with the id of the h2 text
+        // verify there's an h2 with the slugified id
         cy.get('.views-element-container')
-          .get('[id="' + idText + '"]')
+          .get('[id="' + slugifiedId + '"]')
           .contains($el.text());
 
         // each category should have a bunch of tags - get an alias to that element
         cy.get('.views-element-container')
-          .get('[id="' + $el.text() + '"]')
+          .get('[id="' + slugifiedId + '"]')
           .parent().siblings('div') // in the DOM, this gets the element containing all the tags
           .as('tag-list');
 
@@ -68,10 +68,10 @@ describe("Verify the tags page", () => {
             }
           });
 
-        // verify 2nd sidebar has same tag category
+        // verify 2nd sidebar has same tag category with slugified anchor
         cy.get('#block-nect-views-block-node-add-tags-block-3')
           .contains($el.text())
-          .should('have.attr', 'href', '#' + $el.text());
+          .should('have.attr', 'href', '#' + slugifiedId);
       });
   });
 });
