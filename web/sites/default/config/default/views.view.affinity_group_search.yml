@@ -362,7 +362,7 @@ display:
           delta_offset: 0
           delta_reversed: false
           delta_first_last: false
-          multi_type: separator
+          multi_type: ul
           separator: ' '
           field_api_classes: false
           field_rendering: true
@@ -375,6 +375,11 @@ display:
             display_methods:
               affinity_groups:
                 display_method: label
+              badges:
+                display_method: label
+                view_mode: default
+              mentorship_programs:
+                display_method: label
               organization_type:
                 display_method: label
               region:
@@ -383,6 +388,8 @@ display:
               regional_experts:
                 display_method: label
               skill_level:
+                display_method: label
+              state:
                 display_method: label
               tags:
                 display_method: label
@@ -472,7 +479,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"mx-auto text-dark-teal text-xl font-bold\">{{ title }}</div>\r\n<p>{{ body }}</p>\r\n<div class=\"square-tags [&_a]--inline-block  [&_a]--border [&_a]--hover--border-dark-teal [&_a]--mb-2 [&_a]--me-2 [&_a]--font-normal [&_a]--no-underline [&_a]--px-2 [&_a]--py-1 my-3 p-0 [&_a]--whitespace-nowrap\">{{ field_tags }}</div>"
+            text: "<div class=\"mx-auto text-dark-teal text-xl font-bold\">{{ title }}</div>\r\n<p>{{ body }}</p>\r\n<div class=\"square-tags tag-list [&_a]--inline-block  [&_a]--border [&_a]--hover--border-dark-teal [&_a]--mb-2 [&_a]--me-2 [&_a]--font-normal [&_a]--no-underline [&_a]--px-2 [&_a]--py-1 my-3 p-0 [&_a]--whitespace-nowrap\">{{ field_tags }}</div>"
             make_link: false
             path: ''
             absolute: false
@@ -845,8 +852,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - url.site
-        - user
         - 'user.node_grants:view'
       tags:
         - 'config:facets.facet.affinity_group_category'
