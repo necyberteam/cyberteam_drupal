@@ -86,6 +86,6 @@ describe('Event Registration Email Sync', () => {
       cy.get('a[href*="/delete"]').first().click({ force: true });
     });
     cy.wait(500);
-    cy.get('.ui-dialog-buttonpane button.button--primary').should('be.visible').click();
+    cy.get('.ui-dialog-buttonset button').first().click();
   });
 });
