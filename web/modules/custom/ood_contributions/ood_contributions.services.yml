@@ -5,3 +5,9 @@ services:
   ood_contributions.commit_storage:
     class: Drupal\ood_contributions\Service\CommitStorageService
     arguments: ['@database', '@logger.factory']
+  ood_contributions.contribution_graph:
+    class: Drupal\ood_contributions\Service\ContributionGraphService
+    arguments: ['@database']
+  ood_contributions.user_stats:
+    class: Drupal\ood_contributions\Service\UserStatsService
+    arguments: ['@http_client', '@key.repository', '@database', '@logger.factory']
