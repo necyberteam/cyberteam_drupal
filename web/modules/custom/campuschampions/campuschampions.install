@@ -1107,10 +1107,10 @@ function campuschampions_update_10004() {
     // Map CSV columns to database fields
     $row_data = array_combine($header, $data);
 
-    // Convert empty strings to NULL for numeric fields
+    // Convert empty strings and error values to NULL for numeric fields
     $record = [];
     foreach ($row_data as $key => $value) {
-      if ($value === '' || $value === 'NA') {
+      if ($value === '' || $value === 'NA' || $value === '#N/A') {
         $record[$key] = NULL;
       } else {
         $record[$key] = $value;
@@ -1133,5 +1133,116 @@ function campuschampions_update_10004() {
   return t('Imported @inserted records from CSV. Skipped @skipped records.', [
     '@inserted' => $inserted,
     '@skipped' => $skipped,
+  ]);
+}
+
+/**
+ * Re-import carnegie_codes table to handle #N/A values.
+ */
+function campuschampions_update_10005() {
+  $connection = \Drupal::database();
+
+  // Truncate existing data
+  $connection->truncate('carnegie_codes')->execute();
+
+  $module_path = \Drupal::service('extension.list.module')->getPath('campuschampions');
+  $csv_file = $module_path . '/carnegie_data/2025.csv';
+
+  if (!file_exists($csv_file)) {
+    throw new \Exception('CSV file not found: ' . $csv_file);
+  }
+
+  $handle = fopen($csv_file, 'r');
+  if ($handle === FALSE) {
+    throw new \Exception('Could not open CSV file: ' . $csv_file);
+  }
+
+  // Read and validate header
+  $header = fgetcsv($handle);
+  if ($header === FALSE) {
+    fclose($handle);
+    throw new \Exception('Could not read CSV header');
+  }
+
+  $inserted = 0;
+  $skipped = 0;
+
+  // Read each row
+  while (($data = fgetcsv($handle)) !== FALSE) {
+    // Skip if not enough columns
+    if (count($data) < count($header)) {
+      $skipped++;
+      continue;
+    }
+
+    // Map CSV columns to database fields
+    $row_data = array_combine($header, $data);
+
+    // Convert empty strings and error values to NULL for numeric fields
+    $record = [];
+    foreach ($row_data as $key => $value) {
+      if ($value === '' || $value === 'NA' || $value === '#N/A') {
+        $record[$key] = NULL;
+      } else {
+        $record[$key] = $value;
+      }
+    }
+
+    try {
+      $connection->insert('carnegie_codes')
+        ->fields($record)
+        ->execute();
+      $inserted++;
+    } catch (\Exception $e) {
+      $skipped++;
+      \Drupal::logger('campuschampions')->error('Error inserting row: @message', ['@message' => $e->getMessage()]);
+    }
+  }
+
+  fclose($handle);
+
+  return t('Re-imported @inserted records from CSV. Skipped @skipped records.', [
+    '@inserted' => $inserted,
+    '@skipped' => $skipped,
+  ]);
+}
+
+/**
+ * Add computed msi column and remove unused basic2025 column.
+ */
+function campuschampions_update_10006() {
+  $connection = \Drupal::database();
+  $schema = $connection->schema();
+
+  // Add msi column if it doesn't exist
+  if (!$schema->fieldExists('carnegie_codes', 'msi')) {
+    $schema->addField('carnegie_codes', 'msi', [
+      'type' => 'int',
+      'not null' => FALSE,
+      'default' => NULL,
+      'description' => 'Computed MSI flag: 1 if any MSI designation applies',
+    ]);
+  }
+
+  // Populate msi column based on the individual MSI flags
+  // An institution is MSI if any of: hbcu, pbi, hsi, tribal, aanapisi, annhsi, nasnti = 1
+  $connection->query("
+    UPDATE carnegie_codes
+    SET msi = CASE
+      WHEN hbcu = 1 OR pbi = 1 OR hsi = 1 OR tribal = 1 OR aanapisi = 1 OR annhsi = 1 OR nasnti = 1
+      THEN 1
+      ELSE 0
+    END
+  ");
+
+  // Remove unused basic2025 column if it exists
+  if ($schema->fieldExists('carnegie_codes', 'basic2025')) {
+    $schema->dropField('carnegie_codes', 'basic2025');
+  }
+
+  $msi_count = $connection->query("SELECT COUNT(*) FROM carnegie_codes WHERE msi = 1")->fetchField();
+
+  return t('Added msi column and populated @count MSI institutions. Removed unused basic2025 column.', [
+    '@count' => $msi_count,
   ]);
 }

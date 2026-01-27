@@ -288,7 +288,7 @@ function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, V
     if (!empty($cc)) {
       // Initialize static caches
       if ($carnegie_db === NULL) {
-        $carnegie_db = new CarnegieCodesLookup();
+        $carnegie_db = new CarnegieCodesLookup(\Drupal::database());
       }
       if ($org_locations === NULL) {
         $org_locations = [];
@@ -297,35 +297,37 @@ function campuschampions_views_data_export_row_alter(&$row, ResultRow $result, V
       // Get data based on carnegie code.
       $db = $carnegie_db;
       $results = $db->lookupByUnitId($cc, [
-        'INSTNM',
-        'CITY',
-        'STABBR',
-        'BASIC2021',
-        'HBCU',
-        'PBI',
-        'ANNHSI',
-        'TRIBAL',
-        'AANAPISI',
-        'HSI',
-        'NASNTI',
+        'instnm',
+        'city',
+        'stabbr',
+        'ic2025',
+        'ic2025name',
+        'hbcu',
+        'pbi',
+        'annhsi',
+        'tribal',
+        'aanapisi',
+        'hsi',
+        'nasnti',
+        'msi',
       ]);
 
       if ($results !== FALSE) {
         $row['field_carnegie_code'] = $cc;
-        $row['field_carnegie_code_location'] = $results['CITY'] . ', ' . $results['STABBR'];
-        $row['field_carnegie_code_classification'] = $results['BASIC2021'];
-        $row['field_carnegie_code_hbcu'] = $results['HBCU'];
-        $row['field_carnegie_code_pbi'] = $results['PBI'];
-        $row['field_carnegie_code_annhsi'] = $results['ANNHSI'];
-        $row['field_carnegie_code_tribal'] = $results['TRIBAL'];
-        $row['field_carnegie_code_aanapisi'] = $results['AANAPISI'];
-        $row['field_carnegie_code_hsi'] = $results['HSI'];
-        $row['field_carnegie_code_nasnti'] = $results['NASNTI'];
-        $row['field_carnegie_code_site'] = $results['INSTNM'];
-        $row['field_carnegie_code_region'] = CarnegieCodesLookup::region($results['STABBR']);
+        $row['field_carnegie_code_location'] = $results['city'] . ', ' . $results['stabbr'];
+        $row['field_carnegie_code_classification'] = $results['ic2025name'];
+        $row['field_carnegie_code_hbcu'] = $results['hbcu'];
+        $row['field_carnegie_code_pbi'] = $results['pbi'];
+        $row['field_carnegie_code_annhsi'] = $results['annhsi'];
+        $row['field_carnegie_code_tribal'] = $results['tribal'];
+        $row['field_carnegie_code_aanapisi'] = $results['aanapisi'];
+        $row['field_carnegie_code_hsi'] = $results['hsi'];
+        $row['field_carnegie_code_nasnti'] = $results['nasnti'];
+        $row['field_carnegie_code_site'] = $results['instnm'];
+        $row['field_carnegie_code_region'] = CarnegieCodesLookup::region($results['stabbr']);
 
         $row['field_carnegie_code_eps_lookup'] = 0;
-        if (CarnegieCodesLookup::isEpscor($results['STABBR'])) {
+        if (CarnegieCodesLookup::isEpscor($results['stabbr'])) {
           $row['field_carnegie_code_eps_lookup'] = 1;
         }
 
@@ -409,8 +411,8 @@ function campuschampions_user_form_validate(array &$form, \Drupal\Core\Form\Form
     // Validate that the Carnegie code exists in the database
     $query = \Drupal::database()
       ->select('carnegie_codes', 'cc')
-      ->fields('cc', ['UNITID'])
-      ->condition('UNITID', $code, '=')
+      ->fields('cc', ['unitid'])
+      ->condition('unitid', $code, '=')
       ->range(0, 1);
 
     $result = $query->execute()->fetchField();

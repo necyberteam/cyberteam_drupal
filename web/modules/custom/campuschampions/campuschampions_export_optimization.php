@@ -45,13 +45,13 @@ function campuschampions_views_data_export_row_alter_optimized(&$row, ResultRow 
 
       if (!isset($carnegie_cache[$cc])) {
         // Get data based on Carnegie code.
-        $db = new CarnegieCodesLookup();
+        $db = new CarnegieCodesLookup(\Drupal::database());
         $results = $db->lookupByUnitId($cc, [
-          'INSTNM',
-          'CITY',
-          'STABBR',
-          'BASIC2021',
-          'MSI',
+          'instnm',
+          'city',
+          'stabbr',
+          'ic2025name',
+          'msi',
         ]);
 
         if ($results !== FALSE) {
@@ -65,14 +65,14 @@ function campuschampions_views_data_export_row_alter_optimized(&$row, ResultRow 
 
       if ($results !== NULL) {
         $row['field_carnegie_code'] = $cc;
-        $row['field_carnegie_code_location'] = $results['CITY'] . ', ' . $results['STABBR'];
-        $row['field_carnegie_code_classification'] = $results['BASIC2021'];
-        $row['field_carnegie_code_msi'] = $results['MSI'];
-        $row['field_carnegie_code_site'] = $results['INSTNM'];
-        $row['field_carnegie_code_region'] = CarnegieCodesLookup::region($results['STABBR']);
+        $row['field_carnegie_code_location'] = $results['city'] . ', ' . $results['stabbr'];
+        $row['field_carnegie_code_classification'] = $results['ic2025name'];
+        $row['field_carnegie_code_msi'] = $results['msi'];
+        $row['field_carnegie_code_site'] = $results['instnm'];
+        $row['field_carnegie_code_region'] = CarnegieCodesLookup::region($results['stabbr']);
 
         $row['field_carnegie_code_eps_lookup'] = 0;
-        if (CarnegieCodesLookup::isEpscor($results['STABBR'])) {
+        if (CarnegieCodesLookup::isEpscor($results['stabbr'])) {
           $row['field_carnegie_code_eps_lookup'] = 1;
         }
 
