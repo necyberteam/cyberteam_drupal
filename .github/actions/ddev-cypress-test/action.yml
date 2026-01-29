@@ -208,17 +208,46 @@ runs:
           echo "Uploading screenshots to Slack..."
           cd tests/cypress/cypress/screenshots
 
+          # Channel ID for #cypress-git-notifications
+          CHANNEL_ID="C05UU6WN1V4"
+
           # Find and upload first few screenshot files (limit to avoid spam)
-          count=0
           find . -name "*.png" -type f | head -3 | while read screenshot; do
             if [ -f "$screenshot" ]; then
-              echo "Uploading $screenshot to Slack..."
-              response=$(curl -s -F file=@"$screenshot" \
-                   -F "initial_comment=Cypress test failure: ${{ inputs.site }}-${{ inputs.directory }} - $(basename "$screenshot")" \
-                   -F channels=#cypress-git-notifications \
-                   -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
-                   https://slack.com/api/files.upload)
-              echo "Slack API response: $response"
+              FILENAME=$(basename "$screenshot")
+              FILESIZE=$(stat -f%z "$screenshot" 2>/dev/null || stat -c%s "$screenshot" 2>/dev/null)
+              echo "Uploading $screenshot ($FILESIZE bytes) to Slack..."
+
+              # Step 1: Get upload URL
+              upload_url_response=$(curl -s -X POST \
+                -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+                -H "Content-Type: application/x-www-form-urlencoded" \
+                --data-urlencode "filename=$FILENAME" \
+                --data-urlencode "length=$FILESIZE" \
+                "https://slack.com/api/files.getUploadURLExternal")
+
+              echo "Upload URL response: $upload_url_response"
+
+              UPLOAD_URL=$(echo "$upload_url_response" | jq -r '.upload_url')
+              FILE_ID=$(echo "$upload_url_response" | jq -r '.file_id')
+
+              if [ -z "$UPLOAD_URL" ] || [ "$UPLOAD_URL" == "null" ]; then
+                echo "Failed to get upload URL"
+                continue
+              fi
+
+              # Step 2: Upload the file to the URL
+              curl -s -X POST "$UPLOAD_URL" \
+                -F "file=@$screenshot"
+
+              # Step 3: Complete the upload
+              complete_response=$(curl -s -X POST \
+                -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+                -H "Content-Type: application/json" \
+                -d "{\"files\": [{\"id\": \"$FILE_ID\", \"title\": \"$FILENAME\"}], \"channel_id\": \"$CHANNEL_ID\", \"initial_comment\": \"Cypress test failure: ${{ inputs.site }}-${{ inputs.directory }} - $FILENAME\"}" \
+                "https://slack.com/api/files.completeUploadExternal")
+
+              echo "Complete upload response: $complete_response"
             fi
           done
         fi

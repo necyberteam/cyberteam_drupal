@@ -21,10 +21,10 @@ describe("Admin user uses form to create a KB Resource", () => {
     });
 
     // add title & url for a link
-    cy.get("#edit-link-to-resource-items-0-item-title").type(
+    cy.get("#edit-link-to-resource-items-0-title").type(
       "title for ci-link link 0"
     );
-    cy.get("#edit-link-to-resource-items-0-item-url").type(
+    cy.get("#edit-link-to-resource-items-0-url").type(
       "http://example-0.com"
     );
 
@@ -35,16 +35,16 @@ describe("Admin user uses form to create a KB Resource", () => {
     cy.get("#edit-link-to-resource-add-submit").click();
 
     // // add the 2 links
-    cy.get('input[id^="edit-link-to-resource-items-1-item-title"]').type(
+    cy.get('input[id^="edit-link-to-resource-items-1-title"]').type(
       "title for ci-link link 1"
     );
-    cy.get('input[name="link_to_resource[items][1][_item_][url]"]').type(
+    cy.get('input[name="link_to_resource[items][1][url]"]').type(
       "http://example-1.com"
     );
-    cy.get('input[name="link_to_resource[items][2][_item_][title]"').type(
+    cy.get('input[name="link_to_resource[items][2][title]"').type(
       "title for ci-link link 2"
     );
-    cy.get('input[name="link_to_resource[items][2][_item_][url]"]').type(
+    cy.get('input[name="link_to_resource[items][2][url]"]').type(
       "http://example-2.com"
     );
 

@@ -38,7 +38,7 @@ describe('Tests the CSSN Directory Page for Anonymous Users', () => {
         // Organization should be displayed.
         cy.get('@item')
             .find('.leading-5 a')
-            .should('contain', 'Massachusetts Green High Performance Computing Center')
+            .should('contain', 'Sweet and Fizzy')
 
         // Tags should be displayed.
         cy.get('@item')

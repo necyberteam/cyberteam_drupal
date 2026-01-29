@@ -22,8 +22,8 @@ describe("On the Add a Resource Page for authenticated users,", () => {
       const editor = el[0].ckeditorInstance
       editor.setData('Test')
     });
-    cy.get('input[name="link_to_resource[items][0][_item_][title]"]').type('Test');
-    cy.get('input[name="link_to_resource[items][0][_item_][url]"]').type('http://example.com');
+    cy.get('input[name="link_to_resource[items][0][title]"]').type('Test');
+    cy.get('input[name="link_to_resource[items][0][url]"]').type('http://example.com');
     cy.get('input[name="op"]').contains('Submit').click();
     cy.contains('Test CI Link Title 2');
     cy.contains('Submission information');
