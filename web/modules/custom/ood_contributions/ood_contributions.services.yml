@@ -11,3 +11,6 @@ services:
   ood_contributions.user_stats:
     class: Drupal\ood_contributions\Service\UserStatsService
     arguments: ['@http_client', '@key.repository', '@database', '@logger.factory']
+  ood_contributions.discourse_api:
+    class: Drupal\ood_contributions\Service\DiscourseApiService
+    arguments: ['@http_client', '@key.repository', '@logger.factory']
