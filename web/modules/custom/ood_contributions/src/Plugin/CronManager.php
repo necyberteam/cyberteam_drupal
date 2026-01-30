@@ -63,4 +63,23 @@ class CronManager {
       }
     }
   }
+
+  /**
+   * Store Discourse contributions.
+   */
+  public static function discourseStoreContrib() {
+    // Lookup users to store stats.
+    $entity_query = \Drupal::entityQuery('user')
+      ->condition('status', 1)
+      ->accessCheck(FALSE)
+      ->exists('field_discourse_openondemand_org');
+    $uids = $entity_query->execute();
+
+    foreach ($uids as $uid) {
+      $service = \Drupal::service('ood_contributions.discourse_contribution');
+      $result = $service->updateUserContributions($uid);
+    }
+  }
+
 }
+
