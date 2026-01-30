@@ -13,4 +13,10 @@ services:
     arguments: ['@http_client', '@key.repository', '@database', '@logger.factory']
   ood_contributions.discourse_api:
     class: Drupal\ood_contributions\Service\DiscourseApiService
-    arguments: ['@http_client', '@key.repository', '@logger.factory']
+    arguments: ['@http_client', '@logger.factory']
+  ood_contributions.discourse_storage:
+    class: Drupal\ood_contributions\Service\DiscourseStorageService
+    arguments: ['@database', '@logger.factory']
+  ood_contributions.discourse_contribution:
+    class: Drupal\ood_contributions\Service\DiscourseContributionService
+    arguments: ['@entity_type.manager', '@ood_contributions.discourse_api', '@ood_contributions.discourse_storage', '@logger.factory']

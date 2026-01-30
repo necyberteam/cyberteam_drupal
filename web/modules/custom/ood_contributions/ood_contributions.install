@@ -121,5 +121,78 @@ function ood_contributions_schema() {
     ],
   ];
 
+  // Table for storing Discourse contributions.
+  $schema['ood_disc_contrib'] = [
+    'description' => 'Stores Discourse contribution statistics per user.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique ID.',
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'The user ID.',
+      ],
+      'post_count' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total number of posts.',
+      ],
+      'topic_count' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total number of topics created.',
+      ],
+      'likes_given' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total number of likes given.',
+      ],
+      'likes_received' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total number of likes received.',
+      ],
+      'days_visited' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total number of days visited.',
+      ],
+      'time_read' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total time spent reading (in seconds).',
+      ],
+      'badges' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+        'description' => 'Comma-separated list of badge names.',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'uid' => ['uid'],
+    ],
+    'unique keys' => [
+      'uid_unique' => ['uid'],
+    ],
+  ];
+
   return $schema;
 }
