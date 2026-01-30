@@ -27,29 +27,36 @@ describe('Event Registration Email Sync', () => {
   });
 
   it('Should update registration email when user email changes', () => {
-    // Step 1: Register for an event with the original email
+    // Step 0: Clean up any existing registration as admin
+    cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
+    cy.visit('/events');
+    cy.get('#edit-search-api-fulltext--2').type('example', { delay: 0 });
+    cy.wait(1000);
+    cy.contains('cypress-example-event').click();
+    cy.contains('Registrations').click();
+    cy.wait(1000);
+
+    // Delete Walnut's registration if exists
+    cy.get('body').then($body => {
+      if ($body.text().includes(testUser.firstName)) {
+        cy.contains('tr', testUser.firstName).within(() => {
+          cy.get('.dropbutton-toggle button').click({ force: true });
+          cy.wait(200);
+          cy.get('a[href*="/delete"]').first().click({ force: true });
+        });
+        cy.wait(500);
+        cy.get('.ui-dialog-buttonpane button.button--primary').click();
+        cy.wait(1000);
+      }
+    });
+
+    // Step 1: Register for an event with the original email as test user
     cy.loginAs(testUser.originalEmail, testUser.password);
 
     cy.visit('/events');
     cy.get('#edit-search-api-fulltext--2').type('example', { delay: 0 });
     cy.wait(1000);
     cy.contains('cypress-example-event').click();
-
-    // Check if already registered, if so, view the registration
-    cy.get('body').then($body => {
-      if ($body.text().includes('Your Registration')) {
-        // Already registered, delete it first
-        cy.contains('Your Registration').click();
-        cy.get('a[href*="/delete"]').click({ force: true });
-        cy.wait(500);
-        cy.get('.ui-dialog-buttonpane button.button--primary, #edit-submit').first().click({ force: true });
-        cy.wait(1000);
-        cy.visit('/events');
-        cy.get('#edit-search-api-fulltext--2').type('example', { delay: 0 });
-        cy.wait(1000);
-        cy.contains('cypress-example-event').click();
-      }
-    });
 
     cy.contains('Register').click();
     cy.contains('Please confirm your registration below');
@@ -86,6 +93,6 @@ describe('Event Registration Email Sync', () => {
       cy.get('a[href*="/delete"]').first().click({ force: true });
     });
     cy.wait(500);
-    cy.get('.ui-dialog-buttonset button').first().click();
+    cy.get('.ui-dialog-buttonpane button.button--primary').click();
   });
 });
