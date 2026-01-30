@@ -19,6 +19,7 @@ dependencies:
     - field.field.user.user.field_domain_access
     - field.field.user.user.field_domain_admin
     - field.field.user.user.field_domain_all_affiliates
+    - field.field.user.user.field_github_graph
     - field.field.user.user.field_github_username
     - field.field.user.user.field_hpc_experience
     - field.field.user.user.field_institution
@@ -152,6 +153,14 @@ content:
     region: content
     settings:
       size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_github_graph:
+    type: text_textarea
+    weight: 27
+    region: content
+    settings:
+      rows: 5
       placeholder: ''
     third_party_settings: {  }
   field_github_username:
