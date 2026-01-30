@@ -196,3 +196,23 @@ function ood_contributions_schema() {
 
   return $schema;
 }
+
+/**
+ * Implements hook_uninstall().
+ */
+function ood_contributions_uninstall() {
+  // Drop all custom tables created by this module.
+  $tables = [
+    'ood_contribution_stats',
+    'ood_user_commits',
+    'ood_disc_contrib',
+  ];
+
+  $database = \Drupal::database();
+  foreach ($tables as $table) {
+    if ($database->schema()->tableExists($table)) {
+      $database->schema()->dropTable($table);
+    }
+  }
+}
+
