@@ -24,7 +24,7 @@ describe("Test of the /find page", { retries: { runMode: 2, openMode: 0 } }, () 
     cy.get('.sui-search-box > .button').click();
 
     // Wait for search results to load with generous timeout for external service
-    cy.get('.btn', { timeout: 20000 }).contains('Hide Results');
+    cy.contains('.btn', 'Hide Results', { timeout: 20000 });
     cy.get('.sui-paging-info').contains('Showing');
     cy.get('.sui-select').contains('Relevance');
     cy.get('.sui-layout-sidebar').contains('ACCESS Support');
