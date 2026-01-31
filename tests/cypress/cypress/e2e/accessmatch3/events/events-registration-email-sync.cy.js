@@ -19,37 +19,18 @@ describe('Event Registration Email Sync', () => {
   beforeEach(() => {
     // Ensure the test user has the original email before each test
     cy.exec(`ddev drush sqlq "UPDATE users_field_data SET mail = '${testUser.originalEmail}' WHERE uid = ${testUser.uid}"`, { failOnNonZeroExit: false });
+    // Clean up any existing registration from previous test runs
+    cy.exec(`ddev drush sqlq "DELETE FROM registrant WHERE user_id = ${testUser.uid}"`, { failOnNonZeroExit: false });
   });
 
   afterEach(() => {
     // Reset the user's email back to the original after each test
     cy.exec(`ddev drush sqlq "UPDATE users_field_data SET mail = '${testUser.originalEmail}' WHERE uid = ${testUser.uid}"`, { failOnNonZeroExit: false });
+    // Clean up any registration created during the test
+    cy.exec(`ddev drush sqlq "DELETE FROM registrant WHERE user_id = ${testUser.uid}"`, { failOnNonZeroExit: false });
   });
 
   it('Should update registration email when user email changes', () => {
-    // Step 0: Clean up any existing registration as admin
-    cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
-    cy.visit('/events');
-    cy.get('#edit-search-api-fulltext--2').type('example', { delay: 0 });
-    cy.wait(1000);
-    cy.contains('cypress-example-event').click();
-    cy.contains('Registrations').click();
-    cy.wait(1000);
-
-    // Delete Walnut's registration if exists
-    cy.get('body').then($body => {
-      if ($body.text().includes(testUser.firstName)) {
-        cy.contains('tr', testUser.firstName).within(() => {
-          cy.get('.dropbutton-toggle button').click({ force: true });
-          cy.wait(200);
-          cy.get('a[href*="/delete"]').first().click({ force: true });
-        });
-        cy.wait(500);
-        cy.get('.ui-dialog-buttonpane button.button--primary').click();
-        cy.wait(1000);
-      }
-    });
-
     // Step 1: Register for an event with the original email as test user
     cy.loginAs(testUser.originalEmail, testUser.password);
 
@@ -85,14 +66,6 @@ describe('Event Registration Email Sync', () => {
     // The registration should now show the new email
     cy.contains('tr', testUser.firstName).should('contain', testUser.newEmail);
     cy.contains('tr', testUser.firstName).should('not.contain', testUser.originalEmail);
-
-    // Cleanup: Delete the registration
-    cy.contains('tr', testUser.firstName).within(() => {
-      cy.get('.dropbutton-toggle button').click({ force: true });
-      cy.wait(200);
-      cy.get('a[href*="/delete"]').first().click({ force: true });
-    });
-    cy.wait(500);
-    cy.get('.ui-dialog-buttonpane button.button--primary').click();
+    // Cleanup handled by afterEach hook
   });
 });
