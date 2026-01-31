@@ -1,9 +1,22 @@
 describe("This test covers the Register Page", () => {
+  const testEmail = 'cypress-register-test@mail.com';
+  const testUsername = 'cypress-register-test';
+
+  // Clean up any existing test user before running tests
+  before(() => {
+    cy.exec(`ddev drush user:cancel --delete-content -y ${testUsername}`, { failOnNonZeroExit: false });
+  });
+
+  // Clean up after tests complete
+  after(() => {
+    cy.exec(`ddev drush user:cancel --delete-content -y ${testUsername}`, { failOnNonZeroExit: false });
+  });
+
   it("Verify the Join button links to join", () => {
     cy.visit('/');
     cy.contains('Join').click();
     cy.url().should('include', '/user/register');
-    cy.contains('Please select an account type below to create')
+    cy.contains('Please select an account type below to create');
     cy.visit('/user/register');
 
     // Click the "Student Facilitator" link
@@ -50,28 +63,16 @@ describe("This test covers the Register Page", () => {
     cy.get('[value="345"]').click();
 
     // Fill in the form fields with specified values
-    cy.get('input[name="mail"]').type('Test@mail.com');
-    cy.get('input[name="name"]').type('Test');
-    cy.get('input[name="field_user_first_name[0][value]').type('Test');
-    cy.get('input[name="field_user_last_name[0][value]"]').type('Test');
+    cy.get('input[name="mail"]').type(testEmail);
+    cy.get('input[name="name"]').type(testUsername);
+    cy.get('input[name="field_user_first_name[0][value]').type('Cypress');
+    cy.get('input[name="field_user_last_name[0][value]"]').type('RegisterTest');
     cy.get('input[name="field_access_organization[0][target_id]"]').type('MGHPCC');
 
     // Click the submit button
     cy.get('#user-register-form > #edit-actions > #edit-submit').click();
 
-    // Assert the URL is "/people/card"
-    //cy.url().should('include', '/people/card');
-
+    // Verify registration was successful (user is redirected or sees confirmation)
+    cy.url().should('not.include', '/user/register');
   });
-
-  it("Delete test account so future runs do not fail", () => {
-    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
-    cy.visit('/admin/people');
-    cy.get(':nth-child(1) > .views-field-operations > .dropbutton-wrapper > .dropbutton-widget > .dropbutton > .edit > a').click();
-    cy.get('#edit-delete').click();
-    cy.get('#edit-user-cancel-method-user-cancel-delete').check();
-    cy.get('#edit-submit').click();
-    cy.contains('Account Test Test has been deleted');
-  });
-
 });
