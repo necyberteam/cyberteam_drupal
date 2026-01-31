@@ -6,6 +6,13 @@
     */
 
 describe("Unauthenticated user tests the Video Learning Center Page", () => {
+  beforeEach(() => {
+    // Block YouTube embeds to prevent test hanging on third-party content
+    cy.intercept('**/youtube.com/**', { statusCode: 200, body: '' });
+    cy.intercept('**/youtube-nocookie.com/**', { statusCode: 200, body: '' });
+    cy.intercept('**/ytimg.com/**', { statusCode: 200, body: '' });
+  });
+
   it("Should test Video Learning Center Page for unauthenticated user", () => {
     // login user with the "unauthenticated" role
     cy.visit("/video-learning-center");
