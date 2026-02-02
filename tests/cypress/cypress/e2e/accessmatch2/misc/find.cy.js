@@ -1,10 +1,12 @@
 /*
     Test /find
+    Note: This test can be flaky due to external search service dependencies.
+    Added retries to handle intermittent failures.
  */
-describe("Test of the /find page", () => {
+describe("Test of the /find page", { retries: { runMode: 2, openMode: 0 } }, () => {
   it("Should complete successfully", () => {
-
-    cy.visit("/find");
+    // Increase page load timeout for this heavy page with external search service
+    cy.visit("/find", { timeout: 120000 });
 
     cy.get('#block-pagetitle').contains("Find Information about ACCESS");
 
@@ -21,8 +23,8 @@ describe("Test of the /find page", () => {
 
     cy.get('.sui-search-box > .button').click();
 
-    cy.wait(8000);
-    cy.get('.btn').contains('Hide Results');
+    // Wait for search results to load with generous timeout for external service
+    cy.contains('.btn', 'Hide Results', { timeout: 20000 });
     cy.get('.sui-paging-info').contains('Showing');
     cy.get('.sui-select').contains('Relevance');
     cy.get('.sui-layout-sidebar').contains('ACCESS Support');
