@@ -16,6 +16,35 @@
  * - authenticated@amptesting.com - regular authenticated user (no special roles)
  */
 describe('Campus Champions Applications Admin', () => {
+  const testUsername = 'cypress-cc-admin-test';
+  const testEmail = 'cypress-cc-admin-test@no-reply.com';
+
+  // Create a test application by submitting the join form
+  before(() => {
+    // Clean up any existing test user/submission
+    cy.exec(`ddev drush user:cancel --delete-content -y ${testUsername}`, { failOnNonZeroExit: false });
+
+    // Submit the join form to create an application
+    cy.visit('/form/join-campus-champions');
+    cy.get('#edit-letter-of-collaboration-upload')
+      .selectFile('cypress/files/northern-lights.pdf');
+    cy.contains('Remove', { timeout: 10000 });
+    cy.get('input[name="username"]').type(testUsername);
+    cy.get('input[name="user_first_name"]').type('CypressAdmin');
+    cy.get('input[name="user_last_name"]').type('Test');
+    cy.get('input[name="user_email"]').type(testEmail);
+    cy.get('#edit-champion-user-type-user-champion').check();
+    cy.get('input[name="supervisor_name"]').type('Test Supervisor');
+    cy.get('input[name="supervisor_email"]').type('supervisor@test.com');
+    cy.get('input[name="carnegie_classification"]').type('167394');
+    cy.get('#webform-submission-join-campus-champions-add-form > #edit-actions > #edit-submit').click();
+    cy.contains('Campus Champions Application Submitted', { timeout: 30000 });
+  });
+
+  // Clean up after all tests
+  after(() => {
+    cy.exec(`ddev drush user:cancel --delete-content -y ${testUsername}`, { failOnNonZeroExit: false });
+  });
 
   describe('Access Control', () => {
     it('should deny access to anonymous users', () => {
