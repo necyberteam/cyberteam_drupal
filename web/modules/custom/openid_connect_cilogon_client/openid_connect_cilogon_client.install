@@ -95,6 +95,8 @@ function openid_connect_cilogon_client_uninstall() {
  * 1. User authmap from cilogon_auth_authmap to openid_connect_authmap
  * 2. IDP names from authmap to field_cilogon_idp user field
  * 3. Configuration from cilogon_auth.settings to openid_connect.settings
+ * 
+ * NOTE: Source table has duplicate users. We prefer records WITH idp_name.
  */
 function openid_connect_cilogon_client_update_9001(&$sandbox) {
   $database = \Drupal::database();
@@ -108,49 +110,72 @@ function openid_connect_cilogon_client_update_9001(&$sandbox) {
     }
 
     $sandbox['progress'] = 0;
-    $sandbox['current_aid'] = 0;
-    $sandbox['max'] = $database->select('cilogon_auth_authmap', 'c')
-      ->countQuery()
-      ->execute()
-      ->fetchField();
+    $sandbox['current_uid'] = 0;
+    
+    // Get DISTINCT users count (not total records, since there are duplicates)
+    $sandbox['max'] = $database->query("SELECT COUNT(DISTINCT uid) FROM {cilogon_auth_authmap}")->fetchField();
 
     if ($sandbox['max'] == 0) {
       $sandbox['#finished'] = 1;
       return t('No records to migrate.');
     }
+    
+    $sandbox['skipped'] = 0;
+    $sandbox['errors'] = 0;
   }
 
-  // Process records in batches of 100
+  // Process users in batches of 100
+  // We select DISTINCT uids to avoid processing same user multiple times
   $batch_size = 100;
-  $records = $database->select('cilogon_auth_authmap', 'c')
-    ->fields('c', ['aid', 'uid', 'client_name', 'sub', 'idp_name'])
-    ->condition('aid', $sandbox['current_aid'], '>')
-    ->orderBy('aid')
-    ->range(0, $batch_size)
-    ->execute()
-    ->fetchAll();
+  
+  // Get next batch of unique user IDs
+  $query = $database->select('cilogon_auth_authmap', 'c')
+    ->fields('c', ['uid'])
+    ->distinct()
+    ->condition('uid', $sandbox['current_uid'], '>')
+    ->orderBy('uid')
+    ->range(0, $batch_size);
+  $uids = $query->execute()->fetchCol();
 
-  foreach ($records as $record) {
+  foreach ($uids as $uid) {
     try {
+      // For each user, get their record(s), preferring one WITH idp_name
+      $record = $database->query("
+        SELECT aid, uid, client_name, sub, idp_name 
+        FROM {cilogon_auth_authmap} 
+        WHERE uid = :uid 
+        ORDER BY 
+          CASE WHEN idp_name IS NOT NULL AND idp_name != '' THEN 0 ELSE 1 END,
+          aid DESC
+        LIMIT 1", [':uid' => $uid])->fetchObject();
+      
+      if (!$record) {
+        continue;
+      }
+
       // Check if mapping already exists in openid_connect_authmap
       $exists = $database->select('openid_connect_authmap', 'o')
         ->fields('o')
         ->condition('uid', $record->uid)
         ->condition('client_name', 'cilogon')
-        ->condition('sub', $record->sub)
         ->execute()
         ->fetchField();
 
-      if (!$exists) {
-        // Insert into openid_connect_authmap
-        $database->insert('openid_connect_authmap')
-          ->fields([
-            'uid' => $record->uid,
-            'client_name' => 'cilogon', // Map to new plugin ID
-            'sub' => $record->sub,
-          ])
-          ->execute();
+      if ($exists) {
+        $sandbox['skipped']++;
+        $sandbox['progress']++;
+        $sandbox['current_uid'] = $uid;
+        continue;
       }
+
+      // Insert into openid_connect_authmap
+      $database->insert('openid_connect_authmap')
+        ->fields([
+          'uid' => $record->uid,
+          'client_name' => 'cilogon', // Map to new plugin ID
+          'sub' => $record->sub,
+        ])
+        ->execute();
 
       // Store IDP name in user field if available
       if (!empty($record->idp_name)) {
@@ -165,13 +190,16 @@ function openid_connect_cilogon_client_update_9001(&$sandbox) {
       }
 
       $sandbox['progress']++;
-      $sandbox['current_aid'] = $record->aid;
+      $sandbox['current_uid'] = $uid;
     }
     catch (\Exception $e) {
-      \Drupal::logger('openid_connect_cilogon_client')->error('Migration error for aid @aid: @message', [
-        '@aid' => $record->aid,
+      \Drupal::logger('openid_connect_cilogon_client')->error('Migration error for uid @uid: @message', [
+        '@uid' => $uid,
         '@message' => $e->getMessage(),
       ]);
+      $sandbox['errors']++;
+      $sandbox['progress']++;
+      $sandbox['current_uid'] = $uid;
     }
   }
 
@@ -179,9 +207,20 @@ function openid_connect_cilogon_client_update_9001(&$sandbox) {
   $sandbox['#finished'] = empty($sandbox['max']) ? 1 : ($sandbox['progress'] / $sandbox['max']);
 
   if ($sandbox['#finished'] >= 1) {
-    return t('Migrated @count user mappings from cilogon_auth to openid_connect.', [
-      '@count' => $sandbox['progress'],
+    $migrated = $sandbox['progress'] - $sandbox['skipped'] - $sandbox['errors'];
+    $message = t('Migrated @migrated unique users from cilogon_auth to openid_connect.', [
+      '@migrated' => $migrated,
     ]);
+    
+    if ($sandbox['skipped'] > 0) {
+      $message .= ' ' . t('Skipped @skipped existing records.', ['@skipped' => $sandbox['skipped']]);
+    }
+    
+    if ($sandbox['errors'] > 0) {
+      $message .= ' ' . t('Encountered @errors errors (see logs).', ['@errors' => $sandbox['errors']]);
+    }
+    
+    return $message;
   }
 }
 
@@ -260,4 +299,150 @@ function openid_connect_cilogon_client_update_9003() {
   }
 
   return t('Index already exists or table not found.');
+}
+
+/**
+ * Re-run migration with duplicate handling.
+ * 
+ * The initial migration (9001) was incomplete because the source table
+ * contains ~10,000 duplicate user records. This update re-processes
+ * all unique users, preferring records WITH idp_name data.
+ */
+function openid_connect_cilogon_client_update_9004(&$sandbox) {
+  $database = \Drupal::database();
+
+  // Initialize sandbox for batch processing
+  if (!isset($sandbox['progress'])) {
+    // Check if old table exists
+    if (!$database->schema()->tableExists('cilogon_auth_authmap')) {
+      $sandbox['#finished'] = 1;
+      return t('No cilogon_auth_authmap table found. Re-migration skipped.');
+    }
+
+    $sandbox['progress'] = 0;
+    $sandbox['current_uid'] = 0;
+    
+    // Get DISTINCT users count
+    $sandbox['max'] = $database->query("SELECT COUNT(DISTINCT uid) FROM {cilogon_auth_authmap}")->fetchField();
+
+    if ($sandbox['max'] == 0) {
+      $sandbox['#finished'] = 1;
+      return t('No records to migrate.');
+    }
+    
+    $sandbox['updated'] = 0;
+    $sandbox['inserted'] = 0;
+    $sandbox['skipped'] = 0;
+    $sandbox['errors'] = 0;
+  }
+
+  // Process users in batches of 100
+  $batch_size = 100;
+  
+  // Get next batch of unique user IDs
+  // Note: MySQL doesn't support placeholders in LIMIT, so we use range()
+  $query = $database->select('cilogon_auth_authmap', 'c')
+    ->fields('c', ['uid'])
+    ->distinct()
+    ->condition('uid', $sandbox['current_uid'], '>')
+    ->orderBy('uid')
+    ->range(0, $batch_size);
+  $uids = $query->execute()->fetchCol();
+
+  foreach ($uids as $uid) {
+    try {
+      // For each user, get their BEST record (prefer one WITH idp_name)
+      $record = $database->query("
+        SELECT aid, uid, client_name, sub, idp_name 
+        FROM {cilogon_auth_authmap} 
+        WHERE uid = :uid 
+        ORDER BY 
+          CASE WHEN idp_name IS NOT NULL AND idp_name != '' THEN 0 ELSE 1 END,
+          aid DESC
+        LIMIT 1", [':uid' => $uid])->fetchObject();
+      
+      if (!$record) {
+        $sandbox['skipped']++;
+        $sandbox['progress']++;
+        $sandbox['current_uid'] = $uid;
+        continue;
+      }
+
+      // Check if mapping already exists
+      $existing = $database->select('openid_connect_authmap', 'o')
+        ->fields('o', ['aid', 'sub'])
+        ->condition('uid', $record->uid)
+        ->condition('client_name', 'cilogon')
+        ->execute()
+        ->fetchObject();
+
+      if ($existing) {
+        // Update if sub is different (handles duplicate case)
+        if ($existing->sub !== $record->sub) {
+          $database->update('openid_connect_authmap')
+            ->fields(['sub' => $record->sub])
+            ->condition('uid', $record->uid)
+            ->condition('client_name', 'cilogon')
+            ->execute();
+          $sandbox['updated']++;
+        }
+        else {
+          $sandbox['skipped']++;
+        }
+      }
+      else {
+        // Insert new record
+        $database->insert('openid_connect_authmap')
+          ->fields([
+            'uid' => $record->uid,
+            'client_name' => 'cilogon',
+            'sub' => $record->sub,
+          ])
+          ->execute();
+        $sandbox['inserted']++;
+      }
+
+      // Store/update IDP name in user field if available
+      if (!empty($record->idp_name)) {
+        $user = \Drupal\user\Entity\User::load($record->uid);
+        if ($user && $user->hasField('field_cilogon_idp')) {
+          $current_idp = $user->get('field_cilogon_idp')->value;
+          // Update if empty or different
+          if (empty($current_idp) || $current_idp !== $record->idp_name) {
+            $user->set('field_cilogon_idp', $record->idp_name);
+            $user->save();
+          }
+        }
+      }
+
+      $sandbox['progress']++;
+      $sandbox['current_uid'] = $uid;
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('openid_connect_cilogon_client')->error('Re-migration error for uid @uid: @message', [
+        '@uid' => $uid,
+        '@message' => $e->getMessage(),
+      ]);
+      $sandbox['errors']++;
+      $sandbox['progress']++;
+      $sandbox['current_uid'] = $uid;
+    }
+  }
+
+  // Update progress
+  $sandbox['#finished'] = empty($sandbox['max']) ? 1 : ($sandbox['progress'] / $sandbox['max']);
+
+  if ($sandbox['#finished'] >= 1) {
+    $message = t('Re-migration complete: @inserted inserted, @updated updated, @skipped skipped.', [
+      '@inserted' => $sandbox['inserted'],
+      '@updated' => $sandbox['updated'],
+      '@skipped' => $sandbox['skipped'],
+    ]);
+    
+    if ($sandbox['errors'] > 0) {
+      $message .= ' ' . t('Encountered @errors errors (see logs).', ['@errors' => $sandbox['errors']]);
+    }
+    
+    return $message;
+  }
 }
