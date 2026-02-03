@@ -87,3 +87,177 @@ function openid_connect_cilogon_client_uninstall() {
 
   \Drupal::messenger()->addStatus(t('CILogon Client module uninstalled successfully.'));
 }
+
+/**
+ * Migrate cilogon_auth data to openid_connect format.
+ *
+ * This update migrates:
+ * 1. User authmap from cilogon_auth_authmap to openid_connect_authmap
+ * 2. IDP names from authmap to field_cilogon_idp user field
+ * 3. Configuration from cilogon_auth.settings to openid_connect.settings
+ */
+function openid_connect_cilogon_client_update_9001(&$sandbox) {
+  $database = \Drupal::database();
+
+  // Initialize sandbox for batch processing
+  if (!isset($sandbox['progress'])) {
+    // Check if old table exists
+    if (!$database->schema()->tableExists('cilogon_auth_authmap')) {
+      $sandbox['#finished'] = 1;
+      return t('No cilogon_auth_authmap table found. Migration skipped.');
+    }
+
+    $sandbox['progress'] = 0;
+    $sandbox['current_aid'] = 0;
+    $sandbox['max'] = $database->select('cilogon_auth_authmap', 'c')
+      ->countQuery()
+      ->execute()
+      ->fetchField();
+
+    if ($sandbox['max'] == 0) {
+      $sandbox['#finished'] = 1;
+      return t('No records to migrate.');
+    }
+  }
+
+  // Process records in batches of 100
+  $batch_size = 100;
+  $records = $database->select('cilogon_auth_authmap', 'c')
+    ->fields('c', ['aid', 'uid', 'client_name', 'sub', 'idp_name'])
+    ->condition('aid', $sandbox['current_aid'], '>')
+    ->orderBy('aid')
+    ->range(0, $batch_size)
+    ->execute()
+    ->fetchAll();
+
+  foreach ($records as $record) {
+    try {
+      // Check if mapping already exists in openid_connect_authmap
+      $exists = $database->select('openid_connect_authmap', 'o')
+        ->fields('o')
+        ->condition('uid', $record->uid)
+        ->condition('client_name', 'cilogon')
+        ->condition('sub', $record->sub)
+        ->execute()
+        ->fetchField();
+
+      if (!$exists) {
+        // Insert into openid_connect_authmap
+        $database->insert('openid_connect_authmap')
+          ->fields([
+            'uid' => $record->uid,
+            'client_name' => 'cilogon', // Map to new plugin ID
+            'sub' => $record->sub,
+          ])
+          ->execute();
+      }
+
+      // Store IDP name in user field if available
+      if (!empty($record->idp_name)) {
+        $user = \Drupal\user\Entity\User::load($record->uid);
+        if ($user && $user->hasField('field_cilogon_idp')) {
+          // Only update if field is empty
+          if ($user->get('field_cilogon_idp')->isEmpty()) {
+            $user->set('field_cilogon_idp', $record->idp_name);
+            $user->save();
+          }
+        }
+      }
+
+      $sandbox['progress']++;
+      $sandbox['current_aid'] = $record->aid;
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('openid_connect_cilogon_client')->error('Migration error for aid @aid: @message', [
+        '@aid' => $record->aid,
+        '@message' => $e->getMessage(),
+      ]);
+    }
+  }
+
+  // Update progress
+  $sandbox['#finished'] = empty($sandbox['max']) ? 1 : ($sandbox['progress'] / $sandbox['max']);
+
+  if ($sandbox['#finished'] >= 1) {
+    return t('Migrated @count user mappings from cilogon_auth to openid_connect.', [
+      '@count' => $sandbox['progress'],
+    ]);
+  }
+}
+
+/**
+ * Migrate cilogon_auth configuration to openid_connect format.
+ */
+function openid_connect_cilogon_client_update_9002() {
+  $config_factory = \Drupal::configFactory();
+  
+  // Load old configuration
+  $old_config = $config_factory->get('cilogon_auth.settings.cilogon');
+  
+  if ($old_config->isNew()) {
+    return t('No cilogon_auth configuration found. Skipping config migration.');
+  }
+
+  // Load new configuration
+  $new_config = $config_factory->getEditable('openid_connect.settings.cilogon');
+
+  // Map configuration values
+  $mappings = [
+    'settings.client_id' => 'settings.client_id',
+    'settings.client_secret' => 'settings.client_secret',
+    'settings.authorization_endpoint' => 'settings.authorization_endpoint',
+    'settings.token_endpoint' => 'settings.token_endpoint',
+    'settings.userinfo_endpoint' => 'settings.userinfo_endpoint',
+  ];
+
+  $migrated = FALSE;
+  foreach ($mappings as $old_key => $new_key) {
+    $value = $old_config->get($old_key);
+    if (!empty($value)) {
+      $new_config->set($new_key, $value);
+      $migrated = TRUE;
+    }
+  }
+
+  // Enable the new client if old one was enabled
+  if ($old_config->get('enabled') === 'cilogon') {
+    $new_config->set('enabled', TRUE);
+  }
+
+  if ($migrated) {
+    $new_config->save();
+    return t('Configuration migrated from cilogon_auth to openid_connect.');
+  }
+
+  return t('No configuration to migrate.');
+}
+
+/**
+ * Add missing indexes to improve migration performance (optional optimization).
+ */
+function openid_connect_cilogon_client_update_9003() {
+  $database = \Drupal::database();
+  $schema = $database->schema();
+
+  // Add index to openid_connect_authmap if it doesn't exist
+  if ($schema->tableExists('openid_connect_authmap')) {
+    if (!$schema->indexExists('openid_connect_authmap', 'uid_client')) {
+      $schema->addIndex('openid_connect_authmap', 'uid_client', ['uid', 'client_name'], [
+        'fields' => [
+          'uid' => [
+            'type' => 'int',
+            'not null' => TRUE,
+          ],
+          'client_name' => [
+            'type' => 'varchar',
+            'length' => 255,
+            'not null' => TRUE,
+          ],
+        ],
+      ]);
+      return t('Added performance index to openid_connect_authmap.');
+    }
+  }
+
+  return t('Index already exists or table not found.');
+}
