@@ -7,4 +7,135 @@
  * Provides CILogon authentication client for OpenID Connect module.
  */
 
-// Hooks will be implemented in Phase 4
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_openid_connect_userinfo_save().
+ *
+ * Save additional CILogon-specific user information.
+ * This runs after claim mappings but before account save.
+ */
+function openid_connect_cilogon_client_openid_connect_userinfo_save(UserInterface $account, array $context) {
+  // Only process for CILogon clients
+  if (!in_array($context['plugin_id'], ['cilogon', 'cilogon_accessci'])) {
+    return;
+  }
+
+  // Set username to sub claim (e.g., apasquale@access-ci.org or http://cilogon.org/serverA/users/12345)
+  // This maintains compatibility with cilogon_auth module behavior
+  if (!empty($context['userinfo']['sub'])) {
+    $account->set('name', $context['userinfo']['sub']);
+  }
+
+  // Store IDP name in user field if configured and available
+  $config = \Drupal::config('openid_connect.settings.' . $context['plugin_id']);
+  $store_idp_name = $config->get('settings.store_idp_name');
+
+  if ($store_idp_name && !empty($context['userinfo']['idp_name'])) {
+    // Check if the field exists
+    if ($account->hasField('field_cilogon_idp')) {
+      $account->set('field_cilogon_idp', $context['userinfo']['idp_name']);
+    }
+  }
+}
+
+/**
+ * Implements hook_openid_connect_pre_authorize().
+ *
+ * Validate user before authorization.
+ * Return FALSE to prevent login.
+ */
+function openid_connect_cilogon_client_openid_connect_pre_authorize($account, array $context) {
+  // Only validate for CILogon clients
+  if (!in_array($context['plugin_id'], ['cilogon', 'cilogon_accessci'])) {
+    return TRUE;
+  }
+
+  // Validate required claims exist
+  if (empty($context['userinfo']['sub'])) {
+    \Drupal::messenger()->addError(t('Login failed: missing subject identifier.'));
+    \Drupal::logger('openid_connect_cilogon_client')->error('Missing sub claim in userinfo for @plugin', [
+      '@plugin' => $context['plugin_id'],
+    ]);
+    return FALSE;
+  }
+
+  // ACCESS CI client requires ACCESS CI identity
+  if ($context['plugin_id'] === 'cilogon_accessci') {
+    $config = \Drupal::config('openid_connect.settings.cilogon_accessci');
+    $require_access_ci = $config->get('settings.require_access_ci_identity');
+
+    if ($require_access_ci) {
+      // Check if sub matches @access-ci.org pattern
+      if (!preg_match('/^.+@access-ci\.org$/', $context['userinfo']['sub'])) {
+        \Drupal::messenger()->addError(t('Login requires an ACCESS CI linked identity.'));
+        \Drupal::logger('openid_connect_cilogon_client')->warning('User attempted login without ACCESS CI identity: @sub', [
+          '@sub' => $context['userinfo']['sub'],
+        ]);
+        return FALSE;
+      }
+    }
+  }
+
+  return TRUE;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for user_form.
+ *
+ * Hide password fields for SSO users unless they have permission.
+ */
+function openid_connect_cilogon_client_form_user_form_alter(&$form, FormStateInterface $form_state) {
+  /** @var \Drupal\user\UserInterface $account */
+  $account = $form_state->getFormObject()->getEntity();
+
+  // Check if user has CILogon auth mapping
+  /** @var \Drupal\openid_connect\OpenIDConnectAuthmap $authmap */
+  $authmap = \Drupal::service('openid_connect.authmap');
+  
+  // Check for either cilogon or cilogon_accessci mappings
+  $has_cilogon_mapping = FALSE;
+  foreach (['cilogon', 'cilogon_accessci'] as $client_name) {
+    $connected_accounts = $authmap->getConnectedAccounts($account, $client_name);
+    if (!empty($connected_accounts)) {
+      $has_cilogon_mapping = TRUE;
+      break;
+    }
+  }
+
+  if (!$has_cilogon_mapping) {
+    return;
+  }
+
+  // Check if user has permission to set own password
+  if (\Drupal::currentUser()->hasPermission('openid_connect_cilogon set own password')) {
+    return;
+  }
+
+  // Hide password fields
+  if (isset($form['account']['current_pass'])) {
+    $form['account']['current_pass']['#access'] = FALSE;
+  }
+  if (isset($form['account']['pass'])) {
+    $form['account']['pass']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for user_register_form.
+ *
+ * Hide password fields on registration form for CILogon users.
+ */
+function openid_connect_cilogon_client_form_user_register_form_alter(&$form, FormStateInterface $form_state) {
+  // Check if this is an OpenID Connect registration
+  $request = \Drupal::request();
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  
+  // If coming from OpenID Connect, hide password fields
+  if ($route_name === 'openid_connect.redirect_controller_redirect') {
+    if (isset($form['account']['pass'])) {
+      $form['account']['pass']['#access'] = FALSE;
+    }
+  }
+}
