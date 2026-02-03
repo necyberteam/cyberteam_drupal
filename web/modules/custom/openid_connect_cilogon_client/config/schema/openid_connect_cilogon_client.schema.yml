@@ -1,0 +1,68 @@
+# Schema for the configuration files of the OpenID Connect CILogon Client module.
+
+openid_connect.settings.cilogon:
+  type: config_object
+  label: 'OpenID Connect CILogon settings'
+  mapping:
+    enabled:
+      type: boolean
+      label: 'Enable client'
+    settings:
+      type: mapping
+      mapping:
+        client_id:
+          type: string
+          label: 'Client ID'
+        client_secret:
+          type: string
+          label: 'Client secret'
+        authorization_endpoint:
+          type: string
+          label: 'Authorization endpoint'
+        token_endpoint:
+          type: string
+          label: 'Token endpoint'
+        userinfo_endpoint:
+          type: string
+          label: 'Userinfo endpoint'
+        idp_hint:
+          type: string
+          label: 'IdP hint'
+        store_idp_name:
+          type: boolean
+          label: 'Store IDP name'
+
+openid_connect.settings.cilogon_accessci:
+  type: config_object
+  label: 'OpenID Connect CILogon ACCESS CI settings'
+  mapping:
+    enabled:
+      type: boolean
+      label: 'Enable client'
+    settings:
+      type: mapping
+      mapping:
+        client_id:
+          type: string
+          label: 'Client ID'
+        client_secret:
+          type: string
+          label: 'Client secret'
+        authorization_endpoint:
+          type: string
+          label: 'Authorization endpoint'
+        token_endpoint:
+          type: string
+          label: 'Token endpoint'
+        userinfo_endpoint:
+          type: string
+          label: 'Userinfo endpoint'
+        idp_hint:
+          type: string
+          label: 'IdP hint'
+        store_idp_name:
+          type: boolean
+          label: 'Store IDP name'
+        require_access_ci_identity:
+          type: boolean
+          label: 'Require ACCESS CI identity'
