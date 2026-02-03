@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the OpenID Connect CILogon Client module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function openid_connect_cilogon_client_install() {
+  // Field creation will be added in Phase 4
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function openid_connect_cilogon_client_uninstall() {
+  // Clean up configuration
+  \Drupal::configFactory()->getEditable('openid_connect.settings.cilogon')->delete();
+  \Drupal::configFactory()->getEditable('openid_connect.settings.cilogon_accessci')->delete();
+}
