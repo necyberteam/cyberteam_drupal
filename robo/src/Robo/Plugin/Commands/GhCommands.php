@@ -53,7 +53,7 @@ class GhCommands extends Tasks {
     $this->say("Downloading latest database backup from GitHub artifacts...");
 
     // Try to download the artifact
-    $result = $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-daily-backup 2>&1 | cat");
+    $result = $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-daily-backup");
 
     // Ensure backups directory exists
     if (!file_exists('backups')) {
@@ -119,7 +119,7 @@ class GhCommands extends Tasks {
     $this->_exec("gh run list -R github.com/necyberteam/cyberteam_drupal -L 5");
 
     // Download the artifact
-    $result = $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-file-backup 2>&1 | cat");
+    $result = $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-file-backup");
 
     // Check what files were downloaded
     $this->say("Checking downloaded files...");
