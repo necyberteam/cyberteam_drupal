@@ -55,15 +55,15 @@ final class JsonApiCCController extends ControllerBase {
     $input = Xss::filter($input);
 
     $query = $this->database->select('carnegie_codes', 'cc');
-    $query->condition('cc.NAME', '%' . $input . '%', 'LIKE');
-    $query->fields('cc', ['UNITID', 'NAME']);
+    $query->condition('cc.instnm', '%' . $input . '%', 'LIKE');
+    $query->fields('cc', ['unitid', 'instnm']);
     $query->range(0, 25);
 
     $rows = $query->execute();
     foreach ($rows as $row) {
       $results[] = [
-        'label' => $row->NAME,
-        'value' => $row->UNITID,
+        'label' => $row->instnm,
+        'value' => $row->unitid,
       ];
     }
     return new JsonResponse($results);

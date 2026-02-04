@@ -544,6 +544,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 10
           total_pages: null
           id: 0
@@ -558,7 +559,6 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          pagination_heading_level: h4
       exposed_form:
         type: basic
         options:
@@ -593,7 +593,22 @@ display:
             value: 'No pending Campus Champions applications.'
             format: basic_html
           tokenize: false
-      sorts: {  }
+      sorts:
+        sid:
+          id: sid
+          table: webform_submission
+          field: sid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          entity_field: sid
+          plugin_id: standard
+          order: DESC
+          expose:
+            label: ''
+            field_identifier: sid
+          exposed: false
       arguments: {  }
       filters:
         webform_id:
