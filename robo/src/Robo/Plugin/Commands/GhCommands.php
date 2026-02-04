@@ -52,8 +52,15 @@ class GhCommands extends Tasks {
   public function pulldb() {
     $this->say("Downloading latest database backup from GitHub artifacts...");
 
-    // Try to download the artifact
-    $result = $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-daily-backup");
+    // Create a temporary directory for download to avoid path traversal issues
+    // (GitHub CLI v2.63.1+ has stricter path validation that can cause false positives)
+    $downloadDir = 'artifact-download-tmp';
+    if (!file_exists($downloadDir)) {
+      mkdir($downloadDir, 0755, true);
+    }
+
+    // Download the artifact to explicit directory to work around gh CLI path traversal check
+    $result = $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-daily-backup -D $downloadDir");
 
     // Ensure backups directory exists
     if (!file_exists('backups')) {
@@ -62,40 +69,34 @@ class GhCommands extends Tasks {
 
     // Check what files were downloaded
     $this->say("Checking downloaded files...");
-    $this->_exec("ls -la");
+    $this->_exec("ls -la $downloadDir");
 
     $found_file = false;
     $target_file = 'backups/site.sql.gz';
 
-    // Check for various possible file names
-    if (file_exists('site.sql.gz')) {
+    // Check for various possible file names in download directory
+    if (file_exists("$downloadDir/site.sql.gz")) {
       $this->say("Found site.sql.gz");
-      $this->_exec("mv site.sql.gz $target_file");
+      $this->_exec("mv $downloadDir/site.sql.gz $target_file");
       $found_file = true;
     }
-    elseif (file_exists('site.sql')) {
+    elseif (file_exists("$downloadDir/site.sql")) {
       $this->say("Found site.sql, compressing...");
-      $this->_exec("gzip site.sql");
-      $this->_exec("mv site.sql.gz $target_file");
-      $found_file = true;
-    }
-    elseif (file_exists('amp-daily-backup/site.sql.gz')) {
-      $this->say("Found site.sql.gz in subdirectory");
-      $this->_exec("mv amp-daily-backup/site.sql.gz $target_file");
-      $found_file = true;
-    }
-    elseif (file_exists('amp-daily-backup/site.sql')) {
-      $this->say("Found site.sql in subdirectory, compressing...");
-      $this->_exec("gzip amp-daily-backup/site.sql");
-      $this->_exec("mv amp-daily-backup/site.sql.gz $target_file");
+      $this->_exec("gzip $downloadDir/site.sql");
+      $this->_exec("mv $downloadDir/site.sql.gz $target_file");
       $found_file = true;
     }
 
     if (!$found_file) {
       $this->say("❗️ No database file found. Available files:");
-      $this->_exec("find . -name '*.sql*' -o -name 'site.*'");
+      $this->_exec("find $downloadDir -name '*.sql*' -o -name 'site.*'");
+      // Clean up temp directory
+      $this->_exec("rm -fR $downloadDir");
       throw new \Exception('Failed to find database backup file');
     }
+
+    // Clean up temp directory
+    $this->_exec("rm -fR $downloadDir");
 
     // Remove old backup if it exists
     $prev_backup = 'backups/site.sql.gz.old';
@@ -118,17 +119,27 @@ class GhCommands extends Tasks {
     // List available workflows/runs to debug
     $this->_exec("gh run list -R github.com/necyberteam/cyberteam_drupal -L 5");
 
-    // Download the artifact
-    $result = $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-file-backup");
+    // Create a temporary directory for download to avoid path traversal issues
+    // (GitHub CLI v2.63.1+ has stricter path validation that can cause false positives)
+    $downloadDir = 'artifact-download-tmp';
+    if (!file_exists($downloadDir)) {
+      mkdir($downloadDir, 0755, true);
+    }
+
+    // Download the artifact to explicit directory to work around gh CLI path traversal check
+    $result = $this->_exec("gh run download -R github.com/necyberteam/cyberteam_drupal -n amp-file-backup -D $downloadDir");
 
     // Check what files were downloaded
     $this->say("Checking downloaded files...");
-    $this->_exec("ls -la");
+    $this->_exec("ls -la $downloadDir");
 
-    // Check if files.tar.gz exists
-    if (!file_exists('files.tar.gz')) {
+    // Check if files.tar.gz exists in the download directory
+    $tarFile = "$downloadDir/files.tar.gz";
+    if (!file_exists($tarFile)) {
       $this->say("❗️ No files.tar.gz found. Available files:");
-      $this->_exec("find . -name '*.tar.gz' -o -name 'files.*'");
+      $this->_exec("find $downloadDir -name '*.tar.gz' -o -name 'files.*'");
+      // Clean up temp directory
+      $this->_exec("rm -fR $downloadDir");
       throw new \Exception('Failed to find files backup file');
     }
 
@@ -139,9 +150,11 @@ class GhCommands extends Tasks {
     }
 
     // Extract and move files
-    $this->_exec("tar -xzvf files.tar.gz");
+    $this->_exec("tar -xzvf $tarFile");
     $this->_exec("mv files web/sites/default/files");
-    $this->_exec("rm -fR files.tar.gz");
+
+    // Clean up
+    $this->_exec("rm -fR $downloadDir");
 
     $this->say("✅ File backup downloaded successfully!");
   }
