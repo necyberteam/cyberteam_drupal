@@ -1,0 +1,17 @@
+uuid: 4f94e4c5-f900-4044-9b15-665e9ba3b776
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_events
+title: 'Default cron handler'
+id: access_events_cron
+weight: 0
+module: access_events
+callback: 'access_events#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database
