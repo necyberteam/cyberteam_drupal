@@ -88,7 +88,7 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
       // Always update stars.
       $currentStars = $node->get('field_appverse_stars')->value;
       $newStars = $this->githubService->getStars();
-      if ($currentStars != $newStars) {
+      if ($currentStars === NULL || $currentStars !== $newStars) {
         $node->set('field_appverse_stars', $newStars);
         $needsSave = TRUE;
       }
