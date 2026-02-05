@@ -2,3 +2,9 @@ services:
   ood_software.gh:
     class: Drupal\ood_software\Plugin\GitHubService
     arguments: ['@http_client', '@key.repository', '@messenger', '@logger.factory', '@entity_type.manager']
+
+  ood_software.flag_cache_invalidator:
+    class: Drupal\ood_software\EventSubscriber\FlagCacheInvalidator
+    arguments: ['@cache_tags.invalidator']
+    tags:
+      - { name: event_subscriber }

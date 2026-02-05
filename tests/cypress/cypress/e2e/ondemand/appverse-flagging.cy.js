@@ -37,6 +37,7 @@ describe("Appverse App Flagging", () => {
         const app = response.body.data[0];
         testApp = {
           nid: app.attributes.drupal_internal__nid,
+          uuid: app.id,
           title: app.attributes.title,
           path: app.attributes.path?.alias || `/node/${app.attributes.drupal_internal__nid}`
         };
@@ -158,6 +159,84 @@ describe("Appverse App Flagging", () => {
           expect(firstApp.attributes).to.have.property('drupal_internal__nid');
           expect(firstApp.attributes.drupal_internal__nid).to.be.a('number');
         }
+      });
+    });
+  });
+
+  describe("Flag count in JSON:API", () => {
+    beforeEach(() => {
+      cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
+    });
+
+    it("Returns flag_count attribute as a number", function() {
+      if (!testApp) {
+        this.skip();
+        return;
+      }
+
+      cy.request({
+        method: 'GET',
+        url: `/jsonapi/node/appverse_app/${testApp.uuid}`,
+        headers: {
+          'Accept': 'application/vnd.api+json'
+        },
+        failOnStatusCode: false
+      }).then((response) => {
+        if (response.status === 404) {
+          cy.log('JSON:API endpoint not available');
+          return;
+        }
+
+        expect(response.status).to.eq(200);
+        expect(response.body.data.attributes).to.have.property('flag_count');
+        expect(response.body.data.attributes.flag_count).to.be.a('number');
+        expect(response.body.data.attributes.flag_count).to.be.at.least(0);
+      });
+    });
+
+    it("Flag count increases after flagging", function() {
+      if (!testApp) {
+        this.skip();
+        return;
+      }
+
+      // First, ensure the app is unflagged by visiting and unflagging if needed
+      cy.visit(testApp.path);
+      cy.get('body').then(($body) => {
+        if ($body.find('a[href*="/flag/unflag/appverse_apps/"]').length > 0) {
+          cy.get('a[href*="/flag/unflag/appverse_apps/"]').first().click();
+          cy.visit(testApp.path); // Reload to get fresh state
+        }
+      });
+
+      // Get initial flag count
+      cy.request({
+        method: 'GET',
+        url: `/jsonapi/node/appverse_app/${testApp.uuid}`,
+        headers: {
+          'Accept': 'application/vnd.api+json'
+        }
+      }).then((response) => {
+        const initialCount = response.body.data.attributes.flag_count;
+
+        // Flag the app
+        cy.visit(testApp.path);
+        cy.get('a[href*="/flag/flag/appverse_apps/"]').first().click();
+
+        // Verify flagging succeeded by checking unflag link now exists
+        cy.get('a[href*="/flag/unflag/appverse_apps/"]', { timeout: 10000 }).should('exist');
+
+        // Verify flag count increased
+        cy.request({
+          method: 'GET',
+          url: `/jsonapi/node/appverse_app/${testApp.uuid}`,
+          headers: {
+            'Accept': 'application/vnd.api+json'
+          }
+        }).then((newResponse) => {
+          const newCount = newResponse.body.data.attributes.flag_count;
+          expect(newCount).to.eq(initialCount + 1);
+        });
       });
     });
   });

@@ -398,7 +398,8 @@ class GitHubService {
         'name' => $this->role,
         'vid' => 'appverse_app_type',
       ]);
-    return reset($terms)?->id();
+    $term = reset($terms);
+    return $term ? $term->id() : NULL;
   }
 
   /**

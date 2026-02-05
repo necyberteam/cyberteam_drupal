@@ -5,10 +5,30 @@
  */
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\Xss;
+
+/**
+ * Implements hook_entity_bundle_field_info().
+ */
+function ood_software_entity_bundle_field_info(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
+  $fields = [];
+
+  if ($entity_type->id() === 'node' && $bundle === 'appverse_app') {
+    $fields['flag_count'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Flag Count'))
+      ->setDescription(t('Number of users who have flagged this app.'))
+      ->setComputed(TRUE)
+      ->setClass('\Drupal\ood_software\Field\FlagCountFieldItemList')
+      ->setReadOnly(TRUE);
+  }
+
+  return $fields;
+}
 
 /**
  * Implements hook_form_alter().
