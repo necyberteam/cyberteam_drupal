@@ -194,6 +194,32 @@ describe("Appverse App Flagging", () => {
       });
     });
 
+    it("Returns field_appverse_stars attribute as a number", function() {
+      if (!testApp) {
+        this.skip();
+        return;
+      }
+
+      cy.request({
+        method: 'GET',
+        url: `/jsonapi/node/appverse_app/${testApp.uuid}`,
+        headers: {
+          'Accept': 'application/vnd.api+json'
+        },
+        failOnStatusCode: false
+      }).then((response) => {
+        if (response.status === 404) {
+          cy.log('JSON:API endpoint not available');
+          return;
+        }
+
+        expect(response.status).to.eq(200);
+        expect(response.body.data.attributes).to.have.property('field_appverse_stars');
+        expect(response.body.data.attributes.field_appverse_stars).to.be.a('number');
+        expect(response.body.data.attributes.field_appverse_stars).to.be.at.least(0);
+      });
+    });
+
     it("Flag count increases after flagging", function() {
       if (!testApp) {
         this.skip();

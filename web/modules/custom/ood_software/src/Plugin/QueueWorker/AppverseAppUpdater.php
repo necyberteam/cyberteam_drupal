@@ -17,7 +17,7 @@ use Drupal\ood_software\Plugin\GitHubService;
  *   cron = {"time" = 60}
  * )
  */
-class AppverseAppUpdater extends QueueWorkerBase implements ContainerFactoryPluginInterface {
+final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFactoryPluginInterface {
 
   /**
    * The entity type manager.
@@ -81,13 +81,27 @@ class AppverseAppUpdater extends QueueWorkerBase implements ContainerFactoryPlug
 
     $validUrl = $this->githubService->parseUrl($github_url);
     if ($validUrl) {
+      $this->githubService->getData();
       $lastupdated = $node->get('field_appverse_lastupdated')->value;
+      $needsSave = FALSE;
 
+      // Always update stars.
+      $currentStars = $node->get('field_appverse_stars')->value;
+      $newStars = $this->githubService->getStars();
+      if ($currentStars != $newStars) {
+        $node->set('field_appverse_stars', $newStars);
+        $needsSave = TRUE;
+      }
+
+      // Update other fields if repo has new commits.
       if ($lastupdated != $this->githubService->getLastComittedDate()) {
-        // Update fields.
         $node->set('body', [['format' => 'markdown', 'value' => $this->githubService->getDescription()]]);
         $node->set('field_appverse_readme', [['format' => 'markdown', 'value' => $this->githubService->getReadme()]]);
         $node->set('field_appverse_lastupdated', [['value' => $this->githubService->getLastComittedDate()]]);
+        $needsSave = TRUE;
+      }
+
+      if ($needsSave) {
         $node->save();
       }
     }

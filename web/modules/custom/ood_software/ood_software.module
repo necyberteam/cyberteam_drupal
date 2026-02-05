@@ -325,6 +325,9 @@ function ood_software__edit_submit($form, FormStateInterface $form_state) {
   if ($validUrl) {
     $data = $gh->getData();
 
+    // Always set stars.
+    $form_state->setValue('field_appverse_stars', [['value' => $gh->getStars()]]);
+
     if ($lastupdated != $gh->getLastComittedDate()) {
       $form_state->setValue('body', [['format' => 'markdown', 'value' => $gh->getDescription()]]);
       $form_state->setValue('field_appverse_readme', [['format' => 'markdown', 'value' => $gh->getDescription()]]);

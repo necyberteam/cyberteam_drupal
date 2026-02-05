@@ -1,0 +1,26 @@
+uuid: 8b7a6c5d-4e3f-2a1b-9c8d-7e6f5a4b3c2d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_appverse_stars
+    - node.type.appverse_app
+  module:
+    - node
+id: node.appverse_app.field_appverse_stars
+field_name: field_appverse_stars
+entity_type: node
+bundle: appverse_app
+label: 'GitHub Stars'
+description: 'Number of stars on the GitHub repository.'
+required: false
+translatable: false
+default_value:
+  - value: 0
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

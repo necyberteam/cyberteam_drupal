@@ -54,7 +54,9 @@ describe("Appverse JSON:API", () => {
           'body',
           'field_appverse_github_url',
           'field_appverse_readme',
-          'field_appverse_lastupdated'
+          'field_appverse_lastupdated',
+          'field_appverse_stars',
+          'flag_count'
         ];
 
         expectedAttributes.forEach((attr) => {
