@@ -98,7 +98,7 @@ runs:
         # Create the private keys directory and add GitHub token for Drupal's key module
         # Private path is sites/default/files/private per settings.php
         ddev exec mkdir -p /var/www/html/web/sites/default/files/private/.keys
-        ddev exec bash -c "echo '$GITHUB_TOKEN' > /var/www/html/web/sites/default/files/private/.keys/github.key"
+        ddev exec bash -c "echo -n '$GITHUB_TOKEN' > /var/www/html/web/sites/default/files/private/.keys/github.key"
         ddev exec chmod 600 /var/www/html/web/sites/default/files/private/.keys/github.key
 
     - name: Clear watchdog logs
