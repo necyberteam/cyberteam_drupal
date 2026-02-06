@@ -63,6 +63,19 @@ runs:
         ddev exec gh auth status
         ddev exec vendor/bin/robo gh:pullfiles
 
+    - name: Setup Drupal key for GitHub API
+      shell: bash
+      if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      run: |
+        # Create the private keys directory and add GitHub token for Drupal's key module
+        # This must run AFTER pullfiles since that wipes the files directory
+        mkdir -p web/sites/default/files/private/.keys
+        printf '%s' "$GITHUB_TOKEN" > web/sites/default/files/private/.keys/github.key
+        chmod 600 web/sites/default/files/private/.keys/github.key
+        echo "✅ GitHub key file created ($(wc -c < web/sites/default/files/private/.keys/github.key) bytes)"
+
     - name: Setup Node.js
       if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
       uses: actions/setup-node@v4

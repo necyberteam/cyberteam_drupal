@@ -90,25 +90,6 @@ runs:
         ddev drush en symfony_mailer_log -y
         ddev drush cr
 
-    - name: Setup Drupal key for GitHub API
-      shell: bash
-      env:
-        GITHUB_TOKEN: ${{ inputs.github_token }}
-      run: |
-        # Create the private keys directory and add GitHub token for Drupal's key module
-        # Private path is sites/default/files/private per settings.php
-        mkdir -p web/sites/default/files/private/.keys
-        # Write token directly on host (DDEV mounts this directory)
-        printf '%s' "$GITHUB_TOKEN" > web/sites/default/files/private/.keys/github.key
-        chmod 600 web/sites/default/files/private/.keys/github.key
-        # Verify the file was created and has content
-        if [ -s web/sites/default/files/private/.keys/github.key ]; then
-          echo "✅ GitHub key file created successfully ($(wc -c < web/sites/default/files/private/.keys/github.key) bytes)"
-        else
-          echo "❌ GitHub key file is empty or missing"
-          exit 1
-        fi
-
     - name: Clear watchdog logs
       shell: bash
       run: ddev drush watchdog:delete all -y
