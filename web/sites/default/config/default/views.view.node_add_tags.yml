@@ -1230,7 +1230,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<span id="tag-{{ name }}" class="tags-select" data-tid="{{ tid }}">{{ name }}</span>'
+            text: '<span id="tag-{{ name|replace({'' '':''-'', ''/'':''-''})|lower }}" class="tags-select" data-tid="{{ tid }}">{{ name }}</span>'
             make_link: false
             path: ''
             absolute: false
@@ -1545,7 +1545,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: '<h2 id="{{name__value}}" class="mt-10">{{ name }}</h2>'
+            text: '<h2 id="{{ name|replace({'' '':''-'', ''/'':''-''})|lower }}" class="mt-10">{{ name }}</h2>'
             make_link: false
             path: ''
             absolute: false
