@@ -1,4 +1,16 @@
 describe("This test verifies the coco domain for an authenticated user", () => {
+  const testUsername = 'cypress-coco-test';
+  const testEmail = 'cypress-coco-test@example.com';
+
+  // Clean up any existing test user before running tests
+  before(() => {
+    cy.exec(`ddev drush user:cancel --delete-content -y ${testUsername}`, { failOnNonZeroExit: false });
+  });
+
+  // Clean up after tests complete
+  after(() => {
+    cy.exec(`ddev drush user:cancel --delete-content -y ${testUsername}`, { failOnNonZeroExit: false });
+  });
 
   it("Authenticated/Unauthenticated user navigates through coco domain", () => {
     cy.loginUser('authenticated@amptesting.com', '6%l7iF}6(4tI');
@@ -50,22 +62,11 @@ describe("This test verifies the coco domain for an authenticated user", () => {
     cy.contains('Login to Suggest a New Listing');
     cy.contains('Join').click();
     cy.contains('Create new representative account');
-    cy.get('input[name="mail"]').type('test231@example.com');
-    cy.get('input[name="name"]').type('Test231');
-    cy.get('input[name="field_user_first_name[0][value]"]').type('Test');
-    cy.get('input[name="field_user_last_name[0][value]"]').type('Test');
+    cy.get('input[name="mail"]').type(testEmail);
+    cy.get('input[name="name"]').type(testUsername);
+    cy.get('input[name="field_user_first_name[0][value]"]').type('Cypress');
+    cy.get('input[name="field_user_last_name[0][value]"]').type('CocoTest');
     cy.get('input[name="field_access_organization[0][target_id]"]').type('MGHPCC');
     cy.get('#user-register-form > #edit-actions > #edit-submit').click();
   });
-
-  it("Delete test account so future runs do not fail", () => {
-    cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
-    cy.visit('/admin/people');
-    cy.get(':nth-child(1) > .views-field-operations > .dropbutton-wrapper > .dropbutton-widget > .dropbutton > .edit > a').click();
-    cy.get('#edit-delete').click();
-    cy.get('#edit-user-cancel-method-user-cancel-delete').check();
-    cy.get('#edit-submit').click();
-    cy.contains('Account Test Test has been deleted');
-  });
-
 });
