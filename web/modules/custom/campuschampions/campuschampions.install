@@ -28,7 +28,6 @@ function campuschampions_update_8901() {
 }
 
 /**
- * @file
  * Remove and add new carnegie_codes table.
  */
 function campuschampions_update_9000() {
@@ -562,4 +561,688 @@ function campuschampions_update_10001() {
   ];
   $stats = json_encode($stats);
   \Drupal::state()->set('cc_stats',$stats);
+}
+
+/**
+ * Remove and add new carnegie_codes table.
+ */
+function campuschampions_update_10002() {
+  $schema = \Drupal::database()->schema();
+  $schema->dropTable('carnegie_codes');
+}
+
+/**
+ * Create new carnegie_codes table with 2025 data structure.
+ */
+function campuschampions_update_10003() {
+  $schema = \Drupal::database()->schema();
+  $schema->createTable('carnegie_codes', [
+    'fields' => [
+      'unitid' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'instnm' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'city' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'stabbr' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ic2025' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ic2025name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'saec2025' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'saec2025name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'research2025' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'research2025name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'appeal' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'SAECvisgroup' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'control' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'hbcu' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'pbi' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'annhsi' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'tribal' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'aanapisi' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'hsi' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'nasnti' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'landgrant' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'womenonly' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'medical' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'rpu' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'cce' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'lpp' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'basic2021' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'basic2025' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ic2025size' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'size_avg' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ic2025alf' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'associate_avg' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'bachelor_avg' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'masters_avg' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'rdoc_avg' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'ppdoc_avg' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'odoc_avg' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'apm' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'apm_max_cip2' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'apm_max_cip2_name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'apm_max_cip2percent' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'apm_appliedstudies' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'apm_art' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'apm_theological' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'apm_nursing' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'apm_business' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'apm_law' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'apm_as' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'apm_tes' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'apm_prof' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'gpm' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'gpm_max_cip2' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'gpm_max_cip2name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'gpm_max_cip2percent' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'gpm_appliedstudies' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'gpm_art' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'gpm_theological' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'gpm_nursing' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'gpm_business' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'gpm_law' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'gpm_as' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'gpm_tes' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'gpm_prof' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'setting2025' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'highest_degree_2025' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'herd_2021' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'herd_2022' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'herd_2023' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'herd_avg' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'rdoc_2021' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'rdoc_2022' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'rdoc_2023' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'saec_earnings' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'saec_compearn' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'earnings_ratio' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'pell_2023' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'pell_ratio' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'saec_asian_2023' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'saec_aina_2023' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'saec_black_2023' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'saec_hispanic_2023' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'saec_nhpi_2023' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'saec_white_2023' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'saec_two_or_more_2023' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'saec_urm_2023' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'saec_urm_ratio' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'access_ratio' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'OMENRYP_ALL_POOLED_SUPP' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'OMENRAP_ALL_POOLED_SUPP' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'OMAWDP8_ALL_POOLED_SUPP' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'OMENRUP_ALL_POOLED_SUPP' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'NPT4_PUB' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'NPT4_PRIV' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'PCTFLOAN_DCS_POOLED_SUPP' => [
+        'type' => 'float',
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+      'GRAD_DEBT_MDN_SUPP' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => NULL,
+      ],
+    ],
+    'primary key' => ['unitid'],
+  ]);
+}
+
+/**
+ * Populate carnegie_codes table with 2025 data.
+ */
+function campuschampions_update_10004() {
+  $module_path = \Drupal::service('extension.list.module')->getPath('campuschampions');
+  $csv_file = $module_path . '/carnegie_data/2025.csv';
+
+  if (!file_exists($csv_file)) {
+    throw new \Exception('CSV file not found: ' . $csv_file);
+  }
+
+  $handle = fopen($csv_file, 'r');
+  if ($handle === FALSE) {
+    throw new \Exception('Could not open CSV file: ' . $csv_file);
+  }
+
+  // Read and validate header
+  $header = fgetcsv($handle);
+  if ($header === FALSE) {
+    fclose($handle);
+    throw new \Exception('Could not read CSV header');
+  }
+
+  $connection = \Drupal::database();
+  $inserted = 0;
+  $skipped = 0;
+
+  // Read each row
+  while (($data = fgetcsv($handle)) !== FALSE) {
+    // Skip if not enough columns
+    if (count($data) < count($header)) {
+      $skipped++;
+      continue;
+    }
+
+    // Map CSV columns to database fields
+    $row_data = array_combine($header, $data);
+
+    // Convert empty strings and error values to NULL for numeric fields
+    $record = [];
+    foreach ($row_data as $key => $value) {
+      if ($value === '' || $value === 'NA' || $value === '#N/A') {
+        $record[$key] = NULL;
+      } else {
+        $record[$key] = $value;
+      }
+    }
+
+    try {
+      $connection->insert('carnegie_codes')
+        ->fields($record)
+        ->execute();
+      $inserted++;
+    } catch (\Exception $e) {
+      $skipped++;
+      \Drupal::logger('campuschampions')->error('Error inserting row: @message', ['@message' => $e->getMessage()]);
+    }
+  }
+
+  fclose($handle);
+
+  return t('Imported @inserted records from CSV. Skipped @skipped records.', [
+    '@inserted' => $inserted,
+    '@skipped' => $skipped,
+  ]);
+}
+
+/**
+ * Re-import carnegie_codes table to handle #N/A values.
+ */
+function campuschampions_update_10005() {
+  $connection = \Drupal::database();
+
+  // Truncate existing data
+  $connection->truncate('carnegie_codes')->execute();
+
+  $module_path = \Drupal::service('extension.list.module')->getPath('campuschampions');
+  $csv_file = $module_path . '/carnegie_data/2025.csv';
+
+  if (!file_exists($csv_file)) {
+    throw new \Exception('CSV file not found: ' . $csv_file);
+  }
+
+  $handle = fopen($csv_file, 'r');
+  if ($handle === FALSE) {
+    throw new \Exception('Could not open CSV file: ' . $csv_file);
+  }
+
+  // Read and validate header
+  $header = fgetcsv($handle);
+  if ($header === FALSE) {
+    fclose($handle);
+    throw new \Exception('Could not read CSV header');
+  }
+
+  $inserted = 0;
+  $skipped = 0;
+
+  // Read each row
+  while (($data = fgetcsv($handle)) !== FALSE) {
+    // Skip if not enough columns
+    if (count($data) < count($header)) {
+      $skipped++;
+      continue;
+    }
+
+    // Map CSV columns to database fields
+    $row_data = array_combine($header, $data);
+
+    // Convert empty strings and error values to NULL for numeric fields
+    $record = [];
+    foreach ($row_data as $key => $value) {
+      if ($value === '' || $value === 'NA' || $value === '#N/A') {
+        $record[$key] = NULL;
+      } else {
+        $record[$key] = $value;
+      }
+    }
+
+    try {
+      $connection->insert('carnegie_codes')
+        ->fields($record)
+        ->execute();
+      $inserted++;
+    } catch (\Exception $e) {
+      $skipped++;
+      \Drupal::logger('campuschampions')->error('Error inserting row: @message', ['@message' => $e->getMessage()]);
+    }
+  }
+
+  fclose($handle);
+
+  return t('Re-imported @inserted records from CSV. Skipped @skipped records.', [
+    '@inserted' => $inserted,
+    '@skipped' => $skipped,
+  ]);
+}
+
+/**
+ * Add computed msi column and remove unused basic2025 column.
+ */
+function campuschampions_update_10006() {
+  $connection = \Drupal::database();
+  $schema = $connection->schema();
+
+  // Add msi column if it doesn't exist
+  if (!$schema->fieldExists('carnegie_codes', 'msi')) {
+    $schema->addField('carnegie_codes', 'msi', [
+      'type' => 'int',
+      'not null' => FALSE,
+      'default' => NULL,
+      'description' => 'Computed MSI flag: 1 if any MSI designation applies',
+    ]);
+  }
+
+  // Populate msi column based on the individual MSI flags
+  // An institution is MSI if any of: hbcu, pbi, hsi, tribal, aanapisi, annhsi, nasnti = 1
+  $connection->query("
+    UPDATE carnegie_codes
+    SET msi = CASE
+      WHEN hbcu = 1 OR pbi = 1 OR hsi = 1 OR tribal = 1 OR aanapisi = 1 OR annhsi = 1 OR nasnti = 1
+      THEN 1
+      ELSE 0
+    END
+  ");
+
+  // Remove unused basic2025 column if it exists
+  if ($schema->fieldExists('carnegie_codes', 'basic2025')) {
+    $schema->dropField('carnegie_codes', 'basic2025');
+  }
+
+  $msi_count = $connection->query("SELECT COUNT(*) FROM carnegie_codes WHERE msi = 1")->fetchField();
+
+  return t('Added msi column and populated @count MSI institutions. Removed unused basic2025 column.', [
+    '@count' => $msi_count,
+  ]);
 }
