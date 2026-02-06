@@ -77,6 +77,9 @@ describe("Appverse Software Creation", () => {
         cy.get('[data-drupal-selector="edit-field-appverse-software-website-0-uri"]').type(testSoftware.website);
         cy.get('[data-drupal-selector="edit-field-appverse-software-doc-0-uri"]').type(testSoftware.documentation);
 
+        // Select a license (required field)
+        cy.get('[data-drupal-selector="edit-field-license"]').select(1);
+
         // Submit the form
         cy.get('#edit-submit').click();
 
