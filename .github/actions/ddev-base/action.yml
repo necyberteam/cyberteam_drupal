@@ -90,6 +90,16 @@ runs:
         ddev drush en symfony_mailer_log -y
         ddev drush cr
 
+    - name: Setup Drupal key for GitHub API
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      run: |
+        # Create the private keys directory and add GitHub token for Drupal's key module
+        ddev exec mkdir -p /var/www/html/private/.keys
+        ddev exec bash -c "echo '$GITHUB_TOKEN' > /var/www/html/private/.keys/github.key"
+        ddev exec chmod 600 /var/www/html/private/.keys/github.key
+
     - name: Clear watchdog logs
       shell: bash
       run: ddev drush watchdog:delete all -y
