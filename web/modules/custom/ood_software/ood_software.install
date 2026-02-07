@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the ood_software module.
+ */
+
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Create batch_connect taxonomy term if it doesn't exist.
+ */
+function ood_software_update_10001() {
+  $existing = \Drupal::entityTypeManager()
+    ->getStorage('taxonomy_term')
+    ->loadByProperties([
+      'name' => 'batch_connect',
+      'vid' => 'appverse_app_type',
+    ]);
+
+  if (empty($existing)) {
+    $term = Term::create([
+      'vid' => 'appverse_app_type',
+      'name' => 'batch_connect',
+    ]);
+    $term->save();
+    return t('Created batch_connect taxonomy term.');
+  }
+
+  return t('batch_connect taxonomy term already exists.');
+}

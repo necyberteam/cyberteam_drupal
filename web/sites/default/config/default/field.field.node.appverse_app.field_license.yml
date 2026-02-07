@@ -1,0 +1,29 @@
+uuid: 593d5c7c-2c5c-4c26-bb74-ad0967a05978
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_license
+    - node.type.appverse_app
+    - taxonomy.vocabulary.appverse_license
+id: node.appverse_app.field_license
+field_name: field_license
+entity_type: node
+bundle: appverse_app
+label: License
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      appverse_license: appverse_license
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

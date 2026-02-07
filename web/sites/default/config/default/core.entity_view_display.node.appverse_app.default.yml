@@ -1,0 +1,135 @@
+uuid: 1cc75a36-ec73-4f4b-a8dc-6e0d9bb12b37
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.appverse_app.body
+    - field.field.node.appverse_app.field_add_implementation_tags
+    - field.field.node.appverse_app.field_appverse_app_type
+    - field.field.node.appverse_app.field_appverse_github_url
+    - field.field.node.appverse_app.field_appverse_lastupdated
+    - field.field.node.appverse_app.field_appverse_license_link
+    - field.field.node.appverse_app.field_appverse_organization
+    - field.field.node.appverse_app.field_appverse_readme
+    - field.field.node.appverse_app.field_appverse_software_implemen
+    - field.field.node.appverse_app.field_domain_access
+    - field.field.node.appverse_app.field_domain_all_affiliates
+    - field.field.node.appverse_app.field_domain_source
+    - field.field.node.appverse_app.field_license
+    - node.type.appverse_app
+  module:
+    - link
+    - text
+    - user
+id: node.appverse_app.default
+targetEntityType: node
+bundle: appverse_app
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
+  field_add_implementation_tags:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_appverse_app_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_appverse_github_url:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_appverse_lastupdated:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_appverse_license_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_appverse_organization:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_appverse_readme:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_appverse_software_implemen:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_license:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  flag_appverse_apps:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  search_api_excerpt: true

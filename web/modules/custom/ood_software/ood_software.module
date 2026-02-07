@@ -1,0 +1,377 @@
+<?php
+
+/**
+ * @file
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Component\Serialization\Yaml;
+use Drupal\Component\Utility\Xss;
+
+/**
+ * Implements hook_entity_bundle_field_info().
+ */
+function ood_software_entity_bundle_field_info(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
+  $fields = [];
+
+  if ($entity_type->id() === 'node' && $bundle === 'appverse_app') {
+    $fields['flag_count'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Flag Count'))
+      ->setDescription(t('Number of users who have flagged this app.'))
+      ->setComputed(TRUE)
+      ->setClass('\Drupal\ood_software\Field\FlagCountFieldItemList')
+      ->setReadOnly(TRUE);
+  }
+
+  return $fields;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ood_software_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  // Alter the node edit form for 'add software' content type.
+  if ($form_id === 'node_appverse_software_edit_form' || $form_id === 'node_appverse_software_form') {
+    $form['title']['widget'][0]['value']['#placeholder'] = t('Add title');
+    $form['body']['widget'][0]['#placeholder'] = t('Add description');
+    $form['field_appverse_software_doc']['widget'][0]['uri']['#placeholder'] = t('Add URL');
+    $form['field_appverse_software_website']['widget'][0]['uri']['#placeholder'] = t('Add URL');
+
+    // Adding tags widget.
+    $form['field_tags_replace'] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'id' => 'field-tags-replace',
+        'data-suggest' => '0',
+      ],
+      '#weight' => 15,
+    ];
+
+    $form['field_tags_replace']['field_suggest'] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => [
+          'bg-light-teal',
+          'my-5',
+          'p-5'
+        ]
+      ],
+    ];
+
+    $form['field_tags_replace']['field_suggest']['tag_list'] = [
+      '#markup' => "<div id='match-tag-list' class='mb-3'>Get tag suggestions based on your description and then curate as necessary.</div>",
+    ];
+
+    $form['field_tags_replace']['field_suggest']['replace_button'] = [
+      '#type' => 'button',
+      '#value' => t('Suggest Tags'),
+      '#limit_validation_errors' => array(),
+      '#attributes' => [
+        'class' => [
+          'ml-0'
+        ],
+      ],
+      '#ajax' => [
+        'callback' => 'ood_software_replace_section_callback',
+        'wrapper' => 'field-tags-replace',
+      ],
+    ];
+    $form['field_tags_replace']['user_message'] = [
+      '#markup' => "",
+    ];
+
+
+    $add_tags = \Drupal::service('access_misc.addtags');
+    $output = $add_tags->getView();
+    $tag_label = t('Tags');
+    $tag_description = t('Select up to 6 tags that relate to your engagement. Tags will help us find people with related expertise.');
+    $tag_summary = t('Select Tags');
+
+    $form['node_add_tags'] = [
+      '#markup' => "<div class='font-bold'>$tag_label</div>
+        <div class='tag-description'>$tag_description</div>
+        <div id='tag-suggestions'></div>
+        <details class='tags m-0 mb-8'><summary class='font-bold'>$tag_summary</summary>$output</details>",
+      '#weight' => 15,
+      '#allowed_tags' => [
+        'button',
+        'details',
+        'summary',
+        'div',
+        'span',
+        'h2',
+      ],
+    ];
+
+    // Attach javascript.
+    $form['#attached']['library'][] = 'access_misc/node_add_tags';
+  }
+  // Alter the node edit form for 'add app' content type.
+  if ($form_id === 'node_appverse_app_edit_form' || $form_id === 'node_appverse_app_form') {
+    // Get user roles.
+    $user = \Drupal::currentUser();
+    $roles = $user->getRoles();
+
+    // Hide fields controlled by repo.
+    if (!in_array('administrator', $roles)) {
+      $form['body']['#access'] = FALSE;
+      $form['field_appverse_readme']['#access'] = FALSE;
+      $form['field_appverse_lastupdated']['#access'] = FALSE;
+    }
+
+    $form['intro_text'] = [
+      '#type' => 'markup',
+      '#markup' => '<div class="mb-4">' . t('See the <strong><a href=":url">contributor documentation</a></strong> for best practices in app integration.', [':url' => 'https://osc.github.io/ood-documentation/latest/how-tos/app-development/app-sharing.html']) . '</div>',
+      '#weight' => -10,
+    ];
+
+    $form['title']['widget'][0]['value']['#placeholder'] = t('e.g. Docker Version of Abacus');
+    $form['field_appverse_github_url']['widget'][0]['uri']['#placeholder'] = t('Add the URL of your repo for');
+    unset($form['field_appverse_github_url']['widget'][0]['uri']['#description']);
+
+    // Add prefix/suffix to make the fieldset ajax-replaceable.
+    $form['group_github']['#prefix'] = '<div id="edit-group-github">';
+    $form['group_github']['#suffix'] = '</div>';
+
+    // Place the button right after the github url field.
+    $lookup_button_weight = $form['field_appverse_github_url']['#weight'] + 1;
+
+    $form['group_github']['lookup_button'] = [
+      '#type' => 'button',
+      '#value' => t('Fetch Repo'),
+      '#limit_validation_errors' => array(),
+      '#weight' => $lookup_button_weight,
+      '#attributes' => [
+        'class' => [
+          'ml-0'
+        ],
+      ],
+      '#ajax' => [
+        'callback' => 'ood_software_fetch_github_data',
+        'wrapper' => 'edit-group-github',
+      ],
+    ];
+
+    $form['footer_text'] = [
+      '#type' => 'markup',
+      '#markup' => '<div class="">' . t('<strong>Thank you for making this available to the community!</strong>') . '</div>',
+      '#weight' => 10,
+    ];
+
+    array_unshift($form['actions']['submit']['#submit'], 'ood_software__edit_submit');
+    $form['actions']['submit']['#submit'][] = 'ood_software__redirect_submit';
+  }
+
+  // Hide description for link.
+  unset($form['field_appverse_license_link']['widget'][0]['uri']['#description']);
+
+  if ($form_id === 'node_appverse_app_edit_form') {
+    // Disable the 'field_appverse_github_url' field if the node is published.
+    $node = $form_state->getFormObject()->getEntity();
+    $user_roles = \Drupal::currentUser()->getRoles();
+    if ($node->isPublished() && (!in_array('administrator', $user_roles) && !in_array('appverse_pm', $user_roles))) {
+      $form['field_appverse_github_url']['#disabled'] = TRUE;
+      $form['field_appverse_github_url']['widget'][0]['uri']['#attributes']['class'][] = 'form-control';
+      $form['field_appverse_organization']['#disabled'] = TRUE;
+      $form['field_appverse_license_link']['#disabled'] = TRUE;
+      $form['field_license']['#disabled'] = TRUE;
+    }
+  }
+
+}
+
+/**
+ * Ajax call to pull in Github data.
+ */
+function ood_software_fetch_github_data(array &$form, FormStateInterface $form_state) {
+  $gh = \Drupal::service('ood_software.gh');
+  $validUrl = $gh->parseUrl($form_state->getValue('field_appverse_github_url')[0]['uri']);
+  $suffix = '<div class="gh-url-suffix bg-header-gray p-3 mb-3" style="margin-top:-1.9rem;">';
+  if ($validUrl) {
+    $data = $gh->getData();
+
+    $readme = $gh->getReadme();
+    $license_link = $gh->getLicenseLink();
+    $license = $gh->getLicense();
+    $manifest = $gh->getManifestData();
+    $organization = $gh->getOrganization();
+
+    if ($readme) {
+      $suffix .= '<i class="bi bi-check-lg text-success"></i> ' . t('README') . '<br/>';
+    } else {
+      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> ' . t('No README detected.') . '<br/>';
+    }
+
+    if ($manifest) {
+      $suffix .= '<i class="bi bi-check-lg text-success"></i> ' . t('manifest.yml file') . '<br/>';
+    } else {
+      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> ' . t('No manifest.yml detected.') . '<br/>';
+    }
+
+    if ($license) {
+      $suffix .= '<i class="bi bi-check-lg text-success"></i> ' . t('LICENSE') . '<br/>';
+    } else {
+      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> ' . t('No license detected.') . '<br/>';
+    }
+
+    if ($manifest) {
+      $apptype = $gh->getAppType();
+      $suffix .= "<p class='pt-3'><strong>" . t("We've detected the following and pre-populated below:") . "</strong></p>";
+      $suffix .= "<p><strong>" . t('Organization:') . " </strong>$organization</p>";
+      if ($apptype) {
+        $suffix .= "<p><strong>" . t('App type:') . " </strong>$apptype</p>";
+      }
+    }
+
+    // Also update the form element to reflect the change.
+    $form['body']['widget'][0]['value']['#value'] = $gh->getDescription();
+    $form['field_appverse_readme']['widget'][0]['value']['#value'] = $readme;
+    $form['title']['widget'][0]['value']['#value'] = $gh->getRepoName();
+    $form['field_appverse_lastupdated']['widget'][0]['value']['#value'] = $gh->getLastComittedDate();
+    $form['field_appverse_organization']['widget'][0]['target_id']['#value'] = $organization;
+
+    if ($license_link) {
+      $form['field_appverse_license_link']['widget'][0]['uri']['#value'] = $license_link;
+    }
+
+    if ($license) {
+      $form['field_license']['widget'][0]['target_id']['#value'] = $license;
+    }
+
+    // Set the app type checkbox - set both the value array and the checked property
+    $apptype_id = $gh->getAppTypeId();
+    if (isset($form['field_appverse_app_type']['widget'][$apptype_id])) {
+      $form['field_appverse_app_type']['widget'][$apptype_id]['#value'] = $apptype_id;
+    }
+
+  } else {
+    $suffix .= '<i class="bi bi-x-lg text-danger"></i> Invalid GitHub URL provided.';
+  }
+
+  $suffix .= '</div>';
+  $form['field_appverse_github_url']['widget'][0]['uri']['#suffix'] = $suffix;
+
+  return $form['group_github'];
+
+}
+
+
+/**
+ * Ajax callback function to replace the section with '#markup'.
+ */
+function ood_software_replace_section_callback(array &$form, FormStateInterface $form_state) {
+  $raw_data = $form_state->getUserInput();
+  $body = $raw_data['body'][0]['value'];
+  $body_filter = $body ? Xss::filter($body) : '';
+  $suggested_tag_ids = '0';
+  $tag_count = count($raw_data['field_tags'] ?? []);
+  $tag_limit = 6;
+  $tag_amount = $tag_limit - $tag_count;
+
+  if ($tag_amount <= 0) {
+    $form['field_tags_replace']['user_message'] = [
+      '#markup' => "<div class='match-tag-list bg-blue-200 text-sky-900 my-5 p-5'>
+      <strong class='text-sky-900'>You already have 6 tags</strong><br />
+      You can remove some tags to get more suggestions.</div>",
+    ];
+  }
+  elseif (strlen($body_filter) >= 100) {
+    try {
+      $llm = \Drupal::service('access_llm.ai_references_generator');
+      $llm->generateTaxonomyPrompt('tags', 1, $body_filter);
+      $suggestions = array_slice($llm->taxonomyIdSuggested(), 0, $tag_amount);
+      $suggested_tag_ids = implode(', ', $suggestions);
+      $form['field_tags_replace']['user_message'] = [
+        '#markup' => "",
+      ];
+    }
+    catch (\Throwable $e) {
+      $form['field_tags_replace']['user_message'] = [
+        '#markup' => "<div class='match-tag-list bg-yellow-200 text-yellow-900 my-5 p-5'>
+        <strong class='text-yellow-900'>AI tag suggestions are not available</strong><br />
+        Please select tags manually from the list below.</div>",
+      ];
+    }
+  }
+  else {
+    $form['field_tags_replace']['user_message'] = [
+      '#markup' => "<div class='match-tag-list bg-blue-200 text-sky-900 my-5 p-5'>
+      <strong class='text-sky-900'>Fill in the description above to get suggested tags.</strong><br />
+                    Your description must be over 100 characters to get a suggestion.</div>",
+    ];
+  }
+
+  $form['field_tags_replace']['#attributes']['data-suggest'] = $suggested_tag_ids ;
+
+  // Return the updated section.
+  return $form['field_tags_replace'];
+}
+
+/**
+ * Form submit handler to update hidden fields.
+ */
+function ood_software__edit_submit($form, FormStateInterface $form_state) {
+  $body = $form_state->getValue('body')[0]['value'];
+  $readme = $form_state->getValue('field_appverse_readme')[0]['value'];
+  $lastupdated = $form_state->getValue('field_appverse_lastupdated')[0]['value'];
+
+  // Only update if one of these fields is empty.
+  $gh = \Drupal::service('ood_software.gh');
+  $validUrl = $gh->parseUrl($form_state->getValue('field_appverse_github_url')[0]['uri']);
+  if ($validUrl) {
+    $data = $gh->getData();
+
+    // Always set stars.
+    $form_state->setValue('field_appverse_stars', [['value' => $gh->getStars()]]);
+
+    if ($lastupdated != $gh->getLastComittedDate()) {
+      $form_state->setValue('body', [['format' => 'markdown', 'value' => $gh->getDescription()]]);
+      $form_state->setValue('field_appverse_readme', [['format' => 'markdown', 'value' => $gh->getDescription()]]);
+      $form_state->setValue('field_appverse_lastupdated', [['value' => $gh->getLastComittedDate()]]);
+    }
+  }
+}
+
+/**
+ * Form submit handler to redirect to user's my-apps page.
+ */
+function ood_software__redirect_submit($form, FormStateInterface $form_state) {
+  $current_user = \Drupal::currentUser();
+  $user_id = $current_user->id();
+  $url = \Drupal\Core\Url::fromUri('internal:/user/' . $user_id . '/my-apps');
+  $form_state->setRedirectUrl($url);
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ood_software_cron() {
+  $env = getenv('PANTHEON_ENVIRONMENT');
+  $cron_run = \Drupal::state()->get('ood_software.last_cron_run', 0);
+
+//  if ( date('G', time()) == 00 && date('i', time()) < 25 && $env == 'live') {
+//    \Drupal::state()->set('ood_software.last_cron_run', 1);
+//  } elseif ($cron_run == 1) {
+    // Get the queue.
+    $queue = \Drupal::queue('appverse_app_updater');
+
+    // Load all app nodes.
+    $nids = \Drupal::entityQuery('node')
+      ->condition('type', 'appverse_app')
+      ->accessCheck(FALSE)
+      ->execute();
+
+    // Add each node to the queue for processing.
+    foreach ($nids as $nid) {
+      $item = ['nid' => $nid];
+      $queue->createItem($item);
+    }
+
+    // Update last run timestamp.
+    \Drupal::state()->set('ood_software.last_cron_run', 0);
+//  }
+}
