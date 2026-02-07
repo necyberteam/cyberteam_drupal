@@ -1,0 +1,35 @@
+uuid: 564510f9-0755-4fab-b3a5-f2fa8268dd78
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.appverse_app
+    - workflows.workflow.appverse_editorial
+  module:
+    - content_moderation
+    - domain_access
+    - node
+id: appverse_pm
+label: 'Appverse PM'
+weight: 31
+is_admin: null
+permissions:
+  - 'create appverse_app content'
+  - 'create appverse_app content on assigned domains'
+  - 'delete any appverse_app content'
+  - 'delete appverse_app content on assigned domains'
+  - 'delete appverse_app revisions'
+  - 'delete own appverse_app content'
+  - 'edit any appverse_app content'
+  - 'edit own appverse_app content'
+  - 'revert appverse_app revisions'
+  - 'update appverse_app content on assigned domains'
+  - 'use appverse_editorial transition archive'
+  - 'use appverse_editorial transition archived_draft'
+  - 'use appverse_editorial transition archived_published'
+  - 'use appverse_editorial transition create_new_draft'
+  - 'use appverse_editorial transition publish'
+  - 'use appverse_editorial transition request_adjustment'
+  - 'use appverse_editorial transition review_to_review'
+  - 'use appverse_editorial transition send_for_review'
+  - 'view appverse_app revisions'

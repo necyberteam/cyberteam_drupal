@@ -1,0 +1,206 @@
+uuid: 23097b3b-d917-4931-b896-323af351d916
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.appverse_app.body
+    - field.field.node.appverse_app.field_add_implementation_tags
+    - field.field.node.appverse_app.field_appverse_app_type
+    - field.field.node.appverse_app.field_appverse_github_url
+    - field.field.node.appverse_app.field_appverse_lastupdated
+    - field.field.node.appverse_app.field_appverse_license_link
+    - field.field.node.appverse_app.field_appverse_organization
+    - field.field.node.appverse_app.field_appverse_readme
+    - field.field.node.appverse_app.field_appverse_software_implemen
+    - field.field.node.appverse_app.field_domain_access
+    - field.field.node.appverse_app.field_domain_all_affiliates
+    - field.field.node.appverse_app.field_domain_source
+    - field.field.node.appverse_app.field_license
+    - node.type.appverse_app
+    - workflows.workflow.appverse_editorial
+  module:
+    - content_moderation
+    - field_group
+    - link
+    - path
+    - text
+third_party_settings:
+  field_group:
+    group_github:
+      children:
+        - title
+        - field_appverse_github_url
+        - body
+        - field_appverse_readme
+        - field_appverse_lastupdated
+        - field_appverse_organization
+        - field_appverse_app_type
+        - field_add_implementation_tags
+        - field_license
+        - field_appverse_license_link
+      label: GitHub
+      region: content
+      parent_name: ''
+      weight: 9
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: false
+id: node.appverse_app.default
+targetEntityType: node
+bundle: appverse_app
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 16
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_add_implementation_tags:
+    type: options_buttons
+    weight: 21
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_appverse_app_type:
+    type: options_buttons
+    weight: 20
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_appverse_github_url:
+    type: link_default
+    weight: 15
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_appverse_lastupdated:
+    type: number
+    weight: 18
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_appverse_license_link:
+    type: link_default
+    weight: 23
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_appverse_organization:
+    type: entity_reference_autocomplete
+    weight: 19
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_appverse_readme:
+    type: text_textarea
+    weight: 17
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_appverse_software_implemen:
+    type: entity_reference_autocomplete
+    weight: 8
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_license:
+    type: entity_reference_autocomplete
+    weight: 22
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 2
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 7
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 3
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 14
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
