@@ -77,10 +77,8 @@ describe("Appverse Software Creation", () => {
         cy.get('[data-drupal-selector="edit-field-appverse-software-website-0-uri"]').type(testSoftware.website);
         cy.get('[data-drupal-selector="edit-field-appverse-software-doc-0-uri"]').type(testSoftware.documentation);
 
-        // Select a license (required field - autocomplete)
-        cy.get('[data-drupal-selector="edit-field-license-0-target-id"]').type('Open-Source');
-        // Wait for and click autocomplete suggestion
-        cy.get('.ui-autocomplete .ui-menu-item').first().click();
+        // Select a license (required field - radio buttons)
+        cy.get('#edit-field-license input[type="radio"]').first().check({force: true});
 
         // Submit the form
         cy.get('#edit-submit').click();
