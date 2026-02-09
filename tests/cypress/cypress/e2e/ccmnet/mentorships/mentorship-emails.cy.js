@@ -352,7 +352,7 @@ describe("CCMNet Mentorship Email Notifications", () => {
       cy.clearMailpit();
       
       // Run cron with CYPRESS_TEST_MODE environment variable
-      cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush cron');
+      cy.exec('CYPRESS_TEST_MODE=true ddev drush cron');
       
       
       // Check for author notification email
@@ -383,7 +383,7 @@ describe("CCMNet Mentorship Email Notifications", () => {
 
   it("Sends Campus Champions interest notification emails when someone clicks 'interested'", () => {
     // Clear any existing interest state to ensure clean test
-    cy.exec('ddev exec drush state:delete access_mentorship_interested -y', { failOnNonZeroExit: false });
+    cy.exec('ddev drush state:delete access_mentorship_interested -y', { failOnNonZeroExit: false });
     
     // Create a Campus Champions specific mentorship (must be on CCMNet domain)
     cy.loginWith("pecan@pie.org", "Pecan");
@@ -417,7 +417,7 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.clearMailpit();
 
     // Clear interest state right before testing the button to ensure clean state
-    cy.exec('ddev exec drush state:delete access_mentorship_interested -y', { failOnNonZeroExit: false });
+    cy.exec('ddev drush state:delete access_mentorship_interested -y', { failOnNonZeroExit: false });
 
     // Login as different user and express interest
     cy.loginWith("walnut@pie.org", "Walnut");
@@ -437,7 +437,7 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.contains("I'm no longer Interested").should('exist');
 
     // Run cron with test mode to bypass time restrictions
-    cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush cron');
+    cy.exec('CYPRESS_TEST_MODE=true ddev drush cron');
 
     // Check for author notification email
     cy.waitForEmail({
