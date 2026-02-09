@@ -351,8 +351,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
       // Clear mailpit before running cron
       cy.clearMailpit();
       
-      // Run cron with CYPRESS_TEST_MODE environment variable
-      cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush cron');
+      // Run only the ccmnet cron hook (not full cron) with CYPRESS_TEST_MODE
+      cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush php-eval "ccmnet_cron();"');
       
       
       // Check for author notification email
@@ -436,8 +436,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.reload();
     cy.contains("I'm no longer Interested").should('exist');
 
-    // Run cron with test mode to bypass time restrictions
-    cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush cron');
+    // Run only the ccmnet cron hook (not full cron) with test mode to bypass time restrictions
+    cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush php-eval "ccmnet_cron();"');
 
     // Check for author notification email
     cy.waitForEmail({

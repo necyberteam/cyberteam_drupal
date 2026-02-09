@@ -431,9 +431,9 @@ describe('Event Registration Surveys and Reminders', () => {
         }
       });
 
-      // Run cron to trigger post-survey emails (and attempt reminder)
-      cy.exec('ddev drush cron', { failOnNonZeroExit: false }).then((result) => {
-        cy.log('Cron output:', result.stdout);
+      // Run only the events cron hook (not full cron) to trigger post-survey emails and reminders
+      cy.exec('ddev drush php-eval "access_events_cron();"', { failOnNonZeroExit: false, timeout: 60000 }).then((result) => {
+        cy.log('Events cron output:', result.stdout);
       });
 
       // Wait a moment for emails to be processed
@@ -568,9 +568,9 @@ describe('Event Registration Surveys and Reminders', () => {
         }
       });
 
-      // Run cron to trigger reminder email
-      cy.exec('ddev drush cron', { failOnNonZeroExit: false }).then((result) => {
-        cy.log('Cron output:', result.stdout);
+      // Run only the events cron hook (not full cron) to trigger reminder email
+      cy.exec('ddev drush php-eval "access_events_cron();"', { failOnNonZeroExit: false, timeout: 60000 }).then((result) => {
+        cy.log('Events cron output:', result.stdout);
       });
 
       cy.wait(2000);
