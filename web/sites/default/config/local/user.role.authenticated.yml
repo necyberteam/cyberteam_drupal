@@ -5,8 +5,11 @@ dependencies:
   config:
     - filter.format.basic_html
     - filter.format.filtered_html
+    - filter.format.markdown
     - node.type.access_news
     - node.type.affinity_group
+    - node.type.appverse_app
+    - node.type.appverse_software
     - node.type.article
     - node.type.blog_post
     - node.type.blog_post_region_
@@ -18,6 +21,7 @@ dependencies:
     - node.type.published_articles
     - node.type.regional_about
     - taxonomy.vocabulary.tags
+    - workflows.workflow.appverse_editorial
     - workflows.workflow.editorial
     - workflows.workflow.editorial_eventinstance
     - workflows.workflow.match_engagement
@@ -62,15 +66,19 @@ permissions:
   - 'bypass disabled login'
   - 'cancel account'
   - 'create access_news content'
-  - 'create remote_video media'
-  - 'create video media'
+  - 'create appverse_app content'
+  - 'create appverse_app content on assigned domains'
+  - 'create appverse_software content'
+  - 'create appverse_software content on assigned domains'
   - 'create blog_post content'
   - 'create blog_post content on assigned domains'
   - 'create blog_post_region_ content'
   - 'create blog_post_region_ content on assigned domains'
   - 'create match_engagement content'
   - 'create mentorship_engagement content'
+  - 'create remote_video media'
   - 'create terms in tags'
+  - 'create video media'
   - 'delete access_news revisions'
   - 'delete own access_news content'
   - 'delete own affinity_group content'
@@ -89,6 +97,8 @@ permissions:
   - 'delete own video media'
   - 'edit own access_news content'
   - 'edit own affinity_group content'
+  - 'edit own appverse_app content'
+  - 'edit own appverse_software content'
   - 'edit own article content'
   - 'edit own blog_post content'
   - 'edit own blog_post_region_ content'
@@ -130,6 +140,10 @@ permissions:
   - 'unflag outdated'
   - 'unflag skill'
   - 'unflag upvote'
+  - 'use appverse_editorial transition archived_draft'
+  - 'use appverse_editorial transition create_new_draft'
+  - 'use appverse_editorial transition review_to_review'
+  - 'use appverse_editorial transition send_for_review'
   - 'use domain nav block'
   - 'use domain switcher block'
   - 'use editorial transition archived_draft'
@@ -155,6 +169,7 @@ permissions:
   - 'use match_engagement transition start_engagement'
   - 'use text format basic_html'
   - 'use text format filtered_html'
+  - 'use text format markdown'
   - 'view access_news revisions'
   - 'view eventinstance entity'
   - 'view eventseries entity'

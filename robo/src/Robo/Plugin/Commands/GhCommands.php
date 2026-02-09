@@ -194,6 +194,12 @@ http://md-$issue_number-accessmatch.pantheonsite.io
 
     $this->say("Creating PR for D8-$issue_number");
 
+    // Copy template to clipboard for easy pasting into PR description.
+    // MacOS only.
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'DAR') {
+      $this->_exec("echo '$template' | pbcopy");
+      $this->say("PR description template copied to clipboard!");
+    }
     $this->_exec("gh pr create --title '#$issue_number' --body '$template' --base $target_branch");
   }
 

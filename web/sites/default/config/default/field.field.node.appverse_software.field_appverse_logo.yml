@@ -1,0 +1,31 @@
+uuid: 08bf4f94-47bf-44de-81e9-8a1dcc2ce9d6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_appverse_logo
+    - media.type.image
+    - media.type.svg
+    - node.type.appverse_software
+id: node.appverse_software.field_appverse_logo
+field_name: field_appverse_logo
+entity_type: node
+bundle: appverse_software
+label: 'Software Logo (optional)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+      svg: svg
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,27 @@
+uuid: 6f416e37-cb42-416b-ab2a-e8b6a3717874
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_appverse_github_url
+    - node.type.appverse_app
+  module:
+    - label_help
+    - link
+third_party_settings:
+  label_help:
+    label_help_description: 'A structured README, manifest.yml, and LICENSE file is required.'
+id: node.appverse_app.field_appverse_github_url
+field_name: field_appverse_github_url
+entity_type: node
+bundle: appverse_app
+label: 'GitHub URL for your App'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 0
+  link_type: 16
+field_type: link

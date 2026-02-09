@@ -55,15 +55,28 @@ module.exports = defineConfig({
           const htmlReportPath = path.join(reportDir, `${base}.html`);
 
           // Convert violations to CSV format with detailed node information
-          const csvHeader = 'impact,id,description,help,helpUrl,tags,html,target,failureSummary\n';
+          const csvHeader = 'category,impact,id,description,help,helpUrl,tags,html,target,failureSummary\n';
 
           let csvRows = [];
 
           // Calculate counts early for both HTML and CSV reports
-          const counts = { critical: 0, serious: 0, moderate: 0, minor: 0 };
+          // Separate counts for errors (WCAG 2.1 AA) and warnings (WCAG 2.2/best practices)
+          const counts = {
+            errors: { critical: 0, serious: 0, moderate: 0, minor: 0 },
+            warnings: { critical: 0, serious: 0, moderate: 0, minor: 0 },
+            total: { critical: 0, serious: 0, moderate: 0, minor: 0 }
+          };
           (payload.results.violations || []).forEach(v => {
             const k = (v.impact || 'minor').toLowerCase();
-            if (counts[k] !== undefined) counts[k] += 1;
+            const category = v.category || 'error'; // default to error if not categorized
+            if (counts.total[k] !== undefined) {
+              counts.total[k] += 1;
+              if (category === 'error') {
+                counts.errors[k] += 1;
+              } else {
+                counts.warnings[k] += 1;
+              }
+            }
           });
 
           // Generate HTML content
@@ -88,6 +101,10 @@ module.exports = defineConfig({
         .impact.serious { color: #f0ad4e; }
         .impact.moderate { color: #5bc0de; }
         .impact.minor { color: #5cb85c; }
+        .category { font-weight: bold; padding: 2px 8px; border-radius: 3px; display: inline-block; margin-bottom: 5px; }
+        .category-error { background-color: #f8d7da; color: #721c24; }
+        .category-warning { background-color: #fff3cd; color: #856404; }
+        .violation.category-warning { border-right: 5px solid #ffc107; }
         .node { border-left: 3px solid #eee; padding-left: 15px; margin: 10px 0; }
         .code { background: #f8f9fa; padding: 10px; border-radius: 4px; white-space: pre-wrap; overflow-wrap: break-word; }
         .target { font-family: monospace; margin-top: 5px; }
@@ -102,10 +119,10 @@ module.exports = defineConfig({
         <p><strong>Test Spec:</strong> ${payload.spec || 'N/A'}</p>
         <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
         <p><strong>Total Violations:</strong> ${(payload.results.violations || []).length}</p>
-        <p><strong>Critical:</strong> ${counts.critical}</p>
-        <p><strong>Serious:</strong> ${counts.serious}</p>
-        <p><strong>Moderate:</strong> ${counts.moderate}</p>
-        <p><strong>Minor:</strong> ${counts.minor}</p>
+        <h3>Errors (WCAG 2.1 AA - Compliance Required)</h3>
+        <p><strong>Critical:</strong> ${counts.errors.critical} | <strong>Serious:</strong> ${counts.errors.serious} | <strong>Moderate:</strong> ${counts.errors.moderate} | <strong>Minor:</strong> ${counts.errors.minor}</p>
+        <h3>Warnings (WCAG 2.2 / Best Practices)</h3>
+        <p><strong>Critical:</strong> ${counts.warnings.critical} | <strong>Serious:</strong> ${counts.warnings.serious} | <strong>Moderate:</strong> ${counts.warnings.moderate} | <strong>Minor:</strong> ${counts.warnings.minor}</p>
     </div>
 `;
 
@@ -120,9 +137,13 @@ module.exports = defineConfig({
               const impact = (violation.impact || 'minor').toLowerCase();
 
               // Add violation to HTML
+              const category = violation.category || 'error';
+              const categoryLabel = category === 'error' ? 'Error (WCAG 2.1 AA)' : 'Warning (WCAG 2.2/Best Practice)';
+              const categoryClass = category === 'error' ? 'category-error' : 'category-warning';
               htmlContent += `
-    <div class="violation ${impact}">
+    <div class="violation ${impact} ${categoryClass}">
         <h3>${violation.id} - ${violation.help}</h3>
+        <p class="category ${categoryClass}">${categoryLabel}</p>
         <p class="impact ${impact}">Impact: ${violation.impact}</p>
         <p><strong>Description:</strong> ${violation.description}</p>
         <p><strong>Help:</strong> <a href="${violation.helpUrl}" target="_blank">${violation.help}</a></p>
@@ -140,6 +161,7 @@ module.exports = defineConfig({
         </div>`;
 
                 csvRows.push([
+                  violation.category || 'error',
                   violation.impact || '',
                   violation.id || '',
                   JSON.stringify(violation.description || ''),
@@ -172,7 +194,7 @@ module.exports = defineConfig({
           if (!fs.existsSync(csvPath)) {
             fs.writeFileSync(
               csvPath,
-              'spec,url,violations,critical,serious,moderate,minor,csv,html\n'
+              'spec,url,total_violations,errors_critical,errors_serious,errors_moderate,errors_minor,warnings_critical,warnings_serious,warnings_moderate,warnings_minor,csv,html\n'
             );
           }
 
@@ -182,7 +204,8 @@ module.exports = defineConfig({
             JSON.stringify(specName),
             JSON.stringify(payload.url || ''),
             (payload.results.violations || []).length,
-            counts.critical, counts.serious, counts.moderate, counts.minor,
+            counts.errors.critical, counts.errors.serious, counts.errors.moderate, counts.errors.minor,
+            counts.warnings.critical, counts.warnings.serious, counts.warnings.moderate, counts.warnings.minor,
             JSON.stringify(path.basename(detailedCsvPath)),
             JSON.stringify(path.basename(htmlReportPath)),
           ].join(',') + '\n';
@@ -208,18 +231,55 @@ module.exports = defineConfig({
                     const parts = lines[i].split(',');
                     console.log(`Parsing line ${i}: parts=${parts.length}`);
 
-                    if (parts.length >= 9) {
-                      // Handle spec name which might be empty but is always a JSON string
+                    if (parts.length >= 13) {
+                      // New format with errors/warnings separated
                       const specName = parts[0] ? JSON.parse(parts[0]) : '';
                       const url = JSON.parse(parts[1]);
                       const violations = parseInt(parts[2], 10) || 0;
-                      const critical = parseInt(parts[3], 10) || 0;
-                      const serious = parseInt(parts[4], 10) || 0;
-                      const moderate = parseInt(parts[5], 10) || 0;
-                      const minor = parseInt(parts[6], 10) || 0;
-                      const csvFile = JSON.parse(parts[7]);
+                      const errors = {
+                        critical: parseInt(parts[3], 10) || 0,
+                        serious: parseInt(parts[4], 10) || 0,
+                        moderate: parseInt(parts[5], 10) || 0,
+                        minor: parseInt(parts[6], 10) || 0
+                      };
+                      const warnings = {
+                        critical: parseInt(parts[7], 10) || 0,
+                        serious: parseInt(parts[8], 10) || 0,
+                        moderate: parseInt(parts[9], 10) || 0,
+                        minor: parseInt(parts[10], 10) || 0
+                      };
+                      const csvFile = JSON.parse(parts[11]);
+                      let htmlFile = csvFile.replace('.csv', '.html');
+                      try {
+                        htmlFile = JSON.parse(parts[12]);
+                      } catch (htmlErr) {
+                        console.log(`Using generated HTML filename: ${htmlFile}`);
+                      }
 
-                      // The HTML file might be missing in older entries
+                      summaryData.push({
+                        specName: specName || 'Unnamed Test',
+                        url,
+                        violations,
+                        errors,
+                        warnings,
+                        csvFile,
+                        htmlFile,
+                        timestamp: new Date().toISOString()
+                      });
+                      console.log(`Added test for ${url} with ${violations} violations`);
+                    } else if (parts.length >= 9) {
+                      // Legacy format - treat all as errors for backwards compatibility
+                      const specName = parts[0] ? JSON.parse(parts[0]) : '';
+                      const url = JSON.parse(parts[1]);
+                      const violations = parseInt(parts[2], 10) || 0;
+                      const errors = {
+                        critical: parseInt(parts[3], 10) || 0,
+                        serious: parseInt(parts[4], 10) || 0,
+                        moderate: parseInt(parts[5], 10) || 0,
+                        minor: parseInt(parts[6], 10) || 0
+                      };
+                      const warnings = { critical: 0, serious: 0, moderate: 0, minor: 0 };
+                      const csvFile = JSON.parse(parts[7]);
                       let htmlFile = csvFile.replace('.csv', '.html');
                       if (parts.length >= 9) {
                         try {
@@ -233,15 +293,13 @@ module.exports = defineConfig({
                         specName: specName || 'Unnamed Test',
                         url,
                         violations,
-                        critical,
-                        serious,
-                        moderate,
-                        minor,
+                        errors,
+                        warnings,
                         csvFile,
                         htmlFile,
-                        timestamp: new Date().toISOString() // Approximation, ideally would extract from filename
+                        timestamp: new Date().toISOString()
                       });
-                      console.log(`Added test for ${url} with ${violations} violations`);
+                      console.log(`Added test for ${url} with ${violations} violations (legacy format)`);
                     } else {
                       console.log(`Skipping line ${i}: insufficient columns (${parts.length})`);
                     }
@@ -256,19 +314,21 @@ module.exports = defineConfig({
             let totalStats = {
               tests: summaryData.length,
               violations: 0,
-              critical: 0,
-              serious: 0,
-              moderate: 0,
-              minor: 0
+              errors: { critical: 0, serious: 0, moderate: 0, minor: 0 },
+              warnings: { critical: 0, serious: 0, moderate: 0, minor: 0 }
             };
 
             // Calculate totals
             summaryData.forEach(data => {
               totalStats.violations += data.violations;
-              totalStats.critical += data.critical;
-              totalStats.serious += data.serious;
-              totalStats.moderate += data.moderate;
-              totalStats.minor += data.minor;
+              totalStats.errors.critical += data.errors.critical;
+              totalStats.errors.serious += data.errors.serious;
+              totalStats.errors.moderate += data.errors.moderate;
+              totalStats.errors.minor += data.errors.minor;
+              totalStats.warnings.critical += data.warnings.critical;
+              totalStats.warnings.serious += data.warnings.serious;
+              totalStats.warnings.moderate += data.warnings.moderate;
+              totalStats.warnings.minor += data.warnings.minor;
             });
 
             // Sort by most recent first (assuming we added timestamp)
@@ -329,10 +389,20 @@ module.exports = defineConfig({
         <h2>Overview</h2>
         <p><strong>Total Tests:</strong> ${totalStats.tests}</p>
         <p><strong>Total Violations:</strong> ${totalStats.violations}</p>
-        <p><strong>Critical:</strong> <span class="critical">${totalStats.critical}</span></p>
-        <p><strong>Serious:</strong> <span class="serious">${totalStats.serious}</span></p>
-        <p><strong>Moderate:</strong> <span class="moderate">${totalStats.moderate}</span></p>
-        <p><strong>Minor:</strong> <span class="minor">${totalStats.minor}</span></p>
+        <h3>Errors (WCAG 2.1 AA - Compliance Required)</h3>
+        <p>
+            <span class="critical">Critical: ${totalStats.errors.critical}</span> |
+            <span class="serious">Serious: ${totalStats.errors.serious}</span> |
+            <span class="moderate">Moderate: ${totalStats.errors.moderate}</span> |
+            <span class="minor">Minor: ${totalStats.errors.minor}</span>
+        </p>
+        <h3>Warnings (WCAG 2.2 / Best Practices)</h3>
+        <p>
+            <span class="critical">Critical: ${totalStats.warnings.critical}</span> |
+            <span class="serious">Serious: ${totalStats.warnings.serious}</span> |
+            <span class="moderate">Moderate: ${totalStats.warnings.moderate}</span> |
+            <span class="minor">Minor: ${totalStats.warnings.minor}</span>
+        </p>
         <p><strong>Last Generated:</strong> ${new Date().toLocaleString()}</p>
     </div>
 
@@ -342,24 +412,40 @@ module.exports = defineConfig({
             <tr>
                 <th>Spec Name</th>
                 <th>Page URL</th>
-                <th>Violations</th>
-                <th>Critical</th>
-                <th>Serious</th>
-                <th>Moderate</th>
-                <th>Minor</th>
+                <th>Total</th>
+                <th colspan="4">Errors (WCAG 2.1 AA)</th>
+                <th colspan="4">Warnings</th>
                 <th>Reports</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>Crit</th>
+                <th>Ser</th>
+                <th>Mod</th>
+                <th>Min</th>
+                <th>Crit</th>
+                <th>Ser</th>
+                <th>Mod</th>
+                <th>Min</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             ${summaryData.map(data => `
-            <tr data-spec="${data.specName}" data-url="${data.url}" data-violations="${data.violations}" data-timestamp="${data.timestamp}">
+            <tr data-spec="${data.specName}" data-url="${data.url}" data-violations="${data.violations}" data-errors="${data.errors.critical + data.errors.serious}" data-timestamp="${data.timestamp}">
                 <td>${data.specName || 'Unnamed Test'}</td>
                 <td><a href="${data.url}" target="_blank">${data.url}</a></td>
                 <td class="${data.violations > 0 ? 'critical' : 'no-violations'}">${data.violations}</td>
-                <td class="${data.critical > 0 ? 'critical' : ''}">${data.critical}</td>
-                <td class="${data.serious > 0 ? 'serious' : ''}">${data.serious}</td>
-                <td class="${data.moderate > 0 ? 'moderate' : ''}">${data.moderate}</td>
-                <td class="${data.minor > 0 ? 'minor' : ''}">${data.minor}</td>
+                <td class="${data.errors.critical > 0 ? 'critical' : ''}">${data.errors.critical}</td>
+                <td class="${data.errors.serious > 0 ? 'serious' : ''}">${data.errors.serious}</td>
+                <td class="${data.errors.moderate > 0 ? 'moderate' : ''}">${data.errors.moderate}</td>
+                <td class="${data.errors.minor > 0 ? 'minor' : ''}">${data.errors.minor}</td>
+                <td class="${data.warnings.critical > 0 ? 'critical' : ''}">${data.warnings.critical}</td>
+                <td class="${data.warnings.serious > 0 ? 'serious' : ''}">${data.warnings.serious}</td>
+                <td class="${data.warnings.moderate > 0 ? 'moderate' : ''}">${data.warnings.moderate}</td>
+                <td class="${data.warnings.minor > 0 ? 'minor' : ''}">${data.warnings.minor}</td>
                 <td>
                     <a href="./${data.htmlFile}">HTML</a> |
                     <a href="./${data.csvFile}" target="_blank">CSV</a>
