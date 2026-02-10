@@ -279,13 +279,16 @@ class GitHubService {
       ],
     ]);
 
-    $data = Xss::filter($response->getBody());
-
-    $this->data = json_decode($data, TRUE)['data']['repository'];
+    // Parse JSON first, then sanitize specific content fields.
+    // Running Xss::filter() on raw JSON corrupts embedded HTML attributes.
+    $this->data = json_decode($response->getBody()->getContents(), TRUE)['data']['repository'];
 
     $this->isArchived = $this->data['isArchived'];
     $this->stars = $this->data['stargazerCount'];
-    $this->readme = $this->data['readme']['text'] ?? NULL;
+    // Sanitize README content with filterAdmin to allow safe HTML while
+    // filtering dangerous protocols (javascript:) and event handlers (onclick).
+    $readme_raw = $this->data['readme']['text'] ?? NULL;
+    $this->readme = $readme_raw ? Xss::filterAdmin($readme_raw) : NULL;
     $this->lastComittedDate = strtotime($this->data['defaultBranchRef']['target']['committedDate']);
     $this->licenseLink = $this->data['licenseInfo']['url'] ?? NULL;
     $this->license = $this->data['licenseInfo']['spdxId'] ?? NULL;
@@ -310,7 +313,9 @@ class GitHubService {
     }
     $this->manifestData = Yaml::decode($manifest_text);
     $this->repoName = $this->manifestData['name'];
-    $this->description = $this->manifestData['description'];
+    // Sanitize description from manifest as it may contain HTML.
+    $description_raw = $this->manifestData['description'] ?? '';
+    $this->description = $description_raw ? Xss::filterAdmin($description_raw) : '';
     $this->role = $this->manifestData['role'] ?? NULL;
   }
 
