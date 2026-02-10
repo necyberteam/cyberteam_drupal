@@ -1,0 +1,29 @@
+uuid: e5d1ceb0-4e3c-4eff-8d88-7196fa55c8f1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_appverse_topics
+    - node.type.appverse_software
+    - taxonomy.vocabulary.appverse_science_domains
+id: node.appverse_software.field_appverse_topics
+field_name: field_appverse_topics
+entity_type: node
+bundle: appverse_software
+label: Topics
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      appverse_science_domains: appverse_science_domains
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
