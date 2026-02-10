@@ -279,28 +279,43 @@ class GitHubService {
       ],
     ]);
 
-    $data = Xss::filter($response->getBody());
-
-    $this->data = json_decode($data, TRUE)['data']['repository'];
+    // Parse JSON first, then sanitize specific content fields.
+    // Running Xss::filter() on raw JSON corrupts embedded HTML attributes.
+    $this->data = json_decode($response->getBody()->getContents(), TRUE)['data']['repository'];
 
     $this->isArchived = $this->data['isArchived'];
     $this->stars = $this->data['stargazerCount'];
-    $this->readme = $this->data['readme']['text'] ?? NULL;
+    // Sanitize README content with filterAdmin to allow safe HTML while
+    // filtering dangerous protocols (javascript:) and event handlers (onclick).
+    $readme_raw = $this->data['readme']['text'] ?? NULL;
+    $this->readme = $readme_raw ? Xss::filterAdmin($readme_raw) : NULL;
     $this->lastComittedDate = strtotime($this->data['defaultBranchRef']['target']['committedDate']);
     $this->licenseLink = $this->data['licenseInfo']['url'] ?? NULL;
     $this->license = $this->data['licenseInfo']['spdxId'] ?? NULL;
     $this->organization = $this->data['owner']['name'];
 
     $manifest_text = $this->data['manifestYml']['text'] ?? NULL;
-    if ($manifest_text === NULL) {
-      $this->messenger->addError($this->t('The repository does not contain a manifest.yml file.'));
-      $this->manifestData = FALSE;
-      $this->logger->error('The repository @repo does not contain a manifest.yml file.', ['@repo' => $this->owner . '/' . $this->name]);
+    if ($manifest_text === NULL || $this->readme === NULL || $this->license === NULL) {
+      if ($manifest_text === NULL) {
+        $this->messenger->addError($this->t('The manifest.yml needs to be at the root of the repository. Find our about <a href=":bp">best practices</a> in including your app in the Appverse.', [':bp' => 'https://ondemand.connectci.org/appverse-contributor-documentation']));
+        $this->manifestData = FALSE;
+        $this->logger->error('The repository @repo does not contain a manifest.yml file.', ['@repo' => $this->owner . '/' . $this->name]);
+      }
+      if ($this->readme === NULL) {
+        $this->messenger->addError($this->t('The repository does not contain a README.md file.'));
+        $this->logger->error('The repository @repo does not contain a README.md file.', ['@repo' => $this->owner . '/' . $this->name]);
+      }
+      if ($this->license === NULL) {
+        $this->messenger->addError($this->t('The repository does not contain a license file or recognized license information.'));
+        $this->logger->error('The repository @repo does not contain recognized license information.', ['@repo' => $this->owner . '/' . $this->name]);
+      }
       return;
     }
     $this->manifestData = Yaml::decode($manifest_text);
     $this->repoName = $this->manifestData['name'];
-    $this->description = $this->manifestData['description'];
+    // Sanitize description from manifest as it may contain HTML.
+    $description_raw = $this->manifestData['description'] ?? '';
+    $this->description = $description_raw ? Xss::filterAdmin($description_raw) : '';
     $this->role = $this->manifestData['role'] ?? NULL;
   }
 
@@ -392,6 +407,10 @@ class GitHubService {
    * Get AppTypeId based on set role.
    */
   public function getAppTypeId() {
+    // Return NULL if role is not set to avoid empty IN() query error.
+    if (empty($this->role)) {
+      return NULL;
+    }
     $terms = $this->entityTypeManager
       ->getStorage('taxonomy_term')
       ->loadByProperties([
