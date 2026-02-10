@@ -292,10 +292,20 @@ class GitHubService {
     $this->organization = $this->data['owner']['name'];
 
     $manifest_text = $this->data['manifestYml']['text'] ?? NULL;
-    if ($manifest_text === NULL) {
-      $this->messenger->addError($this->t('The repository does not contain a manifest.yml file.'));
-      $this->manifestData = FALSE;
-      $this->logger->error('The repository @repo does not contain a manifest.yml file.', ['@repo' => $this->owner . '/' . $this->name]);
+    if ($manifest_text === NULL || $this->readme === NULL || $this->license === NULL) {
+      if ($manifest_text === NULL) {
+        $this->messenger->addError($this->t('The manifest.yml needs to be at the root of the repository. Find our about <a href=":bp">best practices</a> in including your app in the Appverse.', [':bp' => 'https://ondemand.connectci.org/appverse-contributor-documentation']));
+        $this->manifestData = FALSE;
+        $this->logger->error('The repository @repo does not contain a manifest.yml file.', ['@repo' => $this->owner . '/' . $this->name]);
+      }
+      if ($this->readme === NULL) {
+        $this->messenger->addError($this->t('The repository does not contain a README.md file.'));
+        $this->logger->error('The repository @repo does not contain a README.md file.', ['@repo' => $this->owner . '/' . $this->name]);
+      }
+      if ($this->license === NULL) {
+        $this->messenger->addError($this->t('The repository does not contain a license file or recognized license information.'));
+        $this->logger->error('The repository @repo does not contain recognized license information.', ['@repo' => $this->owner . '/' . $this->name]);
+      }
       return;
     }
     $this->manifestData = Yaml::decode($manifest_text);
