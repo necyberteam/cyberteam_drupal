@@ -392,6 +392,10 @@ class GitHubService {
    * Get AppTypeId based on set role.
    */
   public function getAppTypeId() {
+    // Return NULL if role is not set to avoid empty IN() query error.
+    if (empty($this->role)) {
+      return NULL;
+    }
     $terms = $this->entityTypeManager
       ->getStorage('taxonomy_term')
       ->loadByProperties([
