@@ -351,8 +351,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
       // Clear mailpit before running cron
       cy.clearMailpit();
       
-      // Run cron with CYPRESS_TEST_MODE environment variable
-      cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush cron');
+      // Run only the ccmnet cron hook (not full cron) with CYPRESS_TEST_MODE
+      cy.exec("ddev exec 'env CYPRESS_TEST_MODE=true drush php-eval \"ccmnet_cron();\"'", { failOnNonZeroExit: false, timeout: 60000 });
       
       
       // Check for author notification email
@@ -436,8 +436,19 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.reload();
     cy.contains("I'm no longer Interested").should('exist');
 
-    // Run cron with test mode to bypass time restrictions
-    cy.exec('ddev exec env CYPRESS_TEST_MODE=true drush cron');
+    // Wait for state to be fully saved before running cron
+    cy.wait(1000);
+
+    // Debug: Check the state before running cron
+    cy.exec('ddev drush state:get access_mentorship_interested', { failOnNonZeroExit: false }).then((result) => {
+      cy.log('State before cron:', result.stdout);
+    });
+
+    // Run only the ccmnet cron hook (not full cron) with test mode to bypass time restrictions
+    cy.exec("ddev exec 'env CYPRESS_TEST_MODE=true drush php-eval \"ccmnet_cron();\"'", { failOnNonZeroExit: false, timeout: 60000 }).then((result) => {
+      cy.log('Cron stdout:', result.stdout);
+      cy.log('Cron stderr:', result.stderr);
+    });
 
     // Check for author notification email
     cy.waitForEmail({
