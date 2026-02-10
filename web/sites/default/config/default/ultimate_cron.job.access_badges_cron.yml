@@ -1,0 +1,17 @@
+uuid: ff78599d-cce4-4c76-9396-abd3d2caf3cf
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_badges
+title: 'Default cron handler'
+id: access_badges_cron
+weight: 0
+module: access_badges
+callback: 'access_badges#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

@@ -1,0 +1,17 @@
+uuid: e2c83690-c3a8-44f2-a23a-2f7c62d3c5a3
+langcode: en
+status: true
+dependencies:
+  module:
+    - ccmnet
+title: 'Default cron handler'
+id: ccmnet_cron
+weight: 0
+module: ccmnet
+callback: 'ccmnet#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

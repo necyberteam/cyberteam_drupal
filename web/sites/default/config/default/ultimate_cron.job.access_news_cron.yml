@@ -1,0 +1,17 @@
+uuid: f8f38a69-b6af-4ac2-8971-d0c4d14d648d
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_news
+title: 'Default cron handler'
+id: access_news_cron
+weight: 0
+module: access_news
+callback: 'access_news#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

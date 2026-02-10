@@ -1,0 +1,218 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ood_contributions module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ood_contributions_schema() {
+  $schema = [];
+
+  // Table for storing aggregate contribution statistics.
+  $schema['ood_contribution_stats'] = [
+    'description' => 'Stores aggregate contribution statistics per user and repository.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique ID.',
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'The user ID.',
+      ],
+      'repo' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Repository in owner/name format (e.g., OSC/ondemand).',
+      ],
+      'total_commits' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total number of commits.',
+      ],
+      'total_prs' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total number of pull requests.',
+      ],
+      'total_issues' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total number of issues.',
+      ],
+      'last_updated' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp when the stats were last updated.',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'uid' => ['uid'],
+      'repo' => ['repo'],
+      'uid_repo' => ['uid', 'repo'],
+    ],
+    'unique keys' => [
+      'uid_repo_unique' => ['uid', 'repo'],
+    ],
+  ];
+
+  // Table for storing individual commits.
+  $schema['ood_user_commits'] = [
+    'description' => 'Stores individual commit information per user and repository.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique ID.',
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'The user ID.',
+      ],
+      'repo' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Repository in owner/name format (e.g., OSC/ondemand).',
+      ],
+      'sha' => [
+        'type' => 'varchar',
+        'length' => 40,
+        'not null' => TRUE,
+        'description' => 'The commit SHA hash.',
+      ],
+      'commit_date' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'Timestamp of the commit.',
+      ],
+      'merged_at' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'description' => 'Timestamp when merged (for PR commits).',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'uid' => ['uid'],
+      'repo' => ['repo'],
+      'uid_repo' => ['uid', 'repo'],
+      'commit_date' => ['commit_date'],
+    ],
+    'unique keys' => [
+      'uid_repo_sha' => ['uid', 'repo', 'sha'],
+    ],
+  ];
+
+  // Table for storing Discourse contributions.
+  $schema['ood_disc_contrib'] = [
+    'description' => 'Stores Discourse contribution statistics per user.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique ID.',
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'The user ID.',
+      ],
+      'post_count' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total number of posts.',
+      ],
+      'topic_count' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total number of topics created.',
+      ],
+      'likes_given' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total number of likes given.',
+      ],
+      'likes_received' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total number of likes received.',
+      ],
+      'days_visited' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total number of days visited.',
+      ],
+      'time_read' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total time spent reading (in seconds).',
+      ],
+      'badges' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+        'description' => 'Comma-separated list of badge names.',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'uid' => ['uid'],
+    ],
+    'unique keys' => [
+      'uid_unique' => ['uid'],
+    ],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ood_contributions_uninstall() {
+  // Drop all custom tables created by this module.
+  $tables = [
+    'ood_contribution_stats',
+    'ood_user_commits',
+    'ood_disc_contrib',
+  ];
+
+  $database = \Drupal::database();
+  foreach ($tables as $table) {
+    if ($database->schema()->tableExists($table)) {
+      $database->schema()->dropTable($table);
+    }
+  }
+}
+

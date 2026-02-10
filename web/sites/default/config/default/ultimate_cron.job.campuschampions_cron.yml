@@ -1,0 +1,17 @@
+uuid: 4f86e80f-3efa-4e66-a02a-645df42bec48
+langcode: en
+status: true
+dependencies:
+  module:
+    - campuschampions
+title: 'Default cron handler'
+id: campuschampions_cron
+weight: 0
+module: campuschampions
+callback: 'campuschampions#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

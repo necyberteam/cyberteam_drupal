@@ -1,0 +1,17 @@
+uuid: 4f125962-3980-4a1d-beca-d03893cba6ac
+langcode: en
+status: true
+dependencies:
+  module:
+    - recurring_events_reminders
+title: 'Default cron handler'
+id: recurring_events_reminders_cron
+weight: 0
+module: recurring_events_reminders
+callback: 'recurring_events_reminders#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database
