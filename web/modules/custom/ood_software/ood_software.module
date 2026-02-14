@@ -242,9 +242,13 @@ function ood_software_fetch_github_data(array &$form, FormStateInterface $form_s
       $form['field_license']['widget'][0]['target_id']['#value'] = $license;
     }
 
-    // Set the app type checkbox - set both the value array and the checked property
+    // Set the app type checkbox as checked.
+    // After form processing, individual checkboxes exist as sub-elements of the
+    // widget keyed by term ID. Set #checked for the pre-render step and #value
+    // to match #return_value so the checkbox renders as checked in the AJAX response.
     $apptype_id = $gh->getAppTypeId();
-    if (isset($form['field_appverse_app_type']['widget'][$apptype_id])) {
+    if ($apptype_id && isset($form['field_appverse_app_type']['widget'][$apptype_id])) {
+      $form['field_appverse_app_type']['widget'][$apptype_id]['#checked'] = TRUE;
       $form['field_appverse_app_type']['widget'][$apptype_id]['#value'] = $apptype_id;
     }
 
