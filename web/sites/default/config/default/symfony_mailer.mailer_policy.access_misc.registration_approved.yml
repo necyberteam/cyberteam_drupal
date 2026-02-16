@@ -8,7 +8,7 @@ id: access_misc.registration_approved
 configuration:
   email_body:
     content:
-      value: '<p dir="ltr">Dear {{ name }},</p><p dir="ltr">Congratulations! Your registration for&nbsp; <strong>{{ title_link|raw }}</strong> on {{ start_date }} has been confirmed.</p><p dir="ltr">Here are the details:</p><ul><li dir="ltr"><strong>Location (if applicable):</strong> {{ location }}</li><li dir="ltr"><strong>Time:</strong> {{ event_start_time }} - {{ event_end_time }}</li></ul><p>{% if pre_survey_url %}</p><p>{{ pre_survey_text|raw }}</p><p><a href="{{ pre_survey_url }}">{{ pre_survey_url }}</a></p><p>{% endif %}</p><p dir="ltr">We are glad you are going to attend!</p><p>Kind regards,<br>ACCESS Support</p>'
+      value: '<p dir="ltr">Dear {{ name }},</p><p dir="ltr">Congratulations! Your registration for&nbsp; <strong>{{ title_link|raw }}</strong> on {{ start_date }} has been confirmed.</p><p dir="ltr">Here are the details:</p><ul><li dir="ltr" data-list-item-id="e16e907e2cc7b7bafbb165f943a825068"><strong>Location (if applicable):</strong> {{ location }}</li><li dir="ltr" data-list-item-id="ee951416ec2f7bd608c0657eb1ce0017f"><strong>Time:</strong> {{ event_start_time }} - {{ event_end_time }}</li></ul><p>{% if pre_survey_url %}</p><p>{{ pre_survey_text|raw }}</p><p><a href="{{ pre_survey_url }}">{{ pre_survey_url }}</a></p><p>{% endif %}</p><p dir="ltr">We are glad you are going to attend!</p><p>____<br>This message is sent through the ACCESS-CI event registration system.</p>'
       format: basic_html
   email_subject:
     value: '{{ email_title }}'
