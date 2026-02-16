@@ -5,7 +5,7 @@
     Testing accordion function,
 */
 
-describe("Unauthenticated user tests the CCEP Page", () => {
+describe.skip("Unauthenticated user tests the CCEP Page - page unpublished", () => {
   it("Should test CCEP page for unauthenticated user", () => {
     cy.visit("/ccep");
 
