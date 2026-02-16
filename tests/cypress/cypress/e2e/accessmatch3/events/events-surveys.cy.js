@@ -66,13 +66,13 @@ describe('Event Registration Surveys and Reminders', () => {
       cy.visit('/events/add');
 
       // Verify screening survey description mentions when email is sent
-      cy.contains('screening survey email goes to a person that registers as soon as they register').should('exist');
+      cy.contains('An automated email is sent when someone registers for an event').should('exist');
 
       // Verify pre-survey description
-      cy.contains('pre survey email goes to a registered person as soon as they are accepted').should('exist');
+      cy.contains('An automated email is sent when a registrant is approved').should('exist');
 
       // Verify post-survey description mentions timing
-      cy.contains('post survey email goes to attendees around 30 minutes before the end').should('exist');
+      cy.contains('An automated email is sent to attendees near the end of the event').should('exist');
     });
 
   });
