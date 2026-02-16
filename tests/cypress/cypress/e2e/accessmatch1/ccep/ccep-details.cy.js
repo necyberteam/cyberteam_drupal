@@ -8,7 +8,7 @@
 
 */
 
-describe("Unauthenticated user tests the CCEP Details Page", () => {
+describe.skip("Unauthenticated user tests the CCEP Details Page - page unpublished", () => {
   it("Should test CCEP Details page for unauthenticated user", () => {
     cy.visit("/ccep-details");
 
