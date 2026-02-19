@@ -103,45 +103,50 @@ class ContributionGraphService {
    *   The HTML markup.
    */
   protected function renderGraph(array $contributions, int $weeks): string {
-    $html = '<div class="contribution-graph">';
-    $html .= '<svg width="' . ($weeks * 15 + 20) . '" height="126">';
-    
+    $html = '<div class="contribution-graph" style="overflow: auto;">';
+    $svg_width = 760;
+    $label_width = 40;
+    $graph_width = $svg_width - $label_width;
+    $week_spacing = $graph_width / $weeks;
+
+    $html .= '<svg width="' . $svg_width . '" height="126">';
+
     // Calculate start date (align to Sunday).
     $end_date = strtotime('today');
     $start_date = strtotime("-{$weeks} weeks", $end_date);
     $start_date = strtotime('last sunday', $start_date);
-    
+
     // Determine max contributions for color scaling.
     $max_contributions = !empty($contributions) ? max($contributions) : 1;
-    
+
     $x = 0;
     $current_date = $start_date;
-    
+
     // Month labels.
-    $html .= '<g transform="translate(10, 0)">';
-    $html .= $this->renderMonthLabels($start_date, $weeks);
+    $html .= '<g transform="translate(' . $label_width . ', 0)">';
+    $html .= $this->renderMonthLabels($start_date, $weeks, $week_spacing);
     $html .= '</g>';
-    
+
     // Day labels.
     $html .= '<g transform="translate(0, 20)">';
-    $html .= '<text x="0" y="20" class="contrib-day-label">Mon</text>';
-    $html .= '<text x="0" y="40" class="contrib-day-label">Wed</text>';
-    $html .= '<text x="0" y="60" class="contrib-day-label">Fri</text>';
+    $html .= '<text x="30" y="20" class="contrib-day-label" text-anchor="end">Mon</text>';
+    $html .= '<text x="30" y="46" class="contrib-day-label" text-anchor="end">Wed</text>';
+    $html .= '<text x="30" y="72" class="contrib-day-label" text-anchor="end">Fri</text>';
     $html .= '</g>';
-    
+
     // Contribution squares.
-    $html .= '<g transform="translate(10, 20)">';
-    
+    $html .= '<g transform="translate(' . $label_width . ', 20)">';
+
     for ($week = 0; $week < $weeks; $week++) {
       for ($day = 0; $day < 7; $day++) {
         $date = date('Y-m-d', $current_date);
         $count = $contributions[$date] ?? 0;
         $level = $this->getContributionLevel($count, $max_contributions);
         $color = $this->getColorForLevel($level);
-        
+
         $y = $day * 13;
         $title = $count . ' contribution' . ($count !== 1 ? 's' : '') . ' on ' . date('M j, Y', $current_date);
-        
+
         $html .= sprintf(
           '<rect x="%d" y="%d" width="11" height="11" fill="%s" data-count="%d" data-date="%s"><title>%s</title></rect>',
           $x,
@@ -151,15 +156,15 @@ class ContributionGraphService {
           $date,
           htmlspecialchars($title)
         );
-        
+
         $current_date = strtotime('+1 day', $current_date);
       }
-      $x += 13;
+      $x += $week_spacing;
     }
-    
+
     $html .= '</g>';
     $html .= '</svg>';
-    
+
     // Legend.
     $html .= '<div class="contrib-legend">';
     $html .= '<span>Less</span>';
@@ -174,10 +179,10 @@ class ContributionGraphService {
     $html .= '</svg>';
     $html .= '<span>More</span>';
     $html .= '</div>';
-    
+
     $html .= $this->getStyles();
     $html .= '</div>';
-    
+
     return $html;
   }
 
@@ -188,25 +193,27 @@ class ContributionGraphService {
    *   The start date timestamp.
    * @param int $weeks
    *   Number of weeks.
+   * @param float $week_spacing
+   *   Spacing between weeks in pixels.
    *
    * @return string
    *   The HTML markup for month labels.
    */
-  protected function renderMonthLabels(int $start_date, int $weeks): string {
+  protected function renderMonthLabels(int $start_date, int $weeks, float $week_spacing): string {
     $html = '';
     $current_date = $start_date;
     $last_month = NULL;
-    
+
     for ($week = 0; $week < $weeks; $week++) {
       $month = date('M', $current_date);
       if ($month !== $last_month && $week > 0) {
-        $x = $week * 13;
+        $x = $week * $week_spacing;
         $html .= sprintf('<text x="%d" y="10" class="contrib-month-label">%s</text>', $x, $month);
       }
       $last_month = $month;
       $current_date = strtotime('+1 week', $current_date);
     }
-    
+
     return $html;
   }
 
@@ -225,11 +232,11 @@ class ContributionGraphService {
     if ($count === 0) {
       return 0;
     }
-    
+
     if ($max <= 4) {
       return min($count, 4);
     }
-    
+
     $percentage = $count / $max;
     if ($percentage >= 0.75) {
       return 4;
@@ -262,7 +269,7 @@ class ContributionGraphService {
       3 => '#30a14e',
       4 => '#216e39',
     ];
-    
+
     return $colors[$level] ?? $colors[0];
   }
 
@@ -327,11 +334,11 @@ class ContributionGraphService {
    */
   public function getContributionStats(int $uid, int $weeks = 52, $repos = NULL): array {
     $contributions = $this->getContributionData($uid, $weeks, $repos);
-    
+
     $total = array_sum($contributions);
     $current_streak = $this->calculateCurrentStreak($contributions);
     $longest_streak = $this->calculateLongestStreak($contributions);
-    
+
     return [
       'total' => $total,
       'current_streak' => $current_streak,
@@ -352,12 +359,12 @@ class ContributionGraphService {
   protected function calculateCurrentStreak(array $contributions): int {
     $streak = 0;
     $current_date = strtotime('today');
-    
+
     while (isset($contributions[date('Y-m-d', $current_date)]) && $contributions[date('Y-m-d', $current_date)] > 0) {
       $streak++;
       $current_date = strtotime('-1 day', $current_date);
     }
-    
+
     return $streak;
   }
 
@@ -374,17 +381,17 @@ class ContributionGraphService {
     if (empty($contributions)) {
       return 0;
     }
-    
+
     $dates = array_keys($contributions);
     sort($dates);
-    
+
     $longest = 0;
     $current = 1;
-    
+
     for ($i = 1; $i < count($dates); $i++) {
       $prev_date = strtotime($dates[$i - 1]);
       $curr_date = strtotime($dates[$i]);
-      
+
       if ($curr_date - $prev_date === 86400) {
         $current++;
       }
@@ -393,7 +400,7 @@ class ContributionGraphService {
         $current = 1;
       }
     }
-    
+
     return max($longest, $current);
   }
 
