@@ -68,6 +68,7 @@ class DiscourseStorageService {
             'days_visited' => $data['days_visited'] ?? 0,
             'time_read' => $data['time_read'] ?? 0,
             'badges' => $data['badges'] ?? '',
+            'solved_count' => $data['solutions'] ?? 0,
           ])
           ->condition('uid', $uid)
           ->execute();
@@ -88,6 +89,7 @@ class DiscourseStorageService {
             'days_visited' => $data['days_visited'] ?? 0,
             'time_read' => $data['time_read'] ?? 0,
             'badges' => $data['badges'] ?? '',
+            'solved_count' => $data['solutions'] ?? 0,
           ])
           ->execute();
 

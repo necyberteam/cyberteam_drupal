@@ -184,6 +184,13 @@ function ood_contributions_schema() {
         'not null' => FALSE,
         'description' => 'Comma-separated list of badge names.',
       ],
+      'solved_count' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total number of solutions provided.',
+      ],
     ],
     'primary key' => ['id'],
     'indexes' => [
@@ -213,6 +220,25 @@ function ood_contributions_uninstall() {
     if ($database->schema()->tableExists($table)) {
       $database->schema()->dropTable($table);
     }
+  }
+}
+
+/**
+ * Add solved_count column to ood_disc_contrib table.
+ */
+function ood_contributions_update_10001() {
+  $schema = \Drupal::database()->schema();
+  $table = 'ood_disc_contrib';
+
+  if ($schema->tableExists($table) && !$schema->fieldExists($table, 'solved_count')) {
+    $spec = [
+      'type' => 'int',
+      'unsigned' => TRUE,
+      'not null' => TRUE,
+      'default' => 0,
+      'description' => 'Total number of solutions provided.',
+    ];
+    $schema->addField($table, 'solved_count', $spec);
   }
 }
 
