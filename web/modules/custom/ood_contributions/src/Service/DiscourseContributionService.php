@@ -149,6 +149,7 @@ class DiscourseContributionService {
     $likes_received = $user_data['user_summary']['likes_received'] ?? 0;
     $days_visited = $user_data['user_summary']['days_visited'] ?? 0;
     $time_read = $user_data['user_summary']['time_read'] ?? 0;
+    $solved_count = $user_data['user_summary']['solved_count'] ?? 0;
 
     // Build badges string.
     $badges = '';
@@ -170,6 +171,7 @@ class DiscourseContributionService {
       'days_visited' => $days_visited,
       'time_read' => $time_read,
       'badges' => $badges,
+      'solutions' => $solved_count,
     ];
   }
 

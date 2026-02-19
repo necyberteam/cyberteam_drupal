@@ -62,6 +62,9 @@ class CronManager {
         }
       }
     }
+
+    // Update all users github graph.
+    \Drupal::service('ood_contributions.block_contribution_graph')->updateBlock();
   }
 
   /**
