@@ -165,7 +165,7 @@ class GitHubCommitsService {
    */
   protected function getApiKey(): ?string {
     try {
-      $key = $this->keyRepository->getKey('github_api');
+      $key = $this->keyRepository->getKey('appverse_github');
       return $key ? $key->getKeyValue() : NULL;
     }
     catch (\Exception $e) {

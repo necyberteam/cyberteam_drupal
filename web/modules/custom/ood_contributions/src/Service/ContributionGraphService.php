@@ -29,8 +29,8 @@ class ContributionGraphService {
   /**
    * Generates a contribution graph HTML for a user.
    *
-   * @param int $uid
-   *   The Drupal user ID.
+   * @param int|null $uid
+   *   The Drupal user ID, or NULL for all users.
    * @param int $weeks
    *   Number of weeks to display (default: 52).
    * @param string|array|null $repos
@@ -39,7 +39,7 @@ class ContributionGraphService {
    * @return string
    *   The HTML markup for the contribution graph.
    */
-  public function generateGraph(int $uid, int $weeks = 52, $repos = NULL): string {
+  public function generateGraph(?int $uid = NULL, int $weeks = 52, $repos = NULL): string {
     $contributions = $this->getContributionData($uid, $weeks, $repos);
     return $this->renderGraph($contributions, $weeks);
   }
@@ -47,8 +47,8 @@ class ContributionGraphService {
   /**
    * Gets contribution data grouped by date.
    *
-   * @param int $uid
-   *   The Drupal user ID.
+   * @param int|null $uid
+   *   The Drupal user ID, or NULL for all users.
    * @param int $weeks
    *   Number of weeks to include.
    * @param string|array|null $repos
@@ -57,15 +57,18 @@ class ContributionGraphService {
    * @return array
    *   Array of contributions keyed by date (Y-m-d) with counts.
    */
-  protected function getContributionData(int $uid, int $weeks, $repos = NULL): array {
+  protected function getContributionData(?int $uid, int $weeks, $repos = NULL): array {
     $end_date = strtotime('today');
     $start_date = strtotime("-{$weeks} weeks", $end_date);
 
     $query = $this->database->select('ood_user_commits', 'ouc')
       ->fields('ouc', ['commit_date'])
-      ->condition('uid', $uid)
       ->condition('commit_date', $start_date, '>=')
       ->condition('commit_date', $end_date, '<=');
+
+    if ($uid !== NULL) {
+      $query->condition('uid', $uid);
+    }
 
     if ($repos !== NULL) {
       if (is_array($repos)) {
@@ -284,7 +287,6 @@ class ContributionGraphService {
     <style>
       .contribution-graph {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-        padding: 20px;
       }
       .contribution-graph svg {
         display: block;

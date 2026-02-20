@@ -202,7 +202,7 @@ class UserStatsService {
       $response = $this->httpClient->request('POST', 'https://api.github.com/graphql', $options);
       $body = (string) $response->getBody();
       $data = json_decode($body, TRUE) ?: [];
-      
+
       // Check for GraphQL errors.
       if (isset($data['errors'])) {
         $error_messages = array_map(function($error) {
@@ -210,12 +210,12 @@ class UserStatsService {
         }, $data['errors']);
         throw new \Exception('GraphQL errors: ' . implode(', ', $error_messages));
       }
-      
+
       return $data;
     }
     catch (GuzzleException $e) {
       $error_message = $e->getMessage();
-      
+
       // Try to get more details from response body.
       if (method_exists($e, 'getResponse') && $e->getResponse()) {
         $response_body = (string) $e->getResponse()->getBody();
@@ -224,7 +224,7 @@ class UserStatsService {
           $error_message .= ' - ' . $response_data['message'];
         }
       }
-      
+
       $this->logger->warning('GitHub GraphQL request failed: @message', [
         '@message' => $error_message,
       ]);
@@ -240,7 +240,7 @@ class UserStatsService {
    */
   protected function getApiKey(): ?string {
     try {
-      $key = $this->keyRepository->getKey('github_api');
+      $key = $this->keyRepository->getKey('appverse_github');
       $key_value = $key ? $key->getKeyValue() : NULL;
       // Trim whitespace/newlines that may be in the key.
       return $key_value ? trim($key_value) : NULL;

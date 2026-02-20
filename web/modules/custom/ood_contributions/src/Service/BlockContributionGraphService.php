@@ -59,7 +59,7 @@ class BlockContributionGraphService {
   }
 
   /**
-   * Updates the block with all user contribution graphs.
+   * Updates the block with aggregated contribution graph for all users.
    *
    * @param int $bid
    *   The block content ID (default: 208).
@@ -80,29 +80,9 @@ class BlockContributionGraphService {
         return FALSE;
       }
 
-      // Get all users with contributions.
-      $users = $this->getUsersWithContributions();
-
-      if (empty($users)) {
-        $this->logger->warning('No users with contributions found.');
-        return FALSE;
-      }
-
-      // Generate graphs for all users.
+      // Generate a single aggregated graph for all users.
       $html = '<div class="all-contribution-graphs">';
-      
-      foreach ($users as $user) {
-        $user_entity = $this->entityTypeManager->getStorage('user')->load($user->uid);
-        
-        if ($user_entity) {
-          $username = $user_entity->getDisplayName();
-          $html .= '<div class="user-contribution-section">';
-          $html .= '<h3>' . htmlspecialchars($username) . '</h3>';
-          $html .= $this->contributionGraph->generateGraph($user->uid, $weeks);
-          $html .= '</div>';
-        }
-      }
-      
+      $html .= $this->contributionGraph->generateGraph(NULL, $weeks);
       $html .= '</div>';
 
       // Update the block body field.
@@ -111,9 +91,8 @@ class BlockContributionGraphService {
         $block->body->format = 'full_no_editor';
         $block->save();
         
-        $this->logger->info('Successfully updated block @bid with contribution graphs for @count users.', [
+        $this->logger->info('Successfully updated block @bid with aggregated contribution graph.', [
           '@bid' => $bid,
-          '@count' => count($users),
         ]);
         
         return TRUE;
@@ -129,21 +108,6 @@ class BlockContributionGraphService {
       ]);
       return FALSE;
     }
-  }
-
-  /**
-   * Gets all users who have contributions.
-   *
-   * @return array
-   *   Array of user objects with uid property.
-   */
-  protected function getUsersWithContributions(): array {
-    $query = $this->database->select('ood_user_commits', 'ouc')
-      ->fields('ouc', ['uid'])
-      ->groupBy('uid')
-      ->orderBy('uid', 'ASC');
-
-    return $query->execute()->fetchAll();
   }
 
 }
