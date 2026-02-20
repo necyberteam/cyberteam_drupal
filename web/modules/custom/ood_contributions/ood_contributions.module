@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * @file
+ * Contains ood_contributions.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function ood_contributions_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.ood_contributions':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Tracks user contributions from GitHub repositories.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ood_contributions_theme() {
+  return [
+    'contributors_block' => [
+      'variables' => [
+        'contributors' => [],
+      ],
+      'template' => 'contributors-block',
+    ],
+  ];
+}
