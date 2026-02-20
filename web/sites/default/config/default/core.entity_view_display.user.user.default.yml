@@ -24,6 +24,7 @@ dependencies:
     - field.field.user.user.field_hpc_experience
     - field.field.user.user.field_institution
     - field.field.user.user.field_is_cc
+    - field.field.user.user.field_open_ondemand_badges
     - field.field.user.user.field_region
     - field.field.user.user.field_user_badges
     - field.field.user.user.field_user_bio
@@ -32,7 +33,6 @@ dependencies:
     - field.field.user.user.field_user_preferred_pronouns
     - field.field.user.user.user_picture
   module:
-    - text
     - user
 _core:
   default_config_hash: V51QPCKkgNREKtSmB9Iu2wmAMEpktVpnzklWaZV8UYo
@@ -57,13 +57,6 @@ content:
     third_party_settings: {  }
     weight: 2
     region: content
-  field_github_graph:
-    type: text_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 3
-    region: content
   field_github_username:
     type: string
     label: above
@@ -71,6 +64,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 1
+    region: content
+  field_open_ondemand_badges:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
     region: content
 hidden:
   field_academic_status: true
@@ -87,6 +88,7 @@ hidden:
   field_domain_access: true
   field_domain_admin: true
   field_domain_all_affiliates: true
+  field_github_graph: true
   field_hpc_experience: true
   field_institution: true
   field_is_cc: true

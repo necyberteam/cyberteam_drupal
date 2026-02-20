@@ -24,6 +24,7 @@ dependencies:
     - field.field.user.user.field_hpc_experience
     - field.field.user.user.field_institution
     - field.field.user.user.field_is_cc
+    - field.field.user.user.field_open_ondemand_badges
     - field.field.user.user.field_region
     - field.field.user.user.field_user_badges
     - field.field.user.user.field_user_bio
@@ -66,7 +67,7 @@ content:
     third_party_settings: {  }
   field_academic_status:
     type: options_select
-    weight: 16
+    weight: 17
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -90,7 +91,7 @@ content:
     third_party_settings: {  }
   field_blocked_ag_tax:
     type: entity_reference_autocomplete
-    weight: 25
+    weight: 26
     region: content
     settings:
       match_operator: CONTAINS
@@ -100,7 +101,7 @@ content:
     third_party_settings: {  }
   field_carnegie_code:
     type: string_textfield
-    weight: 26
+    weight: 27
     region: content
     settings:
       size: 60
@@ -108,7 +109,7 @@ content:
     third_party_settings: {  }
   field_cider_resources:
     type: entity_reference_autocomplete
-    weight: 24
+    weight: 25
     region: content
     settings:
       match_operator: CONTAINS
@@ -118,7 +119,7 @@ content:
     third_party_settings: {  }
   field_citizenships:
     type: string_textfield
-    weight: 22
+    weight: 23
     region: content
     settings:
       size: 60
@@ -126,7 +127,7 @@ content:
     third_party_settings: {  }
   field_constant_contact_id:
     type: string_textfield
-    weight: 23
+    weight: 24
     region: content
     settings:
       size: 60
@@ -142,7 +143,7 @@ content:
     third_party_settings: {  }
   field_cv_resume:
     type: file_generic
-    weight: 18
+    weight: 19
     region: content
     settings:
       progress_indicator: throbber
@@ -157,7 +158,7 @@ content:
     third_party_settings: {  }
   field_github_graph:
     type: text_textarea
-    weight: 27
+    weight: 28
     region: content
     settings:
       rows: 5
@@ -173,7 +174,7 @@ content:
     third_party_settings: {  }
   field_hpc_experience:
     type: string_textarea
-    weight: 17
+    weight: 18
     region: content
     settings:
       rows: 5
@@ -189,10 +190,20 @@ content:
     third_party_settings: {  }
   field_is_cc:
     type: boolean_checkbox
-    weight: 13
+    weight: 14
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  field_open_ondemand_badges:
+    type: entity_reference_autocomplete
+    weight: 13
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_region:
     type: options_select
@@ -251,29 +262,29 @@ content:
       placeholder: ''
     third_party_settings: {  }
   language:
-    weight: 20
+    weight: 21
     region: content
     settings: {  }
     third_party_settings: {  }
   path:
     type: path
-    weight: 21
+    weight: 22
     region: content
     settings: {  }
     third_party_settings: {  }
   social_auth:
-    weight: 15
+    weight: 16
     region: content
     settings: {  }
     third_party_settings: {  }
   timezone:
-    weight: 19
+    weight: 20
     region: content
     settings: {  }
     third_party_settings: {  }
   user_picture:
     type: image_image
-    weight: 14
+    weight: 15
     region: content
     settings:
       progress_indicator: throbber
