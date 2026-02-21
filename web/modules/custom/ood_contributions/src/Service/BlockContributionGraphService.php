@@ -69,7 +69,7 @@ class BlockContributionGraphService {
    * @return bool
    *   TRUE if successful, FALSE otherwise.
    */
-  public function updateBlock(int $bid = 208, int $weeks = 52): bool {
+  public function updateBlock(int $bid = 210, int $weeks = 52): bool {
     try {
       // Load the block content entity.
       $block_storage = $this->entityTypeManager->getStorage('block_content');
@@ -90,11 +90,11 @@ class BlockContributionGraphService {
         $block->body->value = $html;
         $block->body->format = 'full_no_editor';
         $block->save();
-        
+
         $this->logger->info('Successfully updated block @bid with aggregated contribution graph.', [
           '@bid' => $bid,
         ]);
-        
+
         return TRUE;
       }
       else {
