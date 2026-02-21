@@ -57,9 +57,8 @@ class CommitStorageService {
       'errors' => 0,
     ];
 
-    // Validate input.
+    // No commits to store.
     if (empty($commits_data['commits']) || !is_array($commits_data['commits'])) {
-      $this->logger->warning('No commits data provided for storage.');
       return $result;
     }
 
@@ -204,6 +203,29 @@ class CommitStorageService {
     }
 
     return (int) $query->countQuery()->execute()->fetchField();
+  }
+
+  /**
+   * Gets the latest commit date for a user and repository.
+   *
+   * @param int $uid
+   *   The Drupal user ID.
+   * @param string $repo
+   *   Repository in owner/name format.
+   *
+   * @return int|null
+   *   The latest commit date as Unix timestamp, or NULL if no commits exist.
+   */
+  public function getLatestCommitDate(int $uid, string $repo): ?int {
+    $query = $this->database->select('ood_user_commits', 'ouc')
+      ->fields('ouc', ['commit_date'])
+      ->condition('uid', $uid)
+      ->condition('repo', $repo)
+      ->orderBy('commit_date', 'DESC')
+      ->range(0, 1);
+
+    $result = $query->execute()->fetchField();
+    return $result ? (int) $result : NULL;
   }
 
   /**

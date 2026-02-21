@@ -19,34 +19,46 @@ class CronManager {
       ->exists('field_github_username');
     $uids = $entity_query->execute();
 
-    foreach ($uids as $uid) {
-      $repos = [
-        'ondemand',
-        'ood_core',
-        'ondemand-packaging',
-        'ood-ansible',
-        'puppet-module-openondemand',
-        'ood-documentation'
-      ];
+    $repos = [
+      'ondemand',
+      'ood_core',
+      'ondemand-packaging',
+      'ood-ansible',
+      'puppet-module-openondemand',
+      'ood-documentation',
+    ];
 
+    $commit_storage = \Drupal::service('ood_contributions.commit_storage');
+    $gh_commits = \Drupal::service('ood_contributions.github_commits');
+
+    foreach ($uids as $uid) {
       $user = \Drupal\user\Entity\User::load($uid);
       $github_username = $user->get('field_github_username')->value;
 
-      $commit_storage = \Drupal::service('ood_contributions.commit_storage');
+      // Skip users whose GitHub username doesn't exist on GitHub.
+      if (!$gh_commits->isValidGitHubUser($github_username)) {
+        continue;
+      }
 
       foreach ($repos as $repo) {
-        // Fetch and store commits for each user.
-        $gh_commits = \Drupal::service('ood_contributions.github_commits');
-        $commits = $gh_commits->getCommits('OSC', $repo, $github_username);
+        $full_repo = "OSC/$repo";
+        // Use last commit date as cutoff to avoid re-fetching old commits.
+        $since = $commit_storage->getLatestCommitDate($uid, $full_repo);
+        if ($since) {
+          // Add 1 second to avoid re-fetching the last known commit.
+          $since = $since + 1;
+        }
+        $commits = $gh_commits->getCommits('OSC', $repo, $github_username, 100, TRUE, $since);
         if (isset($commits['error'])) {
           continue;
         }
-        $commit_storage->storeCommits($uid, "OSC/$repo", $commits);
+        $commit_storage->storeCommits($uid, $full_repo, $commits);
       }
+
       $commits = $commit_storage->getCommits($uid);
       if ($commits) {
         $graph_service = \Drupal::service('ood_contributions.contribution_graph');
-        // Generate graph for a user (last 52 weeks)
+        // Generate graph for a user (last 52 weeks).
         $html = $graph_service->generateGraph($uid);
         // Save $html to 'field_github_graph' field.
         $user->set('field_github_graph', [
@@ -55,11 +67,10 @@ class CronManager {
         ]);
         $user->save();
 
-        foreach ($repos as $repo) {
-          // Get repo stats.
-          $stats_service = \Drupal::service('ood_contributions.user_stats');
-          $stats_service->updateUserStats($uid, "OSC/$repo", $github_username );
-        }
+        // Fetch PR/issue stats for all repos in one API call.
+        $full_repos = array_map(fn($r) => "OSC/$r", $repos);
+        $stats_service = \Drupal::service('ood_contributions.user_stats');
+        $stats_service->updateAllUserStats($uid, $github_username, $full_repos);
       }
     }
 

@@ -347,7 +347,7 @@ class UserStatsService {
   }
 
   /**
-   * Updates statistics for all repositories for a user.
+   * Updates statistics for all repositories for a user in one API call.
    *
    * @param int $uid
    *   The Drupal user ID.
@@ -362,8 +362,88 @@ class UserStatsService {
   public function updateAllUserStats(int $uid, string $github_username, array $repos): array {
     $results = [];
 
+    try {
+      // Fetch PR/issue counts for all repos in one GraphQL call.
+      $all_stats = $this->fetchMultiRepoStats($repos, $github_username);
+
+      foreach ($repos as $repo) {
+        $github_stats = $all_stats[$repo] ?? ['total_prs' => 0, 'total_issues' => 0];
+        $total_commits = $this->getCommitCount($uid, $repo);
+        $this->storeStats($uid, $repo, $total_commits, $github_stats['total_prs'], $github_stats['total_issues']);
+
+        $this->logger->info('Updated stats for uid @uid, repo @repo: @commits commits, @prs PRs, @issues issues', [
+          '@uid' => $uid,
+          '@repo' => $repo,
+          '@commits' => $total_commits,
+          '@prs' => $github_stats['total_prs'],
+          '@issues' => $github_stats['total_issues'],
+        ]);
+
+        $results[$repo] = [
+          'success' => TRUE,
+          'stats' => [
+            'total_commits' => $total_commits,
+            'total_prs' => $github_stats['total_prs'],
+            'total_issues' => $github_stats['total_issues'],
+          ],
+        ];
+      }
+    }
+    catch (\Exception $e) {
+      $this->logger->error('Failed to batch update user stats: @message', [
+        '@message' => $e->getMessage(),
+      ]);
+      // Fall back to individual calls for repos not yet processed.
+      foreach ($repos as $repo) {
+        if (!isset($results[$repo])) {
+          $results[$repo] = $this->updateUserStats($uid, $repo, $github_username);
+        }
+      }
+    }
+
+    return $results;
+  }
+
+  /**
+   * Fetches PR and issue counts for multiple repos in a single GraphQL call.
+   *
+   * @param array $repos
+   *   Array of repositories in owner/name format.
+   * @param string $github_username
+   *   The GitHub username.
+   *
+   * @return array
+   *   Keyed by repo, each value has 'total_prs' and 'total_issues'.
+   */
+  protected function fetchMultiRepoStats(array $repos, string $github_username): array {
+    $api_key = $this->getApiKey();
+    $query_parts = [];
+    $repo_aliases = [];
+
     foreach ($repos as $repo) {
-      $results[$repo] = $this->updateUserStats($uid, $repo, $github_username);
+      // Create safe alias (GraphQL identifiers can't have hyphens or slashes).
+      $alias = preg_replace('/[^a-zA-Z0-9]/', '_', $repo);
+      $repo_aliases[$alias] = $repo;
+
+      $query_parts[] = sprintf(
+        '%s_prs: search(query: "repo:%s author:%s is:pr", type: ISSUE, first: 1) { issueCount }',
+        $alias, $repo, $github_username
+      );
+      $query_parts[] = sprintf(
+        '%s_issues: search(query: "repo:%s author:%s is:issue", type: ISSUE, first: 1) { issueCount }',
+        $alias, $repo, $github_username
+      );
+    }
+
+    $query = "{\n" . implode("\n", $query_parts) . "\n}";
+    $response = $this->makeGraphQLRequest($query, $api_key);
+
+    $results = [];
+    foreach ($repo_aliases as $alias => $repo) {
+      $results[$repo] = [
+        'total_prs' => $response['data'][$alias . '_prs']['issueCount'] ?? 0,
+        'total_issues' => $response['data'][$alias . '_issues']['issueCount'] ?? 0,
+      ];
     }
 
     return $results;

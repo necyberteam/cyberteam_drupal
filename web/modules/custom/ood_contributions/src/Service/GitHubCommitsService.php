@@ -34,6 +34,13 @@ class GitHubCommitsService {
   protected $logger;
 
   /**
+   * Cache for GitHub user node IDs.
+   *
+   * @var array
+   */
+  protected $userIdCache = [];
+
+  /**
    * Constructs a GitHubCommitsService object.
    *
    * @param \GuzzleHttp\ClientInterface $http_client
@@ -62,17 +69,19 @@ class GitHubCommitsService {
    *   Number of commits per page (default: 100, max: 100).
    * @param bool $include_merged_at
    *   Whether to fetch merged_at date from associated PRs (default: TRUE).
+   * @param int|null $since
+   *   Only fetch commits after this Unix timestamp (default: NULL for all).
    *
    * @return array
    *   An array containing totalCount and commits data, or error information.
    */
-  public function getCommits(string $org, string $repo, string $author, int $per_page = 100, bool $include_merged_at = TRUE): array {
+  public function getCommits(string $org, string $repo, string $author, int $per_page = 100, bool $include_merged_at = TRUE, ?int $since = NULL): array {
     try {
       // Get the API key from the key module.
       $api_key = $this->getApiKey();
 
       // Use GraphQL API for efficient data fetching.
-      return $this->getCommitsGraphQL($org, $repo, $author, $per_page, $include_merged_at, $api_key);
+      return $this->getCommitsGraphQL($org, $repo, $author, $per_page, $include_merged_at, $api_key, $since);
     }
     catch (\Exception $e) {
       $this->logger->error('Failed to fetch GitHub commits: @message', [
@@ -103,18 +112,38 @@ class GitHubCommitsService {
    *   Whether to fetch merged_at date from associated PRs.
    * @param string|null $api_key
    *   The GitHub API key.
+   * @param int|null $since
+   *   Only fetch commits after this Unix timestamp.
    *
    * @return array
    *   An array containing totalCount and commits data.
    */
-  protected function getCommitsGraphQL(string $org, string $repo, string $author, int $per_page, bool $include_merged_at, ?string $api_key): array {
+  protected function getCommitsGraphQL(string $org, string $repo, string $author, int $per_page, bool $include_merged_at, ?string $api_key, ?int $since = NULL): array {
     $all_commits = [];
     $has_next_page = TRUE;
     $after_cursor = NULL;
     $per_page = min($per_page, 100);
 
+    // Look up the author's GitHub node ID for server-side filtering.
+    $author_id = NULL;
+    if (!empty($author)) {
+      $author_id = $this->getGitHubUserId($author, $api_key);
+      // If the user doesn't exist on GitHub, skip the expensive history walk.
+      if ($author_id === NULL) {
+        $this->logger->notice('GitHub user @author not found, skipping commit fetch for @org/@repo.', [
+          '@author' => $author,
+          '@org' => $org,
+          '@repo' => $repo,
+        ]);
+        return [
+          'totalCount' => 0,
+          'commits' => [],
+        ];
+      }
+    }
+
     while ($has_next_page) {
-      $query = $this->buildGraphQLQuery($org, $repo, $author, $per_page, $include_merged_at, $after_cursor);
+      $query = $this->buildGraphQLQuery($org, $repo, $author, $per_page, $include_merged_at, $after_cursor, $since, $author_id);
       $response = $this->makeGraphQLRequest($query, $api_key);
 
       if (empty($response['data']['repository']['defaultBranchRef']['target']['history'])) {
@@ -127,10 +156,12 @@ class GitHubCommitsService {
       foreach ($edges as $edge) {
         $node = $edge['node'];
 
-        // Filter by author username.
-        $commit_author = $node['author']['user']['login'] ?? '';
-        if (!empty($author) && strcasecmp($commit_author, $author) !== 0) {
-          continue;
+        // Filter by author username (safety net if server-side filter unavailable).
+        if (!$author_id && !empty($author)) {
+          $commit_author = $node['author']['user']['login'] ?? '';
+          if (strcasecmp($commit_author, $author) !== 0) {
+            continue;
+          }
         }
 
         $merged_at = NULL;
@@ -177,12 +208,18 @@ class GitHubCommitsService {
    *   Whether to include PR merge information.
    * @param string|null $after
    *   Pagination cursor.
+   * @param int|null $since
+   *   Only fetch commits after this Unix timestamp.
+   * @param string|null $author_id
+   *   GitHub user node ID for server-side author filtering.
    *
    * @return string
    *   The GraphQL query.
    */
-  protected function buildGraphQLQuery(string $org, string $repo, string $author, int $per_page, bool $include_merged_at, ?string $after): string {
+  protected function buildGraphQLQuery(string $org, string $repo, string $author, int $per_page, bool $include_merged_at, ?string $after, ?int $since = NULL, ?string $author_id = NULL): string {
     $after_param = $after ? ', after: "' . addslashes($after) . '"' : '';
+    $since_param = $since ? ', since: "' . gmdate('Y-m-d\TH:i:s\Z', $since) . '"' : '';
+    $author_param = $author_id ? ', author: {id: "' . addslashes($author_id) . '"}' : '';
     $pr_fragment = $include_merged_at ? 'associatedPullRequests(first: 1) { nodes { mergedAt } }' : '';
 
     // Escape variables for GraphQL query.
@@ -195,7 +232,7 @@ class GitHubCommitsService {
     defaultBranchRef {
       target {
         ... on Commit {
-          history(first: $per_page$after_param) {
+          history(first: $per_page$after_param$since_param$author_param) {
             pageInfo {
               hasNextPage
               endCursor
@@ -310,6 +347,53 @@ GRAPHQL;
         '@message' => $e->getMessage(),
       ]);
       throw $e;
+    }
+  }
+
+  /**
+   * Checks if a GitHub username exists.
+   *
+   * @param string $username
+   *   The GitHub username (login).
+   *
+   * @return bool
+   *   TRUE if the user exists on GitHub, FALSE otherwise.
+   */
+  public function isValidGitHubUser(string $username): bool {
+    $api_key = $this->getApiKey();
+    return $this->getGitHubUserId($username, $api_key) !== NULL;
+  }
+
+  /**
+   * Gets the GitHub user's node ID for server-side commit filtering.
+   *
+   * @param string $username
+   *   The GitHub username (login).
+   * @param string|null $api_key
+   *   The GitHub API key.
+   *
+   * @return string|null
+   *   The GitHub user's node ID, or NULL if not found.
+   */
+  protected function getGitHubUserId(string $username, ?string $api_key): ?string {
+    if (array_key_exists($username, $this->userIdCache)) {
+      return $this->userIdCache[$username];
+    }
+
+    $query = '{ user(login: "' . addslashes($username) . '") { id } }';
+    try {
+      $response = $this->makeGraphQLRequest($query, $api_key);
+      $id = $response['data']['user']['id'] ?? NULL;
+      $this->userIdCache[$username] = $id;
+      return $id;
+    }
+    catch (\Exception $e) {
+      $this->logger->warning('GitHub user not found: @username', [
+        '@username' => $username,
+      ]);
+      // Cache the failure to avoid retrying for this username.
+      $this->userIdCache[$username] = NULL;
+      return NULL;
     }
   }
 
