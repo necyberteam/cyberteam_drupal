@@ -67,42 +67,12 @@ class GitHubCommitsService {
    *   An array containing totalCount and commits data, or error information.
    */
   public function getCommits(string $org, string $repo, string $author, int $per_page = 100, bool $include_merged_at = TRUE): array {
-    $all_commits = [];
-    $page = 1;
-
     try {
       // Get the API key from the key module.
       $api_key = $this->getApiKey();
 
-      // Paginate through all commits.
-      while (TRUE) {
-        $url = sprintf(
-          'https://api.github.com/repos/%s/%s/commits?author=%s&per_page=%d&page=%d',
-          urlencode($org),
-          urlencode($repo),
-          urlencode($author),
-          min($per_page, 100),
-          $page
-        );
-
-        $response = $this->makeRequest($url, $api_key);
-
-        if (empty($response)) {
-          break;
-        }
-
-        $all_commits = array_merge($all_commits, $response);
-        $page++;
-
-        // If we got fewer results than requested, we've reached the last page.
-        if (count($response) < $per_page) {
-          break;
-        }
-      }
-
-      // Format the response similar to the CLI output.
-      return $this->formatCommits($all_commits, $org, $repo, $api_key, $include_merged_at);
-
+      // Use GraphQL API for efficient data fetching.
+      return $this->getCommitsGraphQL($org, $repo, $author, $per_page, $include_merged_at, $api_key);
     }
     catch (\Exception $e) {
       $this->logger->error('Failed to fetch GitHub commits: @message', [
@@ -115,6 +85,192 @@ class GitHubCommitsService {
         'totalCount' => 0,
         'commits' => [],
       ];
+    }
+  }
+
+  /**
+   * Fetches commits using GitHub GraphQL API for efficiency.
+   *
+   * @param string $org
+   *   The GitHub organization or username.
+   * @param string $repo
+   *   The GitHub repository name.
+   * @param string $author
+   *   The GitHub author username.
+   * @param int $per_page
+   *   Number of commits per page (max: 100).
+   * @param bool $include_merged_at
+   *   Whether to fetch merged_at date from associated PRs.
+   * @param string|null $api_key
+   *   The GitHub API key.
+   *
+   * @return array
+   *   An array containing totalCount and commits data.
+   */
+  protected function getCommitsGraphQL(string $org, string $repo, string $author, int $per_page, bool $include_merged_at, ?string $api_key): array {
+    $all_commits = [];
+    $has_next_page = TRUE;
+    $after_cursor = NULL;
+    $per_page = min($per_page, 100);
+
+    while ($has_next_page) {
+      $query = $this->buildGraphQLQuery($org, $repo, $author, $per_page, $include_merged_at, $after_cursor);
+      $response = $this->makeGraphQLRequest($query, $api_key);
+
+      if (empty($response['data']['repository']['defaultBranchRef']['target']['history'])) {
+        break;
+      }
+
+      $history = $response['data']['repository']['defaultBranchRef']['target']['history'];
+      $edges = $history['edges'] ?? [];
+
+      foreach ($edges as $edge) {
+        $node = $edge['node'];
+
+        // Filter by author username.
+        $commit_author = $node['author']['user']['login'] ?? '';
+        if (!empty($author) && strcasecmp($commit_author, $author) !== 0) {
+          continue;
+        }
+
+        $merged_at = NULL;
+
+        // Extract merged_at from first associated PR if available.
+        if ($include_merged_at && !empty($node['associatedPullRequests']['nodes'][0]['mergedAt'])) {
+          $merged_at = $node['associatedPullRequests']['nodes'][0]['mergedAt'];
+        }
+
+        $all_commits[] = [
+          'sha' => $node['oid'],
+          'message' => $node['message'],
+          'date' => $node['committedDate'],
+          'author' => $node['author']['name'] ?? $author,
+          'url' => $node['url'],
+          'merged_at' => $merged_at,
+        ];
+      }
+
+      // Check for next page.
+      $page_info = $history['pageInfo'] ?? [];
+      $has_next_page = $page_info['hasNextPage'] ?? FALSE;
+      $after_cursor = $page_info['endCursor'] ?? NULL;
+    }
+
+    return [
+      'totalCount' => count($all_commits),
+      'commits' => $all_commits,
+    ];
+  }
+
+  /**
+   * Builds a GraphQL query for fetching commits.
+   *
+   * @param string $org
+   *   The GitHub organization or username.
+   * @param string $repo
+   *   The GitHub repository name.
+   * @param string $author
+   *   The GitHub author username.
+   * @param int $per_page
+   *   Number of commits per page.
+   * @param bool $include_merged_at
+   *   Whether to include PR merge information.
+   * @param string|null $after
+   *   Pagination cursor.
+   *
+   * @return string
+   *   The GraphQL query.
+   */
+  protected function buildGraphQLQuery(string $org, string $repo, string $author, int $per_page, bool $include_merged_at, ?string $after): string {
+    $after_param = $after ? ', after: "' . addslashes($after) . '"' : '';
+    $pr_fragment = $include_merged_at ? 'associatedPullRequests(first: 1) { nodes { mergedAt } }' : '';
+
+    // Escape variables for GraphQL query.
+    $org_safe = addslashes($org);
+    $repo_safe = addslashes($repo);
+
+    return <<<GRAPHQL
+{
+  repository(owner: "$org_safe", name: "$repo_safe") {
+    defaultBranchRef {
+      target {
+        ... on Commit {
+          history(first: $per_page$after_param) {
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+            edges {
+              node {
+                oid
+                message
+                committedDate
+                url
+                author {
+                  name
+                  email
+                  user {
+                    login
+                  }
+                }
+                $pr_fragment
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+GRAPHQL;
+  }
+
+  /**
+   * Makes a GraphQL request to GitHub API.
+   *
+   * @param string $query
+   *   The GraphQL query.
+   * @param string|null $api_key
+   *   The GitHub API key.
+   *
+   * @return array
+   *   The decoded JSON response.
+   *
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   */
+  protected function makeGraphQLRequest(string $query, ?string $api_key): array {
+    $options = [
+      'headers' => [
+        'Accept' => 'application/vnd.github+json',
+        'User-Agent' => 'Drupal-OOD-Contributions',
+        'Content-Type' => 'application/json',
+      ],
+      'json' => ['query' => $query],
+    ];
+
+    // Add authentication if API key is available.
+    if (!empty($api_key)) {
+      $options['headers']['Authorization'] = 'Bearer ' . $api_key;
+    }
+
+    try {
+      $response = $this->httpClient->request('POST', 'https://api.github.com/graphql', $options);
+      $body = (string) $response->getBody();
+      $data = json_decode($body, TRUE) ?: [];
+
+      // Check for GraphQL errors.
+      if (!empty($data['errors'])) {
+        $error_messages = array_map(fn($e) => $e['message'] ?? 'Unknown error', $data['errors']);
+        throw new \Exception('GraphQL errors: ' . implode(', ', $error_messages));
+      }
+
+      return $data;
+    }
+    catch (GuzzleException $e) {
+      $this->logger->warning('GitHub GraphQL request failed: @message', [
+        '@message' => $e->getMessage(),
+      ]);
+      throw $e;
     }
   }
 
@@ -172,91 +328,6 @@ class GitHubCommitsService {
       $this->logger->notice('GitHub API key not found or not accessible: @message', [
         '@message' => $e->getMessage(),
       ]);
-      return NULL;
-    }
-  }
-
-  /**
-   * Formats commits data to match the CLI output structure.
-   *
-   * @param array $commits
-   *   The raw commits data from GitHub API.
-   * @param string $org
-   *   The GitHub organization or username.
-   * @param string $repo
-   *   The GitHub repository name.
-   * @param string|null $api_key
-   *   The GitHub API key.
-   * @param bool $include_merged_at
-   *   Whether to fetch merged_at date from associated PRs.
-   *
-   * @return array
-   *   Formatted commits data with totalCount and commits array.
-   */
-  protected function formatCommits(array $commits, string $org, string $repo, ?string $api_key, bool $include_merged_at): array {
-    $formatted_commits = [];
-
-    foreach ($commits as $commit) {
-      $merged_at = NULL;
-
-      // Fetch merged_at if requested.
-      if ($include_merged_at && !empty($commit['sha'])) {
-        $merged_at = $this->getMergedAt($org, $repo, $commit['sha'], $api_key);
-      }
-
-      $formatted_commits[] = [
-        'sha' => $commit['sha'] ?? '',
-        'message' => $commit['commit']['message'] ?? '',
-        'date' => $commit['commit']['author']['date'] ?? '',
-        'author' => $commit['commit']['author']['name'] ?? '',
-        'url' => $commit['html_url'] ?? '',
-        'merged_at' => $merged_at,
-      ];
-    }
-
-    return [
-      'totalCount' => count($formatted_commits),
-      'commits' => $formatted_commits,
-    ];
-  }
-
-  /**
-   * Gets the merged_at date for a commit by checking associated pull requests.
-   *
-   * @param string $org
-   *   The GitHub organization or username.
-   * @param string $repo
-   *   The GitHub repository name.
-   * @param string $sha
-   *   The commit SHA.
-   * @param string|null $api_key
-   *   The GitHub API key.
-   *
-   * @return string|null
-   *   The merged_at date or NULL if not merged or not found.
-   */
-  protected function getMergedAt(string $org, string $repo, string $sha, ?string $api_key): ?string {
-    try {
-      $url = sprintf(
-        'https://api.github.com/repos/%s/%s/commits/%s/pulls',
-        urlencode($org),
-        urlencode($repo),
-        urlencode($sha)
-      );
-
-      $pulls = $this->makeRequest($url, $api_key);
-
-      // Return the merged_at from the first associated PR that was merged.
-      foreach ($pulls as $pull) {
-        if (!empty($pull['merged_at'])) {
-          return $pull['merged_at'];
-        }
-      }
-
-      return NULL;
-    }
-    catch (\Exception $e) {
-      // Silently fail - merged_at is optional information.
       return NULL;
     }
   }
