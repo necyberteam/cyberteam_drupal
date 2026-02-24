@@ -108,6 +108,9 @@ class CronManager {
       \Drupal::logger('ood_contributions')->info('Discourse daily stats updated: @message', [
         '@message' => $result['message'],
       ]);
+
+      // Update the block with the contribution graph.
+      $service->updateBlock();
     }
     else {
       \Drupal::logger('ood_contributions')->error('Failed to update Discourse daily stats: @message', [

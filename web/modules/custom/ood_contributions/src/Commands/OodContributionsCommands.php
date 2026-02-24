@@ -23,7 +23,7 @@ class OodContributionsCommands extends DrushCommands {
 
     CronManager::discourseUpdateDailyStats();
 
-    // Get service to show some stats
+    // Get service to show some stats.
     $service = \Drupal::service('ood_contributions.discourse_stats');
     $stats = $service->getLastYearStats();
 
@@ -37,6 +37,10 @@ class OodContributionsCommands extends DrushCommands {
       $this->output()->writeln(sprintf('Date range: %s to %s', $first['post_date'], $last['post_date']));
       $this->output()->writeln(sprintf('Total posts: %d', $total_posts));
     }
+
+    // Update the block with the contribution graph.
+    $service->updateBlock();
+    $this->output()->writeln('Updated block 218 with Discourse contribution graph.');
 
     $this->output()->writeln('Done!');
   }
