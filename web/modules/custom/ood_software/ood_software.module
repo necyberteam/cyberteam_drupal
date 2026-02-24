@@ -13,6 +13,20 @@ use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\Xss;
 
 /**
+ * Implements hook_theme().
+ */
+function ood_software_theme() {
+  return [
+    'appverse_contributors_block' => [
+      'variables' => [
+        'contributors' => [],
+      ],
+      'template' => 'appverse-contributors-block',
+    ],
+  ];
+}
+
+/**
  * Implements hook_entity_bundle_field_info().
  */
 function ood_software_entity_bundle_field_info(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
