@@ -125,7 +125,7 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
 
     $form['intro_text'] = [
       '#type' => 'markup',
-      '#markup' => '<div class="mb-4">' . t('See the <strong><a href=":url">contributor documentation</a></strong> for best practices in app integration.', [':url' => 'https://osc.github.io/ood-documentation/latest/how-tos/app-development/app-sharing.html']) . '</div>',
+      '#markup' => '<div class="mb-4">' . t('See the <strong><a href=":url">contributor documentation</a></strong> for best practices in app integration.', [':url' => '/appverse-contributor-documentation ']) . '</div>',
       '#weight' => -10,
     ];
 
@@ -242,9 +242,13 @@ function ood_software_fetch_github_data(array &$form, FormStateInterface $form_s
       $form['field_license']['widget'][0]['target_id']['#value'] = $license;
     }
 
-    // Set the app type checkbox - set both the value array and the checked property
+    // Set the app type checkbox as checked.
+    // After form processing, individual checkboxes exist as sub-elements of the
+    // widget keyed by term ID. Set #checked for the pre-render step and #value
+    // to match #return_value so the checkbox renders as checked in the AJAX response.
     $apptype_id = $gh->getAppTypeId();
-    if (isset($form['field_appverse_app_type']['widget'][$apptype_id])) {
+    if ($apptype_id && isset($form['field_appverse_app_type']['widget'][$apptype_id])) {
+      $form['field_appverse_app_type']['widget'][$apptype_id]['#checked'] = TRUE;
       $form['field_appverse_app_type']['widget'][$apptype_id]['#value'] = $apptype_id;
     }
 

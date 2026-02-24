@@ -66,13 +66,13 @@ describe('Event Registration Surveys and Reminders', () => {
       cy.visit('/events/add');
 
       // Verify screening survey description mentions when email is sent
-      cy.contains('screening survey email goes to a person that registers as soon as they register').should('exist');
+      cy.contains('An automated email is sent when someone registers for an event').should('exist');
 
       // Verify pre-survey description
-      cy.contains('pre survey email goes to a registered person as soon as they are accepted').should('exist');
+      cy.contains('An automated email is sent when a registrant is approved').should('exist');
 
       // Verify post-survey description mentions timing
-      cy.contains('post survey email goes to attendees around 30 minutes before the end').should('exist');
+      cy.contains('An automated email is sent to attendees near the end of the event').should('exist');
     });
 
   });
@@ -431,9 +431,9 @@ describe('Event Registration Surveys and Reminders', () => {
         }
       });
 
-      // Run cron to trigger post-survey emails (and attempt reminder)
-      cy.exec('ddev drush cron', { failOnNonZeroExit: false }).then((result) => {
-        cy.log('Cron output:', result.stdout);
+      // Run only the events cron hook (not full cron) to trigger post-survey emails and reminders
+      cy.exec('ddev drush php-eval "access_events_cron();"', { failOnNonZeroExit: false, timeout: 60000 }).then((result) => {
+        cy.log('Events cron output:', result.stdout);
       });
 
       // Wait a moment for emails to be processed
@@ -568,9 +568,9 @@ describe('Event Registration Surveys and Reminders', () => {
         }
       });
 
-      // Run cron to trigger reminder email
-      cy.exec('ddev drush cron', { failOnNonZeroExit: false }).then((result) => {
-        cy.log('Cron output:', result.stdout);
+      // Run only the events cron hook (not full cron) to trigger reminder email
+      cy.exec('ddev drush php-eval "access_events_cron();"', { failOnNonZeroExit: false, timeout: 60000 }).then((result) => {
+        cy.log('Events cron output:', result.stdout);
       });
 
       cy.wait(2000);
