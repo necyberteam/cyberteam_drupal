@@ -95,5 +95,26 @@ class CronManager {
     }
   }
 
+  /**
+   * Update Discourse daily post statistics.
+   *
+   * Fetches 365 days on first run, then only new data on subsequent runs.
+   */
+  public static function discourseUpdateDailyStats() {
+    $service = \Drupal::service('ood_contributions.discourse_stats');
+    $result = $service->updateDailyPostStats();
+
+    if ($result['success']) {
+      \Drupal::logger('ood_contributions')->info('Discourse daily stats updated: @message', [
+        '@message' => $result['message'],
+      ]);
+    }
+    else {
+      \Drupal::logger('ood_contributions')->error('Failed to update Discourse daily stats: @message', [
+        '@message' => $result['message'],
+      ]);
+    }
+  }
+
 }
 

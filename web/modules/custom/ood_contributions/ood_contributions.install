@@ -201,6 +201,45 @@ function ood_contributions_schema() {
     ],
   ];
 
+  // Table for storing daily Discourse post statistics.
+  $schema['ood_disc_daily_posts'] = [
+    'description' => 'Stores daily post count statistics from Discourse.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique ID.',
+      ],
+      'post_date' => [
+        'type' => 'varchar',
+        'length' => 10,
+        'not null' => TRUE,
+        'description' => 'Date in YYYY-MM-DD format.',
+      ],
+      'post_count' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Number of posts on this date.',
+      ],
+      'last_updated' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp when this record was last updated.',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'post_date' => ['post_date'],
+      'last_updated' => ['last_updated'],
+    ],
+    'unique keys' => [
+      'post_date_unique' => ['post_date'],
+    ],
+  ];
+
   return $schema;
 }
 
@@ -213,6 +252,7 @@ function ood_contributions_uninstall() {
     'ood_contribution_stats',
     'ood_user_commits',
     'ood_disc_contrib',
+    'ood_disc_daily_posts',
   ];
 
   $database = \Drupal::database();
@@ -239,6 +279,55 @@ function ood_contributions_update_10001() {
       'description' => 'Total number of solutions provided.',
     ];
     $schema->addField($table, 'solved_count', $spec);
+  }
+}
+
+/**
+ * Create ood_disc_daily_posts table for daily post statistics.
+ */
+function ood_contributions_update_10002() {
+  $schema = \Drupal::database()->schema();
+  $table = 'ood_disc_daily_posts';
+
+  if (!$schema->tableExists($table)) {
+    $table_schema = [
+      'description' => 'Stores daily post count statistics from Discourse.',
+      'fields' => [
+        'id' => [
+          'type' => 'serial',
+          'not null' => TRUE,
+          'description' => 'Primary Key: Unique ID.',
+        ],
+        'post_date' => [
+          'type' => 'varchar',
+          'length' => 10,
+          'not null' => TRUE,
+          'description' => 'Date in YYYY-MM-DD format.',
+        ],
+        'post_count' => [
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+          'description' => 'Number of posts on this date.',
+        ],
+        'last_updated' => [
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => 0,
+          'description' => 'Timestamp when this record was last updated.',
+        ],
+      ],
+      'primary key' => ['id'],
+      'indexes' => [
+        'post_date' => ['post_date'],
+        'last_updated' => ['last_updated'],
+      ],
+      'unique keys' => [
+        'post_date_unique' => ['post_date'],
+      ],
+    ];
+    $schema->createTable($table, $table_schema);
   }
 }
 
