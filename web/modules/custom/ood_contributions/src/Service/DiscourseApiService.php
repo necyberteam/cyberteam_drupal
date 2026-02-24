@@ -3,7 +3,6 @@
 namespace Drupal\ood_contributions\Service;
 
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
-use Drupal\key\KeyRepositoryInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 
@@ -27,13 +26,6 @@ class DiscourseApiService {
   protected $logger;
 
   /**
-   * The key repository.
-   *
-   * @var \Drupal\key\KeyRepositoryInterface
-   */
-  protected $keyRepository;
-
-  /**
    * The Discourse base URL.
    *
    * @var string
@@ -45,14 +37,11 @@ class DiscourseApiService {
    *
    * @param \GuzzleHttp\ClientInterface $http_client
    *   The HTTP client.
-   * @param \Drupal\key\KeyRepositoryInterface $key_repository
-   *   The key repository.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
    *   The logger factory.
    */
-  public function __construct(ClientInterface $http_client, KeyRepositoryInterface $key_repository, LoggerChannelFactoryInterface $logger_factory) {
+  public function __construct(ClientInterface $http_client, LoggerChannelFactoryInterface $logger_factory) {
     $this->httpClient = $http_client;
-    $this->keyRepository = $key_repository;
     $this->logger = $logger_factory->get('ood_contributions');
   }
 
@@ -91,7 +80,8 @@ class DiscourseApiService {
   /**
    * Fetches daily post statistics from Discourse.
    *
-   * Uses the search API to aggregate posts by date.
+   * Uses the public /posts.json endpoint with pagination to aggregate
+   * post counts by date, replacing the per-day search API approach.
    *
    * @param string $start_date
    *   Start date in YYYY-MM-DD format.
@@ -103,24 +93,78 @@ class DiscourseApiService {
    */
   public function getDailyPostStats(string $start_date, string $end_date): array {
     try {
-      // Use search API to get posts within date range
-      // This is more reliable than admin reports which may not be available
+      $counts = [];
+      $start_dt = new \DateTime($start_date);
+      $end_dt = new \DateTime($end_date);
+      $before_id = NULL;
+      $page = 0;
+
+      while (TRUE) {
+        $url = self::BASE_URL . '/posts.json';
+        if ($before_id !== NULL) {
+          $url .= '?before=' . $before_id;
+        }
+
+        $response = $this->makeRequest($url);
+        $posts = $response['latest_posts'] ?? [];
+
+        if (empty($posts)) {
+          break;
+        }
+
+        $oldest_date = NULL;
+        foreach ($posts as $post) {
+          if (empty($post['created_at'])) {
+            continue;
+          }
+          $post_date = new \DateTime($post['created_at']);
+          $date_str = $post_date->format('Y-m-d');
+
+          // Track the oldest post date on this page.
+          if ($oldest_date === NULL || $post_date < $oldest_date) {
+            $oldest_date = $post_date;
+          }
+
+          // Skip posts outside the date range.
+          if ($post_date > $end_dt) {
+            continue;
+          }
+          if ($post_date < $start_dt) {
+            continue;
+          }
+
+          $counts[$date_str] = ($counts[$date_str] ?? 0) + 1;
+        }
+
+        // Stop if the oldest post on this page is before start_date.
+        if ($oldest_date !== NULL && $oldest_date < $start_dt) {
+          break;
+        }
+
+        // Set up pagination: use the lowest post ID on this page.
+        $last_post = end($posts);
+        $before_id = $last_post['id'];
+
+        $page++;
+        $this->logger->info('Discourse posts.json: fetched page @page (before=@before)', [
+          '@page' => $page,
+          '@before' => $before_id,
+        ]);
+
+        // Rate limit: 200ms delay between paginated requests.
+        usleep(200000);
+      }
+
+      // Build the stats array with an entry for each day in the range.
       $stats = [];
-      
-      $current_date = new \DateTime($start_date);
-      $end_datetime = new \DateTime($end_date);
-      
-      // Fetch counts for each day
-      while ($current_date <= $end_datetime) {
-        $date_str = $current_date->format('Y-m-d');
-        $count = $this->getPostCountForDate($date_str);
-        
+      $current = clone $start_dt;
+      while ($current <= $end_dt) {
+        $date_str = $current->format('Y-m-d');
         $stats[] = [
           'x' => $date_str,
-          'y' => $count,
+          'y' => $counts[$date_str] ?? 0,
         ];
-        
-        $current_date->modify('+1 day');
+        $current->modify('+1 day');
       }
 
       return [
@@ -142,46 +186,6 @@ class DiscourseApiService {
         'message' => $e->getMessage(),
         'data' => NULL,
       ];
-    }
-  }
-
-  /**
-   * Gets the post count for a specific date using search API.
-   *
-   * @param string $date
-   *   Date in YYYY-MM-DD format.
-   *
-   * @return int
-   *   Number of posts on that date.
-   */
-  protected function getPostCountForDate(string $date): int {
-    try {
-      // Use search API with date filter
-      // Format: after:YYYY-MM-DD before:YYYY-MM-DD
-      $next_date = date('Y-m-d', strtotime($date . ' +1 day'));
-      $url = sprintf(
-        '%s/search.json?q=after:%s+before:%s',
-        self::BASE_URL,
-        urlencode($date),
-        urlencode($next_date)
-      );
-      
-      $response = $this->makeRequest($url);
-      
-      // Count posts (not topics)
-      $count = 0;
-      if (isset($response['posts']) && is_array($response['posts'])) {
-        $count = count($response['posts']);
-      }
-      
-      return $count;
-    }
-    catch (\Exception $e) {
-      $this->logger->warning('Failed to get post count for @date: @message', [
-        '@date' => $date,
-        '@message' => $e->getMessage(),
-      ]);
-      return 0;
     }
   }
 
@@ -210,61 +214,6 @@ class DiscourseApiService {
     }
     catch (GuzzleException $e) {
       $this->logger->warning('Discourse API request failed: @message', [
-        '@message' => $e->getMessage(),
-      ]);
-      throw $e;
-    }
-  }
-
-  /**
-   * Makes an authenticated admin HTTP request to the Discourse API.
-   *
-   * @param string $url
-   *   The API URL.
-   *
-   * @return array
-   *   The decoded JSON response.
-   *
-   * @throws \GuzzleHttp\Exception\GuzzleException
-   */
-  protected function makeAdminRequest(string $url): array {
-    $api_key = $this->keyRepository->getKey('discourse_api');
-    if (!$api_key) {
-      throw new \Exception('Discourse API key not found');
-    }
-
-    $key_value = $api_key->getKeyValue();
-    if (empty($key_value)) {
-      throw new \Exception('Discourse API key is empty');
-    }
-
-    // Parse API key if it contains username
-    // Format: "username:api_key" or just "api_key"
-    $parts = explode(':', $key_value, 2);
-    if (count($parts) === 2) {
-      [$username, $api_key_value] = $parts;
-    }
-    else {
-      // Default to system user if no username specified
-      $username = 'system';
-      $api_key_value = $key_value;
-    }
-
-    $options = [
-      'headers' => [
-        'Accept' => 'application/json',
-        'Api-Key' => $api_key_value,
-        'Api-Username' => $username,
-      ],
-    ];
-
-    try {
-      $response = $this->httpClient->request('GET', $url, $options);
-      $body = (string) $response->getBody();
-      return json_decode($body, TRUE) ?: [];
-    }
-    catch (GuzzleException $e) {
-      $this->logger->warning('Discourse admin API request failed: @message', [
         '@message' => $e->getMessage(),
       ]);
       throw $e;
