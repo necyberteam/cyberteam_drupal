@@ -1,0 +1,22 @@
+<div class="community-spotlight my-3" style="border: 2px solid #0076ae;">
+  <div class="community-spotlight__inner p-3" style="min-height: 110px; font-weight: 500;  background-image: linear-gradient(176deg, #0076ae 70%, #fff 70%)">
+    <h2 class="community-spotlight__title position-relative text-white" style="font-size: 1.45rem;">Community Spotlight</h2>
+    <div class="community-spotlight__photo position-absolute" style="width: 70px;">
+      <a href="/community-persona/{{ spotlight.uid }}">
+        <img class="rounded-circle" src="{{ spotlight.photo_url }}" alt="{{ spotlight.first_name }} {{ spotlight.last_name }}" />
+      </a>
+    </div>
+
+    <div class="community-spotlight__meta" style="margin-left: 5.2rem;">
+      <a class="community-spotlight__name text-white" href="/community-persona/{{ spotlight.uid }}">
+        {{ spotlight.first_name }} {{ spotlight.last_name }}
+      </a>
+    </div>
+  </div>
+
+  <div class="community-spotlight__org" style="margin-left: 6rem; margin-top: -1.25rem;">{{ spotlight.organization }}</div>
+
+  {% if spotlight.spotlight_text %}
+    <div class="community-spotlight__text p-3">{{ spotlight.spotlight_text|raw }}</div>
+  {% endif %}
+</div>
