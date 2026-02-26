@@ -69,7 +69,7 @@ class BlockContributionGraphService {
    * @return bool
    *   TRUE if successful, FALSE otherwise.
    */
-  public function updateBlock(int $bid = 210, int $weeks = 52): bool {
+  public function updateBlock(int $bid = 209, int $weeks = 52): bool {
     try {
       // Load the block content entity.
       $block_storage = $this->entityTypeManager->getStorage('block_content');

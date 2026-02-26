@@ -414,7 +414,7 @@ class DiscourseStatsService {
    * @return bool
    *   TRUE if successful, FALSE otherwise.
    */
-  public function updateBlock(int $bid = 218, int $weeks = 52): bool {
+  public function updateBlock(int $bid = 210, int $weeks = 52): bool {
     try {
       $block_storage = $this->entityTypeManager->getStorage('block_content');
       $block = $block_storage->load($bid);
