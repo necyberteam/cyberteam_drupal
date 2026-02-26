@@ -94,7 +94,7 @@ describe("Appverse App Creation", () => {
 
         // Check for documentation link mentioned in ood_software.module
         cy.contains('contributor documentation').should('exist');
-        cy.get('a[href*="osc.github.io/ood-documentation"]').should('exist');
+        cy.get('a[href*="appverse-contributor-documentation"]').should('exist');
       });
     });
 

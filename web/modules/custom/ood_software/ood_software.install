@@ -29,3 +29,50 @@ function ood_software_update_10001() {
 
   return t('batch_connect taxonomy term already exists.');
 }
+
+/**
+ * Force re-fetch of all Appverse apps to fix XSS filtering of HTML attributes.
+ *
+ * Previous code ran Xss::filter() on the entire GitHub API JSON response,
+ * which corrupted HTML attributes like href in anchor tags. This update
+ * clears the last updated timestamp and queues all apps for re-fetching.
+ */
+function ood_software_update_10002() {
+  $nids = \Drupal::entityQuery('node')
+    ->condition('type', 'appverse_app')
+    ->accessCheck(FALSE)
+    ->execute();
+
+  $queue = \Drupal::queue('appverse_app_updater');
+  $count = 0;
+
+  foreach ($nids as $nid) {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+    if ($node) {
+      // Clear the timestamp so the queue worker will update the content.
+      $node->set('field_appverse_lastupdated', NULL);
+      $node->save();
+      // Add to queue for processing.
+      $queue->createItem(['nid' => $nid]);
+      $count++;
+    }
+  }
+
+  // Process the queue immediately.
+  $queue_worker = \Drupal::service('plugin.manager.queue_worker')->createInstance('appverse_app_updater');
+  while ($item = $queue->claimItem()) {
+    try {
+      $queue_worker->processItem($item->data);
+      $queue->deleteItem($item);
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('ood_software')->error('Failed to update app @nid: @message', [
+        '@nid' => $item->data['nid'],
+        '@message' => $e->getMessage(),
+      ]);
+      $queue->deleteItem($item);
+    }
+  }
+
+  return t('Re-fetched @count Appverse apps from GitHub with corrected HTML sanitization.', ['@count' => $count]);
+}
