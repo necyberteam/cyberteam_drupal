@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\user\UserInterface;
 
 /**
  * Implements hook_help().
@@ -19,6 +20,37 @@ function ood_contributions_help($route_name, RouteMatchInterface $route_match) {
       return $output;
 
     default:
+  }
+}
+
+/**
+ * Implements hook_user_update().
+ *
+ * Ensures only one user can have field_ood_spotlight_promoted checked at a
+ * time. When a user is saved with the field checked, all other users with the
+ * field checked will have it unchecked.
+ */
+function ood_contributions_user_update(UserInterface $account) {
+  if (!$account->hasField('field_ood_spotlight_promoted')) {
+    return;
+  }
+
+  if (!(bool) $account->get('field_ood_spotlight_promoted')->value) {
+    return;
+  }
+
+  $other_uids = \Drupal::entityQuery('user')
+    ->condition('field_ood_spotlight_promoted', TRUE)
+    ->condition('uid', $account->id(), '!=')
+    ->accessCheck(FALSE)
+    ->execute();
+
+  foreach ($other_uids as $uid) {
+    $other_user = \Drupal\user\Entity\User::load($uid);
+    if ($other_user) {
+      $other_user->set('field_ood_spotlight_promoted', FALSE);
+      $other_user->save();
+    }
   }
 }
 
