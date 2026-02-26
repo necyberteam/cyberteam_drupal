@@ -194,7 +194,7 @@ function ood_contributions_deploy_10000_cw() {
     $uuid_service->generate(),
     'first',
     [
-      'id' => 'block_content:ab228a96-7480-4594-8d1b-9d37efd2ece4',
+      'id' => 'block_content:cf23e8ac-13fa-4fb5-9ecc-8f7b8f27886b',
       'label' => 'Github contribution graph',
       'label_display' => 0,
       'provider' => 'block_content',
@@ -275,7 +275,7 @@ function ood_contributions_deploy_10000_cw() {
     $uuid_service->generate(),
     'first',
     [
-      'id' => 'block_content:183f0757-0023-4255-ad93-b61e8126aa38',
+      'id' => 'block_content:61be2908-7646-484a-9877-f60266521aef',
       'label' => 'Discourse Contribution Graph',
       'label_display' => 0,
       'provider' => 'block_content',
