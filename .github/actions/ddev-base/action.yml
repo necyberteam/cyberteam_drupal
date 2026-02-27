@@ -82,7 +82,7 @@ runs:
         AMP_UID: ${{ inputs.amp_uid }}
       run: |
         # Drupal import database.
-        ddev exec robo did
+        ddev robo did
 
     - name: Clear watchdog logs
       shell: bash
