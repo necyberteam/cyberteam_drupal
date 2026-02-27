@@ -1092,3 +1092,32 @@ body.page-node-type-affinity-group {
 .layout__region {
   width: 100%;
 }
+
+.media-library-widget-modal {
+  .js-form-type-checkbox.form-item {
+    margin: 0;
+  }
+  .views-field-media-library-select-form,
+  .field--name-thumbnail {
+    background-color: #ebebeb;
+  }
+  img {
+    height: 11.25rem;
+    object-fit: contain;
+    object-position: center center;
+  }
+  .js-media-library-item {
+    position: relative;
+    min-width: 250px;
+  }
+  form:has(.checked) .js-media-library-item:not(.checked):after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+    z-index: 1;
+  }
+}
