@@ -357,7 +357,7 @@ display:
           default_row_class: false
           type: ul
           wrapper_class: ''
-          class: 'list-none d-flex flex flex-wrap list-unstyled'
+          class: 'list-none d-flex flex flex-wrap list-unstyled m-0 p-0'
       row:
         type: fields
         options:
@@ -439,7 +439,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -505,7 +505,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -569,7 +569,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -586,7 +586,9 @@ display:
       display_description: ''
       header: {  }
       footer: {  }
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: false
     cache_metadata:
       max-age: -1
       contexts:
@@ -958,7 +960,9 @@ display:
         filter_groups: false
       display_description: ''
       exposed_block: true
-      display_extenders: {  }
+      display_extenders:
+        jsonapi_views:
+          enabled: false
     cache_metadata:
       max-age: -1
       contexts:
@@ -1135,7 +1139,7 @@ display:
       footer: {  }
       display_extenders:
         jsonapi_views:
-          enabled: true
+          enabled: false
     cache_metadata:
       max-age: -1
       contexts:
@@ -1196,7 +1200,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -1262,7 +1266,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -1426,15 +1430,18 @@ display:
         groups:
           1: AND
       style:
-        type: default
+        type: html_list
         options:
           grouping: {  }
-          row_class: 'text-sm leading-5'
+          row_class: 'text-sm leading-5 m-0 p-0'
           default_row_class: false
+          type: ul
+          wrapper_class: ''
+          class: 'list-none d-flex flex flex-wrap list-unstyled m-0 p-0'
       row:
         type: fields
         options:
-          default_field_elements: true
+          default_field_elements: false
           inline: {  }
           separator: ''
           hide_empty: false
@@ -1813,7 +1820,7 @@ display:
       display_description: ''
       display_extenders:
         jsonapi_views:
-          enabled: true
+          enabled: false
       block_description: 'All tags block'
     cache_metadata:
       max-age: -1
@@ -2176,7 +2183,7 @@ display:
       css_class: mb-10
       display_extenders:
         jsonapi_views:
-          enabled: true
+          enabled: false
       path: tags
     cache_metadata:
       max-age: -1
