@@ -298,7 +298,6 @@ class GitHubService {
     if ($manifest_text === NULL || $this->readme === NULL || $this->license === NULL) {
       if ($manifest_text === NULL) {
         $this->messenger->addError($this->t('The manifest.yml needs to be at the root of the repository. Find our about <a href=":bp">best practices</a> in including your app in the Appverse.', [':bp' => 'https://ondemand.connectci.org/appverse-contributor-documentation']));
-        $this->manifestData = FALSE;
         $this->logger->error('The repository @repo does not contain a manifest.yml file.', ['@repo' => $this->owner . '/' . $this->name]);
       }
       if ($this->readme === NULL) {
@@ -309,6 +308,7 @@ class GitHubService {
         $this->messenger->addError($this->t('The repository does not contain a license file or recognized license information.'));
         $this->logger->error('The repository @repo does not contain recognized license information.', ['@repo' => $this->owner . '/' . $this->name]);
       }
+      $this->manifestData = FALSE;
       return;
     }
     $this->manifestData = Yaml::decode($manifest_text);
