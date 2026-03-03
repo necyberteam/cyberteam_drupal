@@ -41,7 +41,7 @@ function ood_contributions_deploy_10000_cw() {
     ],
     'title_appverse' => [
       'info' => 'TITLE :: Appverse contributors & moderators',
-      'body_value' => '<div class="cw-title position-relative my-4"><h2>The Appverse Contributors &amp; Moderators</h2><p><a class="btn btn-sm btn-primary py-2" href="/appverse"><span>Visit the Appverse</span></a></p></div>',
+      'body_value' => '<div class="cw-title position-relative my-4"><h2>The Appverse Contributors</h2><p><a class="btn btn-sm btn-primary py-2" href="/appverse"><span>Visit the Appverse</span></a></p></div>',
       'body_format' => 'full_html',
     ],
     'title_discourse' => [
