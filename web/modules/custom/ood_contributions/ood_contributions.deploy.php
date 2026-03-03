@@ -495,3 +495,65 @@ function ood_contributions_deploy_10000_cw() {
   return t('Created Contributor Wall page (node @nid).', ['@nid' => $node->id()]);
 }
 
+/**
+ * Create badge taxonomy terms in the open_ondemand_badges vocabulary.
+ */
+function ood_contributions_deploy_10001_badges() {
+  _ood_contributions_create_badge_terms();
+}
+
+/**
+ * Helper: ensure badge taxonomy terms exist in open_ondemand_badges.
+ */
+function _ood_contributions_create_badge_terms() {
+  $vocabulary = 'open_ondemand_badges';
+
+  $terms = [
+    [
+      'name' => 'Affinity Group Coordinator',
+      'description' => 'Coordinates an Affinity Group. Affinity Groups are communities of practice for topical discussion, curating links to communication channels, key documentation, news, events, email lists, and sharing infrastructure-related updates for members.<br><br>See: <a href="https://ondemand.connectci.org/affinity-groups">Affinity Groups</a>',
+    ],
+    [
+      'name' => 'GOOD25',
+      'description' => 'Attended the first annual Global Open OnDemand Conference at Harvard University in 2025.<br><br>Find our more about GOOD: <a href="https://www.good2026.openondemand.org/">https://www.good2026.openondemand.org/</a>',
+    ],
+    [
+      'name' => 'GOOD26',
+      'description' => 'Attended the second annual Global Open OnDemand Conference at the University of Utah in 2026.<br><br>Find our more about GOOD: <a href="https://www.good2026.openondemand.org/">https://www.good2026.openondemand.org/</a>',
+    ],
+    [
+      'name' => 'GOOD Committee',
+      'description' => 'Served on the GOOD Committee to help put on the Global Open OnDemand Conference.<br><br>Find our more about GOOD: <a href="https://www.good2026.openondemand.org/">https://www.good2026.openondemand.org/</a>',
+    ],
+    [
+      'name' => 'Committee member',
+      'description' => 'Served on one of the Open OnDemand committees, Technical Committee​, User Documentation​, Contributor Guide​ or Community Engagement​.<br><br>See: <a href="https://www.openondemand.org/get-involved#committees">Get Involved</a>',
+    ],
+    [
+      'name' => 'Tips & Tricks',
+      'description' => 'Presented or assisted with the monthly Tips &amp; Tricks Call, where the community shares best practices of all things Open OnDemand.<br><br>See: <a href="https://ondemand.connectci.org/events">Upcoming Events</a>',
+    ],
+  ];
+
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+
+  foreach ($terms as $term_data) {
+    $existing = $term_storage->loadByProperties([
+      'vid' => $vocabulary,
+      'name' => $term_data['name'],
+    ]);
+
+    if (empty($existing)) {
+      $term = $term_storage->create([
+        'vid' => $vocabulary,
+        'name' => $term_data['name'],
+        'description' => [
+          'value' => $term_data['description'],
+          'format' => 'full_html',
+        ],
+      ]);
+      $term->save();
+    }
+  }
+}
+
