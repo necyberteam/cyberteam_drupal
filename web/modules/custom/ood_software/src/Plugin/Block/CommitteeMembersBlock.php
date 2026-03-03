@@ -61,16 +61,16 @@ class CommitteeMembersBlock extends BlockBase implements ContainerFactoryPluginI
   }
 
   /**
-   * Get users who have the 'committee' badge in field_open_ondemand_badges.
+   * Get users who have the 'Committee member' badge in field_open_ondemand_badges.
    *
    * @return array
    *   Array of member data.
    */
   protected function getCommitteeMembers() {
-    // Find the 'committee' taxonomy term.
+    // Find the 'Committee member' taxonomy term.
     $terms = $this->entityTypeManager->getStorage('taxonomy_term')
       ->loadByProperties([
-        'name' => 'committee',
+        'name' => 'Committee member',
         'vid' => 'open_ondemand_badges',
       ]);
     $term = reset($terms);

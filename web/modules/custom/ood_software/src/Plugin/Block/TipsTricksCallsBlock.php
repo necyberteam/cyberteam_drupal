@@ -80,7 +80,7 @@ class TipsTricksCallsBlock extends BlockBase implements ContainerFactoryPluginIn
 
     // Find the 'Tips & tricks' taxonomy term ID.
     $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
-      'name' => 'Tips & tricks',
+      'name' => 'Tips & Tricks',
     ]);
 
     if (empty($terms)) {

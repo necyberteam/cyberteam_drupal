@@ -80,7 +80,7 @@ class GoodConferenceCommitteeBlock extends BlockBase implements ContainerFactory
 
     // Find the 'GOOD' taxonomy term ID.
     $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
-      'name' => 'GOOD',
+      'name' => 'GOOD Committee',
     ]);
 
     if (empty($terms)) {
