@@ -101,6 +101,10 @@ class CILogon extends OpenIDConnectClientBase {
     $redirect_uri = $this->getRedirectUrl()->toString(TRUE);
     $url_options = $this->getUrlOptions($scope, $redirect_uri);
 
+    // Force the IDP selector to appear on every login, even if CILogon
+    // has a cached session from a previous authentication.
+    $url_options['query']['prompt'] = 'select_account';
+
     // Add idphint parameter if configured
     if (!empty($this->configuration['idp_hint'])) {
       $url_options['query']['idphint'] = $this->configuration['idp_hint'];
