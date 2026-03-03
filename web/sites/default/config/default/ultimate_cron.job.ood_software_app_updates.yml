@@ -1,0 +1,30 @@
+uuid: 53777cec-e7ad-4ee2-9295-0ff7c11a3efa
+langcode: en
+status: true
+dependencies:
+  module:
+    - oit
+title: 'OOD Software App Updates'
+id: ood_software_app_updates
+weight: 13
+module: ood_software
+callback: '\Drupal\ood_software\Plugin\CronManager::appUpdates'
+scheduler:
+  id: crontab
+  configuration:
+    rules:
+      - '0 */3 * * *'
+    catch_up: 14400
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+    launcher:
+      thread: 0
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000
