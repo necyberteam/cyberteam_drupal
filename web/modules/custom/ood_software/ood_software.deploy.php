@@ -748,6 +748,61 @@ function ood_software_deploy_10007_color_logos() {
 }
 
 /**
+ * Normalize app type term names to match APP_TYPE_MANIFEST_MAP.
+ */
+function ood_software_deploy_10008_normalize_app_types() {
+  $renames = [
+    'batch_connect' => 'batch-connect-basic',
+    'dashboard'     => 'dashboards',
+    'passenger_app' => 'companion_app',
+    'widget'        => 'widgets',
+  ];
+  $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $count = 0;
+  foreach ($renames as $old_name => $new_name) {
+    $existing = $storage->loadByProperties(['name' => $new_name, 'vid' => 'appverse_app_type']);
+    if (!empty($existing)) {
+      continue;
+    }
+    $old = $storage->loadByProperties(['name' => $old_name, 'vid' => 'appverse_app_type']);
+    if (!empty($old)) {
+      $term = reset($old);
+      $term->setName($new_name);
+      $term->save();
+      $count++;
+    }
+  }
+  // Ensure batch-connect-VNC exists.
+  $vnc = $storage->loadByProperties(['name' => 'batch-connect-VNC', 'vid' => 'appverse_app_type']);
+  if (empty($vnc)) {
+    Term::create(['vid' => 'appverse_app_type', 'name' => 'batch-connect-VNC'])->save();
+    $count++;
+  }
+  return t('Updated @count app type terms.', ['@count' => $count]);
+}
+
+/**
+ * Queue all apps for re-sync to apply new app type logic.
+ */
+function ood_software_deploy_10009_resync_app_types() {
+  $queue = \Drupal::queue('appverse_app_updater');
+  $storage = \Drupal::entityTypeManager()->getStorage('node');
+  $nids = \Drupal::entityQuery('node')
+    ->condition('type', 'appverse_app')
+    ->accessCheck(FALSE)
+    ->execute();
+  foreach ($nids as $nid) {
+    $node = $storage->load($nid);
+    if ($node) {
+      $node->set('field_appverse_lastupdated', NULL);
+      $node->save();
+    }
+    $queue->createItem(['nid' => $nid]);
+  }
+  return t('Queued @count apps for app type re-sync.', ['@count' => count($nids)]);
+}
+
+/**
  * Create menu item.
  */
 function ood_software_links($menu_link) {
