@@ -2,34 +2,122 @@
 
 namespace Drupal\campuschampions\Plugin\Action;
 
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\Mail\MailManagerInterface;
+use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\views_bulk_operations\Action\ViewsBulkOperationsActionBase;
 use Drupal\webform\WebformSubmissionForm;
 use Drupal\webform\Entity\WebformSubmission;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
+ * Approve Campus Champion action.
+ *
  * @Action(
  *   id = "campuschampions_approve_cc_action",
  *   label = @Translation("Approve Campus Champion"),
  *   type = ""
  * )
  */
-class ApproveCCAction extends ViewsBulkOperationsActionBase {
+class ApproveCCAction extends ViewsBulkOperationsActionBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * The logger factory.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
+   */
+  protected $loggerFactory;
+
+  /**
+   * The mail manager.
+   *
+   * @var \Drupal\Core\Mail\MailManagerInterface
+   */
+  protected $mailManager;
+
+  /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
+   * Constructs an ApproveCCAction object.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
+   *   The logger factory.
+   * @param \Drupal\Core\Mail\MailManagerInterface $mail_manager
+   *   The mail manager.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    LoggerChannelFactoryInterface $logger_factory,
+    MailManagerInterface $mail_manager,
+    MessengerInterface $messenger
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->loggerFactory = $logger_factory;
+    $this->mailManager = $mail_manager;
+    $this->messenger = $messenger;
+  }
 
   /**
    * {@inheritdoc}
    */
-  public function execute(WebformSubmission $entity = NULL) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new self(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('logger.factory'),
+      $container->get('plugin.manager.mail'),
+      $container->get('messenger')
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function execute(?WebformSubmission $entity = NULL) {
     // Update the status of the submission to 'approved'.
     $sid = $entity->id();
     $webform_submission = WebformSubmission::load($sid);
-    $champion_user_type = $webform_submission->getData()['champion_user_type'];
+    if (!$webform_submission) {
+      $this->loggerFactory->get('campuschampions')->error('Could not load webform submission @sid for approval.', ['@sid' => $sid]);
+      return $this->t('Error: Could not load submission.');
+    }
+
+    $submission_data = $webform_submission->getData();
+    $champion_user_type = $submission_data['champion_user_type'] ?? NULL;
     $webform_submission->setElementData('status', 'approved');
     WebformSubmissionForm::submitWebformSubmission($webform_submission);
 
     // Update user to campus champion.
     $data = $entity->getData();
-    $user = user_load_by_mail($data['user_email']);
+    $user_email = $data['user_email'] ?? NULL;
+    if (!$user_email) {
+      $this->loggerFactory->get('campuschampions')->error('No email found in submission @sid.', ['@sid' => $sid]);
+      return $this->t('Error: No email in submission.');
+    }
+
+    $user = user_load_by_mail($user_email);
+    if (!$user) {
+      $this->loggerFactory->get('campuschampions')->error('Could not find user with email @email for approval.', ['@email' => $user_email]);
+      return $this->t('Error: User not found for email @email.', ['@email' => $user_email]);
+    }
 
     // Set user role.
     if ($champion_user_type == 'user_student') {
@@ -76,7 +164,7 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     // @see Drupal\Core\Field\FieldUpdateActionBase::access().
     return $object->access('update', $account, $return_as_object);
   }
@@ -84,12 +172,10 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase {
   /**
    * Email notification of new account to user.
    *
-   * @param User $user
-   *
-   * @return null
+   * @param \Drupal\user\UserInterface $user
+   *   The user entity.
    */
   protected function emailAccountNotification($user) {
-    $mailManager = \Drupal::service('plugin.manager.mail');
     $module = 'campuschampions';
     $key = 'approve_campuschampion';
     $to = $user->getEmail();
@@ -133,17 +219,17 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase {
     $langcode = $user->getPreferredLangcode();
     $send = TRUE;
 
-    $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+    $result = $this->mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
     if ($result['result'] != TRUE) {
-      $message = t('There was a problem sending your email notification to @email.', ['@email' => $to]);
-      drupal_set_message($message, 'error');
-      \Drupal::logger('mail-log')->error($message);
+      $message = $this->t('There was a problem sending your email notification to @email.', ['@email' => $to]);
+      $this->messenger->addError($message);
+      $this->loggerFactory->get('mail-log')->error($message);
       return;
     }
 
-    $message = t('An email notification has been sent to @email ', ['@email' => $to]);
-    \Drupal::messenger()->addMessage($message);
-    \Drupal::logger('mail-log')->notice($message);
+    $message = $this->t('An email notification has been sent to @email ', ['@email' => $to]);
+    $this->messenger->addMessage($message);
+    $this->loggerFactory->get('mail-log')->notice($message);
   }
 
 }

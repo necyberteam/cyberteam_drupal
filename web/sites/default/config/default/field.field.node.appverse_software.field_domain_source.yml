@@ -1,0 +1,25 @@
+uuid: e0b4c1f4-3b69-4e5b-ad16-aae7a40dd792
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_domain_source
+    - node.type.appverse_software
+id: node.appverse_software.field_domain_source
+field_name: field_domain_source
+entity_type: node
+bundle: appverse_software
+label: 'Domain Source'
+description: 'Select the canonical domain for this content.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:domain'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: weight
+      direction: ASC
+field_type: entity_reference

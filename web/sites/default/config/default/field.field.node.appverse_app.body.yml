@@ -1,0 +1,26 @@
+uuid: f44036da-bb7b-4bfe-bcda-fb4f910d7433
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - filter.format.markdown
+    - node.type.appverse_app
+  module:
+    - text
+id: node.appverse_app.body
+field_name: body
+entity_type: node
+bundle: appverse_app
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+  required_summary: false
+  allowed_formats:
+    - markdown
+field_type: text_with_summary

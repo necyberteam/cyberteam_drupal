@@ -1,0 +1,19 @@
+uuid: 0baab894-b2c5-4237-8edf-0b5fa84389fc
+langcode: en
+status: true
+dependencies: {  }
+id: appverse_review_requested
+workflow: appverse_editorial
+transitions:
+  send_for_review: send_for_review
+roles:
+  appverse_pm: appverse_pm
+author: false
+site_mail: false
+user_fields: {  }
+emails: ''
+subject: 'New Appverse App submitted'
+body:
+  value: '<p>A new appverse app has been submitted: <a href="https://[current-domain:hostname]/node/[node:nid]">[node:title]</a></p>'
+  format: basic_html
+label: 'Appverse Review Requested'

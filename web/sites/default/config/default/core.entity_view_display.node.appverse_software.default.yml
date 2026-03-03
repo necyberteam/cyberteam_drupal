@@ -1,0 +1,99 @@
+uuid: 21d1779a-b48b-4063-8316-561fd4782053
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.appverse_software.body
+    - field.field.node.appverse_software.field_appverse_logo
+    - field.field.node.appverse_software.field_appverse_software_doc
+    - field.field.node.appverse_software.field_appverse_software_website
+    - field.field.node.appverse_software.field_appverse_topics
+    - field.field.node.appverse_software.field_domain_access
+    - field.field.node.appverse_software.field_domain_all_affiliates
+    - field.field.node.appverse_software.field_domain_source
+    - field.field.node.appverse_software.field_license
+    - field.field.node.appverse_software.field_tags
+    - node.type.appverse_software
+  module:
+    - link
+    - text
+    - user
+id: node.appverse_software.default
+targetEntityType: node
+bundle: appverse_software
+mode: default
+content:
+  body:
+    type: text_default
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_appverse_logo:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_appverse_software_doc:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_appverse_software_website:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_appverse_topics:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_license:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_tags:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  search_api_excerpt: true

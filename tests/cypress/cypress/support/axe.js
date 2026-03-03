@@ -1,13 +1,31 @@
 // Env-driven gating: by default DO NOT fail the test.
-// Later, set CYPRESS_A11Y_FAIL_ON to a comma list (e.g., "serious,critical").
+// Set CYPRESS_A11Y_FAIL_ON to a comma list (e.g., "serious,critical") to fail on those impacts.
+// Only WCAG 2.1 AA violations (errors) can trigger failures; warnings never fail.
 const failOnImpacts = (Cypress.env('A11Y_FAIL_ON') || '')
   .split(',')
   .map(s => s.trim().toLowerCase())
   .filter(Boolean);
 
+// WCAG 2.1 AA tags - violations with these tags are "errors" (compliance requirement)
+const wcag21AATags = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
+
+// Advisory tags - violations with these tags are "warnings" (future improvements)
+const advisoryTags = ['wcag22aa', 'best-practice'];
+
+// Helper: categorize a violation as 'error' or 'warning' based on its tags
+function categorizeViolation(violation) {
+  const tags = violation.tags || [];
+  // If it has any WCAG 2.1 AA tag, it's an error
+  if (tags.some(tag => wcag21AATags.includes(tag))) {
+    return 'error';
+  }
+  // If it only has advisory tags (or other tags), it's a warning
+  return 'warning';
+}
+
 // Helper: run axe, write report, and decide whether to fail.
 Cypress.Commands.add('a11yCheckWithReport', (context = null, options = {}) => {
-  const includedImpacts = ['minor', 'moderate', 'serious', 'critical']; // all levels initially
+  const includedImpacts = ['minor', 'moderate', 'serious', 'critical']; // all levels
   const axeOptions = { includedImpacts, ...options };
 
   const specPath = Cypress.mocha.getRunner().suite?.file || '';
@@ -31,24 +49,32 @@ Cypress.Commands.add('a11yCheckWithReport', (context = null, options = {}) => {
     rawResults = results;
     const base = `${specName || 'spec'}__${safeUrl(win) || 'page'}`;
 
+    // Categorize each violation as error or warning
+    const categorizedViolations = (results.violations || []).map(v => ({
+      ...v,
+      category: categorizeViolation(v)
+    }));
+
     return cy.task('a11y:writeReport', {
       spec: specName,
       url: win.location.href,
       fileBase: base,
-      results,
+      results: { ...results, violations: categorizedViolations },
     });
   }).then(({ counts }) => {
     // Log a nice summary
-    cy.task('log', `[a11y] Violations — critical:${counts.critical} serious:${counts.serious} moderate:${counts.moderate} minor:${counts.minor}`);
+    cy.task('log', `[a11y] Errors (WCAG 2.1 AA) — critical:${counts.errors.critical} serious:${counts.errors.serious} moderate:${counts.errors.moderate} minor:${counts.errors.minor}`);
+    cy.task('log', `[a11y] Warnings (WCAG 2.2/Best Practices) — critical:${counts.warnings.critical} serious:${counts.warnings.serious} moderate:${counts.warnings.moderate} minor:${counts.warnings.minor}`);
 
-    // Decide whether to fail the test (later phase)
+    // Decide whether to fail the test - only errors (WCAG 2.1 AA) can trigger failures
     if (failOnImpacts.length && rawResults) {
-      const shouldFail = (rawResults.violations || []).some(v =>
+      const errors = (rawResults.violations || []).filter(v => categorizeViolation(v) === 'error');
+      const shouldFail = errors.some(v =>
         v.impact && failOnImpacts.includes(v.impact.toLowerCase())
       );
       if (shouldFail) {
         throw new Error(
-          `Accessibility violations at disallowed impacts (${failOnImpacts.join(', ')}). See report.`
+          `WCAG 2.1 AA violations at disallowed impacts (${failOnImpacts.join(', ')}). See report.`
         );
       }
     }

@@ -1,5 +1,15 @@
 services:
   campuschampions.commands:
     class: \Drupal\campuschampions\Commands\CampusChampionsCommands
+    arguments:
+      - '@database'
+      - '@entity_type.manager'
+      - '@renderer'
+      - '@file_system'
+      - '@file.repository'
+      - '@state'
+      - '@request_stack'
+      - '@cc.getStats'
+      - '@datetime.time'
     tags:
       - { name: drush.command }

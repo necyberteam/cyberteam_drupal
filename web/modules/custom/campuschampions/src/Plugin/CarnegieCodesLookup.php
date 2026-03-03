@@ -2,6 +2,8 @@
 
 namespace Drupal\campuschampions\Plugin;
 
+use Drupal\Core\Database\Connection;
+
 /**
  * Lookup in the Carnegie Codes DB.
  *
@@ -14,23 +16,23 @@ namespace Drupal\campuschampions\Plugin;
 class CarnegieCodesLookup {
 
   /**
-   * A list of Estab­lished Program to Stim­u­late Com­pet­i­tive Research (EPSCoR) states
+   * A list of Estab­lished Program to Stim­u­late Com­pet­i­tive Research (EPSCoR) states.
    *
    * @var array<int,string>
    */
-  const EPSCOR_STATES = array(
+  const EPSCOR_STATES = [
     'AK', 'AL', 'AR', 'DE', 'GU', 'HI', 'ID',
     'KS', 'KY', 'LA', 'ME', 'MS', 'MT', 'ND',
     'NE', 'NH', 'NM', 'NV', 'OK', 'PR', 'RI',
     'SC', 'SD', 'VI', 'VT', 'WV', 'WY',
-  );
+  ];
 
   /**
-   * A list of state per region
+   * A list of state per region.
    *
    * @var array<string,int>
    */
-  const REGIONS = array(
+  const REGIONS = [
     'AK' => 1, 'AL' => 5, 'AR' => 4, 'AZ' => 2,
     'CA' => 2, 'CO' => 8, 'CT' => 7, 'DC' => 6,
     'DE' => 6, 'FL' => 5, 'GA' => 5, 'HI' => 2,
@@ -45,26 +47,41 @@ class CarnegieCodesLookup {
     'TX' => 4, 'UT' => 8, 'VA' => 6, 'VI' => 5,
     'VT' => 7, 'WA' => 1, 'WI' => 3, 'WV' => 6,
     'WY' => 8, 'GU' => 2,
-  );
+  ];
 
   /**
-   * Constructor.
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
    */
-  public function __construct() {
-    // No longer store the query builder
+  protected $database;
+
+  /**
+   * Constructs a CarnegieCodesLookup object.
+   *
+   * @param \Drupal\Core\Database\Connection $database
+   *   The database connection.
+   */
+  public function __construct(Connection $database) {
+    $this->database = $database;
   }
 
   /**
    * Lookup by UNITID.
    *
-   * @return array
-   *   Fields specified.
+   * @param string|int $unitId
+   *   The unit ID to look up.
+   * @param array $fields
+   *   The fields to retrieve.
+   *
+   * @return array|false
+   *   Fields specified, or FALSE if not found.
    */
   public function lookupByUnitId($unitId, $fields) {
-    // Create a fresh query for each lookup
-    $query = \Drupal::database()->select('carnegie_codes', 'cc');
+    // Create a fresh query for each lookup.
+    $query = $this->database->select('carnegie_codes', 'cc');
     $query->fields('cc', $fields);
-    $query->condition('UNITID', $unitId);
+    $query->condition('unitid', $unitId);
     $result = $query->execute()->fetchAssoc();
     return $result;
   }
@@ -73,21 +90,29 @@ class CarnegieCodesLookup {
    * Is the given state an EPSCoR state?
    *
    * @param string $stabbr
+   *   The state abbreviation.
+   *
    * @return bool
+   *   TRUE if the state is an EPSCoR state.
    */
   public static function isEpscor($stabbr) {
     return in_array($stabbr, self::EPSCOR_STATES);
   }
 
   /**
-   * Calculate the type ID
+   * Calculate the type ID.
    *
    * type_id = MSI + 10 * EPS_lookup + 100 * non-academy
    *
    * @param int $msi
+   *   The MSI value.
    * @param int $eps_lookup
+   *   The EPSCoR lookup value.
    * @param string|int $cc
+   *   The Carnegie code.
+   *
    * @return int
+   *   The calculated type ID.
    */
   public static function typeId($msi, $eps_lookup, $cc) {
     $nonacademy = 0;
@@ -99,30 +124,49 @@ class CarnegieCodesLookup {
   }
 
   /**
-   * Get the type in human readable text
+   * Get the type in human readable text.
    *
    * @param int $type_id
+   *   The type ID.
+   *
    * @return string
+   *   The human-readable type.
    */
   public static function type($type_id) {
     switch ($type_id) {
       case 110:
-      case 100: $type = 'Other Not-For-Profit Organization'; break;
-      case 11:  $type = 'MSI in EPSCoR jurisdiction';        break;
-      case 10:  $type = 'EPSCoR';                            break;
-      case 1:   $type = 'Minority Serving Institution';      break;
+      case 100:
+        $type = 'Other Not-For-Profit Organization';
+        break;
+
+      case 11:
+        $type = 'MSI in EPSCoR jurisdiction';
+        break;
+
+      case 10:
+        $type = 'EPSCoR';
+        break;
+
+      case 1:
+        $type = 'Minority Serving Institution';
+        break;
+
       case 0:
-      default:  $type = 'Academic Institution';
+      default:
+        $type = 'Academic Institution';
     }
 
     return $type;
   }
 
   /**
-   * Get the region ID by state
+   * Get the region ID by state.
    *
    * @param string $stabbr
+   *   The state abbreviation.
+   *
    * @return int
+   *   The region ID.
    */
   public static function region($stabbr) {
     if (isset(self::REGIONS[$stabbr])) {
@@ -130,4 +174,5 @@ class CarnegieCodesLookup {
     }
     return 0;
   }
+
 }

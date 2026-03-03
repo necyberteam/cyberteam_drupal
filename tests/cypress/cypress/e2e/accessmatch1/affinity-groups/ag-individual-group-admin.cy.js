@@ -3,6 +3,7 @@
  *
  * Edits the AG to add a ci-link & cider resource, and verifies those appear.
  * Verifies the see & contact members buttons appear.
+ * Tests adding announcements via entity reference field.
  */
 describe("Admin user tests the Individual Affinity Groups", () => {
   it("Should test the Individual Affinity Groups page", () => {
@@ -102,5 +103,64 @@ function create_dummy_ci_link() {
   cy.get('.form-item-domain').find('input').type('ACCESS{enter}');
   cy.get('#edit-submit').click();
 }
+
+/**
+ * Test adding announcements to affinity group via entity reference field.
+ */
+describe("Admin can add announcements to Affinity Group via entity reference", () => {
+  const testAnnouncementTitle = 'AG Entity Reference Test Announcement';
+
+  it("Should create an announcement and add it to the AG via entity reference", () => {
+    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+
+    // First create an announcement
+    cy.visit("/node/add/access_news");
+    cy.get("#edit-title-0-value").type(testAnnouncementTitle);
+    // Select a tag (required field)
+    cy.get('#tag-ai').click();
+    cy.get('#edit-body-0-summary').type('Test summary for entity reference test');
+    cy.get('.ck-editor__editable').type('This announcement tests the entity reference field on affinity groups.');
+    cy.get("#edit-field-affiliation").select("Community");
+    // Don't check "on the Announcements page" - we only want this to show via entity reference
+    cy.get('input[name="field_choose_where_to_share_this[on_the_announcements_page]"]').uncheck();
+    cy.get('[name="moderation_state[0][state]"]').select("Published");
+    cy.get("#edit-submit").click();
+    cy.contains(`Announcement ${testAnnouncementTitle} has been created.`);
+
+    // Now edit the AG to add this announcement via entity reference
+    cy.visit("/node/327/edit");
+
+    // Find the field_affinity_announcements field and add the announcement
+    cy.get('[data-drupal-selector="edit-field-affinity-announcements-0-target-id"]').clear();
+    cy.get('[data-drupal-selector="edit-field-affinity-announcements-0-target-id"]')
+      .type(testAnnouncementTitle)
+      .wait(1000)
+      .type('{downarrow}{enter}');
+
+    cy.get('#edit-submit').click();
+    cy.contains('has been updated');
+
+    // Verify the announcement appears in the Announcements block on the AG page
+    cy.visit("/affinity-groups/access-support");
+    cy.get('.block-access-affinitygroup.block-affinity-bottom-left')
+      .contains('Announcements');
+    cy.get('.block-access-affinitygroup.block-affinity-bottom-left')
+      .contains(testAnnouncementTitle);
+  });
+
+  it("Should clean up the test announcement from AG", () => {
+    cy.loginAs('administrator@amptesting.com', 'b8QW]X9h7#5n');
+
+    // Remove the announcement from the AG
+    cy.visit("/node/327/edit");
+    cy.get('[data-drupal-selector="edit-field-affinity-announcements-0-target-id"]').clear();
+    cy.get('#edit-submit').click();
+
+    // Verify announcement no longer appears on AG page
+    cy.visit("/affinity-groups/access-support");
+    cy.get('.block-access-affinitygroup.block-affinity-bottom-left')
+      .should('not.contain', testAnnouncementTitle);
+  });
+});
 
 

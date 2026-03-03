@@ -32,7 +32,8 @@ describe("Cross-Domain Announcement Exclusion Test", () => {
     cy.get('body').should('contain', ccTitle);
     cy.log(`✓ Campus Champions announcement "${ccTitle}" visible on Campus Champions domain`);
     
-    // Part 2: Create announcement on ACCESS domain and verify isolation
+    // Part 2: Create announcement on ACCESS domain, verify isolation, and cleanup
+    // All ACCESS operations are done in a single cy.origin() block to avoid spec bridge timeout issues
     cy.origin('https://accessmatch.ddev.site', { args: { accessTitle, ccTitle } }, ({ accessTitle, ccTitle }) => {
       // Handle uncaught exceptions within this origin
       Cypress.on('uncaught:exception', (err, runnable) => {
@@ -43,18 +44,18 @@ describe("Cross-Domain Announcement Exclusion Test", () => {
         }
         return true;
       });
-      
+
       // Visit the ACCESS login page directly
       cy.visit('/f64816be-34ca-4d5b-975a-687cb374ddf7');
       cy.get("#edit-name").type('administrator@amptesting.com');
       cy.get("#edit-pass").type('b8QW]X9h7#5n', { log: false });
       cy.get(".form-submit").contains("Log in").click();
-      
+
       // Navigate to create announcement - use direct navigation since menu might not be available after login
       cy.get('a').contains('Content').first().click();
       cy.get('a[href*="node/add"]').eq(2).click();
       cy.get('a[href="/node/add/access_news"]').click();
-      
+
       // Create ACCESS announcement
       cy.get('#edit-title-0-value').type(accessTitle);
       cy.get('#edit-field-affiliation').select('ACCESS Collaboration');
@@ -64,13 +65,19 @@ describe("Cross-Domain Announcement Exclusion Test", () => {
       cy.get('[name="moderation_state[0][state]"]').select('Published');
       cy.get('#edit-submit').click();
       cy.contains(`Announcement ${accessTitle} has been created.`);
-      
+
       // Verify ACCESS announcement appears on ACCESS and CC announcement does NOT
       cy.get('a').contains('Announcements').click();
       cy.get('.layout__region--first').should('contain', accessTitle);
       cy.get('.layout__region--first').should('not.contain', ccTitle);
       cy.log(`✓ Verified ACCESS announcement visible and CC announcement NOT visible on ACCESS`);
-      
+
+      // Cleanup ACCESS announcement while still in this origin
+      cy.contains(accessTitle).click();
+      cy.get('.region-content a').contains('Edit').click();
+      cy.get('a').contains('Delete').click();
+      cy.get('.button--primary').click();
+      cy.log(`✓ ACCESS announcement cleaned up`);
     });
     
     // Part 3: Back on Campus Champions - verify ACCESS announcement is NOT visible
@@ -78,32 +85,28 @@ describe("Cross-Domain Announcement Exclusion Test", () => {
     cy.get('.layout__region--first').should('contain', ccTitle);
     cy.get('.layout__region--first').should('not.contain', accessTitle);
     cy.log(`✓ Verified ACCESS announcement is NOT visible on Campus Champions`);
-    
-    // Cleanup Campus Champions announcement (current domain)
-    cy.contains(ccTitle).click();
-    cy.contains('a', 'Edit').first().click({ force: true });
-    cy.contains('a', 'Delete').first().click({ force: true });
-    cy.get('input[value="Delete"].button--primary').click();
-    
-    // Part 4: Cleanup ACCESS announcement
-    cy.origin('https://accessmatch.ddev.site', { args: { accessTitle } }, ({ accessTitle }) => {
-      // Handle uncaught exceptions within this origin
-      Cypress.on('uncaught:exception', (err, runnable) => {
-        if (err.message.includes('attachShadow') ||
-            err.message.includes('Cannot read properties of null') ||
-            err.message.includes('jQuery is not defined')) {
-          return false;
-        }
-        return true;
-      });
-      
-      // Visit announcements page to establish context
-      cy.visit('/announcements');
-      cy.contains(accessTitle).click();
-      cy.get('.region-content a').contains('Edit').click();
-      cy.get('a').contains('Delete').click();
-      cy.get('.button--primary').click();
+
+    // Re-login on Campus Champions if needed (session may be lost after cy.origin)
+    cy.visit('/user/login');
+    cy.url().then((url) => {
+      if (url.includes('/user/login')) {
+        // Not logged in, need to login
+        cy.get("#edit-name").type('administrator@amptesting.com');
+        cy.get("#edit-pass").type('b8QW]X9h7#5n', { log: false });
+        cy.get(".form-submit").contains("Log in").click();
+      }
+      // If redirected, user is already logged in
     });
+
+    // Cleanup Campus Champions announcement (current domain)
+    // Navigate to content admin and find the announcement there for more reliable deletion
+    cy.visit('/admin/content');
+    cy.get('input[name="title"]').type(ccTitle);
+    cy.get('#edit-submit-content').click();
+    cy.contains('a', ccTitle).parent().parent().find('input[type="checkbox"]').check();
+    cy.get('#edit-action').select('node_delete_action');
+    cy.get('#edit-submit').click();
+    cy.get('#edit-submit').click(); // Confirm deletion
     
     cy.log('✓ Cross-domain isolation test completed successfully');
   });

@@ -1,0 +1,24 @@
+uuid: 85e9489a-e6be-4ca3-98ab-f4fe98b8384e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_appverse_readme
+    - filter.format.markdown
+    - node.type.appverse_app
+  module:
+    - text
+id: node.appverse_app.field_appverse_readme
+field_name: field_appverse_readme
+entity_type: node
+bundle: appverse_app
+label: Readme
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - markdown
+field_type: text_long

@@ -2,12 +2,19 @@
 
 namespace Drupal\campuschampions\Plugin\WebformHandler;
 
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\Mail\MailManagerInterface;
+use Drupal\Core\Password\PasswordGeneratorInterface;
+use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
 use Drupal\user\Entity\User;
 use Drupal\webform\Plugin\WebformHandlerBase;
 use Drupal\webform\WebformSubmissionInterface;
-use Drupal\webform\WebformSubmissionForm;
-use Drupal\Core\Link;
-use Drupal\Core\Url;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Create a new user entity from a webform submission.
@@ -21,16 +28,80 @@ use Drupal\Core\Url;
  *   results = \Drupal\webform\Plugin\WebformHandlerInterface::RESULTS_PROCESSED,
  * )
  */
-class CreateUserHandler extends WebformHandlerBase
-{
+class CreateUserHandler extends WebformHandlerBase {
+
+  /**
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $database;
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * The language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
+   * The password generator.
+   *
+   * @var \Drupal\Core\Password\PasswordGeneratorInterface
+   */
+  protected $passwordGenerator;
+
+  /**
+   * The logger factory.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
+   */
+  protected $loggerFactory;
+
+  /**
+   * The renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
+   * The mail manager.
+   *
+   * @var \Drupal\Core\Mail\MailManagerInterface
+   */
+  protected $mailManager;
+
   /**
    * {@inheritdoc}
    */
-  public function preSave( WebformSubmissionInterface $webformSubmission, $update = true ) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition);
+    $instance->database = $container->get('database');
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->languageManager = $container->get('language_manager');
+    $instance->passwordGenerator = $container->get('password_generator');
+    $instance->loggerFactory = $container->get('logger.factory');
+    $instance->renderer = $container->get('renderer');
+    $instance->mailManager = $container->get('plugin.manager.mail');
+    return $instance;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preSave(WebformSubmissionInterface $webformSubmission, $update = TRUE) {
     $data = $webformSubmission->getData();
 
-    // Create a new user if they don't exist already
-    $ids = \Drupal::entityQuery('user')
+    // Create a new user if they don't exist already.
+    $ids = $this->entityTypeManager->getStorage('user')->getQuery()
       ->condition('mail', $data['user_email'])
       ->accessCheck(FALSE)
       ->execute();
@@ -44,64 +115,138 @@ class CreateUserHandler extends WebformHandlerBase
   /**
    * Create user.
    *
-   * @param WebformSubmissionInterface $webformSubmission
+   * @param array $data
+   *   The webform submission data.
    *
-   * @return User
+   * @return \Drupal\user\Entity\User
+   *   The created user entity.
    */
-  protected function createUser($data): User
-  {
+  protected function createUser($data): User {
     $email = $data['user_email'];
     $username = $data['username'];
-    $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $lang = $this->languageManager->getCurrentLanguage()->getId();
     $first_name = $data['user_first_name'];
     $last_name = $data['user_last_name'];
     $default_role = 'research_computing_facilitator';
     $carnegie_code = $data['carnegie_classification'];
 
-    $database = \Drupal::database();
-    $query = $database->select('carnegie_codes', 'cc');
-    $query->condition('cc.UNITID', $carnegie_code, '=');
-    $query->fields('cc', ['NAME']);
+    $query = $this->database->select('carnegie_codes', 'cc');
+    $query->condition('cc.unitid', $carnegie_code, '=');
+    $query->fields('cc', ['instnm']);
     $result = $query->execute();
     $record = $result->fetch();
-    $institution = $record->NAME;
+    $institution = $record ? $record->instnm : '';
 
-    /** @var User $user */
+    // Try to find a matching ACCESS Organization by institution name.
+    $access_org_id = $this->findAccessOrganization($institution);
+
+    /** @var \Drupal\user\Entity\User $user */
     $user = User::create();
 
-    // madatory fields
-    $generate_password = \Drupal::service('password_generator')->generate();
+    // Mandatory fields.
+    $generate_password = $this->passwordGenerator->generate();
     $user->setPassword($generate_password);
     $user->enforceIsNew();
     $user->setEmail($email);
     $user->setUsername($username);
     $user->addRole($default_role);
 
-    // optional fields
+    // Optional fields.
     $user->set('field_user_first_name', $first_name);
     $user->set('field_user_last_name', $last_name);
     $user->set('field_carnegie_code', $carnegie_code);
     $user->set('field_institution', $institution);
+    if ($access_org_id) {
+      $user->set('field_access_organization', $access_org_id);
+    }
     $user->set('init', $email);
     $user->set('langcode', $lang);
     $user->set('preferred_langcode', $lang);
     $user->set('preferred_admin_langcode', $lang);
 
     $user->activate();
-    $user->save();
+
+    try {
+      $user->save();
+    }
+    catch (\Exception $e) {
+      $this->loggerFactory->get('campuschampions')->error('Failed to create user @username: @message', [
+        '@username' => $username,
+        '@message' => $e->getMessage(),
+      ]);
+      throw $e;
+    }
 
     return $user;
   }
 
   /**
+   * Find a matching ACCESS Organization by institution name.
+   *
+   * Attempts to find an ACCESS Organization node that matches the institution
+   * name from the Carnegie codes lookup. Checks both the title and the
+   * field_organization_name field. Uses exact match first, then falls back
+   * to a case-insensitive match.
+   *
+   * @param string $institution
+   *   The institution name from Carnegie codes.
+   *
+   * @return int|null
+   *   The ACCESS Organization node ID, or NULL if no match found.
+   */
+  protected function findAccessOrganization($institution) {
+    if (empty($institution)) {
+      return NULL;
+    }
+
+    // Try exact match on title first.
+    $query = $this->entityTypeManager->getStorage('node')->getQuery()
+      ->condition('type', 'access_organization')
+      ->condition('title', $institution)
+      ->condition('status', 1)
+      ->accessCheck(FALSE)
+      ->range(0, 1);
+    $nids = $query->execute();
+
+    if (!empty($nids)) {
+      return reset($nids);
+    }
+
+    // Try exact match on field_organization_name.
+    $query = $this->entityTypeManager->getStorage('node')->getQuery()
+      ->condition('type', 'access_organization')
+      ->condition('field_organization_name', $institution)
+      ->condition('status', 1)
+      ->accessCheck(FALSE)
+      ->range(0, 1);
+    $nids = $query->execute();
+
+    if (!empty($nids)) {
+      return reset($nids);
+    }
+
+    // Try case-insensitive match on title using LOWER().
+    $result = $this->database->select('node_field_data', 'n')
+      ->fields('n', ['nid'])
+      ->condition('n.type', 'access_organization')
+      ->condition('n.status', 1)
+      ->where('LOWER(n.title) = LOWER(:title)', [':title' => $institution])
+      ->range(0, 1)
+      ->execute()
+      ->fetchField();
+
+    return $result ?: NULL;
+  }
+
+  /**
    * Email notification of new account to user.
    *
-   * @param User $user
-   *
-   * @return null
+   * @param \Drupal\user\Entity\User $user
+   *   The user entity.
+   * @param string $mail
+   *   The email address.
    */
   protected function emailAccountNotification($user, $mail) {
-    $render_service = \Drupal::service('renderer');
     $name = $user->getDisplayName();
     $url = user_pass_reset_url($user);
     $params = [];
@@ -172,22 +317,29 @@ class CreateUserHandler extends WebformHandlerBase
         'teamsignoff' => $this->t('The Campus Champions Leadership team'),
       ],
     ];
-    $render_service = \Drupal::service('renderer');
-    $params['body'] = $render_service->render($body);
+    $params['body'] = $this->renderer->render($body);
     $params['title'] = 'Welcome to the Campus Champions Portal!';
     $this->cc_send('join-cc', $params);
   }
 
   /**
    * Send email.
+   *
+   * @param string $key
+   *   The mail key.
+   * @param array $params
+   *   The mail parameters.
+   *
+   * @return array
+   *   The result from mail manager.
    */
   private function cc_send($key, $params) {
     $to = $params['to'];
     $langcode = 'en';
     $send = TRUE;
     $module = 'campuschampions';
-    $mailManager = \Drupal::service('plugin.manager.mail');
-    $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+    $result = $this->mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
     return $result;
   }
+
 }
