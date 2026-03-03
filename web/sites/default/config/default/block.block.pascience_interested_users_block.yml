@@ -1,0 +1,28 @@
+uuid: 65e06d63-c984-44fc-9090-35086422a64e
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_misc
+    - flag
+    - system
+  theme:
+    - pascience
+id: pascience_interested_users_block
+theme: pascience
+region: projects_page
+weight: -76
+provider: null
+plugin: interested_users_block
+settings:
+  id: interested_users_block
+  label: 'Interested Users'
+  label_display: '0'
+  provider: access_misc
+  context_mapping: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '/project/*'
