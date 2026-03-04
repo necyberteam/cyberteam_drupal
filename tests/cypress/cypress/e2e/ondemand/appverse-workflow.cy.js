@@ -37,7 +37,7 @@ describe("Appverse Workflow Moderation", () => {
         .should('have.value', 'draft');
 
       // Select App Type (required field)
-      cy.get('input[name="field_appverse_app_type"]').first().check();
+      cy.get('input[name^="field_appverse_app_type"]').first().check();
 
       // Submit to create in draft state
       cy.get('#edit-submit').click();

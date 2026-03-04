@@ -159,7 +159,7 @@ describe("Appverse App Creation", () => {
           .find('option[value="draft"]').should('exist');
 
         // Select App Type (required field)
-        cy.get('input[name="field_appverse_app_type"]').first().check();
+        cy.get('input[name^="field_appverse_app_type"]').first().check();
 
         // Submit the form
         cy.get('#edit-submit').click();

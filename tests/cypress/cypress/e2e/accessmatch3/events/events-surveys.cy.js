@@ -65,14 +65,10 @@ describe('Event Registration Surveys and Reminders', () => {
     it('Should display survey field descriptions with email templates', () => {
       cy.visit('/events/add');
 
-      // Verify screening survey description mentions when email is sent
-      cy.contains('An automated email is sent when someone registers for an event').should('exist');
-
-      // Verify pre-survey description
-      cy.contains('An automated email is sent when a registrant is approved').should('exist');
-
-      // Verify post-survey description mentions timing
-      cy.contains('An automated email is sent to attendees near the end of the event').should('exist');
+      // Verify email body field descriptions with token documentation
+      cy.contains('This is the full email body sent when someone registers').should('exist');
+      cy.contains('This is the full email body sent when a registration is approved').should('exist');
+      cy.contains('This is the full email body sent near the end of the event').should('exist');
     });
 
   });
@@ -198,10 +194,8 @@ describe('Event Registration Surveys and Reminders', () => {
           subject: 'Please Complete a Pre-Screening Survey for ' + testEventName,
           from: 'noreply@support.access-ci.org',
           to: 'walnut@pie.org',
-          // Verify screening survey URL and custom text are in email
+          // The full email body comes from the field content set via CKEditor
           htmlContains: [
-            'screening',
-            testSurveyUrl,
             'Please complete this screening survey'
           ]
         });
@@ -237,9 +231,8 @@ describe('Event Registration Surveys and Reminders', () => {
           subject: 'Registration accepted - please fill in survey before event for ' + testEventName,
           from: 'noreply@support.access-ci.org',
           to: 'walnut@pie.org',
+          // The full email body comes from the field content set via CKEditor
           htmlContains: [
-            'Congratulations',
-            testSurveyUrl + '?type=pre',
             'Please complete this pre-event survey'
           ]
         });
@@ -447,11 +440,8 @@ describe('Event Registration Surveys and Reminders', () => {
         // Get full message to verify HTML content
         cy.getMailpitMessage(message.ID).then((fullMessage) => {
           const emailContent = fullMessage.HTML || fullMessage.Text;
-          // Verify post-survey content
-          expect(emailContent).to.include('Thank you for participating');
+          // The full email body comes from the field content set via CKEditor
           expect(emailContent).to.include('Please complete our post-event survey');
-          // The email contains the redirect URL (not the external survey URL)
-          expect(emailContent).to.match(/\/events\/\d+\/post_survey\/\d+/);
         });
       });
 
