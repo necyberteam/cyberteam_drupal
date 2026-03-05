@@ -784,6 +784,115 @@ function ood_software_deploy_10008_normalize_app_types() {
 /**
  * Queue all apps for re-sync to apply new app type logic.
  */
+/**
+ * Clean up orphan root-level tags created by CSV software import.
+ *
+ * The CSV import (deploy_10001) used _ood_software_get_or_create_term() which
+ * creates flat terms with no parent. This reparents terms that belong in the
+ * hierarchy and deletes duplicates/junk terms.
+ */
+function ood_software_deploy_10010_cleanup_orphan_tags() {
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $messages = [];
+
+  // 1. Reparent terms that should be children in the hierarchy.
+  // Parent IDs: Analysis and Algorithms=668, Domain Tools=667,
+  // Linux and Shell Scripting=674.
+  $reparent = [
+    'simulation' => 668,
+    'modeling' => 668,
+    'multiphysics' => 667,
+    'automation' => 674,
+  ];
+  foreach ($reparent as $name => $parent_tid) {
+    $terms = $term_storage->loadByProperties(['name' => $name, 'vid' => 'tags']);
+    foreach ($terms as $term) {
+      $parents = $term_storage->loadParents($term->id());
+      if (empty($parents)) {
+        $term->set('parent', ['target_id' => $parent_tid]);
+        $term->save();
+        $messages[] = "Reparented '$name' (id={$term->id()}) under parent $parent_tid";
+      }
+    }
+  }
+
+  // 2. Delete 'web' (id=988) and remove from node 11805.
+  $web_terms = $term_storage->loadByProperties(['name' => 'web', 'vid' => 'tags']);
+  foreach ($web_terms as $term) {
+    $parents = $term_storage->loadParents($term->id());
+    if (empty($parents)) {
+      // Remove reference from any nodes first.
+      $nids = \Drupal::entityQuery('node')
+        ->condition('field_tags', $term->id())
+        ->accessCheck(FALSE)
+        ->execute();
+      foreach ($nids as $nid) {
+        $node = $node_storage->load($nid);
+        if ($node) {
+          $tags = $node->get('field_tags')->getValue();
+          $tags = array_filter($tags, fn($v) => (int) $v['target_id'] !== (int) $term->id());
+          $node->set('field_tags', array_values($tags));
+          $node->save();
+          $messages[] = "Removed 'web' tag from node $nid";
+        }
+      }
+      $term->delete();
+      $messages[] = "Deleted orphan term 'web' (id={$term->id()})";
+    }
+  }
+
+  // 3. Delete 'earth sciences' (tags vocab duplicate) and retag node with
+  // existing 'earth-sciences' (id=872) under Science Domains.
+  $earth_terms = $term_storage->loadByProperties([
+    'name' => 'earth sciences',
+    'vid' => 'tags',
+  ]);
+  $earth_replacement = $term_storage->loadByProperties([
+    'name' => 'earth-sciences',
+    'vid' => 'tags',
+  ]);
+  $earth_replacement_tid = !empty($earth_replacement) ? reset($earth_replacement)->id() : NULL;
+  foreach ($earth_terms as $term) {
+    $nids = \Drupal::entityQuery('node')
+      ->condition('field_tags', $term->id())
+      ->accessCheck(FALSE)
+      ->execute();
+    foreach ($nids as $nid) {
+      $node = $node_storage->load($nid);
+      if ($node) {
+        $tags = $node->get('field_tags')->getValue();
+        $tags = array_filter($tags, fn($v) => (int) $v['target_id'] !== (int) $term->id());
+        if ($earth_replacement_tid) {
+          $tags[] = ['target_id' => $earth_replacement_tid];
+        }
+        $node->set('field_tags', array_values($tags));
+        $node->save();
+        $messages[] = "Retagged node $nid: 'earth sciences' -> 'earth-sciences' ($earth_replacement_tid)";
+      }
+    }
+    $term->delete();
+    $messages[] = "Deleted orphan term 'earth sciences' (id={$term->id()})";
+  }
+
+  // 4. Delete unused junk terms.
+  $delete_names = ['astronomy and planetary sciences', 'physics', 'Tags'];
+  foreach ($delete_names as $name) {
+    $terms = $term_storage->loadByProperties(['name' => $name, 'vid' => 'tags']);
+    foreach ($terms as $term) {
+      $parents = $term_storage->loadParents($term->id());
+      if (empty($parents)) {
+        $term->delete();
+        $messages[] = "Deleted orphan term '$name' (id={$term->id()})";
+      }
+    }
+  }
+
+  $summary = implode("\n", $messages);
+  \Drupal::logger('ood_software')->notice("Tag cleanup:\n$summary");
+  return t("Cleaned up orphan tags:\n@summary", ['@summary' => $summary]);
+}
+
 function ood_software_deploy_10009_resync_app_types() {
   $queue = \Drupal::queue('appverse_app_updater');
   $storage = \Drupal::entityTypeManager()->getStorage('node');
