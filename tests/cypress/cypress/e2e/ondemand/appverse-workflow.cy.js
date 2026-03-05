@@ -36,6 +36,9 @@ describe("Appverse Workflow Moderation", () => {
       cy.get('[data-drupal-selector="edit-moderation-state-0-state"]')
         .should('have.value', 'draft');
 
+      // Select App Type (required field)
+      cy.get('input[name^="field_appverse_app_type"]').first().check();
+
       // Submit to create in draft state
       cy.get('#edit-submit').click();
 
