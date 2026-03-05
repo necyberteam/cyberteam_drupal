@@ -70,13 +70,15 @@ describe("Community Persona - Contribution Graphs", () => {
       );
     });
 
-    it("Add ondemand role to test user", () => {
+    it("Add ondemand role and region to test user", () => {
       cy.exec(
         `ddev drush eval "` +
         `\\$user = \\Drupal\\user\\Entity\\User::load(${testUserUid || 1}); ` +
         `\\$user->addRole('ondemand'); ` +
+        `\\$terms = \\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['vid' => 'region', 'name' => 'At-Large']); ` +
+        `if (\\$terms) { \\$user->set('field_region', [['target_id' => reset(\\$terms)->id()]]); } ` +
         `\\$user->save(); ` +
-        `echo 'ondemand role added';"`,
+        `echo 'ondemand role added, region: ' . count(\\$user->get('field_region')->getValue());"`,
         { failOnNonZeroExit: false, timeout: 30000 }
       ).then((result) => {
         cy.log(result.stdout);
@@ -132,25 +134,10 @@ describe("Community Persona - Contribution Graphs", () => {
       }
       cy.visit(`/community-persona/${testUserUid}`);
 
-      // The contribution graph is stored in field_github_graph and rendered
-      // as HTML with SVG or table cells representing commit activity.
-      cy.get('.field--name-field-github-graph, .contribution-graph, [class*="github-graph"], svg, table')
-        .then(($elements) => {
-          // Look for contribution-related content on the page
-          cy.get('body').then(($body) => {
-            const hasGraph = $body.find('.field--name-field-github-graph').length > 0;
-            const hasContribContent = $body.text().includes('Contribution') ||
-                                      $body.text().includes('contribution') ||
-                                      $body.text().includes('GitHub');
-            if (hasGraph) {
-              cy.get('.field--name-field-github-graph').should('exist');
-            } else {
-              cy.log('Contribution graph field not visible — cron may not have populated it yet');
-              // At minimum, the page should have loaded
-              expect(hasContribContent || true).to.be.true;
-            }
-          });
-        });
+      // The graph is rendered via an inline template with class .contribution-graph
+      // containing an SVG with commit activity squares.
+      cy.get('.contribution-graph').should('exist');
+      cy.get('.contribution-graph svg').should('exist');
     });
 
     it("Commits are stored in the database", function () {
@@ -186,6 +173,22 @@ describe("Community Persona - Contribution Graphs", () => {
         expect(count).to.be.greaterThan(0);
       });
     });
+  });
+
+  after(() => {
+    if (!testUserUid) {
+      return;
+    }
+
+    // Remove the region we set so we don't pollute other tests.
+    cy.exec(
+      `ddev drush eval "` +
+      `\\$user = \\Drupal\\user\\Entity\\User::load(${testUserUid}); ` +
+      `\\$user->set('field_region', []); ` +
+      `\\$user->save(); ` +
+      `echo 'region cleared';"`,
+      { failOnNonZeroExit: false, timeout: 30000 }
+    );
   });
 
   describe("Contributor wall reflects test user", () => {
