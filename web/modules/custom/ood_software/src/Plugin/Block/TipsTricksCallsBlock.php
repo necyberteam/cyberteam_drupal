@@ -4,6 +4,7 @@ namespace Drupal\ood_software\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -26,6 +27,13 @@ class TipsTricksCallsBlock extends BlockBase implements ContainerFactoryPluginIn
   protected $entityTypeManager;
 
   /**
+   * The file URL generator.
+   *
+   * @var \Drupal\Core\File\FileUrlGeneratorInterface
+   */
+  protected $fileUrlGenerator;
+
+  /**
    * Constructs a new TipsTricksCallsBlock object.
    *
    * @param array $configuration
@@ -36,21 +44,25 @@ class TipsTricksCallsBlock extends BlockBase implements ContainerFactoryPluginIn
    *   The plugin implementation definition.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
+   *   The file URL generator.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, FileUrlGeneratorInterface $file_url_generator) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
+    $this->fileUrlGenerator = $file_url_generator;
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
+    return new self(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('file_url_generator')
     );
   }
 
@@ -81,6 +93,7 @@ class TipsTricksCallsBlock extends BlockBase implements ContainerFactoryPluginIn
     // Find the 'Tips & tricks' taxonomy term ID.
     $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
       'name' => 'Tips & Tricks',
+      'vid' => 'open_ondemand_badges',
     ]);
 
     if (empty($terms)) {
@@ -132,7 +145,7 @@ class TipsTricksCallsBlock extends BlockBase implements ContainerFactoryPluginIn
     if ($user->hasField('user_picture') && !$user->get('user_picture')->isEmpty()) {
       $file = $user->get('user_picture')->entity;
       if ($file) {
-        $photo_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+        $photo_url = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
       }
     }
 

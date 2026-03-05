@@ -3,12 +3,31 @@
 namespace Drupal\ood_contributions\Commands;
 
 use Drupal\ood_contributions\Plugin\CronManager;
+use Drupal\ood_contributions\Service\DiscourseStatsService;
 use Drush\Commands\DrushCommands;
 
 /**
  * Drush commands for OOD Contributions module.
  */
 class OodContributionsCommands extends DrushCommands {
+
+  /**
+   * The Discourse stats service.
+   *
+   * @var \Drupal\ood_contributions\Service\DiscourseStatsService
+   */
+  protected $discourseStats;
+
+  /**
+   * Constructs an OodContributionsCommands object.
+   *
+   * @param \Drupal\ood_contributions\Service\DiscourseStatsService $discourse_stats
+   *   The Discourse stats service.
+   */
+  public function __construct(DiscourseStatsService $discourse_stats) {
+    parent::__construct();
+    $this->discourseStats = $discourse_stats;
+  }
 
   /**
    * Updates Discourse daily post statistics.
@@ -23,9 +42,7 @@ class OodContributionsCommands extends DrushCommands {
 
     CronManager::discourseUpdateDailyStats();
 
-    // Get service to show some stats.
-    $service = \Drupal::service('ood_contributions.discourse_stats');
-    $stats = $service->getLastYearStats();
+    $stats = $this->discourseStats->getLastYearStats();
 
     $this->output()->writeln(sprintf('Total records in database: %d', count($stats)));
 
@@ -39,8 +56,8 @@ class OodContributionsCommands extends DrushCommands {
     }
 
     // Update the block with the contribution graph.
-    $service->updateBlock();
-    $this->output()->writeln('Updated block 218 with Discourse contribution graph.');
+    $this->discourseStats->updateBlock();
+    $this->output()->writeln('Updated Discourse contribution graph block.');
 
     $this->output()->writeln('Done!');
   }

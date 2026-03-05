@@ -12,6 +12,11 @@ use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 class DiscourseStatsService {
 
   /**
+   * UUID of the Discourse contribution graph block.
+   */
+  const BLOCK_UUID = '61be2908-7646-484a-9877-f60266521aef';
+
+  /**
    * The database connection.
    *
    * @var \Drupal\Core\Database\Connection
@@ -406,21 +411,20 @@ class DiscourseStatsService {
   /**
    * Updates a block content entity with the Discourse contribution graph.
    *
-   * @param int $bid
-   *   The block content ID (default: 218).
    * @param int $weeks
    *   Number of weeks to display (default: 52).
    *
    * @return bool
    *   TRUE if successful, FALSE otherwise.
    */
-  public function updateBlock(int $bid = 210, int $weeks = 52): bool {
+  public function updateBlock(int $weeks = 52): bool {
     try {
       $block_storage = $this->entityTypeManager->getStorage('block_content');
-      $block = $block_storage->load($bid);
+      $blocks = $block_storage->loadByProperties(['uuid' => self::BLOCK_UUID]);
+      $block = reset($blocks);
 
       if (!$block) {
-        $this->logger->error('Block content with ID @bid not found.', ['@bid' => $bid]);
+        $this->logger->error('Discourse contribution graph block not found (UUID: @uuid).', ['@uuid' => self::BLOCK_UUID]);
         return FALSE;
       }
 
@@ -433,14 +437,12 @@ class DiscourseStatsService {
         $block->body->format = 'full_no_editor';
         $block->save();
 
-        $this->logger->info('Successfully updated block @bid with Discourse contribution graph.', [
-          '@bid' => $bid,
-        ]);
+        $this->logger->info('Successfully updated Discourse contribution graph block.');
 
         return TRUE;
       }
       else {
-        $this->logger->error('Block @bid does not have a body field.', ['@bid' => $bid]);
+        $this->logger->error('Discourse contribution graph block does not have a body field.');
         return FALSE;
       }
     }

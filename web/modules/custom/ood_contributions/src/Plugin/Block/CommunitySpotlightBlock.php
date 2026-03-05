@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Render\Markup;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -46,7 +47,7 @@ class CommunitySpotlightBlock extends BlockBase implements ContainerFactoryPlugi
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
+    return new self(
       $configuration,
       $plugin_id,
       $plugin_definition,
@@ -140,7 +141,8 @@ class CommunitySpotlightBlock extends BlockBase implements ContainerFactoryPlugi
 
     $spotlight_text = '';
     if ($user->hasField('field_ood_community_spotlight') && !$user->get('field_ood_community_spotlight')->isEmpty()) {
-      $spotlight_text = $user->get('field_ood_community_spotlight')->value;
+      $field = $user->get('field_ood_community_spotlight');
+      $spotlight_text = Markup::create(check_markup($field->value, $field->format ?? 'restricted_html'));
     }
 
     return [

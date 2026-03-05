@@ -1,5 +1,6 @@
 services:
   ood_contributions.commands:
     class: \Drupal\ood_contributions\Commands\OodContributionsCommands
+    arguments: ['@ood_contributions.discourse_stats']
     tags:
       - { name: drush.command }

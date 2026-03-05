@@ -79,7 +79,7 @@ class ContributionGraphService {
       }
     }
 
-    $results = $query->execute()->fetchAllAssoc('commit_date');
+    $results = $query->execute()->fetchAll();
 
     // Group by date in PHP to ensure database compatibility.
     $contributions = [];

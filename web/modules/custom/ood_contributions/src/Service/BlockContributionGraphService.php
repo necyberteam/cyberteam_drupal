@@ -12,6 +12,11 @@ use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 class BlockContributionGraphService {
 
   /**
+   * UUID of the GitHub contribution graph block.
+   */
+  const BLOCK_UUID = 'cf23e8ac-13fa-4fb5-9ecc-8f7b8f27886b';
+
+  /**
    * The database connection.
    *
    * @var \Drupal\Core\Database\Connection
@@ -61,22 +66,21 @@ class BlockContributionGraphService {
   /**
    * Updates the block with aggregated contribution graph for all users.
    *
-   * @param int $bid
-   *   The block content ID (default: 208).
    * @param int $weeks
    *   Number of weeks to display (default: 52).
    *
    * @return bool
    *   TRUE if successful, FALSE otherwise.
    */
-  public function updateBlock(int $bid = 209, int $weeks = 52): bool {
+  public function updateBlock(int $weeks = 52): bool {
     try {
-      // Load the block content entity.
+      // Load the block content entity by UUID.
       $block_storage = $this->entityTypeManager->getStorage('block_content');
-      $block = $block_storage->load($bid);
+      $blocks = $block_storage->loadByProperties(['uuid' => self::BLOCK_UUID]);
+      $block = reset($blocks);
 
       if (!$block) {
-        $this->logger->error('Block content with ID @bid not found.', ['@bid' => $bid]);
+        $this->logger->error('GitHub contribution graph block not found (UUID: @uuid).', ['@uuid' => self::BLOCK_UUID]);
         return FALSE;
       }
 
@@ -91,14 +95,12 @@ class BlockContributionGraphService {
         $block->body->format = 'full_no_editor';
         $block->save();
 
-        $this->logger->info('Successfully updated block @bid with aggregated contribution graph.', [
-          '@bid' => $bid,
-        ]);
+        $this->logger->info('Successfully updated GitHub contribution graph block.');
 
         return TRUE;
       }
       else {
-        $this->logger->error('Block @bid does not have a body field.', ['@bid' => $bid]);
+        $this->logger->error('GitHub contribution graph block does not have a body field.');
         return FALSE;
       }
     }
