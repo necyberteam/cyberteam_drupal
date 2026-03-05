@@ -63,7 +63,6 @@ class GeneralCommands extends Tasks {
 
     $this->_exec("sleep 2");
     $this->_exec($cmd_prefix . "composer install");
-    $this->_exec($cmd_prefix . "drush cset --input-format=yaml jsonapi_extras.settings validate_configuration_integrity false -y");
     $this->_exec($cmd_prefix . "drush deploy -y");
     $this->_exec("sleep 2");
     $this->_exec($cmd_prefix . "drush cim -y");
