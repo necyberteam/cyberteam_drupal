@@ -138,22 +138,23 @@ function user199_edit_self() {
       cy.get('#edit-field-cv-resume-0-remove-button').click();
     }
   }).then(() => {
-    cy.get('[name="files[user_picture_0]"]').click();
+    // Upload profile picture and wait for AJAX to complete (alt field appears).
     cy.get('[name="files[user_picture_0]"]').selectFile('cypress/fixtures/dummy-image.png');
+    cy.get('[data-drupal-selector="edit-user-picture-0-alt"]', { timeout: 10000 })
+      .should('be.visible').type('pic_alt_txt');
+
     cy.get('[data-drupal-selector="edit-field-access-organization-0-target-id"]').type('MGHPCC');
-    cy.get('[data-drupal-selector="edit-user-picture-0-alt"]').type('pic_alt_txt');
-    cy.get('[name="files[field_cv_resume_0]"]').click();
+
+    // Upload resume and wait for AJAX to complete (filename appears).
     cy.get('[name="files[field_cv_resume_0]"]').selectFile('cypress/fixtures/dummy-resume.txt');
+    cy.contains('dummy-resume', { timeout: 10000 });
+
     cy.get('#edit-field-hpc-experience-0-value').clear();
     cy.get('#edit-field-hpc-experience-0-value').type('hpc experience dummy text');
     cy.get('#edit-timezone--2').type('America/Los_Angeles');
 
-    // Have to update password when adding files (bug).
-    cy.get('#edit-pass-pass1').type('Walnut');
-    cy.get('#edit-pass-pass2').type('Walnut');
-
     cy.get('#edit-submit').click();
-    cy.contains('The changes have been saved.');
+    cy.contains('The changes have been saved.', { timeout: 10000 });
     cy.url().should('contains', '/community-persona');
   });
 
