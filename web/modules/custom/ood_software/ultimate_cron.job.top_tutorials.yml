@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - oit
+title: 'Top Tutorials'
+id: top_tutorials
+weight: 13
+module: oit
+callback: '\Drupal\oit\Services\CronManager::topTutorials'
+scheduler:
+  id: crontab
+  configuration:
+    rules:
+      - '30 02 * * *'
+    catch_up: 14400
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+    launcher:
+      thread: 0
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000

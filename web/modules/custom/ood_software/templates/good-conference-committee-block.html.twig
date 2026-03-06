@@ -1,0 +1,46 @@
+{#
+/**
+ * @file
+ * Default theme implementation for GOOD Conference Committee block.
+ *
+ * Available variables:
+ * - members: Array of member data with uid, name, and photo_url.
+ */
+#}
+
+<style>
+  .good-committee-block svg,
+  .good-committee-block .profile-photo {
+    height: 70px;
+    width: auto;
+  }
+  .good-committee-block {
+    max-height: 205px;
+    overflow: auto;
+  }
+  .good-committee-block .rounded-custom {
+    border-radius: 1rem 0 1rem 0;
+  }
+</style>
+<div class="good-committee-block">
+  {% if members %}
+    <ul class="committee-list d-flex flex-wrap list-none">
+      {% for member in members %}
+        <li class="committee-item text-center mr-3 mb-3">
+          <a href="/community-persona/{{ member.uid }}" class="committee-link">
+            <div class="committee-photo">
+              {% if member.photo_url %}
+                <img src="{{ member.photo_url }}" alt="{{ member.name }}" class="profile-photo rounded-custom" />
+              {% else %}
+                <img src="modules/custom/access/modules/cssn/images/profile.gif" alt="{{ member.name }}" class="profile-photo rounded-custom" />
+              {% endif %}
+            </div>
+            <div class="committee-name">{{ member.name }}</div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>{{ 'No committee members found.'|t }}</p>
+  {% endif %}
+</div>
