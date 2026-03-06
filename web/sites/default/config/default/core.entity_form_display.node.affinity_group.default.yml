@@ -25,6 +25,7 @@ dependencies:
     - field.field.node.affinity_group.field_list_id
     - field.field.node.affinity_group.field_mailing_list
     - field.field.node.affinity_group.field_meeting_notes_link
+    - field.field.node.affinity_group.field_metatag
     - field.field.node.affinity_group.field_persona_source
     - field.field.node.affinity_group.field_recommended_access_res
     - field.field.node.affinity_group.field_resources_entity_reference
@@ -37,6 +38,7 @@ dependencies:
     - content_moderation
     - inline_entity_form
     - link
+    - metatag
     - path
     - svg_image
     - text
@@ -198,6 +200,13 @@ content:
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_metatag:
+    type: metatag_firehose
+    weight: 99
+    region: content
+    settings:
+      sidebar: true
     third_party_settings: {  }
   field_list_id:
     type: string_textfield
