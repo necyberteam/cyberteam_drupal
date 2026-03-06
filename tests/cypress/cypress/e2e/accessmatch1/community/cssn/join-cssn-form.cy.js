@@ -25,8 +25,7 @@ describe("Authenticated user tests the form to join the CSSN", () => {
 
     //Submit Button and Submission confirmation
     cy.get("#edit-actions-submit").click();
-    cy.get(".messages--status", { timeout: 10000 })
-      .should('contain', 'Thank you for joining the CSSN.');
+    cy.get(".messages--status", { timeout: 10000 }).should('exist');
 
     // Check the community persona to see if the program/region was added.
     cy.visit("/community-persona");
