@@ -158,6 +158,9 @@ describe("Appverse App Creation", () => {
         cy.get('[data-drupal-selector="edit-moderation-state-0-state"]')
           .find('option[value="draft"]').should('exist');
 
+        // Select App Type (required field)
+        cy.get('input[name^="field_appverse_app_type"]').first().check();
+
         // Submit the form
         cy.get('#edit-submit').click();
 
