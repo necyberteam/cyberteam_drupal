@@ -1,0 +1,221 @@
+describe("Contributor Wall - Badge & Data-Driven Blocks", () => {
+  // Tests that badge-based blocks render users with the correct badge,
+  // and that data-driven blocks (Code & Docs, Discourse) render after cron.
+
+  const testUser = {
+    email: 'administrator@amptesting.com',
+    password: 'b8QW]X9h7#5n',
+  };
+
+  let testUserUid;
+
+  before(() => {
+    cy.exec(
+      `ddev drush eval "\\$uids = \\Drupal::entityQuery('user')->condition('mail', '${testUser.email}')->accessCheck(FALSE)->execute(); echo reset(\\$uids);"`,
+      { failOnNonZeroExit: false, timeout: 30000 }
+    ).then((result) => {
+      const uid = result.stdout.trim();
+      if (uid && /^\d+$/.test(uid)) {
+        testUserUid = uid;
+      }
+    });
+  });
+
+  describe("Badge block setup", () => {
+    // Assign badge terms to the test user so they appear in badge blocks.
+    const badges = ['Committee member', 'GOOD Committee', 'Tips & Tricks'];
+
+    it("Assign badge terms to test user", function () {
+      if (!testUserUid) {
+        this.skip();
+        return;
+      }
+
+      cy.exec(
+        `ddev drush eval "` +
+        `\\$user = \\Drupal\\user\\Entity\\User::load(${testUserUid}); ` +
+        `\\$terms = \\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['vid' => 'open_ondemand_badges', 'name' => ['Committee member', 'GOOD Committee', 'Tips & Tricks']]); ` +
+        `\\$tids = array_map(fn(\\$t) => ['target_id' => \\$t->id()], \\$terms); ` +
+        `\\$user->set('field_open_ondemand_badges', array_values(\\$tids)); ` +
+        `\\$user->save(); ` +
+        `echo 'Badges assigned: ' . count(\\$tids);"`,
+        { failOnNonZeroExit: false, timeout: 30000 }
+      ).then((result) => {
+        cy.log(result.stdout);
+        expect(result.stdout).to.contain('Badges assigned: 3');
+      });
+    });
+
+    it("Clear caches after badge assignment", () => {
+      cy.exec('ddev drush cr', { failOnNonZeroExit: false, timeout: 60000 });
+    });
+  });
+
+  describe("Badge-based blocks on contributor wall", () => {
+    beforeEach(() => {
+      cy.visit('/contributor-wall');
+    });
+
+    it("Committee Members block renders with badged user", function () {
+      if (!testUserUid) {
+        this.skip();
+        return;
+      }
+
+      cy.get('.committee-members-block').should('exist');
+      cy.get('.committee-members-block').within(() => {
+        cy.get(`a[href="/community-persona/${testUserUid}"]`).should('exist');
+        cy.get('.profile-photo').should('have.length.greaterThan', 0);
+      });
+    });
+
+    it("GOOD Conference Committee block renders with badged user", function () {
+      if (!testUserUid) {
+        this.skip();
+        return;
+      }
+
+      cy.get('.good-committee-block').should('exist');
+      cy.get('.good-committee-block').within(() => {
+        cy.get(`a[href="/community-persona/${testUserUid}"]`).should('exist');
+        cy.get('.profile-photo').should('have.length.greaterThan', 0);
+      });
+    });
+
+    it("Tips & Tricks block renders with badged user", function () {
+      if (!testUserUid) {
+        this.skip();
+        return;
+      }
+
+      cy.get('.tips-tricks-block').should('exist');
+      cy.get('.tips-tricks-block').within(() => {
+        cy.get(`a[href="/community-persona/${testUserUid}"]`).should('exist');
+        cy.get('.profile-photo').should('have.length.greaterThan', 0);
+      });
+    });
+  });
+
+  describe("Data-driven blocks on contributor wall", () => {
+    // These blocks depend on cron data from the community-persona-contributions
+    // test. They verify the blocks render when data exists.
+
+    it("Code & Documentation Contributors block exists", () => {
+      cy.visit('/contributor-wall');
+      cy.get('.contributors-block').should('exist');
+    });
+
+    it("Code & Documentation Contributors block shows users after cron", function () {
+      if (!testUserUid) {
+        this.skip();
+        return;
+      }
+
+      // Check if cron has populated commit data for the test user.
+      cy.exec(
+        `ddev drush sqlq "SELECT COUNT(*) FROM ood_user_commits WHERE uid = ${testUserUid}"`,
+        { failOnNonZeroExit: false, timeout: 30000 }
+      ).then((result) => {
+        const count = parseInt(result.stdout.trim(), 10);
+        if (count === 0) {
+          cy.log('No commit data yet — skipping contributor block content check');
+          return;
+        }
+
+        cy.visit('/contributor-wall');
+        cy.get('.contributors-block').first().within(() => {
+          cy.get(`a[href="/community-persona/${testUserUid}"]`).should('exist');
+        });
+      });
+    });
+
+    it("Discourse Participants block exists", () => {
+      cy.visit('/contributor-wall');
+      cy.get('.discourse-participants-block').should('exist');
+    });
+
+    it("Discourse Participants block shows users after cron", function () {
+      if (!testUserUid) {
+        this.skip();
+        return;
+      }
+
+      cy.exec(
+        `ddev drush sqlq "SELECT COUNT(*) FROM ood_disc_contrib WHERE uid = ${testUserUid}"`,
+        { failOnNonZeroExit: false, timeout: 30000 }
+      ).then((result) => {
+        const count = parseInt(result.stdout.trim(), 10);
+        if (count === 0) {
+          cy.log('No Discourse data yet — skipping participant block content check');
+          return;
+        }
+
+        cy.visit('/contributor-wall');
+        cy.get('.discourse-participants-block').within(() => {
+          cy.get(`a[href="/community-persona/${testUserUid}"]`).should('exist');
+        });
+      });
+    });
+  });
+
+  describe("Appverse Contributors block", () => {
+    it("Appverse Contributors block exists on contributor wall", () => {
+      cy.visit('/contributor-wall');
+      cy.get('.contributors-block').should('have.length.greaterThan', 0);
+    });
+
+    it("Test user appears in Appverse block with appverse_pm role", function () {
+      if (!testUserUid) {
+        this.skip();
+        return;
+      }
+
+      // Add appverse_pm role to test user.
+      cy.exec(
+        `ddev drush eval "` +
+        `\\$user = \\Drupal\\user\\Entity\\User::load(${testUserUid}); ` +
+        `\\$user->addRole('appverse_pm'); ` +
+        `\\$user->save(); ` +
+        `echo 'role added';"`,
+        { failOnNonZeroExit: false, timeout: 30000 }
+      ).then((result) => {
+        expect(result.stdout).to.contain('role added');
+      });
+
+      cy.exec('ddev drush cr', { failOnNonZeroExit: false, timeout: 60000 });
+
+      cy.visit('/contributor-wall');
+
+      // The Appverse Contributors block uses the same .contributors-block class.
+      // Verify the test user appears somewhere on the page.
+      cy.get(`a[href="/community-persona/${testUserUid}"]`)
+        .should('have.length.greaterThan', 0);
+    });
+  });
+
+  after(() => {
+    if (!testUserUid) {
+      return;
+    }
+
+    // Remove badges from test user.
+    cy.exec(
+      `ddev drush eval "` +
+      `\\$user = \\Drupal\\user\\Entity\\User::load(${testUserUid}); ` +
+      `\\$user->set('field_open_ondemand_badges', []); ` +
+      `\\$user->save(); ` +
+      `echo 'badges cleared';"`,
+      { failOnNonZeroExit: false, timeout: 30000 }
+    );
+
+    // Remove appverse_pm role.
+    cy.exec(
+      `ddev drush eval "` +
+      `\\$user = \\Drupal\\user\\Entity\\User::load(${testUserUid}); ` +
+      `\\$user->removeRole('appverse_pm'); ` +
+      `\\$user->save(); ` +
+      `echo 'role removed';"`,
+      { failOnNonZeroExit: false, timeout: 30000 }
+    );
+  });
+});

@@ -99,6 +99,35 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
         $node->set('field_appverse_readme', [['format' => 'markdown', 'value' => $this->githubService->getReadme()]]);
         $node->set('field_appverse_lastupdated', [['value' => $this->githubService->getLastComittedDate()]]);
         $needsSave = TRUE;
+
+        // Sync auto-detected app types, preserving manually-added terms.
+        $autoDetectedIds = $this->githubService->getAppTypeIds();
+        $currentValues = $node->get('field_appverse_app_type')->getValue();
+        $currentIds = array_map(fn($v) => (int) $v['target_id'], $currentValues);
+
+        // Determine which current IDs are auto-assignable (managed by sync).
+        $autoAssignableNames = GitHubService::getAutoAssignableTermNames();
+        $autoAssignableIds = [];
+        if (!empty($autoAssignableNames)) {
+          $terms = $this->entityTypeManager->getStorage('taxonomy_term')
+            ->loadByProperties(['name' => $autoAssignableNames, 'vid' => 'appverse_app_type']);
+          foreach ($terms as $term) {
+            $autoAssignableIds[] = (int) $term->id();
+          }
+        }
+
+        // Manual IDs = current IDs NOT in the auto-assignable set.
+        $manualIds = array_diff($currentIds, $autoAssignableIds);
+
+        // New set = manual + newly auto-detected.
+        $newIds = array_values(array_unique(array_merge($manualIds, $autoDetectedIds)));
+        sort($newIds);
+
+        $sortedCurrentIds = $currentIds;
+        sort($sortedCurrentIds);
+        if ($newIds !== $sortedCurrentIds) {
+          $node->set('field_appverse_app_type', array_map(fn($id) => ['target_id' => $id], $newIds));
+        }
       }
 
       if ($needsSave) {

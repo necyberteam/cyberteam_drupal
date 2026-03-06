@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.page.field_domain_all_affiliates
     - field.field.node.page.field_domain_source
     - field.field.node.page.field_image
+    - field.field.node.page.field_metatag
     - field.field.node.page.field_region
     - field.field.node.page.field_subtitle
     - field.field.node.page.layout_builder__layout
@@ -18,6 +19,7 @@ dependencies:
     - comment
     - content_moderation
     - image
+    - metatag
     - path
     - text
 _core:
@@ -74,6 +76,13 @@ content:
     weight: 42
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_metatag:
+    type: metatag_firehose
+    weight: 99
+    region: content
+    settings:
+      sidebar: true
     third_party_settings: {  }
   field_image:
     type: image_image

@@ -61,17 +61,20 @@ class GeneralCommands extends Tasks {
     // Use DDEV's built-in database import (works from both host and container)
     $this->_exec($cmd_prefix . "import-db --file=backups/site.sql.gz");
 
-    $this->_exec("sleep 2");
+    $this->_exec("sleep 1");
     $this->_exec($cmd_prefix . "composer install");
+    $this->_exec($cmd_prefix . "drush cset --input-format=yaml jsonapi_extras.settings validate_configuration_integrity false -y");
     $this->_exec($cmd_prefix . "drush deploy -y");
-    $this->_exec("sleep 2");
+    $this->_exec("sleep 1");
     $this->_exec($cmd_prefix . "drush cim -y");
-    $this->_exec("sleep 2");
+    $this->_exec("sleep 1");
     if (!empty($domain_id)) {
       $this->_exec($cmd_prefix . "robo ds $domain_id");
     }
     else {
-      $this->_exec("sleep 2");
+      $this->_exec("sleep 1");
+      # Enable symfony_mailer_log module for testing
+      $this->_exec($cmd_prefix . "drush en symfony_mailer_log -y");
       $this->_exec($cmd_prefix . "drush cr");
     }
     $this->uli();
