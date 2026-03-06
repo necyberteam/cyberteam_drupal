@@ -36,7 +36,7 @@ function ood_contributions_deploy_10000_cw() {
     ],
     'title_code_doc' => [
       'info' => 'TITLE :: code/doc contribs',
-      'body_value' => '<div class="cw-title position-relative my-4"><h2>Code &amp; Documentation Contributions</h2><p><a class="btn btn-sm btn-primary py-2" href="/appverse"><span>Find out more</span></a></p></div>',
+      'body_value' => '<div class="cw-title position-relative my-4"><h2>Code &amp; Documentation Contributions</h2><p><a class="btn btn-sm btn-primary py-2" href="https://www.openondemand.org/contribute-open-ondemand#interested"><span>Find out more</span></a></p></div>',
       'body_format' => 'full_html',
     ],
     'title_appverse' => [
