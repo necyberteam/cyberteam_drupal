@@ -8,3 +8,8 @@ services:
     arguments: ['@cache_tags.invalidator']
     tags:
       - { name: event_subscriber }
+
+  ood_software.jsonapi_cache_subscriber:
+    class: Drupal\ood_software\EventSubscriber\JsonApiCacheSubscriber
+    tags:
+      - { name: event_subscriber }

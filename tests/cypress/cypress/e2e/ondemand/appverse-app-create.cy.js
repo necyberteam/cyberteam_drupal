@@ -94,7 +94,7 @@ describe("Appverse App Creation", () => {
 
         // Check for documentation link mentioned in ood_software.module
         cy.contains('contributor documentation').should('exist');
-        cy.get('a[href*="osc.github.io/ood-documentation"]').should('exist');
+        cy.get('a[href*="appverse-contributor-documentation"]').should('exist');
       });
     });
 
@@ -157,6 +157,9 @@ describe("Appverse App Creation", () => {
         // Check moderation state - default should be 'draft'
         cy.get('[data-drupal-selector="edit-moderation-state-0-state"]')
           .find('option[value="draft"]').should('exist');
+
+        // Select App Type (required field)
+        cy.get('input[name^="field_appverse_app_type"]').first().check();
 
         // Submit the form
         cy.get('#edit-submit').click();
