@@ -1,0 +1,17 @@
+uuid: 737e18b1-15c3-4bdd-9d4e-67b6a01437d9
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_affinitygroup
+title: 'Default cron handler'
+id: access_affinitygroup_cron
+weight: 0
+module: access_affinitygroup
+callback: 'access_affinitygroup#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

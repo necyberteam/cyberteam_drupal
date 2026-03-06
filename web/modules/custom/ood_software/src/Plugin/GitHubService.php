@@ -19,6 +19,28 @@ class GitHubService {
   use StringTranslationTrait;
 
   /**
+   * Manifest role → taxonomy term name mapping.
+   *
+   * Keys are manifest 'role' values; sub-keys are 'subcategory' values
+   * (use '*' as default). Values are arrays of term names.
+   */
+  const APP_TYPE_MANIFEST_MAP = [
+    'batch_connect' => [
+      'GUIs' => ['batch-connect-VNC'],
+      '*' => ['batch-connect-basic'],
+    ],
+    'dashboard' => [
+      '*' => ['dashboards'],
+    ],
+    'passenger_app' => [
+      '*' => ['companion_app'],
+    ],
+    'widget' => [
+      '*' => ['widgets'],
+    ],
+  ];
+
+  /**
    * Github owner.
    *
    * @var string
@@ -115,6 +137,13 @@ class GitHubService {
    * @var string
    */
   protected $role;
+
+  /**
+   * Subcategory from manifest.
+   *
+   * @var string|null
+   */
+  protected $subcategory;
 
   /**
    * The HTTP client.
@@ -317,6 +346,7 @@ class GitHubService {
     $description_raw = $this->manifestData['description'] ?? '';
     $this->description = $description_raw ? Xss::filterAdmin($description_raw) : '';
     $this->role = $this->manifestData['role'] ?? NULL;
+    $this->subcategory = $this->manifestData['subcategory'] ?? NULL;
   }
 
   /**
@@ -397,28 +427,73 @@ class GitHubService {
   }
 
   /**
-   * Get AppType.
+   * Get AppType label for form display.
    */
   public function getAppType() {
-    return $this->role;
+    $label = $this->role;
+    if ($label && $this->subcategory) {
+      $label .= ' (' . $this->subcategory . ')';
+    }
+    return $label;
   }
 
   /**
-   * Get AppTypeId based on set role.
+   * Get subcategory from manifest.
+   */
+  public function getSubcategory() {
+    return $this->subcategory;
+  }
+
+  /**
+   * Get AppTypeId based on set role (backward compat, returns first match).
    */
   public function getAppTypeId() {
-    // Return NULL if role is not set to avoid empty IN() query error.
+    $ids = $this->getAppTypeIds();
+    return $ids ? reset($ids) : NULL;
+  }
+
+  /**
+   * Resolve role + subcategory to taxonomy term IDs.
+   */
+  public function getAppTypeIds(): array {
     if (empty($this->role)) {
-      return NULL;
+      return [];
     }
-    $terms = $this->entityTypeManager
-      ->getStorage('taxonomy_term')
-      ->loadByProperties([
-        'name' => $this->role,
-        'vid' => 'appverse_app_type',
-      ]);
-    $term = reset($terms);
-    return $term ? $term->id() : NULL;
+    $role_map = self::APP_TYPE_MANIFEST_MAP[$this->role] ?? NULL;
+    if ($role_map === NULL) {
+      $this->logger->notice('No app type mapping for manifest role: @role', ['@role' => $this->role]);
+      return [];
+    }
+    $term_names = $role_map[$this->subcategory] ?? $role_map['*'] ?? [];
+    if (empty($term_names)) {
+      return [];
+    }
+    $ids = [];
+    $storage = $this->entityTypeManager->getStorage('taxonomy_term');
+    foreach ($term_names as $name) {
+      $terms = $storage->loadByProperties(['name' => $name, 'vid' => 'appverse_app_type']);
+      $term = reset($terms);
+      if ($term) {
+        $ids[] = (int) $term->id();
+      }
+      else {
+        $this->logger->warning('App type term not found: @name', ['@name' => $name]);
+      }
+    }
+    return $ids;
+  }
+
+  /**
+   * Get all term names that can be auto-assigned from manifest data.
+   */
+  public static function getAutoAssignableTermNames(): array {
+    $names = [];
+    foreach (self::APP_TYPE_MANIFEST_MAP as $subcategories) {
+      foreach ($subcategories as $termNames) {
+        $names = array_merge($names, $termNames);
+      }
+    }
+    return array_unique($names);
   }
 
   /**

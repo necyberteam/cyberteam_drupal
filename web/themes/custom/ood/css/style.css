@@ -149,6 +149,52 @@ body {
     font-family: "Serifa Std", sans-serif;
   }
 
+  .bg-md-teal h2,
+  .bg-dark h2 {
+    transform: translateY(3px);
+  }
+
+  .progress[data-drupal-progress],
+  .progress[data-drupal-progress] .progress {
+    display: block;
+    height: auto;
+    overflow: visible;
+    font-size: inherit;
+    background-color: transparent;
+    border-radius: 0;
+  }
+
+  .progress[data-drupal-progress] {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .progress__track {
+    height: 16px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0.75rem 0;
+  }
+
+  .progress__bar {
+    height: 100%;
+    background: #0473bd;
+    transition: width 0.3s ease;
+  }
+
+  .progress__label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .progress__percentage {
+    font-weight: 600;
+  }
+
   .user-register-form {
     max-width: 32rem;
     margin: 0 auto;
@@ -1045,6 +1091,58 @@ body.page-node-type-affinity-group {
     }
     .tood-appverse {
       display: block;
+    }
+  }
+}
+
+.cw-title {
+  position: relative;
+  h2 {
+    background: black;
+    color: white;
+    padding: 0.75rem 2rem .25rem 0.75rem;
+  }
+}
+
+@media (min-width: 1000px) {
+  .cw-title {
+    h2 {
+      width: 70%;
+      clip-path: polygon(0 0, 100% 0, calc(100% - 2.5rem) 100%, 0 100%);
+    }
+    a {
+      position: absolute;
+      top: 10px;
+      right: 5px;
+    }
+  }
+  .cw-title:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 5px;
+    background: black;
+  }
+}
+
+.layout__region {
+  width: 100%;
+}
+
+#community-persona {
+  .appverse-contribs {
+    columns: inherit;
+  }
+  @media (min-width: 600px) {
+    .appverse-contribs {
+      columns: 2;
+    }
+  }
+  @media (min-width: 1000px) {
+    .appverse-contribs {
+      columns: 3;
     }
   }
 }
