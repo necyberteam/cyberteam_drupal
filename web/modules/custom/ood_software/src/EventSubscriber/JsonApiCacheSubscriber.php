@@ -2,6 +2,7 @@
 
 namespace Drupal\ood_software\EventSubscriber;
 
+use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -18,6 +19,23 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * entries tagged with that entity.
  */
 class JsonApiCacheSubscriber implements EventSubscriberInterface {
+
+  /**
+   * The current user.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected AccountProxyInterface $currentUser;
+
+  /**
+   * Constructs a JsonApiCacheSubscriber.
+   *
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   The current user.
+   */
+  public function __construct(AccountProxyInterface $current_user) {
+    $this->currentUser = $current_user;
+  }
 
   /**
    * CDN edge cache TTL in seconds (1 hour).
@@ -64,8 +82,9 @@ class JsonApiCacheSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    // Don't cache authenticated/personalized responses.
-    if ($request->getSession()?->isStarted()) {
+    // Don't cache authenticated responses. Check the Drupal user rather than
+    // the session (session may be started for anonymous users on Pantheon).
+    if ($this->currentUser->isAuthenticated()) {
       return;
     }
 
