@@ -326,7 +326,7 @@ class GitHubService {
     $manifest_text = $this->data['manifestYml']['text'] ?? NULL;
     if ($manifest_text === NULL || $this->readme === NULL || $this->license === NULL) {
       if ($manifest_text === NULL) {
-        $this->messenger->addError($this->t('The manifest.yml needs to be at the root of the repository. Find our about <a href=":bp">best practices</a> in including your app in the Appverse.', [':bp' => 'https://ondemand.connectci.org/appverse-contributor-documentation']));
+        $this->messenger->addError($this->t('The manifest.yml needs to be at the root of the repository. Find our about <a href=":bp">best practices</a> in including your app in the Appverse.', [':bp' => 'https://openondemand.connectci.org/appverse-contributor-documentation']));
         $this->logger->error('The repository @repo does not contain a manifest.yml file.', ['@repo' => $this->owner . '/' . $this->name]);
       }
       if ($this->readme === NULL) {

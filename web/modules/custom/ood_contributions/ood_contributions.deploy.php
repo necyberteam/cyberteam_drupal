@@ -511,7 +511,7 @@ function _ood_contributions_create_badge_terms() {
   $terms = [
     [
       'name' => 'Affinity Group Coordinator',
-      'description' => 'Coordinates an Affinity Group. Affinity Groups are communities of practice for topical discussion, curating links to communication channels, key documentation, news, events, email lists, and sharing infrastructure-related updates for members.<br><br>See: <a href="https://ondemand.connectci.org/affinity-groups">Affinity Groups</a>',
+      'description' => 'Coordinates an Affinity Group. Affinity Groups are communities of practice for topical discussion, curating links to communication channels, key documentation, news, events, email lists, and sharing infrastructure-related updates for members.<br><br>See: <a href="https://openondemand.connectci.org/affinity-groups">Affinity Groups</a>',
     ],
     [
       'name' => 'GOOD25',
@@ -531,7 +531,7 @@ function _ood_contributions_create_badge_terms() {
     ],
     [
       'name' => 'Tips & Tricks',
-      'description' => 'Presented or assisted with the monthly Tips &amp; Tricks Call, where the community shares best practices of all things Open OnDemand.<br><br>See: <a href="https://ondemand.connectci.org/events">Upcoming Events</a>',
+      'description' => 'Presented or assisted with the monthly Tips &amp; Tricks Call, where the community shares best practices of all things Open OnDemand.<br><br>See: <a href="https://openondemand.connectci.org/events">Upcoming Events</a>',
     ],
   ];
 
