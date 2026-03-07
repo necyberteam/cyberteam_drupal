@@ -34,7 +34,7 @@ describe("Contributor Wall Page", () => {
     it("Contributor photos render or show default", () => {
       cy.visit('/contributor-wall');
 
-      cy.get('.contributor-item').then(($items) => {
+      cy.get('.people-grid-item').then(($items) => {
         if ($items.length > 0) {
           // Each contributor item should have an image
           cy.wrap($items).first().find('img').should('exist');
