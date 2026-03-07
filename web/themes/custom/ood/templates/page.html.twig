@@ -1,12 +1,8 @@
 {% set front_div = "w-100 pt-3" %}
 {% block navbar %}
-	{% if logged_in %}
 	<nav class="navbar navbar-expand-lg secondary-nav navbar-light bg-light" id="secondaryNav" role="navigation" aria-label="Secondary">
-	{% else %}
-	<nav class="navbar navbar-expand secondary-nav navbar-light bg-light" id="secondaryNav" role="navigation" aria-label="Secondary">
-	{% endif %}
 	  <div class="container">
-	    <div id="secondaryNavbarResponsive" style="margin-left: auto; margin-right: 0;">
+	    <div id="secondaryNavbarResponsive">
         <ul class="top-left-menu navbar-nav">
           <li class="nav-item">
             <a href="https://openondemand.org/" class="nav-link">openondemand.org</a>
@@ -19,11 +15,23 @@
           </li>
         </ul>
 		  {% if page.secondary_menu %}
-			  {{ page.secondary_menu }}
+		    <div class="d-none d-lg-flex">
+			    {{ page.secondary_menu }}
+		    </div>
+		    <button class="btn secondary-nav-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#secondaryMenuCollapse" aria-controls="secondaryMenuCollapse" aria-expanded="false" aria-label="Toggle user menu">
+		      <i class="bi bi-person-circle" aria-hidden="true"></i>
+		    </button>
 		  {% endif %}
       </div>
 	  </div>
 	</nav>
+	{% if page.secondary_menu %}
+	<div class="collapse" id="secondaryMenuCollapse">
+	  <div class="container">
+	    {{ page.secondary_menu }}
+	  </div>
+	</div>
+	{% endif %}
 	 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow-sm" id="mainNav" role="navigation" aria-label="main">
 		  <div class="container">
 			<a class="navbar-brand" href="/">
