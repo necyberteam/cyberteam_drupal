@@ -17,43 +17,22 @@ use Drupal\node\NodeInterface;
  * Implements hook_theme().
  */
 function ood_software_theme() {
+  $people_grid = [
+    'variables' => [
+      'items' => [],
+      'empty_message' => NULL,
+      'scrollable' => TRUE,
+    ],
+    'template' => 'people-grid-block',
+  ];
+
   return [
-    'appverse_contributors_block' => [
-      'variables' => [
-        'contributors' => [],
-      ],
-      'template' => 'appverse-contributors-block',
-    ],
-    'discourse_participants_block' => [
-      'variables' => [
-        'participants' => [],
-      ],
-      'template' => 'discourse-participants-block',
-    ],
-    'committee_members_block' => [
-      'variables' => [
-        'members' => [],
-      ],
-      'template' => 'committee-members-block',
-    ],
-    'ag_coordinators_block' => [
-      'variables' => [
-        'coordinators' => [],
-      ],
-      'template' => 'ag-coordinators-block',
-    ],
-    'good_conference_committee_block' => [
-      'variables' => [
-        'members' => [],
-      ],
-      'template' => 'good-conference-committee-block',
-    ],
-    'tips_tricks_calls_block' => [
-      'variables' => [
-        'members' => [],
-      ],
-      'template' => 'tips-tricks-calls-block',
-    ],
+    'appverse_contributors_block' => $people_grid,
+    'discourse_participants_block' => $people_grid,
+    'committee_members_block' => $people_grid,
+    'ag_coordinators_block' => $people_grid,
+    'good_conference_committee_block' => $people_grid,
+    'tips_tricks_calls_block' => $people_grid,
   ];
 }
 

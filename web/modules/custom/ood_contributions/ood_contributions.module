@@ -246,7 +246,9 @@ function ood_contributions_theme() {
   return [
     'contributors_block' => [
       'variables' => [
-        'contributors' => [],
+        'items' => [],
+        'empty_message' => NULL,
+        'scrollable' => TRUE,
       ],
       'template' => 'contributors-block',
     ],

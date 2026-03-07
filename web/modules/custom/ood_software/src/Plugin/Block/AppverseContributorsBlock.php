@@ -5,6 +5,7 @@ namespace Drupal\ood_software\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -34,6 +35,13 @@ class AppverseContributorsBlock extends BlockBase implements ContainerFactoryPlu
   protected $entityTypeManager;
 
   /**
+   * The file URL generator.
+   *
+   * @var \Drupal\Core\File\FileUrlGeneratorInterface
+   */
+  protected $fileUrlGenerator;
+
+  /**
    * Constructs a new AppverseContributorsBlock object.
    *
    * @param array $configuration
@@ -46,23 +54,27 @@ class AppverseContributorsBlock extends BlockBase implements ContainerFactoryPlu
    *   The database connection.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
+   *   The file URL generator.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, Connection $database, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, Connection $database, EntityTypeManagerInterface $entity_type_manager, FileUrlGeneratorInterface $file_url_generator) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->database = $database;
     $this->entityTypeManager = $entity_type_manager;
+    $this->fileUrlGenerator = $file_url_generator;
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
+    return new self(
       $configuration,
       $plugin_id,
       $plugin_definition,
       $container->get('database'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('file_url_generator')
     );
   }
 
@@ -74,7 +86,7 @@ class AppverseContributorsBlock extends BlockBase implements ContainerFactoryPlu
 
     return [
       '#theme' => 'appverse_contributors_block',
-      '#contributors' => $contributors,
+      '#items' => $contributors,
       '#cache' => [
         'max-age' => 3600,
       ],
@@ -155,14 +167,14 @@ class AppverseContributorsBlock extends BlockBase implements ContainerFactoryPlu
     $query->condition('n.type', 'appverse_app');
     $query->condition('n.status', 1);
     $query->condition('n.uid', 0, '>');
-    
+
     if (!empty($exclude_uids)) {
       $query->condition('n.uid', array_keys($exclude_uids), 'NOT IN');
     }
-    
+
     $query->groupBy('n.uid');
     $query->orderBy('node_count', 'DESC');
-    
+
     $results = $query->execute()->fetchAll();
 
     $authors = [];
@@ -191,11 +203,11 @@ class AppverseContributorsBlock extends BlockBase implements ContainerFactoryPlu
     }
 
     $photo_url = NULL;
-    
+
     if ($user->hasField('user_picture') && !$user->get('user_picture')->isEmpty()) {
       $file = $user->get('user_picture')->entity;
       if ($file) {
-        $photo_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+        $photo_url = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
       }
     }
 

@@ -74,7 +74,7 @@ class TipsTricksCallsBlock extends BlockBase implements ContainerFactoryPluginIn
 
     return [
       '#theme' => 'tips_tricks_calls_block',
-      '#members' => $members,
+      '#items' => $members,
       '#cache' => [
         'max-age' => 3600,
       ],

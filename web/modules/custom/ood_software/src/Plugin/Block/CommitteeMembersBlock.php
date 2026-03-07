@@ -4,6 +4,7 @@ namespace Drupal\ood_software\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -26,22 +27,42 @@ class CommitteeMembersBlock extends BlockBase implements ContainerFactoryPluginI
   protected $entityTypeManager;
 
   /**
-   * Constructs a new CommitteeMembersBlock object.
+   * The file URL generator.
+   *
+   * @var \Drupal\Core\File\FileUrlGeneratorInterface
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager) {
+  protected $fileUrlGenerator;
+
+  /**
+   * Constructs a new CommitteeMembersBlock object.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
+   *   The file URL generator.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, FileUrlGeneratorInterface $file_url_generator) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
+    $this->fileUrlGenerator = $file_url_generator;
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
+    return new self(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('file_url_generator')
     );
   }
 
@@ -53,7 +74,7 @@ class CommitteeMembersBlock extends BlockBase implements ContainerFactoryPluginI
 
     return [
       '#theme' => 'committee_members_block',
-      '#members' => $members,
+      '#items' => $members,
       '#cache' => [
         'max-age' => 3600,
       ],
@@ -101,7 +122,7 @@ class CommitteeMembersBlock extends BlockBase implements ContainerFactoryPluginI
       if ($user->hasField('user_picture') && !$user->get('user_picture')->isEmpty()) {
         $file = $user->get('user_picture')->entity;
         if ($file) {
-          $photo_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+          $photo_url = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
         }
       }
 
