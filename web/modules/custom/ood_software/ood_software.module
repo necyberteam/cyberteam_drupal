@@ -11,6 +11,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\Xss;
+use Drupal\node\NodeInterface;
 
 /**
  * Implements hook_theme().
@@ -394,5 +395,89 @@ function ood_software__redirect_submit($form, FormStateInterface $form_state) {
   $user_id = $current_user->id();
   $url = \Drupal\Core\Url::fromUri('internal:/user/' . $user_id . '/my-apps');
   $form_state->setRedirectUrl($url);
+}
+
+/**
+ * Implements hook_metatags_alter().
+ */
+function ood_software_metatags_alter(array &$metatags, array &$context) {
+  if (!isset($context['entity']) || !$context['entity'] instanceof NodeInterface) {
+    return;
+  }
+  $node = $context['entity'];
+
+  if ($node->bundle() === 'appverse_software') {
+    $logo_url = _ood_software_get_logo_url($node);
+  }
+  elseif ($node->bundle() === 'appverse_app') {
+    $software = $node->get('field_appverse_software_implemen')->entity;
+    $logo_url = $software ? _ood_software_get_logo_url($software) : NULL;
+  }
+  else {
+    return;
+  }
+
+  if ($logo_url) {
+    $metatags['og_image'] = $logo_url;
+    $metatags['og_image_url'] = $logo_url;
+  }
+}
+
+/**
+ * Resolves the logo file URL from an appverse_software node.
+ */
+function _ood_software_get_logo_url(NodeInterface $software_node) {
+  if (!$software_node->hasField('field_appverse_logo') || $software_node->get('field_appverse_logo')->isEmpty()) {
+    return NULL;
+  }
+  $media = $software_node->get('field_appverse_logo')->entity;
+  if (!$media) {
+    return NULL;
+  }
+  $source_field = $media->getSource()->getConfiguration()['source_field'];
+  if (!$media->hasField($source_field) || $media->get($source_field)->isEmpty()) {
+    return NULL;
+  }
+  $file = $media->get($source_field)->entity;
+  return $file ? \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri()) : NULL;
+}
+
+/**
+ * Implements hook_node_view().
+ *
+ * Redirects browser visitors from appverse node pages to the SPA.
+ * Crawlers don't execute JS, so they still see metatag-rich HTML.
+ */
+function ood_software_node_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+  if ($view_mode !== 'full' || !$entity instanceof NodeInterface) {
+    return;
+  }
+
+  if ($entity->bundle() === 'appverse_software') {
+    $slug = basename($entity->toUrl()->toString());
+    $build['#attached']['html_head'][] = [
+      [
+        '#type' => 'html_tag',
+        '#tag' => 'script',
+        '#value' => "window.location.replace('/appverse#/' + " . json_encode($slug) . ");",
+      ],
+      'appverse_redirect',
+    ];
+  }
+  elseif ($entity->bundle() === 'appverse_app') {
+    $software = $entity->get('field_appverse_software_implemen')->entity;
+    if ($software) {
+      $software_slug = basename($software->toUrl()->toString());
+      $app_slug = basename($entity->toUrl()->toString());
+      $build['#attached']['html_head'][] = [
+        [
+          '#type' => 'html_tag',
+          '#tag' => 'script',
+          '#value' => "window.location.replace('/appverse#/' + " . json_encode($software_slug) . " + '?app=' + " . json_encode($app_slug) . ");",
+        ],
+        'appverse_redirect',
+      ];
+    }
+  }
 }
 
