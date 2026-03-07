@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - ood_software
+title: 'OOD Software Doc Sync'
+id: ood_software_doc_sync
+weight: 14
+module: ood_software
+callback: '\Drupal\ood_software\Plugin\CronManager::syncDocs'
+scheduler:
+  id: crontab
+  configuration:
+    rules:
+      - '0 */6 * * *'
+    catch_up: 14400
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 300
+    launcher:
+      thread: 0
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000

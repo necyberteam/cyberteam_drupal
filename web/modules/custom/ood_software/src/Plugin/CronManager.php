@@ -8,6 +8,20 @@ namespace Drupal\ood_software\Plugin;
 class CronManager {
 
   /**
+   * Sync markdown documentation from GitHub to Drupal nodes.
+   */
+  public static function syncDocs() {
+    $env = getenv('PANTHEON_ENVIRONMENT');
+    if ($env == 'live') {
+      $doc_sync = \Drupal::service('ood_software.doc_sync');
+      $doc_sync->syncAll();
+    }
+    else {
+      \Drupal::logger('ood_software')->notice('Skipping doc sync on non-live environment.');
+    }
+  }
+
+  /**
    * Update app info from github.
    */
   public static function appUpdates() {

@@ -12,27 +12,33 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\Xss;
 use Drupal\node\NodeInterface;
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
+use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 
 /**
  * Implements hook_theme().
  */
 function ood_software_theme() {
-  $people_grid = [
-    'variables' => [
-      'items' => [],
-      'empty_message' => NULL,
-      'scrollable' => TRUE,
-    ],
-    'template' => 'people-grid-block',
-  ];
+  $people_grid = function ($block_class) {
+    return [
+      'variables' => [
+        'items' => [],
+        'empty_message' => NULL,
+        'scrollable' => TRUE,
+        'block_class' => $block_class,
+      ],
+      'template' => 'people-grid-block',
+    ];
+  };
 
   return [
-    'appverse_contributors_block' => $people_grid,
-    'discourse_participants_block' => $people_grid,
-    'committee_members_block' => $people_grid,
-    'ag_coordinators_block' => $people_grid,
-    'good_conference_committee_block' => $people_grid,
-    'tips_tricks_calls_block' => $people_grid,
+    'appverse_contributors_block' => $people_grid('contributors-block'),
+    'discourse_participants_block' => $people_grid('discourse-participants-block'),
+    'committee_members_block' => $people_grid('committee-members-block'),
+    'ag_coordinators_block' => $people_grid('ag-coordinators-block'),
+    'good_conference_committee_block' => $people_grid('good-committee-block'),
+    'tips_tricks_calls_block' => $people_grid('tips-tricks-block'),
   ];
 }
 
@@ -422,16 +428,66 @@ function _ood_software_get_logo_url(NodeInterface $software_node) {
 }
 
 /**
+ * Implements hook_markdown_easy_config_modify().
+ */
+function ood_software_markdown_easy_config_modify(array &$config) {
+  $config['heading_permalink'] = [
+    'min_heading_level' => 2,
+    'max_heading_level' => 4,
+    'insert' => 'none',
+    'apply_id_to_heading' => TRUE,
+    'id_prefix' => '',
+    'fragment_prefix' => '',
+  ];
+  $config['external_link'] = [
+    'internal_hosts' => ['openondemand.connectci.org'],
+    'open_in_new_window' => TRUE,
+    'nofollow' => 'external',
+    'noopener' => 'external',
+    'noreferrer' => 'external',
+  ];
+}
+
+/**
+ * Implements hook_markdown_easy_environment_modify().
+ */
+function ood_software_markdown_easy_environment_modify(Environment &$environment) {
+  $environment->addExtension(new HeadingPermalinkExtension());
+  $environment->addExtension(new ExternalLinkExtension());
+}
+
+/**
  * Implements hook_node_view().
  *
- * Redirects browser visitors from appverse node pages to the SPA.
- * Crawlers don't execute JS, so they still see metatag-rich HTML.
+ * - Attaches appverse-docs CSS library and GitHub edit link to synced doc pages.
+ * - Redirects browser visitors from appverse node pages to the SPA.
  */
 function ood_software_node_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
   if ($view_mode !== 'full' || !$entity instanceof NodeInterface) {
     return;
   }
 
+  // Appverse documentation pages: attach CSS and GitHub edit link.
+  $doc_map = array_flip(\Drupal\ood_software\Service\DocSyncService::DOC_MAP);
+  $nid = (int) $entity->id();
+  if (isset($doc_map[$nid])) {
+    $build['#attached']['library'][] = 'ood_software/appverse-docs';
+
+    $github_url = 'https://github.com/sweet-and-fizzy/ood-appverse/edit/main/docs/' . $doc_map[$nid];
+    $build['github_edit_link'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['appverse-docs-github-link']],
+      '#weight' => -100,
+      'link' => [
+        '#type' => 'link',
+        '#title' => 'Suggest an edit on GitHub',
+        '#url' => \Drupal\Core\Url::fromUri($github_url),
+        '#attributes' => ['target' => '_blank', 'rel' => 'noopener'],
+      ],
+    ];
+  }
+
+  // Appverse SPA redirects for software and app nodes.
   if ($entity->bundle() === 'appverse_software') {
     $slug = basename($entity->toUrl()->toString());
     $build['#attached']['html_head'][] = [
