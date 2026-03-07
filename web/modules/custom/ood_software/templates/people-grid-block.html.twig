@@ -32,7 +32,7 @@
     margin: 0;
   }
 </style>
-<div class="people-grid-block{{ scrollable is not same as(false) ? ' people-grid-block--scrollable' }}">
+<div class="people-grid-block{{ block_class ? ' ' ~ block_class }}{{ scrollable is not same as(false) ? ' people-grid-block--scrollable' }}">
   {% if items %}
     <ul class="people-grid-list">
       {% for item in items %}

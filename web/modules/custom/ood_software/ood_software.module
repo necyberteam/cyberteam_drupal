@@ -20,22 +20,25 @@ use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
  * Implements hook_theme().
  */
 function ood_software_theme() {
-  $people_grid = [
-    'variables' => [
-      'items' => [],
-      'empty_message' => NULL,
-      'scrollable' => TRUE,
-    ],
-    'template' => 'people-grid-block',
-  ];
+  $people_grid = function ($block_class) {
+    return [
+      'variables' => [
+        'items' => [],
+        'empty_message' => NULL,
+        'scrollable' => TRUE,
+        'block_class' => $block_class,
+      ],
+      'template' => 'people-grid-block',
+    ];
+  };
 
   return [
-    'appverse_contributors_block' => $people_grid,
-    'discourse_participants_block' => $people_grid,
-    'committee_members_block' => $people_grid,
-    'ag_coordinators_block' => $people_grid,
-    'good_conference_committee_block' => $people_grid,
-    'tips_tricks_calls_block' => $people_grid,
+    'appverse_contributors_block' => $people_grid('contributors-block'),
+    'discourse_participants_block' => $people_grid('discourse-participants-block'),
+    'committee_members_block' => $people_grid('committee-members-block'),
+    'ag_coordinators_block' => $people_grid('ag-coordinators-block'),
+    'good_conference_committee_block' => $people_grid('good-committee-block'),
+    'tips_tricks_calls_block' => $people_grid('tips-tricks-block'),
   ];
 }
 
