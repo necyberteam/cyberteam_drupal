@@ -1,0 +1,6 @@
+services:
+  ood_software.commands:
+    class: \Drupal\ood_software\Commands\OodSoftwareCommands
+    arguments: ['@entity_type.manager', '@key.repository', '@http_client']
+    tags:
+      - { name: drush.command }
