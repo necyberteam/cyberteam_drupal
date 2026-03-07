@@ -64,7 +64,8 @@ describe("Verify the tags page", () => {
           .find('a')
           .each($a => {
             if (!$a.text().includes('fluid-dynamics')) {
-              expect($a).to.have.attr("href", '/tags/' + $a.text().toLowerCase().replace('++', '%252B%252B'));
+              const slugified = $a.text().toLowerCase().replace(/\s+/g, '-').replace('++', '%252B%252B');
+              expect($a).to.have.attr("href", '/tags/' + slugified);
             }
           });
 
