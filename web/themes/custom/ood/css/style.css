@@ -259,6 +259,20 @@ body {
     a {
       text-transform: none;
     }
+    a.nav-link {
+      text-decoration: underline transparent;
+      text-underline-offset: 5px;
+      transition: text-decoration-color 0.3s ease;
+    }
+    a.nav-link:hover,
+    a.nav-link.is-active {
+      text-decoration-color: currentColor;
+      color: inherit;
+    }
+    .top-left-menu a.nav-link:hover,
+    .top-left-menu a.nav-link.is-active {
+      color: #fff;
+    }
 
     .nav-item {
       display: flex;
@@ -300,7 +314,7 @@ body {
       justify-content: flex-start;
       background-color: #000;
       padding: .5rem 1rem;
-      width: 75%;
+      width: 50%;
       overflow: hidden;
       .nav-item a {
         color: #fff;

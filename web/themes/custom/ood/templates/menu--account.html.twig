@@ -1,0 +1,70 @@
+{#
+/**
+ * @file
+ * OOD theme override for the account menu.
+ *
+ * Removes the button styling from the "Log in" link so it matches
+ * the other nav-link items in the secondary nav bar.
+ */
+#}
+{% import _self as menus %}
+
+{{ menus.menu_links(items, attributes, 0) }}
+
+{% macro menu_links(items, attributes, menu_level) %}
+{% import _self as menus %}
+  {% if items %}
+    {% if menu_level == 0 %}
+      <ul class="navbar-nav ml-auto">
+    {% else %}
+      <div class="dropdown-menu dropdown-menu-right">
+    {% endif %}
+    {% for item in items %}
+	  {%
+        set item_classes = [
+          item.is_expanded ? 'expanded dropdown',
+		  'nav-item'
+        ]
+      %}
+      {% if menu_level == 0 %}
+        <li{{ item.attributes.addClass(item_classes) }}>
+			{% if item.title == "Log in" %}
+				{% set title %}
+				  <i class="bi bi-box-arrow-in-left" aria-hidden="true"></i> {{ item.title }}
+				{% endset %}
+        {{ link(title, item.url, { 'class':['nav-link', item.is_expanded ? 'dropdown-toggle'], 'data-toggle': item.is_expanded ? 'dropdown' : '' }) }}
+        {% elseif item.title == "My account" %}
+  				{% set title %}
+  				  <i class="bi bi-person" aria-hidden="true"></i> My profile
+  				{% endset %}
+          {% if item.is_expanded %}
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+               role="button" aria-haspopup="true"
+               aria-expanded="false">{{ title }}</a>
+          {% else %}
+            {{ link(title, item.url, { 'class':['nav-link'] }) }}
+          {% endif %}
+      {% else %}
+        {{ link(item.title, item.url, { 'class':['nav-link', item.is_expanded ? 'dropdown-toggle'], 'data-toggle': item.is_expanded ? 'dropdown' : '' }) }}
+			{% endif %}
+      {% else %}
+		{% if item.title == "divider" %}
+			<div class="dropdown-divider"></div>
+		{% else %}
+		    {{ link(item.title, item.url, { 'class':['dropdown-item'] }) }}
+		{% endif %}
+      {% endif %}
+      {% if item.below %}
+        {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+      {% endif %}
+	  {% if menu_level == 0 %}
+		</li>
+      {% endif %}
+    {% endfor %}
+    {% if menu_level == 0 %}
+		</ul>
+	{% else %}
+		</div>
+	{% endif %}
+  {% endif %}
+{% endmacro %}
