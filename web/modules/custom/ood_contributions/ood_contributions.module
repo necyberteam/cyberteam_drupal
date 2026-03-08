@@ -88,6 +88,22 @@ function _ood_contributions_user_form_validate(&$form, \Drupal\Core\Form\FormSta
       $form_state->setErrorByName('field_github_username', t('GitHub username "@name" was not found on GitHub.', ['@name' => $username]));
     }
   }
+
+  // Normalize and validate Discourse username.
+  $discourse_value = $form_state->getValue('field_discourse_openondemand_org');
+  if (!empty($discourse_value[0]['value'])) {
+    $discourse_username = trim($discourse_value[0]['value']);
+    // Strip URL prefixes (e.g. https://discourse.openondemand.org/u/username).
+    $discourse_username = preg_replace('#^https?://discourse\.openondemand\.org/u/#i', '', $discourse_username);
+    $discourse_username = rtrim($discourse_username, '/');
+    $form_state->setValue('field_discourse_openondemand_org', [['value' => $discourse_username]]);
+
+    $discourse_service = \Drupal::service('ood_contributions.discourse_api');
+    $result = $discourse_service->getUserByUsername($discourse_username);
+    if ($result['error']) {
+      $form_state->setErrorByName('field_discourse_openondemand_org', t('Discourse username "@name" was not found on discourse.openondemand.org.', ['@name' => $discourse_username]));
+    }
+  }
 }
 
 /**
