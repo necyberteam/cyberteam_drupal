@@ -75,7 +75,7 @@ describe("Community Persona - Contribution Graphs", () => {
         `ddev drush eval "` +
         `\\$user = \\Drupal\\user\\Entity\\User::load(${testUserUid || 1}); ` +
         `\\$user->addRole('ondemand'); ` +
-        `\\$terms = \\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['vid' => 'region', 'name' => 'At-Large']); ` +
+        `\\$terms = \\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['vid' => 'region', 'name' => 'Open OnDemand']); ` +
         `if (\\$terms) { \\$user->set('field_region', [['target_id' => reset(\\$terms)->id()]]); } ` +
         `\\$user->save(); ` +
         `echo 'ondemand role added, region: ' . count(\\$user->get('field_region')->getValue());"`,
