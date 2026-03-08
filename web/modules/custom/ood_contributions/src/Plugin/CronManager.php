@@ -11,10 +11,20 @@ class CronManager {
    * Store github stats.
    */
   public static function storeStats() {
-    // Lookup users to store stats.
+    // Lookup users in the Open OnDemand region who have a GitHub username.
+    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties([
+      'name' => 'Open OnDemand',
+      'vid' => 'region',
+    ]);
+    $term = reset($terms);
+    if (!$term) {
+      \Drupal::logger('ood_contributions')->error('Region term "Open OnDemand" not found.');
+      return;
+    }
+
     $entity_query = \Drupal::entityQuery('user')
       ->condition('status', 1)
-      ->condition('roles', 'ondemand')
+      ->condition('field_region', $term->id())
       ->accessCheck(FALSE)
       ->exists('field_github_username');
     $uids = $entity_query->execute();
