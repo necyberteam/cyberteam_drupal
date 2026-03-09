@@ -383,6 +383,38 @@ function ood_software__redirect_submit($form, FormStateInterface $form_state) {
 }
 
 /**
+ * Implements hook_node_insert().
+ */
+function ood_software_node_insert(NodeInterface $node) {
+  _ood_software_invalidate_appverse_cache($node);
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function ood_software_node_update(NodeInterface $node) {
+  _ood_software_invalidate_appverse_cache($node);
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function ood_software_node_delete(NodeInterface $node) {
+  _ood_software_invalidate_appverse_cache($node);
+}
+
+function _ood_software_invalidate_appverse_cache(NodeInterface $node) {
+  if (in_array($node->bundle(), ['appverse_software', 'appverse_app'])) {
+    // Throttle: skip if cache was generated less than 60 seconds ago.
+    $cache_file = 'public://appverse-cache/appverse-data.json';
+    if (file_exists($cache_file) && (time() - filemtime($cache_file)) < 60) {
+      return;
+    }
+    \Drupal::service('ood_software.appverse_cache')->generate();
+  }
+}
+
+/**
  * Implements hook_metatags_alter().
  */
 function ood_software_metatags_alter(array &$metatags, array &$context) {

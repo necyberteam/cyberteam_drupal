@@ -22,6 +22,15 @@ class CronManager {
   }
 
   /**
+   * Generate appverse static JSON cache.
+   *
+   * Runs on all environments (no env guard) so dev/test have a working cache.
+   */
+  public static function generateCache() {
+    \Drupal::service('ood_software.appverse_cache')->generate();
+  }
+
+  /**
    * Update app info from github.
    */
   public static function appUpdates() {
