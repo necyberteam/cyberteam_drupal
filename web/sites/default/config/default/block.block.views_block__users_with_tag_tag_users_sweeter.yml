@@ -1,0 +1,40 @@
+uuid: 5276853c-39a1-4882-8bac-0812be75ca6e
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.users_with_tag
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__users_with_tag_tag_users_sweeter
+theme: nect
+region: tags_page_students
+weight: 0
+provider: null
+plugin: 'views_block:users_with_tag-tag_users_sweeter'
+settings:
+  id: 'views_block:users_with_tag-tag_users_sweeter'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      sweeter_cyberinfrastructure_org: sweeter_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '/taxonomy/term/*'
