@@ -878,6 +878,20 @@ display:
             value: "<p>There are no Resources associated with this topic. View <a href=\"/knowledge-base/resources\">All Resources</a>.</p>\r\n"
             format: full_no_editor
           tokenize: false
+      sorts:
+        webform_submission_value:
+          id: webform_submission_value
+          table: webform_submission_field_resource_title
+          field: webform_submission_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: webform_submission_field_sort
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: webform_submission_value
+          exposed: false
       arguments:
         webform_submission_value:
           id: webform_submission_value
@@ -979,6 +993,7 @@ display:
         use_more_text: false
         relationships: false
         arguments: false
+        sorts: false
         filters: false
         filter_groups: false
         header: false

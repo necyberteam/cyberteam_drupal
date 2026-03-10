@@ -1,0 +1,39 @@
+uuid: ce443e5a-3c94-46d9-8a3e-82ac2c832f1a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.open_ondemand_badges.field_badge
+    - taxonomy.vocabulary.open_ondemand_badges
+  module:
+    - svg_image
+    - text
+id: taxonomy_term.open_ondemand_badges.default
+targetEntityType: taxonomy_term
+bundle: open_ondemand_badges
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_badge:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

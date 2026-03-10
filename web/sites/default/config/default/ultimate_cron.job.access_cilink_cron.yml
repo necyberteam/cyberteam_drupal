@@ -1,0 +1,17 @@
+uuid: 92c85fcd-a627-47c3-9369-e735df0dfd55
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_cilink
+title: 'Default cron handler'
+id: access_cilink_cron
+weight: 0
+module: access_cilink
+callback: 'access_cilink#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

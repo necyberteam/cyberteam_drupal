@@ -1,0 +1,30 @@
+uuid: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+langcode: en
+status: true
+dependencies:
+  module:
+    - ood_contributions
+title: 'OOD Contributions: GitHub Stats'
+id: ood_contributions_github_stats
+weight: 14
+module: ood_contributions
+callback: '\Drupal\ood_contributions\Plugin\CronManager::storeStats'
+scheduler:
+  id: crontab
+  configuration:
+    rules:
+      - '0 */6 * * *'
+    catch_up: 21600
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+    launcher:
+      thread: 0
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000
