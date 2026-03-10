@@ -173,6 +173,11 @@ class CommunitySpotlightBlock extends BlockBase implements ContainerFactoryPlugi
       $last_name = $user->get('field_user_last_name')->value;
     }
 
+    $job_title = '';
+    if ($user->hasField('field_current_occupation') && !$user->get('field_current_occupation')->isEmpty()) {
+      $job_title = $user->get('field_current_occupation')->value;
+    }
+
     $organization = '';
     if ($user->hasField('field_access_organization') && !$user->get('field_access_organization')->isEmpty()) {
       $field = $user->get('field_access_organization');
@@ -196,6 +201,7 @@ class CommunitySpotlightBlock extends BlockBase implements ContainerFactoryPlugi
       'photo_url' => $photo_url,
       'first_name' => $first_name,
       'last_name' => $last_name,
+      'job_title' => $job_title,
       'organization' => $organization,
       'spotlight_text' => $spotlight_text,
     ];

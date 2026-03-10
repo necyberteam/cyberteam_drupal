@@ -35,6 +35,7 @@
             photo: featured.getAttribute('data-photo'),
             first: featured.getAttribute('data-first'),
             last: featured.getAttribute('data-last'),
+            jobTitle: featured.getAttribute('data-job-title'),
             org: featured.getAttribute('data-org'),
             text: featured.getAttribute('data-text')
           };
@@ -45,6 +46,7 @@
             photo: thumb.getAttribute('data-photo'),
             first: thumb.getAttribute('data-first'),
             last: thumb.getAttribute('data-last'),
+            jobTitle: thumb.getAttribute('data-job-title'),
             org: thumb.getAttribute('data-org'),
             text: thumb.getAttribute('data-text')
           };
@@ -54,6 +56,7 @@
           featured.setAttribute('data-photo', newData.photo);
           featured.setAttribute('data-first', newData.first);
           featured.setAttribute('data-last', newData.last);
+          featured.setAttribute('data-job-title', newData.jobTitle);
           featured.setAttribute('data-org', newData.org);
           featured.setAttribute('data-text', newData.text);
 
@@ -67,6 +70,26 @@
           var nameLink = featured.querySelector('.community-spotlight__name');
           nameLink.href = '/community-persona/' + newData.uid;
           nameLink.textContent = newData.first + ' ' + newData.last;
+
+          var jobTitleEl = featured.querySelector('.community-spotlight__job-title');
+          if (newData.jobTitle) {
+            if (jobTitleEl) {
+              jobTitleEl.textContent = newData.jobTitle;
+            }
+            else {
+              jobTitleEl = document.createElement('div');
+              jobTitleEl.className = 'community-spotlight__job-title';
+              jobTitleEl.style.textTransform = 'uppercase';
+              jobTitleEl.style.fontSize = '0.8rem';
+              jobTitleEl.style.fontWeight = '600';
+              jobTitleEl.textContent = newData.jobTitle;
+              var detailsEl = featured.querySelector('.community-spotlight__details');
+              detailsEl.insertBefore(jobTitleEl, detailsEl.firstChild);
+            }
+          }
+          else if (jobTitleEl) {
+            jobTitleEl.remove();
+          }
 
           var orgEl = featured.querySelector('.community-spotlight__org');
           orgEl.textContent = newData.org;
@@ -87,6 +110,11 @@
             textEl.remove();
           }
 
+          var moreLink = featured.querySelector('.community-spotlight__more a');
+          if (moreLink) {
+            moreLink.href = '/community-persona/' + newData.uid;
+          }
+
           // Trigger slide-up animation on the featured content.
           featured.style.animation = 'none';
           // Force reflow so the animation restarts.
@@ -98,6 +126,7 @@
           thumb.setAttribute('data-photo', currentData.photo);
           thumb.setAttribute('data-first', currentData.first);
           thumb.setAttribute('data-last', currentData.last);
+          thumb.setAttribute('data-job-title', currentData.jobTitle);
           thumb.setAttribute('data-org', currentData.org);
           thumb.setAttribute('data-text', currentData.text);
           thumb.title = currentData.first + ' ' + currentData.last;
