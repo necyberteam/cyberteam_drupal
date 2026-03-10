@@ -1,0 +1,17 @@
+uuid: 90a4d051-b6d6-4c0b-9a94-3e066fe46020
+langcode: en
+status: true
+dependencies:
+  module:
+    - viewsoverride
+title: 'Default cron handler'
+id: viewsoverride_cron
+weight: 0
+module: viewsoverride
+callback: 'viewsoverride#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

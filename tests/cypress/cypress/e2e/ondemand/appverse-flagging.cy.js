@@ -20,6 +20,9 @@ describe("Appverse App Flagging", () => {
     cy.wait('@fetchRepo');
     cy.contains('We\'ve detected the following', { timeout: 5000 }).should('be.visible');
 
+    // Select App Type (required field)
+    cy.get('input[name^="field_appverse_app_type"]').first().check();
+
     // Set moderation state to Published so it's visible and flaggable
     cy.get('[data-drupal-selector="edit-moderation-state-0-state"]')
       .select('published');

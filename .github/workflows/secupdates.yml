@@ -1,0 +1,25 @@
+name: (AM) Security Updates
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '20 17,18,19,20,21 * * 3'
+permissions:
+  actions: read
+  contents: write
+  pull-requests: write
+jobs:
+  build:
+    name: Check for security updates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+
+      - name: Composer install
+        run: |
+          composer install
+
+      - name: Run robo su
+        run: |
+          vendor/bin/robo su --no-interaction
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}

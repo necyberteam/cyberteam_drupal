@@ -1,0 +1,238 @@
+<?php
+
+/**
+ * @file
+ * Contains ood_contributions.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_help().
+ */
+function ood_contributions_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.ood_contributions':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Tracks user contributions from GitHub repositories.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_user_update().
+ *
+ * Ensures only one user can have field_ood_spotlight_promoted checked at a
+ * time. When a user is saved with the field checked, all other users with the
+ * field checked will have it unchecked.
+ */
+function ood_contributions_user_update(UserInterface $account) {
+  if (!$account->hasField('field_ood_spotlight_promoted')) {
+    return;
+  }
+
+  if (!(bool) $account->get('field_ood_spotlight_promoted')->value) {
+    return;
+  }
+
+  $other_uids = \Drupal::entityQuery('user')
+    ->condition('field_ood_spotlight_promoted', TRUE)
+    ->condition('uid', $account->id(), '!=')
+    ->accessCheck(FALSE)
+    ->execute();
+
+  foreach ($other_uids as $uid) {
+    $other_user = \Drupal\user\Entity\User::load($uid);
+    if ($other_user) {
+      $other_user->set('field_ood_spotlight_promoted', FALSE);
+      $other_user->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for user_form.
+ *
+ * Adds a submit handler that triggers a batch to fetch contributions
+ * when the GitHub or Discourse username fields change.
+ */
+function ood_contributions_form_user_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Store original values so we can detect changes in the submit handler.
+  $user = $form_state->getFormObject()->getEntity();
+  $form['#ood_original_github'] = $user->hasField('field_github_username') ? $user->get('field_github_username')->value : NULL;
+  $form['#ood_original_discourse'] = $user->hasField('field_discourse_openondemand_org') ? $user->get('field_discourse_openondemand_org')->value : NULL;
+  $form['actions']['submit']['#submit'][] = '_ood_contributions_user_form_submit';
+}
+
+/**
+ * Submit handler: sets a batch to fetch contributions if usernames changed.
+ *
+ * When a username is added or changed, fetches new contributions via batch.
+ * When a username is removed, clears the associated contribution data.
+ */
+function _ood_contributions_user_form_submit(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  $user = $form_state->getFormObject()->getEntity();
+  $uid = $user->id();
+
+  $old_github = $form['#ood_original_github'] ?? NULL;
+  $old_discourse = $form['#ood_original_discourse'] ?? NULL;
+  $new_github = $user->hasField('field_github_username') ? $user->get('field_github_username')->value : NULL;
+  $new_discourse = $user->hasField('field_discourse_openondemand_org') ? $user->get('field_discourse_openondemand_org')->value : NULL;
+
+  // Handle GitHub username removed.
+  if (empty($new_github) && !empty($old_github)) {
+    _ood_contributions_clear_github($uid);
+  }
+
+  // Handle Discourse username removed.
+  if (empty($new_discourse) && !empty($old_discourse)) {
+    _ood_contributions_clear_discourse($uid);
+  }
+
+  // Handle username added or changed — fetch new contributions.
+  $fetch_github = !empty($new_github) && $new_github !== $old_github;
+  $fetch_discourse = !empty($new_discourse) && $new_discourse !== $old_discourse;
+
+  if (!$fetch_github && !$fetch_discourse) {
+    return;
+  }
+
+  $operations = [];
+  if ($fetch_github) {
+    $operations[] = ['_ood_contributions_batch_fetch_github', [$uid, $new_github]];
+  }
+  if ($fetch_discourse) {
+    $operations[] = ['_ood_contributions_batch_fetch_discourse', [$uid]];
+  }
+
+  batch_set([
+    'title' => t('Fetching your contributions...'),
+    'operations' => $operations,
+    'finished' => '_ood_contributions_batch_finished',
+  ]);
+}
+
+/**
+ * Clears GitHub contribution data for a user.
+ */
+function _ood_contributions_clear_github($uid) {
+  // Clear the contribution graph field.
+  $user = \Drupal\user\Entity\User::load($uid);
+  if ($user && $user->hasField('field_github_graph')) {
+    $user->set('field_github_graph', NULL);
+    $user->save();
+  }
+
+  // Clear commits from the database.
+  \Drupal::service('ood_contributions.commit_storage')->deleteCommits($uid);
+
+  // Clear stats from the database.
+  \Drupal::database()->delete('ood_contribution_stats')
+    ->condition('uid', $uid)
+    ->execute();
+
+  \Drupal::messenger()->addStatus(t('GitHub contributions have been cleared.'));
+}
+
+/**
+ * Clears Discourse contribution data for a user.
+ */
+function _ood_contributions_clear_discourse($uid) {
+  \Drupal::service('ood_contributions.discourse_storage')->deleteContributions($uid);
+  \Drupal::messenger()->addStatus(t('Discourse contributions have been cleared.'));
+}
+
+/**
+ * Batch operation: fetch GitHub contributions for a single user.
+ */
+function _ood_contributions_batch_fetch_github($uid, $github_username, &$context) {
+  $context['message'] = t('Fetching GitHub contributions...');
+
+  $gh_commits = \Drupal::service('ood_contributions.github_commits');
+  if (!$gh_commits->isValidGitHubUser($github_username)) {
+    $context['results']['github_error'] = t('GitHub username "@name" was not found.', ['@name' => $github_username]);
+    return;
+  }
+
+  $repos = ['ondemand', 'ood_core', 'ondemand-packaging', 'ood-ansible', 'puppet-module-openondemand', 'ood-documentation'];
+  $commit_storage = \Drupal::service('ood_contributions.commit_storage');
+
+  foreach ($repos as $repo) {
+    $full_repo = "OSC/$repo";
+    $since = $commit_storage->getLatestCommitDate($uid, $full_repo);
+    if ($since) {
+      $since = $since + 1;
+    }
+    $commits = $gh_commits->getCommits('OSC', $repo, $github_username, 100, TRUE, $since);
+    if (!isset($commits['error'])) {
+      $commit_storage->storeCommits($uid, $full_repo, $commits);
+    }
+  }
+
+  $commits = $commit_storage->getCommits($uid);
+  if ($commits) {
+    $graph_service = \Drupal::service('ood_contributions.contribution_graph');
+    $html = $graph_service->generateGraph($uid);
+    $user = \Drupal\user\Entity\User::load($uid);
+    $user->set('field_github_graph', [
+      'value' => $html,
+      'format' => 'full_no_editor',
+    ]);
+    $user->save();
+
+    $full_repos = array_map(fn($r) => "OSC/$r", $repos);
+    $stats_service = \Drupal::service('ood_contributions.user_stats');
+    $stats_service->updateAllUserStats($uid, $github_username, $full_repos);
+  }
+
+  $context['results']['github'] = TRUE;
+}
+
+/**
+ * Batch operation: fetch Discourse contributions for a single user.
+ */
+function _ood_contributions_batch_fetch_discourse($uid, &$context) {
+  $context['message'] = t('Fetching Discourse contributions...');
+  $service = \Drupal::service('ood_contributions.discourse_contribution');
+  $service->updateUserContributions($uid);
+  $context['results']['discourse'] = TRUE;
+}
+
+/**
+ * Batch finished callback.
+ */
+function _ood_contributions_batch_finished($success, $results, $operations) {
+  if (!empty($results['github_error'])) {
+    \Drupal::messenger()->addWarning($results['github_error']);
+  }
+  if (!empty($results['github'])) {
+    \Drupal::messenger()->addStatus(t('GitHub contributions have been updated.'));
+  }
+  if (!empty($results['discourse'])) {
+    \Drupal::messenger()->addStatus(t('Discourse contributions have been updated.'));
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ood_contributions_theme() {
+  return [
+    'contributors_block' => [
+      'variables' => [
+        'contributors' => [],
+      ],
+      'template' => 'contributors-block',
+    ],
+    'community_spotlight_block' => [
+      'variables' => [
+        'spotlight' => NULL,
+      ],
+      'template' => 'community-spotlight-block',
+    ],
+  ];
+}

@@ -1,0 +1,46 @@
+{#
+/**
+ * @file
+ * Default theme implementation for affinity group coordinators block.
+ *
+ * Available variables:
+ * - coordinators: Array of coordinator data with uid, name, and photo_url.
+ */
+#}
+
+<style>
+  .coordinators-block svg,
+  .coordinators-block .profile-photo {
+    height: 70px;
+    width: auto;
+  }
+  .coordinators-block {
+    max-height: 205px;
+    overflow: auto;
+  }
+  .coordinators-block .rounded-custom {
+    border-radius: 1rem 0 1rem 0;
+  }
+</style>
+<div class="coordinators-block">
+  {% if coordinators %}
+    <ul class="coordinators-list d-flex flex-wrap list-none">
+      {% for coordinator in coordinators %}
+        <li class="coordinator-item text-center mr-3 mb-3">
+          <a href="/community-persona/{{ coordinator.uid }}" class="coordinator-link">
+            <div class="coordinator-photo">
+              {% if coordinator.photo_url %}
+                <img src="{{ coordinator.photo_url }}" alt="{{ coordinator.name }}" class="profile-photo rounded-custom" />
+              {% else %}
+                <img src="modules/custom/access/modules/cssn/images/profile.gif" alt="{{ coordinator.name }}" class="profile-photo rounded-custom" />
+              {% endif %}
+            </div>
+            <div class="coordinator-name">{{ coordinator.name }}</div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>{{ 'No coordinators found.'|t }}</p>
+  {% endif %}
+</div>

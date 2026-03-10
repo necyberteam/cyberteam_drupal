@@ -13,6 +13,50 @@ use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\Xss;
 
 /**
+ * Implements hook_theme().
+ */
+function ood_software_theme() {
+  return [
+    'appverse_contributors_block' => [
+      'variables' => [
+        'contributors' => [],
+      ],
+      'template' => 'appverse-contributors-block',
+    ],
+    'discourse_participants_block' => [
+      'variables' => [
+        'participants' => [],
+      ],
+      'template' => 'discourse-participants-block',
+    ],
+    'committee_members_block' => [
+      'variables' => [
+        'members' => [],
+      ],
+      'template' => 'committee-members-block',
+    ],
+    'ag_coordinators_block' => [
+      'variables' => [
+        'coordinators' => [],
+      ],
+      'template' => 'ag-coordinators-block',
+    ],
+    'good_conference_committee_block' => [
+      'variables' => [
+        'members' => [],
+      ],
+      'template' => 'good-conference-committee-block',
+    ],
+    'tips_tricks_calls_block' => [
+      'variables' => [
+        'members' => [],
+      ],
+      'template' => 'tips-tricks-calls-block',
+    ],
+  ];
+}
+
+/**
  * Implements hook_entity_bundle_field_info().
  */
 function ood_software_entity_bundle_field_info(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
@@ -130,7 +174,7 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
     ];
 
     $form['title']['widget'][0]['value']['#placeholder'] = t('e.g. Docker Version of Abacus');
-    $form['field_appverse_github_url']['widget'][0]['uri']['#placeholder'] = t('Add the URL of your repo for');
+    $form['field_appverse_github_url']['widget'][0]['uri']['#placeholder'] = t('Add the URL of your repo');
     unset($form['field_appverse_github_url']['widget'][0]['uri']['#description']);
 
     // Add prefix/suffix to make the fieldset ajax-replaceable.
@@ -242,14 +286,16 @@ function ood_software_fetch_github_data(array &$form, FormStateInterface $form_s
       $form['field_license']['widget'][0]['target_id']['#value'] = $license;
     }
 
-    // Set the app type checkbox as checked.
+    // Set the app type checkboxes as checked.
     // After form processing, individual checkboxes exist as sub-elements of the
     // widget keyed by term ID. Set #checked for the pre-render step and #value
     // to match #return_value so the checkbox renders as checked in the AJAX response.
-    $apptype_id = $gh->getAppTypeId();
-    if ($apptype_id && isset($form['field_appverse_app_type']['widget'][$apptype_id])) {
-      $form['field_appverse_app_type']['widget'][$apptype_id]['#checked'] = TRUE;
-      $form['field_appverse_app_type']['widget'][$apptype_id]['#value'] = $apptype_id;
+    $apptype_ids = $gh->getAppTypeIds();
+    foreach ($apptype_ids as $apptype_id) {
+      if (isset($form['field_appverse_app_type']['widget'][$apptype_id])) {
+        $form['field_appverse_app_type']['widget'][$apptype_id]['#checked'] = TRUE;
+        $form['field_appverse_app_type']['widget'][$apptype_id]['#value'] = $apptype_id;
+      }
     }
 
   } else {
@@ -350,32 +396,3 @@ function ood_software__redirect_submit($form, FormStateInterface $form_state) {
   $form_state->setRedirectUrl($url);
 }
 
-/**
- * Implements hook_cron().
- */
-function ood_software_cron() {
-  $env = getenv('PANTHEON_ENVIRONMENT');
-  $cron_run = \Drupal::state()->get('ood_software.last_cron_run', 0);
-
-//  if ( date('G', time()) == 00 && date('i', time()) < 25 && $env == 'live') {
-//    \Drupal::state()->set('ood_software.last_cron_run', 1);
-//  } elseif ($cron_run == 1) {
-    // Get the queue.
-    $queue = \Drupal::queue('appverse_app_updater');
-
-    // Load all app nodes.
-    $nids = \Drupal::entityQuery('node')
-      ->condition('type', 'appverse_app')
-      ->accessCheck(FALSE)
-      ->execute();
-
-    // Add each node to the queue for processing.
-    foreach ($nids as $nid) {
-      $item = ['nid' => $nid];
-      $queue->createItem($item);
-    }
-
-    // Update last run timestamp.
-    \Drupal::state()->set('ood_software.last_cron_run', 0);
-//  }
-}

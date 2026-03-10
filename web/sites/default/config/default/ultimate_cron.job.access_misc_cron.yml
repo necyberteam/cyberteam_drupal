@@ -1,0 +1,17 @@
+uuid: 36701c8b-6f05-48c4-9717-209b8bdcd0f0
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_misc
+title: 'Default cron handler'
+id: access_misc_cron
+weight: 0
+module: access_misc
+callback: 'access_misc#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database
