@@ -60,15 +60,23 @@ class CommunitySpotlightBlock extends BlockBase implements ContainerFactoryPlugi
    * {@inheritdoc}
    */
   public function build() {
-    $spotlight_user = $this->getSpotlightUser();
+    $spotlight_user = $this->getPromotedUser();
 
     if (!$spotlight_user) {
       return [];
     }
 
+    $others = $this->getOtherSpotlightUsers($spotlight_user['uid']);
+
     return [
       '#theme' => 'community_spotlight_block',
       '#spotlight' => $spotlight_user,
+      '#others' => $others,
+      '#attached' => [
+        'library' => [
+          'ood_contributions/community_spotlight',
+        ],
+      ],
       '#cache' => [
         'tags' => ['user_list'],
         'max-age' => 3600,
@@ -82,7 +90,7 @@ class CommunitySpotlightBlock extends BlockBase implements ContainerFactoryPlugi
    * @return array|null
    *   Array of spotlight user data, or NULL if none found.
    */
-  protected function getSpotlightUser() {
+  protected function getPromotedUser() {
     $query = $this->entityTypeManager->getStorage('user')->getQuery();
     $query->condition('status', 1);
     $query->condition('field_ood_spotlight_promoted', 1);
@@ -96,6 +104,47 @@ class CommunitySpotlightBlock extends BlockBase implements ContainerFactoryPlugi
     }
 
     $uid = reset($uids);
+    return $this->buildUserData($uid);
+  }
+
+  /**
+   * Get non-promoted users who have spotlight text.
+   *
+   * @param int $promoted_uid
+   *   The UID of the promoted user to exclude.
+   *
+   * @return array
+   *   Array of user data arrays.
+   */
+  protected function getOtherSpotlightUsers($promoted_uid) {
+    $query = $this->entityTypeManager->getStorage('user')->getQuery();
+    $query->condition('status', 1);
+    $query->condition('field_ood_community_spotlight', '', '<>');
+    $query->condition('uid', $promoted_uid, '!=');
+    $query->accessCheck(TRUE);
+    $uids = $query->execute();
+
+    $others = [];
+    foreach ($uids as $uid) {
+      $data = $this->buildUserData($uid);
+      if ($data) {
+        $others[] = $data;
+      }
+    }
+
+    return $others;
+  }
+
+  /**
+   * Build the data array for a single user.
+   *
+   * @param int $uid
+   *   The user ID.
+   *
+   * @return array|null
+   *   Array of user data, or NULL if user could not be loaded.
+   */
+  protected function buildUserData($uid) {
     $user = $this->entityTypeManager->getStorage('user')->load($uid);
 
     if (!$user) {
@@ -110,7 +159,6 @@ class CommunitySpotlightBlock extends BlockBase implements ContainerFactoryPlugi
       }
     }
 
-    // Fallback to placeholder if no photo found.
     if (!$photo_url) {
       $photo_url = '/modules/custom/access/modules/cssn/images/profile.gif';
     }
@@ -125,16 +173,19 @@ class CommunitySpotlightBlock extends BlockBase implements ContainerFactoryPlugi
       $last_name = $user->get('field_user_last_name')->value;
     }
 
+    $job_title = '';
+    if ($user->hasField('field_current_occupation') && !$user->get('field_current_occupation')->isEmpty()) {
+      $job_title = $user->get('field_current_occupation')->value;
+    }
+
     $organization = '';
     if ($user->hasField('field_access_organization') && !$user->get('field_access_organization')->isEmpty()) {
       $field = $user->get('field_access_organization');
-      // If it's an entity reference (term, profile, etc.), get the entity label.
       $entity = $field->entity;
       if ($entity) {
         $organization = $entity->label();
       }
       else {
-        // Fallback to raw value.
         $organization = $field->value;
       }
     }
@@ -150,6 +201,7 @@ class CommunitySpotlightBlock extends BlockBase implements ContainerFactoryPlugi
       'photo_url' => $photo_url,
       'first_name' => $first_name,
       'last_name' => $last_name,
+      'job_title' => $job_title,
       'organization' => $organization,
       'spotlight_text' => $spotlight_text,
     ];
