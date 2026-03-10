@@ -958,3 +958,199 @@ function ood_software_links($menu_link) {
     \Drupal::logger('ood_software')->notice('Menu link already exists: @title', ['@title' => $menu_link['title']]);
   }
 }
+
+/**
+ * Add CSCfi (CSC - IT Center for Science) software and apps.
+ *
+ * Creates 3 new software entries (Desktop, SSH Terminal, Cloud Storage
+ * Configuration) and 7 app nodes from CSCfi GitHub repos.
+ */
+function ood_software_deploy_10011_cscfi_apps() {
+  $messages = [];
+
+  // --- 1. Create new software entries ---
+  $software_entries = [
+    [
+      'title' => 'Desktop',
+      'body' => 'Linux desktop environment via VNC for remote visualization on HPC clusters.',
+      'license' => 'Open-Source License',
+      'tags' => ['Gateways and Portals'],
+    ],
+    [
+      'title' => 'SSH Terminal',
+      'body' => 'Persistent SSH shell access to compute nodes via Open OnDemand.',
+      'license' => 'Open-Source License',
+      'tags' => ['Linux and Shell Scripting'],
+    ],
+    [
+      'title' => 'Cloud Storage Configuration',
+      'body' => 'Cloud storage (Rclone) configuration tool for Open OnDemand. Allows users to configure access to cloud storage services.',
+      'license' => 'Open-Source License',
+      'tags' => ['Cloud', 'Data Storage'],
+      'website' => 'https://github.com/CSCfi/ood-cloud-storage-conf',
+    ],
+  ];
+
+  foreach ($software_entries as $entry) {
+    // Skip if already exists.
+    $existing = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->loadByProperties([
+        'type' => 'appverse_software',
+        'title' => $entry['title'],
+      ]);
+    if (!empty($existing)) {
+      $messages[] = "Software already exists: {$entry['title']}";
+      continue;
+    }
+
+    // Resolve license term.
+    $license_tid = _ood_software_get_or_create_term($entry['license'], 'appverse_license');
+
+    // Resolve tag terms.
+    $tag_tids = [];
+    foreach ($entry['tags'] as $tag_name) {
+      $tid = _ood_software_get_or_create_term($tag_name, 'tags');
+      if ($tid) {
+        $tag_tids[] = ['target_id' => $tid];
+      }
+    }
+
+    $node_data = [
+      'type' => 'appverse_software',
+      'title' => $entry['title'],
+      'uid' => 1985,
+      'body' => [
+        'value' => $entry['body'],
+        'format' => 'markdown',
+      ],
+      'field_license' => $license_tid ? ['target_id' => $license_tid] : NULL,
+      'field_tags' => $tag_tids,
+      'status' => 1,
+    ];
+
+    if (!empty($entry['website'])) {
+      $node_data['field_appverse_software_website'] = [
+        'uri' => $entry['website'],
+        'title' => '',
+      ];
+    }
+
+    $node = Node::create($node_data);
+    $node->save();
+    $messages[] = "Created software: {$entry['title']} (nid={$node->id()})";
+  }
+
+  // --- 2. Create CSCfi organization term ---
+  $org_tid = _ood_software_get_or_create_term('CSC - IT Center for Science', 'appverse_organization');
+  $messages[] = "Organization term: CSC - IT Center for Science (tid=$org_tid)";
+
+  // --- 3. Create app nodes ---
+  $apps = [
+    [
+      'title' => 'Jupyter',
+      'software' => 'jupyter',
+      'github_url' => 'https://github.com/CSCfi/ood-base-jupyter',
+      'app_type' => 'batch-connect-basic',
+    ],
+    [
+      'title' => 'RStudio',
+      'software' => 'RStudio',
+      'github_url' => 'https://github.com/CSCfi/ood-rstudio',
+      'app_type' => 'batch-connect-basic',
+    ],
+    [
+      'title' => 'Visual Studio Code',
+      'software' => 'Visual Studio Code',
+      'github_url' => 'https://github.com/CSCfi/ood-vscode',
+      'app_type' => 'batch-connect-basic',
+    ],
+    [
+      'title' => 'TensorBoard',
+      'software' => 'TensorBoard',
+      'github_url' => 'https://github.com/CSCfi/ood-tensorboard',
+      'app_type' => 'batch-connect-basic',
+    ],
+    [
+      'title' => 'Desktop',
+      'software' => 'Desktop',
+      'github_url' => 'https://github.com/CSCfi/ood-vnc-util',
+      'app_type' => 'batch-connect-VNC',
+    ],
+    [
+      'title' => 'Compute Node Shell',
+      'software' => 'SSH Terminal',
+      'github_url' => 'https://github.com/CSCfi/ood-persistent-ssh',
+      'app_type' => 'batch-connect-basic',
+    ],
+    [
+      'title' => 'Cloud Storage Configuration',
+      'software' => 'Cloud Storage Configuration',
+      'github_url' => 'https://github.com/CSCfi/ood-cloud-storage-conf',
+      'app_type' => 'companion_app',
+    ],
+  ];
+
+  // Resolve MIT license term (used for all apps).
+  $mit_tid = _ood_software_get_or_create_term('MIT', 'appverse_license');
+
+  $app_count = 0;
+  foreach ($apps as $app) {
+    // Skip if GitHub URL already exists.
+    $existing = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->loadByProperties([
+        'type' => 'appverse_app',
+        'field_appverse_github_url' => $app['github_url'],
+      ]);
+    if (!empty($existing)) {
+      $messages[] = "App already exists: {$app['title']} ({$app['github_url']})";
+      continue;
+    }
+
+    // Look up software node.
+    $software_nid = NULL;
+    $software_nodes = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->loadByProperties([
+        'type' => 'appverse_software',
+        'title' => $app['software'],
+      ]);
+    if (!empty($software_nodes)) {
+      $software_nid = reset($software_nodes)->id();
+    }
+    else {
+      $messages[] = "WARNING: Software not found for app {$app['title']}: {$app['software']}";
+    }
+
+    // Resolve app type term.
+    $app_type_tid = _ood_software_get_or_create_term($app['app_type'], 'appverse_app_type');
+
+    $node = Node::create([
+      'type' => 'appverse_app',
+      'title' => $app['title'],
+      'uid' => 1985,
+      'field_appverse_software_implemen' => $software_nid ? ['target_id' => $software_nid] : NULL,
+      'field_appverse_github_url' => [
+        'uri' => $app['github_url'],
+        'title' => '',
+      ],
+      'field_appverse_organization' => $org_tid ? ['target_id' => $org_tid] : NULL,
+      'field_appverse_app_type' => $app_type_tid ? ['target_id' => $app_type_tid] : NULL,
+      'field_license' => $mit_tid ? ['target_id' => $mit_tid] : NULL,
+      'status' => 1,
+      'moderation_state' => 'published',
+    ]);
+
+    $node->save();
+    $app_count++;
+    $messages[] = "Created app: {$app['title']} (nid={$node->id()})";
+  }
+
+  $summary = implode("\n", $messages);
+  \Drupal::logger('ood_software')->notice("CSCfi import:\n$summary");
+  return t("Created @count CSCfi apps:\n@summary", [
+    '@count' => $app_count,
+    '@summary' => $summary,
+  ]);
+}
