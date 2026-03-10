@@ -748,6 +748,170 @@ function ood_software_deploy_10007_color_logos() {
 }
 
 /**
+ * Normalize app type term names to match APP_TYPE_MANIFEST_MAP.
+ */
+function ood_software_deploy_10008_normalize_app_types() {
+  $renames = [
+    'batch_connect' => 'batch-connect-basic',
+    'dashboard'     => 'dashboards',
+    'passenger_app' => 'companion_app',
+    'widget'        => 'widgets',
+  ];
+  $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $count = 0;
+  foreach ($renames as $old_name => $new_name) {
+    $existing = $storage->loadByProperties(['name' => $new_name, 'vid' => 'appverse_app_type']);
+    if (!empty($existing)) {
+      continue;
+    }
+    $old = $storage->loadByProperties(['name' => $old_name, 'vid' => 'appverse_app_type']);
+    if (!empty($old)) {
+      $term = reset($old);
+      $term->setName($new_name);
+      $term->save();
+      $count++;
+    }
+  }
+  // Ensure batch-connect-VNC exists.
+  $vnc = $storage->loadByProperties(['name' => 'batch-connect-VNC', 'vid' => 'appverse_app_type']);
+  if (empty($vnc)) {
+    Term::create(['vid' => 'appverse_app_type', 'name' => 'batch-connect-VNC'])->save();
+    $count++;
+  }
+  return t('Updated @count app type terms.', ['@count' => $count]);
+}
+
+/**
+ * Queue all apps for re-sync to apply new app type logic.
+ */
+/**
+ * Clean up orphan root-level tags created by CSV software import.
+ *
+ * The CSV import (deploy_10001) used _ood_software_get_or_create_term() which
+ * creates flat terms with no parent. This reparents terms that belong in the
+ * hierarchy and deletes duplicates/junk terms.
+ */
+function ood_software_deploy_10010_cleanup_orphan_tags() {
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $messages = [];
+
+  // 1. Reparent terms that should be children in the hierarchy.
+  // Parent IDs: Analysis and Algorithms=668, Domain Tools=667,
+  // Linux and Shell Scripting=674.
+  $reparent = [
+    'simulation' => 668,
+    'modeling' => 668,
+    'multiphysics' => 667,
+    'automation' => 674,
+  ];
+  foreach ($reparent as $name => $parent_tid) {
+    $terms = $term_storage->loadByProperties(['name' => $name, 'vid' => 'tags']);
+    foreach ($terms as $term) {
+      $parents = $term_storage->loadParents($term->id());
+      if (empty($parents)) {
+        $term->set('parent', ['target_id' => $parent_tid]);
+        $term->save();
+        $messages[] = "Reparented '$name' (id={$term->id()}) under parent $parent_tid";
+      }
+    }
+  }
+
+  // 2. Delete 'web' (id=988) and remove from node 11805.
+  $web_terms = $term_storage->loadByProperties(['name' => 'web', 'vid' => 'tags']);
+  foreach ($web_terms as $term) {
+    $parents = $term_storage->loadParents($term->id());
+    if (empty($parents)) {
+      // Remove reference from any nodes first.
+      $nids = \Drupal::entityQuery('node')
+        ->condition('field_tags', $term->id())
+        ->accessCheck(FALSE)
+        ->execute();
+      foreach ($nids as $nid) {
+        $node = $node_storage->load($nid);
+        if ($node) {
+          $tags = $node->get('field_tags')->getValue();
+          $tags = array_filter($tags, fn($v) => (int) $v['target_id'] !== (int) $term->id());
+          $node->set('field_tags', array_values($tags));
+          $node->save();
+          $messages[] = "Removed 'web' tag from node $nid";
+        }
+      }
+      $term->delete();
+      $messages[] = "Deleted orphan term 'web' (id={$term->id()})";
+    }
+  }
+
+  // 3. Delete 'earth sciences' (tags vocab duplicate) and retag node with
+  // existing 'earth-sciences' (id=872) under Science Domains.
+  $earth_terms = $term_storage->loadByProperties([
+    'name' => 'earth sciences',
+    'vid' => 'tags',
+  ]);
+  $earth_replacement = $term_storage->loadByProperties([
+    'name' => 'earth-sciences',
+    'vid' => 'tags',
+  ]);
+  $earth_replacement_tid = !empty($earth_replacement) ? reset($earth_replacement)->id() : NULL;
+  foreach ($earth_terms as $term) {
+    $nids = \Drupal::entityQuery('node')
+      ->condition('field_tags', $term->id())
+      ->accessCheck(FALSE)
+      ->execute();
+    foreach ($nids as $nid) {
+      $node = $node_storage->load($nid);
+      if ($node) {
+        $tags = $node->get('field_tags')->getValue();
+        $tags = array_filter($tags, fn($v) => (int) $v['target_id'] !== (int) $term->id());
+        if ($earth_replacement_tid) {
+          $tags[] = ['target_id' => $earth_replacement_tid];
+        }
+        $node->set('field_tags', array_values($tags));
+        $node->save();
+        $messages[] = "Retagged node $nid: 'earth sciences' -> 'earth-sciences' ($earth_replacement_tid)";
+      }
+    }
+    $term->delete();
+    $messages[] = "Deleted orphan term 'earth sciences' (id={$term->id()})";
+  }
+
+  // 4. Delete unused junk terms.
+  $delete_names = ['astronomy and planetary sciences', 'physics', 'Tags'];
+  foreach ($delete_names as $name) {
+    $terms = $term_storage->loadByProperties(['name' => $name, 'vid' => 'tags']);
+    foreach ($terms as $term) {
+      $parents = $term_storage->loadParents($term->id());
+      if (empty($parents)) {
+        $term->delete();
+        $messages[] = "Deleted orphan term '$name' (id={$term->id()})";
+      }
+    }
+  }
+
+  $summary = implode("\n", $messages);
+  \Drupal::logger('ood_software')->notice("Tag cleanup:\n$summary");
+  return t("Cleaned up orphan tags:\n@summary", ['@summary' => $summary]);
+}
+
+function ood_software_deploy_10009_resync_app_types() {
+  $queue = \Drupal::queue('appverse_app_updater');
+  $storage = \Drupal::entityTypeManager()->getStorage('node');
+  $nids = \Drupal::entityQuery('node')
+    ->condition('type', 'appverse_app')
+    ->accessCheck(FALSE)
+    ->execute();
+  foreach ($nids as $nid) {
+    $node = $storage->load($nid);
+    if ($node) {
+      $node->set('field_appverse_lastupdated', NULL);
+      $node->save();
+    }
+    $queue->createItem(['nid' => $nid]);
+  }
+  return t('Queued @count apps for app type re-sync.', ['@count' => count($nids)]);
+}
+
+/**
  * Create menu item.
  */
 function ood_software_links($menu_link) {
@@ -793,4 +957,200 @@ function ood_software_links($menu_link) {
   else {
     \Drupal::logger('ood_software')->notice('Menu link already exists: @title', ['@title' => $menu_link['title']]);
   }
+}
+
+/**
+ * Add CSCfi (CSC - IT Center for Science) software and apps.
+ *
+ * Creates 3 new software entries (Desktop, SSH Terminal, Cloud Storage
+ * Configuration) and 7 app nodes from CSCfi GitHub repos.
+ */
+function ood_software_deploy_10011_cscfi_apps() {
+  $messages = [];
+
+  // --- 1. Create new software entries ---
+  $software_entries = [
+    [
+      'title' => 'Desktop',
+      'body' => 'Linux desktop environment via VNC for remote visualization on HPC clusters.',
+      'license' => 'Open-Source License',
+      'tags' => ['Gateways and Portals'],
+    ],
+    [
+      'title' => 'SSH Terminal',
+      'body' => 'Persistent SSH shell access to compute nodes via Open OnDemand.',
+      'license' => 'Open-Source License',
+      'tags' => ['Linux and Shell Scripting'],
+    ],
+    [
+      'title' => 'Cloud Storage Configuration',
+      'body' => 'Cloud storage (Rclone) configuration tool for Open OnDemand. Allows users to configure access to cloud storage services.',
+      'license' => 'Open-Source License',
+      'tags' => ['Cloud', 'Data Storage'],
+      'website' => 'https://github.com/CSCfi/ood-cloud-storage-conf',
+    ],
+  ];
+
+  foreach ($software_entries as $entry) {
+    // Skip if already exists.
+    $existing = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->loadByProperties([
+        'type' => 'appverse_software',
+        'title' => $entry['title'],
+      ]);
+    if (!empty($existing)) {
+      $messages[] = "Software already exists: {$entry['title']}";
+      continue;
+    }
+
+    // Resolve license term.
+    $license_tid = _ood_software_get_or_create_term($entry['license'], 'appverse_license');
+
+    // Resolve tag terms.
+    $tag_tids = [];
+    foreach ($entry['tags'] as $tag_name) {
+      $tid = _ood_software_get_or_create_term($tag_name, 'tags');
+      if ($tid) {
+        $tag_tids[] = ['target_id' => $tid];
+      }
+    }
+
+    $node_data = [
+      'type' => 'appverse_software',
+      'title' => $entry['title'],
+      'uid' => 1985,
+      'body' => [
+        'value' => $entry['body'],
+        'format' => 'markdown',
+      ],
+      'field_license' => $license_tid ? ['target_id' => $license_tid] : NULL,
+      'field_tags' => $tag_tids,
+      'status' => 1,
+    ];
+
+    if (!empty($entry['website'])) {
+      $node_data['field_appverse_software_website'] = [
+        'uri' => $entry['website'],
+        'title' => '',
+      ];
+    }
+
+    $node = Node::create($node_data);
+    $node->save();
+    $messages[] = "Created software: {$entry['title']} (nid={$node->id()})";
+  }
+
+  // --- 2. Create CSCfi organization term ---
+  $org_tid = _ood_software_get_or_create_term('CSC - IT Center for Science', 'appverse_organization');
+  $messages[] = "Organization term: CSC - IT Center for Science (tid=$org_tid)";
+
+  // --- 3. Create app nodes ---
+  $apps = [
+    [
+      'title' => 'Jupyter',
+      'software' => 'jupyter',
+      'github_url' => 'https://github.com/CSCfi/ood-base-jupyter',
+      'app_type' => 'batch-connect-basic',
+    ],
+    [
+      'title' => 'RStudio',
+      'software' => 'RStudio',
+      'github_url' => 'https://github.com/CSCfi/ood-rstudio',
+      'app_type' => 'batch-connect-basic',
+    ],
+    [
+      'title' => 'Visual Studio Code',
+      'software' => 'Visual Studio Code',
+      'github_url' => 'https://github.com/CSCfi/ood-vscode',
+      'app_type' => 'batch-connect-basic',
+    ],
+    [
+      'title' => 'TensorBoard',
+      'software' => 'TensorBoard',
+      'github_url' => 'https://github.com/CSCfi/ood-tensorboard',
+      'app_type' => 'batch-connect-basic',
+    ],
+    [
+      'title' => 'Desktop',
+      'software' => 'Desktop',
+      'github_url' => 'https://github.com/CSCfi/ood-vnc-util',
+      'app_type' => 'batch-connect-VNC',
+    ],
+    [
+      'title' => 'Compute Node Shell',
+      'software' => 'SSH Terminal',
+      'github_url' => 'https://github.com/CSCfi/ood-persistent-ssh',
+      'app_type' => 'batch-connect-basic',
+    ],
+    [
+      'title' => 'Cloud Storage Configuration',
+      'software' => 'Cloud Storage Configuration',
+      'github_url' => 'https://github.com/CSCfi/ood-cloud-storage-conf',
+      'app_type' => 'companion_app',
+    ],
+  ];
+
+  // Resolve MIT license term (used for all apps).
+  $mit_tid = _ood_software_get_or_create_term('MIT', 'appverse_license');
+
+  $app_count = 0;
+  foreach ($apps as $app) {
+    // Skip if GitHub URL already exists.
+    $existing = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->loadByProperties([
+        'type' => 'appverse_app',
+        'field_appverse_github_url' => $app['github_url'],
+      ]);
+    if (!empty($existing)) {
+      $messages[] = "App already exists: {$app['title']} ({$app['github_url']})";
+      continue;
+    }
+
+    // Look up software node.
+    $software_nid = NULL;
+    $software_nodes = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->loadByProperties([
+        'type' => 'appverse_software',
+        'title' => $app['software'],
+      ]);
+    if (!empty($software_nodes)) {
+      $software_nid = reset($software_nodes)->id();
+    }
+    else {
+      $messages[] = "WARNING: Software not found for app {$app['title']}: {$app['software']}";
+    }
+
+    // Resolve app type term.
+    $app_type_tid = _ood_software_get_or_create_term($app['app_type'], 'appverse_app_type');
+
+    $node = Node::create([
+      'type' => 'appverse_app',
+      'title' => $app['title'],
+      'uid' => 1985,
+      'field_appverse_software_implemen' => $software_nid ? ['target_id' => $software_nid] : NULL,
+      'field_appverse_github_url' => [
+        'uri' => $app['github_url'],
+        'title' => '',
+      ],
+      'field_appverse_organization' => $org_tid ? ['target_id' => $org_tid] : NULL,
+      'field_appverse_app_type' => $app_type_tid ? ['target_id' => $app_type_tid] : NULL,
+      'field_license' => $mit_tid ? ['target_id' => $mit_tid] : NULL,
+      'status' => 1,
+      'moderation_state' => 'published',
+    ]);
+
+    $node->save();
+    $app_count++;
+    $messages[] = "Created app: {$app['title']} (nid={$node->id()})";
+  }
+
+  $summary = implode("\n", $messages);
+  \Drupal::logger('ood_software')->notice("CSCfi import:\n$summary");
+  return t("Created @count CSCfi apps:\n@summary", [
+    '@count' => $app_count,
+    '@summary' => $summary,
+  ]);
 }

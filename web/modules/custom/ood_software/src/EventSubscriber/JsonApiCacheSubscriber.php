@@ -2,22 +2,46 @@
 
 namespace Drupal\ood_software\EventSubscriber;
 
+use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Adds cache headers to JSON:API responses.
+ * Adds cache and compression headers to JSON:API responses.
  *
- * Pantheon's Global CDN (Varnish) respects Surrogate-Control for edge caching
- * and Cache-Control for browser caching. By default, JSON:API responses have
- * no max-age, so the CDN treats them as uncacheable.
+ * Pantheon's Global CDN (Fastly/Varnish) respects Surrogate-Control for edge
+ * caching and Cache-Control for browser caching. By default, JSON:API responses
+ * have no max-age, so the CDN treats them as uncacheable.
+ *
+ * For anonymous users, we set CDN edge caching headers and remove Vary: Cookie
+ * so the CDN shares a single cache entry. For authenticated users, we set
+ * browser-only caching (private) so admins don't poison the CDN cache with
+ * unpublished content.
+ *
+ * Fastly does not gzip application/vnd.api+json by default, so we compress
+ * responses in PHP when the client supports it.
  *
  * Cache invalidation is handled by Drupal's cache tag system — when an
  * entity is saved, Pantheon's Advanced Page Cache module purges the CDN
  * entries tagged with that entity.
  */
 class JsonApiCacheSubscriber implements EventSubscriberInterface {
+
+  /**
+   * The current user.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected AccountProxyInterface $currentUser;
+
+  /**
+   * Constructs a JsonApiCacheSubscriber.
+   */
+  public function __construct(AccountProxyInterface $current_user) {
+    $this->currentUser = $current_user;
+  }
 
   /**
    * CDN edge cache TTL in seconds (1 hour).
@@ -42,7 +66,7 @@ class JsonApiCacheSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * Adds cache headers to JSON:API responses.
+   * Adds cache headers and gzip compression to JSON:API responses.
    */
   public function onResponse(ResponseEvent $event): void {
     if (!$event->isMainRequest()) {
@@ -64,16 +88,46 @@ class JsonApiCacheSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    // Don't cache authenticated/personalized responses.
-    if ($request->getSession()?->isStarted()) {
+    if ($this->currentUser->isAuthenticated()) {
+      // Authenticated users get browser-only caching. Don't let the CDN cache
+      // these responses since admins may see unpublished content.
+      $response->headers->set('Cache-Control', 'private, max-age=' . self::BROWSER_MAX_AGE);
+    }
+    else {
+      // Anonymous users get full CDN + browser caching.
+      $response->headers->set('Surrogate-Control', 'max-age=' . self::EDGE_MAX_AGE);
+      $response->headers->set('Cache-Control', 'public, max-age=' . self::BROWSER_MAX_AGE);
+      // Remove Vary: Cookie so the CDN shares one cache entry for all
+      // anonymous users regardless of any tracking cookies.
+      $response->headers->set('Vary', 'Accept-Encoding');
+    }
+
+    // Gzip compress the response. Fastly does not gzip
+    // application/vnd.api+json by default.
+    $this->compressResponse($request, $response);
+  }
+
+  /**
+   * Gzip compresses the response body if the client supports it.
+   */
+  protected function compressResponse($request, Response $response): void {
+    if (!str_contains($request->headers->get('Accept-Encoding', ''), 'gzip')) {
       return;
     }
 
-    // Set Surrogate-Control for Pantheon CDN edge caching.
-    $response->headers->set('Surrogate-Control', 'max-age=' . self::EDGE_MAX_AGE);
+    $content = $response->getContent();
+    if ($content === FALSE || strlen($content) < 1024) {
+      return;
+    }
 
-    // Set Cache-Control for browser caching.
-    $response->headers->set('Cache-Control', 'public, max-age=' . self::BROWSER_MAX_AGE);
+    $compressed = gzencode($content, 6);
+    if ($compressed === FALSE) {
+      return;
+    }
+
+    $response->setContent($compressed);
+    $response->headers->set('Content-Encoding', 'gzip');
+    $response->headers->set('Content-Length', (string) strlen($compressed));
   }
 
 }
