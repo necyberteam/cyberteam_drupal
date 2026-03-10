@@ -287,7 +287,6 @@ function nect_preprocess_webform_element_help(array &$variables) {
  */
 function nect_form_node_form_alter(&$form, FormStateInterface $form_state) {
   $form['#theme'] = ['node_edit_form'];
-  $form['#attached']['library'][] = 'nect/node-edit-form';
 }
 
 /**
