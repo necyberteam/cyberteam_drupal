@@ -84,6 +84,10 @@ runs:
         # Drupal import database.
         vendor/bin/robo did
 
+    - name: Rebuild CI Links search index
+      shell: bash
+      run: ddev drush search-api:index ci_links 2>/dev/null || true
+
     - name: Clear watchdog logs
       shell: bash
       run: ddev drush watchdog:delete all -y
