@@ -280,6 +280,17 @@ function nect_preprocess_webform_element_help(array &$variables) {
 }
 
 /**
+ * Implements hook_form_BASE_FORM_ID_alter() for \Drupal\node\NodeForm.
+ *
+ * Use the node_edit_form theme hook so node-edit-form.html.twig is invoked,
+ * giving us the two-column layout with a sidebar for advanced settings.
+ */
+function nect_form_node_form_alter(&$form, FormStateInterface $form_state) {
+  $form['#theme'] = ['node_edit_form'];
+  $form['#attached']['library'][] = 'nect/node-edit-form';
+}
+
+/**
  * Implements hook_theme_suggestions_container_alter().
  */
 function nect_theme_suggestions_container_alter(&$suggestions, array $variables) {
