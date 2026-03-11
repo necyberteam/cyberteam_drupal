@@ -1,0 +1,30 @@
+uuid: b2c3d4e5-f6a7-8901-bcde-f12345678901
+langcode: en
+status: true
+dependencies:
+  module:
+    - ood_contributions
+title: 'OOD Contributions: Discourse Daily Stats'
+id: ood_contributions_discourse_stats
+weight: 15
+module: ood_contributions
+callback: '\Drupal\ood_contributions\Plugin\CronManager::discourseUpdateDailyStats'
+scheduler:
+  id: crontab
+  configuration:
+    rules:
+      - '30 */3 * * *'
+    catch_up: 14400
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+    launcher:
+      thread: 0
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000

@@ -1,0 +1,53 @@
+uuid: dd595452-2c70-4238-be52-6becc9187fcc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_ood_spotlight_promoted
+  module:
+    - multiple_registration
+    - user
+third_party_settings:
+  multiple_registration:
+    user_additional_register_form_required:
+      authenticated: 0
+      student: 0
+      mentor: 0
+      researcher: 0
+      representative: 0
+      research_computing_facilitator: 0
+      research_software_engineer: 0
+      ci_systems_engineer: 0
+      student_champion: 0
+      domain_champion: 0
+      ccmnet: 0
+      ondemand: 0
+      pascience: 0
+    user_additional_register_form:
+      authenticated: 0
+      student: 0
+      mentor: 0
+      researcher: 0
+      representative: 0
+      research_computing_facilitator: 0
+      research_software_engineer: 0
+      ci_systems_engineer: 0
+      student_champion: 0
+      domain_champion: 0
+      ccmnet: 0
+      ondemand: 0
+      pascience: 0
+id: user.user.field_ood_spotlight_promoted
+field_name: field_ood_spotlight_promoted
+entity_type: user
+bundle: user
+label: 'Open OnDemand Spotlight Promoted'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: Promoted
+  off_label: 'Not Promoted'
+field_type: boolean

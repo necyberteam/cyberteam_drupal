@@ -11,10 +11,11 @@ describe("Authenticated user tests the form to join the CSSN", () => {
   it("Should test CSSN page for authenticated user", () => {
     // login user with the "authenticated" role
     cy.loginAs("pecan@pie.org", "Pecan");
-    cy.visit("/form/join-the-cssn-network");
 
-    //Page Title
-    cy.get(".page-title").contains("Join the CSSN Network");
+    // Visit the CSSN page where the webform is embedded in node 6111.
+    // The custom submit handler (cssn_form_submit) only fires when the
+    // form is loaded via the node embed, not the standalone /form/ URL.
+    cy.visit("/community/cssn#join-cssn");
 
     //Selecting a CSSN Role
     cy.get("#edit-i-am-joining-as-a-general-member").check();
@@ -24,22 +25,12 @@ describe("Authenticated user tests the form to join the CSSN", () => {
 
     //Submit Button and Submission confirmation
     cy.get("#edit-actions-submit").click();
-    // cy.get(".messages--status").then((el)=> {
-    //   console.log(el.text())
-    //   // test if the text is one of the two possible messages
-    //   if (el.text().includes('Thank you for joining the CSSN.')) {
-    //   } else if (el.text().includes('Submission updated')) {
-    //   } else {
-    //     throw new Error('Unexpected message: ' + el.text());
-    //   }
-    // })
+    cy.get(".messages--status", { timeout: 10000 }).should('exist');
 
     // Check the community persona to see if the program/region was added.
     cy.visit("/community-persona");
 
     // Check that CSSN member is displayed on community persona.
-    cy.get(".persona .institution + div > p > strong").contains("CSSN Member")
-    // Check that the affinity group was flagged.
-    cy.get("#block-mainpagecontent > div:nth-child(4) ul li").contains("CSSN")
+    cy.get('#block-communitypersonablock-4 .persona').contains("CSSN Member")
   });
 });

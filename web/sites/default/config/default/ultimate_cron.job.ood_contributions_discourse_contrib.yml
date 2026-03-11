@@ -1,0 +1,30 @@
+uuid: c3d4e5f6-a7b8-9012-cdef-123456789012
+langcode: en
+status: true
+dependencies:
+  module:
+    - ood_contributions
+title: 'OOD Contributions: Discourse User Contributions'
+id: ood_contributions_discourse_contrib
+weight: 16
+module: ood_contributions
+callback: '\Drupal\ood_contributions\Plugin\CronManager::discourseStoreContrib'
+scheduler:
+  id: crontab
+  configuration:
+    rules:
+      - '0 4 * * *'
+    catch_up: 86400
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+    launcher:
+      thread: 0
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000

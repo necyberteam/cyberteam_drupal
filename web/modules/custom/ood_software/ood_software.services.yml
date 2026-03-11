@@ -11,5 +11,14 @@ services:
 
   ood_software.jsonapi_cache_subscriber:
     class: Drupal\ood_software\EventSubscriber\JsonApiCacheSubscriber
+    arguments: ['@current_user']
     tags:
       - { name: event_subscriber }
+
+  ood_software.doc_sync:
+    class: Drupal\ood_software\Service\DocSyncService
+    arguments: ['@http_client', '@entity_type.manager', '@logger.factory']
+
+  ood_software.appverse_cache:
+    class: Drupal\ood_software\Service\AppverseCacheService
+    arguments: ['@entity_type.manager', '@file_url_generator', '@file_system', '@logger.factory']
