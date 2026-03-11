@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Theme override for a node edit form.
+ *
+ * Splits the form into main content, a sidebar for advanced options,
+ * and a footer for action buttons.
+ */
+#}
+<div class="layout-node-form clearfix">
+  <div class="layout-region layout-region-node-main">
+    {{ form|without('advanced', 'actions') }}
+  </div>
+  <div class="layout-region layout-region-node-secondary">
+    {{ form.advanced }}
+  </div>
+  <div class="layout-region layout-region-node-footer">
+    {{ form.actions }}
+  </div>
+</div>

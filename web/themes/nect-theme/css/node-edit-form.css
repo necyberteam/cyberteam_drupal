@@ -1,0 +1,74 @@
+/**
+ * @file
+ * Node edit form: two-column layout with sidebar dropdowns.
+ *
+ * Overrides stable9 float layout and converts vertical tabs
+ * into collapsible details in the sidebar.
+ */
+
+/* Reset stable9 float layout */
+.layout-region-node-main,
+.layout-region-node-footer,
+.layout-region-node-secondary {
+  float: none;
+  width: auto;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* Grid layout for the node form */
+form:has(.layout-node-form) {
+  max-width: none;
+}
+
+.layout-node-form {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.layout-region-node-footer {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+  .layout-node-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Convert sidebar vertical tabs to collapsible dropdowns */
+.layout-region-node-secondary .vertical-tabs {
+  margin: 0;
+  border: 0;
+}
+
+.layout-region-node-secondary .vertical-tabs__menu {
+  display: none;
+}
+
+.layout-region-node-secondary .vertical-tabs__panes {
+  margin: 0;
+}
+
+.layout-region-node-secondary .vertical-tabs__pane {
+  display: block !important;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+}
+
+details.vertical-tabs__pane > .details-wrapper {
+  max-height: 500px;
+  overflow: auto;
+  padding: 0.5em 1.5em;
+}
+
+.layout-region-node-secondary .vertical-tabs__pane > summary {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.2em 0.5em;
+  cursor: pointer;
+}
