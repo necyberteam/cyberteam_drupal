@@ -74,7 +74,7 @@ class GoodConferenceCommitteeBlock extends BlockBase implements ContainerFactory
 
     return [
       '#theme' => 'good_conference_committee_block',
-      '#members' => $members,
+      '#items' => $members,
       '#cache' => [
         'max-age' => 3600,
       ],

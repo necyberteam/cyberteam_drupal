@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Default theme implementation for contributors block.
+ * Shared template for people grid blocks (contributors, members, etc).
  *
  * Available variables:
  * - items: Array of person data with uid, name, and photo_url.
@@ -30,9 +30,6 @@
     list-style: none;
     padding: 0;
     margin: 0;
-  }
-  .people-grid-block .people-grid-name {
-    font-size: 0.85rem;
   }
 </style>
 <div class="people-grid-block{{ block_class ? ' ' ~ block_class }}{{ scrollable is not same as(false) ? ' people-grid-block--scrollable' }}">

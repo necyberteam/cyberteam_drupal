@@ -8,6 +8,29 @@ namespace Drupal\ood_software\Plugin;
 class CronManager {
 
   /**
+   * Sync markdown documentation from GitHub to Drupal nodes.
+   */
+  public static function syncDocs() {
+    $env = getenv('PANTHEON_ENVIRONMENT');
+    if ($env == 'live') {
+      $doc_sync = \Drupal::service('ood_software.doc_sync');
+      $doc_sync->syncAll();
+    }
+    else {
+      \Drupal::logger('ood_software')->notice('Skipping doc sync on non-live environment.');
+    }
+  }
+
+  /**
+   * Generate appverse static JSON cache.
+   *
+   * Runs on all environments (no env guard) so dev/test have a working cache.
+   */
+  public static function generateCache() {
+    \Drupal::service('ood_software.appverse_cache')->generate();
+  }
+
+  /**
    * Update app info from github.
    */
   public static function appUpdates() {
