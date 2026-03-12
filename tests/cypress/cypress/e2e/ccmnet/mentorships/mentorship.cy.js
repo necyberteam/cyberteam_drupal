@@ -33,8 +33,8 @@ describe("Authenticated user creates a Mentorship Engagement", () => {
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
     cy.visit("/admin/content");
     cy.get(':nth-child(1) > .views-field-operations > .dropbutton-wrapper > .dropbutton-widget > .dropbutton > .edit > a').click();
-    cy.get('#edit-field-ccmnet-approved-value').scrollIntoView().check();
-    cy.get('#edit-submit').click();
+    cy.get('#edit-field-ccmnet-approved-value').scrollIntoView().check({force: true});
+    cy.get('.node-mentorship-engagement-edit-form #edit-submit').click();
   });
 
   it("Authenticated user creates a Recruiting Mentorship Engagement", () => {
@@ -71,8 +71,8 @@ describe("Authenticated user creates a Mentorship Engagement", () => {
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
     cy.visit("/admin/content");
     cy.get(':nth-child(1) > .views-field-operations > .dropbutton-wrapper > .dropbutton-widget > .dropbutton > .edit > a').click();
-    cy.get('#edit-field-ccmnet-approved-value').scrollIntoView().check();
-    cy.get('#edit-submit').click();
+    cy.get('#edit-field-ccmnet-approved-value').scrollIntoView().check({force: true});
+    cy.get('.node-mentorship-engagement-edit-form #edit-submit').click();
   });
 
   it("Check Mentorships page as authenticated user", () => {
