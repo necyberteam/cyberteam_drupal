@@ -117,8 +117,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
     });
 
     // Add Julie Ma as liaison
-    cy.get('select[name="field_me_ccmnet_leadership"]').then($select => {
-      Cypress.$($select).select2('open');
+    cy.window().then(win => {
+      win.jQuery('select[name="field_me_ccmnet_leadership"]').select2('open');
     });
     cy.get('.select2-results').should('be.visible');
     cy.get('.select2-results .select2-results__option').contains('Julie Ma').click();
@@ -194,8 +194,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.get('.col-12 #block-nect-local-tasks .primary-tabs .nav-item a.nav-link').contains('Edit').click({ force: true });
 
     // Add Julie Ma as liaison (Select2 dropdown)
-    cy.get('select[name="field_me_ccmnet_leadership"]').then($select => {
-      Cypress.$($select).select2('open');
+    cy.window().then(win => {
+      win.jQuery('select[name="field_me_ccmnet_leadership"]').select2('open');
     });
     cy.get('.select2-results').should('be.visible');
     cy.get('.select2-results .select2-results__option').contains('Julie Ma').click();
