@@ -11,7 +11,7 @@ describe("Create private group and test visibility", () => {
     cy.get('input[name="field_ag_private_users[0][target_id]"]').type('Pecan Pi', { delay: 300 });
     cy.wait(1000);
     cy.get('input[name="field_ag_private_users[0][target_id]"]').type('{downArrow}{enter}', { delay: 0 });
-    cy.get('#edit-submit').click();
+    cy.get('.node-affinity-group-form #edit-submit').click();
     cy.visit('/admin/content');
     cy.get('tbody > :nth-child(1) > .views-field-title > a').click();
     cy.contains('test-private-affinity-group');
@@ -37,7 +37,7 @@ describe("Create private group and test visibility", () => {
     cy.contains('test-private-affinity-group');
     cy.get('.nav > :nth-child(2) > .nav-link').click();
     cy.get('input[name="field_ag_private_users[0][target_id]"]').clear();
-    cy.get('#edit-submit').click();
+    cy.get('.node-affinity-group-edit-form #edit-submit').click();
   });
 
   it("Pecan does not see private group once removed", () => {
