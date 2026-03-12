@@ -27,7 +27,7 @@ describe("Admin Notes on Mentorships", () => {
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
     cy.visit("/admin/content?type=mentorship_engagement");
     cy.get('.view-content').contains('Admin Notes Test Mentorship').closest('tr').find('.edit a').click();
-    cy.get('#edit-field-ccmnet-approved-value').check();
+    cy.get('#edit-field-ccmnet-approved-value').scrollIntoView().check();
     cy.get('form #edit-submit, input[value="Save"]').first().click();
 
     // Now test the admin notes functionality

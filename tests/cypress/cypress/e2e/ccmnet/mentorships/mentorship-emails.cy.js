@@ -86,7 +86,7 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.clearMailpit();
     
     // Approve the mentorship
-    cy.get('#edit-field-ccmnet-approved-value').check();
+    cy.get('#edit-field-ccmnet-approved-value').scrollIntoView().check();
     cy.get('form.node-mentorship-engagement-edit-form #edit-submit').click();
 
 
@@ -255,7 +255,7 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
     cy.visit("/admin/content");
     cy.get(':nth-child(1) > .views-field-operations > .dropbutton-wrapper > .dropbutton-widget > .dropbutton > .edit > a').click();
-    cy.get('#edit-field-ccmnet-approved-value').check();
+    cy.get('#edit-field-ccmnet-approved-value').scrollIntoView().check();
     cy.get('form.node-mentorship-engagement-edit-form #edit-submit').click();
 
     // Now login back as original user to add mentee
@@ -410,7 +410,7 @@ describe("CCMNet Mentorship Email Notifications", () => {
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
     cy.visit("/admin/content");
     cy.get(':nth-child(1) > .views-field-operations > .dropbutton-wrapper > .dropbutton-widget > .dropbutton > .edit > a').click();
-    cy.get('#edit-field-ccmnet-approved-value').check();
+    cy.get('#edit-field-ccmnet-approved-value').scrollIntoView().check();
     cy.get('form.node-mentorship-engagement-edit-form #edit-submit').click();
 
     // Clear mailpit before expressing interest

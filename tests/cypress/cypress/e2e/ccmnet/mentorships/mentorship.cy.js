@@ -33,7 +33,7 @@ describe("Authenticated user creates a Mentorship Engagement", () => {
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
     cy.visit("/admin/content");
     cy.get(':nth-child(1) > .views-field-operations > .dropbutton-wrapper > .dropbutton-widget > .dropbutton > .edit > a').click();
-    cy.get('#edit-field-ccmnet-approved-value').check();
+    cy.get('#edit-field-ccmnet-approved-value').scrollIntoView().check();
     cy.get('#edit-submit').click();
   });
 
@@ -71,7 +71,7 @@ describe("Authenticated user creates a Mentorship Engagement", () => {
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
     cy.visit("/admin/content");
     cy.get(':nth-child(1) > .views-field-operations > .dropbutton-wrapper > .dropbutton-widget > .dropbutton > .edit > a').click();
-    cy.get('#edit-field-ccmnet-approved-value').check();
+    cy.get('#edit-field-ccmnet-approved-value').scrollIntoView().check();
     cy.get('#edit-submit').click();
   });
 

@@ -26,7 +26,7 @@ describe("Authenticated user tests the Announcement Form without adding an Affin
     cy.get("#edit-title-0-value").type("Cypress-Created-Announcement");
 
     // Form Image Field
-    cy.get("#ajax-wrapper > .claro-details").contains("Featured Image");
+    cy.get("#ajax-wrapper > details").contains("Featured Image");
 
     // Tags
     cy.get("#tag-ai").click();
