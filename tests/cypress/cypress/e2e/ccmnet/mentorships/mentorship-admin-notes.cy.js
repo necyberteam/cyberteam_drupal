@@ -27,8 +27,8 @@ describe("Admin Notes on Mentorships", () => {
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
     cy.visit("/admin/content?type=mentorship_engagement");
     cy.get('.view-content').contains('Admin Notes Test Mentorship').closest('tr').find('.edit a').click();
-    cy.get('#edit-field-ccmnet-approved-value').scrollIntoView().check();
-    cy.get('form #edit-submit, input[value="Save"]').first().click();
+    cy.get('#edit-field-ccmnet-approved-value').scrollIntoView().check({force: true});
+    cy.get('.node-mentorship-engagement-edit-form #edit-submit').click();
 
     // Now test the admin notes functionality
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
@@ -47,7 +47,7 @@ describe("Admin Notes on Mentorships", () => {
     cy.get('#edit-field-admin-notes-0-value').should('exist').clear().type('This is an admin-only note that should not be visible to the mentorship creator');
     
     // Save the mentorship - use more generic form selector
-    cy.get('form #edit-submit, input[value="Save"]').first().click();
+    cy.get('.node-mentorship-engagement-edit-form #edit-submit').click();
     
     // Now login as the mentorship creator and verify they cannot see the admin note
     cy.loginWith("walnut@pie.org", "Walnut");

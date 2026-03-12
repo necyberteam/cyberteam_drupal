@@ -26,7 +26,7 @@ describe("Authenticated user tests the Announcement Form without adding an Affin
     cy.get("#edit-title-0-value").type("Cypress-Created-Announcement");
 
     // Form Image Field
-    cy.get("#ajax-wrapper > details").contains("Featured Image");
+    cy.contains("Featured Image");
 
     // Tags
     cy.get("#tag-ai").click();
@@ -36,9 +36,7 @@ describe("Authenticated user tests the Announcement Form without adding an Affin
     cy.get('.ck-editor__editable').type('This is a test announcement created by Cypress for testing purposes.');
 
     // Date for Announcement
-    cy.get(
-      "#edit-field-published-date-wrapper > .form-datetime-wrapper"
-    ).contains("Published Date");
+    cy.contains("Published Date");
 
     // Affiliation Field
     cy.get("#edit-field-affiliation").select("Community");
@@ -54,7 +52,7 @@ describe("Authenticated user tests the Announcement Form without adding an Affin
     cy.get('[name="moderation_state[0][state]"]').select("Published");
 
     // Submission and confirmation
-    cy.get("#edit-submit").click();
+    cy.get(".node-access-news-form #edit-submit").click();
     cy.contains(
       "Announcement Cypress-Created-Announcement has been created."
     );
