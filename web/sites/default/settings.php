@@ -100,16 +100,24 @@ if (isset($env)) {
 
 $settings['config_sync_directory'] = 'sites/default/config/default';
 
+// Load Google OAuth client_secret from private key file instead of config.
+$google_secret_file = DRUPAL_ROOT . '/sites/default/files/private/.keys/google-oauth-secret.key';
+if (file_exists($google_secret_file)) {
+  $config['social_auth_google.settings']['client_secret'] = trim(file_get_contents($google_secret_file));
+}
+
+// Load Mailgun SMTP password from private key file instead of config.
+$mailgun_secret_file = DRUPAL_ROOT . '/sites/default/files/private/.keys/mailgun-smtp.key';
+if (file_exists($mailgun_secret_file)) {
+  $config['symfony_mailer.mailer_transport.smtp']['configuration']['pass'] = trim(file_get_contents($mailgun_secret_file));
+}
+
+// Exclude modules that either contain secrets or break non-live environments.
+// Dev-only modules (devel, webprofiler, etc.) are handled by config_split.
 $settings['config_exclude_modules'] = [
-  'access_match_engagement',
-  'webprofiler',
   'cilogon_auth',
-  'devel',
-  'devel_generate',
-  'login_disable',
+  'drupal_seamless_cilogon',
   'recaptcha',
-  'upgrade_status',
-  'symfony_mailer',
   'recaptcha_v3',
 ];
 

@@ -1,0 +1,39 @@
+uuid: b3bf3651-ee1c-4832-a23c-6891d7f9e17c
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.project_submissions
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__project_submissions_careers
+theme: champions
+region: projects_page
+weight: -74
+provider: null
+plugin: 'views_block:project_submissions-careers'
+settings:
+  id: 'views_block:project_submissions-careers'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      careersct_cyberinfrastucture_org: careersct_cyberinfrastucture_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /project-submissions
