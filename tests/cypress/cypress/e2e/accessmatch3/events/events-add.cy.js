@@ -18,7 +18,7 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.visit("/events/add");
 
     // Page Title
-    cy.get("#block-claro-page-title").contains("Create Community Event");
+    cy.get("h1").contains("Create Community Event");
 
     // Body
     cy.get('.field--name-body .ck-content').then(el => {
@@ -93,7 +93,7 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     cy.visit("/events/add");
 
     // Page Title
-    cy.get("#block-claro-page-title").contains("Create Community Event");
+    cy.get("h1").contains("Create Community Event");
 
     // Body
     cy.get('.field--name-body .ck-content').then(el => {

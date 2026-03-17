@@ -1,0 +1,17 @@
+uuid: 9f2d0080-a317-43f9-80b8-c0c4719afb50
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_match_engagement
+title: 'Default cron handler'
+id: access_match_engagement_cron
+weight: 0
+module: access_match_engagement
+callback: 'access_match_engagement#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

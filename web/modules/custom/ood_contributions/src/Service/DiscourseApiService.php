@@ -56,7 +56,7 @@ class DiscourseApiService {
    */
   public function getUserByUsername(string $username): array {
     try {
-      $url = sprintf('%s/u/%s/summary.json', self::BASE_URL, urlencode($username));
+      $url = sprintf('%s/u/%s.json', self::BASE_URL, urlencode($username));
       $response = $this->makeRequest($url);
 
       return [

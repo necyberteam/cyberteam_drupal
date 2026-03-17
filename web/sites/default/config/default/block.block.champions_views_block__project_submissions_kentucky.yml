@@ -1,0 +1,39 @@
+uuid: 4601ef45-d123-4f59-9195-a8239b4c2c8d
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.project_submissions
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - champions
+id: champions_views_block__project_submissions_kentucky
+theme: champions
+region: projects_page
+weight: -72
+provider: null
+plugin: 'views_block:project_submissions-kentucky'
+settings:
+  id: 'views_block:project_submissions-kentucky'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      kycyberteam_cyberinfrastructure_org: kycyberteam_cyberinfrastructure_org
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /project-submissions
