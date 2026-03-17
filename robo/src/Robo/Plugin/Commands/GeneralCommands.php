@@ -75,6 +75,8 @@ class GeneralCommands extends Tasks {
       $this->_exec("sleep 1");
       # Enable symfony_mailer_log module for testing
       $this->_exec($cmd_prefix . "drush en symfony_mailer_log -y");
+      # Use sendmail transport locally (DDEV routes to Mailpit)
+      $this->_exec($cmd_prefix . "drush cset symfony_mailer.settings default_transport sendmail -y");
       $this->_exec($cmd_prefix . "drush cr");
     }
     $this->uli();

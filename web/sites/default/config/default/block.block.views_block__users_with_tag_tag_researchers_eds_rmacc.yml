@@ -1,0 +1,40 @@
+uuid: 51c6db33-3ecc-48c3-947a-4cfafded07dc
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.users_with_tag
+  module:
+    - domain
+    - system
+    - views
+  theme:
+    - nect
+id: views_block__users_with_tag_tag_researchers_eds_rmacc
+theme: nect
+region: tags_page_researchers
+weight: 6
+provider: null
+plugin: 'views_block:users_with_tag-tag_researchers_eds_rmacc'
+settings:
+  id: 'views_block:users_with_tag-tag_researchers_eds_rmacc'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  domain:
+    id: domain
+    negate: null
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      rmacc_wpi_edu: rmacc_wpi_edu
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '/taxonomy/term/*'

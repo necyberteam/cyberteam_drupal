@@ -25,7 +25,10 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
       '/about',
       '/about-open-ondemand-community-portal',
       '/code-of-conduct',
-      '/connectci-privacy-policy'
+      '/connectci-privacy-policy',
+      '/appverse',
+      '/appverse-contributor-documentation ',
+      '/contributor-wall'
     ]);
   });
 
