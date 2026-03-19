@@ -139,7 +139,7 @@ Cypress.Commands.add('assertEmailContent', (message, expectations) => {
 
   // Get full message details if we need to check body content or reply-to
   if (expectations.bodyContains || expectations.htmlContains || expectations.replyTo) {
-    cy.getMailpitMessage(message.ID).then((fullMessage) => {
+    return cy.getMailpitMessage(message.ID).then((fullMessage) => {
       if (expectations.replyTo) {
         const replyToAddresses = fullMessage.ReplyTo?.map(r => r.Address || r.address) || [];
         expect(replyToAddresses).to.include(expectations.replyTo);
