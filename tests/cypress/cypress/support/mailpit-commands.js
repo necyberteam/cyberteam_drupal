@@ -118,6 +118,7 @@ Cypress.Commands.add('waitForEmail', (criteria, timeout = 10000) => {
  * @param {string} expectations.subject - Expected subject
  * @param {string} expectations.from - Expected from address
  * @param {string} expectations.to - Expected to address
+ * @param {string} expectations.replyTo - Expected reply-to address
  * @param {string} expectations.bodyContains - Text that should be in body
  * @param {string} expectations.htmlContains - HTML that should be in body
  */
@@ -135,10 +136,14 @@ Cypress.Commands.add('assertEmailContent', (message, expectations) => {
     const toAddresses = message.To?.map(t => t.Address || t.address) || [];
     expect(toAddresses).to.include(expectations.to);
   }
-  
-  // Get full message details if we need to check body content
-  if (expectations.bodyContains || expectations.htmlContains) {
+
+  // Get full message details if we need to check body content or reply-to
+  if (expectations.bodyContains || expectations.htmlContains || expectations.replyTo) {
     cy.getMailpitMessage(message.ID).then((fullMessage) => {
+      if (expectations.replyTo) {
+        const replyToAddresses = fullMessage.ReplyTo?.map(r => r.Address || r.address) || [];
+        expect(replyToAddresses).to.include(expectations.replyTo);
+      }
       if (expectations.bodyContains) {
         const text = fullMessage.Text || '';
         // Support both string and array of strings
