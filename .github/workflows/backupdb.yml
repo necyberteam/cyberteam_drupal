@@ -45,6 +45,7 @@ jobs:
         run: |
           ddev drush sql-sanitize --allowlist-fields=field_constant_contact_id --sanitize-password=y -y
           ddev drush cim -y
+          ddev drush pmu drupal_seamless_cilogon cilogon_auth -y 2>/dev/null || true
           ddev drush cr
           ddev drush updb -y
           ddev drush user-create authenticated_test_user --mail="authenticated@amptesting.com" --password="6%l7iF}6(4tI"
