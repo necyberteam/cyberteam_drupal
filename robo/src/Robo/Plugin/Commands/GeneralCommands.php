@@ -67,6 +67,9 @@ class GeneralCommands extends Tasks {
     $this->_exec($cmd_prefix . "drush deploy -y");
     $this->_exec("sleep 1");
     $this->_exec($cmd_prefix . "drush cim -y");
+    // Disable seamless CILogon — it survives config import via config_exclude_modules
+    // and redirects authenticated users without the SSO cookie to logout.
+    $this->_exec($cmd_prefix . "drush sset drupal_seamless_cilogon.seamless_login_enabled 0 2>/dev/null || true");
     $this->_exec("sleep 1");
     if (!empty($domain_id)) {
       $this->_exec($cmd_prefix . "robo ds $domain_id");
