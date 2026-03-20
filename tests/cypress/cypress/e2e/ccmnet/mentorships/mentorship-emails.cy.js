@@ -53,7 +53,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
     }).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'Mentorship Engagement received',
-        from: 'noreply@ccmnet.org',
+        from: 'info@mg.ccmnet.org',
+        replyTo: 'info@ccmnet.org',
         to: 'pecan@pie.org',
         htmlContains: 'Your requested CCMNet mentorship engagement has been created'
       });
@@ -66,7 +67,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
     }, 8000).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'New Mentorship Created',
-        from: 'noreply@ccmnet.org',
+        from: 'info@mg.ccmnet.org',
+        replyTo: 'info@ccmnet.org',
         htmlContains: 'A new CCMNet mentorship has been requested'
       });
     });
@@ -96,7 +98,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
     }).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'Mentorship Engagement approved',
-        from: 'noreply@ccmnet.org',
+        from: 'info@mg.ccmnet.org',
+        replyTo: 'info@ccmnet.org',
         htmlContains: 'A CCMNet mentorship has been approved and is ready for review'
       });
     });
@@ -164,7 +167,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
     }).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'You have been selected as a mentor',
-        from: 'noreply@ccmnet.org',
+        from: 'info@mg.ccmnet.org',
+        replyTo: 'info@ccmnet.org',
         to: 'walnut@pie.org',
         htmlContains: 'Thank you for your interest'
       });
@@ -176,7 +180,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
     }).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'A new mentorship match',
-        from: 'noreply@ccmnet.org',
+        from: 'info@mg.ccmnet.org',
+        replyTo: 'info@ccmnet.org',
         htmlContains: 'A CCMNet mentor match has been made'
       });
     });
@@ -224,7 +229,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
     }).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'Mentorship in progress',
-        from: 'noreply@ccmnet.org',
+        from: 'info@mg.ccmnet.org',
+        replyTo: 'info@ccmnet.org',
         htmlContains: 'Click here to view'
       });
     });
@@ -302,7 +308,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
     }).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'You have been selected as a mentee',
-        from: 'noreply@ccmnet.org',
+        from: 'info@mg.ccmnet.org',
+        replyTo: 'info@ccmnet.org',
         to: 'pecan@pie.org',
         htmlContains: 'Thank you for your interest'
       });
@@ -366,7 +373,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
       }, 8000).then((message) => {
         cy.assertEmailContent(message, {
           subject: 'Interest in your Mentorship',
-          from: 'noreply@ccmnet.org',
+          from: 'info@mg.ccmnet.org',
+          replyTo: 'info@ccmnet.org',
           to: 'pecan@pie.org',
           htmlContains: 'Someone is interested in your mentorship request'
         });
@@ -378,7 +386,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
       }, 8000).then((message) => {
         cy.assertEmailContent(message, {
           subject: 'Daily mentorship interest summary',
-          from: 'noreply@ccmnet.org',
+          from: 'info@mg.ccmnet.org',
+          replyTo: 'info@ccmnet.org',
           htmlContains: 'The following mentorships received new interest requests'
         });
       });
@@ -461,7 +470,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
     }, 8000).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'Interest in your Mentorship',
-        from: 'noreply@ccmnet.org',
+        from: 'info@mg.ccmnet.org',
+        replyTo: 'info@ccmnet.org',
         to: 'pecan@pie.org',
         htmlContains: 'Someone is interested in your mentorship request'
       });
@@ -473,7 +483,8 @@ describe("CCMNet Mentorship Email Notifications", () => {
     }, 8000).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'Daily mentorship interest summary',
-        from: 'noreply@ccmnet.org',
+        from: 'info@mg.ccmnet.org',
+        replyTo: 'info@ccmnet.org',
         htmlContains: 'CC Interest Test - Email Verification' // Should contain our test mentorship title
       });
     });
