@@ -60,7 +60,7 @@ describe('Test the registration feature', () => {
     }).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'Registration Pending for cypress-example-event',
-        from: 'noreply@support.access-ci.org',
+        from: 'noreply@mg.support.access-ci.org',
         to: 'administrator@amptesting.com',
         htmlContains: 'You will receive another email once your registration has been reviewed and approved. Approval typically takes 1-2 business days'
       });
@@ -81,7 +81,7 @@ describe('Test the registration feature', () => {
     }).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'Registration Confirmed for cypress-example-event',
-        from: 'noreply@support.access-ci.org',
+        from: 'noreply@mg.support.access-ci.org',
         to: 'administrator@amptesting.com',
         htmlContains: 'Congratulations! Your registration for'
       });
@@ -110,7 +110,7 @@ describe('Test the registration feature', () => {
     }).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'Waitlist Status for cypress-example-event',
-        from: 'noreply@support.access-ci.org',
+        from: 'noreply@mg.support.access-ci.org',
         to: 'walnut@pie.org',
         htmlContains: 'At this time, the session is full, and your registration has been placed on the waitlist'
       });
@@ -147,7 +147,7 @@ describe('Test the registration feature', () => {
     }).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'Registration Confirmed for cypress-example-event',
-        from: 'noreply@support.access-ci.org',
+        from: 'noreply@mg.support.access-ci.org',
         to: 'walnut@pie.org',
         htmlContains: 'has been confirmed'
       });
