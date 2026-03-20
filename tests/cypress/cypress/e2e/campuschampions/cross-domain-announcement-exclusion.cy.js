@@ -24,7 +24,7 @@ describe("Cross-Domain Announcement Exclusion Test", () => {
     cy.get('#edit-body-0-summary').type('Summary for Campus Champions announcement');
     cy.get('.ck-editor__editable').type('This should only appear on Campus Champions domain.');
     cy.get('[name="moderation_state[0][state]"]').select('Published');
-    cy.get('#edit-submit').click();
+    cy.get('.node-access-news-form #edit-submit').click();
     cy.contains(`Announcement ${ccTitle} has been created.`);
     
     // Verify CC announcement appears on Campus Champions
@@ -63,7 +63,7 @@ describe("Cross-Domain Announcement Exclusion Test", () => {
       cy.get('#edit-body-0-summary').type('Summary for ACCESS announcement');
       cy.get('.ck-editor__editable').type('This should only appear on ACCESS domain.');
       cy.get('[name="moderation_state[0][state]"]').select('Published');
-      cy.get('#edit-submit').click();
+      cy.get('.node-access-news-form #edit-submit').click();
       cy.contains(`Announcement ${accessTitle} has been created.`);
 
       // Verify ACCESS announcement appears on ACCESS and CC announcement does NOT
@@ -105,8 +105,8 @@ describe("Cross-Domain Announcement Exclusion Test", () => {
     cy.get('#edit-submit-content').click();
     cy.contains('a', ccTitle).parent().parent().find('input[type="checkbox"]').check();
     cy.get('#edit-action').select('node_delete_action');
-    cy.get('#edit-submit').click();
-    cy.get('#edit-submit').click(); // Confirm deletion
+    cy.get('.views-form #edit-submit').click();
+    cy.get('#edit-submit').click(); // Confirm deletion (standalone confirm page)
     
     cy.log('✓ Cross-domain isolation test completed successfully');
   });

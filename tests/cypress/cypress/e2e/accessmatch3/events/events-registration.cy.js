@@ -83,7 +83,7 @@ describe('Test the registration feature', () => {
         subject: 'Registration Confirmed for cypress-example-event',
         from: 'noreply@support.access-ci.org',
         to: 'administrator@amptesting.com',
-        htmlContains: 'Congratulations! Your registration for&nbsp;'
+        htmlContains: 'Congratulations! Your registration for'
       });
     });
   })

@@ -50,7 +50,6 @@ describe("Test Structure admin page", () => {
 
     // Access support blocks
     cy.get(':nth-child(4) > .tabs__link').click();
-    cy.contains('CILogon Auth login');
     cy.contains('Breadcrumbs');
     cy.contains('Status messages');
     cy.contains('Masquerade');

@@ -81,14 +81,12 @@ runs:
       env:
         AMP_UID: ${{ inputs.amp_uid }}
       run: |
-        # Use DDEV's fast database import
-        ddev import-db --file=backups/site.sql.gz
-        # Run post-import setup (equivalent to robo did without db import)
-        ddev drush deploy -y
-        ddev drush cim -y
-        # Enable symfony_mailer_log module for testing
-        ddev drush en symfony_mailer_log -y
-        ddev drush cr
+        # Drupal import database.
+        vendor/bin/robo did
+
+    - name: Rebuild CI Links search index
+      shell: bash
+      run: ddev drush search-api:index ci_links 2>/dev/null || true
 
     - name: Clear watchdog logs
       shell: bash

@@ -100,16 +100,24 @@ if (isset($env)) {
 
 $settings['config_sync_directory'] = 'sites/default/config/default';
 
+// Load Google OAuth client_secret from private key file instead of config.
+$google_secret_file = DRUPAL_ROOT . '/sites/default/files/private/.keys/google-oauth-secret.key';
+if (file_exists($google_secret_file)) {
+  $config['social_auth_google.settings']['client_secret'] = trim(file_get_contents($google_secret_file));
+}
+
+// Load Mailgun SMTP password from private key file instead of config.
+$mailgun_secret_file = DRUPAL_ROOT . '/sites/default/files/private/.keys/mailgun-smtp.key';
+if (file_exists($mailgun_secret_file)) {
+  $config['symfony_mailer.mailer_transport.smtp']['configuration']['pass'] = trim(file_get_contents($mailgun_secret_file));
+}
+
+// Exclude modules that either contain secrets or break non-live environments.
+// Dev-only modules (devel, webprofiler, etc.) are handled by config_split.
 $settings['config_exclude_modules'] = [
-  'access_match_engagement',
-  'webprofiler',
   'cilogon_auth',
-  'devel',
-  'devel_generate',
-  'login_disable',
+  'drupal_seamless_cilogon',
   'recaptcha',
-  'upgrade_status',
-  'symfony_mailer',
   'recaptcha_v3',
 ];
 
@@ -467,6 +475,10 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-challenge')
 }
 
 if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
+  // Skip Turnstile for API paths — these are consumed by MCP servers and
+  // external integrations, not browsers. The page display is still protected.
+  $is_api_path = strpos($_SERVER['REQUEST_URI'], '/api/') === 0;
+
   // Count unique facet parameters.
   // PHP parses f[0]=value as $_GET['f'][0], so check for 'f' array.
   $facet_count = 0;
@@ -474,8 +486,8 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
     $facet_count = count($_GET['f']);
   }
 
-  // Only check faceted pages.
-  if ($facet_count > 0) {
+  // Only check faceted pages (skip API paths).
+  if ($facet_count > 0 && !$is_api_path) {
     $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 
     // Skip verification for logged-in users.

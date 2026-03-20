@@ -1,0 +1,62 @@
+<div class="community-spotlight-wrapper">
+  <div class="community-spotlight my-3" style="border: 2px solid #0076ae;">
+    <div class="community-spotlight__featured"
+         data-uid="{{ spotlight.uid }}"
+         data-photo="{{ spotlight.photo_url }}"
+         data-first="{{ spotlight.first_name }}"
+         data-last="{{ spotlight.last_name }}"
+         data-job-title="{{ spotlight.job_title }}"
+         data-org="{{ spotlight.organization }}"
+         data-text="{{ spotlight.spotlight_text|e('html_attr') }}">
+      <div class="community-spotlight__inner position-relative p-3" style="font-weight: 500; background-color: #0076ae">
+        <h2 class="community-spotlight__title position-relative text-white" style="font-size: 1.1rem;">Spotlight</h2>
+        <div class="community-spotlight__photo position-absolute" style="width: 70px;">
+          <a href="/community-persona/{{ spotlight.uid }}" class="community-spotlight__photo-link">
+            <img class="rounded-circle" src="{{ spotlight.photo_url }}" alt="{{ spotlight.first_name }} {{ spotlight.last_name }}" style="max-width: 75px;" />
+          </a>
+        </div>
+
+        <div class="community-spotlight__meta" style="margin-left: 5.2rem;">
+          <a class="community-spotlight__name text-white" href="/community-persona/{{ spotlight.uid }}">
+            {{ spotlight.first_name }} {{ spotlight.last_name }}
+          </a>
+        </div>
+      </div>
+
+      <div class="community-spotlight__details px-3 pb-2" style="margin-left: 5.2rem;">
+        {% if spotlight.job_title %}
+          <div class="community-spotlight__job-title" style="text-transform: uppercase; font-size: 0.8rem; font-weight: 600;">{{ spotlight.job_title }}</div>
+        {% endif %}
+        <div class="community-spotlight__org">{{ spotlight.organization }}</div>
+      </div>
+
+      {% if spotlight.spotlight_text %}
+        <div class="community-spotlight__text p-3">{{ spotlight.spotlight_text }}</div>
+      {% endif %}
+
+      <div class="community-spotlight__more px-3 pb-3">
+        <a href="/community-persona/{{ spotlight.uid }}" class="btn btn-sm btn-outline-primary">Find out more</a>
+      </div>
+    </div>
+  </div>
+
+  {% if others|length > 0 %}
+    <h2 style="font-size: 1rem;" class="mt-3">More Spotlights:</h2>
+    <div class="community-spotlight__others d-flex flex-wrap align-items-center gap-2 pt-2">
+      {% for other in others %}
+        <button type="button"
+                class="community-spotlight__thumb btn mr-3 mb-3 p-0 border-0 bg-transparent rounded-circle"
+                data-uid="{{ other.uid }}"
+                data-photo="{{ other.photo_url }}"
+                data-first="{{ other.first_name }}"
+                data-last="{{ other.last_name }}"
+                data-job-title="{{ other.job_title }}"
+                data-org="{{ other.organization }}"
+                data-text="{{ other.spotlight_text|e('html_attr') }}"
+                title="{{ other.first_name }} {{ other.last_name }}">
+          <img class="rounded-circle" src="{{ other.photo_url }}" alt="{{ other.first_name }} {{ other.last_name }}" width="45" height="45" style="object-fit: cover; cursor: pointer;" />
+        </button>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>

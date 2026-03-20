@@ -20,10 +20,14 @@ dependencies:
     - field.field.user.user.field_domain_access
     - field.field.user.user.field_domain_admin
     - field.field.user.user.field_domain_all_affiliates
+    - field.field.user.user.field_github_graph
     - field.field.user.user.field_github_username
     - field.field.user.user.field_hpc_experience
     - field.field.user.user.field_institution
     - field.field.user.user.field_is_cc
+    - field.field.user.user.field_ood_community_spotlight
+    - field.field.user.user.field_ood_spotlight_promoted
+    - field.field.user.user.field_open_ondemand_badges
     - field.field.user.user.field_region
     - field.field.user.user.field_user_badges
     - field.field.user.user.field_user_bio
@@ -56,22 +60,6 @@ content:
     third_party_settings: {  }
     weight: 10
     region: content
-  field_discourse_openondemand_org:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 2
-    region: content
-  field_github_username:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 1
-    region: content
 hidden:
   field_academic_status: true
   field_access_organization: true
@@ -84,12 +72,18 @@ hidden:
   field_current_occupation: true
   field_cv_resume: true
   field_degree: true
+  field_discourse_openondemand_org: true
   field_domain_access: true
   field_domain_admin: true
   field_domain_all_affiliates: true
+  field_github_graph: true
+  field_github_username: true
   field_hpc_experience: true
   field_institution: true
   field_is_cc: true
+  field_ood_community_spotlight: true
+  field_ood_spotlight_promoted: true
+  field_open_ondemand_badges: true
   field_region: true
   field_user_badges: true
   field_user_bio: true

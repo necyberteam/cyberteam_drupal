@@ -24,7 +24,7 @@ describe("test individual tags page", () => {
     cy.get('[data-tid="682"]').click(); // Login tag
     cy.get('input[name="field_group_slug[0][value]"]').type('test-affinity-group', { delay: 0 });
     cy.get('input[name="field_group_id[0][value]"]').type('test.group.id', { delay: 0 });
-    cy.get('#edit-submit').click();
+    cy.get('.node-affinity-group-form #edit-submit').click();
     cy.visit('/admin/content');
     cy.get('tbody > :nth-child(1) > .views-field-title > a').click();
     cy.contains('test-affinity-group');
