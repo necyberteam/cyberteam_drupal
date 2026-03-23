@@ -7,8 +7,10 @@
  * Provides CILogon authentication client for OpenID Connect module.
  */
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\user\UserInterface;
+use GuzzleHttp\Client;
 
 /**
  * Implements hook_openid_connect_userinfo_save().
@@ -22,10 +24,13 @@ function openid_connect_cilogon_client_openid_connect_userinfo_save(UserInterfac
     return;
   }
 
-  // Set username to sub claim (e.g., apasquale@access-ci.org or http://cilogon.org/serverA/users/12345)
-  // This maintains compatibility with cilogon_auth module behavior
-  if (!empty($context['userinfo']['sub'])) {
-    $account->set('name', $context['userinfo']['sub']);
+  // For ACCESS CI users, set username to their eppn (ACCESS ID).
+  // For other users, let openid_connect's default generateUsername() handle it.
+  if (!empty($context['userinfo']['eppn'])) {
+    $eppn = $context['userinfo']['eppn'];
+    if (str_ends_with($eppn, '@access-ci.org')) {
+      $account->set('name', $eppn);
+    }
   }
 
   // Store IDP name in user field if configured and available
@@ -37,6 +42,83 @@ function openid_connect_cilogon_client_openid_connect_userinfo_save(UserInterfac
     if ($account->hasField('field_cilogon_idp')) {
       $account->set('field_cilogon_idp', $context['userinfo']['idp_name']);
     }
+  }
+
+  // Look up organization from ACCESS allocations API using the ACCESS handle.
+  // The eppn for ACCESS users is handle@access-ci.org.
+  if (!empty($context['userinfo']['eppn']) && str_ends_with($context['userinfo']['eppn'], '@access-ci.org')) {
+    $user_handle = explode('@', $context['userinfo']['eppn'])[0];
+
+    $api_data = _openid_connect_cilogon_client_get_profile($user_handle);
+    if ($api_data !== FALSE) {
+      if (!empty($api_data['organizationName']) && $account->hasField('field_institution')) {
+        $account->set('field_institution', $api_data['organizationName']);
+      }
+      if (!empty($api_data['organizationId']) && $account->hasField('field_access_organization')) {
+        $org_nids = \Drupal::entityQuery('node')
+          ->condition('type', 'access_organization')
+          ->condition('field_organization_id', $api_data['organizationId'])
+          ->accessCheck(FALSE)
+          ->execute();
+        if (!empty($org_nids)) {
+          $account->set('field_access_organization', $org_nids);
+        }
+      }
+      if (!empty($api_data['citizenships']) && $account->hasField('field_citizenships')) {
+        $countries = array_map(function ($c) {
+          return $c['countryName'] ?? '';
+        }, $api_data['citizenships']);
+        $account->set('field_citizenships', implode(', ', array_filter($countries)));
+      }
+    }
+  }
+}
+
+/**
+ * Fetch user profile from ACCESS allocations API.
+ *
+ * @param string $username
+ *   The ACCESS username (handle portion of sub claim).
+ *
+ * @return array|false
+ *   Profile data array or FALSE on failure.
+ */
+function _openid_connect_cilogon_client_get_profile($username) {
+  $base_url = 'https://allocations-api.access-ci.org/identity/profiles/v1/people';
+  $request_url = $base_url . '/' . $username;
+
+  $path = \Drupal::service('file_system')->realpath('private://') . '/.keys/secrets.json';
+  if (!file_exists($path)) {
+    \Drupal::logger('openid_connect_cilogon_client')->notice('API key file not found, skipping profile lookup.');
+    return FALSE;
+  }
+
+  $secrets_data = json_decode(file_get_contents($path), TRUE);
+  if (empty($secrets_data['ramps_api_key'])) {
+    \Drupal::logger('openid_connect_cilogon_client')->notice('RAMPS API key not configured, skipping profile lookup.');
+    return FALSE;
+  }
+
+  $client = new Client();
+  try {
+    $response = $client->request('GET', $request_url, [
+      'headers' => [
+        'XA-API-KEY' => $secrets_data['ramps_api_key'],
+        'XA-REQUESTER' => 'MATCH',
+        'Content-Type' => 'application/json',
+      ],
+      'curl' => [CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1],
+    ]);
+    return Json::decode((string) $response->getBody());
+  }
+  catch (\Exception $e) {
+    if ($e->getCode() != 404) {
+      \Drupal::logger('openid_connect_cilogon_client')->warning('Profile API error for @user: @msg', [
+        '@user' => $username,
+        '@msg' => $e->getMessage(),
+      ]);
+    }
+    return FALSE;
   }
 }
 
@@ -79,6 +161,44 @@ function openid_connect_cilogon_client_openid_connect_pre_authorize($account, ar
   }
 
   return TRUE;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for openid_connect_login_form.
+ *
+ * On non-ACCESS domains, add a hint about using ACCESS CI identity.
+ */
+function openid_connect_cilogon_client_form_openid_connect_login_form_alter(&$form, FormStateInterface $form_state) {
+  if (_openid_connect_cilogon_client_is_access_domain()) {
+    return;
+  }
+
+  $form['access_hint'] = [
+    '#type' => 'markup',
+    '#markup' => '<p class="openid-connect-access-hint">' . t('Have an ACCESS account? Select "ACCESS CI" as your identity provider after clicking the button below.') . '</p>',
+    '#weight' => -10,
+  ];
+}
+
+/**
+ * Check if the current domain is the ACCESS Support domain.
+ *
+ * @return bool
+ *   TRUE if on the ACCESS Support domain or if domain module is not installed.
+ */
+function _openid_connect_cilogon_client_is_access_domain() {
+  $moduleHandler = \Drupal::service('module_handler');
+  if (!$moduleHandler->moduleExists('domain')) {
+    return TRUE;
+  }
+
+  $negotiator = \Drupal::service('domain.negotiator');
+  $domain = $negotiator->getActiveDomain();
+  if (!$domain) {
+    return TRUE;
+  }
+
+  return $domain->id() === 'amp_cyberinfrastructure_org';
 }
 
 /**
@@ -128,8 +248,6 @@ function openid_connect_cilogon_client_form_user_form_alter(&$form, FormStateInt
  * Hide password fields on registration form for CILogon users.
  */
 function openid_connect_cilogon_client_form_user_register_form_alter(&$form, FormStateInterface $form_state) {
-  // Check if this is an OpenID Connect registration
-  $request = \Drupal::request();
   $route_name = \Drupal::routeMatch()->getRouteName();
   
   // If coming from OpenID Connect, hide password fields

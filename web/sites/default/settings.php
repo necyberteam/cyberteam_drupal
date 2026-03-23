@@ -112,6 +112,12 @@ if (file_exists($mailgun_secret_file)) {
   $config['symfony_mailer.mailer_transport.smtp']['configuration']['pass'] = trim(file_get_contents($mailgun_secret_file));
 }
 
+// Load CILogon client_secret from private key file instead of config.
+$cilogon_secret_file = DRUPAL_ROOT . '/sites/default/files/private/.keys/cilogon-client-secret.key';
+if (file_exists($cilogon_secret_file)) {
+  $config['openid_connect.settings.cilogon']['settings']['client_secret'] = trim(file_get_contents($cilogon_secret_file));
+}
+
 // Exclude modules that either contain secrets or break non-live environments.
 // Dev-only modules (devel, webprofiler, etc.) are handled by config_split.
 $settings['config_exclude_modules'] = [

@@ -63,6 +63,16 @@ function openid_connect_cilogon_client_install() {
   }
 
   \Drupal::messenger()->addStatus(t('CILogon Identity Provider field created successfully.'));
+
+  // Migrate cilogon_auth data if the old table exists.
+  // Update hooks 9001-9004 won't run on fresh install because Drupal sets
+  // the schema version to the latest, so we run migration here instead.
+  $database = \Drupal::database();
+  if ($database->schema()->tableExists('cilogon_auth_authmap')) {
+    _openid_connect_cilogon_client_migrate_authmap($database);
+    _openid_connect_cilogon_client_migrate_config();
+    _openid_connect_cilogon_client_add_authmap_index($database);
+  }
 }
 
 /**
@@ -438,11 +448,131 @@ function openid_connect_cilogon_client_update_9004(&$sandbox) {
       '@updated' => $sandbox['updated'],
       '@skipped' => $sandbox['skipped'],
     ]);
-    
+
     if ($sandbox['errors'] > 0) {
       $message .= ' ' . t('Encountered @errors errors (see logs).', ['@errors' => $sandbox['errors']]);
     }
-    
+
     return $message;
+  }
+}
+
+/**
+ * Migrate authmap records from cilogon_auth to openid_connect.
+ *
+ * Called from hook_install() when the old table exists, since update hooks
+ * are skipped on fresh module installation.
+ */
+function _openid_connect_cilogon_client_migrate_authmap($database) {
+  $uids = $database->query("SELECT DISTINCT uid FROM {cilogon_auth_authmap} ORDER BY uid")->fetchCol();
+  $migrated = 0;
+  $errors = 0;
+
+  foreach ($uids as $uid) {
+    try {
+      $record = $database->query("
+        SELECT uid, sub, idp_name
+        FROM {cilogon_auth_authmap}
+        WHERE uid = :uid
+        ORDER BY
+          CASE WHEN idp_name IS NOT NULL AND idp_name != '' THEN 0 ELSE 1 END,
+          aid DESC
+        LIMIT 1", [':uid' => $uid])->fetchObject();
+
+      if (!$record) {
+        continue;
+      }
+
+      $exists = $database->select('openid_connect_authmap', 'o')
+        ->fields('o', ['aid'])
+        ->condition('uid', $record->uid)
+        ->condition('client_name', 'cilogon')
+        ->execute()
+        ->fetchField();
+
+      if (!$exists) {
+        $database->insert('openid_connect_authmap')
+          ->fields([
+            'uid' => $record->uid,
+            'client_name' => 'cilogon',
+            'sub' => $record->sub,
+          ])
+          ->execute();
+        $migrated++;
+      }
+
+      if (!empty($record->idp_name)) {
+        $user = \Drupal\user\Entity\User::load($record->uid);
+        if ($user && $user->hasField('field_cilogon_idp') && $user->get('field_cilogon_idp')->isEmpty()) {
+          $user->set('field_cilogon_idp', $record->idp_name);
+          $user->save();
+        }
+      }
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('openid_connect_cilogon_client')->error('Install migration error for uid @uid: @message', [
+        '@uid' => $uid,
+        '@message' => $e->getMessage(),
+      ]);
+      $errors++;
+    }
+  }
+
+  \Drupal::logger('openid_connect_cilogon_client')->notice('Install migration: @migrated users migrated, @errors errors.', [
+    '@migrated' => $migrated,
+    '@errors' => $errors,
+  ]);
+}
+
+/**
+ * Migrate cilogon_auth configuration to openid_connect format.
+ *
+ * Called from hook_install().
+ */
+function _openid_connect_cilogon_client_migrate_config() {
+  $config_factory = \Drupal::configFactory();
+  $old_config = $config_factory->get('cilogon_auth.settings.cilogon');
+
+  if ($old_config->isNew()) {
+    return;
+  }
+
+  $new_config = $config_factory->getEditable('openid_connect.settings.cilogon');
+  $mappings = [
+    'settings.client_id' => 'settings.client_id',
+    'settings.client_secret' => 'settings.client_secret',
+    'settings.authorization_endpoint' => 'settings.authorization_endpoint',
+    'settings.token_endpoint' => 'settings.token_endpoint',
+    'settings.userinfo_endpoint' => 'settings.userinfo_endpoint',
+  ];
+
+  foreach ($mappings as $old_key => $new_key) {
+    $value = $old_config->get($old_key);
+    if (!empty($value)) {
+      $new_config->set($new_key, $value);
+    }
+  }
+
+  if ($old_config->get('enabled') === 'cilogon') {
+    $new_config->set('enabled', TRUE);
+  }
+
+  $new_config->save();
+}
+
+/**
+ * Add performance index to openid_connect_authmap table.
+ *
+ * Called from hook_install().
+ */
+function _openid_connect_cilogon_client_add_authmap_index($database) {
+  $schema = $database->schema();
+  if ($schema->tableExists('openid_connect_authmap') && !$schema->indexExists('openid_connect_authmap', 'uid_client')) {
+    $schema->addIndex('openid_connect_authmap', 'uid_client', ['uid', 'client_name'], [
+      'fields' => [
+        'uid' => ['type' => 'int', 'not null' => TRUE],
+        'client_name' => ['type' => 'varchar', 'length' => 255, 'not null' => TRUE],
+      ],
+    ]);
   }
 }
