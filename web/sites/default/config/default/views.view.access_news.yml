@@ -821,10 +821,10 @@ display:
           admin_label: ''
           plugin_id: field
           label: ''
-          exclude: false
+          exclude: true
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '{{ field_image }} <br />'
             make_link: false
             path: ''
             absolute: false
@@ -856,7 +856,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -868,6 +868,10 @@ display:
             image_style: landscape__480x220__keep_ratio_
             image_loading:
               attribute: lazy
+            svg_attributes:
+              width: null
+              height: null
+            svg_render_as_image: true
           group_column: entity_id
           group_columns: {  }
           group_rows: true
@@ -889,9 +893,9 @@ display:
           label: ''
           exclude: false
           alter:
-            alter_text: false
-            text: ''
-            make_link: true
+            alter_text: true
+            text: '<a href="/node/{{ nid }}" class="no-underline text-2xl font-bold">{{ field_image }} {{ title__value }}</a>'
+            make_link: false
             path: '/node/{{ nid }}'
             absolute: false
             external: false
@@ -922,7 +926,7 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
