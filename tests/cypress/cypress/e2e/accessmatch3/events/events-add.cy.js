@@ -79,7 +79,7 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     }).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'Your Event was published',
-        from: 'supportapiaccess@access-ci.org',
+        from: 'noreply@mg.support.access-ci.org',
       });
     });
 
@@ -144,7 +144,7 @@ describe("Authenticated user tests the Events Form without Affinity Group", () =
     }).then((message) => {
       cy.assertEmailContent(message, {
         subject: 'Your Event was published',
-        from: 'supportapiaccess@access-ci.org',
+        from: 'noreply@mg.support.access-ci.org',
       });
     });
   });

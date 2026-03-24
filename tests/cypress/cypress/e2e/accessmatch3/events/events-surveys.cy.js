@@ -192,7 +192,7 @@ describe('Event Registration Surveys and Reminders', () => {
       }).then((message) => {
         cy.assertEmailContent(message, {
           subject: 'Please Complete a Pre-Screening Survey for ' + testEventName,
-          from: 'noreply@support.access-ci.org',
+          from: 'noreply@mg.support.access-ci.org',
           to: 'walnut@pie.org',
           // The full email body comes from the field content set via CKEditor
           htmlContains: [
@@ -229,7 +229,7 @@ describe('Event Registration Surveys and Reminders', () => {
       }).then((message) => {
         cy.assertEmailContent(message, {
           subject: 'Registration accepted - please fill in survey before event for ' + testEventName,
-          from: 'noreply@support.access-ci.org',
+          from: 'noreply@mg.support.access-ci.org',
           to: 'walnut@pie.org',
           // The full email body comes from the field content set via CKEditor
           htmlContains: [

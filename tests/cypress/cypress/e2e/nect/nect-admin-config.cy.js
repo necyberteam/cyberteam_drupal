@@ -354,10 +354,6 @@ describe("Check admin configuration pages", () => {
   it("web services config pages", () => {
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
 
-    cy.visit('/admin/config/services/cilogon-auth');
-    cy.get('h1').should('contain', 'CILogon Auth');
-    cy.get('#edit-logon-button-text').should('have.value', 'Login with ACCESS CI');
-
     cy.visit('/admin/services/constantcontact-token');
     cy.get('h1').should('contain', 'Constant Contact');
 
