@@ -17,5 +17,9 @@ describe("Test login page", () => {
 
     // verify ACCESS login button is present
     cy.get('#block-ood-accessciuserlogin a.btn').should('exist');
+
+    // verify institutional login button is present
+    cy.get('#block-ood-institutionaluserlogin').should('exist');
+    cy.get('#block-ood-institutionaluserlogin a.btn').should('contain', 'CILogon');
   });
 });
