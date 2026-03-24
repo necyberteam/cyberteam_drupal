@@ -106,10 +106,18 @@ if (file_exists($google_secret_file)) {
   $config['social_auth_google.settings']['client_secret'] = trim(file_get_contents($google_secret_file));
 }
 
-// Load Mailgun SMTP password from private key file instead of config.
+// Load Mailgun SMTP passwords from private key files instead of config.
 $mailgun_secret_file = DRUPAL_ROOT . '/sites/default/files/private/.keys/mailgun-smtp.key';
 if (file_exists($mailgun_secret_file)) {
   $config['symfony_mailer.mailer_transport.smtp']['configuration']['pass'] = trim(file_get_contents($mailgun_secret_file));
+}
+$mailgun_ccmnet_file = DRUPAL_ROOT . '/sites/default/files/private/.keys/mailgun-smtp-ccmnet.key';
+if (file_exists($mailgun_ccmnet_file)) {
+  $config['symfony_mailer.mailer_transport.smtp_ccmnet']['configuration']['pass'] = trim(file_get_contents($mailgun_ccmnet_file));
+}
+$mailgun_ood_file = DRUPAL_ROOT . '/sites/default/files/private/.keys/mailgun-smtp-ood.key';
+if (file_exists($mailgun_ood_file)) {
+  $config['symfony_mailer.mailer_transport.smtp_ood']['configuration']['pass'] = trim(file_get_contents($mailgun_ood_file));
 }
 
 // Load CILogon client_secret from private key file instead of config.
