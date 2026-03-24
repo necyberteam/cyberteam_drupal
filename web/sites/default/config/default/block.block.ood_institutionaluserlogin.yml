@@ -1,0 +1,25 @@
+uuid: null
+langcode: en
+status: true
+dependencies:
+  module:
+    - access_misc
+    - system
+  theme:
+    - ood
+id: ood_institutionaluserlogin
+theme: ood
+region: below_main_content
+weight: -45
+provider: null
+plugin: institutional_user_login
+settings:
+  id: institutional_user_login
+  label: 'Institutional User Login'
+  label_display: '0'
+  provider: access_misc
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /user/login
