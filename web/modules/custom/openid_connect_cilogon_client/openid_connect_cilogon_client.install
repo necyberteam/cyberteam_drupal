@@ -12,57 +12,8 @@ use Drupal\field\Entity\FieldConfig;
  * Implements hook_install().
  */
 function openid_connect_cilogon_client_install() {
-  // Create field storage for CILogon identity provider field
-  if (!FieldStorageConfig::loadByName('user', 'field_cilogon_idp')) {
-    FieldStorageConfig::create([
-      'field_name' => 'field_cilogon_idp',
-      'entity_type' => 'user',
-      'type' => 'string',
-      'cardinality' => 1,
-      'settings' => [
-        'max_length' => 255,
-      ],
-    ])->save();
-  }
-
-  // Create field instance on user entity
-  if (!FieldConfig::loadByName('user', 'user', 'field_cilogon_idp')) {
-    FieldConfig::create([
-      'field_name' => 'field_cilogon_idp',
-      'entity_type' => 'user',
-      'bundle' => 'user',
-      'label' => 'CILogon Identity Provider',
-      'description' => 'The identity provider used for CILogon authentication.',
-      'required' => FALSE,
-      'settings' => [],
-    ])->save();
-
-    // Set field display settings
-    /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $view_display */
-    $view_display = \Drupal::entityTypeManager()
-      ->getStorage('entity_view_display')
-      ->load('user.user.default');
-
-    if ($view_display) {
-      $view_display->setComponent('field_cilogon_idp', [
-        'type' => 'string',
-        'label' => 'above',
-        'weight' => 10,
-      ])->save();
-    }
-
-    // Hide from form display by default
-    /** @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface $form_display */
-    $form_display = \Drupal::entityTypeManager()
-      ->getStorage('entity_form_display')
-      ->load('user.user.default');
-
-    if ($form_display) {
-      $form_display->removeComponent('field_cilogon_idp')->save();
-    }
-  }
-
-  \Drupal::messenger()->addStatus(t('CILogon Identity Provider field created successfully.'));
+  // Field storage, field config, and display settings are managed via
+  // site config sync. Do not create them programmatically here.
 
   // Migrate cilogon_auth data if the old table exists.
   // Update hooks 9001-9004 won't run on fresh install because Drupal sets
