@@ -6,13 +6,17 @@ dependencies:
     - field.storage.eventseries.field_registration
     - recurring_events.eventseries_type.default
   module:
+    - label_help
     - link
+third_party_settings:
+  label_help:
+    label_help_description: "Optional link to registration for your event. <br />\r\nThis must be an external URL such as https://example.com."
 id: eventseries.default.field_registration
 field_name: field_registration
 entity_type: eventseries
 bundle: default
 label: 'Use External Registration'
-description: 'Optional link to registration for your event.'
+description: ''
 required: false
 translatable: false
 default_value: {  }
