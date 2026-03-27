@@ -1,0 +1,39 @@
+uuid: b0c5f8a7-6d19-4e3b-c2f4-9a8b5d0e1f26
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.rp_ssh_login.field_rp_recommended
+    - field.field.paragraph.rp_ssh_login.field_rp_ssh_url
+    - paragraphs.paragraphs_type.rp_ssh_login
+  module:
+    - link
+id: paragraph.rp_ssh_login.default
+targetEntityType: paragraph
+bundle: rp_ssh_login
+mode: default
+content:
+  field_rp_ssh_url:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_rp_recommended:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

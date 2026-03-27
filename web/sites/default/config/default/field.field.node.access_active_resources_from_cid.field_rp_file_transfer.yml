@@ -18,6 +18,12 @@ translatable: null
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:node'
-  handler_settings: {  }
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      rp_file_transfer_method: rp_file_transfer_method
+    target_bundles_drag_drop:
+      rp_file_transfer_method:
+        enabled: true
+        weight: 0
 field_type: entity_reference_revisions
