@@ -10,7 +10,7 @@ field_name: field_rp_xdmod_resource_id
 entity_type: node
 bundle: access_active_resources_from_cid
 label: 'XDMoD Resource ID'
-description: 'Numeric resource ID from XDMoD (metric_explorer dimension). Used by the queue metrics cron to filter data.'
+description: 'Numeric resource ID from XDMoD. Used by the queue metrics cron to filter data. Look up IDs at https://xdmod.access-ci.org via Metric Explorer → Resources dimension, or POST to /controllers/metric_explorer.php with operation=get_dimension&realm=Jobs&dimension_id=resource.'
 required: false
 translatable: false
 default_value: {  }
