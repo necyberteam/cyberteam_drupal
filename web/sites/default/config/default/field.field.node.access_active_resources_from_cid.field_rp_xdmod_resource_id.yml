@@ -1,0 +1,23 @@
+uuid: d4e5f6a7-b8c9-0123-def0-23456789abcd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_rp_xdmod_resource_id
+    - node.type.access_active_resources_from_cid
+id: node.access_active_resources_from_cid.field_rp_xdmod_resource_id
+field_name: field_rp_xdmod_resource_id
+entity_type: node
+bundle: access_active_resources_from_cid
+label: 'XDMoD Resource ID'
+description: 'Numeric resource ID from XDMoD (metric_explorer dimension). Used by the queue metrics cron to filter data.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
