@@ -21,33 +21,41 @@ jobs:
           site_name: ${{ secrets.TERMINUS_SITE_NAME }}
           env: live
 
-      - id: DDEV
-        uses: ./.github/actions/ddev-base
-        with:
-          site: "accessmatch"
-          database: ''
-          github_token: ${{ secrets.GH_TOKEN_REPO }}
-          amp_uid: ${{ secrets.AMP_UID }}
+      - name: Setup DDEV (without full deploy)
+        shell: bash
+        run: |
+          echo 'docker compose --compatibility "$@"' > /usr/local/bin/docker-compose
+          chmod +x /usr/local/bin/docker-compose
+          curl -fsSL https://apt.fury.io/drud/gpg.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/ddev.gpg > /dev/null
+          echo "deb [signed-by=/etc/apt/trusted.gpg.d/ddev.gpg] https://apt.fury.io/drud/ * *" | sudo tee /etc/apt/sources.list.d/ddev.list
+          sudo apt-get update && sudo apt-get install -y ddev
+          ddev config global --instrumentation-opt-in=false
+          mkcert -install
+          ddev config --project-type=drupal10 --docroot=web --database=mysql:8.0 --php-version=8.2
+          ddev start
 
-      - name: Config diff
+      - name: Import live DB and export config (no deploy/cim)
         run: |
           git remote set-url origin https://$username:$gh_token@github.com/necyberteam/cyberteam_drupal.git
-          git config --global user.email "$username"
-          git config --global user.name "$email"
+          git config --global user.email "$email"
+          git config --global user.name "$username"
           git fetch
           current_branch=main
-          git checkout $(git rev-list --tags --max-count=1)
           git checkout $current_branch
-          git branch
           date=$(date '+%y%m%d')
           git branch md-$date
           git checkout md-$date
           ddev exec composer config -g github-oauth.github.com $gh_token
           ddev composer install --ignore-platform-reqs
-          rm -fR web/sites/default/config
-          git checkout web/sites/default/config
+          # Import the live DB WITHOUT running drush deploy/cim.
+          # We want the live DB state as-is so we can detect real drift.
+          ddev import-db --file=backups/site.sql.gz
+          # Only update the database schema (no config import).
+          ddev drush updatedb -y
           ddev drush cr
-          ddev exec vendor/bin/robo cex
+          # Run drush cex directly instead of robo cex. The robo command
+          # restores deleted files from git, which masks genuine deletions on live.
+          ddev drush cex -y
           git rev-list --tags --max-count=1
           rm -fR web/sites/default/config/local
           git checkout web/sites/default/config/local
