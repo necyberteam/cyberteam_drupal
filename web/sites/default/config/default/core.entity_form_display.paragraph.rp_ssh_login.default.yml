@@ -13,20 +13,20 @@ targetEntityType: paragraph
 bundle: rp_ssh_login
 mode: default
 content:
-  field_rp_ssh_url:
-    type: link_default
-    weight: 0
-    region: content
-    settings:
-      placeholder_url: 'https://login01.example.edu'
-      placeholder_title: 'login01'
-    third_party_settings: {  }
   field_rp_recommended:
     type: boolean_checkbox
     weight: 1
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  field_rp_ssh_url:
+    type: link_default
+    weight: 0
+    region: content
+    settings:
+      placeholder_url: 'https://login01.example.edu'
+      placeholder_title: login01
     third_party_settings: {  }
 hidden:
   created: true

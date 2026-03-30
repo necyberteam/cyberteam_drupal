@@ -37,7 +37,6 @@ dependencies:
     - field.field.node.access_active_resources_from_cid.field_rp_support_links
     - field.field.node.access_active_resources_from_cid.field_rp_software_list_url
     - field.field.node.access_active_resources_from_cid.field_rp_top_software
-    - field.field.node.access_active_resources_from_cid.field_rp_useful_links
     - node.type.access_active_resources_from_cid
     - views.view.cider_resources_on_ag_groups
   module:
@@ -257,10 +256,14 @@ content:
     weight: 20
     region: content
   field_rp_office_hours:
-    type: string
+    type: link
     label: above
     settings:
-      link_to_entity: false
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
     third_party_settings: {  }
     weight: 26
     region: content
@@ -322,18 +325,6 @@ content:
     third_party_settings: {  }
     weight: 18
     region: content
-  field_rp_useful_links:
-    type: link
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    weight: 17
-    region: content
   links:
     settings: {  }
     third_party_settings: {  }
@@ -342,7 +333,9 @@ content:
 hidden:
   feeds_item: true
   field_domain_access: true
-  field_rp_software_list_url: true
   field_domain_all_affiliates: true
   field_domain_source: true
+  field_rp_queue_metrics: true
+  field_rp_software_list_url: true
+  field_rp_xdmod_resource_id: true
   search_api_excerpt: true

@@ -38,14 +38,124 @@ dependencies:
     - field.field.node.access_active_resources_from_cid.field_rp_support_links
     - field.field.node.access_active_resources_from_cid.field_rp_software_list_url
     - field.field.node.access_active_resources_from_cid.field_rp_top_software
-    - field.field.node.access_active_resources_from_cid.field_rp_useful_links
     - node.type.access_active_resources_from_cid
   module:
     - content_moderation
     - datetime
+    - field_group
     - link
     - paragraphs
     - text
+third_party_settings:
+  field_group:
+    group_login_access:
+      children:
+        - field_rp_ondemand_url
+        - field_rp_mfa_required
+        - field_rp_account_required
+        - field_rp_ssh_login_nodes
+        - field_rp_login_help_links
+        - field_rp_account_setup_url
+      label: 'Login & Access'
+      region: content
+      parent_name: ''
+      weight: 2
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: true
+        description: ''
+        required_fields: false
+    group_data_management:
+      children:
+        - field_rp_file_transfer
+        - field_rp_storage
+        - field_rp_external_storage
+      label: 'Data Management'
+      region: content
+      parent_name: ''
+      weight: 10
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: true
+        description: ''
+        required_fields: false
+    group_compute:
+      children:
+        - field_rp_jobs_info
+        - field_rp_queue_specs
+      label: Compute
+      region: content
+      parent_name: ''
+      weight: 14
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: true
+        description: ''
+        required_fields: false
+    group_software:
+      children:
+        - field_rp_software_list_url
+        - field_rp_datasets
+      label: 'Software & Datasets'
+      region: content
+      parent_name: ''
+      weight: 18
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: true
+        description: ''
+        required_fields: false
+    group_sidebar_content:
+      children:
+        - field_rp_support_links
+        - field_rp_office_hours
+      label: 'Sidebar Content'
+      region: content
+      parent_name: ''
+      weight: 20
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: true
+        description: ''
+        required_fields: false
+    group_cider_synced_data:
+      children:
+        - field_cider_resource_id
+        - field_access_global_resource_id
+        - field_cider_resource_type
+        - field_cider_project_affiliation
+        - field_cider_latest_status
+        - field_cider_latest_status_begin
+        - field_cider_latest_status_end
+        - field_access_org_name
+        - field_access_org_url
+        - field_access_org_logo_url
+        - field_cider_detail_view_url
+        - field_cider_raw_data_url
+        - field_rp_top_software
+        - field_rp_xdmod_resource_id
+        - body
+      label: 'Auto-synced Data (CiDeR / Cron)'
+      region: content
+      parent_name: ''
+      weight: 50
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        description: 'These fields are automatically synced from CiDeR or populated by cron jobs. Edit with caution.'
+        required_fields: false
 id: node.access_active_resources_from_cid.default
 targetEntityType: node
 bundle: access_active_resources_from_cid
@@ -221,14 +331,6 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_rp_jobs_info:
-    type: text_textarea
-    weight: 14
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
   field_rp_file_transfer:
     type: paragraphs
     weight: 10
@@ -247,6 +349,14 @@ content:
         collapse_edit_all: collapse_edit_all
         duplicate: duplicate
     third_party_settings: {  }
+  field_rp_jobs_info:
+    type: text_textarea
+    weight: 14
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   field_rp_login_help_links:
     type: link_default
     weight: 7
@@ -263,12 +373,12 @@ content:
       display_label: true
     third_party_settings: {  }
   field_rp_office_hours:
-    type: string_textfield
+    type: link_default
     weight: 22
     region: content
     settings:
-      size: 60
-      placeholder: ''
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   field_rp_ondemand_url:
     type: link_default
@@ -296,12 +406,13 @@ content:
         collapse_edit_all: collapse_edit_all
         duplicate: duplicate
     third_party_settings: {  }
-  field_rp_xdmod_resource_id:
-    type: number
-    weight: 16
+  field_rp_software_list_url:
+    type: link_default
+    weight: 18
     region: content
     settings:
-      placeholder: ''
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   field_rp_ssh_login_nodes:
     type: paragraphs
@@ -355,21 +466,12 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_rp_software_list_url:
-    type: link_default
-    weight: 18
+  field_rp_xdmod_resource_id:
+    type: number
+    weight: 16
     region: content
     settings:
-      placeholder_url: ''
-      placeholder_title: ''
-    third_party_settings: {  }
-  field_rp_useful_links:
-    type: link_default
-    weight: 21
-    region: content
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
+      placeholder: ''
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
@@ -393,6 +495,7 @@ content:
 hidden:
   feeds_item: true
   field_domain_source: true
+  field_rp_queue_metrics: true
   path: true
   promote: true
   status: true

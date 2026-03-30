@@ -61,10 +61,11 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     cy.contains("td", "PyTorch");
   });
 
-  it("renders datasets section", () => {
+  it("renders datasets table", () => {
     cy.contains("h2", "Datasets");
-    cy.contains("h3", "ImageNet-1K");
-    cy.contains("h3", "Common Crawl (2024)");
+    cy.get(".rp-datasets table tbody tr").should("have.length", 2);
+    cy.get(".rp-datasets table").contains("td", "ImageNet-1K");
+    cy.get(".rp-datasets table").contains("td", "Common Crawl (2024)");
   });
 
   it("renders sidebar with support links", () => {

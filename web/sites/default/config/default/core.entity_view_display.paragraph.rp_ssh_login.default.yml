@@ -13,6 +13,16 @@ targetEntityType: paragraph
 bundle: rp_ssh_login
 mode: default
 content:
+  field_rp_recommended:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
   field_rp_ssh_url:
     type: link
     label: above
@@ -24,16 +34,6 @@ content:
       target: ''
     third_party_settings: {  }
     weight: 0
-    region: content
-  field_rp_recommended:
-    type: boolean
-    label: above
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-    weight: 1
     region: content
 hidden:
   search_api_excerpt: true
