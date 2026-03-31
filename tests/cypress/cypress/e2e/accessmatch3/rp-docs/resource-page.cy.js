@@ -57,8 +57,9 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
   it("renders top software table", () => {
     cy.contains("h2", "Most Frequently Used Software");
     cy.get(".rp-top-software table tbody tr").should("have.length", 5);
-    cy.contains("td", "AlphaFold");
-    cy.contains("td", "PyTorch");
+    cy.contains("td", "python");
+    cy.contains("td", "gromacs");
+    cy.get(".rp-top-software").contains("XDMoD");
   });
 
   it("renders datasets table", () => {
