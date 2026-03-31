@@ -209,7 +209,5 @@ then
   commands=$(cat robo/assets/md/$branch)
   echo $commands
   terminus env:wake accessmatch.$branch
-  # wait 60 seconds for the environment to be ready after md_create
-  sleep 60
   terminus remote:drush accessmatch.$branch -- domain:default $commands
 fi
