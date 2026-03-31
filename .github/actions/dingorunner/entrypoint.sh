@@ -208,7 +208,6 @@ then
   branch="${GITHUB_REF#refs/heads/}"
   commands=$(cat robo/assets/md/$branch)
   echo $commands
-  # wait 60 seconds for the environment to be ready after md_create
-  sleep 60
+  terminus env:wake accessmatch.$branch
   terminus remote:drush accessmatch.$branch -- domain:default $commands
 fi
