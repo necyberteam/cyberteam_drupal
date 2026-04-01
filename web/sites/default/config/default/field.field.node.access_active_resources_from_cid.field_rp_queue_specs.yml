@@ -1,0 +1,29 @@
+uuid: 0ff69585-b98c-4fe8-958c-a9e73eda52a1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_rp_queue_specs
+    - node.type.access_active_resources_from_cid
+  module:
+    - entity_reference_revisions
+id: node.access_active_resources_from_cid.field_rp_queue_specs
+field_name: field_rp_queue_specs
+entity_type: node
+bundle: access_active_resources_from_cid
+label: 'Queue Specifications'
+description: ''
+required: null
+translatable: null
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      rp_queue_spec: rp_queue_spec
+    target_bundles_drag_drop:
+      rp_queue_spec:
+        weight: 0
+        enabled: true
+field_type: entity_reference_revisions
