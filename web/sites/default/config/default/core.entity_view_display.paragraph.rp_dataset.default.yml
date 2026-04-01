@@ -1,0 +1,32 @@
+uuid: eff391f4-89dd-4d8f-8876-6550920e3882
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.rp_dataset.field_rp_dataset_description
+    - field.field.paragraph.rp_dataset.field_rp_dataset_name
+    - paragraphs.paragraphs_type.rp_dataset
+  module:
+    - text
+id: paragraph.rp_dataset.default
+targetEntityType: paragraph
+bundle: rp_dataset
+mode: default
+content:
+  field_rp_dataset_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_rp_dataset_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

@@ -1,0 +1,23 @@
+uuid: 964e8a08-0164-4491-9e26-d8243f96e7ec
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_rp_account_setup_url
+    - node.type.access_active_resources_from_cid
+  module:
+    - link
+id: node.access_active_resources_from_cid.field_rp_account_setup_url
+field_name: field_rp_account_setup_url
+entity_type: node
+bundle: access_active_resources_from_cid
+label: 'RP Account Setup URL'
+description: 'URL where users can request or set up an account on this resource provider. Displayed as a link in the Login section of the RP documentation page. Leave blank if no separate RP account is needed (e.g., if ACCESS credentials are sufficient).'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 16
+field_type: link
