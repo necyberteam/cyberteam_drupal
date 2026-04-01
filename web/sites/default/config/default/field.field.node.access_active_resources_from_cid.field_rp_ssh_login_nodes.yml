@@ -1,0 +1,29 @@
+uuid: f8a3d6e5-4b97-4c1f-a0d2-7e6f3b8c9d04
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_rp_ssh_login_nodes
+    - node.type.access_active_resources_from_cid
+  module:
+    - entity_reference_revisions
+id: node.access_active_resources_from_cid.field_rp_ssh_login_nodes
+field_name: field_rp_ssh_login_nodes
+entity_type: node
+bundle: access_active_resources_from_cid
+label: 'SSH Login Nodes'
+description: ''
+required: null
+translatable: null
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      rp_ssh_login: rp_ssh_login
+    target_bundles_drag_drop:
+      rp_ssh_login:
+        weight: 0
+        enabled: true
+field_type: entity_reference_revisions
