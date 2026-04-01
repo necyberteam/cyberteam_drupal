@@ -46,6 +46,11 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     cy.contains("GETTING MORE STORAGE");
   });
 
+  it("renders jobs info text above queue specs", () => {
+    cy.contains("Alpha uses Slurm for job scheduling");
+    cy.contains("sbatch");
+  });
+
   it("renders queue specs table", () => {
     cy.contains("h2", "Jobs");
     cy.get(".rp-queue-specs table tbody tr").should("have.length", 3);
@@ -77,6 +82,12 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
       cy.contains("OFFICE HOURS");
       cy.contains("Mon 2-4 PM EST");
     });
+  });
+
+  it("renders sidebar software list link", () => {
+    cy.get(".rp-sidebar").contains("View all available software")
+      .should("have.attr", "href")
+      .and("include", "alpha.test.example.edu/software");
   });
 
   it("renders sidebar navigation links", () => {
