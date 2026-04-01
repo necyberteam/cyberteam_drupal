@@ -17,11 +17,11 @@ describe("Test of the /find page", { retries: { runMode: 2, openMode: 0 } }, () 
     ];
     cy.checkBreadcrumbs(crumbs);
 
-    cy.get('.button').contains('Search');
+    cy.get('.sui-search-box__submit').should('have.value', 'Search');
 
     cy.get('.sui-search-box__text-input').type('test', { delay: 0 });
 
-    cy.get('.sui-search-box > .button').click();
+    cy.get('.sui-search-box__submit').click();
 
     // Wait for search results to load with generous timeout for external service
     cy.contains('.btn', 'Hide Results', { timeout: 20000 });

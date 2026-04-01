@@ -129,8 +129,17 @@ runs:
         cd tests/cypress
         echo "Testing site URL: https://$SITE.ddev.site"
         if [ -n "$SUBDIR" ] && [ "$SUBDIR" != "" ]; then
-          echo "Running tests from: cypress/e2e/$DIR/$SUBDIR/*.js"
-          SPEC_PATH="cypress/e2e/$DIR/$SUBDIR/*.js"
+          SPEC_PATH=""
+          IFS=',' read -ra PARTS <<< "$SUBDIR"
+          for part in "${PARTS[@]}"; do
+            part=$(echo "$part" | xargs)
+            if [ -n "$SPEC_PATH" ]; then
+              SPEC_PATH="$SPEC_PATH,cypress/e2e/$DIR/$part/*.js"
+            else
+              SPEC_PATH="cypress/e2e/$DIR/$part/*.js"
+            fi
+          done
+          echo "Running tests from: $SPEC_PATH"
         else
           echo "Running tests from: cypress/e2e/$DIR/**/*.js"
           SPEC_PATH="cypress/e2e/$DIR/**/*.js"

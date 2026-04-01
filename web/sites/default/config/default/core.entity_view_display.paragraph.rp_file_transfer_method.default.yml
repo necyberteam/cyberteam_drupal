@@ -1,0 +1,57 @@
+uuid: c70cb550-bbb1-4256-8a88-d673dd50b676
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.rp_file_transfer_method.field_rp_method
+    - field.field.paragraph.rp_file_transfer_method.field_rp_recommended
+    - field.field.paragraph.rp_file_transfer_method.field_rp_transfer_node
+    - field.field.paragraph.rp_file_transfer_method.field_rp_transfer_url
+    - paragraphs.paragraphs_type.rp_file_transfer_method
+  module:
+    - link
+id: paragraph.rp_file_transfer_method.default
+targetEntityType: paragraph
+bundle: rp_file_transfer_method
+mode: default
+content:
+  field_rp_method:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_rp_recommended:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_rp_transfer_node:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_rp_transfer_url:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  search_api_excerpt: true
