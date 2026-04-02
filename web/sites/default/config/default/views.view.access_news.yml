@@ -823,8 +823,8 @@ display:
           label: ''
           exclude: true
           alter:
-            alter_text: true
-            text: '{{ field_image }} <br />'
+            alter_text: false
+            text: '{{ field_image }}'
             make_link: false
             path: ''
             absolute: false
@@ -894,7 +894,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/node/{{ nid }}" class="no-underline text-2xl font-bold">{{ field_image }} {{ title__value }}</a>'
+            text: '<a href="/node/{{ nid }}" class="no-underline text-2xl font-bold"><span class="mb-4 block">{{ field_image }}</span>{{ title__value }}</a>'
             make_link: false
             path: '/node/{{ nid }}'
             absolute: false
