@@ -82,8 +82,8 @@ jobs:
           echo $current_branch
           git branch
           git diff --name-status -M100% $(git rev-list --tags --max-count=1)..$current_branch web/sites/default/config/default > checkout.sh
-          sed -i 's/^M./git checkout /g' checkout.sh
-          sed -i 's/^A./git add /g' checkout.sh
+          sed -i "s|^M.|git checkout $current_branch -- |g" checkout.sh
+          sed -i "s|^A.|git checkout $current_branch -- |g" checkout.sh
           sed -i 's/^D./rm /g' checkout.sh
           echo 'echo "end of checkout.sh"' >> checkout.sh
           cat checkout.sh
