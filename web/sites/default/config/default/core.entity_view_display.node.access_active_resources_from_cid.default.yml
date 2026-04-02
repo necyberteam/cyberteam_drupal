@@ -20,32 +20,280 @@ dependencies:
     - field.field.node.access_active_resources_from_cid.field_domain_access
     - field.field.node.access_active_resources_from_cid.field_domain_all_affiliates
     - field.field.node.access_active_resources_from_cid.field_domain_source
-    - field.field.node.access_active_resources_from_cid.field_rp_account_required
-    - field.field.node.access_active_resources_from_cid.field_rp_account_setup_url
-    - field.field.node.access_active_resources_from_cid.field_rp_datasets
-    - field.field.node.access_active_resources_from_cid.field_rp_description
-    - field.field.node.access_active_resources_from_cid.field_rp_external_storage
-    - field.field.node.access_active_resources_from_cid.field_rp_file_transfer
-    - field.field.node.access_active_resources_from_cid.field_rp_jobs_info
-    - field.field.node.access_active_resources_from_cid.field_rp_login_help_links
-    - field.field.node.access_active_resources_from_cid.field_rp_mfa_required
-    - field.field.node.access_active_resources_from_cid.field_rp_office_hours
-    - field.field.node.access_active_resources_from_cid.field_rp_ondemand_url
-    - field.field.node.access_active_resources_from_cid.field_rp_queue_specs
-    - field.field.node.access_active_resources_from_cid.field_rp_ssh_login_nodes
-    - field.field.node.access_active_resources_from_cid.field_rp_storage
-    - field.field.node.access_active_resources_from_cid.field_rp_support_links
-    - field.field.node.access_active_resources_from_cid.field_rp_software_list_url
-    - field.field.node.access_active_resources_from_cid.field_rp_top_software
     - node.type.access_active_resources_from_cid
     - views.view.cider_resources_on_ag_groups
   module:
     - datetime
-    - entity_reference_revisions
+    - layout_builder
+    - layout_discovery
     - link
     - text
     - user
     - views
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          80f69870-6e2f-46a6-bdc6-0ea2d1a2fbee:
+            uuid: 80f69870-6e2f-46a6-bdc6-0ea2d1a2fbee
+            region: content
+            configuration:
+              id: 'field_block:node:access_active_resources_from_cid:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: inline
+                settings: {  }
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          5183044e-1a17-42e3-92ca-e2e4d6d0de31:
+            uuid: 5183044e-1a17-42e3-92ca-e2e4d6d0de31
+            region: content
+            configuration:
+              id: 'field_block:node:access_active_resources_from_cid:field_cider_resource_id'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          e3d5822d-2714-4ddf-820f-eb4352ba97a8:
+            uuid: e3d5822d-2714-4ddf-820f-eb4352ba97a8
+            region: content
+            configuration:
+              id: 'field_block:node:access_active_resources_from_cid:field_access_global_resource_id'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          ac25e0c2-3147-408e-841f-205058917acc:
+            uuid: ac25e0c2-3147-408e-841f-205058917acc
+            region: content
+            configuration:
+              id: 'field_block:node:access_active_resources_from_cid:field_cider_resource_type'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+          b3187b9d-7338-4c8b-a6ce-df392179d6be:
+            uuid: b3187b9d-7338-4c8b-a6ce-df392179d6be
+            region: content
+            configuration:
+              id: 'field_block:node:access_active_resources_from_cid:field_cider_latest_status'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 4
+            additional: {  }
+          05267c2a-3b1d-485f-9478-24a0e5e65913:
+            uuid: 05267c2a-3b1d-485f-9478-24a0e5e65913
+            region: content
+            configuration:
+              id: 'field_block:node:access_active_resources_from_cid:field_cider_latest_status_begin'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: datetime_default
+                label: inline
+                settings:
+                  timezone_override: ''
+                  format_type: medium
+                third_party_settings: {  }
+            weight: 5
+            additional: {  }
+          ba9fe48b-1e85-4bbe-8f2d-1c1ac18807e5:
+            uuid: ba9fe48b-1e85-4bbe-8f2d-1c1ac18807e5
+            region: content
+            configuration:
+              id: 'field_block:node:access_active_resources_from_cid:field_cider_latest_status_end'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: datetime_default
+                label: inline
+                settings:
+                  timezone_override: ''
+                  format_type: medium
+                third_party_settings: {  }
+            weight: 6
+            additional: {  }
+          4e1012fd-1c38-4a9a-a2de-e29e9a31e0de:
+            uuid: 4e1012fd-1c38-4a9a-a2de-e29e9a31e0de
+            region: content
+            configuration:
+              id: 'field_block:node:access_active_resources_from_cid:field_cider_project_affiliation'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 7
+            additional: {  }
+          1517e09e-5e76-4081-84be-eb72e80afa6e:
+            uuid: 1517e09e-5e76-4081-84be-eb72e80afa6e
+            region: content
+            configuration:
+              id: 'field_block:node:access_active_resources_from_cid:field_access_org_name'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 8
+            additional: {  }
+          887d011d-ddae-4970-9f00-019d25e2833a:
+            uuid: 887d011d-ddae-4970-9f00-019d25e2833a
+            region: content
+            configuration:
+              id: 'field_block:node:access_active_resources_from_cid:field_access_org_url'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: link
+                label: inline
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: ''
+                  target: ''
+                third_party_settings: {  }
+            weight: 9
+            additional: {  }
+          d3cb2f4b-e75f-4a84-9f92-80a48cec8340:
+            uuid: d3cb2f4b-e75f-4a84-9f92-80a48cec8340
+            region: content
+            configuration:
+              id: 'field_block:node:access_active_resources_from_cid:field_access_org_logo_url'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: link
+                label: inline
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: ''
+                  target: ''
+                third_party_settings: {  }
+            weight: 10
+            additional: {  }
+          29183132-e165-4552-9f96-f93d0d166a39:
+            uuid: 29183132-e165-4552-9f96-f93d0d166a39
+            region: content
+            configuration:
+              id: 'field_block:node:access_active_resources_from_cid:field_cider_detail_view_url'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: link
+                label: inline
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: ''
+                  target: ''
+                third_party_settings: {  }
+            weight: 11
+            additional: {  }
+          375f4612-bd2b-40b7-b333-f672fa83a885:
+            uuid: 375f4612-bd2b-40b7-b333-f672fa83a885
+            region: content
+            configuration:
+              id: 'field_block:node:access_active_resources_from_cid:field_cider_raw_data_url'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: link
+                label: inline
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: ''
+                  target: ''
+                third_party_settings: {  }
+            weight: 12
+            additional: {  }
+          cc34ec6d-908b-46c3-976c-c76fa400b68f:
+            uuid: cc34ec6d-908b-46c3-976c-c76fa400b68f
+            region: content
+            configuration:
+              id: 'extra_field_block:node:access_active_resources_from_cid:links'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+            weight: 13
+            additional: {  }
+          78e603ff-8f76-4ab4-aee5-5a26690713f8:
+            uuid: 78e603ff-8f76-4ab4-aee5-5a26690713f8
+            region: content
+            configuration:
+              id: 'views_block:cider_resources_on_ag_groups-block_1'
+              label: ''
+              label_display: visible
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+              exposed: {  }
+            weight: 14
+            additional:
+              layout_builder_styles_style:
+                page_title: 0
+                pe_3: 0
+                tags: 0
+        third_party_settings: {  }
 id: node.access_active_resources_from_cid.default
 targetEntityType: node
 bundle: access_active_resources_from_cid
@@ -172,159 +420,6 @@ content:
     third_party_settings: {  }
     weight: 3
     region: content
-  field_rp_account_required:
-    type: boolean
-    label: above
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-    weight: 21
-    region: content
-  field_rp_account_setup_url:
-    type: link
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    weight: 24
-    region: content
-  field_rp_datasets:
-    type: entity_reference_revisions_entity_view
-    label: above
-    settings:
-      view_mode: default
-      link: ''
-    third_party_settings: {  }
-    weight: 30
-    region: content
-  field_rp_description:
-    type: text_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 14
-    region: content
-  field_rp_external_storage:
-    type: text_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 25
-    region: content
-  field_rp_file_transfer:
-    type: entity_reference_revisions_entity_view
-    label: above
-    settings:
-      view_mode: default
-      link: ''
-    third_party_settings: {  }
-    weight: 27
-    region: content
-  field_rp_jobs_info:
-    type: text_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 28
-    region: content
-  field_rp_login_help_links:
-    type: link
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    weight: 23
-    region: content
-  field_rp_mfa_required:
-    type: boolean
-    label: above
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-    weight: 20
-    region: content
-  field_rp_office_hours:
-    type: link
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    weight: 26
-    region: content
-  field_rp_ondemand_url:
-    type: link
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    weight: 15
-    region: content
-  field_rp_queue_specs:
-    type: entity_reference_revisions_entity_view
-    label: above
-    settings:
-      view_mode: default
-      link: ''
-    third_party_settings: {  }
-    weight: 29
-    region: content
-  field_rp_ssh_login_nodes:
-    type: entity_reference_revisions_entity_view
-    label: above
-    settings:
-      view_mode: default
-      link: ''
-    third_party_settings: {  }
-    weight: 19
-    region: content
-  field_rp_storage:
-    type: entity_reference_revisions_entity_view
-    label: above
-    settings:
-      view_mode: default
-      link: ''
-    third_party_settings: {  }
-    weight: 28
-    region: content
-  field_rp_support_links:
-    type: link
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    weight: 16
-    region: content
-  field_rp_top_software:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 18
-    region: content
   links:
     settings: {  }
     third_party_settings: {  }
@@ -335,7 +430,3 @@ hidden:
   field_domain_access: true
   field_domain_all_affiliates: true
   field_domain_source: true
-  field_rp_queue_metrics: true
-  field_rp_software_list_url: true
-  field_rp_xdmod_resource_id: true
-  search_api_excerpt: true
