@@ -53,6 +53,8 @@ then
   storeKey
   terminusApi
   mkdir backups
+  echo "Creating fresh backup on $site_name.$env..."
+  terminus backup:create $site_name.$env --element=db
   terminus backup:get $site_name.$env --element=db --to=backups/site.sql.gz
 fi
 
