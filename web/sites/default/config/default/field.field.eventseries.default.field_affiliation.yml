@@ -6,13 +6,17 @@ dependencies:
     - field.storage.eventseries.field_affiliation
     - recurring_events.eventseries_type.default
   module:
+    - label_help
     - options
+third_party_settings:
+  label_help:
+    label_help_description: "<strong>ACCESS Collaboration</strong> - An event coordinated by ACCESS or an ACCESS Resource Provider.<br>\r\n<strong>Community</strong> - An event from a community member.<br>\r\n<strong>NAIRR Pilot</strong> - This event is relevant to the NAIRR Pilot and checking this box will also send the event to the <a href=\"https://nairrpilot.org\">NAIRR Pilot</a> events page."
 id: eventseries.default.field_affiliation
 field_name: field_affiliation
 entity_type: eventseries
 bundle: default
 label: Affiliation
-description: "<strong>ACCESS Collaboration</strong> - An event coordinated by ACCESS or an ACCESS Resource Provider.<br>\r\n<strong>Community</strong> - An event from a community member.<br>\r\n<strong>NAIRR Pilot</strong> - This event is relevant to the NAIRR Pilot and checking this box will also send the event to the <a href=\"https://nairrpilot.org\">NAIRR Pilot</a> events page."
+description: ''
 required: false
 translatable: false
 default_value: {  }
