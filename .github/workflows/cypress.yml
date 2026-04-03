@@ -176,7 +176,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/ddev-cypress-test
         with:
-          site: "ondemand"
+          site: "openondemand"
           directory: "axe"
           subdirectory: "openondemand"
           database: ${{ github.event.inputs.database }}
