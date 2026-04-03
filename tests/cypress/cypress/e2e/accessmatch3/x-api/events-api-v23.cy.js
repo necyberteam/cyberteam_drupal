@@ -196,13 +196,26 @@ describe("Events API v2.3", () => {
   });
 
   it("supports event_type facet", () => {
-    cy.request('/api/2.3/events?event_type=Training')
-      .then((response) => {
-        expect(response.status).to.eq(200);
-        if (response.body.length > 0) {
-          response.body.forEach(event => {
-            expect(event.event_type.toLowerCase()).to.include('training');
-          });
+    // Get all events first to find available types
+    cy.request('/api/2.3/events')
+      .then((allResponse) => {
+        if (allResponse.body.length === 0) return;
+
+        const eventTypes = [...new Set(allResponse.body.map(e => e.event_type).filter(t => t))];
+        cy.log('Available event types:', eventTypes);
+
+        if (eventTypes.length > 0) {
+          const testType = eventTypes[0];
+          cy.request(`/api/2.3/events?f%5B0%5D=custom_event_type%3A${encodeURIComponent(testType)}`)
+            .then((response) => {
+              expect(response.status).to.eq(200);
+              expect(response.body.length).to.be.greaterThan(0);
+              expect(response.body.length).to.be.at.most(allResponse.body.length);
+              // Verify all returned events match the filtered type
+              response.body.forEach(event => {
+                expect(event.event_type).to.equal(testType);
+              });
+            });
         }
       });
   });
