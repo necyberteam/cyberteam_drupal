@@ -61,7 +61,6 @@ describe("test KB Resources form", () => {
 
   it("Administrator creates a simple KB Resource", () => {
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
-    cy.visit('/');
     cy.visit('/knowledge-base/resources');
     cy.contains('Add a Resource').click();
     cy.url().should('include', 'form/resource');

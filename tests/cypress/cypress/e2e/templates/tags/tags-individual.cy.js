@@ -31,20 +31,16 @@ describe("test individual tags page", () => {
 
   });
 
-  it("logged-out: Add a 'test-affinity-group' for login tag and verify it appears", () => {
+  it("Verify 'test-affinity-group' and 'test-login-resource' on login tag page", () => {
     cy.visit('/tags/login');
     cy.contains('test-affinity-group').click();
-  });
 
-  it("logged-in authenticated: Add a 'test-affinity-group' for login tag and verify it appears", () => {
+    cy.visit('/tags/login');
+    cy.contains('test-login-resource');
+
     cy.loginUser("authenticated@amptesting.com", "6%l7iF}6(4tI");
     cy.visit('/tags/login');
     cy.contains('test-affinity-group');
-  });
-
-  it("Verify the 'test-login-resource' KB Resource shows", () => {
-    cy.visit('/tags/login');
-    cy.contains('test-login-resource');
   });
 
   it("Add a 'test-login-project' for login & projects", () => {
@@ -71,15 +67,13 @@ describe("test individual tags page", () => {
     cy.contains('test project description');
   });
 
-  it("As a not logged in user, verify 'test-login-project' exists", () => {
+  it("Verify 'test-login-project' on login and password tag pages", () => {
     cy.visit('/tags/login');
     cy.contains('test-project-title').click();
     cy.contains('test project description');
     cy.visit('/tags/password');
     cy.contains('test-project-title');
-  });
 
-  it("As an authenticated user, verify 'test-login-project' exists", () => {
     cy.loginUser("authenticated@amptesting.com", "6%l7iF}6(4tI");
     cy.visit('/tags/login');
     cy.contains('test-project-title').click();
