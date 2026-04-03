@@ -4,6 +4,10 @@
 
 This project uses **DDEV** for local development. DDEV provides a consistent, containerized development environment that works across different operating systems.
 
+## Notifications
+
+View the different [notificattions](https://access-ci-org.github.io/cyberteam_notification_catalog) that are used across the different sites.
+
 ## robo
 
 We switched to the robo command so we could remove BLT as it's no longer supported. Some of the commands have been revised as well.
