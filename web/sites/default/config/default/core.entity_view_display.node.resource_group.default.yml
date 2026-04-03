@@ -1,0 +1,39 @@
+uuid: c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.resource_group.field_cider_resources
+    - field.field.node.resource_group.field_domain_access
+    - field.field.node.resource_group.field_domain_all_affiliates
+    - field.field.node.resource_group.field_rp_description
+    - field.field.node.resource_group.field_rp_listing
+    - node.type.resource_group
+  module:
+    - text
+    - user
+id: node.resource_group.default
+targetEntityType: node
+bundle: resource_group
+mode: default
+content:
+  field_rp_description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_cider_resources:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_rp_listing: true
+  links: true
