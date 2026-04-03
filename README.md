@@ -6,7 +6,7 @@ This project uses **DDEV** for local development. DDEV provides a consistent, co
 
 ## Notifications
 
-View the different site [notificattions](https://access-ci-org.github.io/cyberteam_notification_catalog) that are used across the different sites.
+View the different [notificattions](https://access-ci-org.github.io/cyberteam_notification_catalog) that are used across the different sites.
 
 ## robo
 
