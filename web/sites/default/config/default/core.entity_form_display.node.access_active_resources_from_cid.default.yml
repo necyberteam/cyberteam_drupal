@@ -27,6 +27,7 @@ dependencies:
     - field.field.node.access_active_resources_from_cid.field_rp_external_storage
     - field.field.node.access_active_resources_from_cid.field_rp_file_transfer
     - field.field.node.access_active_resources_from_cid.field_rp_jobs_info
+    - field.field.node.access_active_resources_from_cid.field_rp_listing
     - field.field.node.access_active_resources_from_cid.field_rp_login_help_links
     - field.field.node.access_active_resources_from_cid.field_rp_mfa_required
     - field.field.node.access_active_resources_from_cid.field_rp_office_hours
@@ -322,6 +323,13 @@ content:
     settings:
       rows: 9
       placeholder: ''
+    third_party_settings: {  }
+  field_rp_listing:
+    type: boolean_checkbox
+    weight: 69
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_rp_external_storage:
     type: text_textarea
