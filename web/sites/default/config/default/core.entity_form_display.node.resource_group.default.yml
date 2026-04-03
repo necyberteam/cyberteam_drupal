@@ -1,0 +1,72 @@
+uuid: b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.resource_group.field_cider_resources
+    - field.field.node.resource_group.field_domain_access
+    - field.field.node.resource_group.field_domain_all_affiliates
+    - field.field.node.resource_group.field_rp_description
+    - field.field.node.resource_group.field_rp_listing
+    - node.type.resource_group
+  module:
+    - path
+    - text
+id: node.resource_group.default
+targetEntityType: node
+bundle: resource_group
+mode: default
+content:
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_rp_description:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_cider_resources:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_rp_listing:
+    type: boolean_checkbox
+    weight: 3
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 12
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 13
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  promote: true
+  sticky: true
+  uid: true
