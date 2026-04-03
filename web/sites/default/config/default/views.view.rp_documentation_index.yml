@@ -6,7 +6,9 @@ dependencies:
     - field.storage.node.field_access_org_name
     - field.storage.node.field_access_org_logo_url
     - field.storage.node.field_rp_description
+    - field.storage.node.field_rp_listing
     - node.type.access_active_resources_from_cid
+    - node.type.resource_group
   module:
     - domain_access
     - node
@@ -165,21 +167,22 @@ display:
           plugin_id: bundle
           value:
             access_active_resources_from_cid: access_active_resources_from_cid
+            resource_group: resource_group
           group: 1
           expose:
             operator: ''
             operator_limit_selection: false
             operator_list: {  }
-        field_rp_description_value:
-          id: field_rp_description_value
-          table: node__field_rp_description
-          field: field_rp_description_value
+        field_rp_listing_value:
+          id: field_rp_listing_value
+          table: node__field_rp_listing
+          field: field_rp_listing_value
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: string
-          operator: 'not empty'
-          value: ''
+          plugin_id: boolean
+          operator: '='
+          value: '1'
           group: 1
           expose:
             operator: ''
