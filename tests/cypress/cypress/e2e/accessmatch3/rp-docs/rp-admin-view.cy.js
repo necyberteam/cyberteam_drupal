@@ -9,13 +9,32 @@ describe("RP Resources Admin View", () => {
     });
   });
 
-  describe("kb_pm role", () => {
+  describe("kb_pm role (no longer has RP access)", () => {
     before(() => {
       cy.exec('ddev drush user:role:add kb_pm "authenticated_test_user"', { failOnNonZeroExit: false });
     });
 
     after(() => {
       cy.exec('ddev drush user:role:remove kb_pm "authenticated_test_user"', { failOnNonZeroExit: false });
+    });
+
+    beforeEach(() => {
+      cy.loginAs("authenticated@amptesting.com", "6%l7iF}6(4tI");
+    });
+
+    it("cannot access the manage view", () => {
+      cy.visit(managePath, { failOnStatusCode: false });
+      cy.url().should("not.include", managePath);
+    });
+  });
+
+  describe("rp_documentation_manager role", () => {
+    before(() => {
+      cy.exec('ddev drush user:role:add rp_documentation_manager "authenticated_test_user"', { failOnNonZeroExit: false });
+    });
+
+    after(() => {
+      cy.exec('ddev drush user:role:remove rp_documentation_manager "authenticated_test_user"', { failOnNonZeroExit: false });
     });
 
     beforeEach(() => {
