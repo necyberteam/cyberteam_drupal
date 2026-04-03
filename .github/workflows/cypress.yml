@@ -244,7 +244,7 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.1
       - name: Remove templates symlink so crct only runs its own specs
         shell: bash
         run: rm tests/cypress/cypress/e2e/crct/templates
