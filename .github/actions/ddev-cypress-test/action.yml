@@ -37,7 +37,7 @@ runs:
   steps:
     - name: Download database backup
       if: inputs.database == ''
-      uses: dawidd6/action-download-artifact@v6
+      uses: dawidd6/action-download-artifact@v7
       with:
         name: amp-daily-backup
         path: backups/
@@ -78,7 +78,7 @@ runs:
 
     - name: Setup Node.js
       if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v4.1.0
       with:
         node-version: '20'
         cache: 'npm'
