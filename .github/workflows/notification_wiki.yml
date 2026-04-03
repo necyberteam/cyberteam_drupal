@@ -1,0 +1,63 @@
+name: (W) Notification Wiki Deploy
+# Cron runs at 13:00 UTC (8am EST / 9am EDT).
+# Note: shifts to 9am during daylight saving time (March–November).
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 13 * * 0'   # 8am EST (UTC-5) every Sunday
+permissions:
+  contents: write
+  actions: read
+  pull-requests: write
+jobs:
+  build:
+    name: Deploy notification wiki
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: Pull database from Pantheon (cache runner)
+        uses: ./.github/actions/dingorunner
+        env:
+          runner: cr
+          terminus_api: ${{ secrets.TERMINUS_API }}
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY }}
+          site_name: ${{ secrets.TERMINUS_SITE_NAME }}
+          env: live
+
+      - name: Pull database from Pantheon (backup runner)
+        uses: ./.github/actions/dingorunner
+        env:
+          runner: bkup
+          terminus_api: ${{ secrets.TERMINUS_API }}
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_DEPLOY_KEY }}
+          site_name: ${{ secrets.TERMINUS_SITE_NAME }}
+          env: live
+
+      - name: Start DDEV and import database
+        id: DDEV
+        uses: ./.github/actions/ddev-base
+        with:
+          site: "accessmatch"
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
+
+      - name: Import config and clear cache
+        run: ddev drush cim -y && ddev drush cr
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install MkDocs Material
+        run: pip install mkdocs-material
+
+      - name: Deploy MkDocs wiki
+        run: vendor/bin/robo gh:mkdocs-deploy
+        env:
+          GH_TOKEN_REPO: ${{ secrets.GH_TOKEN_REPO }}
+
+      - name: Cleanup DDEV
+        if: always()
+        run: ddev delete -O -y
