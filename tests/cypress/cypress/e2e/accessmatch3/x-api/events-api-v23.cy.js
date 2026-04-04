@@ -21,12 +21,17 @@ describe("Events API v2.3", () => {
         const expectedFields = [
           'id', 'title', 'description', 'start_date', 'end_date', 'location',
           'event_type', 'affiliation', 'tags', 'skill_level',
-          'speakers', 'summary', 'contact', 'registration', 'video', 'created', 'changed'
+          'speakers', 'summary', 'contact', 'registration', 'video', 'created', 'changed',
+          'url'
         ];
 
         expectedFields.forEach(field => {
           expect(event, `Missing field: ${field}`).to.have.property(field);
         });
+
+        // URL should be an absolute URL to the event
+        expect(event.url).to.be.a('string').and.not.be.empty;
+        expect(event.url).to.include('https://');
       });
   });
 
