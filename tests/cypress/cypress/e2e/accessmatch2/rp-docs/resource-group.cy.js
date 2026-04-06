@@ -42,6 +42,12 @@ describe("Resource Group — listing page", () => {
     cy.get("#group-test-resource-group").should("exist");
   });
 
+  it("inline table shows summary text not full description", () => {
+    cy.visit("/rp-documentation");
+    cy.get("#group-test-resource-group .rp-resource-group-list table tbody")
+      .should("contain", "GPU-accelerated supercomputer for HPC, AI, and machine learning workloads.");
+  });
+
 });
 
 describe("Resource Group — detail page", () => {
