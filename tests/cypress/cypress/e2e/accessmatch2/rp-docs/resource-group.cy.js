@@ -192,6 +192,27 @@ describe("Resource Group — ARA banner on detail page", () => {
 
 });
 
+describe("Resource Group — admin action buttons", () => {
+
+  it("anonymous users do not see admin buttons", () => {
+    cy.visit("/rp-documentation");
+    cy.get(".rp-admin-actions").should("not.exist");
+  });
+
+  it("rp_documentation_manager sees Add Resource Group and Manage Resources buttons", () => {
+    cy.exec('ddev drush user:role:add rp_documentation_manager "authenticated_test_user"', { failOnNonZeroExit: false });
+    cy.loginAs("authenticated@amptesting.com", "6%l7iF}6(4tI");
+    cy.visit("/rp-documentation");
+    cy.get(".rp-admin-actions").should("exist");
+    cy.get(".rp-admin-actions").contains("a", "Add Resource Group")
+      .should("have.attr", "href", "/node/add/resource_group");
+    cy.get(".rp-admin-actions").contains("a", "Manage Resources")
+      .should("have.attr", "href", "/rp-resources/manage");
+    cy.exec('ddev drush user:role:remove rp_documentation_manager "authenticated_test_user"', { failOnNonZeroExit: false });
+  });
+
+});
+
 describe("Resource Group — field_rp_listing filter", () => {
 
   it("resources with field_rp_listing unchecked do not appear as standalone rows", () => {
