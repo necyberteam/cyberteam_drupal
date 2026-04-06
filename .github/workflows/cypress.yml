@@ -11,7 +11,7 @@ on:
         default: 'main'
       sites:
         description: 'Specify which sites to test or leave the default to run all tests.'
-        default: 'accessmatch1, accessmatch2, accessmatch3, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect, ondemand'
+        default: 'accessmatch1, accessmatch2, accessmatch3, accessmatch-api, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect, ondemand'
         required: true
       prnum:
         description: 'Pull request number — adds a comment to a pull request (nomally empty)'
@@ -66,6 +66,25 @@ jobs:
         with:
           site: "accessmatch"
           directory: "accessmatch3"
+          subdirectory: "events, knowledge-base, knowledge-base-resources, qa-bot, z-affinity-groups-api"
+          database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          slack_bot_token: ${{ secrets.SLACK_TOKEN }}
+
+  accessmatch-api:
+    name: accessmatch-api
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'accessmatch-api') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress-test
+        with:
+          site: "accessmatch"
+          directory: "accessmatch3"
+          subdirectory: "x-api"
           database: ${{ github.event.inputs.database }}
           database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
