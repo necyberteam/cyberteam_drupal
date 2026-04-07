@@ -1293,3 +1293,17 @@ body.page-node-type-affinity-group {
   font-size: 0.85rem;
   text-align: right;
 }
+
+/* Accessible disabled state for .btn-secondary (WCAG 2.1 AA)
+   Bootstrap 4's default .btn.disabled applies opacity: 0.65 to #6c757d,
+   which composites to ~#9fa5ab on white and fails the 4.5:1 contrast ratio.
+   Use a light chip with dark text so contrast passes AA while still
+   reading as an inactive control. */
+.btn-secondary.disabled,
+.btn-secondary:disabled,
+a.btn-secondary.disabled {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+  color: #212529;
+  opacity: 1;
+}
