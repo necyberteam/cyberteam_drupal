@@ -1307,3 +1307,26 @@ a.btn-secondary.disabled {
   color: #212529;
   opacity: 1;
 }
+
+/* Distinguish in-content links without relying on color (WCAG 2.1 AA, 1.4.1).
+   The default link color (#ca1236) fails the 3:1 non-text contrast against
+   body text (#222), so give links inside body content an underline. Scoped to
+   the node/text-field content area to avoid re-underlining menus, buttons,
+   cards, and other chrome that already has its own styling. */
+main .node__content p a,
+main .node__content li a,
+main .field--type-text-long a,
+main .field--type-text-with-summary a {
+  text-decoration: underline;
+  text-underline-offset: .2rem;
+}
+main .node__content p a:hover,
+main .node__content p a:focus,
+main .node__content li a:hover,
+main .node__content li a:focus,
+main .field--type-text-long a:hover,
+main .field--type-text-long a:focus,
+main .field--type-text-with-summary a:hover,
+main .field--type-text-with-summary a:focus {
+  text-decoration: none;
+}
