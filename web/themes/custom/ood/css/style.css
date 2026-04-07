@@ -1313,11 +1313,11 @@ a.btn-secondary.disabled {
    body text (#222), so give links inside body content an underline. Scoped to
    the node/text-field content area to avoid re-underlining menus, buttons,
    cards, and other chrome that already has its own styling. */
-main a {
+main a:not(.btn) {
   text-decoration: underline;
   text-underline-offset: .2rem;
 }
-main a:hover,
-main a:focus {
+main a:hover:not(.btn),
+main a:focus:not(.btn) {
   text-decoration: none;
 }
