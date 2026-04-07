@@ -482,7 +482,10 @@ function openid_connect_cilogon_client_update_9006() {
     '@aid' => $max_aid_before,
   ]);
 
-  $inserted = $database->query("
+  // Drupal's $database->query() does not allow rowCount() on raw INSERT
+  // statements for portability reasons; use prepareStatement() with
+  // $allow_row_count = TRUE instead.
+  $sql = "
     INSERT INTO {openid_connect_authmap} (uid, client_name, sub)
     SELECT u.uid, 'cilogon', u.name
     FROM {users_field_data} u
@@ -496,7 +499,10 @@ function openid_connect_cilogon_client_update_9006() {
         SELECT 1 FROM {openid_connect_authmap} am2
         WHERE am2.client_name = 'cilogon' AND am2.sub = u.name
       )
-  ")->rowCount();
+  ";
+  $stmt = $database->prepareStatement($sql, [], TRUE);
+  $stmt->execute();
+  $inserted = $stmt->rowCount();
 
   \Drupal::logger('openid_connect_cilogon_client')->notice('update_9006: inserted @count cilogon authmap rows for @access-ci.org users (aids > @marker)', [
     '@count' => $inserted,
