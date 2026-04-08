@@ -20,7 +20,6 @@ describe("Project test as admin", () => {
 
   it("Add an 'in-progress' project and verify it is created", () => {
     cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
-    cy.visit('/');
     cy.visit('/projects');
     cy.contains('Submit New Project').click();
     cy.get('input[name="approved_milestones"]').check();

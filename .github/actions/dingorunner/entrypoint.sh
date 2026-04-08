@@ -53,6 +53,8 @@ then
   storeKey
   terminusApi
   mkdir backups
+  echo "Creating fresh backup on $site_name.$env..."
+  terminus backup:create $site_name.$env --element=db
   terminus backup:get $site_name.$env --element=db --to=backups/site.sql.gz
 fi
 
@@ -208,5 +210,6 @@ then
   branch="${GITHUB_REF#refs/heads/}"
   commands=$(cat robo/assets/md/$branch)
   echo $commands
+  terminus env:wake accessmatch.$branch
   terminus remote:drush accessmatch.$branch -- domain:default $commands
 fi

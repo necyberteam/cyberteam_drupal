@@ -11,7 +11,7 @@ on:
         default: 'main'
       sites:
         description: 'Specify which sites to test or leave the default to run all tests.'
-        default: 'accessmatch1, accessmatch2, accessmatch3, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect, ondemand'
+        default: 'accessmatch1, accessmatch2, accessmatch3, accessmatch-api, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect, ondemand'
         required: true
       prnum:
         description: 'Pull request number — adds a comment to a pull request (nomally empty)'
@@ -66,6 +66,25 @@ jobs:
         with:
           site: "accessmatch"
           directory: "accessmatch3"
+          subdirectory: "events, knowledge-base, knowledge-base-resources, qa-bot, z-affinity-groups-api"
+          database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          slack_bot_token: ${{ secrets.SLACK_TOKEN }}
+
+  accessmatch-api:
+    name: accessmatch-api
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'accessmatch-api') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress-test
+        with:
+          site: "accessmatch"
+          directory: "accessmatch3"
+          subdirectory: "x-api"
           database: ${{ github.event.inputs.database }}
           database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
@@ -226,10 +245,49 @@ jobs:
     if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
       - uses: actions/checkout@v4
+      - name: Remove templates symlink so crct only runs its own specs
+        shell: bash
+        run: rm tests/cypress/cypress/e2e/crct/templates
       - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "crct"
           directory: "crct"
+          database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          slack_bot_token: ${{ secrets.SLACK_TOKEN }}
+
+  crct-templates-1:
+    name: crct-templates-1
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress-test
+        with:
+          site: "crct"
+          directory: "templates"
+          subdirectory: "affinity_groups,ci-links,projects,tags"
+          database: ${{ github.event.inputs.database }}
+          database_branch: ${{ github.event.inputs.database_branch }}
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
+          amp_uid: ${{ secrets.AMP_UID }}
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          slack_bot_token: ${{ secrets.SLACK_TOKEN }}
+
+  crct-templates-2:
+    name: crct-templates-2
+    runs-on: ubuntu-latest
+    if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ddev-cypress-test
+        with:
+          site: "crct"
+          directory: "templates"
+          subdirectory: "about_us,blog,footer,forms,homepage,misc,news,people"
           database: ${{ github.event.inputs.database }}
           database_branch: ${{ github.event.inputs.database_branch }}
           github_token: ${{ secrets.GH_TOKEN_REPO }}
@@ -341,7 +399,7 @@ jobs:
 
   fail:
     name: Actions to run on fail
-    needs: [accessmatch1, accessmatch2, accessmatch3, ccmnet, connectci, crct, campuschampions, coco, greatplains, kyct, nect, ondemand]
+    needs: [accessmatch1, accessmatch2, accessmatch3, ccmnet, connectci, crct, crct-templates-1, crct-templates-2, campuschampions, coco, greatplains, kyct, nect, ondemand]
     if: failure()
     runs-on: ubuntu-latest
     steps:

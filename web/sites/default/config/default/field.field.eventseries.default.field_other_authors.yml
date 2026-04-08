@@ -5,12 +5,17 @@ dependencies:
   config:
     - field.storage.eventseries.field_other_authors
     - recurring_events.eventseries_type.default
+  module:
+    - label_help
+third_party_settings:
+  label_help:
+    label_help_description: 'Give edit access to other people.'
 id: eventseries.default.field_other_authors
 field_name: field_other_authors
 entity_type: eventseries
 bundle: default
 label: 'Other Authors'
-description: 'Give edit access to other people.'
+description: ''
 required: false
 translatable: false
 default_value: {  }

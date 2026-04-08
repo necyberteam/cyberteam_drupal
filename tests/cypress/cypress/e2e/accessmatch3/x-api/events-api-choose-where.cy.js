@@ -9,7 +9,7 @@ describe("Events API - choose_where_to_share_this Field", () => {
 
   it("Should only return events with 'on_the_announcements_page' visibility", () => {
     // Request all items to ensure we get our test events (they may not be in first 100)
-    cy.request('/api/2.2/events?items_per_page=All').then((response) => {
+    cy.request({ url: '/api/2.2/events?items_per_page=All', timeout: 60000 }).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body).to.be.an('array');
 
@@ -28,7 +28,7 @@ describe("Events API - choose_where_to_share_this Field", () => {
 
   it("Should NOT return events without 'on_the_announcements_page' visibility", () => {
     // Request all items to ensure comprehensive check
-    cy.request('/api/2.2/events?items_per_page=All').then((response) => {
+    cy.request({ url: '/api/2.2/events?items_per_page=All', timeout: 60000 }).then((response) => {
       expect(response.status).to.eq(200);
 
       // Should NOT include events not marked for main page

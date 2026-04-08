@@ -101,6 +101,12 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     });
   });
 
+  it("QA bot has resource group context", () => {
+    // Alpha is in "Test Resource Group" — bot should get the group name
+    cy.get(".embedded-qa-bot")
+      .should("have.attr", "data-resource-context", "test-resource-group");
+  });
+
 });
 
 describe("Resource Documentation Page — Beta (sparse data)", () => {
@@ -153,6 +159,12 @@ describe("Resource Documentation Page — Gamma (partial data)", () => {
       cy.contains("Support Portal");
       cy.contains("Tue/Thu 10 AM - 12 PM CST");
     });
+  });
+
+  it("QA bot falls back to resource title when not in a group", () => {
+    // Gamma is not in a resource group — bot gets its own title
+    cy.get(".embedded-qa-bot")
+      .should("have.attr", "data-resource-context", "test-resource-gamma");
   });
 
 });

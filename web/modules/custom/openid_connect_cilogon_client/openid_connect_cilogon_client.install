@@ -409,6 +409,107 @@ function openid_connect_cilogon_client_update_9004(&$sandbox) {
 }
 
 /**
+ * Remove stale cilogon authmap rows left over from ACCESS handle reassignments.
+ *
+ * When ACCESS reassigns a handle, the allocations sync (AllocationsUsersImport)
+ * renames the original user's Drupal account but does not update their
+ * openid_connect_authmap row. The stale row becomes an account-takeover
+ * vector: when the new owner of the reassigned handle logs in, they are
+ * routed to the original user's uid via userLoadBySub().
+ *
+ * On 2026-04-07 we identified exactly one such stale row in live:
+ * uid 46925 (current name: smoummi1@access-ci.org) with sub
+ * smoummi@access-ci.org — while uid 63455 now owns that name. Deleting
+ * the stale row is safe because uid 46925 also has a correct row with
+ * sub smoummi1@access-ci.org.
+ *
+ * This hook runs BEFORE the backfill (update_9006) so that the backfill's
+ * defensive "sub does not already exist" check works correctly for the
+ * current owner of the reassigned handle.
+ *
+ * The DELETE is scoped by (uid, client_name, sub) — NOT by aid — so it
+ * works identically across environments regardless of aid sequence. If
+ * the row has already been cleaned up, this is a no-op.
+ */
+function openid_connect_cilogon_client_update_9005() {
+  $database = \Drupal::database();
+
+  $deleted = $database->delete('openid_connect_authmap')
+    ->condition('uid', 46925)
+    ->condition('client_name', 'cilogon')
+    ->condition('sub', 'smoummi@access-ci.org')
+    ->execute();
+
+  \Drupal::logger('openid_connect_cilogon_client')->notice('update_9005: deleted @count stale authmap row (uid 46925, sub smoummi@access-ci.org)', [
+    '@count' => $deleted,
+  ]);
+
+  return t('Deleted @count stale authmap row (uid 46925 / smoummi@access-ci.org).', ['@count' => $deleted]);
+}
+
+/**
+ * Backfill cilogon authmap rows for @access-ci.org users.
+ *
+ * Context: Before this fix, ACCESS users who existed only in the legacy
+ * AllocationsUsersImport-created form (name = handle@access-ci.org) but had
+ * never logged in through the new openid_connect flow had no row in
+ * openid_connect_authmap. When they eventually logged in, the new flow
+ * could not find them via authmap lookup and fell through to createUser(),
+ * which produced a bare-handle account that then collided on rename with
+ * the canonical @access-ci.org account (SQLSTATE[23000] duplicate entry
+ * on user__name).
+ *
+ * Safety: the username @access-ci.org format is authoritative because it
+ * is constructed directly from the ACCESS handle by AllocationsUsersImport
+ * (see AllocationsUsersImport.php:454), which is the same handle CILogon
+ * asserts as the `sub` claim. An attacker cannot make CILogon assert a sub
+ * they do not own, so asserting `sub = name` for these accounts is safe.
+ *
+ * Defensive NOT EXISTS: we explicitly skip any user whose name already
+ * appears as a cilogon sub anywhere in the authmap (regardless of which
+ * uid owns it). This prevents creating a duplicate (client_name, sub)
+ * pair that would confuse userLoadBySub(). Stale rows from ACCESS handle
+ * reassignments are cleaned up by update_9005, which runs first.
+ *
+ * The pre-migration MAX(aid) is logged so a rollback can target only the
+ * rows created by this hook if needed.
+ */
+function openid_connect_cilogon_client_update_9006() {
+  $database = \Drupal::database();
+
+  $max_aid_before = (int) $database->query('SELECT MAX(aid) FROM {openid_connect_authmap}')->fetchField();
+  \Drupal::logger('openid_connect_cilogon_client')->notice('update_9006: pre-migration MAX(aid) = @aid (rollback marker)', [
+    '@aid' => $max_aid_before,
+  ]);
+
+  $inserted = $database->query("
+    INSERT INTO {openid_connect_authmap} (uid, client_name, sub)
+    SELECT u.uid, 'cilogon', u.name
+    FROM {users_field_data} u
+    LEFT JOIN {openid_connect_authmap} am
+      ON am.uid = u.uid AND am.client_name = 'cilogon'
+    WHERE u.name LIKE '%@access-ci.org'
+      AND u.status = 1
+      AND u.default_langcode = 1
+      AND am.uid IS NULL
+      AND NOT EXISTS (
+        SELECT 1 FROM {openid_connect_authmap} am2
+        WHERE am2.client_name = 'cilogon' AND am2.sub = u.name
+      )
+  ")->rowCount();
+
+  \Drupal::logger('openid_connect_cilogon_client')->notice('update_9006: inserted @count cilogon authmap rows for @access-ci.org users (aids > @marker)', [
+    '@count' => $inserted,
+    '@marker' => $max_aid_before,
+  ]);
+
+  return t('Backfilled @count cilogon authmap rows for @access-ci.org users. Rollback marker: aid > @marker.', [
+    '@count' => $inserted,
+    '@marker' => $max_aid_before,
+  ]);
+}
+
+/**
  * Migrate authmap records from cilogon_auth to openid_connect.
  *
  * Called from hook_install() when the old table exists, since update hooks
