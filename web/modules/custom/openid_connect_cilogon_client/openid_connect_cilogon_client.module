@@ -13,6 +13,84 @@ use Drupal\user\UserInterface;
 use GuzzleHttp\Client;
 
 /**
+ * Implements hook_openid_connect_userinfo_alter().
+ *
+ * Scrub bad name claims before core openid_connect writes them to user
+ * fields. CILogon has been observed returning non-name values in the
+ * given_name and family_name claims:
+ *
+ *   - The literal string "Unknownname" (CILogon's placeholder when the
+ *     upstream IdP released no name attribute).
+ *   - A CILogon server sub URI like http://cilogon.org/serverE/users/486881
+ *     (an opaque internal identifier, not a human name).
+ *
+ * Core openid_connect's saveUserinfo() loop (OpenIDConnect.php) only skips
+ * writing a claim when the key is absent from $userinfo — an empty string
+ * still gets written and would blank out previously-good data. So we must
+ * intervene here, at the array level, by unsetting the bad key entirely.
+ * After this runs, core sees no given_name/family_name claim and leaves
+ * the existing field value alone.
+ *
+ * We also log a warning with the full userinfo payload so we can build
+ * evidence to escalate the upstream issue to CILogon.
+ */
+function openid_connect_cilogon_client_openid_connect_userinfo_alter(array &$userinfo, array $context) {
+  // Only handle CILogon clients.
+  if (!in_array($context['plugin_id'], ['cilogon', 'cilogon_accessci'])) {
+    return;
+  }
+
+  $claims_to_check = ['given_name', 'family_name'];
+  foreach ($claims_to_check as $claim) {
+    if (!isset($userinfo[$claim])) {
+      continue;
+    }
+    if (!_openid_connect_cilogon_client_is_bad_name_value($userinfo[$claim])) {
+      continue;
+    }
+
+    $sub = $userinfo['sub'] ?? ($context['user_data']['sub'] ?? '(unknown)');
+    \Drupal::logger('openid_connect_cilogon_client')->warning(
+      'Dropped bad @claim claim from @plugin for sub @sub: @value. Full userinfo: @dump',
+      [
+        '@claim' => $claim,
+        '@plugin' => $context['plugin_id'],
+        '@sub' => $sub,
+        '@value' => (string) $userinfo[$claim],
+        '@dump' => print_r($userinfo, TRUE),
+      ]
+    );
+    unset($userinfo[$claim]);
+  }
+}
+
+/**
+ * Check if a claim value is obviously not a real name.
+ *
+ * Matches CILogon-observed garbage values:
+ *   - Literal "Unknownname" placeholder.
+ *   - Any http:// or https:// URI on the cilogon.org host (sub URIs).
+ *
+ * @param mixed $value
+ *   The claim value to test.
+ *
+ * @return bool
+ *   TRUE if the value should not be written to a name field.
+ */
+function _openid_connect_cilogon_client_is_bad_name_value($value) {
+  if (!is_string($value) || $value === '') {
+    return FALSE;
+  }
+  if ($value === 'Unknownname') {
+    return TRUE;
+  }
+  if (preg_match('#^https?://cilogon\.org#', $value)) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
  * Implements hook_openid_connect_userinfo_save().
  *
  * Save additional CILogon-specific user information.
