@@ -1,0 +1,17 @@
+uuid: e5c420a2-94ce-427d-ad38-7520406b2405
+langcode: en
+status: true
+dependencies:
+  module:
+    - operations_cider
+title: 'Default cron handler'
+id: operations_cider_cron
+weight: 0
+module: operations_cider
+callback: 'operations_cider#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database
