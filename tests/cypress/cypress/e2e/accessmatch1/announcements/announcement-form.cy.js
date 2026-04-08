@@ -33,6 +33,8 @@ describe("Authenticated user tests the Announcement Form without adding an Affin
     cy.get('html[data-once~="nodeAddTags"]').should('exist');
     cy.get("#tag-ai").click();
     cy.get("#tag-ai").should("have.class", "selected");
+    // Verify the click handler synced the selection to the hidden select element.
+    cy.get('#edit-field-tags option:selected').should('contain', 'ai');
 
     // Body content (required)
     cy.get('#edit-body-0-summary').type('Summary for Cypress test announcement');
