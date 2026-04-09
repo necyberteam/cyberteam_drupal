@@ -248,6 +248,7 @@ jobs:
       - name: Remove templates symlink so crct only runs its own specs
         shell: bash
         run: rm tests/cypress/cypress/e2e/crct/templates
+      - uses: actions/checkout@v6.0.2
       - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "crct"
