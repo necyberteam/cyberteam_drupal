@@ -10,6 +10,11 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     cy.contains("RP account needed");
   });
 
+  it("renders login text above the login boxes", () => {
+    cy.get(".rp-login .prose").should("exist");
+    cy.get(".rp-login .prose").should("contain", "getting started guide");
+  });
+
   it("renders the SSH login section with dropdown", () => {
     cy.get("#rp-ssh-login-select").should("exist");
     cy.get("#rp-ssh-login-select option").should("have.length", 3);
@@ -27,18 +32,35 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     cy.contains("LOGIN").should("have.attr", "href").and("include", "ondemand.alpha.test.example.edu");
   });
 
-  it("renders the file transfer table", () => {
+  it("renders login help links outside the SSH box", () => {
+    // Login help links should be in the login section but not inside the SSH box
+    cy.get(".rp-login").contains("Watch video: INTRODUCTION TO SSH KEYS");
+  });
+
+  it("renders account setup link", () => {
+    cy.get(".rp-login").contains("Set up your Alpha account")
+      .should("have.attr", "href")
+      .and("include", "alpha.test.example.edu/account");
+  });
+
+  it("renders the file transfer table without Globus boilerplate", () => {
     cy.contains("h2", "File Transfer");
     cy.get(".rp-file-transfer table tbody tr").should("have.length", 3);
     cy.contains("GLOBUS");
     cy.get(".rp-file-transfer").contains("RECOMMENDED");
+    // The global "Use Globus for large transfers" text should NOT appear
+    cy.get(".rp-file-transfer").should("not.contain", "Use Globus for large transfers");
   });
 
-  it("renders the storage table", () => {
+  it("renders the storage table with plain text paths (no code tags)", () => {
     cy.contains("h2", "Storage");
     cy.get(".rp-storage table tbody tr").should("have.length", 4);
     cy.contains("td", "Home");
     cy.contains("td", "Scratch");
+    // Path column should not be wrapped in <code> tags
+    cy.get(".rp-storage table td").contains("/home/<username>").then(($td) => {
+      expect($td.find("code").length).to.equal(0);
+    });
   });
 
   it("renders external storage section", () => {
@@ -101,6 +123,10 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     });
   });
 
+  it("uses 'Software Documentation Service' label for SDS", () => {
+    cy.contains("Software Documentation Service");
+  });
+
   it("QA bot has resource group context", () => {
     // Alpha is in "Test Resource Group" — bot should get the group name
     cy.get(".embedded-qa-bot")
@@ -152,6 +178,15 @@ describe("Resource Documentation Page — Gamma (partial data)", () => {
   it("shows MFA badge but not account badge", () => {
     cy.contains("2FA/MFA");
     cy.contains("RP account needed").should("not.exist");
+  });
+
+  it("renders login section with help links but no SSH or OnDemand", () => {
+    // Gamma has login_help_links and account_setup_url but no SSH logins or OnDemand
+    cy.get(".rp-login").should("exist");
+    cy.get("#rp-ssh-login-select").should("not.exist");
+    cy.contains("ACCESS OnDemand Login").should("not.exist");
+    cy.get(".rp-login").contains("Gamma SSH Guide");
+    cy.get(".rp-login").contains("Set up your Gamma account");
   });
 
   it("renders support sidebar with office hours", () => {
