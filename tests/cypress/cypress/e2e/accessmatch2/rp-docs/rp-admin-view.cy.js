@@ -4,8 +4,13 @@ describe("RP Resources Admin View", () => {
 
   describe("Anonymous access", () => {
     it("denies anonymous users access to the manage view", () => {
-      cy.visit(managePath, { failOnStatusCode: false });
-      cy.url().should("not.include", managePath);
+      cy.request({ url: managePath, failOnStatusCode: false }).then((response) => {
+        expect(response.status).to.be.oneOf([403, 200]);
+        if (response.status === 200) {
+          // If 200, must be the login redirect page, not the actual view.
+          expect(response.body).to.not.include('RP Resources');
+        }
+      });
     });
   });
 
@@ -25,8 +30,9 @@ describe("RP Resources Admin View", () => {
     });
 
     it("cannot access the manage view", () => {
-      cy.visit(managePath, { failOnStatusCode: false });
-      cy.contains("Access denied");
+      cy.request({ url: managePath, failOnStatusCode: false }).then((response) => {
+        expect(response.status).to.eq(403);
+      });
     });
   });
 

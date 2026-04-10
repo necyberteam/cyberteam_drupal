@@ -210,5 +210,6 @@ then
   branch="${GITHUB_REF#refs/heads/}"
   commands=$(cat robo/assets/md/$branch)
   echo $commands
+  terminus env:wake accessmatch.$branch
   terminus remote:drush accessmatch.$branch -- domain:default $commands
 fi

@@ -26,7 +26,7 @@ describe("Unauthenticated user tests the Announcements Page", () => {
     cy.get("#edit-submit-access-news--2").click(); //Filter button
 
     //Created announcement through cypress
-    cy.get(".view-content .views-field-title")
+    cy.get(".view-content .views-row")
       .contains("Cypress-Created-Announcement")
       .click();
     cy.get(".field__item > .font-normal").contains("ai");
