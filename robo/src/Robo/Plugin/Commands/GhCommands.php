@@ -183,8 +183,8 @@ class GhCommands extends Tasks {
     $catalogDir = 'notification-docs';
     $cloneDir = 'notification-catalog-tmp';
     $catalogRepo = $useSSH
-      ? 'git@github.com:access-ci-org/cyberteam_notification_catalog.git'
-      : 'https://github.com/access-ci-org/cyberteam_notification_catalog';
+      ? 'git@github.com:necyberteam/cyberteam_notification_catalog.git'
+      : 'https://github.com/necyberteam/cyberteam_notification_catalog';
 
     // Step 1: Generate the notification catalog via drush.
     $this->say("Generating notification catalog...");
@@ -235,7 +235,7 @@ class GhCommands extends Tasks {
       $deployCmd = "cd $cloneDir && mkdocs gh-deploy --remote-branch=gh-pages --force";
     }
     else {
-      $authedRemote = "https://$token@github.com/access-ci-org/cyberteam_notification_catalog.git";
+      $authedRemote = "https://$token@github.com/necyberteam/cyberteam_notification_catalog.git";
       $deployCmd = "cd $cloneDir && git remote set-url origin $authedRemote && mkdocs gh-deploy --remote-branch=gh-pages --force";
     }
     $result = $this->_exec($deployCmd);
