@@ -10,15 +10,11 @@ describe("Unauthenticated user tests the OnDemand Page", () => {
     cy.visit("/tools/ondemand");
 
     //Page Introduction paragraph
-    cy.get("#about > .prose").contains(
+    cy.get("#about").contains(
       "Open OnDemand is an easy-to-use web portal that is being deployed on ACCESS"
     );
-    cy.get("#about > .grid > :nth-child(1) > :nth-child(2)").contains(
-      "Zero installation"
-    );
-    cy.get("#about > .grid > :nth-child(1) > :nth-child(2)").contains(
-      "Run entirely in your browser."
-    );
+    cy.get("#about").contains("Zero installation");
+    cy.get("#about").contains("Run entirely in your browser.");
 
     //Accordion title and functionality
     cy.get("#ondemand-faq > .colored-square").contains("ACCESS OnDemand FAQ");

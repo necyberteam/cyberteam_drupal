@@ -27,7 +27,9 @@ dependencies:
     - field.field.node.access_active_resources_from_cid.field_rp_external_storage
     - field.field.node.access_active_resources_from_cid.field_rp_file_transfer
     - field.field.node.access_active_resources_from_cid.field_rp_jobs_info
+    - field.field.node.access_active_resources_from_cid.field_rp_listing
     - field.field.node.access_active_resources_from_cid.field_rp_login_help_links
+    - field.field.node.access_active_resources_from_cid.field_rp_login_text
     - field.field.node.access_active_resources_from_cid.field_rp_mfa_required
     - field.field.node.access_active_resources_from_cid.field_rp_office_hours
     - field.field.node.access_active_resources_from_cid.field_rp_ondemand_url
@@ -245,6 +247,13 @@ content:
     third_party_settings: {  }
     weight: 23
     region: content
+  field_rp_login_text:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 22
+    region: content
   field_rp_mfa_required:
     type: boolean
     label: above
@@ -335,6 +344,7 @@ hidden:
   field_domain_access: true
   field_domain_all_affiliates: true
   field_domain_source: true
+  field_rp_listing: true
   field_rp_queue_metrics: true
   field_rp_software_list_url: true
   field_rp_xdmod_resource_id: true
