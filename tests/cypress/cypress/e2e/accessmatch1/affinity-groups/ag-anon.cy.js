@@ -53,8 +53,8 @@ describe('Anonymous user visit the affinity-group page', () => {
     cy.contains('ACCESS Support').should('not.exist');
     cy.get('#affinity-search-tags-271').uncheck();
 
-    // Use Search Box
-    cy.get('#edit-search-api-fulltext--2').type('ACCESS RP Integration');
+    // Use Search Box — BEF auto-submits on change, press Enter to force it.
+    cy.get('#edit-search-api-fulltext--2').type('ACCESS RP Integration{enter}');
     cy.contains('ACCESS RP Integration');
     cy.contains('Anvil').should('not.exist');
     cy.contains('ACCESS Support').should('not.exist');
