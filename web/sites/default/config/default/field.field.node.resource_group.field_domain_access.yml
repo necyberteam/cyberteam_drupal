@@ -5,6 +5,9 @@ dependencies:
   config:
     - field.storage.node.field_domain_access
     - node.type.resource_group
+third_party_settings:
+  domain_access:
+    add_current_domain: true
 id: node.resource_group.field_domain_access
 field_name: field_domain_access
 entity_type: node
@@ -22,7 +25,4 @@ settings:
     sort:
       field: weight
       direction: ASC
-third_party_settings:
-  domain_access:
-    add_current_domain: true
 field_type: entity_reference

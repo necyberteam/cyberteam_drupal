@@ -29,6 +29,7 @@ dependencies:
     - field.field.node.access_active_resources_from_cid.field_rp_jobs_info
     - field.field.node.access_active_resources_from_cid.field_rp_listing
     - field.field.node.access_active_resources_from_cid.field_rp_login_help_links
+    - field.field.node.access_active_resources_from_cid.field_rp_login_text
     - field.field.node.access_active_resources_from_cid.field_rp_mfa_required
     - field.field.node.access_active_resources_from_cid.field_rp_office_hours
     - field.field.node.access_active_resources_from_cid.field_rp_ondemand_url
@@ -51,6 +52,7 @@ third_party_settings:
   field_group:
     group_login_access:
       children:
+        - field_rp_login_text
         - field_rp_ondemand_url
         - field_rp_mfa_required
         - field_rp_account_required
@@ -317,19 +319,14 @@ content:
         duplicate: duplicate
     third_party_settings: {  }
   field_rp_description:
-    type: text_textarea
+    type: text_textarea_with_summary
     weight: 1
     region: content
     settings:
       rows: 9
+      summary_rows: 3
       placeholder: ''
-    third_party_settings: {  }
-  field_rp_listing:
-    type: boolean_checkbox
-    weight: 69
-    region: content
-    settings:
-      display_label: true
+      show_summary: false
     third_party_settings: {  }
   field_rp_external_storage:
     type: text_textarea
@@ -360,6 +357,21 @@ content:
   field_rp_jobs_info:
     type: text_textarea
     weight: 14
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_rp_listing:
+    type: boolean_checkbox
+    weight: 69
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_rp_login_text:
+    type: text_textarea
+    weight: 1
     region: content
     settings:
       rows: 5

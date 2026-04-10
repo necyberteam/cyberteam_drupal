@@ -16,7 +16,7 @@ describe("Test Announcements API", () => {
       // Test that all expected fields are present
       const expectedFields = [
         'title', 'body', 'summary', 'published_date', 'affinity_group',
-        'tags', 'affiliation'
+        'tags', 'affiliation', 'url'
       ];
       
       expectedFields.forEach(field => {
@@ -29,6 +29,10 @@ describe("Test Announcements API", () => {
       expect(announcement.summary).to.be.a('string');
       expect(announcement.published_date).to.be.a('string').and.not.be.empty;
       
+      // URL should be an absolute URL to the announcement
+      expect(announcement.url).to.be.a('string').and.not.be.empty;
+      expect(announcement.url).to.include('https://');
+
       // Log announcement details for debugging
       cy.log('Found announcement:', announcement.title);
       cy.log('Published date:', announcement.published_date);

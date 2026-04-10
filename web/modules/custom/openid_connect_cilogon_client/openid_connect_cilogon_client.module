@@ -13,6 +13,84 @@ use Drupal\user\UserInterface;
 use GuzzleHttp\Client;
 
 /**
+ * Implements hook_openid_connect_userinfo_alter().
+ *
+ * Scrub bad name claims before core openid_connect writes them to user
+ * fields. CILogon has been observed returning non-name values in the
+ * given_name and family_name claims:
+ *
+ *   - The literal string "Unknownname" (CILogon's placeholder when the
+ *     upstream IdP released no name attribute).
+ *   - A CILogon server sub URI like http://cilogon.org/serverE/users/486881
+ *     (an opaque internal identifier, not a human name).
+ *
+ * Core openid_connect's saveUserinfo() loop (OpenIDConnect.php) only skips
+ * writing a claim when the key is absent from $userinfo — an empty string
+ * still gets written and would blank out previously-good data. So we must
+ * intervene here, at the array level, by unsetting the bad key entirely.
+ * After this runs, core sees no given_name/family_name claim and leaves
+ * the existing field value alone.
+ *
+ * We also log a warning with the full userinfo payload so we can build
+ * evidence to escalate the upstream issue to CILogon.
+ */
+function openid_connect_cilogon_client_openid_connect_userinfo_alter(array &$userinfo, array $context) {
+  // Only handle CILogon clients.
+  if (!in_array($context['plugin_id'], ['cilogon', 'cilogon_accessci'])) {
+    return;
+  }
+
+  $claims_to_check = ['given_name', 'family_name'];
+  foreach ($claims_to_check as $claim) {
+    if (!isset($userinfo[$claim])) {
+      continue;
+    }
+    if (!_openid_connect_cilogon_client_is_bad_name_value($userinfo[$claim])) {
+      continue;
+    }
+
+    $sub = $userinfo['sub'] ?? ($context['user_data']['sub'] ?? '(unknown)');
+    \Drupal::logger('openid_connect_cilogon_client')->warning(
+      'Dropped bad @claim claim from @plugin for sub @sub: @value. Full userinfo: @dump',
+      [
+        '@claim' => $claim,
+        '@plugin' => $context['plugin_id'],
+        '@sub' => $sub,
+        '@value' => (string) $userinfo[$claim],
+        '@dump' => print_r($userinfo, TRUE),
+      ]
+    );
+    unset($userinfo[$claim]);
+  }
+}
+
+/**
+ * Check if a claim value is obviously not a real name.
+ *
+ * Matches CILogon-observed garbage values:
+ *   - Literal "Unknownname" placeholder.
+ *   - Any http:// or https:// URI on the cilogon.org host (sub URIs).
+ *
+ * @param mixed $value
+ *   The claim value to test.
+ *
+ * @return bool
+ *   TRUE if the value should not be written to a name field.
+ */
+function _openid_connect_cilogon_client_is_bad_name_value($value) {
+  if (!is_string($value) || $value === '') {
+    return FALSE;
+  }
+  if ($value === 'Unknownname') {
+    return TRUE;
+  }
+  if (preg_match('#^https?://cilogon\.org#', $value)) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
  * Implements hook_openid_connect_userinfo_save().
  *
  * Save additional CILogon-specific user information.
@@ -125,16 +203,22 @@ function _openid_connect_cilogon_client_get_profile($username) {
 /**
  * Implements hook_openid_connect_pre_authorize().
  *
- * Validate user before authorization.
- * Return FALSE to prevent login.
+ * Validates the user and, when possible, returns the canonical Drupal account
+ * for an ACCESS CI sub claim so that openid_connect uses it directly instead
+ * of creating a new bare-handle account that would later collide on rename.
+ *
+ * Return values:
+ *   - FALSE: deny login.
+ *   - A UserInterface: openid_connect uses this account (skips createUser).
+ *   - Anything else (TRUE/NULL): no override, normal flow continues.
  */
 function openid_connect_cilogon_client_openid_connect_pre_authorize($account, array $context) {
-  // Only validate for CILogon clients
+  // Only handle CILogon clients.
   if (!in_array($context['plugin_id'], ['cilogon', 'cilogon_accessci'])) {
     return TRUE;
   }
 
-  // Validate required claims exist
+  // Validate required claims exist.
   if (empty($context['userinfo']['sub'])) {
     \Drupal::messenger()->addError(t('Login failed: missing subject identifier.'));
     \Drupal::logger('openid_connect_cilogon_client')->error('Missing sub claim in userinfo for @plugin', [
@@ -143,24 +227,57 @@ function openid_connect_cilogon_client_openid_connect_pre_authorize($account, ar
     return FALSE;
   }
 
-  // ACCESS CI client requires ACCESS CI identity
+  $sub = $context['userinfo']['sub'];
+
+  // ACCESS CI client requires an ACCESS CI linked identity.
   if ($context['plugin_id'] === 'cilogon_accessci') {
     $config = \Drupal::config('openid_connect.settings.cilogon_accessci');
     $require_access_ci = $config->get('settings.require_access_ci_identity');
 
-    if ($require_access_ci) {
-      // Check if sub matches @access-ci.org pattern
-      if (!preg_match('/^.+@access-ci\.org$/', $context['userinfo']['sub'])) {
-        \Drupal::messenger()->addError(t('Login requires an ACCESS CI linked identity.'));
-        \Drupal::logger('openid_connect_cilogon_client')->warning('User attempted login without ACCESS CI identity: @sub', [
-          '@sub' => $context['userinfo']['sub'],
-        ]);
-        return FALSE;
-      }
+    if ($require_access_ci && !preg_match('/^.+@access-ci\.org$/', $sub)) {
+      \Drupal::messenger()->addError(t('Login requires an ACCESS CI linked identity.'));
+      \Drupal::logger('openid_connect_cilogon_client')->warning('User attempted login without ACCESS CI identity: @sub', [
+        '@sub' => $sub,
+      ]);
+      return FALSE;
     }
   }
 
-  return TRUE;
+  // If openid_connect already found an account via authmap, use it as-is.
+  if ($account instanceof UserInterface) {
+    return TRUE;
+  }
+
+  // For ACCESS CI sub claims (handle@access-ci.org), look up the canonical
+  // Drupal account by username. This prevents createUser() from creating a
+  // duplicate bare-handle account when the canonical account already exists
+  // (legacy users from the previous auth module who have no authmap row yet).
+  if (!str_ends_with($sub, '@access-ci.org')) {
+    return TRUE;
+  }
+
+  $users = \Drupal::entityTypeManager()
+    ->getStorage('user')
+    ->loadByProperties(['name' => $sub]);
+  if (empty($users)) {
+    return TRUE;
+  }
+
+  $canonical = reset($users);
+
+  // Create the authmap association so future logins skip this lookup.
+  /** @var \Drupal\openid_connect\OpenIDConnectAuthmap $authmap */
+  $authmap = \Drupal::service('openid_connect.authmap');
+  $authmap->createAssociation($canonical, $context['plugin_id'], $sub);
+
+  \Drupal::logger('openid_connect_cilogon_client')->info('Linked existing canonical account @name (uid @uid) to @plugin sub @sub', [
+    '@name' => $canonical->getAccountName(),
+    '@uid' => $canonical->id(),
+    '@plugin' => $context['plugin_id'],
+    '@sub' => $sub,
+  ]);
+
+  return $canonical;
 }
 
 /**

@@ -11,6 +11,8 @@ describe("RP Resources Admin View", () => {
 
   describe("kb_pm role (no longer has RP access)", () => {
     before(() => {
+      // Ensure rp_documentation_manager is removed in case a prior test left it behind
+      cy.exec('ddev drush user:role:remove rp_documentation_manager "authenticated_test_user"', { failOnNonZeroExit: false });
       cy.exec('ddev drush user:role:add kb_pm "authenticated_test_user"', { failOnNonZeroExit: false });
     });
 
@@ -24,7 +26,7 @@ describe("RP Resources Admin View", () => {
 
     it("cannot access the manage view", () => {
       cy.visit(managePath, { failOnStatusCode: false });
-      cy.url().should("not.include", managePath);
+      cy.contains("Access denied");
     });
   });
 
