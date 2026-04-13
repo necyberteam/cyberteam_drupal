@@ -48,7 +48,9 @@ describe('Anonymous user visit the affinity-group page', () => {
       .should('eq', 'Login to join');
 
     // Check ai filter
+    cy.contains('Show more').click();
     cy.get('#affinity-search-tags-271').check();
+    cy.wait(1000); // wait for the filter to apply
     cy.contains('Anvil');
     cy.contains('ACCESS Support').should('not.exist');
     cy.get('#affinity-search-tags-271').uncheck();
