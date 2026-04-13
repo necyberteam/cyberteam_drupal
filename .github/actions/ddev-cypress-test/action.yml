@@ -145,7 +145,7 @@ runs:
           SPEC_PATH="cypress/e2e/$DIR/**/*.js"
         fi
         # Run Cypress tests (let it fail naturally to trigger failure handlers)
-        xvfb-run -a npx cypress run --config baseUrl=https://$SITE.ddev.site --spec "$SPEC_PATH"
+        xvfb-run -a npx cypress run --config baseUrl=https://$SITE.ddev.site --spec "$SPEC_PATH" --browser chrome
 
     - name: Check for screenshots
       shell: bash
