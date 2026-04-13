@@ -50,13 +50,18 @@ describe('Anonymous user visit the affinity-group page', () => {
     // Check ai filter
     cy.contains('Show more').click();
     cy.get('#affinity-search-tags-271').check();
-    cy.wait(1000); // wait for the filter to apply
+    cy.wait(500); // wait for the filter to apply
     cy.contains('Anvil');
     cy.contains('ACCESS Support').should('not.exist');
     cy.get('#affinity-search-tags-271').uncheck();
+    cy.wait(500); // wait for page to stabilize after uncheck
 
-    // Use Search Box — BEF auto-submits on change, press Enter to force it.
-    cy.get('#edit-search-api-fulltext--2').type('ACCESS RP Integration{enter}');
+    // Use Search Box — type and trigger BEF auto-submit via input event
+    cy.get('#edit-search-api-fulltext--2').should('be.visible')
+      .clear()
+      .type('ACCESS RP Integration')
+      .trigger('keyup');
+    cy.wait(500);
     cy.contains('ACCESS RP Integration');
     cy.contains('Anvil').should('not.exist');
     cy.contains('ACCESS Support').should('not.exist');
