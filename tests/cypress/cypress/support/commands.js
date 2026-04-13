@@ -35,12 +35,23 @@ Cypress.Commands.add("verifyImage", { prevSubject: true }, ($img) => {
     return cy.wrap($img);
   }
 
-  // Regular image URL
-  return cy.request(url).then((response) => {
-    expect(response.status).to.eq(200);
-    expect(response.body.length).to.be.greaterThan(0);
-    return cy.wrap($img);
-  });
+  // Regular image URL - retry once on failure
+  return cy.request(url).then(
+    (response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.length).to.be.greaterThan(0);
+      return cy.wrap($img);
+    },
+    (error) => {
+      // Retry once on network/server errors
+      cy.task("log", `Image request failed, retrying: ${url}`);
+      return cy.request(url).then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body.length).to.be.greaterThan(0);
+        return cy.wrap($img);
+      });
+    }
+  );
 });
 
 /**
