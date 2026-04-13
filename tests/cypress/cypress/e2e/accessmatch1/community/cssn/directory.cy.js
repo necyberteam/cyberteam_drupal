@@ -27,7 +27,10 @@ describe('Tests the CSSN Directory Page for Anonymous Users', () => {
 
         cy.get('.cssn-directory-item').as('item')
         cy.get('@item').should('have.length', 1) // Only one user with the name Pasquale
-        cy.get('@item').find('.cssn-photo img').verifyImage()
+        cy.get('@item').find('.cssn-photo img')
+            .should('be.visible')
+            .and('have.prop', 'naturalWidth').and('be.greaterThan', 0)
+            .verifyImage()
 
         // Card should link to the community persona page.
         cy.get('@item')
