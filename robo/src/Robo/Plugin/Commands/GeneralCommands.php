@@ -427,7 +427,7 @@ GITHUB_TOKEN=$token'>.env");
       ];
 
       foreach ($sub_dirs as $dir) {
-        $results = $this->_exec('cd tests/cypress && npx cypress run --config baseUrl=https://' . $domain . '.ddev.site --spec "cypress/e2e/' . $site . '/' . $dir . '/*.js"');
+        $results = $this->_exec('cd tests/cypress && npx cypress run --config baseUrl=https://' . $domain . '.ddev.site --spec "cypress/e2e/' . $site . '/' . $dir . '/*.js" --browser chrome');
 
         if ($results->wasSuccessful() == FALSE) {
           $error = TRUE;
@@ -435,7 +435,7 @@ GITHUB_TOKEN=$token'>.env");
         }
       }
     } else {
-      $results = $this->_exec('cd tests/cypress && npx cypress run --config baseUrl=https://' . $domain . '.ddev.site --spec "cypress/e2e/' . $site . '/**/*.js"');
+      $results = $this->_exec('cd tests/cypress && npx cypress run --config baseUrl=https://' . $domain . '.ddev.site --spec "cypress/e2e/' . $site . '/**/*.js" --browser chrome');
 
       if ($results->wasSuccessful() == FALSE) {
         $error = TRUE;
