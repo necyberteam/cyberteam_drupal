@@ -20270,25 +20270,25 @@
         },
         {
             "name": "nette/neon",
-            "version": "v3.4.4",
+            "version": "v3.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/neon.git",
-                "reference": "3411aa86b104e2d5b7e760da4600865ead963c3c"
+                "reference": "cc96bf5264d721d0c102bb976272d3d001a23e65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/neon/zipball/3411aa86b104e2d5b7e760da4600865ead963c3c",
-                "reference": "3411aa86b104e2d5b7e760da4600865ead963c3c",
+                "url": "https://api.github.com/repos/nette/neon/zipball/cc96bf5264d721d0c102bb976272d3d001a23e65",
+                "reference": "cc96bf5264d721d0c102bb976272d3d001a23e65",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": "8.0 - 8.4"
+                "php": "8.0 - 8.5"
             },
             "require-dev": {
                 "nette/tester": "^2.4",
-                "phpstan/phpstan": "^1.0",
+                "phpstan/phpstan-nette": "^2.0@stable",
                 "tracy/tracy": "^2.7"
             },
             "bin": [
@@ -20301,6 +20301,9 @@
                 }
             },
             "autoload": {
+                "psr-4": {
+                    "Nette\\": "src"
+                },
                 "classmap": [
                     "src/"
                 ]
@@ -20322,7 +20325,7 @@
                 }
             ],
             "description": "🍸 Nette NEON: encodes and decodes NEON file format.",
-            "homepage": "https://ne-on.org",
+            "homepage": "https://neon.nette.org",
             "keywords": [
                 "export",
                 "import",
@@ -20332,9 +20335,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/neon/issues",
-                "source": "https://github.com/nette/neon/tree/v3.4.4"
+                "source": "https://github.com/nette/neon/tree/v3.4.7"
             },
-            "time": "2024-10-04T22:00:08+00:00"
+            "time": "2026-01-04T08:39:50+00:00"
         },
         {
             "name": "nyholm/psr7-server",
