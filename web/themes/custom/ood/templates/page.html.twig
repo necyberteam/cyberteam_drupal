@@ -35,7 +35,7 @@
 	 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow-sm" id="mainNav" role="navigation" aria-label="main">
 		  <div class="container">
 			<a class="navbar-brand" href="/">
-        <img src="/themes/nect-theme/img/ood-logo.png" class="logo" alt="Open OnDemand Community Portal">
+        <img src="/themes/nect-theme/img/ood-logo.png" class="logo" alt="{% if not is_front %}Open OnDemand Community Portal{% endif %}">
         {% if is_front %}
           <h1 class="sr-only">{{ site_name }}</h1>
         {% endif %}
