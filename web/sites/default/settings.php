@@ -83,8 +83,8 @@ if (isset($env)) {
       $config['system.performance']['js']['preprocess'] = FALSE;
       $settings['container_yamls'][] = __DIR__ . '/../development.services.yml';
 
-      $config['environment_indicator.indicator']['bg_color'] = '#00809D';
-      $config['environment_indicator.indicator']['fg_color'] = '#FFFFFF';
+      $config['environment_indicator.indicator']['bg_color'] = '#005A70';
+      $config['environment_indicator.indicator']['fg_color'] = '#000000';
       $config['environment_indicator.indicator']['name'] = 'Local';
       break;
 
