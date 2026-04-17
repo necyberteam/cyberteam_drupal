@@ -223,4 +223,5 @@ then
     sleep 15
   done
   terminus remote:drush accessmatch.$branch -- domain:default $commands
+  echo "Set domain to: $commands"
 fi
