@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_rp_account_required
+    - node.type.resource_group
+id: node.resource_group.field_rp_account_required
+field_name: field_rp_account_required
+entity_type: node
+bundle: resource_group
+label: 'RP Account Required'
+description: 'Fallback: used by child Resources that leave this field empty.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

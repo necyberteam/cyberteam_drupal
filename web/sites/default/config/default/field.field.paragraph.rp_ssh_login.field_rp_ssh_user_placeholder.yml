@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_rp_ssh_user_placeholder
+    - paragraphs.paragraphs_type.rp_ssh_login
+id: paragraph.rp_ssh_login.field_rp_ssh_user_placeholder
+field_name: field_rp_ssh_user_placeholder
+entity_type: paragraph
+bundle: rp_ssh_login
+label: 'Username Placeholder'
+description: 'Optional. Shown as the username in the example SSH command (e.g., PSC_USERNAME, my-x-anvil-username). Leave blank to use the default "<your_username>".'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  max_length: 255
+field_type: string

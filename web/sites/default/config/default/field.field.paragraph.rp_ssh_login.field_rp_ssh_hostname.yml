@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_rp_ssh_hostname
+    - paragraphs.paragraphs_type.rp_ssh_login
+id: paragraph.rp_ssh_login.field_rp_ssh_hostname
+field_name: field_rp_ssh_hostname
+entity_type: paragraph
+bundle: rp_ssh_login
+label: 'SSH Hostname'
+description: 'Hostname of this login node (e.g., login.example.edu). Do not include "https://" or "ssh ".'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  max_length: 255
+field_type: string

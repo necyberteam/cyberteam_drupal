@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_rp_file_transfer
+    - node.type.resource_group
+    - paragraphs.paragraphs_type.rp_file_transfer_method
+  module:
+    - entity_reference_revisions
+id: node.resource_group.field_rp_file_transfer
+field_name: field_rp_file_transfer
+entity_type: node
+bundle: resource_group
+label: 'File Transfer Methods'
+description: 'Fallback: used by child Resources that leave this field empty.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      rp_file_transfer_method: rp_file_transfer_method
+    target_bundles_drag_drop:
+      rp_file_transfer_method:
+        weight: 0
+        enabled: true
+field_type: entity_reference_revisions

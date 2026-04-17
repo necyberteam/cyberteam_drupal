@@ -27,7 +27,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Resource Provider Documentation'
+      title: 'Resource Documentation'
       fields:
         title:
           id: title
@@ -43,11 +43,11 @@ display:
           exclude: false
           alter:
             alter_text: false
-          element_type: h3
+          element_type: h2
           element_class: 'mt-0 mb-1'
           type: string
           settings:
-            link_to_entity: true
+            link_to_entity: false
         field_access_org_name:
           id: field_access_org_name
           table: node__field_access_org_name
@@ -57,7 +57,7 @@ display:
           admin_label: ''
           plugin_id: field
           label: ''
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
           element_type: span
@@ -255,7 +255,7 @@ display:
           table: views
           field: area_text_custom
           plugin_id: text_custom
-          content: '<p>Documentation for ACCESS-allocated resource providers. Select a resource to view login information, storage details, queue specifications, and more.</p>'
+          content: '<p>Each ACCESS resource has unique configurations, queue structures, and capabilities. Browse the documentation below to find the technical detail you need to run jobs, manage data, and plan your workflows.</p>'
   page_1:
     id: page_1
     display_title: Page

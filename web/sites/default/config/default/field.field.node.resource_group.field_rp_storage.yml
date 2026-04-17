@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_rp_storage
+    - node.type.resource_group
+    - paragraphs.paragraphs_type.rp_storage_filesystem
+  module:
+    - entity_reference_revisions
+id: node.resource_group.field_rp_storage
+field_name: field_rp_storage
+entity_type: node
+bundle: resource_group
+label: 'Storage Filesystems'
+description: 'Fallback: used by child Resources that leave this field empty.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      rp_storage_filesystem: rp_storage_filesystem
+    target_bundles_drag_drop:
+      rp_storage_filesystem:
+        weight: 0
+        enabled: true
+field_type: entity_reference_revisions
