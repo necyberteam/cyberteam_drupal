@@ -11,9 +11,6 @@ workflows:
       - type: webphp
         description: Import configuration
         script: private/scripts/drush_deploy/drush_deploy.php
-      - type: webphp
-        description: Set default domain for md environments
-        script: private/scripts/md_domain/md_domain.php
   deploy:
     after:
       - type: webphp

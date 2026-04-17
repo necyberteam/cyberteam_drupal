@@ -528,15 +528,14 @@ GITHUB_TOKEN=$token'>.env");
     $branch = shell_exec("git rev-parse --abbrev-ref HEAD");
     $is_ddev = file_exists('/.ddev') || getenv('DDEV_PROJECT') || file_exists('/var/www/html/.ddev');
     $cmd_prefix = $is_ddev ? "" : "ddev ";
-    $this->_exec("mkdir -p web/private/md");
-    if (!file_exists('web/private/md/domains.json')) {
+    if (!file_exists('robo/assets/md/domains.json')) {
       $domain_get = shell_exec($cmd_prefix . "drush domain:list --format=json");
-      $this->_exec("touch web/private/md/domains.json");
-      $this->_exec("echo $domain_get>>web/private/md/domains.json");
+      $this->_exec("touch robo/assets/md/domains.json");
+      $this->_exec("echo $domain_get>>robo/assets/md/domains.json");
     }
     else {
-      $domain_get = file_get_contents('web/private/md/domains.json');
-      $this->say("-=-=-=-=-Domain list coming from web/private/md/domains.json=-=-===-\n");
+      $domain_get = file_get_contents('robo/assets/md/domains.json');
+      $this->say("-=-=-=-=-Domain list coming from robo/assets/md/domains.json=-=-===-\n");
     }
     $domains = json_decode($domain_get, TRUE);
     foreach ($domains as $key => $domain) {
@@ -544,8 +543,9 @@ GITHUB_TOKEN=$token'>.env");
     }
     $domain_id = $this->ask("Which domain should be the default?");
     $default_domain = $domains[$domain_id]['id'];
-    $this->_exec("touch web/private/md/$branch");
-    $this->_exec("echo '$default_domain'>>web/private/md/$branch");
+    $this->_exec("rm robo/assets/md/md-*");
+    $this->_exec("touch robo/assets/md/$branch");
+    $this->_exec("echo '$default_domain'>>robo/assets/md/$branch");
   }
 
   /**
