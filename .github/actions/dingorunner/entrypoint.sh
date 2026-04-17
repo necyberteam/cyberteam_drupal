@@ -208,8 +208,16 @@ then
   storeKey
   terminusApi
   branch="${GITHUB_REF#refs/heads/}"
-  commands=$(cat robo/assets/md/$branch)
+  commands=$(cat robo/assets/md/$branch | tr -d '[:space:]')
   echo $commands
   terminus env:wake accessmatch.$branch
+  # Poll until the environment is responsive (up to ~5 min)
+  for i in $(seq 1 20); do
+    if terminus remote:drush accessmatch.$branch -- status --quiet 2>/dev/null; then
+      break
+    fi
+    echo "Waiting for environment... attempt $i"
+    sleep 15
+  done
   terminus remote:drush accessmatch.$branch -- domain:default $commands
 fi
