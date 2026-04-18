@@ -233,15 +233,20 @@ describe("Resource Group — admin action buttons", () => {
     cy.get(".rp-admin-actions").should("not.exist");
   });
 
-  it("rp_documentation_manager sees Add Resource Group and Manage Resources buttons", () => {
+  it("rp_documentation_manager sees Manage Resources and Manage Resource Groups buttons", () => {
     cy.exec('ddev drush user:role:add rp_documentation_manager "authenticated_test_user"', { failOnNonZeroExit: false });
     cy.loginAs("authenticated@amptesting.com", "6%l7iF}6(4tI");
     cy.visit("/rp-documentation");
     cy.get(".rp-admin-actions").should("exist");
-    cy.get(".rp-admin-actions").contains("a", "Add Resource Group")
-      .should("have.attr", "href", "/node/add/resource_group");
     cy.get(".rp-admin-actions").contains("a", "Manage Resources")
       .should("have.attr", "href", "/rp-resources/manage");
+    cy.get(".rp-admin-actions").contains("a", "Manage Resource Groups")
+      .should("have.attr", "href", "/rp-groups/manage");
+    // The "+ Add Resource Group" button moved from the listing page to the
+    // Groups admin page (in the view header).
+    cy.visit("/rp-groups/manage");
+    cy.contains("a", "+ Add Resource Group")
+      .should("have.attr", "href", "/node/add/resource_group");
     cy.exec('ddev drush user:role:remove rp_documentation_manager "authenticated_test_user"', { failOnNonZeroExit: false });
   });
 
