@@ -1,0 +1,23 @@
+uuid: 754d83bd-bda6-4a73-b6d0-0ecdb483388a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_rp_office_hours
+    - node.type.resource_group
+  module:
+    - link
+id: node.resource_group.field_rp_office_hours
+field_name: field_rp_office_hours
+entity_type: node
+bundle: resource_group
+label: 'Office Hours'
+description: 'Fallback: used by child Resources that leave this field empty.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 2
+  link_type: 16
+field_type: link

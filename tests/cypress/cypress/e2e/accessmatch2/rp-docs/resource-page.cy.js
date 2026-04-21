@@ -22,9 +22,19 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     cy.get("#rp-ssh-hostname").should("contain", "login01.alpha.test.example.edu");
   });
 
-  it("SSH dropdown updates the displayed hostname", () => {
+  it("SSH dropdown updates the displayed hostname and placeholder", () => {
     cy.get("#rp-ssh-login-select").select("login02.alpha.test.example.edu");
     cy.get("#rp-ssh-hostname").should("contain", "login02.alpha.test.example.edu");
+    // login02 has no explicit placeholder — falls back to the default.
+    cy.get("#rp-ssh-placeholder").should("contain", "<your_username>");
+  });
+
+  it("SSH dropdown shows docs link when a node has one", () => {
+    // login03 has a docs URL configured; switching to it should reveal the link.
+    cy.get("#rp-ssh-docs").should("have.class", "hidden");
+    cy.get("#rp-ssh-login-select").select("login03.alpha.test.example.edu");
+    cy.get("#rp-ssh-docs").should("not.have.class", "hidden");
+    cy.get("#rp-ssh-docs-link").should("have.attr", "href").and("include", "docs.example.edu/alpha/login03");
   });
 
   it("renders the OnDemand login button", () => {
@@ -33,12 +43,24 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
   });
 
   it("renders login help links outside the SSH box", () => {
-    // Login help links should be in the login section but not inside the SSH box
     cy.get(".rp-login").contains("Watch video: INTRODUCTION TO SSH KEYS");
   });
 
-  it("renders account setup link", () => {
-    cy.get(".rp-login").contains("Set up your Alpha account")
+  it("renders the Jump-to anchor nav with icons", () => {
+    cy.get(".rp-jump-to").should("exist");
+    cy.get(".rp-jump-to").within(() => {
+      cy.contains("Login").should("have.attr", "href", "#rp-login");
+      cy.contains("File Transfer").should("have.attr", "href", "#rp-file-transfer");
+      cy.contains("Storage").should("have.attr", "href", "#rp-storage");
+      cy.contains("Jobs").should("have.attr", "href", "#rp-jobs");
+      cy.contains("Software").should("have.attr", "href", "#rp-software");
+      cy.contains("Datasets").should("have.attr", "href", "#rp-datasets");
+    });
+  });
+
+  it("renders the RP Account Setup CTA in the sidebar", () => {
+    cy.get(".rp-sidebar").contains("GET AN ACCOUNT ON TEST RESOURCE ALPHA");
+    cy.get(".rp-sidebar").contains("Set up your Alpha account")
       .should("have.attr", "href")
       .and("include", "alpha.test.example.edu/account");
   });
@@ -48,7 +70,6 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     cy.get(".rp-file-transfer table tbody tr").should("have.length", 3);
     cy.contains("GLOBUS");
     cy.get(".rp-file-transfer").contains("RECOMMENDED");
-    // The global "Use Globus for large transfers" text should NOT appear
     cy.get(".rp-file-transfer").should("not.contain", "Use Globus for large transfers");
   });
 
@@ -57,7 +78,6 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     cy.get(".rp-storage table tbody tr").should("have.length", 4);
     cy.contains("td", "Home");
     cy.contains("td", "Scratch");
-    // Path column should not be wrapped in <code> tags
     cy.get(".rp-storage table td").contains("/home/<username>").then(($td) => {
       expect($td.find("code").length).to.equal(0);
     });
@@ -96,31 +116,26 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     cy.get(".rp-datasets table").contains("td", "Common Crawl (2024)");
   });
 
-  it("renders sidebar with support links", () => {
+  it("renders sidebar with support links (Alpha's own values override the Group)", () => {
     cy.get(".rp-sidebar").within(() => {
       cy.contains("Get Support");
+      // Alpha sets its own support_links, so Group values must not leak through.
       cy.contains("User Guide");
       cy.contains("Ticket System");
+      cy.should("not.contain.text", "Group User Guide");
+      cy.should("not.contain.text", "Group Ticket System");
+
       cy.contains("OFFICE HOURS");
       cy.contains("Mon 2-4 PM EST");
+      cy.should("not.contain.text", "Fri 3-5 PM EST");
     });
   });
 
-  it("renders sidebar software list link", () => {
+  it("renders sidebar software list link (Alpha's own value, not the Group's)", () => {
     cy.get(".rp-sidebar").contains("View all available software")
       .should("have.attr", "href")
       .and("include", "alpha.test.example.edu/software");
-  });
-
-  it("renders sidebar navigation links", () => {
-    cy.get(".rp-sidebar").within(() => {
-      cy.contains("Login Information");
-      cy.contains("File Transfer");
-      cy.contains("Storage");
-      cy.contains("Jobs");
-      cy.contains("Frequently Used Software");
-      cy.contains("Datasets");
-    });
+    cy.get(".rp-sidebar").should("not.contain.text", "View all group software");
   });
 
   it("uses 'Software Documentation Service' label for SDS", () => {
@@ -128,14 +143,13 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
   });
 
   it("QA bot has resource group context", () => {
-    // Alpha is in "Test Resource Group" — bot should get the group name
     cy.get(".embedded-qa-bot")
       .should("have.attr", "data-resource-context", "test-resource-group");
   });
 
 });
 
-describe("Resource Documentation Page — Beta (sparse data)", () => {
+describe("Resource Documentation Page — Beta (sparse data, in Test Resource Group)", () => {
 
   beforeEach(() => {
     cy.visit("/rp-documentation/test-resource-beta");
@@ -146,7 +160,7 @@ describe("Resource Documentation Page — Beta (sparse data)", () => {
     cy.contains("CPU-only cluster");
   });
 
-  it("does not render empty sections", () => {
+  it("does not render empty main-content sections", () => {
     cy.get(".rp-file-transfer").should("not.exist");
     cy.get(".rp-storage").should("not.exist");
     cy.get(".rp-queue-specs").should("not.exist");
@@ -155,9 +169,34 @@ describe("Resource Documentation Page — Beta (sparse data)", () => {
     cy.get(".rp-login").should("not.exist");
   });
 
+  it("does not render the jump-to anchor nav when every section is empty", () => {
+    cy.get(".rp-jump-to").should("not.exist");
+  });
+
   it("does not show MFA or account badges", () => {
     cy.contains("2FA/MFA").should("not.exist");
     cy.contains("RP account needed").should("not.exist");
+  });
+
+  it("inherits support_links from the Resource Group", () => {
+    cy.get(".rp-sidebar").within(() => {
+      cy.contains("Get Support");
+      cy.contains("Group User Guide");
+      cy.contains("Group Ticket System");
+    });
+  });
+
+  it("inherits office_hours from the Resource Group", () => {
+    cy.get(".rp-sidebar").within(() => {
+      cy.contains("OFFICE HOURS");
+      cy.contains("Fri 3-5 PM EST");
+    });
+  });
+
+  it("inherits software_list_url from the Resource Group", () => {
+    cy.get(".rp-sidebar").contains("View all group software")
+      .should("have.attr", "href")
+      .and("include", "group.test.example.edu/software");
   });
 
 });
@@ -186,18 +225,31 @@ describe("Resource Documentation Page — Gamma (partial data)", () => {
     cy.get("#rp-ssh-login-select").should("not.exist");
     cy.contains("ACCESS OnDemand Login").should("not.exist");
     cy.get(".rp-login").contains("Gamma SSH Guide");
-    cy.get(".rp-login").contains("Set up your Gamma account");
   });
 
-  it("renders support sidebar with office hours", () => {
+  it("renders RP Account Setup CTA in the sidebar", () => {
+    cy.get(".rp-sidebar").contains("GET AN ACCOUNT ON TEST RESOURCE GAMMA");
+    cy.get(".rp-sidebar").contains("Set up your Gamma account");
+  });
+
+  it("jump-to nav only includes sections that exist", () => {
+    cy.get(".rp-jump-to").should("exist");
+    cy.get(".rp-jump-to").contains("Storage");
+    cy.get(".rp-jump-to").should("not.contain.text", "File Transfer");
+    cy.get(".rp-jump-to").should("not.contain.text", "Jobs");
+  });
+
+  it("renders support sidebar with office hours from its own values (not inherited)", () => {
     cy.get(".rp-sidebar").within(() => {
       cy.contains("Support Portal");
       cy.contains("Tue/Thu 10 AM - 12 PM CST");
+      // Gamma isn't in the Test Resource Group, so Group values never apply.
+      cy.should("not.contain.text", "Group User Guide");
+      cy.should("not.contain.text", "Fri 3-5 PM EST");
     });
   });
 
   it("QA bot falls back to resource title when not in a group", () => {
-    // Gamma is not in a resource group — bot gets its own title
     cy.get(".embedded-qa-bot")
       .should("have.attr", "data-resource-context", "test-resource-gamma");
   });

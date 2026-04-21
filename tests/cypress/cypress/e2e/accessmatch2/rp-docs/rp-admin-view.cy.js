@@ -115,12 +115,85 @@ describe("RP Documentation Index — public", () => {
 
   it("loads the /rp-documentation listing page", () => {
     cy.visit("/rp-documentation");
-    cy.contains("Documentation for ACCESS-allocated resource providers");
+    cy.contains("Each ACCESS resource has unique configurations");
   });
 
   it("lists resources that have descriptions", () => {
     cy.visit("/rp-documentation");
     cy.get(".view-rp-documentation-index .views-row").should("have.length.greaterThan", 0);
+  });
+
+});
+
+describe("RP Groups Admin View", () => {
+
+  const managePath = "/rp-groups/manage";
+
+  describe("Anonymous access", () => {
+    it("denies anonymous users access to the groups manage view", () => {
+      cy.request({ url: managePath, failOnStatusCode: false }).then((response) => {
+        expect(response.status).to.be.oneOf([403, 200]);
+        if (response.status === 200) {
+          expect(response.body).to.not.include('Resource Groups');
+        }
+      });
+    });
+  });
+
+  describe("rp_documentation_manager role", () => {
+    before(() => {
+      cy.exec('ddev drush user:role:add rp_documentation_manager "authenticated_test_user"', { failOnNonZeroExit: false });
+    });
+
+    after(() => {
+      cy.exec('ddev drush user:role:remove rp_documentation_manager "authenticated_test_user"', { failOnNonZeroExit: false });
+    });
+
+    beforeEach(() => {
+      cy.loginAs("authenticated@amptesting.com", "6%l7iF}6(4tI");
+    });
+
+    it("can access the groups manage view", () => {
+      cy.visit(managePath);
+      cy.url().should("include", managePath);
+      cy.contains("Resource Groups");
+    });
+
+    it("shows the Add Resource Group button in the view header", () => {
+      cy.visit(managePath);
+      cy.contains("a", "+ Add Resource Group")
+        .should("have.attr", "href", "/node/add/resource_group");
+    });
+
+    it("shows table with expected columns", () => {
+      cy.visit(managePath);
+      cy.get("table thead").within(() => {
+        cy.contains("th", "Group");
+        cy.contains("th", "Member resources");
+        cy.contains("th", "On listing");
+        cy.contains("th", "Updated");
+        cy.contains("th", "Operations");
+      });
+    });
+
+    it("lists the Test Resource Group row", () => {
+      cy.visit(managePath);
+      cy.get("table tbody").contains("Test Resource Group");
+    });
+
+    it("filters by group name", () => {
+      cy.visit(managePath);
+      cy.get("#edit-title").type("Test Resource Group");
+      cy.get("#edit-submit-rp-groups-admin").click();
+      cy.get("table tbody").contains("Test Resource Group");
+    });
+
+    it("has edit link in operations column", () => {
+      cy.visit(managePath);
+      cy.get("table tbody tr").first().within(() => {
+        cy.contains("Edit");
+      });
+    });
   });
 
 });

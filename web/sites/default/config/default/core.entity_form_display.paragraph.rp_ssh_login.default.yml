@@ -4,7 +4,10 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.rp_ssh_login.field_rp_recommended
+    - field.field.paragraph.rp_ssh_login.field_rp_ssh_docs_url
+    - field.field.paragraph.rp_ssh_login.field_rp_ssh_hostname
     - field.field.paragraph.rp_ssh_login.field_rp_ssh_url
+    - field.field.paragraph.rp_ssh_login.field_rp_ssh_user_placeholder
     - paragraphs.paragraphs_type.rp_ssh_login
   module:
     - link
@@ -15,18 +18,42 @@ mode: default
 content:
   field_rp_recommended:
     type: boolean_checkbox
-    weight: 1
+    weight: 4
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
+  field_rp_ssh_docs_url:
+    type: link_default
+    weight: 3
+    region: content
+    settings:
+      placeholder_url: 'https://docs.example.edu/login/'
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_rp_ssh_hostname:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: login.example.edu
+    third_party_settings: {  }
   field_rp_ssh_url:
     type: link_default
-    weight: 0
+    weight: 2
     region: content
     settings:
       placeholder_url: 'https://login01.example.edu'
       placeholder_title: login01
+    third_party_settings: {  }
+  field_rp_ssh_user_placeholder:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 30
+      placeholder: '<your_username>'
     third_party_settings: {  }
 hidden:
   created: true
