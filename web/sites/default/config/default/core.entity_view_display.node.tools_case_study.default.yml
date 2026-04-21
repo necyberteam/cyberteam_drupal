@@ -1,0 +1,165 @@
+uuid: 40c8ab5d-4998-45d6-843d-bd72402f8afa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.tools_case_study.body
+    - field.field.node.tools_case_study.field_domain_access
+    - field.field.node.tools_case_study.field_domain_all_affiliates
+    - field.field.node.tools_case_study.field_domain_source
+    - field.field.node.tools_case_study.field_tcs_access_resource
+    - field.field.node.tools_case_study.field_tcs_access_tools_used
+    - field.field.node.tools_case_study.field_tcs_allocation_type
+    - field.field.node.tools_case_study.field_tcs_field_of_science
+    - field.field.node.tools_case_study.field_tcs_institution
+    - field.field.node.tools_case_study.field_tcs_main_image
+    - field.field.node.tools_case_study.field_tcs_research_topic
+    - field.field.node.tools_case_study.field_tcs_researcher_name
+    - field.field.node.tools_case_study.field_tcs_role
+    - field.field.node.tools_case_study.field_tcs_service_units
+    - field.field.node.tools_case_study.field_tcs_software
+    - field.field.node.tools_case_study.field_tcs_time_to_science
+    - field.field.node.tools_case_study.field_tcs_total_cpu_gpu_hours
+    - node.type.tools_case_study
+  module:
+    - link
+    - options
+    - svg_image
+    - text
+    - user
+id: node.tools_case_study.default
+targetEntityType: node
+bundle: tools_case_study
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_tcs_access_resource:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_tcs_access_tools_used:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_tcs_allocation_type:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_tcs_field_of_science:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_tcs_institution:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_tcs_main_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_tcs_research_topic:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_tcs_researcher_name:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_tcs_role:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_tcs_service_units:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_tcs_software:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_tcs_time_to_science:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_tcs_total_cpu_gpu_hours:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  search_api_excerpt: true
