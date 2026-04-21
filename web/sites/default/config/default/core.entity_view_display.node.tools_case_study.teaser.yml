@@ -1,0 +1,63 @@
+uuid: 49cfa3b3-0796-4620-8793-ca43506b8e26
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.tools_case_study.body
+    - field.field.node.tools_case_study.field_domain_access
+    - field.field.node.tools_case_study.field_domain_all_affiliates
+    - field.field.node.tools_case_study.field_domain_source
+    - field.field.node.tools_case_study.field_tcs_access_resource
+    - field.field.node.tools_case_study.field_tcs_access_tools_used
+    - field.field.node.tools_case_study.field_tcs_allocation_type
+    - field.field.node.tools_case_study.field_tcs_field_of_science
+    - field.field.node.tools_case_study.field_tcs_institution
+    - field.field.node.tools_case_study.field_tcs_main_image
+    - field.field.node.tools_case_study.field_tcs_research_topic
+    - field.field.node.tools_case_study.field_tcs_researcher_name
+    - field.field.node.tools_case_study.field_tcs_role
+    - field.field.node.tools_case_study.field_tcs_service_units
+    - field.field.node.tools_case_study.field_tcs_software
+    - field.field.node.tools_case_study.field_tcs_time_to_science
+    - field.field.node.tools_case_study.field_tcs_total_cpu_gpu_hours
+    - node.type.tools_case_study
+  module:
+    - text
+    - user
+id: node.tools_case_study.teaser
+targetEntityType: node
+bundle: tools_case_study
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  field_tcs_access_resource: true
+  field_tcs_access_tools_used: true
+  field_tcs_allocation_type: true
+  field_tcs_field_of_science: true
+  field_tcs_institution: true
+  field_tcs_main_image: true
+  field_tcs_research_topic: true
+  field_tcs_researcher_name: true
+  field_tcs_role: true
+  field_tcs_service_units: true
+  field_tcs_software: true
+  field_tcs_time_to_science: true
+  field_tcs_total_cpu_gpu_hours: true
+  search_api_excerpt: true

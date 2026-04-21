@@ -1,0 +1,53 @@
+uuid: 6a0d41d7-2c6b-422f-9a30-e8f38d2c5915
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.tcs_access_tools_used.field_tool_logo
+    - field.field.taxonomy_term.tcs_access_tools_used.field_tsc_link_to_tool
+    - taxonomy.vocabulary.tcs_access_tools_used
+  module:
+    - link
+    - svg_image
+    - text
+id: taxonomy_term.tcs_access_tools_used.default
+targetEntityType: taxonomy_term
+bundle: tcs_access_tools_used
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_tool_logo:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_tsc_link_to_tool:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  search_api_excerpt: true
