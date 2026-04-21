@@ -1,3 +1,31 @@
+// Expected values seeded by amp_dev_install_create_rp_docs_test_data().
+// Edit in lockstep with amp_dev/amp_dev.install when fixtures change.
+const FIXTURES = {
+  alpha: {
+    resource_id: "test-alpha-9999",
+    org_name: "Test University",
+    ssh_hostnames: [
+      "login01.alpha.test.example.edu",
+      "login02.alpha.test.example.edu",
+      "login03.alpha.test.example.edu",
+    ],
+    login03_docs_url: "docs.example.edu/alpha/login03",
+    software_list_url_fragment: "alpha.test.example.edu/software",
+    office_hours_url_fragment: "alpha.test.example.edu/office-hours",
+  },
+  beta: {
+    resource_id: "test-beta-9998",
+  },
+  gamma: {
+    resource_id: "test-gamma-9997",
+  },
+  group: {
+    support_link_titles: ["Group User Guide", "Group Ticket System"],
+    office_hours_url_fragment: "group.test.example.edu/office-hours",
+    software_list_url_fragment: "group.test.example.edu/software",
+  },
+};
+
 describe("Resource Documentation API", () => {
 
   it("GET /api/1.0/resources returns only documented resources by default", () => {
@@ -20,23 +48,31 @@ describe("Resource Documentation API", () => {
     });
   });
 
-  it("GET /api/1.0/resources?documented=false includes undocumented CIDER stubs", () => {
+  it("GET /api/1.0/resources?documented=false returns a superset of the default", () => {
     cy.request("/api/1.0/resources?documented=false").then((full) => {
       cy.request("/api/1.0/resources").then((documented) => {
-        // The unfiltered response should be at least as large as the default.
-        expect(full.body.count).to.be.greaterThan(documented.body.count);
+        // Unfiltered count is always >= documented count. We don't assert
+        // strictly greater because it depends on whether the DB currently
+        // holds undocumented resources — true on prod/CI, not guaranteed in
+        // a fixtures-only environment.
+        expect(full.body.count).to.be.at.least(documented.body.count);
+        // The documented subset must be strictly contained in the full set.
+        const fullIds = new Set(full.body.resources.map((r) => r.nid));
+        documented.body.resources.forEach((r) => {
+          expect(fullIds.has(r.nid), `documented resource ${r.nid} missing from documented=false response`).to.be.true;
+        });
       });
     });
   });
 
-  it("GET /api/1.0/resources/test-alpha-9999 returns full detail", () => {
-    cy.request("/api/1.0/resources/test-alpha-9999").then((response) => {
+  it(`GET /api/1.0/resources/${FIXTURES.alpha.resource_id} returns full detail`, () => {
+    cy.request(`/api/1.0/resources/${FIXTURES.alpha.resource_id}`).then((response) => {
       expect(response.status).to.eq(200);
 
       const body = response.body;
       expect(body.title).to.eq("Test Resource Alpha");
-      expect(body.resource_id).to.eq("test-alpha-9999");
-      expect(body.org_name).to.eq("Test University");
+      expect(body.resource_id).to.eq(FIXTURES.alpha.resource_id);
+      expect(body.org_name).to.eq(FIXTURES.alpha.org_name);
       expect(body.resource_type).to.eq("Compute");
       expect(body.mfa_required).to.eq(true);
       expect(body.account_required).to.eq(true);
@@ -44,7 +80,7 @@ describe("Resource Documentation API", () => {
       // Scalar text/link fields
       expect(body.login_text).to.include("getting started guide");
       expect(body.jobs_info).to.include("Alpha uses Slurm for job scheduling");
-      expect(body.software_list_url).to.include("alpha.test.example.edu/software");
+      expect(body.software_list_url).to.include(FIXTURES.alpha.software_list_url_fragment);
 
       // Paragraph data
       expect(body.file_transfer).to.be.an("array");
@@ -68,14 +104,14 @@ describe("Resource Documentation API", () => {
 
       // SSH logins use structured fields (hostname / placeholder / docs_url).
       expect(body.ssh_logins).to.be.an("array");
-      expect(body.ssh_logins).to.have.length(3);
+      expect(body.ssh_logins).to.have.length(FIXTURES.alpha.ssh_hostnames.length);
       expect(body.ssh_logins[0]).to.have.property("hostname");
-      expect(body.ssh_logins[0].hostname).to.include("login01.alpha.test.example.edu");
+      expect(body.ssh_logins[0].hostname).to.include(FIXTURES.alpha.ssh_hostnames[0]);
       expect(body.ssh_logins[0]).to.not.have.property("url");
       // login03 has an explicit docs URL; assert it survives to the API.
       const login03 = body.ssh_logins.find((l) => l.hostname.startsWith("login03"));
       expect(login03).to.exist;
-      expect(login03.docs_url).to.include("docs.example.edu/alpha/login03");
+      expect(login03.docs_url).to.include(FIXTURES.alpha.login03_docs_url);
 
       expect(body.support_links).to.be.an("array");
       expect(body.support_links).to.have.length(3);
@@ -93,7 +129,7 @@ describe("Resource Documentation API", () => {
   });
 
   it("Sparse resource (Beta) returns empty paragraph arrays", () => {
-    cy.request("/api/1.0/resources/test-beta-9998").then((response) => {
+    cy.request(`/api/1.0/resources/${FIXTURES.beta.resource_id}`).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body.title).to.eq("Test Resource Beta");
       expect(response.body.description).to.include("CPU-only cluster");
@@ -105,30 +141,33 @@ describe("Resource Documentation API", () => {
   });
 
   it("Beta inherits support_links / office_hours / software_list_url from its Group", () => {
-    cy.request("/api/1.0/resources/test-beta-9998").then((response) => {
+    cy.request(`/api/1.0/resources/${FIXTURES.beta.resource_id}`).then((response) => {
       const body = response.body;
       // Beta has no own values for these — the API returns the Group's.
       expect(body.support_links).to.be.an("array");
       const titles = body.support_links.map((l) => l.title);
-      expect(titles).to.include("Group User Guide");
-      expect(titles).to.include("Group Ticket System");
-      expect(body.office_hours).to.include("group.test.example.edu/office-hours");
-      expect(body.software_list_url).to.include("group.test.example.edu/software");
+      FIXTURES.group.support_link_titles.forEach((t) => {
+        expect(titles).to.include(t);
+      });
+      expect(body.office_hours).to.include(FIXTURES.group.office_hours_url_fragment);
+      expect(body.software_list_url).to.include(FIXTURES.group.software_list_url_fragment);
     });
   });
 
   it("Alpha's own values override the Group (not inherited)", () => {
-    cy.request("/api/1.0/resources/test-alpha-9999").then((response) => {
+    cy.request(`/api/1.0/resources/${FIXTURES.alpha.resource_id}`).then((response) => {
       const body = response.body;
       const titles = body.support_links.map((l) => l.title);
-      expect(titles).to.not.include("Group User Guide");
-      expect(body.office_hours).to.include("alpha.test.example.edu/office-hours");
-      expect(body.software_list_url).to.include("alpha.test.example.edu/software");
+      FIXTURES.group.support_link_titles.forEach((t) => {
+        expect(titles).to.not.include(t);
+      });
+      expect(body.office_hours).to.include(FIXTURES.alpha.office_hours_url_fragment);
+      expect(body.software_list_url).to.include(FIXTURES.alpha.software_list_url_fragment);
     });
   });
 
   it("Partial resource (Gamma) returns only populated sections", () => {
-    cy.request("/api/1.0/resources/test-gamma-9997").then((response) => {
+    cy.request(`/api/1.0/resources/${FIXTURES.gamma.resource_id}`).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body.title).to.eq("Test Resource Gamma");
       expect(response.body.storage).to.have.length(2);
@@ -139,11 +178,13 @@ describe("Resource Documentation API", () => {
   });
 
   it("Gamma (not a Group member) does not inherit Group values", () => {
-    cy.request("/api/1.0/resources/test-gamma-9997").then((response) => {
+    cy.request(`/api/1.0/resources/${FIXTURES.gamma.resource_id}`).then((response) => {
       const body = response.body;
       const titles = body.support_links.map((l) => l.title);
-      expect(titles).to.not.include("Group User Guide");
-      expect(body.office_hours).to.not.include("group.test.example.edu");
+      FIXTURES.group.support_link_titles.forEach((t) => {
+        expect(titles).to.not.include(t);
+      });
+      expect(body.office_hours).to.not.include(FIXTURES.group.office_hours_url_fragment);
     });
   });
 
