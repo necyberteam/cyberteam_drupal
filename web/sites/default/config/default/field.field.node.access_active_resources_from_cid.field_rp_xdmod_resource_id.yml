@@ -10,7 +10,7 @@ field_name: field_rp_xdmod_resource_id
 entity_type: node
 bundle: access_active_resources_from_cid
 label: 'XDMoD Resource ID'
-description: 'Numeric resource ID from XDMoD, used to fetch queue wait/wall-time metrics. To find the ID: open <a href="https://xdmod.access-ci.org" target="_blank">xdmod.access-ci.org</a> → Metric Explorer → add the Resources dimension to Filters; the IDs appear in the filter selector. Leave blank to hide metrics for this resource.'
+description: 'Numeric resource ID from XDMoD, used to fetch queue wait/wall-time metrics. To find the ID: sign in to <a href="https://xdmod.access-ci.org" target="_blank">xdmod.access-ci.org</a>, then open <a href="https://xdmod.access-ci.org/controllers/metric_explorer.php?operation=get_dimension&amp;dimension_id=resource&amp;realm=Jobs" target="_blank">this JSON list</a> and search for your resource by name — the "id" field is what you want here. Leave blank to hide metrics for this resource.'
 required: false
 translatable: false
 default_value: {  }
