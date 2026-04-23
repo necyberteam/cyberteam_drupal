@@ -208,8 +208,20 @@ then
   storeKey
   terminusApi
   branch="${GITHUB_REF#refs/heads/}"
-  commands=$(cat robo/assets/md/$branch)
+  commands=$(cat robo/assets/md/$branch | tr -d '[:space:]')
   echo $commands
   terminus env:wake accessmatch.$branch
+  # Wait for any active Pantheon workflows (sync_code/deploy quicksilver) to finish
+  echo "Waiting for Pantheon workflows to complete..."
+  for i in $(seq 1 24); do
+    running=$(terminus workflow:list accessmatch.$branch --format=csv --fields=status 2>/dev/null | grep -c "running" || true)
+    if [ "$running" = "0" ]; then
+      echo "Workflows complete."
+      break
+    fi
+    echo "Workflow still running... attempt $i"
+    sleep 15
+  done
   terminus remote:drush accessmatch.$branch -- domain:default $commands
+  echo "Set domain to: $commands"
 fi
