@@ -573,10 +573,10 @@ GITHUB_TOKEN=$token'>.env");
   }
 
   /**
-   * Update ran in github actions.
+   * Create a local git worktree for a branch and set up its DDEV project files.
    *
    * @command tree:new
-   * @description checkout branch into a worktree.
+   * @description Check out a branch into a local worktree, run Composer install, and copy/link DDEV-related files for local development.
    */
   public function newTree(array $args) {
     $branch = array_key_exists(0, $args) ? $args[0] : '';
