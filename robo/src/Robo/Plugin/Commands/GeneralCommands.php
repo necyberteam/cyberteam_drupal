@@ -584,7 +584,12 @@ GITHUB_TOKEN=$token'>.env");
       $branch = $this->ask("What is the branch name?");
     }
 
-    $sitename = preg_replace("/[^A-Za-z0-9 ]/", '', $branch);
+    $sitename = strtolower($branch);
+    $sitename = preg_replace('/[^a-z0-9]+/', '-', $sitename);
+    $sitename = trim($sitename, '-');
+    if (empty($sitename)) {
+      $sitename = 'site';
+    }
 
     $worktree = "../worktrees/$branch";
 
