@@ -222,8 +222,9 @@ describe('Test Other Authors feature for Event Series', () => {
 
     // Remove all other authors to clean up for next test run
     cy.get('input[name*="field_other_authors"][name*="_remove_button"]').each(($btn) => {
+      cy.intercept('POST', '/system/ajax').as('ajaxRemove')
       cy.wrap($btn).click()
-      cy.wait(300)
+      cy.wait('@ajaxRemove')
     })
 
     cy.get('#edit-submit').click()
