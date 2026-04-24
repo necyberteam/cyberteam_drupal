@@ -596,7 +596,16 @@ GITHUB_TOKEN=$token'>.env");
     $this->_exec("git worktree add -f $worktree $branch");
     //$this->_exec("chmod -R 777 $worktree/web/sites/default/files");
     $this->_exec("cd $worktree && composer install");
-    $this->_exec("cp .ddev/.env $worktree/.ddev");
+    $source_env = '.ddev/.env';
+    $destination_env = "$worktree/.ddev/.env";
+    if (file_exists($source_env)) {
+      if (!copy($source_env, $destination_env)) {
+        throw new TaskException($this, "Failed to copy $source_env to $destination_env.");
+      }
+    }
+    elseif (!file_exists($destination_env) && file_put_contents($destination_env, '') === FALSE) {
+      throw new TaskException($this, "Failed to create $destination_env.");
+    }
 
     // Symlink files from main project.
     $files_path = realpath('web/sites/default/files');
