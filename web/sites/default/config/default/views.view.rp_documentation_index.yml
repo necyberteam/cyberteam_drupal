@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_access_org_name
     - field.storage.node.field_access_org_logo_url
+    - field.storage.node.field_cider_short_name
     - field.storage.node.field_rp_description
     - field.storage.node.field_rp_listing
     - node.type.access_active_resources_from_cid
@@ -29,6 +30,23 @@ display:
     display_options:
       title: 'Resource Documentation'
       fields:
+        field_cider_short_name:
+          id: field_cider_short_name
+          table: node__field_cider_short_name
+          field: field_cider_short_name
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+          element_type: ''
+          element_class: ''
+          type: string
+          settings:
+            link_to_entity: false
         title:
           id: title
           table: node_field_data
@@ -42,7 +60,10 @@ display:
           label: ''
           exclude: false
           alter:
-            alter_text: false
+            alter_text: true
+            text: "{% if field_cider_short_name %}{{ field_cider_short_name }}{% else %}{{ title }}{% endif %}"
+            make_link: true
+            path: '{{ view_node }}'
           element_type: h2
           element_class: 'mt-0 mb-1'
           type: string
