@@ -43,6 +43,7 @@ describe("Resource Documentation API", () => {
       const first = response.body.resources[0];
       expect(first).to.have.property("nid");
       expect(first).to.have.property("title");
+      expect(first).to.have.property("short_name");
       expect(first).to.have.property("resource_id");
       expect(first).to.have.property("url");
     });
@@ -71,6 +72,7 @@ describe("Resource Documentation API", () => {
 
       const body = response.body;
       expect(body.title).to.eq("Test Resource Alpha");
+      expect(body.short_name).to.eq("Alpha");
       expect(body.resource_id).to.eq(FIXTURES.alpha.resource_id);
       expect(body.org_name).to.eq(FIXTURES.alpha.org_name);
       expect(body.resource_type).to.eq("Compute");

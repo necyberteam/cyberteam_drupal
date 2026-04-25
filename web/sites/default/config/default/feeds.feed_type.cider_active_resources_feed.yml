@@ -17,6 +17,7 @@ dependencies:
     - field.field.node.access_active_resources_from_cid.field_cider_raw_data_url
     - field.field.node.access_active_resources_from_cid.field_cider_resource_id
     - field.field.node.access_active_resources_from_cid.field_cider_resource_type
+    - field.field.node.access_active_resources_from_cid.field_cider_short_name
     - node.type.access_active_resources_from_cid
   module:
     - feeds_ex
@@ -64,6 +65,11 @@ custom_sources:
     value: resource_descriptive_name
     label: resource_descriptive_name
     machine_name: cider_resource_descriptive_name
+    type: json
+  cider_short_name:
+    value: short_name
+    label: short_name
+    machine_name: cider_short_name
     type: json
   access_global_resource_id:
     value: info_resourceid
@@ -144,6 +150,13 @@ mappings:
       language: null
     unique:
       value: '1'
+  -
+    target: field_cider_short_name
+    map:
+      value: cider_short_name
+    settings:
+      language: null
+    unique: {  }
   -
     target: field_cider_resource_id
     map:

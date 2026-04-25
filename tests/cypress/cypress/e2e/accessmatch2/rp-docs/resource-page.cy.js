@@ -59,7 +59,8 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
   });
 
   it("renders the RP Account Setup CTA in the sidebar", () => {
-    cy.get(".rp-sidebar").contains("GET AN ACCOUNT ON TEST RESOURCE ALPHA");
+    // Sidebar uses CIDeR short_name ("Alpha") rather than the long descriptive title.
+    cy.get(".rp-sidebar").contains("GET AN ACCOUNT ON ALPHA");
     cy.get(".rp-sidebar").contains("Set up your Alpha account")
       .should("have.attr", "href")
       .and("include", "alpha.test.example.edu/account");
@@ -228,7 +229,8 @@ describe("Resource Documentation Page — Gamma (partial data)", () => {
   });
 
   it("renders RP Account Setup CTA in the sidebar", () => {
-    cy.get(".rp-sidebar").contains("GET AN ACCOUNT ON TEST RESOURCE GAMMA");
+    // Sidebar uses CIDeR short_name ("Gamma") rather than the long descriptive title.
+    cy.get(".rp-sidebar").contains("GET AN ACCOUNT ON GAMMA");
     cy.get(".rp-sidebar").contains("Set up your Gamma account");
   });
 
