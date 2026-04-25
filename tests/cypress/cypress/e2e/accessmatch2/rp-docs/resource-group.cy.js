@@ -35,7 +35,7 @@ describe("Resource Group — listing page", () => {
   it("inline resource links point to individual RP doc pages", () => {
     cy.visit("/rp-documentation");
     cy.get(".rp-resource-group-list table tbody")
-      .contains("a", "Test Resource Alpha")
+      .contains("a", "Alpha")
       .should("have.attr", "href")
       .and("include", "/rp-documentation/test-resource-alpha");
   });
@@ -74,7 +74,8 @@ describe("Resource Group — individual (ungrouped) resource rendering", () => {
     cy.visit("/rp-documentation");
     // Gamma is ungrouped with field_rp_listing checked, so it should show.
     cy.get(".rp-individual-resource-row").should("have.length.greaterThan", 0);
-    cy.contains("h2", "Test Resource Gamma");
+    // Listing view h2 uses short_name ("Gamma") rather than full title.
+    cy.contains("h2", "Gamma");
     cy.get(".rp-individual-resource-list table tbody tr").should("exist");
   });
 
@@ -103,14 +104,16 @@ describe("Resource Group — detail page", () => {
     });
   });
 
-  it("lists linked resources in the table", () => {
+  it("lists linked resources in the table using the short name", () => {
     cy.get(".rp-resource-group-list table tbody tr").should("have.length.greaterThan", 0);
-    cy.get(".rp-resource-group-list table tbody").contains("Test Resource Alpha");
+    cy.get(".rp-resource-group-list table tbody").contains("Alpha");
+    // Full title should no longer appear in the row (short_name supersedes it).
+    cy.get(".rp-resource-group-list table tbody").should("not.contain", "Test Resource Alpha");
   });
 
   it("resource links point to individual RP doc pages", () => {
     cy.get(".rp-resource-group-list table tbody")
-      .contains("a", "Test Resource Alpha")
+      .contains("a", "Alpha")
       .should("have.attr", "href")
       .and("include", "/rp-documentation/test-resource-alpha");
   });
@@ -257,9 +260,13 @@ describe("Resource Group — field_rp_listing filter", () => {
   it("resources with field_rp_listing unchecked do not appear as standalone rows", () => {
     cy.visit("/rp-documentation");
     // Test Resource Beta has field_rp_listing unchecked — it should not appear
-    // as its own row. The top-level row title is now an h2.
+    // as its own row. After the short_name change, an h2 would read "Beta" —
+    // assert both the full title and the short name are absent.
     cy.get(".view-rp-documentation-index > .view-content > .rp-listing-main > .views-row").each(($row) => {
       cy.wrap($row).find("h2").should("not.contain", "Test Resource Beta");
+      cy.wrap($row).find("h2").invoke("text").then((text) => {
+        expect(text.trim()).to.not.eq("Beta");
+      });
     });
   });
 

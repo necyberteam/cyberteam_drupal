@@ -17,6 +17,7 @@ dependencies:
     - field.field.node.access_active_resources_from_cid.field_cider_raw_data_url
     - field.field.node.access_active_resources_from_cid.field_cider_resource_id
     - field.field.node.access_active_resources_from_cid.field_cider_resource_type
+    - field.field.node.access_active_resources_from_cid.field_cider_short_name
     - field.field.node.access_active_resources_from_cid.field_domain_access
     - field.field.node.access_active_resources_from_cid.field_domain_all_affiliates
     - field.field.node.access_active_resources_from_cid.field_domain_source
@@ -139,6 +140,7 @@ third_party_settings:
         - field_cider_resource_id
         - field_access_global_resource_id
         - field_cider_resource_type
+        - field_cider_short_name
         - field_cider_project_affiliation
         - field_cider_latest_status
         - field_cider_latest_status_begin
@@ -269,6 +271,14 @@ content:
   field_cider_resource_type:
     type: string_textfield
     weight: 53
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_cider_short_name:
+    type: string_textfield
+    weight: 54
     region: content
     settings:
       size: 60
