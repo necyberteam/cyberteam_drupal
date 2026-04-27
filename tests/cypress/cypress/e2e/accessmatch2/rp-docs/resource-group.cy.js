@@ -24,17 +24,18 @@ describe("Resource Group — listing page", () => {
     cy.get("#group-test-resource-group").contains("Test Org").should("not.exist");
   });
 
-  it("inline resources table has no thead (table headings removed)", () => {
+  it("inline resources are rendered as a list (no table headings)", () => {
     cy.visit("/documentation/resources");
-    cy.get("#group-test-resource-group .rp-resource-group-list table thead")
+    // The listing now uses <ul class="rp-resource-list"> grid items, not a <table>.
+    cy.get("#group-test-resource-group .rp-resource-group-list table")
       .should("not.exist");
-    cy.get("#group-test-resource-group .rp-resource-group-list table tbody tr")
+    cy.get("#group-test-resource-group .rp-resource-group-list .rp-resource-list-item")
       .should("have.length.greaterThan", 0);
   });
 
   it("inline resource links point to individual RP doc pages", () => {
     cy.visit("/documentation/resources");
-    cy.get(".rp-resource-group-list table tbody")
+    cy.get(".rp-resource-group-list")
       .contains("a", "Alpha")
       .should("have.attr", "href")
       .and("include", "/documentation/resources/test-resource-alpha");
@@ -45,9 +46,9 @@ describe("Resource Group — listing page", () => {
     cy.get("#group-test-resource-group").should("exist");
   });
 
-  it("inline table shows summary text", () => {
+  it("inline list shows summary text", () => {
     cy.visit("/documentation/resources");
-    cy.get("#group-test-resource-group .rp-resource-group-list table tbody")
+    cy.get("#group-test-resource-group .rp-resource-group-list")
       .should("contain", "GPU-accelerated supercomputer for HPC, AI, and machine learning workloads.");
   });
 
@@ -70,13 +71,13 @@ describe("Resource Group — listing page", () => {
 
 describe("Resource Group — individual (ungrouped) resource rendering", () => {
 
-  it("ungrouped resources render as a single-row table below their h2 title", () => {
+  it("ungrouped resources render as a single-item list below their h2 title", () => {
     cy.visit("/documentation/resources");
     // Gamma is ungrouped with field_rp_listing checked, so it should show.
     cy.get(".rp-individual-resource-row").should("have.length.greaterThan", 0);
     // Listing view h2 uses short_name ("Gamma") rather than full title.
     cy.contains("h2", "Gamma");
-    cy.get(".rp-individual-resource-list table tbody tr").should("exist");
+    cy.get(".rp-individual-resource-list .rp-resource-list-item").should("exist");
   });
 
 });
@@ -139,7 +140,7 @@ describe("Resource Group — ARA banner on listing page", () => {
 
   it("passes ara_context through to resource links", () => {
     cy.visit("/documentation/resources?ara_context=Recommended+for+Python&ara_group=test-resource-group");
-    cy.get("#group-test-resource-group .rp-resource-link").first()
+    cy.get("#group-test-resource-group .rp-resource-list-link").first()
       .should("have.attr", "href")
       .and("include", "ara_context=");
   });
@@ -197,7 +198,7 @@ describe("Resource Group — ARA banner on detail page", () => {
 
   it("passes ara_context through to resource links on detail page", () => {
     cy.visit("/documentation/resources/test-resource-group?ara_context=Recommended+for+Python");
-    cy.get(".rp-resource-link").first()
+    cy.get(".rp-resource-list-link").first()
       .should("have.attr", "href")
       .and("include", "ara_context=");
   });
