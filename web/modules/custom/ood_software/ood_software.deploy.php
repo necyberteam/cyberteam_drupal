@@ -1154,3 +1154,75 @@ function ood_software_deploy_10011_cscfi_apps() {
     '@summary' => $summary,
   ]);
 }
+
+/**
+ * Remove parent-level tags from appverse_software nodes' field_tags.
+ *
+ * Some Software entries were assigned parent terms from the 'tags' vocabulary
+ * (Cloud, Data Storage, Gateways and Portals, Linux and Shell Scripting, etc.)
+ * when they should only carry leaf-level tags. This strips any term that has
+ * children from field_tags on appverse_software nodes. Parent terms are kept
+ * in the vocabulary — they're needed for the hierarchy — only the references
+ * from Software nodes are removed.
+ */
+function ood_software_deploy_10012_remove_parent_tags_from_software() {
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+
+  // Find all terms in 'tags' that have at least one child.
+  $all_terms = $term_storage->loadTree('tags', 0, NULL, FALSE);
+  $parent_tids = [];
+  foreach ($all_terms as $term_data) {
+    $children = $term_storage->loadChildren($term_data->tid);
+    if (!empty($children)) {
+      $parent_tids[(int) $term_data->tid] = $term_data->name;
+    }
+  }
+
+  if (empty($parent_tids)) {
+    \Drupal::logger('ood_software')->notice('No parent terms found in tags vocab; nothing to strip.');
+    return t('No parent terms found in tags vocab.');
+  }
+
+  // Find appverse_software nodes referencing any parent term in field_tags.
+  $nids = \Drupal::entityQuery('node')
+    ->condition('type', 'appverse_software')
+    ->condition('field_tags', array_keys($parent_tids), 'IN')
+    ->accessCheck(FALSE)
+    ->execute();
+
+  $messages = [];
+  $count = 0;
+  foreach ($nids as $nid) {
+    $node = $node_storage->load($nid);
+    if (!$node) {
+      continue;
+    }
+
+    $tags = $node->get('field_tags')->getValue();
+    $stripped = [];
+    $kept = [];
+    foreach ($tags as $item) {
+      $tid = (int) $item['target_id'];
+      if (isset($parent_tids[$tid])) {
+        $stripped[] = $parent_tids[$tid];
+      }
+      else {
+        $kept[] = $item;
+      }
+    }
+    if (!empty($stripped)) {
+      $node->set('field_tags', $kept);
+      $node->save();
+      $messages[] = "Software '{$node->getTitle()}' (nid=$nid): removed [" . implode(', ', $stripped) . ']';
+      $count++;
+    }
+  }
+
+  $summary = $count ? implode("\n", $messages) : 'No Software nodes carried parent tags.';
+  \Drupal::logger('ood_software')->notice("Parent-tag cleanup on Software:\n@summary", ['@summary' => $summary]);
+  return t("Removed parent tags from @count Software nodes:\n@summary", [
+    '@count' => $count,
+    '@summary' => $summary,
+  ]);
+}
