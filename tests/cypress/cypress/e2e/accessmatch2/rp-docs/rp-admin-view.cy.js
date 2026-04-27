@@ -113,13 +113,13 @@ describe("RP Resources Admin View", () => {
 
 describe("RP Documentation Index — public", () => {
 
-  it("loads the /rp-documentation listing page", () => {
-    cy.visit("/rp-documentation");
+  it("loads the /documentation/resources listing page", () => {
+    cy.visit("/documentation/resources");
     cy.contains("Each ACCESS resource has unique configurations");
   });
 
   it("lists resources that have descriptions", () => {
-    cy.visit("/rp-documentation");
+    cy.visit("/documentation/resources");
     cy.get(".view-rp-documentation-index .views-row").should("have.length.greaterThan", 0);
   });
 
