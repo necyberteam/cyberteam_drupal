@@ -1,0 +1,129 @@
+{
+    "_hash": "34bdcfd95b635405c4abb1f9714fd514e5b3e5b6e031fc957e931fc0065b1338",
+    "patches": {
+        "drupal/core": [
+            {
+                "package": "drupal/core",
+                "description": "ModuleHandler skips all hook implementations when invoked before the module files have been loaded",
+                "url": "patches/3207813-73.patch",
+                "sha256": "2690ffa6ee2f1500e36dc53f98fcb6810b1c4a6707bbef3717c73de1dec8ca44",
+                "depth": 2,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            },
+            {
+                "package": "drupal/core",
+                "description": "More link is missing in pager...",
+                "url": "patches/3381979-views-some-pager-more-link.patch",
+                "sha256": "5726c3fe5ecc0efa4a00859d3bb29e221be660bc5594488513fa95063ae5fb82",
+                "depth": 2,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            },
+            {
+                "package": "drupal/core",
+                "description": "big_pipe.js' checkMutation() does not check if node exists before using it",
+                "url": "https://www.drupal.org/files/issues/2024-01-21/drupal-big_pipe_does_not_check_before_using_node_object-3416141.patch",
+                "sha256": "8b48a26d8914a44436012a2eb70e22f19f48f8a57759d729f229b3091a684b8a",
+                "depth": 2,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/facets": [
+            {
+                "package": "drupal/facets",
+                "description": "Creating requests causes failures on Drupal 10.3",
+                "url": "https://www.drupal.org/files/issues/2024-08-07/3466281-2--for-2.0.8.patch",
+                "sha256": "05427143e48282862434ee60519677a56ab83cdd15dd17dbc0d772d4d3e7ec5d",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/mgv": [
+            {
+                "package": "drupal/mgv",
+                "description": "current domain name",
+                "url": "patches/currentdomainname.patch",
+                "sha256": "d9cc0d1e90945446fd6afe16c1a22044b065d1e4647521ba4763da671da8c649",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/token_views_filter": [
+            {
+                "package": "drupal/token_views_filter",
+                "description": "WSOD when filtering by Date field",
+                "url": "patches/3499480-07.patch",
+                "sha256": "065b50affb4d570e70c587d5a7a7aeca382b6912e74507a616b883d0ff58b4e2",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/views_data_export": [
+            {
+                "package": "drupal/views_data_export",
+                "description": "Attach views_data_export JavaScript library",
+                "url": "https://www.drupal.org/files/issues/2023-06-01/views_data_export-3189760-22.patch",
+                "sha256": "48a9b01a83129fce08f13e405c711be3c6784eeb5a0ec809074e97947088bfd4",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/recurring_events": [
+            {
+                "package": "drupal/recurring_events",
+                "description": "Blank plugin ID error when resaving new dates",
+                "url": "patches/eventinstancecreatorpluginmanager.patch",
+                "sha256": "da776c6d9790da484880e7e0800c1a8132670ec114849dd7bed37f3f2f02b043",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            },
+            {
+                "package": "drupal/recurring_events",
+                "description": "Registration contact page custom permissions",
+                "url": "patches/recurring_events-registration-route-perm.patch",
+                "sha256": "7c8dcd9a5c0b31bf8ccee3d38e1ccc668e888ebe02a805d519d726ac8294180e",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            },
+            {
+                "package": "drupal/recurring_events",
+                "description": "Debug logging for duplicate event instance investigation",
+                "url": "patches/recurring_events-debug-duplicate-instances.patch",
+                "sha256": "7e308d3eac8bd8368399d44064d41a21e2f6f4ec2707a3f378020ca33567cffc",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/domain": [
+            {
+                "package": "drupal/domain",
+                "description": "Fix TypeError when domain source field is not present",
+                "url": "patches/domain_source-null-check-3482951.patch",
+                "sha256": "644b01de70c4374b2f8bc0b81809823e8ee62196877845886e1965a51c23d02e",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ]
+    }
+}
