@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - block_content.type.basic
     - field.field.node.tools_case_study.body
     - field.field.node.tools_case_study.field_domain_access
     - field.field.node.tools_case_study.field_domain_all_affiliates
@@ -22,11 +23,496 @@ dependencies:
     - field.field.node.tools_case_study.field_tcs_total_cpu_gpu_hours
     - node.type.tools_case_study
   module:
+    - access_misc
+    - layout_builder
     - link
     - options
     - svg_image
     - text
     - user
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_twocol_section
+        layout_settings:
+          label: ''
+          context_mapping: {  }
+          column_widths: 75-25
+          layout_builder_styles_style:
+            bg_light_teal_overflow_section: 0
+            border_b_2: 0
+            border_gray: 0
+            mb_10_section: 0
+            md_order_1: 0
+            md_order_2: 0
+            mobile_row_reverse: 0
+            mt_4_section: 0
+            order_1: 0
+            order_2: 0
+            pt_20: 0
+            _layout__region_second_order_1: 0
+        components:
+          8c8b3f8e-5912-44bc-bd95-f93cad61510c:
+            uuid: 8c8b3f8e-5912-44bc-bd95-f93cad61510c
+            region: second
+            configuration:
+              id: 'field_block:node:tools_case_study:field_tcs_service_units'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 8
+            additional: {  }
+          30b9a711-0306-4fee-8369-57fd698207c4:
+            uuid: 30b9a711-0306-4fee-8369-57fd698207c4
+            region: second
+            configuration:
+              id: 'field_block:node:tools_case_study:field_tcs_total_cpu_gpu_hours'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 7
+            additional: {  }
+          6039f149-171f-413d-b5ef-5e7a586c161d:
+            uuid: 6039f149-171f-413d-b5ef-5e7a586c161d
+            region: second
+            configuration:
+              id: 'field_block:node:tools_case_study:field_tcs_time_to_science'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 6
+            additional: {  }
+          dbf2e0ae-29e3-44c4-9feb-1d0f2743b98f:
+            uuid: dbf2e0ae-29e3-44c4-9feb-1d0f2743b98f
+            region: second
+            configuration:
+              id: 'field_block:node:tools_case_study:field_tcs_field_of_science'
+              label: 'Field of Science'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 5
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          21f5d139-071d-4735-8af2-932fac8db0a5:
+            uuid: 21f5d139-071d-4735-8af2-932fac8db0a5
+            region: second
+            configuration:
+              id: 'field_block:node:tools_case_study:field_tcs_allocation_type'
+              label: 'Allocation Type'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: list_default
+                label: inline
+                settings: {  }
+                third_party_settings: {  }
+            weight: 4
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          cf2a037d-0d75-48c3-ae39-14ceeae3e1a6:
+            uuid: cf2a037d-0d75-48c3-ae39-14ceeae3e1a6
+            region: second
+            configuration:
+              id: 'field_block:node:tools_case_study:field_tcs_access_resource'
+              label: 'ACCESS Resource'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: inline
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 3
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          78f5d0d4-f6e4-4fd4-83bb-e520246b4ae6:
+            uuid: 78f5d0d4-f6e4-4fd4-83bb-e520246b4ae6
+            region: second
+            configuration:
+              id: tcs_case_study_tools_used_block
+              label: 'TCS Case Study Tools Used'
+              label_display: '0'
+              provider: access_misc
+              context_mapping: {  }
+            weight: 1
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          13192e5e-b881-4614-9cfa-87f96bfcbca4:
+            uuid: 13192e5e-b881-4614-9cfa-87f96bfcbca4
+            region: second
+            configuration:
+              id: 'field_block:node:tools_case_study:field_tcs_main_image'
+              label: 'Main Image'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: image
+                label: hidden
+                settings:
+                  image_link: ''
+                  image_style: ''
+                  image_loading:
+                    attribute: lazy
+                  svg_attributes:
+                    width: null
+                    height: null
+                  svg_render_as_image: true
+                third_party_settings: {  }
+            weight: 0
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          f7d73f54-3830-4b8f-94f9-d1b7fedbddb2:
+            uuid: f7d73f54-3830-4b8f-94f9-d1b7fedbddb2
+            region: first
+            configuration:
+              id: 'field_block:node:tools_case_study:body'
+              label: 'Project Summary'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 5
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          1940dae5-7e09-4d55-882d-662c9b4a901b:
+            uuid: 1940dae5-7e09-4d55-882d-662c9b4a901b
+            region: first
+            configuration:
+              id: 'field_block:node:tools_case_study:field_tcs_research_topic'
+              label: 'Research Topic'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: hidden
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 3
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          2bb365bb-e580-4359-a077-5b963660b666:
+            uuid: 2bb365bb-e580-4359-a077-5b963660b666
+            region: first
+            configuration:
+              id: tcs_case_study_researchers_block
+              label: 'TCS Case Study Researchers'
+              label_display: '0'
+              provider: access_misc
+              context_mapping: {  }
+            weight: 0
+            additional:
+              layout_builder_styles_style:
+                __div_h_full: 0
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          d570dd1e-6c92-4174-a7f7-d31ebff80646:
+            uuid: d570dd1e-6c92-4174-a7f7-d31ebff80646
+            region: second
+            configuration:
+              id: 'inline_block:basic'
+              label: 'Allocation Information - title'
+              label_display: '0'
+              provider: layout_builder
+              view_mode: full
+              context_mapping: {  }
+              block_id: 220
+              block_revision_id: 513
+              block_serialized: null
+            weight: 2
+            additional:
+              layout_builder_styles_style:
+                __div_h_full: 0
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+          3d204599-bc98-4085-848c-2f93250a8ed3:
+            uuid: 3d204599-bc98-4085-848c-2f93250a8ed3
+            region: second
+            configuration:
+              id: 'inline_block:basic'
+              label: 'Software - Title'
+              label_display: '0'
+              provider: layout_builder
+              view_mode: full
+              context_mapping: {  }
+              block_id: 221
+              block_revision_id: 514
+              block_serialized: null
+            weight: 11
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          3263f5ce-0bd3-4bc0-b4a9-09846784a3fd:
+            uuid: 3263f5ce-0bd3-4bc0-b4a9-09846784a3fd
+            region: second
+            configuration:
+              id: 'field_block:node:tools_case_study:field_tcs_software'
+              label: Software
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: link
+                label: hidden
+                settings:
+                  trim_length: null
+                  url_only: false
+                  url_plain: false
+                  rel: '0'
+                  target: '0'
+                third_party_settings: {  }
+            weight: 12
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          3576d68b-dffe-40b8-801e-1932433272d6:
+            uuid: 3576d68b-dffe-40b8-801e-1932433272d6
+            region: first
+            configuration:
+              id: 'field_block:node:tools_case_study:field_tcs_role'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          26fb6fb9-1a0b-4e76-92a5-16166222aede:
+            uuid: 26fb6fb9-1a0b-4e76-92a5-16166222aede
+            region: first
+            configuration:
+              id: 'inline_block:basic'
+              label: 'Research Topic - title'
+              label_display: '0'
+              provider: layout_builder
+              view_mode: full
+              context_mapping: {  }
+              block_id: 222
+              block_revision_id: 515
+              block_serialized: null
+            weight: 2
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          12c1874a-52b5-4303-9dfa-ae085f30944f:
+            uuid: 12c1874a-52b5-4303-9dfa-ae085f30944f
+            region: first
+            configuration:
+              id: 'inline_block:basic'
+              label: 'Project Summary - title'
+              label_display: '0'
+              provider: layout_builder
+              view_mode: full
+              context_mapping: {  }
+              block_id: 223
+              block_revision_id: 516
+              block_serialized: null
+            weight: 4
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+        third_party_settings: {  }
 id: node.tools_case_study.default
 targetEntityType: node
 bundle: tools_case_study
