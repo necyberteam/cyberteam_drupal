@@ -227,6 +227,11 @@ class GhCommands extends Tasks {
     foreach ($pr_urls as $url) {
       $this->say("  - $url");
     }
+
+    // Post all PR links + MultiDev link to Jira ticket.
+    if (!empty($pr_urls)) {
+      $this->postPrJiraComment($pr_urls, $issue_number);
+    }
   }
 
   /**
@@ -370,6 +375,40 @@ http://md-$issueNumber-accessmatch.pantheonsite.io
     }
 
     return NULL;
+  }
+
+  /**
+   * Post PR links and MultiDev URL as a Jira comment.
+   */
+  private function postPrJiraComment(array $prUrls, string $issueNumber): void {
+    $acli_path = trim(shell_exec("which acli 2>/dev/null") ?? '');
+    if ($acli_path === '') {
+      $this->say("⚠️  acli not found — skipping Jira comment.");
+      return;
+    }
+
+    $multidev_url = "http://md-$issueNumber-accessmatch.pantheonsite.io";
+
+    $lines = ["*Pull Requests:*"];
+    foreach ($prUrls as $url) {
+      $lines[] = "- $url";
+    }
+    $lines[] = "";
+    $lines[] = "*MultiDev:* $multidev_url";
+
+    $comment = implode("\n", $lines);
+
+    $result = $this->_exec(
+      "acli jira workitem comment create --key " . escapeshellarg("D8-$issueNumber") .
+      " --body " . escapeshellarg($comment)
+    );
+
+    if ($result->wasSuccessful()) {
+      $this->say("✅ Jira comment added to D8-$issueNumber");
+    }
+    else {
+      $this->say("⚠️  Failed to add Jira comment to D8-$issueNumber");
+    }
   }
 
   /**
