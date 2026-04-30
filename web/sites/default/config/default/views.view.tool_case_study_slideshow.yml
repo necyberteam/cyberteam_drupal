@@ -436,7 +436,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"bg-white relative\">\r\n  <div class=\"tcs-hero\">{{ field_tcs_main_image }}</div>\r\n  <div class=\"p-4\">\r\n    <h3 class=\"text-lg\">{{ title }}</h3>\r\n    <div class=\"tcs-researchers-block flex gap-3\">\r\n      <div class=\"tcs-researchers-block__photo flex-shrink-0\">\r\n        {{ user_picture }}\r\n      </div>\r\n      <div class=\"tcs-researchers-block__info\">\r\n        <div class=\"tcs-researchers-block__name\">\r\n          <strong>{{ field_tcs_researcher_name }}</strong>\r\n        </div>\r\n        <div class=\"tcs-researchers-block__institution text-muted small\">\r\n          {{ field_tcs_institution }}\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div>\r\n      <a href=\"/node/{{ nid }}\" class=\"tcs-researchers-block__link stretched-link\">\r\n        Read Story\r\n      </a>\r\n    </div>\r\n  </div>\r\n</div>"
+            text: "<div class=\"bg-white relative flex flex-col h-full\">\r\n  <div class=\"tcs-hero\">{{ field_tcs_main_image }}</div>\r\n  <div class=\"p-4 flex flex-col flex-1\">\r\n    <h3 class=\"text-lg\">{{ title }}</h3>\r\n    <div class=\"tcs-researchers-block flex gap-3\">\r\n      <div class=\"tcs-researchers-block__photo flex-shrink-0\">\r\n        {{ user_picture }}\r\n      </div>\r\n      <div class=\"tcs-researchers-block__info\">\r\n        <div class=\"tcs-researchers-block__name\">\r\n          <strong>{{ field_tcs_researcher_name }}</strong>\r\n        </div>\r\n        <div class=\"tcs-researchers-block__institution text-muted small\">\r\n          {{ field_tcs_institution }}\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"mt-auto\">\r\n      <a href=\"/node/{{ nid }}\" class=\"tcs-researchers-block__link stretched-link\">\r\n        Read Story\r\n      </a>\r\n    </div>\r\n  </div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -467,7 +467,7 @@ display:
           element_label_class: ''
           element_label_colon: false
           element_wrapper_type: ''
-          element_wrapper_class: ''
+          element_wrapper_class: h-full
           element_default_classes: true
           empty: ''
           hide_empty: false
@@ -537,6 +537,10 @@ display:
             tools_case_study: tools_case_study
       style:
         type: default
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
       row:
         type: fields
       query:
