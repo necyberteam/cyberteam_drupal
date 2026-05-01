@@ -95,6 +95,7 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
 
   it('ACCESS Tools', () => {
     checkA11y('/tools/overview');
+    checkA11y('/tools/researcher-stories');
   });
 
   it('OnDemand', () => {

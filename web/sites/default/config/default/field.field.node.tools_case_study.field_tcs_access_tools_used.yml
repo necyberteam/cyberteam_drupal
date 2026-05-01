@@ -1,0 +1,29 @@
+uuid: 50fbb945-380d-4f9e-95da-d3c67d0786d7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tcs_access_tools_used
+    - node.type.tools_case_study
+    - taxonomy.vocabulary.tcs_access_tools_used
+id: node.tools_case_study.field_tcs_access_tools_used
+field_name: field_tcs_access_tools_used
+entity_type: node
+bundle: tools_case_study
+label: 'ACCESS Tools Used'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tcs_access_tools_used: tcs_access_tools_used
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

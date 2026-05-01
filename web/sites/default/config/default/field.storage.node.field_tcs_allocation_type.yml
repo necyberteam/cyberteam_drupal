@@ -1,0 +1,33 @@
+uuid: f4391646-bd7b-4dfd-849e-c2e7a6f0f7b3
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_tcs_allocation_type
+field_name: field_tcs_allocation_type
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: explore
+      label: Explore
+    -
+      value: discover
+      label: Discover
+    -
+      value: accelerate
+      label: Accelerate
+    -
+      value: maximize
+      label: Maximize
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
