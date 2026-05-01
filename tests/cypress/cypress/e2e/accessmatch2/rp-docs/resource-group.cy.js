@@ -1,17 +1,17 @@
 describe("Resource Group — listing page", () => {
 
-  it("shows resource groups on the /rp-documentation listing", () => {
-    cy.visit("/rp-documentation");
+  it("shows resource groups on the /documentation/resources listing", () => {
+    cy.visit("/documentation/resources");
     cy.get(".view-rp-documentation-index .views-row").should("have.length.greaterThan", 0);
   });
 
   it("shows resource groups alongside individual resources", () => {
-    cy.visit("/rp-documentation");
+    cy.visit("/documentation/resources");
     cy.contains("Test Resource Group");
   });
 
   it("renders the group title as a plain h2 (no longer a link)", () => {
-    cy.visit("/rp-documentation");
+    cy.visit("/documentation/resources");
     cy.contains("h2", "Test Resource Group");
     cy.get("#group-test-resource-group h2").should("exist");
     // The h2 itself is not a link.
@@ -19,45 +19,46 @@ describe("Resource Group — listing page", () => {
   });
 
   it("does not render the org name under the group title", () => {
-    cy.visit("/rp-documentation");
+    cy.visit("/documentation/resources");
     // field_access_org_name is excluded from the view.
     cy.get("#group-test-resource-group").contains("Test Org").should("not.exist");
   });
 
-  it("inline resources table has no thead (table headings removed)", () => {
-    cy.visit("/rp-documentation");
-    cy.get("#group-test-resource-group .rp-resource-group-list table thead")
+  it("inline resources are rendered as a list (no table headings)", () => {
+    cy.visit("/documentation/resources");
+    // The listing now uses <ul class="rp-resource-list"> grid items, not a <table>.
+    cy.get("#group-test-resource-group .rp-resource-group-list table")
       .should("not.exist");
-    cy.get("#group-test-resource-group .rp-resource-group-list table tbody tr")
+    cy.get("#group-test-resource-group .rp-resource-group-list .rp-resource-list-item")
       .should("have.length.greaterThan", 0);
   });
 
   it("inline resource links point to individual RP doc pages", () => {
-    cy.visit("/rp-documentation");
-    cy.get(".rp-resource-group-list table tbody")
+    cy.visit("/documentation/resources");
+    cy.get(".rp-resource-group-list")
       .contains("a", "Alpha")
       .should("have.attr", "href")
-      .and("include", "/rp-documentation/test-resource-alpha");
+      .and("include", "/documentation/resources/test-resource-alpha");
   });
 
   it("resource group rows have anchor IDs", () => {
-    cy.visit("/rp-documentation");
+    cy.visit("/documentation/resources");
     cy.get("#group-test-resource-group").should("exist");
   });
 
-  it("inline table shows summary text", () => {
-    cy.visit("/rp-documentation");
-    cy.get("#group-test-resource-group .rp-resource-group-list table tbody")
+  it("inline list shows summary text", () => {
+    cy.visit("/documentation/resources");
+    cy.get("#group-test-resource-group .rp-resource-group-list")
       .should("contain", "GPU-accelerated supercomputer for HPC, AI, and machine learning workloads.");
   });
 
   it("page title reads 'Resource Documentation'", () => {
-    cy.visit("/rp-documentation");
+    cy.visit("/documentation/resources");
     cy.contains("Resource Documentation");
   });
 
   it("renders the sidebar with an ARA CTA", () => {
-    cy.visit("/rp-documentation");
+    cy.visit("/documentation/resources");
     cy.get(".rp-listing-sidebar").within(() => {
       cy.contains("NEED HELP CHOOSING?");
       cy.contains("TRY THE ARA")
@@ -70,13 +71,13 @@ describe("Resource Group — listing page", () => {
 
 describe("Resource Group — individual (ungrouped) resource rendering", () => {
 
-  it("ungrouped resources render as a single-row table below their h2 title", () => {
-    cy.visit("/rp-documentation");
+  it("ungrouped resources render as a single-item list below their h2 title", () => {
+    cy.visit("/documentation/resources");
     // Gamma is ungrouped with field_rp_listing checked, so it should show.
     cy.get(".rp-individual-resource-row").should("have.length.greaterThan", 0);
     // Listing view h2 uses short_name ("Gamma") rather than full title.
     cy.contains("h2", "Gamma");
-    cy.get(".rp-individual-resource-list table tbody tr").should("exist");
+    cy.get(".rp-individual-resource-list .rp-resource-list-item").should("exist");
   });
 
 });
@@ -84,7 +85,7 @@ describe("Resource Group — individual (ungrouped) resource rendering", () => {
 describe("Resource Group — detail page", () => {
 
   beforeEach(() => {
-    cy.visit("/rp-documentation/test-resource-group");
+    cy.visit("/documentation/resources/test-resource-group");
   });
 
   it("renders the page title", () => {
@@ -115,7 +116,7 @@ describe("Resource Group — detail page", () => {
     cy.get(".rp-resource-group-list table tbody")
       .contains("a", "Alpha")
       .should("have.attr", "href")
-      .and("include", "/rp-documentation/test-resource-alpha");
+      .and("include", "/documentation/resources/test-resource-alpha");
   });
 
 });
@@ -127,56 +128,56 @@ describe("Resource Group — ARA banner on listing page", () => {
   });
 
   it("shows ARA banner on targeted group with ara_context and ara_group params", () => {
-    cy.visit("/rp-documentation?ara_context=Recommended+for+Python,+Earth+Sciences&ara_group=test-resource-group");
+    cy.visit("/documentation/resources?ara_context=Recommended+for+Python,+Earth+Sciences&ara_group=test-resource-group");
     cy.get("#group-test-resource-group .ara-group-banner").should("be.visible");
     cy.get("#group-test-resource-group .ara-banner-text").should("contain", "Python");
   });
 
   it("does not add a ring border around the targeted group (banner is sufficient)", () => {
-    cy.visit("/rp-documentation?ara_context=Recommended+for+Python&ara_group=test-resource-group");
+    cy.visit("/documentation/resources?ara_context=Recommended+for+Python&ara_group=test-resource-group");
     cy.get("#group-test-resource-group").should("not.have.class", "ring-2");
   });
 
   it("passes ara_context through to resource links", () => {
-    cy.visit("/rp-documentation?ara_context=Recommended+for+Python&ara_group=test-resource-group");
-    cy.get("#group-test-resource-group .rp-resource-link").first()
+    cy.visit("/documentation/resources?ara_context=Recommended+for+Python&ara_group=test-resource-group");
+    cy.get("#group-test-resource-group .rp-resource-list-link").first()
       .should("have.attr", "href")
       .and("include", "ara_context=");
   });
 
   it("persists banner on page reload via localStorage", () => {
-    cy.visit("/rp-documentation?ara_context=Recommended+for+Python&ara_group=test-resource-group");
+    cy.visit("/documentation/resources?ara_context=Recommended+for+Python&ara_group=test-resource-group");
     cy.get("#group-test-resource-group .ara-group-banner").should("be.visible");
 
-    cy.visit("/rp-documentation");
+    cy.visit("/documentation/resources");
     cy.get("#group-test-resource-group .ara-group-banner").should("be.visible");
     cy.get("#group-test-resource-group .ara-banner-text").should("contain", "Python");
   });
 
   it("dismiss button clears banner for that group only", () => {
-    cy.visit("/rp-documentation?ara_context=Recommended+for+Python&ara_group=test-resource-group");
+    cy.visit("/documentation/resources?ara_context=Recommended+for+Python&ara_group=test-resource-group");
     cy.get("#group-test-resource-group .ara-group-banner").should("be.visible");
 
     cy.get("#group-test-resource-group .ara-dismiss").click();
     cy.get("#group-test-resource-group .ara-group-banner").should("not.be.visible");
 
     // Should not reappear on reload
-    cy.visit("/rp-documentation");
+    cy.visit("/documentation/resources");
     cy.get("#group-test-resource-group .ara-group-banner").should("not.be.visible");
   });
 
   it("no banner without ara_context param or localStorage", () => {
-    cy.visit("/rp-documentation");
+    cy.visit("/documentation/resources");
     cy.get(".ara-group-banner").should("not.be.visible");
   });
 
   it("supports multiple groups with shared context via comma-separated ara_group", () => {
-    cy.visit("/rp-documentation?ara_context=Recommended+for+Python&ara_group=test-resource-group,nonexistent-group");
+    cy.visit("/documentation/resources?ara_context=Recommended+for+Python&ara_group=test-resource-group,nonexistent-group");
     cy.get("#group-test-resource-group .ara-group-banner").should("be.visible");
   });
 
   it("supports ara_recs format for multiple groups with different contexts", () => {
-    cy.visit("/rp-documentation?ara_recs=test-resource-group:Recommended+for+Python");
+    cy.visit("/documentation/resources?ara_recs=test-resource-group:Recommended+for+Python");
     cy.get("#group-test-resource-group .ara-group-banner").should("be.visible");
     cy.get("#group-test-resource-group .ara-banner-text").should("contain", "Python");
   });
@@ -190,40 +191,40 @@ describe("Resource Group — ARA banner on detail page", () => {
   });
 
   it("shows ARA banner when arriving with ara_context param", () => {
-    cy.visit("/rp-documentation/test-resource-group?ara_context=Recommended+for+Python,+Earth+Sciences");
+    cy.visit("/documentation/resources/test-resource-group?ara_context=Recommended+for+Python,+Earth+Sciences");
     cy.get("#ara-recommendation-banner").should("be.visible");
     cy.get("#ara-recommendation-text").should("contain", "Python");
   });
 
   it("passes ara_context through to resource links on detail page", () => {
-    cy.visit("/rp-documentation/test-resource-group?ara_context=Recommended+for+Python");
-    cy.get(".rp-resource-link").first()
+    cy.visit("/documentation/resources/test-resource-group?ara_context=Recommended+for+Python");
+    cy.get(".rp-resource-list-link").first()
       .should("have.attr", "href")
       .and("include", "ara_context=");
   });
 
   it("persists banner on detail page reload via localStorage", () => {
-    cy.visit("/rp-documentation/test-resource-group?ara_context=Recommended+for+Python");
+    cy.visit("/documentation/resources/test-resource-group?ara_context=Recommended+for+Python");
     cy.get("#ara-recommendation-banner").should("be.visible");
 
-    cy.visit("/rp-documentation/test-resource-group");
+    cy.visit("/documentation/resources/test-resource-group");
     cy.get("#ara-recommendation-banner").should("be.visible");
     cy.get("#ara-recommendation-text").should("contain", "Python");
   });
 
   it("dismiss button clears banner and localStorage on detail page", () => {
-    cy.visit("/rp-documentation/test-resource-group?ara_context=Recommended+for+Python");
+    cy.visit("/documentation/resources/test-resource-group?ara_context=Recommended+for+Python");
     cy.get("#ara-recommendation-banner").should("be.visible");
 
     cy.get("#ara-dismiss").click();
     cy.get("#ara-recommendation-banner").should("not.be.visible");
 
-    cy.visit("/rp-documentation/test-resource-group");
+    cy.visit("/documentation/resources/test-resource-group");
     cy.get("#ara-recommendation-banner").should("not.be.visible");
   });
 
   it("no banner without ara_context param or localStorage", () => {
-    cy.visit("/rp-documentation/test-resource-group");
+    cy.visit("/documentation/resources/test-resource-group");
     cy.get("#ara-recommendation-banner").should("not.be.visible");
   });
 
@@ -232,14 +233,14 @@ describe("Resource Group — ARA banner on detail page", () => {
 describe("Resource Group — admin action buttons", () => {
 
   it("anonymous users do not see admin buttons", () => {
-    cy.visit("/rp-documentation");
+    cy.visit("/documentation/resources");
     cy.get(".rp-admin-actions").should("not.exist");
   });
 
   it("rp_documentation_manager sees Manage Resources and Manage Resource Groups buttons", () => {
     cy.exec('ddev drush user:role:add rp_documentation_manager "authenticated_test_user"', { failOnNonZeroExit: false });
     cy.loginAs("authenticated@amptesting.com", "6%l7iF}6(4tI");
-    cy.visit("/rp-documentation");
+    cy.visit("/documentation/resources");
     cy.get(".rp-admin-actions").should("exist");
     cy.get(".rp-admin-actions").contains("a", "Manage Resources")
       .should("have.attr", "href", "/rp-resources/manage");
@@ -258,7 +259,7 @@ describe("Resource Group — admin action buttons", () => {
 describe("Resource Group — field_rp_listing filter", () => {
 
   it("resources with field_rp_listing unchecked do not appear as standalone rows", () => {
-    cy.visit("/rp-documentation");
+    cy.visit("/documentation/resources");
     // Test Resource Beta has field_rp_listing unchecked — it should not appear
     // as its own row. After the short_name change, an h2 would read "Beta" —
     // assert both the full title and the short name are absent.

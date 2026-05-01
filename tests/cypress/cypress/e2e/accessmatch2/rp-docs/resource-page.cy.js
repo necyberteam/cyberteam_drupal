@@ -1,7 +1,7 @@
 describe("Resource Documentation Page — Alpha (full data)", () => {
 
   beforeEach(() => {
-    cy.visit("/rp-documentation/test-resource-alpha");
+    cy.visit("/documentation/resources/test-resource-alpha");
   });
 
   it("renders the page title and status badges", () => {
@@ -37,9 +37,11 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     cy.get("#rp-ssh-docs-link").should("have.attr", "href").and("include", "docs.example.edu/alpha/login03");
   });
 
-  it("renders the OnDemand login button", () => {
+  it("renders the OnDemand login button with the editor-provided label", () => {
+    // Section heading is fixed; the button label comes from the link field's
+    // optional title (uppercased) — falls back to "LOGIN" when blank.
     cy.contains("ACCESS OnDemand Login");
-    cy.contains("LOGIN").should("have.attr", "href").and("include", "ondemand.alpha.test.example.edu");
+    cy.contains("ACCESS ONDEMAND").should("have.attr", "href").and("include", "ondemand.alpha.test.example.edu");
   });
 
   it("renders login help links outside the SSH box", () => {
@@ -72,6 +74,9 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     cy.contains("GLOBUS");
     cy.get(".rp-file-transfer").contains("RECOMMENDED");
     cy.get(".rp-file-transfer").should("not.contain", "Use Globus for large transfers");
+    // Editor-provided link text overrides the raw URL.
+    cy.get(".rp-file-transfer").contains("a", "Globus").should("have.attr", "href").and("include", "app.globus.org");
+    cy.get(".rp-file-transfer").should("not.contain", "https://app.globus.org");
   });
 
   it("renders the storage table with plain text paths (no code tags)", () => {
@@ -153,7 +158,7 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
 describe("Resource Documentation Page — Beta (sparse data, in Test Resource Group)", () => {
 
   beforeEach(() => {
-    cy.visit("/rp-documentation/test-resource-beta");
+    cy.visit("/documentation/resources/test-resource-beta");
   });
 
   it("renders the title and description", () => {
@@ -205,7 +210,7 @@ describe("Resource Documentation Page — Beta (sparse data, in Test Resource Gr
 describe("Resource Documentation Page — Gamma (partial data)", () => {
 
   beforeEach(() => {
-    cy.visit("/rp-documentation/test-resource-gamma");
+    cy.visit("/documentation/resources/test-resource-gamma");
   });
 
   it("renders storage but not file transfer or queues", () => {
