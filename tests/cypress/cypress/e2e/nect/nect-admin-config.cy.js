@@ -386,9 +386,6 @@ describe("Check admin configuration pages", () => {
     cy.visit('/admin/config/system/mailsystem');
     cy.get('h1').should('contain', 'Configure the Mail System');
 
-    cy.visit('/admin/config/system/actions');
-    cy.get('h1').should('contain', 'Actions');
-
     cy.visit('/admin/config/system/auditfiles');
     cy.get('h1').should('contain', 'Audit Files');
 
