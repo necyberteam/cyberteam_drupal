@@ -140,10 +140,10 @@ describe("Admin can add announcements to Affinity Group via entity reference", (
     cy.get('#edit-submit').click();
     cy.contains('has been updated');
 
-    // Verify the announcement appears in the Announcements block on the AG page
+    // Verify the announcement appears in the News block on the AG page
     cy.visit("/affinity-groups/access-support");
     cy.get('.block-access-affinitygroup.block-affinity-bottom-left')
-      .contains('Announcements');
+      .contains('News');
     cy.get('.block-access-affinitygroup.block-affinity-bottom-left')
       .contains(testAnnouncementTitle);
   });

@@ -73,6 +73,20 @@ describe("Appverse App Flagging", () => {
       cy.loginUser('administrator@amptesting.com', 'b8QW]X9h7#5n');
     });
 
+    it("Submitter is automatically flagged on the new app", function() {
+      // Submitting an appverse_app should auto-flag the submitter (D8-2705),
+      // so the just-created app should already show the unflag link for the
+      // submitting user with no manual flag click.
+      if (!testApp) {
+        this.skip();
+        return;
+      }
+
+      cy.visit(testApp.path);
+      cy.contains(testApp.title, { matchCase: false });
+      cy.get('a[href*="/flag/unflag/appverse_apps/"]').should('exist');
+    });
+
     it("Can flag an appverse app", function() {
       // Skip if no test app available
       if (!testApp) {
@@ -80,8 +94,15 @@ describe("Appverse App Flagging", () => {
         return;
       }
 
-      // Visit the appverse app page
+      // Submitter is auto-flagged on create, so unflag first to get to a
+      // known "not flagged" state before exercising the flag link.
       cy.visit(testApp.path);
+      cy.get('body').then(($body) => {
+        if ($body.find('a[href*="/flag/unflag/appverse_apps/"]').length > 0) {
+          cy.get('a[href*="/flag/unflag/appverse_apps/"]').first().click();
+          cy.visit(testApp.path);
+        }
+      });
 
       // Verify the page loaded
       cy.contains(testApp.title, { matchCase: false });

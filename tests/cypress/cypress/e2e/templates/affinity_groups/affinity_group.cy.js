@@ -45,7 +45,7 @@ describe("test an Affinity Group page", () => {
 
   it("Unauthenticated user tests an AG with an announcement", () => {
     cy.visit('/affinity-groups/anvil');
-    cy.contains('Announcements');
+    cy.contains('News');
     cy.contains('08/13/25');
     cy.contains('Anvil AI now available to ACCESS researchers!').click();
     cy.url().should('include', '/announcements/anvil-ai-now-available-access-researchers');
