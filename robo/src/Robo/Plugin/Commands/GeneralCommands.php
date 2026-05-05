@@ -572,4 +572,94 @@ GITHUB_TOKEN=$token'>.env");
     $this->uli();
   }
 
+  /**
+   * Create a local git worktree for a branch and set up its DDEV project files.
+   *
+   * @command tree:new
+   * @description Check out a branch into a local worktree, run Composer install, and copy/link DDEV-related files for local development.
+   */
+  public function newTree(array $args) {
+    $branch = array_key_exists(0, $args) ? $args[0] : '';
+    if (empty($branch)) {
+      $branch = $this->ask("What is the branch name?");
+    }
+
+    $sitename = strtolower($branch);
+    $sitename = preg_replace('/[^a-z0-9]+/', '-', $sitename);
+    $sitename = trim($sitename, '-');
+    if (empty($sitename)) {
+      $sitename = 'site';
+    }
+
+    $worktree = "../worktrees/$branch";
+
+    $this->_exec("git worktree add -f $worktree $branch");
+    //$this->_exec("chmod -R 777 $worktree/web/sites/default/files");
+    $this->_exec("cd $worktree && composer install");
+    $source_env = '.ddev/.env';
+    $destination_env = "$worktree/.ddev/.env";
+    if (file_exists($source_env)) {
+      if (!copy($source_env, $destination_env)) {
+        throw new TaskException($this, "Failed to copy $source_env to $destination_env.");
+      }
+    }
+    elseif (!file_exists($destination_env) && file_put_contents($destination_env, '') === FALSE) {
+      throw new TaskException($this, "Failed to create $destination_env.");
+    }
+
+    // Symlink files from main project.
+    $files_path = realpath('web/sites/default/files');
+    if ($files_path && !file_exists("$worktree/web/sites/default/files")) {
+      $this->_exec("ln -s $files_path $worktree/web/sites/default/files");
+    }
+
+    // Symlink backups from main project so ddevsetup finds the DB.
+    $backups_path = realpath('backups');
+    if ($backups_path && !file_exists("$worktree/backups")) {
+      $this->_exec("ln -s $backups_path $worktree/backups");
+    }
+
+    $config_file = file_get_contents("$worktree/.ddev/config.yaml");
+    $config_file = str_replace('name: cyberteam-drupal', 'name: ' . $sitename, $config_file);
+    $config_file = preg_replace_callback(
+      '/^(additional_hostnames:\s*\n)((?:\s+-\s+.+\n)*)/m',
+      function ($matches) use ($sitename) {
+        if (empty($matches[2])) {
+          return $matches[0];
+        }
+        $lines = preg_replace('/^(\s+-\s+)(.+)$/m', '${1}' . $sitename . '.${2}', rtrim($matches[2]));
+        return $matches[1] . $lines . "\n";
+      },
+      $config_file
+    );
+    file_put_contents("$worktree/.ddev/config.yaml", $config_file);
+
+    $this->_exec("cd $worktree && git update-index --assume-unchanged .ddev/config.yaml");
+
+    $this->_exec("cd $worktree && vendor/bin/robo ddevsetup ''");
+  }
+
+  /**
+   * Remove a worktree and its DDEV project.
+   *
+   * @command tree:del
+   * @description Delete a worktree's DDEV project then remove the worktree.
+   */
+  public function rmTree(array $args) {
+    $branch = array_key_exists(0, $args) ? $args[0] : '';
+    if (empty($branch)) {
+      $branch = $this->ask("What is the branch name?");
+    }
+
+    $worktree = realpath("../worktrees/$branch");
+    if (!$worktree || !is_dir($worktree)) {
+      $this->yell("Worktree not found: ../worktrees/$branch");
+      return;
+    }
+
+    $this->_exec("cd $worktree && ddev delete -Oy");
+    $this->_exec("git worktree remove --force $worktree");
+    $this->say("Removed worktree for $branch.");
+  }
+
 }

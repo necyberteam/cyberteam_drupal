@@ -1,0 +1,33 @@
+--- a/core/modules/views/src/Plugin/views/pager/Some.php
++++ b/core/modules/views/src/Plugin/views/pager/Some.php
+@@ -19,6 +19,13 @@
+ )]
+ class Some extends PagerPluginBase {
+ 
++  /**
++   * The original number of items of the query before the limit is applied.
++   *
++   * @var int
++   */
++  protected int $originalNumberOfItems = 0;
++
+   public function summaryTitle() {
+     if (!empty($this->options['offset'])) {
+       return $this->formatPlural($this->options['items_per_page'], '@count item, skip @skip', '@count items, skip @skip', ['@count' => $this->options['items_per_page'], '@skip' => $this->options['offset']]);
+@@ -74,7 +81,16 @@
+    * {@inheritdoc}
+    */
+   public function postExecute(&$result): void {
++    $this->originalNumberOfItems = $this->total_items;
+     $this->total_items = count($result);
+   }
+ 
++  /**
++   * {@inheritdoc}
++   */
++  public function hasMoreRecords() {
++    return $this->getItemsPerPage()
++      && $this->originalNumberOfItems > $this->getItemsPerPage();
++  }
++
+ }
