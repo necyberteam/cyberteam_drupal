@@ -1,0 +1,24 @@
+uuid: 78b2698c-db30-43fd-bda1-fe1d749a739a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.eventinstance.field_location
+    - filter.format.basic_html
+    - recurring_events.eventinstance_type.default
+  module:
+    - text
+id: eventinstance.default.field_location
+field_name: field_location
+entity_type: eventinstance
+bundle: default
+label: Location
+description: 'Leave blank to use the series-level value.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text

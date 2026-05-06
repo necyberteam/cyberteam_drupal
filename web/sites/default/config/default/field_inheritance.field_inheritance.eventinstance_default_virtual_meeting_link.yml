@@ -4,11 +4,11 @@ status: true
 dependencies: {  }
 id: eventinstance_default_virtual_meeting_link
 label: 'Virtual meeting link'
-type: inherit
+type: fallback
 sourceEntityType: eventseries
 sourceEntityBundle: default
 sourceField: field_event_virtual_meeting_link
 destinationEntityType: eventinstance
 destinationEntityBundle: default
-destinationField: ''
+destinationField: field_event_virtual_meeting_link
 plugin: default_inheritance
