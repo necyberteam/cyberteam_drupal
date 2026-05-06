@@ -1,0 +1,24 @@
+uuid: 35fde70f-a07e-4d8b-a90f-354250030702
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.eventinstance.field_post_survey_email_text
+    - filter.format.basic_html
+    - recurring_events.eventinstance_type.default
+  module:
+    - text
+id: eventinstance.default.field_post_survey_email_text
+field_name: field_post_survey_email_text
+entity_type: eventinstance
+bundle: default
+label: 'Post-Event Email Body'
+description: 'Leave blank to use the series-level value.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text_long
