@@ -19,7 +19,8 @@ dependencies:
     - field.field.node.tools_case_study.field_tcs_service_units
     - field.field.node.tools_case_study.field_tcs_software
     - field.field.node.tools_case_study.field_tcs_time_to_science
-    - field.field.node.tools_case_study.field_tcs_total_cpu_gpu_hours
+    - field.field.node.tools_case_study.field_tcs_total_cpu_hours
+    - field.field.node.tools_case_study.field_tcs_total_gpu_hours
     - image.style.thumbnail
     - node.type.tools_case_study
   module:
@@ -149,9 +150,17 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_tcs_total_cpu_gpu_hours:
+  field_tcs_total_cpu_hours:
     type: string_textfield
-    weight: 21
+    weight: 27
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_tcs_total_gpu_hours:
+    type: string_textfield
+    weight: 26
     region: content
     settings:
       size: 60

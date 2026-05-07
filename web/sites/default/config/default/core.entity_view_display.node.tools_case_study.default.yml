@@ -20,7 +20,8 @@ dependencies:
     - field.field.node.tools_case_study.field_tcs_service_units
     - field.field.node.tools_case_study.field_tcs_software
     - field.field.node.tools_case_study.field_tcs_time_to_science
-    - field.field.node.tools_case_study.field_tcs_total_cpu_gpu_hours
+    - field.field.node.tools_case_study.field_tcs_total_cpu_hours
+    - field.field.node.tools_case_study.field_tcs_total_gpu_hours
     - node.type.tools_case_study
   module:
     - access_misc
@@ -60,33 +61,33 @@ third_party_settings:
             region: second
             configuration:
               id: 'field_block:node:tools_case_study:field_tcs_service_units'
+              label: 'Service Units'
               label_display: '0'
+              provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
+                view_mode: view_mode
               formatter:
                 type: string
-                label: above
+                label: inline
                 settings:
                   link_to_entity: false
                 third_party_settings: {  }
-            weight: 8
-            additional: {  }
-          30b9a711-0306-4fee-8369-57fd698207c4:
-            uuid: 30b9a711-0306-4fee-8369-57fd698207c4
-            region: second
-            configuration:
-              id: 'field_block:node:tools_case_study:field_tcs_total_cpu_gpu_hours'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: string
-                label: above
-                settings:
-                  link_to_entity: false
-                third_party_settings: {  }
-            weight: 7
-            additional: {  }
+            weight: 10
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
           6039f149-171f-413d-b5ef-5e7a586c161d:
             uuid: 6039f149-171f-413d-b5ef-5e7a586c161d
             region: second
@@ -100,7 +101,7 @@ third_party_settings:
                 view_mode: view_mode
               formatter:
                 type: string
-                label: above
+                label: inline
                 settings:
                   link_to_entity: false
                 third_party_settings: {  }
@@ -195,7 +196,7 @@ third_party_settings:
                 view_mode: view_mode
               formatter:
                 type: entity_reference_label
-                label: hidden
+                label: inline
                 settings:
                   link: true
                 third_party_settings: {  }
@@ -512,6 +513,70 @@ third_party_settings:
                 pt_4: 0
                 tags: 0
                 __div_h_full: 0
+          409c8a9d-d708-4b26-86c8-b3d9fb0dd4f5:
+            uuid: 409c8a9d-d708-4b26-86c8-b3d9fb0dd4f5
+            region: second
+            configuration:
+              id: 'field_block:node:tools_case_study:field_tcs_total_gpu_hours'
+              label: 'Total GPU Hours'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 8
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          b499204c-3618-433e-b83f-09846aa2ae6b:
+            uuid: b499204c-3618-433e-b83f-09846aa2ae6b
+            region: second
+            configuration:
+              id: 'field_block:node:tools_case_study:field_tcs_total_cpu_hours'
+              label: 'Total CPU Hours'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 7
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
         third_party_settings: {  }
 id: node.tools_case_study.default
 targetEntityType: node
@@ -631,14 +696,22 @@ content:
     third_party_settings: {  }
     weight: 112
     region: content
-  field_tcs_total_cpu_gpu_hours:
+  field_tcs_total_cpu_hours:
     type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 113
-    region: content
+    weight: 116
+    region: first
+  field_tcs_total_gpu_hours:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 115
+    region: first
   links:
     settings: {  }
     third_party_settings: {  }
