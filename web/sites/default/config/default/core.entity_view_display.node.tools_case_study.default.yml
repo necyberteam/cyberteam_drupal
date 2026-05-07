@@ -13,6 +13,7 @@ dependencies:
     - field.field.node.tools_case_study.field_tcs_allocation_type
     - field.field.node.tools_case_study.field_tcs_field_of_science
     - field.field.node.tools_case_study.field_tcs_institution
+    - field.field.node.tools_case_study.field_tcs_jobs_completed
     - field.field.node.tools_case_study.field_tcs_main_image
     - field.field.node.tools_case_study.field_tcs_research_topic
     - field.field.node.tools_case_study.field_tcs_researcher_name
@@ -93,7 +94,7 @@ third_party_settings:
             region: second
             configuration:
               id: 'field_block:node:tools_case_study:field_tcs_time_to_science'
-              label: '# of Jobs Completed'
+              label: 'Time to Science'
               label_display: '0'
               provider: layout_builder
               context_mapping:
@@ -530,7 +531,7 @@ third_party_settings:
                 settings:
                   link_to_entity: false
                 third_party_settings: {  }
-            weight: 8
+            weight: 9
             additional:
               layout_builder_styles_style:
                 accordion_wrapper: 0
@@ -551,6 +552,38 @@ third_party_settings:
             configuration:
               id: 'field_block:node:tools_case_study:field_tcs_total_cpu_hours'
               label: 'Total CPU Hours'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 8
+            additional:
+              layout_builder_styles_style:
+                accordion_wrapper: 0
+                bg_light_teal: 0
+                mb_10: 0
+                mb_3: 0
+                mb_5: 0
+                md_teal_box: 0
+                page_title: 0
+                pb_4: 0
+                pe_3: 0
+                pt_4: 0
+                tags: 0
+                __div_h_full: 0
+          3aa10b1f-c752-4b90-9a49-c94c83fa492b:
+            uuid: 3aa10b1f-c752-4b90-9a49-c94c83fa492b
+            region: second
+            configuration:
+              id: 'field_block:node:tools_case_study:field_tcs_jobs_completed'
+              label: '# of Jobs Completed'
               label_display: '0'
               provider: layout_builder
               context_mapping:
@@ -629,6 +662,14 @@ content:
     third_party_settings: {  }
     weight: 103
     region: content
+  field_tcs_jobs_completed:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 117
+    region: first
   field_tcs_main_image:
     type: image
     label: above
