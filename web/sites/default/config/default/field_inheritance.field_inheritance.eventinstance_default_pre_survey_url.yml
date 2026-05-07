@@ -4,11 +4,11 @@ status: true
 dependencies: {  }
 id: eventinstance_default_pre_survey_url
 label: 'pre-survey url'
-type: inherit
+type: fallback
 sourceEntityType: eventseries
 sourceEntityBundle: default
 sourceField: field_pre_survey_url
 destinationEntityType: eventinstance
 destinationEntityBundle: default
-destinationField: ''
+destinationField: field_pre_survey_url
 plugin: default_inheritance

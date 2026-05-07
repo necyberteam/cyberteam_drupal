@@ -4,11 +4,11 @@ status: true
 dependencies: {  }
 id: eventinstance_default_pre_survey_email_text
 label: 'Pre-survey email text'
-type: inherit
+type: fallback
 sourceEntityType: eventseries
 sourceEntityBundle: default
 sourceField: field_pre_survey_email_text
 destinationEntityType: eventinstance
 destinationEntityBundle: default
-destinationField: ''
+destinationField: field_pre_survey_email_text
 plugin: default_inheritance

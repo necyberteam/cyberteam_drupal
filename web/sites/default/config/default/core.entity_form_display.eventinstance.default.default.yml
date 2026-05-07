@@ -4,16 +4,82 @@ status: true
 dependencies:
   config:
     - field.field.eventinstance.default.domain_access
+    - field.field.eventinstance.default.field_event_speakers
+    - field.field.eventinstance.default.field_event_virtual_meeting_link
+    - field.field.eventinstance.default.field_location
+    - field.field.eventinstance.default.field_post_survey_email_text
     - field.field.eventinstance.default.field_post_survey_reminder_sent
     - field.field.eventinstance.default.field_post_survey_sent
+    - field.field.eventinstance.default.field_post_survey_url
+    - field.field.eventinstance.default.field_pre_survey_email_text
+    - field.field.eventinstance.default.field_pre_survey_url
+    - field.field.eventinstance.default.field_registration
+    - field.field.eventinstance.default.field_screen_survey_email_text
+    - field.field.eventinstance.default.field_screen_survey_url
+    - field.field.eventinstance.default.field_summary
     - field.field.eventinstance.default.field_video
     - recurring_events.eventinstance_type.default
     - workflows.workflow.editorial_eventinstance
   module:
     - content_moderation
     - datetime_range
+    - field_group
+    - link
     - media_library
     - text
+third_party_settings:
+  field_group:
+    group_surveys:
+      children:
+        - field_pre_survey_email_text
+        - field_pre_survey_url
+      label: 'Email on approval '
+      region: content
+      parent_name: ''
+      weight: 26
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: false
+        description: ''
+        required_fields: true
+    group_post_survey:
+      children:
+        - field_post_survey_email_text
+        - field_post_survey_url
+      label: 'Email near event end'
+      region: content
+      parent_name: ''
+      weight: 27
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: false
+        description: ''
+        required_fields: true
+    group_screening_survey:
+      children:
+        - field_screen_survey_email_text
+        - field_screen_survey_url
+      label: 'Email sent on registration'
+      region: content
+      parent_name: ''
+      weight: 25
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: false
+        description: ''
+        required_fields: true
 id: eventinstance.default.default
 targetEntityType: eventinstance
 bundle: default
@@ -21,26 +87,55 @@ mode: default
 content:
   body:
     type: text_textarea
-    weight: 0
+    weight: 2
     region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
   date:
-    type: daterange_datelist
+    type: daterange_default
     weight: 1
     region: content
-    settings:
-      increment: 15
-      date_order: YMD
-      time_type: '12'
+    settings: {  }
     third_party_settings: {  }
   domain_access:
     type: options_buttons
     weight: 26
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_event_speakers:
+    type: string_textfield
+    weight: 14
+    region: content
+    settings:
+      size: 60
+      placeholder: 'i. e. Jean Smith, Organization Name'
+    third_party_settings: {  }
+  field_event_virtual_meeting_link:
+    type: link_default
+    weight: 13
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_location:
+    type: text_textfield
+    weight: 12
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_post_survey_email_text:
+    type: text_textarea
+    weight: 28
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
     third_party_settings: {  }
   field_post_survey_reminder_sent:
     type: number
@@ -54,6 +149,62 @@ content:
     weight: 27
     region: content
     settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_post_survey_url:
+    type: link_default
+    weight: 29
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_pre_survey_email_text:
+    type: text_textarea
+    weight: 27
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_pre_survey_url:
+    type: link_default
+    weight: 28
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_registration:
+    type: link_default
+    weight: 28
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_screen_survey_email_text:
+    type: text_textarea
+    weight: 34
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_screen_survey_url:
+    type: link_default
+    weight: 35
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_summary:
+    type: string_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
       placeholder: ''
     third_party_settings: {  }
   field_video:
