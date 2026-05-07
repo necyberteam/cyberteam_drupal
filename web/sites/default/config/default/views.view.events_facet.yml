@@ -380,7 +380,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href="/tags/{{ custom_event_tags }}" class="inline-block text-nowrap  text-truncate text-xs no-underline font-normal mb-1 me-1 mr-1 px-2 py-1  border-dark-teal hover--border-black border text-dark-teal hover--text-black">{{ custom_event_tags }}</a>'
+            text: '<span class="d-block mb-3"><a href="/tags/{{ custom_event_tags }}" class="inline-block text-nowrap  text-truncate text-xs no-underline font-normal mb-1 me-1 mr-1 px-2 py-1  border-dark-teal hover--border-black border text-dark-teal hover--text-black">{{ custom_event_tags }}</a></span>'
             make_link: false
             path: ''
             absolute: false
@@ -806,7 +806,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: true
-          content: "<div class=\"bg-light-teal bg-light d-flex flex p-4 mb-2 prose max-w-full items-center align-items-center\">\r\n  <span class=\"h5 font-weight-bold m-0 me-4 mr-3 pt-2\">Upcoming Events</span>\r\n  <a class=\"me-4 mr-3\" href=\"/events/past\">Past Events</a>\r\n  <a class=\"me-4 mr-3\" href=\"/events/mine\">\r\n    My Events\r\n  </a>\r\n  <a href=\"/events/add\" class=\"btn-sm btn-small btn-secondary-outline py-0 px-4 btn btn-md-teal ms-auto ml-auto\" data-drupal-link-system-path=\"events/add\">+ Add Event</a>\r\n</div>"
+          content: "<div class=\"bg-light-teal bg-light d-flex flex-wrap flex p-4 mb-2 prose max-w-full items-center align-items-center\">\r\n  <span class=\"h5 font-weight-bold m-0 me-4 mr-3\">Upcoming Events</span>\r\n  <a class=\"me-4 mr-3\" href=\"/events/past\">Past Events</a>\r\n  <a class=\"me-4 mr-3\" href=\"/events/mine\">\r\n    My Events\r\n  </a>\r\n  <a href=\"/events/add\" class=\"btn-sm btn-small btn-secondary-outline py-0 px-4 btn btn-md-teal ms-auto ml-auto mb-0\" data-drupal-link-system-path=\"events/add\">+ Add Event</a>\r\n</div>"
           tokenize: false
       footer: {  }
       display_extenders: {  }
@@ -8446,7 +8446,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: "<div class=\"bg-light-teal bg-light d-flex flex p-4 mb-2 prose max-w-full items-center align-items-center\">\r\n  <a class=\"me-4 mr-3\" href=\"/events\">Upcoming Events</a>\r\n  <h3 class=\"m-0 me-4 mr-3 pt-2\">Past Events</h3>\r\n  <a class=\"me-4 mr-3\" href=\"/events/mine\">\r\n    My Events\r\n  </a>\r\n  <a href=\"/events/add\" class=\"btn-sm btn-small btn-secondary-outline py-0 px-4 btn btn-md-teal ms-auto ml-auto\" data-drupal-link-system-path=\"events/add\">+ Add Event</a>\r\n</div>"
+            value: "<div class=\"bg-light-teal bg-light d-flex flex-wrap flex p-4 mb-2 prose max-w-full items-center align-items-center\">\r\n  <a class=\"me-4 mr-3\" href=\"/events\">Upcoming Events</a>\r\n  <span class=\"h5 font-weight-bold m-0 me-4 mr-3\">Past Events</span>\r\n  <a class=\"me-4 mr-3\" href=\"/events/mine\">\r\n    My Events\r\n  </a>\r\n  <a href=\"/events/add\" class=\"btn-sm btn-small btn-secondary-outline py-0 px-4 btn btn-md-teal ms-auto ml-auto  mb-0\" data-drupal-link-system-path=\"events/add\">+ Add Event</a>\r\n</div>"
             format: full_html
           tokenize: false
       exposed_block: true

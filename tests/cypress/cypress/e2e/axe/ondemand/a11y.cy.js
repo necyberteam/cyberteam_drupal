@@ -67,7 +67,9 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
     cy.loginUser('pecan@pie.org', 'Pecan');
     checkMultipleUrls([
       '/form/resource',
-      '/knowledge-base/resources'
+      '/knowledge-base/resources',
+      '/community-persona',
+      '/community-persona/100'
     ]);
   });
 
