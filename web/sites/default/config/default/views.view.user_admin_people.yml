@@ -85,7 +85,6 @@ display:
           buttons: false
           action_title: Action
           clear_on_exposed: true
-          force_selection_info: false
           selected_actions:
             0:
               action_id: campuschampions_password_reset_action
@@ -103,6 +102,7 @@ display:
               action_id: user_remove_role_action
               preconfiguration:
                 add_confirmation: false
+          force_selection_info: false
         name:
           id: name
           table: users_field_data
@@ -684,6 +684,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 50
           total_pages: 0
           id: 0
@@ -701,7 +702,6 @@ display:
             offset: false
             offset_label: Offset
           quantity: 9
-          pagination_heading_level: h4
       exposed_form:
         type: basic
         options:

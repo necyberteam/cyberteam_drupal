@@ -842,7 +842,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: "{% set badge = user_badges|split(':') %}\r\n\r\n<span class='badge p-0' data-placement='top' data-toggle='tooltip' title='' data-original-title='{{ badge[0] }}'>\r\n  <img src='{{ badge[1] }}' alt='{{ badge[3] }}' title='{{ badge[0] }}' class='mr-1 mb-1' width='35' height='35'>\r\n</span>\r\n"
+            text: "{% set badge = user_badges|split(':') %}\r\n\r\n<span class='badge p-0' data-placement='top' data-toggle='tooltip' title='' data-original-title='{{ badge[0]|raw }}'>\r\n  <img src='{{ badge[1] }}' alt='{{ badge[3]|raw }}' title='{{ badge[0]|raw }}' class='mr-1 mb-1' width='35' height='35'>\r\n</span>\r\n"
             make_link: false
             path: ''
             absolute: false

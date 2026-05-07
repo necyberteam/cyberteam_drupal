@@ -1,20 +1,20 @@
-uuid: 3598e07b-7c21-4acb-965c-678458def399
+uuid: e9a26e37-009a-4b6e-b2cc-7c13a6fb3f05
 langcode: en
 status: true
 dependencies:
   module:
-    - node
-id: node.field_cider_short_name
-field_name: field_cider_short_name
-entity_type: node
+    - recurring_events
+id: eventinstance.field_event_speakers
+field_name: field_event_speakers
+entity_type: eventinstance
 type: string
 settings:
-  max_length: 120
+  max_length: 255
   case_sensitive: false
   is_ascii: false
 module: core
 locked: false
-cardinality: 1
+cardinality: -1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false
