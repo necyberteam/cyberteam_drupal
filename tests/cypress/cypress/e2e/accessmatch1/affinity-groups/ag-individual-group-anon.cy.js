@@ -51,13 +51,13 @@ describe("Anonymous user tests the Individual Affinity Groups page", () => {
 
     // events & announcements
     cy.get('.block-access-affinitygroup.block-affinity-bottom-left')
-      .contains('Upcoming Events');
+      .contains('Events');
     cy.get('.block-access-affinitygroup.block-affinity-bottom-left')
       .contains('See past events')
       .should('have.attr', 'href')
       .and('contain', '/events/past');
     cy.get('.block-access-affinitygroup.block-affinity-bottom-left')
-      .contains('Announcements');
+      .contains('News');
 
     // // coordinators
     cy.get('.field--name-body.field--type-text-with-summary').contains('Coordinators');
