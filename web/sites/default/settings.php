@@ -421,8 +421,8 @@ function _serve_turnstile_challenge($return_url) {
 }
 
 // Turnstile-based bot protection for faceted searches.
-// Enable on live environment OR when TURNSTILE_ENABLED is set, but never on local.
-$enable_turnstile = $env !== 'local' && (($env === 'live') || getenv('TURNSTILE_ENABLED'));
+// Enable on live environment OR when TURNSTILE_ENABLED is set.
+$enable_turnstile = ($env === 'live') || getenv('TURNSTILE_ENABLED');
 
 // Handle Turnstile verification endpoint (receives token via GET to avoid POST redirect issue).
 if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') === 0) {
