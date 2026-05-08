@@ -101,26 +101,34 @@ describe('Badge CSV Lifecycle — badges / MATCH', () => {
     }).then((result) => {
       cy.task('log', 'Cron result: code=' + result.code + ' stdout=' + result.stdout + ' stderr=' + result.stderr);
       if (result.code !== 0) {
-        // Fallback: run general cron which will include the badge matcher.
-        cy.exec('ddev drush cron', {
-          failOnNonZeroExit: false,
-          timeout: 60000,
-        });
+        // Fallback: run general cron — must succeed or the test fails.
+        cy.exec('ddev drush cron', { timeout: 60000 })
+          .its('code').should('eq', 0);
+      } else {
+        expect(result.code).to.eq(0);
       }
     });
+
+    // Cron must leave Cherry Tart's row in a valid state ('pending' or 'review').
+    // If the row is missing or in any other state, the pipeline is broken.
+    getCherryTartStatus().should('match', /^(pending|review)$/);
   });
 
   it('Verify admin digest email about new matches via Mailpit', () => {
-    // The cron job sends email only if it finds name matches.
-    // Cherry Tart may not match any existing user, so email may not be sent.
-    cy.searchMailpitMessages({ subject: 'Badge Assignments' }).then((messages) => {
-      if (messages.length > 0) {
-        cy.assertEmailContent(messages[0], {
-          subject: 'Badge Assignments',
-        });
-      } else {
-        cy.task('log', 'No digest email sent — expected if cron found no name matches for Cherry Tart.');
-      }
+    // The cron job sends a digest email only if it found name matches.
+    // Drive the assertion off the actual DB state so a fully broken
+    // cron+email pipeline cannot pass silently.
+    getCherryTartStatus().then((status) => {
+      cy.searchMailpitMessages({ subject: 'Badge Assignments' }).then((messages) => {
+        if (status === 'review') {
+          expect(messages.length, 'digest email when cron found a match').to.be.greaterThan(0);
+          cy.assertEmailContent(messages[0], {
+            subject: 'Badge Assignments',
+          });
+        } else {
+          expect(messages.length, 'no digest email when cron found no match').to.eq(0);
+        }
+      });
     });
   });
 
@@ -144,21 +152,20 @@ describe('Badge CSV Lifecycle — badges / MATCH', () => {
 
   it('Admin can assign from review or delete from pending', () => {
     cy.loginAs(ADMIN_USER, ADMIN_PASS);
-    cy.visit('/admin/people/badge-assignments/review');
 
-    cy.get('body').then(($body) => {
-      if ($body.find('input[value="Assign"]').length) {
+    // Drive the branch off DB state so neither path can silently no-op.
+    getCherryTartStatus().then((status) => {
+      if (status === 'review') {
+        cy.visit('/admin/people/badge-assignments/review');
+        cy.get('input[value="Assign"]').should('exist');
         cy.get('input[value="Assign"]').first().click();
         cy.get('.messages--status').should('exist');
       } else {
-        // Clean up from pending tab instead.
+        expect(status, 'Cherry Tart row exists in pending').to.eq('pending');
         cy.visit('/admin/people/badge-assignments');
-        cy.get('body').then(($pendingBody) => {
-          if ($pendingBody.find('a:contains("Delete")').length) {
-            cy.contains('a', 'Delete').first().click();
-            cy.get('.messages--status').should('contain', 'Pending row deleted');
-          }
-        });
+        cy.contains('a', 'Delete').should('exist');
+        cy.contains('a', 'Delete').first().click();
+        cy.get('.messages--status').should('contain', 'Pending row deleted');
       }
     });
   });
@@ -178,6 +185,25 @@ describe('Badge CSV Lifecycle — badges / MATCH', () => {
     });
   });
 });
+
+/**
+ * Returns the current status ('pending' | 'review' | '') of the Cherry Tart
+ * row in access_badges_pending. Used to drive deterministic assertions
+ * across cron / email / assign tests instead of conditional no-ops.
+ */
+function getCherryTartStatus() {
+  return cy.exec(
+    "ddev drush sqlq \"SELECT status FROM access_badges_pending WHERE email = 'cherry@tart.org'\"",
+    { timeout: 30000 }
+  ).then((r) => {
+    cy.task('log', 'Cherry Tart status query stdout: [' + r.stdout + ']');
+    const status = r.stdout
+      .split('\n')
+      .map((l) => l.trim())
+      .find((l) => l === 'pending' || l === 'review') || '';
+    return cy.wrap(status);
+  });
+}
 
 /**
  * Removes Cherry Tart and Pecan Pie pending rows via drush SQL.
