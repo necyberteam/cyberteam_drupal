@@ -220,11 +220,19 @@ describe('Test Other Authors feature for Event Series', () => {
     // Then navigate to edit the series
     cy.contains('a', 'Edit the series').click()
 
-    // Remove all other authors to clean up for next test run
-    cy.get('input[name*="field_other_authors"][name*="_remove_button"]').each(($btn) => {
-      cy.wrap($btn).click()
-      cy.wait(600)
-    })
+    // Remove all other authors to clean up for next test run.
+    // Re-query each iteration: Drupal's AJAX rebuilds the widget after each
+    // click, detaching any cached element references from the prior pass.
+    function removeNext() {
+      cy.get('body').then(($body) => {
+        const remaining = $body.find('input[name*="field_other_authors"][name*="_remove_button"]')
+        if (remaining.length === 0) return
+        cy.wrap(remaining.first()).click()
+        cy.wait(600)
+        removeNext()
+      })
+    }
+    removeNext()
 
     cy.get('#edit-submit').click()
     cy.contains('Successfully saved').should('be.visible')
