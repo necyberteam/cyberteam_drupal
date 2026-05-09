@@ -117,6 +117,12 @@ runs:
         echo "DDEV describe output:"
         ddev describe
 
+    - name: Reindex search API
+      shell: bash
+      if: ${{ (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && inputs.directory == 'accessmatch3' }}
+      run: |
+        ddev drush search-api:index --batch-size=200 2>&1 || true
+
     - name: Run Cypress tests
       shell: bash
       if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
