@@ -223,12 +223,15 @@ describe('Test Other Authors feature for Event Series', () => {
     // Remove all other authors to clean up for next test run.
     // Re-query each iteration: Drupal's AJAX rebuilds the widget after each
     // click, detaching any cached element references from the prior pass.
+    // Wait for the AJAX response (not a fixed timer) before re-querying, so
+    // we never look at the DOM mid-render.
+    cy.intercept('POST', '/system/ajax').as('ajaxRemove')
     function removeNext() {
       cy.get('body').then(($body) => {
         const remaining = $body.find('input[name*="field_other_authors"][name*="_remove_button"]')
         if (remaining.length === 0) return
         cy.wrap(remaining.first()).click()
-        cy.wait(600)
+        cy.wait('@ajaxRemove')
         removeNext()
       })
     }
