@@ -48,4 +48,47 @@ describe("Authenticated user tests the MATCH Engagement Form", () => {
     // Send for Review
     cy.get('#edit-submit').click();
   });
+
+  it("Should clone a MATCH Plus Engagement node", () => {
+    // Administrator has 'clone node entity' permission
+    cy.loginAs("administrator@amptesting.com", "b8QW]X9h7#5n");
+    cy.visit("/node/add/match_engagement?type=plus");
+
+    cy.get("#edit-title-0-value").type("Engagement To Be Cloned");
+    cy.get("#edit-field-institution-0-value").type("Clone University");
+
+    cy.get('.field--name-body .ck-content').then(el => {
+      const editor = el[0].ckeditorInstance
+      editor.setData('Content to be cloned')
+    })
+
+    cy.get('.tags summary').click()
+    cy.get('.tags-select[data-tid=733]').click()
+
+    cy.get("#edit-field-match-office-hours-value").check();
+
+    cy.get('#edit-submit').click();
+
+    // Capture the node ID from the page after save
+    cy.get('article[data-history-node-id]').then(($article) => {
+      const nid = $article.attr('data-history-node-id');
+
+      // Visit the entity_clone form for this node
+      cy.visit(`/entity_clone/node/${nid}`);
+
+      cy.get('h1').should('contain', 'Clone Content');
+
+      // Submit the clone form
+      cy.get('input[value="Clone"]').click();
+
+      // Should redirect to the cloned node with a success message
+      cy.get('.messages--status').should('contain', 'was cloned');
+
+      // Cloned node should have a higher node ID than the original
+      cy.get('article[data-history-node-id]').then(($cloneArticle) => {
+        const cloneNid = $cloneArticle.attr('data-history-node-id');
+        expect(parseInt(cloneNid)).to.be.greaterThan(parseInt(nid));
+      });
+    });
+  });
 });
