@@ -273,3 +273,116 @@ function stringifyOptions(options) {
     })
     .join(" ");
 }
+
+// -----------------------------------------------------------------------------
+// AJAX synchronization helpers
+//
+// Drupal-driven AJAX (Views, facets, autocomplete, multi-value form widgets)
+// has no synchronous "done" signal we can await. Tests historically used fixed
+// `cy.wait(1000)` timers — fast enough on a quiet machine, racy under CI load.
+// These helpers wait for the actual response or DOM signal, so tests stay
+// fast on a fast machine and reliable on a slow one.
+//
+// Pick the right one for the situation:
+// - typeAutocomplete:    entity-reference / taxonomy autocomplete fields
+// - checkFacet:          views-driven facet checkboxes that AJAX-rebuild
+// - searchAndWait:       exposed search-api filter inputs
+// - expectAjax/waitForAjax: escape hatch for everything else (named alias)
+// - waitForDrupalSettle: "wait for any in-flight AJAX throbber to disappear"
+// -----------------------------------------------------------------------------
+
+/**
+ * Type into a Drupal entity-reference autocomplete field and wait for the
+ * autocomplete AJAX response.
+ *
+ * @example
+ *   cy.typeAutocomplete('#edit-field-access-organization-0-target-id', 'NCSA');
+ *   // Then check whether the dropdown appeared:
+ *   cy.get('body').then(($body) => {
+ *     if ($body.find('.ui-autocomplete:visible').length > 0) { ... }
+ *   });
+ */
+Cypress.Commands.add("typeAutocomplete", (selector, value) => {
+  cy.intercept('GET', '**/entity_reference_autocomplete/**').as('autocompleteAjax');
+  cy.get(selector).type(value, { delay: 0 });
+  cy.wait('@autocompleteAjax');
+});
+
+/**
+ * Check (or click) a facet that triggers a Views AJAX rebuild and wait for
+ * the response. Use { force: true } via the second argument if the facet's
+ * checkbox is hidden behind a label.
+ *
+ * @example
+ *   cy.checkFacet('#tag-ai');
+ *   cy.checkFacet('#topic-nairr-pilot', { force: true });
+ */
+Cypress.Commands.add("checkFacet", (selector, options = {}) => {
+  cy.intercept(/\/(views\/ajax|facets-block-ajax)\b/).as('viewsFacetAjax');
+  cy.get(selector).check(options);
+  cy.wait('@viewsFacetAjax');
+});
+
+/**
+ * Uncheck a facet checkbox (block-facets-ajax) and wait for the rebuild AJAX.
+ *
+ * @example
+ *   cy.uncheckFacet('#affinity-search-tags-271');
+ */
+Cypress.Commands.add("uncheckFacet", (selector, options = {}) => {
+  cy.intercept(/\/(views\/ajax|facets-block-ajax)\b/).as('viewsFacetAjax');
+  cy.get(selector).uncheck(options);
+  cy.wait('@viewsFacetAjax');
+});
+
+/**
+ * Type into an exposed search-api filter and wait for the Views AJAX response.
+ *
+ * @example
+ *   cy.searchAndWait('#edit-search-api-fulltext', 'AI');
+ */
+Cypress.Commands.add("searchAndWait", (selector, query) => {
+  cy.intercept('GET', '**/views/ajax**').as('viewsSearchAjax');
+  cy.get(selector).type(query, { delay: 0 });
+  cy.wait('@viewsSearchAjax');
+});
+
+/**
+ * Set up an aliased AJAX intercept BEFORE the action that triggers it.
+ * Pair with cy.waitForAjax(alias) AFTER the action.
+ *
+ * @example
+ *   cy.expectAjax('myAjax', '**\/system/ajax');
+ *   cy.get('#some-button').click();
+ *   cy.waitForAjax('myAjax');
+ */
+Cypress.Commands.add("expectAjax", (alias, urlPattern) => {
+  cy.intercept(urlPattern).as(alias);
+});
+
+/**
+ * Wait for a previously-aliased AJAX request to complete.
+ * Pair with cy.expectAjax(alias, urlPattern) BEFORE the action.
+ */
+Cypress.Commands.add("waitForAjax", (alias) => {
+  cy.wait('@' + alias);
+});
+
+/**
+ * Wait for any in-flight Drupal AJAX throbber to disappear. Use this when
+ * you don't know exactly what URL the action triggers but know there's a
+ * Drupal AJAX rebuild in progress (e.g. multi-value field add/remove).
+ *
+ * Returns immediately if no throbber is currently visible.
+ *
+ * @example
+ *   cy.get('#edit-field-foo-add-more').click();
+ *   cy.waitForDrupalSettle();
+ */
+Cypress.Commands.add("waitForDrupalSettle", () => {
+  cy.get('body').then(($body) => {
+    if ($body.find('.ajax-progress').length > 0) {
+      cy.get('.ajax-progress', { timeout: 10000 }).should('not.exist');
+    }
+  });
+});

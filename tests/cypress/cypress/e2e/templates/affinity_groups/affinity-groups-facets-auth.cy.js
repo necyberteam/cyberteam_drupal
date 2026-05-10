@@ -26,25 +26,21 @@ describe("Test Affinity Groups page facets for authenticated users", () => {
 
     // Test search functionality
     cy.get('#edit-search-api-fulltext--2').type('test search', { delay: 0 })
-    cy.wait(1000)
     cy.get('#edit-search-api-fulltext--2').clear()
-    cy.wait(1000)
 
-    // Test Tags facet (available to all users)  
+    // Test Tags facet (available to all users)
     // Click "Show more" to expand tags list - try the last one instead of first
     cy.get('ul[data-drupal-facet-alias="affinity_search_tags"]').parent().find('a.facets-soft-limit-link').last().click();
-    cy.wait(500);
-    
+
     // Test the AI tag (tag ID 271)
-    cy.get('input#affinity-search-tags-271.facets-checkbox').should('exist').check({ force: true });
-    cy.wait(1000);
-    
+    cy.get('input#affinity-search-tags-271.facets-checkbox').should('exist');
+    cy.checkFacet('input#affinity-search-tags-271.facets-checkbox', { force: true });
+
     // Verify the filter is applied
     cy.url().should('include', 'affinity_search_tags');
-    
+
     // Uncheck to reset
-    cy.get('input#affinity-search-tags-271.facets-checkbox').uncheck({ force: true });
-    cy.wait(500);
+    cy.uncheckFacet('input#affinity-search-tags-271.facets-checkbox', { force: true });
 
     // Test Category facet if it exists (requires authentication)
     cy.get('body').then($body => {
@@ -52,19 +48,17 @@ describe("Test Affinity Groups page facets for authenticated users", () => {
       if ($body.find('[id*="category"]').length > 0) {
         cy.get('[id*="category"]:first').should('exist')
         cy.log('Category facet found for authenticated user')
-        
+
         // Try to interact with category if it's a checkbox/radio
         if ($body.find('input[id*="category"]').length > 0) {
-          cy.get('input[id*="category"]:first').check({ force: true })
-          cy.wait(1000)
-          cy.get('input[id*="category"]:first').uncheck({ force: true })
+          cy.checkFacet('input[id*="category"]:first', { force: true })
+          cy.uncheckFacet('input[id*="category"]:first', { force: true })
         }
       }
-      
+
       // Check for any "Show more" links for facets (may be hidden after AJAX)
       if ($body.find('.facets-soft-limit-link').length > 0) {
         cy.get('.facets-soft-limit-link').first().click({ force: true })
-        cy.wait(500)
       }
     })
 
