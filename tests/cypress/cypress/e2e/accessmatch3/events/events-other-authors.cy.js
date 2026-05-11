@@ -220,6 +220,7 @@ describe('Test Other Authors feature for Event Series', () => {
     // Then navigate to edit the series
     cy.contains('a', 'Edit the series').click()
 
+<<<<<<< md-2356
     // Clear all other author inputs and save — Drupal treats cleared
     // entity reference inputs as deletions, no AJAX remove needed.
     cy.get('input[name*="field_other_authors"][name*="[target_id]"]').each(($input) => {
@@ -227,6 +228,30 @@ describe('Test Other Authors feature for Event Series', () => {
         cy.wrap($input).clear()
       }
     })
+=======
+    // Remove rows that have a populated target_id. Drupal's unlimited-cardinality
+    // widget always renders an extra empty placeholder row with its own remove
+    // button — clicking that placeholder's remove is a no-op (items_count guard
+    // in WidgetBase::deleteSubmit), so counting remove buttons hangs at 1.
+    const targetIdSelector = 'input[name*="field_other_authors"][name*="[target_id]"]'
+    function removeNextPopulated() {
+      cy.get('body').then(($body) => {
+        const populated = $body.find(targetIdSelector).toArray()
+          .filter((el) => el.value && el.value.trim() !== '')
+        if (populated.length === 0) return
+        const match = populated[0].name.match(/field_other_authors\[(\d+)\]/)
+        if (!match) return
+        const delta = match[1]
+        const before = populated.length
+        cy.get(`input[name="field_other_authors_${delta}_remove_button"]`).click()
+        cy.get(targetIdSelector, { timeout: 10000 })
+          .filter((_, el) => el.value && el.value.trim() !== '')
+          .should('have.length.lessThan', before)
+        removeNextPopulated()
+      })
+    }
+    removeNextPopulated()
+>>>>>>> md-dev
 
     cy.get('#edit-submit').click()
     cy.contains('Successfully saved').should('be.visible')
