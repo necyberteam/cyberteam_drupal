@@ -43,9 +43,9 @@
           <a href="/community-persona/{{ item.uid }}" class="people-grid-link">
             <div class="people-grid-photo">
               {% if item.photo_url %}
-                <img src="{{ item.photo_url }}" alt="{{ item.name }}" class="profile-photo rounded-custom" />
+                <img src="{{ item.photo_url }}" alt="{{ item.name }} profile photo" class="profile-photo rounded-custom" />
               {% else %}
-                <img src="modules/custom/access/modules/cssn/images/profile.gif" alt="{{ item.name }}" class="profile-photo rounded-custom" />
+                <img src="modules/custom/access/modules/cssn/images/profile.gif" alt="{{ item.name }} default profile photo" class="profile-photo rounded-custom" />
               {% endif %}
             </div>
             <div class="people-grid-name">{{ item.name }}</div>

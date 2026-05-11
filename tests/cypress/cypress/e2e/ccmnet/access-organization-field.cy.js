@@ -19,13 +19,15 @@ describe("ACCESS Organization field - CCMNet", () => {
     cy.visit('/user/register/ccmnet');
     
     // Test typing in the Organization autocomplete field
+    cy.expectAjax('orgAjax', '**/entity_reference_autocomplete/**');
     cy.get('#edit-field-access-organization-0-target-id')
       .should('exist')
       .should('be.visible')
       .type('NCSA')
       .should('have.value', 'NCSA');
-    
-    // Wait for autocomplete suggestions to appear and interact if available
+    cy.waitForAjax('orgAjax');
+
+    // Click first suggestion if the dropdown rendered.
     cy.get('body').then(($body) => {
       if ($body.find('.ui-autocomplete:visible').length > 0) {
         cy.get('.ui-autocomplete li').first().click();
@@ -39,19 +41,19 @@ describe("ACCESS Organization field - CCMNet", () => {
     cy.visit('/user/register/ccmnet');
     
     // Type 'Other' in the Organization autocomplete field
+    cy.expectAjax('orgAjax', '**/entity_reference_autocomplete/**');
     cy.get('#edit-field-access-organization-0-target-id')
       .should('exist')
       .should('be.visible')
       .type('Other');
-    
-    // Wait for autocomplete suggestions and click 'Other' if available
-    cy.wait(1000); // Give autocomplete time to load
+    cy.waitForAjax('orgAjax');
+
+    // Click 'Other' if the dropdown rendered, else accept the typed value.
     cy.get('body').then(($body) => {
       if ($body.find('.ui-autocomplete:visible').length > 0) {
         cy.get('.ui-autocomplete li').contains('Other').click();
       } else {
         cy.log('No autocomplete suggestions appeared for Other - typing manually');
-        // If no autocomplete, just press Enter to accept what was typed
         cy.get('#edit-field-access-organization-0-target-id').type('{enter}');
       }
     });
@@ -102,12 +104,13 @@ describe("ACCESS Organization field - CCMNet", () => {
           const currentValue = $input.val();
           
           // Clear and type 'Other'
+          cy.expectAjax('orgAjax', '**/entity_reference_autocomplete/**');
           cy.get('#edit-field-access-organization-0-target-id')
             .clear()
             .type('Other');
-          
-          // Wait for autocomplete and click 'Other' if available
-          cy.wait(1000); // Give autocomplete time to load
+          cy.waitForAjax('orgAjax');
+
+          // Click 'Other' if the dropdown rendered, else accept the typed value.
           cy.get('body').then(($body) => {
             if ($body.find('.ui-autocomplete:visible').length > 0) {
               cy.get('.ui-autocomplete li').contains('Other').click();
