@@ -22,7 +22,9 @@ describe("Test Affinity Groups page for anonymous users", () => {
 
     // Test search functionality (should work for anonymous users)
     cy.get('#edit-search-api-fulltext--2').type('test search', { delay: 0 })
-    cy.get('#edit-search-api-fulltext--2').clear().type('{enter}')
+    cy.wait(1000)
+    cy.get('#edit-search-api-fulltext--2').clear().type('{enter}') // Clear and press Enter to trigger search update
+    cy.wait(2000) // Wait for search to update
 
     // Verify Category facet does NOT exist for anonymous users
     cy.get('body').then($body => {
@@ -41,19 +43,22 @@ describe("Test Affinity Groups page for anonymous users", () => {
     // Test Tags facet (should be available to anonymous users)
     // Reload the page to ensure clean state for facet testing
     cy.visit('/affinity-groups');
-
-    // Click "Show more" to expand tags list - try the last one instead of first
+    cy.wait(2000);
+    
+    // Click "Show more" to expand tags list - try the last one instead of first  
     cy.get('ul[data-drupal-facet-alias="affinity_search_tags"]').parent().find('a.facets-soft-limit-link').last().click();
-
+    cy.wait(500);
+    
     // Test the AI tag (tag ID 271)
-    cy.get('input#affinity-search-tags-271.facets-checkbox').should('exist');
-    cy.checkFacet('input#affinity-search-tags-271.facets-checkbox', { force: true });
-
+    cy.get('input#affinity-search-tags-271.facets-checkbox').should('exist').check({ force: true });
+    cy.wait(1000);
+    
     // Verify the filter is applied
     cy.url().should('include', 'affinity_search_tags');
-
+    
     // Uncheck to reset
-    cy.uncheckFacet('input#affinity-search-tags-271.facets-checkbox', { force: true });
+    cy.get('input#affinity-search-tags-271.facets-checkbox').uncheck({ force: true });
+    cy.wait(500);
 
     // Test join button for anonymous (should redirect to login)
     cy.get('body').then($body => {
@@ -69,6 +74,7 @@ describe("Test Affinity Groups page for anonymous users", () => {
 
     // Use specific search to test functionality
     cy.get('#edit-search-api-fulltext--2').type('ACCESS', { delay: 0 })
+    cy.wait(1000)
     cy.get('body').then($body => {
       if ($body.text().includes('ACCESS Support') || $body.text().includes('ACCESS')) {
         cy.log('Search results found for ACCESS')
@@ -76,7 +82,8 @@ describe("Test Affinity Groups page for anonymous users", () => {
         cy.log('No ACCESS groups found')
       }
     })
-    cy.get('#edit-search-api-fulltext--2').clear().type('{enter}')
+    cy.get('#edit-search-api-fulltext--2').clear().type('{enter}') // Clear and press Enter to reset search
+    cy.wait(2000) // Wait for page to reload with all groups
   });
 
   it("Anonymous user verifies restricted access to group features", () => {

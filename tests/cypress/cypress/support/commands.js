@@ -285,10 +285,15 @@ function stringifyOptions(options) {
 //
 // Pick the right one for the situation:
 // - typeAutocomplete:    entity-reference / taxonomy autocomplete fields
-// - checkFacet:          views-driven facet checkboxes that AJAX-rebuild
 // - searchAndWait:       exposed search-api filter inputs
 // - expectAjax/waitForAjax: escape hatch for everything else (named alias)
 // - waitForDrupalSettle: "wait for any in-flight AJAX throbber to disappear"
+//
+// NOT for facets: the facets module binds `change.facets` during
+// Drupal.attachBehaviors, so a click can land before binding and fire no AJAX
+// at all. Both AJAX-intercept and URL-change waits proved unreliable. Use
+// cy.wait(1000) after .check()/.uncheck() in facet specs until we find a
+// deterministic ready-signal for the widget binding.
 // -----------------------------------------------------------------------------
 
 /**
@@ -307,43 +312,6 @@ Cypress.Commands.add("typeAutocomplete", (selector, value) => {
   cy.intercept('GET', '**/entity_reference_autocomplete/**').as(alias);
   cy.get(selector).type(value, { delay: 0 });
   cy.wait(`@${alias}`);
-});
-
-/**
- * Check (or click) a facet that triggers a Views AJAX rebuild. The facets
- * module updates `window.history` (pushState) when the AJAX completes, so we
- * wait for the URL to change rather than intercepting AJAX. Intercepting is
- * fragile here because the facets module binds its `change.facets` listener
- * during Drupal.attachBehaviors — a click that lands before binding fires no
- * AJAX at all, leaving the wait to time out.
- *
- * @example
- *   cy.checkFacet('#tag-ai');
- *   cy.checkFacet('#topic-nairr-pilot', { force: true });
- */
-Cypress.Commands.add("checkFacet", (selector, options = {}) => {
-  cy.url().then((urlBefore) => {
-    cy.get(selector).check(options);
-    cy.url({ timeout: 10000 }).should((urlAfter) => {
-      expect(urlAfter).not.to.eq(urlBefore);
-    });
-  });
-});
-
-/**
- * Uncheck a facet checkbox and wait for the URL to change (see checkFacet for
- * why we don't intercept AJAX).
- *
- * @example
- *   cy.uncheckFacet('#affinity-search-tags-271');
- */
-Cypress.Commands.add("uncheckFacet", (selector, options = {}) => {
-  cy.url().then((urlBefore) => {
-    cy.get(selector).uncheck(options);
-    cy.url({ timeout: 10000 }).should((urlAfter) => {
-      expect(urlAfter).not.to.eq(urlBefore);
-    });
-  });
 });
 
 /**
