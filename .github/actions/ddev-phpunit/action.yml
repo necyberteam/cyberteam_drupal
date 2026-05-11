@@ -41,6 +41,14 @@ runs:
         github_token: ${{ inputs.github_token }}
         amp_uid: ${{ inputs.amp_uid }}
 
+    - name: Ensure web/profiles directory exists
+      shell: bash
+      run: |
+        # Drupal phpunit bootstrap calls RecursiveDirectoryIterator on
+        # web/profiles. The directory is .gitignored (web/profiles/contrib/)
+        # so it may not exist on a fresh checkout. Create it empty.
+        mkdir -p web/profiles
+
     - name: Run PHPUnit tests
       shell: bash
       run: |
