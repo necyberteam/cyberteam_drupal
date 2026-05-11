@@ -310,32 +310,40 @@ Cypress.Commands.add("typeAutocomplete", (selector, value) => {
 });
 
 /**
- * Check (or click) a facet that triggers a Views AJAX rebuild and wait for
- * the response. Use { force: true } via the second argument if the facet's
- * checkbox is hidden behind a label.
+ * Check (or click) a facet that triggers a Views AJAX rebuild. The facets
+ * module updates `window.history` (pushState) when the AJAX completes, so we
+ * wait for the URL to change rather than intercepting AJAX. Intercepting is
+ * fragile here because the facets module binds its `change.facets` listener
+ * during Drupal.attachBehaviors — a click that lands before binding fires no
+ * AJAX at all, leaving the wait to time out.
  *
  * @example
  *   cy.checkFacet('#tag-ai');
  *   cy.checkFacet('#topic-nairr-pilot', { force: true });
  */
 Cypress.Commands.add("checkFacet", (selector, options = {}) => {
-  const alias = `viewsFacetAjax_${Cypress._.uniqueId()}`;
-  cy.intercept(/\/(views\/ajax|facets-block-ajax)\b/).as(alias);
-  cy.get(selector).check(options);
-  cy.wait(`@${alias}`);
+  cy.url().then((urlBefore) => {
+    cy.get(selector).check(options);
+    cy.url({ timeout: 10000 }).should((urlAfter) => {
+      expect(urlAfter).not.to.eq(urlBefore);
+    });
+  });
 });
 
 /**
- * Uncheck a facet checkbox (block-facets-ajax) and wait for the rebuild AJAX.
+ * Uncheck a facet checkbox and wait for the URL to change (see checkFacet for
+ * why we don't intercept AJAX).
  *
  * @example
  *   cy.uncheckFacet('#affinity-search-tags-271');
  */
 Cypress.Commands.add("uncheckFacet", (selector, options = {}) => {
-  const alias = `viewsFacetAjax_${Cypress._.uniqueId()}`;
-  cy.intercept(/\/(views\/ajax|facets-block-ajax)\b/).as(alias);
-  cy.get(selector).uncheck(options);
-  cy.wait(`@${alias}`);
+  cy.url().then((urlBefore) => {
+    cy.get(selector).uncheck(options);
+    cy.url({ timeout: 10000 }).should((urlAfter) => {
+      expect(urlAfter).not.to.eq(urlBefore);
+    });
+  });
 });
 
 /**
