@@ -303,9 +303,10 @@ function stringifyOptions(options) {
  *   });
  */
 Cypress.Commands.add("typeAutocomplete", (selector, value) => {
-  cy.intercept('GET', '**/entity_reference_autocomplete/**').as('autocompleteAjax');
+  const alias = `autocompleteAjax_${Cypress._.uniqueId()}`;
+  cy.intercept('GET', '**/entity_reference_autocomplete/**').as(alias);
   cy.get(selector).type(value, { delay: 0 });
-  cy.wait('@autocompleteAjax');
+  cy.wait(`@${alias}`);
 });
 
 /**
@@ -318,9 +319,10 @@ Cypress.Commands.add("typeAutocomplete", (selector, value) => {
  *   cy.checkFacet('#topic-nairr-pilot', { force: true });
  */
 Cypress.Commands.add("checkFacet", (selector, options = {}) => {
-  cy.intercept(/\/(views\/ajax|facets-block-ajax)\b/).as('viewsFacetAjax');
+  const alias = `viewsFacetAjax_${Cypress._.uniqueId()}`;
+  cy.intercept(/\/(views\/ajax|facets-block-ajax)\b/).as(alias);
   cy.get(selector).check(options);
-  cy.wait('@viewsFacetAjax');
+  cy.wait(`@${alias}`);
 });
 
 /**
@@ -330,9 +332,10 @@ Cypress.Commands.add("checkFacet", (selector, options = {}) => {
  *   cy.uncheckFacet('#affinity-search-tags-271');
  */
 Cypress.Commands.add("uncheckFacet", (selector, options = {}) => {
-  cy.intercept(/\/(views\/ajax|facets-block-ajax)\b/).as('viewsFacetAjax');
+  const alias = `viewsFacetAjax_${Cypress._.uniqueId()}`;
+  cy.intercept(/\/(views\/ajax|facets-block-ajax)\b/).as(alias);
   cy.get(selector).uncheck(options);
-  cy.wait('@viewsFacetAjax');
+  cy.wait(`@${alias}`);
 });
 
 /**
@@ -342,9 +345,10 @@ Cypress.Commands.add("uncheckFacet", (selector, options = {}) => {
  *   cy.searchAndWait('#edit-search-api-fulltext', 'AI');
  */
 Cypress.Commands.add("searchAndWait", (selector, query) => {
-  cy.intercept('GET', '**/views/ajax**').as('viewsSearchAjax');
+  const alias = `viewsSearchAjax_${Cypress._.uniqueId()}`;
+  cy.intercept('GET', '**/views/ajax**').as(alias);
   cy.get(selector).type(query, { delay: 0 });
-  cy.wait('@viewsSearchAjax');
+  cy.wait(`@${alias}`);
 });
 
 /**
