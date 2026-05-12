@@ -23,8 +23,7 @@ describe('Tests the CCMNet Mentorships Page for Authenticated Users', () => {
 
         // Test the In Progress filter
         cy.get('#state-829').check()
-        cy.wait(1000)
-        
+
         // If there are any In Progress mentorships, they should be visible
         cy.get('body').then($body => {
             if ($body.text().includes('In Progress Title')) {
@@ -36,10 +35,8 @@ describe('Tests the CCMNet Mentorships Page for Authenticated Users', () => {
 
         // Test the Recruiting filter
         cy.get('#state-829').uncheck()
-        cy.wait(500)
         cy.get('#state-827').check()
-        cy.wait(1000)
-        
+
         cy.get('body').then($body => {
             if ($body.text().includes('Recruiting Title')) {
                 cy.contains('Recruiting Title').should('exist')
@@ -50,7 +47,6 @@ describe('Tests the CCMNet Mentorships Page for Authenticated Users', () => {
 
         // Reset filters
         cy.get('#state-827').uncheck()
-        cy.wait(500)
     })
 
     it('Test mentorship program facets for authenticated user', () => {
@@ -61,11 +57,8 @@ describe('Tests the CCMNet Mentorships Page for Authenticated Users', () => {
             // Look for Campus Champions program filter
             if ($body.find('#edit-field-mentorship-program-910').length > 0) {
                 cy.get('#edit-field-mentorship-program-910').should('exist').check()
-                cy.wait(1000)
-                // Test that the filter works
                 cy.url().should('include', 'field_mentorship_program')
                 cy.get('#edit-field-mentorship-program-910').uncheck()
-                cy.wait(500)
             }
         })
 
@@ -87,10 +80,8 @@ describe('Tests the CCMNet Mentorships Page for Authenticated Users', () => {
                     const tagId = $tag.attr('id')
                     if (tagId) {
                         cy.get(`#${tagId}`).should('exist').click()
-                        cy.wait(1000)
                         // Reset
                         cy.get(`#${tagId}`).click()
-                        cy.wait(500)
                     }
                 })
             }

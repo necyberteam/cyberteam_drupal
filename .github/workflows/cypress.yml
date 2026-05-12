@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.inputs.sites, 'accessmatch-api') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.2
       - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "accessmatch"
@@ -261,7 +261,7 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.2
       - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "crct"
@@ -279,7 +279,7 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.inputs.sites, 'crct') || github.event_name == 'pull_request' || github.event_name == 'merge_group'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.2
       - uses: ./.github/actions/ddev-cypress-test
         with:
           site: "crct"
