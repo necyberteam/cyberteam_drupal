@@ -61,9 +61,12 @@ describe('Badge CSV Lifecycle — badges / MATCH', () => {
 
     // Now select the MATCH badge term from the refreshed dropdown.
     // After AJAX, Drupal increments the element ID, so use the wrapper.
-    cy.get('#badge-term-wrapper select', { timeout: 10000 })
-      .find('option')
-      .should('have.length.gt', 1);
+    // Wait for the MATCH option specifically — length.gt(1) can match
+    // a list that only contains "- Select -" plus one unrelated option,
+    // and then .select() would fail because MATCH isn't in the DOM yet.
+    cy.get('#badge-term-wrapper select option', { timeout: 10000 })
+      .contains(BADGE_TERM)
+      .should('exist');
     cy.get('#badge-term-wrapper select').select(BADGE_TERM);
 
     // Upload CSV fixture.

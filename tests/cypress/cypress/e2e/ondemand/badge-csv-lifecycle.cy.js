@@ -61,9 +61,12 @@ describe('Badge CSV Lifecycle — open_ondemand_badges / GOOD26', () => {
 
     // Now select the GOOD26 badge term from the refreshed dropdown.
     // After AJAX, Drupal increments the element ID, so use the wrapper.
-    cy.get('#badge-term-wrapper select', { timeout: 10000 })
-      .find('option')
-      .should('have.length.gt', 1);
+    // Wait for the GOOD26 option specifically — length.gt(1) can match
+    // a list that only contains "- Select -" plus one unrelated option,
+    // and then .select() would fail because GOOD26 isn't in the DOM yet.
+    cy.get('#badge-term-wrapper select option', { timeout: 10000 })
+      .contains(BADGE_TERM)
+      .should('exist');
     cy.get('#badge-term-wrapper select').select(BADGE_TERM);
 
     // Upload CSV fixture.
