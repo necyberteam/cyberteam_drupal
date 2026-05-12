@@ -11,7 +11,7 @@
   ?live=1 is needed — so the intercept covers both paths.
 */
 
-const RP_PATH = "/documentation/resources/test-resource-alpha";
+const RP_PATH = "/documentation/resources/alpha";
 
 describe("RP account panel", () => {
 

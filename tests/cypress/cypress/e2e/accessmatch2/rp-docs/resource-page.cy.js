@@ -1,7 +1,7 @@
 describe("Resource Documentation Page — Alpha (full data)", () => {
 
   beforeEach(() => {
-    cy.visit("/documentation/resources/test-resource-alpha");
+    cy.visit("/documentation/resources/alpha");
   });
 
   it("renders the page title and status badges", () => {
@@ -158,7 +158,7 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
 describe("Resource Documentation Page — Beta (sparse data, in Test Resource Group)", () => {
 
   beforeEach(() => {
-    cy.visit("/documentation/resources/test-resource-beta");
+    cy.visit("/documentation/resources/beta");
   });
 
   it("renders the title and description", () => {
@@ -210,7 +210,7 @@ describe("Resource Documentation Page — Beta (sparse data, in Test Resource Gr
 describe("Resource Documentation Page — Gamma (partial data)", () => {
 
   beforeEach(() => {
-    cy.visit("/documentation/resources/test-resource-gamma");
+    cy.visit("/documentation/resources/gamma");
   });
 
   it("renders storage but not file transfer or queues", () => {
