@@ -220,15 +220,6 @@ describe('Test Other Authors feature for Event Series', () => {
     // Then navigate to edit the series
     cy.contains('a', 'Edit the series').click()
 
-<<<<<<< md-2356
-    // Clear all other author inputs and save — Drupal treats cleared
-    // entity reference inputs as deletions, no AJAX remove needed.
-    cy.get('input[name*="field_other_authors"][name*="[target_id]"]').each(($input) => {
-      if ($input.val().trim() !== '') {
-        cy.wrap($input).clear()
-      }
-    })
-=======
     // Remove rows that have a populated target_id. Drupal's unlimited-cardinality
     // widget always renders an extra empty placeholder row with its own remove
     // button — clicking that placeholder's remove is a no-op (items_count guard
@@ -251,7 +242,6 @@ describe('Test Other Authors feature for Event Series', () => {
       })
     }
     removeNextPopulated()
->>>>>>> md-dev
 
     cy.get('#edit-submit').click()
     cy.contains('Successfully saved').should('be.visible')
