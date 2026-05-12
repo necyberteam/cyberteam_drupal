@@ -108,7 +108,8 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
   });
 
   it("renders top software table", () => {
-    cy.contains("h2", "Most Frequently Used Software");
+    cy.contains("h2", "Software");
+    cy.contains("h3", "Most Frequently Used");
     cy.get(".rp-top-software table tbody tr").should("have.length", 5);
     cy.contains("td", "python");
     cy.contains("td", "gromacs");
@@ -137,11 +138,12 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     });
   });
 
-  it("renders sidebar software list link (Alpha's own value, not the Group's)", () => {
-    cy.get(".rp-sidebar").contains("View all available software")
+  it("renders software section CTA (Alpha's own value, not the Group's)", () => {
+    // CTA moved from .rp-sidebar to .rp-software-sidebar in the Software section.
+    cy.get(".rp-software-sidebar").contains("View all available software")
       .should("have.attr", "href")
       .and("include", "alpha.test.example.edu/software");
-    cy.get(".rp-sidebar").should("not.contain.text", "View all group software");
+    cy.get(".rp-software-sidebar").should("not.contain.text", "View all group software");
   });
 
   it("uses 'Software Documentation Service' label for SDS", () => {
@@ -170,7 +172,8 @@ describe("Resource Documentation Page — Beta (sparse data, in Test Resource Gr
     cy.get(".rp-file-transfer").should("not.exist");
     cy.get(".rp-storage").should("not.exist");
     cy.get(".rp-queue-specs").should("not.exist");
-    cy.get(".rp-top-software").should("not.exist");
+    // .rp-top-software renders for Beta because it inherits software_list_url
+    // from the Group, even without its own top_software data.
     cy.get(".rp-datasets").should("not.exist");
     cy.get(".rp-login").should("not.exist");
   });
@@ -200,7 +203,8 @@ describe("Resource Documentation Page — Beta (sparse data, in Test Resource Gr
   });
 
   it("inherits software_list_url from the Resource Group", () => {
-    cy.get(".rp-sidebar").contains("View all group software")
+    // CTA moved from .rp-sidebar to .rp-software-sidebar.
+    cy.get(".rp-software-sidebar").contains("View all group software")
       .should("have.attr", "href")
       .and("include", "group.test.example.edu/software");
   });
@@ -256,9 +260,9 @@ describe("Resource Documentation Page — Gamma (partial data)", () => {
     });
   });
 
-  it("QA bot falls back to resource title when not in a group", () => {
+  it("QA bot falls back to resource title (short_name post-load-hook) when not in a group", () => {
     cy.get(".embedded-qa-bot")
-      .should("have.attr", "data-resource-context", "test-resource-gamma");
+      .should("have.attr", "data-resource-context", "gamma");
   });
 
 });
