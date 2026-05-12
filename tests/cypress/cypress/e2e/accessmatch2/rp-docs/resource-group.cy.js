@@ -38,7 +38,7 @@ describe("Resource Group — listing page", () => {
     cy.get(".rp-resource-group-list")
       .contains("a", "Alpha")
       .should("have.attr", "href")
-      .and("include", "/documentation/resources/test-resource-alpha");
+      .and("include", "/documentation/resources/alpha");
   });
 
   it("resource group rows have anchor IDs", () => {
@@ -116,7 +116,7 @@ describe("Resource Group — detail page", () => {
     cy.get(".rp-resource-group-list table tbody")
       .contains("a", "Alpha")
       .should("have.attr", "href")
-      .and("include", "/documentation/resources/test-resource-alpha");
+      .and("include", "/documentation/resources/alpha");
   });
 
 });
