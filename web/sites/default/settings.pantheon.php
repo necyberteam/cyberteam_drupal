@@ -212,7 +212,8 @@ if (empty($settings['file_scan_ignore_directories'])) {
  * as PANTHEON_ENVIRONMENT is only set on Pantheon servers.
  */
 if (isset($_ENV['PANTHEON_ENVIRONMENT']) &&
-    $_ENV['PANTHEON_ENVIRONMENT'] !== 'live') {
+    $_ENV['PANTHEON_ENVIRONMENT'] !== 'live' &&
+    $_ENV['PANTHEON_ENVIRONMENT'] !== 'local') {
   $config['reroute_email.settings']['enable'] = TRUE;
   $config['reroute_email.settings']['address'] = 'andrew@elytra.net';
   $config['reroute_email.settings']['description'] = TRUE;
