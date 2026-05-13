@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f7f440aa5d659e6551f96809f6d62cf",
+    "content-hash": "01f15d29e565d1a144883b0c42c5a320",
     "packages": [
         {
             "name": "access/drupal_seamless_cilogon",
@@ -10988,6 +10988,48 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/yaml_editor"
             }
+        },
+        {
+            "name": "drupal_fork/cilogon_auth",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/necyberteam/cilogin_auth.git",
+                "reference": "a557481ba3afdfda63ef5d58cdbdb447e9bc5ca9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/necyberteam/cilogin_auth/zipball/a557481ba3afdfda63ef5d58cdbdb447e9bc5ca9",
+                "reference": "a557481ba3afdfda63ef5d58cdbdb447e9bc5ca9",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/core": "^10"
+            },
+            "default-branch": true,
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen Cheung",
+                    "email": "s2cheung@ucsd.edu",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "The CILogon Auth module enables Single Sign-on via the CILogon.org service, which supports authorization from a large number of academic institutions and other organizations around the world.",
+            "homepage": "https://drupal.org/project/cilogon_auth",
+            "keywords": [
+                "CILogon",
+                "Drupal",
+                "SingleSignOn"
+            ],
+            "support": {
+                "issues": "https://drupal.org/project/issues/cilogon_auth",
+                "source": "https://git.drupalcode.org/project/cilogon_auth"
+            },
+            "time": "2024-06-13T20:13:09+00:00"
         },
         {
             "name": "drush/drush",
@@ -24452,6 +24494,7 @@
         "drupal/views_data_export": 5,
         "drupal/views_field_view": 10,
         "drupal/views_tree": 15,
+        "drupal_fork/cilogon_auth": 20,
         "necyberteam/asp-theme": 20,
         "necyberteam/campus-champions-theme": 20,
         "necyberteam/webform_submission_search_api": 20
