@@ -83,8 +83,8 @@ if (isset($env)) {
       $config['system.performance']['js']['preprocess'] = FALSE;
       $settings['container_yamls'][] = __DIR__ . '/../development.services.yml';
 
-      $config['environment_indicator.indicator']['bg_color'] = '#00809D';
-      $config['environment_indicator.indicator']['fg_color'] = '#FFFFFF';
+      $config['environment_indicator.indicator']['bg_color'] = '#005A70';
+      $config['environment_indicator.indicator']['fg_color'] = '#000000';
       $config['environment_indicator.indicator']['name'] = 'Local';
       break;
 
@@ -421,8 +421,8 @@ function _serve_turnstile_challenge($return_url) {
 }
 
 // Turnstile-based bot protection for faceted searches.
-// Enable on live environment OR when TURNSTILE_ENABLED is set.
-$enable_turnstile = ($env === 'live') || getenv('TURNSTILE_ENABLED');
+// Enable on live environment OR when TURNSTILE_ENABLED is explicitly 'true'.
+$enable_turnstile = ($env === 'live') || (getenv('TURNSTILE_ENABLED') === 'true');
 
 // Handle Turnstile verification endpoint (receives token via GET to avoid POST redirect issue).
 if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') === 0) {

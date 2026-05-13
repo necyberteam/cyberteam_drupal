@@ -37,7 +37,7 @@ runs:
   steps:
     - name: Download database backup
       if: inputs.database == ''
-      uses: dawidd6/action-download-artifact@v6
+      uses: dawidd6/action-download-artifact@v20
       with:
         name: amp-daily-backup
         path: backups/
@@ -78,9 +78,9 @@ runs:
 
     - name: Setup Node.js
       if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6.3.0
       with:
-        node-version: '20'
+        node-version: '24'
         cache: 'npm'
         cache-dependency-path: tests/cypress/package-lock.json
 
@@ -116,6 +116,12 @@ runs:
         curl -I "https://$SITE.ddev.site" || echo "Site not accessible"
         echo "DDEV describe output:"
         ddev describe
+
+    - name: Reindex search API
+      shell: bash
+      if: ${{ (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && inputs.directory == 'accessmatch3' }}
+      run: |
+        ddev drush search-api:index --batch-size=200 2>&1 || true
 
     - name: Run Cypress tests
       shell: bash
@@ -206,7 +212,7 @@ runs:
 
     - name: Upload A11y reports
       if: ${{ hashFiles('tests/cypress/cypress-a11y-reports/*.html') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7.0.0
       with:
         name: cypress-a11y-report-${{ inputs.site }}-${{ inputs.directory }}
         path: tests/cypress/cypress-a11y-reports
@@ -214,7 +220,7 @@ runs:
 
     - name: Upload screenshots on failure
       if: ${{ failure() && !cancelled() && hashFiles('tests/cypress/cypress/screenshots/**/*.png') != '' && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7.0.0
       with:
         name: cypress-screenshots-${{ inputs.site }}-${{ inputs.directory }}
         path: tests/cypress/cypress/screenshots/

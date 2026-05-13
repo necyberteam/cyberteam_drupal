@@ -59,12 +59,12 @@ describe("test an Affinity Group page", () => {
   it("Unauthenticated user tests another AG with recommended resources", () => {
     cy.visit('/affinity-groups/ai-institutes-cyberinfrastructure');
     cy.contains('Recommended Resources');
-    cy.contains('NCSA Delta GPU (Delta GPU)');
+    cy.contains('Delta GPU');
     cy.contains('The Delta GPU resource comprises 4 different node configurations').should('not.be.visible');
-    cy.get('button').contains('NCSA Delta GPU (Delta GPU)').click();
+    cy.get('button').contains('Delta GPU').click();
     cy.wait(300);
     cy.contains('The Delta GPU resource comprises 4 different node configurations');
-    cy.get('button').contains('NCSA Delta GPU (Delta GPU)').click();
+    cy.get('button').contains('Delta GPU').click();
     cy.wait(300);
     cy.contains('The Delta GPU resource comprises 4 different node configurations').should('not.be.visible');
   });
@@ -74,12 +74,12 @@ describe("test an Affinity Group page", () => {
     cy.get('img[alt="Delta ACCESS Affinity Group logo"]').should('be.visible');
     cy.contains('DELTA is a dedicated, ACCESS-allocated resource designed by HPE and NCSA');
     cy.contains('Associated Resources');
-    cy.contains('NCSA Delta GPU (Delta GPU)');
+    cy.contains('Delta GPU');
     cy.contains('The Delta GPU resource comprises 5 different node configurations').should('not.be.visible');
-    cy.get('button').contains('NCSA Delta GPU (Delta GPU)').click();
+    cy.get('button').contains('Delta GPU').click();
     cy.wait(300);
     cy.contains('The Delta GPU resource comprises 5 different node configurations');
-    cy.get('button').contains('NCSA Delta GPU (Delta GPU)').click();
+    cy.get('button').contains('Delta GPU').click();
     cy.wait(300);
     cy.contains('The Delta GPU resource comprises 5 different node configurations').should('not.be.visible');
   });

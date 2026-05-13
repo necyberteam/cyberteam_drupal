@@ -73,6 +73,39 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
     ]);
   });
 
+  it('RP Documentation', () => {
+    checkMultipleUrls([
+      '/documentation/resources',
+      '/documentation/resources/anvil-ai'
+    ]);
+  });
+
+  it('RP Documentation admin pages', () => {
+    cy.exec('ddev drush user:role:add rp_documentation_manager "authenticated_test_user"', { failOnNonZeroExit: false });
+    cy.loginAs('authenticated@amptesting.com', '6%l7iF}6(4tI');
+    checkMultipleUrls([
+      '/rp-resources/manage',
+      '/rp-groups/manage',
+      '/node/add/resource_group'
+    ]);
+
+    // Resource and resource-group edit forms — navigate via the manage view
+    // since node IDs aren't stable across DB artifact rebuilds.
+    cy.visit('/rp-resources/manage');
+    cy.get('table tbody tr').first().within(() => { cy.contains('Edit').click(); });
+    cy.url().should('include', '/edit');
+    cy.injectAxe();
+    cy.a11yCheckWithReport({ exclude: [[['#universal-menus'], ['#header'], ['#site-menus']]] });
+
+    cy.visit('/rp-groups/manage');
+    cy.get('table tbody tr').first().within(() => { cy.contains('Edit').click(); });
+    cy.url().should('include', '/edit');
+    cy.injectAxe();
+    cy.a11yCheckWithReport({ exclude: [[['#universal-menus'], ['#header'], ['#site-menus']]] });
+
+    cy.exec('ddev drush user:role:remove rp_documentation_manager "authenticated_test_user"', { failOnNonZeroExit: false });
+  });
+
   it('Find', () => {
     checkA11y('/find');
   });

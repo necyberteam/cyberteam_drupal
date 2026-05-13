@@ -1,0 +1,10 @@
+--- a/multiple_registration.module
++++ b/multiple_registration.module
+@@ -200,7 +200,7 @@ function multiple_registration_form_alter(&$form, FormStateInterface $form_state
+           if (!empty($field_roles)) {
+             // If something was selected.
+-            if ($form[$field_name]['#access'] !== false) {
++            if (!isset($form[$field_name]['#access']) || $form[$field_name]['#access'] !== false) {
+               $form[$field_name]['#access'] = MultipleRegistrationController::checkFieldAccess($field_roles);
+               $form[$field_name]['widget']['#required'] = MultipleRegistrationController::checkFieldAccess($field_roles_required);
+             }
