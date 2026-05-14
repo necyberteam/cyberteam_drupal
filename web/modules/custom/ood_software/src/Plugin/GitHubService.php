@@ -376,7 +376,7 @@ class GitHubService {
    * @param string[] $subpaths
    *   Repo-relative subpaths (e.g. ['jupyter_example', 'rstudio_example']).
    *
-   * @return array<string, array{manifestYml: ?string, appverseYml: ?string}>
+   * @return array<string, array{manifestYml: ?string, appverseYml: ?string, readme: ?string}>
    *   Per-subpath file contents, keyed by the original subpath string.
    */
   public function fetchAppSubpaths(array $subpaths): array {
@@ -457,7 +457,7 @@ class GitHubService {
   /**
    * Get the per-subpath files map, as populated by fetchAppSubpaths().
    *
-   * @return array<string, array{manifestYml: ?string, appverseYml: ?string}>
+   * @return array<string, array{manifestYml: ?string, appverseYml: ?string, readme: ?string}>
    */
   public function getAppSubpathFiles(): array {
     return $this->appSubpathFiles;

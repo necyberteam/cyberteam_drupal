@@ -144,13 +144,11 @@ class CollectionSyncService {
     // is the team/lab/center that owns the repo. maintainer.name is
     // typically a person (e.g. "Sean Anderson") and lives in
     // field_collection_maintainer_name above.
+    // Always set — null'd when the repo owner isn't in the org vocab so
+    // stale assignments clear.
     $repoOwner = $repoMetadata['organization'] ?? '';
-    if ($repoOwner) {
-      $org = $this->resolveOrganizationTerm($repoOwner);
-      if ($org !== NULL) {
-        $node->set('field_collection_organization', $org);
-      }
-    }
+    $org = $repoOwner ? $this->resolveOrganizationTerm($repoOwner) : NULL;
+    $node->set('field_collection_organization', $org);
 
     // appverse.yml-derived collection-level fields.
     $websiteUrl = $parsed['website'] ?? '';
@@ -345,6 +343,11 @@ class CollectionSyncService {
       $app->set('field_appverse_collection', $collection->id());
       $app->set('field_appverse_app_subpath', $subpath);
       $app->set('field_appverse_app_validation_st', 'rejected');
+      // Per spec §5: never silently delist. Previously-good content
+      // (README, tags, organization, maintainer) stays in place when an
+      // app flips to rejected, so the listing degrades gracefully rather
+      // than vanishing. Once required fields are restored, the next sync
+      // re-validates and rewrites those fields normally.
       $this->logger->warning(
         'App at @repo / @path rejected: missing required fields: @missing',
         ['@repo' => $repoUrl, '@path' => $subpath, '@missing' => implode(', ', $missing)]
@@ -357,7 +360,7 @@ class CollectionSyncService {
     $app->setTitle($name);
     $app->set('body', [
       'value' => $description,
-      'format' => 'basic_html',
+      'format' => 'markdown',
     ]);
     $app->set('field_appverse_collection', $collection->id());
     $app->set('field_appverse_app_subpath', $subpath);
@@ -370,9 +373,10 @@ class CollectionSyncService {
     }
 
     // Per-app tags — match-only against the tags vocabulary.
+    // Always set — empty list when YAML omits tags so removed tags clear.
     $tags = $perAppYml['tags'] ?? [];
-    if (is_array($tags) && $tags) {
-      $tagIds = [];
+    $tagIds = [];
+    if (is_array($tags)) {
       foreach ($tags as $tagName) {
         if (!is_string($tagName)) {
           continue;
@@ -382,39 +386,46 @@ class CollectionSyncService {
           $tagIds[] = $tid;
         }
       }
-      $app->set('field_add_implementation_tags', $tagIds);
     }
+    $app->set('field_add_implementation_tags', $tagIds);
 
     // Organization term — match-only against appverse_organization, keyed
     // off the GitHub repo owner (the team/lab/center that owns the repo),
     // not the per-app maintainer.name (typically a person).
+    // Always set — null'd when the repo owner isn't in the org vocab so
+    // stale assignments clear.
     $repoOwner = $repoMetadata['organization'] ?? '';
-    if ($repoOwner) {
-      $orgTid = $this->resolveOrganizationTerm($repoOwner);
-      if ($orgTid !== NULL) {
-        $app->set('field_appverse_organization', $orgTid);
-      }
-    }
+    $orgTid = $repoOwner ? $this->resolveOrganizationTerm($repoOwner) : NULL;
+    $app->set('field_appverse_organization', $orgTid);
 
     // Per-app maintainer name — the person/team responsible for this app
     // (distinct from the repo-owning organization above).
-    if ($maintainerName) {
-      $app->set('field_appverse_maintainer_name', $maintainerName);
-    }
+    // Always set — empty string when YAML doesn't declare a maintainer, so
+    // removed data clears rather than persisting stale.
+    $app->set('field_appverse_maintainer_name', $maintainerName);
 
     // Per-app README — fetched from <path>/README.md by GitHubService.
+    // Always set — null'd when the repo's per-path README is missing or
+    // empty, so removed READMEs clear rather than persisting stale.
     if (!empty($files['readme'])) {
       $app->set('field_appverse_readme', [
         'value' => $files['readme'],
         'format' => 'markdown',
       ]);
     }
+    else {
+      $app->set('field_appverse_readme', NULL);
+    }
 
     $app->save();
   }
 
   /**
-   * Match an existing app_type term by name (case-insensitive), match-only.
+   * Match an existing app_type term by name; match-only.
+   *
+   * Matches by name; case-insensitivity depends on the database collation
+   * (MySQL's default *_ci collations match case-insensitively, which is
+   * what we rely on here).
    */
   protected function resolveAppTypeTerm(string $name): ?int {
     if ($name === '') {
@@ -457,7 +468,11 @@ class CollectionSyncService {
   }
 
   /**
-   * Match an existing organization taxonomy term by name (case-insensitive).
+   * Match an existing organization taxonomy term by name.
+   *
+   * Matches by name; case-insensitivity depends on the database collation
+   * (MySQL's default *_ci collations match case-insensitively, which is
+   * what we rely on here).
    *
    * Phase 1 decision: match-only, no auto-create. Auto-creating organization
    * terms from raw maintainer strings pollutes the vocab with typos and case
@@ -539,7 +554,11 @@ class CollectionSyncService {
   }
 
   /**
-   * Match an existing tag taxonomy term by name (case-insensitive).
+   * Match an existing tag taxonomy term by name.
+   *
+   * Matches by name; case-insensitivity depends on the database collation
+   * (MySQL's default *_ci collations match case-insensitively, which is
+   * what we rely on here).
    *
    * Match-only — does not auto-create. Tags must exist in the `tags`
    * vocabulary before they can be assigned to a Collection.
