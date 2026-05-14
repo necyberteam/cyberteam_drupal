@@ -4,6 +4,8 @@ namespace Drupal\ood_software\Commands;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\key\KeyRepositoryInterface;
+use Drupal\ood_software\Plugin\GitHubService;
+use Drupal\ood_software\Service\CollectionSyncService;
 use Drush\Commands\DrushCommands;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
@@ -35,6 +37,20 @@ class OodSoftwareCommands extends DrushCommands {
   protected $httpClient;
 
   /**
+   * The Collection sync service.
+   *
+   * @var \Drupal\ood_software\Service\CollectionSyncService
+   */
+  protected $collectionSync;
+
+  /**
+   * The GitHub service.
+   *
+   * @var \Drupal\ood_software\Plugin\GitHubService
+   */
+  protected $githubService;
+
+  /**
    * Constructs an OodSoftwareCommands object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -43,12 +59,118 @@ class OodSoftwareCommands extends DrushCommands {
    *   The key repository.
    * @param \GuzzleHttp\ClientInterface $http_client
    *   The HTTP client.
+   * @param \Drupal\ood_software\Service\CollectionSyncService $collection_sync
+   *   The Collection sync service.
+   * @param \Drupal\ood_software\Plugin\GitHubService $github_service
+   *   The GitHub service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, KeyRepositoryInterface $key_repository, ClientInterface $http_client) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, KeyRepositoryInterface $key_repository, ClientInterface $http_client, CollectionSyncService $collection_sync, GitHubService $github_service) {
     parent::__construct();
     $this->entityTypeManager = $entity_type_manager;
     $this->keyRepository = $key_repository;
     $this->httpClient = $http_client;
+    $this->collectionSync = $collection_sync;
+    $this->githubService = $github_service;
+  }
+
+  /**
+   * Sync the Collection for a single GitHub repo URL.
+   *
+   * @param string $repoUrl
+   *   GitHub repo URL (e.g., https://github.com/owner/name).
+   *
+   * @command appverse:sync-collection
+   * @aliases avsc
+   * @usage drush appverse:sync-collection https://github.com/owner/name
+   *   Refresh the Collection node for the given repo.
+   */
+  public function syncCollection(string $repoUrl): void {
+    if (!preg_match('@^https://github\.com/([^/]+)/([^/]+?)(?:\.git)?/?$@', rtrim($repoUrl, '/'), $m)) {
+      throw new \InvalidArgumentException('Repo URL must be of the form https://github.com/owner/name');
+    }
+    $owner = $m[1];
+    $name = $m[2];
+
+    // Bypass parseUrl()'s manifest.yml requirement — Collections are
+    // repo-based, not necessarily app-manifest-based.
+    $this->githubService->setOwnerAndName($owner, $name);
+    try {
+      $this->githubService->fetchRepoData();
+    }
+    catch (\Throwable $e) {
+      throw new \RuntimeException(sprintf(
+        'Failed to fetch repo data for %s/%s — check repo accessibility, token, or rate limits. (%s)',
+        $owner, $name, $e->getMessage()
+      ), 0, $e);
+    }
+
+    $repoMetadata = [
+      'name' => $this->githubService->getRepoName() ?? $name,
+      'description' => $this->githubService->getRepoDescription(),
+      'organization' => $this->githubService->getOrganization(),
+      'stars' => $this->githubService->getStars(),
+      'lastCommittedDate' => $this->githubService->getLastComittedDate(),
+      'readme' => $this->githubService->getReadme(),
+    ];
+    $collection = $this->collectionSync->resolveCollection(
+      $this->githubService->getRepoUrl(),
+      $this->githubService->getAppverseYmlText(),
+      $repoMetadata
+    );
+
+    $this->logger()->success(sprintf(
+      'Collection synced: %s (nid: %d, status: %s, slug: %s)',
+      $collection->getTitle(),
+      $collection->id(),
+      $collection->get('field_collection_validation_st')->value,
+      basename($collection->toUrl()->toString())
+    ));
+
+    // Walk apps[] from the root appverse.yml (when declared) and create
+    // per-subpath app nodes. Per-app metadata is sourced from
+    // <path>/appverse.yml + <path>/manifest.yml.
+    $rootYml = $this->githubService->getAppverseYmlText();
+    if ($rootYml !== NULL) {
+      try {
+        $parsed = \Symfony\Component\Yaml\Yaml::parse($rootYml);
+      }
+      catch (\Throwable $e) {
+        $parsed = NULL;
+      }
+      $apps = is_array($parsed) ? ($parsed['apps'] ?? []) : [];
+      if (is_array($apps) && $apps) {
+        $subpaths = [];
+        foreach ($apps as $entry) {
+          if (is_array($entry) && !empty($entry['path'])) {
+            $cleanPath = trim((string) $entry['path'], '/');
+            if ($cleanPath !== '') {
+              $subpaths[] = $cleanPath;
+            }
+          }
+        }
+        if ($subpaths) {
+          try {
+            $subpathFiles = $this->githubService->fetchAppSubpaths($subpaths);
+          }
+          catch (\Throwable $e) {
+            $this->logger()->error(sprintf(
+              'Failed to fetch app subpaths for %s: %s',
+              $this->githubService->getRepoUrl(),
+              $e->getMessage()
+            ));
+            return;
+          }
+          $appNodes = $this->collectionSync->applyDeclaredApps(
+            $collection,
+            $parsed,
+            $subpathFiles,
+            $this->githubService->getRepoUrl(),
+            $repoMetadata
+          );
+          $this->logger()->success(sprintf('Synced %d apps from declared apps[]', count($appNodes)));
+        }
+      }
+    }
   }
 
   /**

@@ -69,6 +69,22 @@ class GitHubService {
   protected $manifestData;
 
   /**
+   * Raw text of appverse.yml at repo root, or NULL if not present.
+   *
+   * @var string|null
+   */
+  protected ?string $appverseYmlText = NULL;
+
+  /**
+   * Per-subpath files keyed by path.
+   *
+   * Shape: ['jupyter_example' => ['manifestYml' => '...', 'appverseYml' => '...']].
+   *
+   * @var array
+   */
+  protected array $appSubpathFiles = [];
+
+  /**
    * Is Archived.
    *
    * @var bool
@@ -252,6 +268,7 @@ class GitHubService {
         isArchived
         stargazerCount
         forkCount
+        description
         pushedAt
         owner {
           login
@@ -322,6 +339,7 @@ class GitHubService {
     $this->licenseLink = $this->data['licenseInfo']['url'] ?? NULL;
     $this->license = $this->data['licenseInfo']['spdxId'] ?? NULL;
     $this->organization = $this->data['owner']['name'];
+    $this->appverseYmlText = $this->data['appverseYml']['text'] ?? NULL;
 
     $manifest_text = $this->data['manifestYml']['text'] ?? NULL;
     if ($manifest_text === NULL || $this->readme === NULL || $this->license === NULL) {
@@ -347,6 +365,100 @@ class GitHubService {
     $this->description = $description_raw ? Xss::filterAdmin($description_raw) : '';
     $this->role = $this->manifestData['role'] ?? NULL;
     $this->subcategory = $this->manifestData['subcategory'] ?? NULL;
+  }
+
+  /**
+   * Fetch per-subpath manifest.yml + appverse.yml from the same repo.
+   *
+   * Call after setOwnerAndName()/parseUrl() and fetchRepoData(); pass the
+   * subpaths parsed from the root appverse.yml's apps[] list.
+   *
+   * @param string[] $subpaths
+   *   Repo-relative subpaths (e.g. ['jupyter_example', 'rstudio_example']).
+   *
+   * @return array<string, array{manifestYml: ?string, appverseYml: ?string}>
+   *   Per-subpath file contents, keyed by the original subpath string.
+   */
+  public function fetchAppSubpaths(array $subpaths): array {
+    $this->appSubpathFiles = [];
+    if (empty($subpaths)) {
+      return [];
+    }
+    if (empty($this->owner) || empty($this->name)) {
+      throw new \LogicException('fetchAppSubpaths called before owner/name set; call setOwnerAndName or parseUrl first.');
+    }
+
+    $token = $this->keyRepository->getKey('appverse_github')->getKeyValue();
+
+    // Build GraphQL aliases for each subpath. Aliases must start with a
+    // letter; using p0, p1, … sidesteps any odd chars in the path itself.
+    $aliasMap = [];
+    $blobFields = [];
+    foreach (array_values($subpaths) as $i => $path) {
+      $alias = 'p' . $i;
+      $cleanPath = trim((string) $path, '/');
+      if ($cleanPath === '') {
+        continue;
+      }
+      $aliasMap[$alias] = $cleanPath;
+      // The expression argument MUST be a literal string in the query —
+      // GraphQL won't substitute variables into "HEAD:<path>/...".
+      // sprintf builds the query string itself; the values are repo paths
+      // we control, so no injection vector here.
+      $blobFields[] = sprintf(
+        "%s_manifest: object(expression: \"HEAD:%s/manifest.yml\") { ... on Blob { text } }\n        %s_appverse: object(expression: \"HEAD:%s/appverse.yml\") { ... on Blob { text } }",
+        $alias, $cleanPath, $alias, $cleanPath
+      );
+    }
+    if (empty($blobFields)) {
+      return [];
+    }
+    $blobBlock = implode("\n        ", $blobFields);
+
+    $query = <<<GRAPHQL
+    query(\$owner: String!, \$name: String!) {
+      repository(owner: \$owner, name: \$name) {
+        $blobBlock
+      }
+    }
+    GRAPHQL;
+
+    $response = $this->httpClient->post('https://api.github.com/graphql', [
+      'headers' => [
+        'Authorization' => 'Bearer ' . $token,
+        'Content-Type' => 'application/json',
+      ],
+      'json' => [
+        'query' => $query,
+        'variables' => [
+          'owner' => $this->owner,
+          'name' => $this->name,
+        ],
+      ],
+    ]);
+    $body = json_decode($response->getBody()->getContents(), TRUE);
+    $repoData = $body['data']['repository'] ?? [];
+
+    $result = [];
+    foreach ($aliasMap as $alias => $path) {
+      $manifestText = $repoData[$alias . '_manifest']['text'] ?? NULL;
+      $appverseText = $repoData[$alias . '_appverse']['text'] ?? NULL;
+      $result[$path] = [
+        'manifestYml' => $manifestText,
+        'appverseYml' => $appverseText,
+      ];
+    }
+    $this->appSubpathFiles = $result;
+    return $result;
+  }
+
+  /**
+   * Get the per-subpath files map, as populated by fetchAppSubpaths().
+   *
+   * @return array<string, array{manifestYml: ?string, appverseYml: ?string}>
+   */
+  public function getAppSubpathFiles(): array {
+    return $this->appSubpathFiles;
   }
 
   /**
@@ -424,6 +536,52 @@ class GitHubService {
    */
   public function getOrganization() {
     return $this->organization;
+  }
+
+  /**
+   * Get the raw text of appverse.yml at the repo root, if present.
+   *
+   * @return string|null
+   *   The appverse.yml content as a string, or NULL if the file does not exist.
+   */
+  public function getAppverseYmlText(): ?string {
+    return $this->appverseYmlText;
+  }
+
+  /**
+   * Get the canonical GitHub repo URL (https://github.com/owner/name).
+   *
+   * @return string
+   *   The repo URL derived from $this->owner and $this->name.
+   */
+  public function getRepoUrl(): string {
+    return sprintf('https://github.com/%s/%s', $this->owner, $this->name);
+  }
+
+  /**
+   * Set owner and repo name directly, bypassing parseUrl's manifest check.
+   *
+   * Useful for Collection-only repos that don't have a manifest.yml. After
+   * calling this, invoke fetchRepoData() to populate the rest of the data.
+   *
+   * @param string $owner
+   *   The GitHub repo owner (org or user login).
+   * @param string $name
+   *   The GitHub repo name.
+   */
+  public function setOwnerAndName(string $owner, string $name): void {
+    $this->owner = $owner;
+    $this->name = $name;
+  }
+
+  /**
+   * Get the repo's GitHub description (from the GraphQL API).
+   *
+   * @return string
+   *   The repo description, or empty string if not set.
+   */
+  public function getRepoDescription(): string {
+    return $this->data['description'] ?? '';
   }
 
   /**

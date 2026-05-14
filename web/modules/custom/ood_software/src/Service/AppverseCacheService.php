@@ -34,13 +34,16 @@ class AppverseCacheService {
    */
   public function generate(): bool {
     try {
+      $software = $this->buildSoftwareData();
+      $collections = $this->buildCollectionsData($software);
+      $this->annotateAppsWithCollectionBackRefs($software, $collections);
+
       $data = [
-        'software' => $this->buildSoftwareData(),
-        'filterOptions' => [],
+        'software' => $software,
+        'collections' => $collections,
+        'filterOptions' => $this->extractFilterOptions($software, $collections),
         'generated' => date('c'),
       ];
-
-      $data['filterOptions'] = $this->extractFilterOptions($data['software']);
 
       $cacheDir = self::CACHE_DIR;
       $this->fileSystem->prepareDirectory($cacheDir, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
@@ -48,17 +51,15 @@ class AppverseCacheService {
       $json = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
       $this->fileSystem->saveData($json, self::CACHE_FILE, FileExists::Replace);
 
-      $this->logger->info('Appverse cache generated: @size bytes, @count software items.', [
+      $this->logger->info('Appverse cache generated: @size bytes, @sw software, @col collections.', [
         '@size' => strlen($json),
-        '@count' => count($data['software']),
+        '@sw' => count($software),
+        '@col' => count($collections),
       ]);
-
       return TRUE;
     }
     catch (\Throwable $e) {
-      $this->logger->error('Failed to generate appverse cache: @message', [
-        '@message' => $e->getMessage(),
-      ]);
+      $this->logger->error('Failed to generate appverse cache: @message', ['@message' => $e->getMessage()]);
       return FALSE;
     }
   }
@@ -121,6 +122,152 @@ class AppverseCacheService {
   }
 
   /**
+   * Build the collections array with nested member apps.
+   */
+  protected function buildCollectionsData(array $softwareData): array {
+    $nodeStorage = $this->entityTypeManager->getStorage('node');
+
+    $nids = $nodeStorage->getQuery()
+      ->condition('type', 'appverse_collection')
+      ->condition('status', 1)
+      ->sort('title')
+      ->accessCheck(FALSE)
+      ->execute();
+    $collectionNodes = $nodeStorage->loadMultiple($nids);
+
+    // Build a flat lookup of apps by node id (Drupal internal NID) for member resolution.
+    $appByNid = [];
+    foreach ($softwareData as $sw) {
+      foreach ($sw['apps'] as $app) {
+        $appByNid[$app['nid']] = $app + ['softwareId' => $sw['id'], 'softwareTitle' => $sw['title']];
+      }
+    }
+
+    // Build a reverse lookup: collection nid → list of member app nodes.
+    // Apps without a field_appverse_software_implemen reference (e.g. apps
+    // declared only via a Collection's apps[]) are still members of the
+    // Collection — build minimal app data from the node directly.
+    $appNidsByCollection = [];
+    $appNids = $nodeStorage->getQuery()
+      ->condition('type', 'appverse_app')
+      ->condition('status', 1)
+      ->exists('field_appverse_collection')
+      ->accessCheck(FALSE)
+      ->execute();
+    $memberAppNodes = $nodeStorage->loadMultiple($appNids);
+    foreach ($memberAppNodes as $app) {
+      $collRef = $app->get('field_appverse_collection')->entity;
+      if ($collRef) {
+        $appNidsByCollection[(int) $collRef->id()][] = (int) $app->id();
+      }
+    }
+
+    $result = [];
+    foreach ($collectionNodes as $collection) {
+      $nid = (int) $collection->id();
+      $memberNids = $appNidsByCollection[$nid] ?? [];
+      $memberApps = [];
+      foreach ($memberNids as $appNid) {
+        if (isset($appByNid[$appNid])) {
+          $memberApps[] = $appByNid[$appNid];
+        }
+        elseif (isset($memberAppNodes[$appNid])) {
+          // Collection-only app (no software ref). Build app data from the
+          // node directly so it still appears in the Collection's apps list.
+          $memberApps[] = $this->buildAppData($memberAppNodes[$appNid], '');
+        }
+      }
+
+      // Slug: derived from the canonical URL's last segment. Pathauto
+      // pattern '/collection/[node:title]' (see Task 1 of the plan) ensures
+      // this is a stable URL slug like 'ood-apps-v3', not '/node/123'.
+      $canonicalUrl = $collection->toUrl()->toString();
+      $slug = basename($canonicalUrl);
+
+      $result[] = [
+        'id' => $collection->uuid(),
+        'title' => $collection->getTitle(),
+        'slug' => $slug,
+        'nid' => $nid,
+        'description' => $collection->get('field_collection_description')->value ?? '',
+        'repoUrl' => $collection->get('field_collection_repo_url')->uri ?? NULL,
+        'maintainer' => [
+          'name' => $collection->get('field_collection_maintainer_name')->value ?? '',
+          'supportUrl' => $collection->get('field_collection_maintainer_url')->uri ?? NULL,
+        ],
+        'stars' => (int) ($collection->get('field_collection_stars')->value ?? 0),
+        'lastUpdated' => $collection->get('field_collection_last_commit')->value
+          ? (int) $collection->get('field_collection_last_commit')->value
+          : NULL,
+        'organization' => $this->getTerm($collection, 'field_collection_organization'),
+        'wwwUrl' => $collection->get('field_collection_www_url')->uri ?? NULL,
+        'docsUrl' => $collection->get('field_collection_docs_url')->uri ?? NULL,
+        'readme' => $collection->get('field_collection_readme')->value ?? NULL,
+        'tags' => $this->getTerms($collection, 'field_collection_tags'),
+        'sharedPaths' => $this->getStringList($collection, 'field_collection_shared_paths'),
+        'relatedCollections' => $this->getRelatedCollectionUuids($collection),
+        'validationStatus' => $collection->get('field_collection_validation_st')->value ?? 'valid',
+        'validationErrors' => $this->getStringList($collection, 'field_collection_validation_er'),
+        'lastSyncedAt' => $collection->get('field_collection_last_synced')->value
+          ? date('c', (int) $collection->get('field_collection_last_synced')->value)
+          : NULL,
+        'apps' => $memberApps,
+      ];
+    }
+    return $result;
+  }
+
+  /**
+   * Get a list of scalar string values from a multi-valued string field.
+   */
+  protected function getStringList(NodeInterface $entity, string $fieldName): array {
+    if (!$entity->hasField($fieldName) || $entity->get($fieldName)->isEmpty()) {
+      return [];
+    }
+    $out = [];
+    foreach ($entity->get($fieldName) as $item) {
+      $out[] = $item->value;
+    }
+    return $out;
+  }
+
+  /**
+   * Get the UUIDs of related Collections referenced by a Collection node.
+   */
+  protected function getRelatedCollectionUuids(NodeInterface $collection): array {
+    if (!$collection->hasField('field_collection_related') || $collection->get('field_collection_related')->isEmpty()) {
+      return [];
+    }
+    $uuids = [];
+    foreach ($collection->get('field_collection_related')->referencedEntities() as $other) {
+      $uuids[] = $other->uuid();
+    }
+    return $uuids;
+  }
+
+  /**
+   * Mutate the software data in place, adding collectionId/collectionTitle on each app.
+   *
+   * Reverse lookup is computed server-side once per cache rebuild so the React
+   * app doesn't need to walk Collections to render "Part of X" lines.
+   */
+  protected function annotateAppsWithCollectionBackRefs(array &$software, array $collections): void {
+    $appToColl = [];
+    foreach ($collections as $coll) {
+      foreach ($coll['apps'] as $app) {
+        $appToColl[$app['nid']] = ['id' => $coll['id'], 'title' => $coll['title']];
+      }
+    }
+    foreach ($software as &$sw) {
+      foreach ($sw['apps'] as &$app) {
+        $ref = $appToColl[$app['nid']] ?? NULL;
+        $app['collectionId'] = $ref['id'] ?? NULL;
+        $app['collectionTitle'] = $ref['title'] ?? NULL;
+      }
+    }
+  }
+
+  /**
    * Build a single app data array.
    */
   protected function buildAppData(NodeInterface $app, string $softwareId): array {
@@ -134,6 +281,8 @@ class AppverseCacheService {
       'lastUpdated' => $app->get('field_appverse_lastupdated')->value ? (int) $app->get('field_appverse_lastupdated')->value : NULL,
       'appTypes' => $this->getTerms($app, 'field_appverse_app_type'),
       'tags' => $this->getTerms($app, 'field_add_implementation_tags'),
+      'organization' => $this->getTerm($app, 'field_appverse_organization'),
+      'maintainerName' => $app->get('field_appverse_maintainer_name')->value ?? NULL,
       'softwareId' => $softwareId,
     ];
   }
@@ -190,11 +339,12 @@ class AppverseCacheService {
   /**
    * Extract unique filter options from the built software data.
    */
-  protected function extractFilterOptions(array $softwareList): array {
+  protected function extractFilterOptions(array $softwareList, array $collections): array {
     $topics = [];
     $licenses = [];
     $tags = [];
     $appTypes = [];
+    $organizations = [];
 
     foreach ($softwareList as $sw) {
       foreach ($sw['topics'] as $t) {
@@ -215,19 +365,19 @@ class AppverseCacheService {
         }
       }
     }
+    foreach ($collections as $c) {
+      if (!empty($c['organization'])) {
+        $organizations[$c['organization']['id']] = $c['organization'];
+      }
+    }
 
     $sort = fn($a, $b) => strcasecmp($a['name'], $b['name']);
+    foreach ([&$topics, &$licenses, &$tags, &$appTypes, &$organizations] as &$list) {
+      $list = array_values($list);
+      usort($list, $sort);
+    }
 
-    $topics = array_values($topics);
-    usort($topics, $sort);
-    $licenses = array_values($licenses);
-    usort($licenses, $sort);
-    $tags = array_values($tags);
-    usort($tags, $sort);
-    $appTypes = array_values($appTypes);
-    usort($appTypes, $sort);
-
-    return compact('topics', 'licenses', 'tags', 'appTypes');
+    return compact('topics', 'licenses', 'tags', 'appTypes', 'organizations');
   }
 
 }
