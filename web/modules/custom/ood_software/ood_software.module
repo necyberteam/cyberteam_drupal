@@ -394,6 +394,7 @@ function ood_software_node_insert(NodeInterface $node) {
     if ($flag && $account->id() && !$flag_service->getFlagging($flag, $node, $account)) {
       $flag_service->flag($flag, $node, $account);
     }
+    \Drupal::messenger()->addStatus(t("Thanks for your submission! The Appverse team reviews new apps on Fridays. If we have questions, we'll open an issue on your repo"));
   }
 }
 
