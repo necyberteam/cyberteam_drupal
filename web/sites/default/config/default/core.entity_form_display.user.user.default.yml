@@ -22,6 +22,7 @@ dependencies:
     - field.field.user.user.field_domain_all_affiliates
     - field.field.user.user.field_github_graph
     - field.field.user.user.field_github_username
+    - field.field.user.user.field_hide_community_profile
     - field.field.user.user.field_hpc_experience
     - field.field.user.user.field_institution
     - field.field.user.user.field_is_cc
@@ -196,6 +197,13 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_hide_community_profile:
+    type: boolean_checkbox
+    weight: 32
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_hpc_experience:
     type: string_textarea
