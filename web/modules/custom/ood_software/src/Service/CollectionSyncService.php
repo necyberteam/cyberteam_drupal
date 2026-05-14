@@ -402,6 +402,14 @@ class CollectionSyncService {
       $app->set('field_appverse_maintainer_name', $maintainerName);
     }
 
+    // Per-app README — fetched from <path>/README.md by GitHubService.
+    if (!empty($files['readme'])) {
+      $app->set('field_appverse_readme', [
+        'value' => $files['readme'],
+        'format' => 'markdown',
+      ]);
+    }
+
     $app->save();
   }
 

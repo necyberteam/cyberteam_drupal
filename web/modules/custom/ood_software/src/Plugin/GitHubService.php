@@ -406,8 +406,8 @@ class GitHubService {
       // sprintf builds the query string itself; the values are repo paths
       // we control, so no injection vector here.
       $blobFields[] = sprintf(
-        "%s_manifest: object(expression: \"HEAD:%s/manifest.yml\") { ... on Blob { text } }\n        %s_appverse: object(expression: \"HEAD:%s/appverse.yml\") { ... on Blob { text } }",
-        $alias, $cleanPath, $alias, $cleanPath
+        "%s_manifest: object(expression: \"HEAD:%s/manifest.yml\") { ... on Blob { text } }\n        %s_appverse: object(expression: \"HEAD:%s/appverse.yml\") { ... on Blob { text } }\n        %s_readme: object(expression: \"HEAD:%s/README.md\") { ... on Blob { text } }",
+        $alias, $cleanPath, $alias, $cleanPath, $alias, $cleanPath
       );
     }
     if (empty($blobFields)) {
@@ -443,9 +443,11 @@ class GitHubService {
     foreach ($aliasMap as $alias => $path) {
       $manifestText = $repoData[$alias . '_manifest']['text'] ?? NULL;
       $appverseText = $repoData[$alias . '_appverse']['text'] ?? NULL;
+      $readmeText = $repoData[$alias . '_readme']['text'] ?? NULL;
       $result[$path] = [
         'manifestYml' => $manifestText,
         'appverseYml' => $appverseText,
+        'readme' => $readmeText,
       ];
     }
     $this->appSubpathFiles = $result;
