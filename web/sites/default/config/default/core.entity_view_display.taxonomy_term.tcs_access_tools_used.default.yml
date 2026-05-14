@@ -4,10 +4,8 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.tcs_access_tools_used.field_tool_logo
-    - field.field.taxonomy_term.tcs_access_tools_used.field_tcs_link_to_tool
     - taxonomy.vocabulary.tcs_access_tools_used
   module:
-    - link
     - svg_image
     - text
 id: taxonomy_term.tcs_access_tools_used.default
@@ -21,18 +19,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 0
-    region: content
-  field_tcs_link_to_tool:
-    type: link
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    weight: 2
     region: content
   field_tool_logo:
     type: image
