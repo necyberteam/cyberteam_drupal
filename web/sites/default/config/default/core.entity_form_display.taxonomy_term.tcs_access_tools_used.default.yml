@@ -4,9 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.tcs_access_tools_used.field_tool_logo
+    - field.field.taxonomy_term.tcs_access_tools_used.field_tsc_link_to_tool
     - image.style.thumbnail
     - taxonomy.vocabulary.tcs_access_tools_used
   module:
+    - link
     - path
     - svg_image
     - text
@@ -30,6 +32,14 @@ content:
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_tsc_link_to_tool:
+    type: link_default
+    weight: 3
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   name:
     type: string_textfield
