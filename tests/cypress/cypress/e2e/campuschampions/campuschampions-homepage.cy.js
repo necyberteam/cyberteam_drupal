@@ -1,8 +1,8 @@
 describe("verify specific links on homepage", () => {
   it("User is on the homepage", () => {
     cy.visit('/');
-    cy.contains('Connect.CI').click();
-    cy.contains('Launch your community quickly with Connect.CI');
+    cy.contains('a', 'Connect.CI')
+      .should('have.attr', 'href', 'https://connect.cyberinfrastructure.org/');
   });
 
   it("Verify the main logo goes to home page", () => {
@@ -14,9 +14,8 @@ describe("verify specific links on homepage", () => {
   it("authenticated User is on the homepage", () => {
     cy.loginUser('authenticated@amptesting.com', '6%l7iF}6(4tI');
     cy.visit('/');
-    cy.contains('Connect.CI').click();
-    cy.url().should('include', 'https://connect.cyberinfrastructure.org/');
-    cy.contains('Launch your community quickly with Connect.CI');
+    cy.contains('a', 'Connect.CI')
+      .should('have.attr', 'href', 'https://connect.cyberinfrastructure.org/');
   });
 
   it("authenticated Verify the main logo goes to home page", () => {

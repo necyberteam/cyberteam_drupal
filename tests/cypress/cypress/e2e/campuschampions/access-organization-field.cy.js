@@ -34,12 +34,13 @@ describe("ACCESS Organization field - Campus Champions", () => {
           const currentValue = $input.val();
           
           // Clear and type 'Other'
+          cy.expectAjax('orgAjax', '**/entity_reference_autocomplete/**');
           cy.get('#edit-field-access-organization-0-target-id')
             .clear()
             .type('Other');
-          
-          // Wait for autocomplete and click 'Other' if available
-          cy.wait(1000); // Give autocomplete time to load
+          cy.waitForAjax('orgAjax');
+
+          // Click 'Other' if the dropdown rendered, else accept the typed value.
           cy.get('body').then(($body) => {
             if ($body.find('.ui-autocomplete:visible').length > 0) {
               cy.get('.ui-autocomplete li').contains('Other').click();

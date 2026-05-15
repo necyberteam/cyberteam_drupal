@@ -78,10 +78,12 @@ describe("RP Resources Admin View", () => {
 
     it("filters by resource name", () => {
       cy.visit(managePath);
+      // Filter matches DB title; rendered table cell shows short_name
+      // due to operations_cider_node_load() mutation.
       cy.get("#edit-title").type("Test Resource Alpha");
       cy.get("#edit-submit-rp-resources-admin").click();
       cy.get("table tbody tr").should("have.length.greaterThan", 0);
-      cy.get("table tbody").contains("Test Resource Alpha");
+      cy.get("table tbody").contains("Alpha");
     });
 
     it("filters by organization name", () => {

@@ -7,7 +7,7 @@ dependencies:
 id: rp_documentation
 label: 'RP Documentation'
 type: 'canonical_entities:node'
-pattern: 'documentation/resources/[node:title]'
+pattern: 'documentation/resources/[node:field_cider_short_name]'
 selection_criteria:
   ce05bee9-03da-4496-8e8a-99bba868fa6a:
     id: 'entity_bundle:node'
@@ -17,7 +17,6 @@ selection_criteria:
       node: node
     bundles:
       access_active_resources_from_cid: access_active_resources_from_cid
-      resource_group: resource_group
 selection_logic: and
 weight: 0
 relationships: {  }

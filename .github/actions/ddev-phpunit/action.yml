@@ -1,0 +1,65 @@
+name: 'DDEV PHPUnit Test'
+description: 'Run PHPUnit tests using DDEV'
+author: 'necyberteam'
+
+inputs:
+  group:
+    description: 'PHPUnit @group filter'
+    required: true
+    default: 'access_affinitygroup'
+  database:
+    description: 'Custom database URL (optional)'
+    required: false
+  database_branch:
+    description: 'Branch to download database artifact from'
+    required: false
+    default: 'main'
+  github_token:
+    description: 'GitHub token for authentication'
+    required: true
+  amp_uid:
+    description: 'AMP UID for user authentication'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Download database backup
+      if: inputs.database == ''
+      uses: dawidd6/action-download-artifact@v20
+      with:
+        name: amp-daily-backup
+        path: backups/
+        workflow: backupdb.yml
+        branch: ${{ inputs.database_branch }}
+
+    - name: Setup DDEV Base
+      uses: ./.github/actions/ddev-base
+      with:
+        site: 'accessmatch'
+        database: ${{ inputs.database }}
+        github_token: ${{ inputs.github_token }}
+        amp_uid: ${{ inputs.amp_uid }}
+
+    - name: Ensure web/profiles directory exists
+      shell: bash
+      run: |
+        # Drupal phpunit bootstrap calls RecursiveDirectoryIterator on
+        # web/profiles. The directory is .gitignored (web/profiles/contrib/)
+        # so it may not exist on a fresh checkout. Create it empty.
+        mkdir -p web/profiles
+
+    - name: Run PHPUnit tests
+      shell: bash
+      run: |
+        ddev exec 'SIMPLETEST_DB=mysql://db:db@db/db phpunit \
+          -c web/core \
+          --group=${{ inputs.group }} \
+          --testdox \
+          web/modules/custom/access/modules/access_affinitygroup/tests/'
+
+    - name: Show test results
+      if: always()
+      shell: bash
+      run: |
+        echo "PHPUnit test run finished. Check the output above for the final result line."

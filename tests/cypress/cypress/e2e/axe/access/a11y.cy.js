@@ -76,7 +76,7 @@ describe('Accessibility Testing - reports all violations without failing CI (ini
   it('RP Documentation', () => {
     checkMultipleUrls([
       '/documentation/resources',
-      '/documentation/resources/purdue-anvil-ai'
+      '/documentation/resources/anvil-ai'
     ]);
   });
 
