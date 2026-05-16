@@ -10,6 +10,7 @@ use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Utility\Xss;
 use Drupal\node\NodeInterface;
 use League\CommonMark\Environment\Environment;
@@ -206,6 +207,14 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
       '#weight' => 10,
     ];
 
+    // Register a validate handler before the submit handlers so we can
+    // block save when the repo shape is 'empty' or 'invalid_url' (C5).
+    if (!isset($form['actions']['submit']['#validate'])) {
+      $form['actions']['submit']['#validate'] = [];
+    }
+    if (!in_array('ood_software__edit_validate', $form['actions']['submit']['#validate'], TRUE)) {
+      array_unshift($form['actions']['submit']['#validate'], 'ood_software__edit_validate');
+    }
     array_unshift($form['actions']['submit']['#submit'], 'ood_software__edit_submit');
     $form['actions']['submit']['#submit'][] = 'ood_software__redirect_submit';
   }
@@ -233,82 +242,259 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
  */
 function ood_software_fetch_github_data(array &$form, FormStateInterface $form_state) {
   $gh = \Drupal::service('ood_software.gh');
-  $validUrl = $gh->parseUrl($form_state->getValue('field_appverse_github_url')[0]['uri']);
-  $suffix = '<div class="gh-url-suffix bg-header-gray p-3 mb-3" style="margin-top:-1.9rem;">';
-  if ($validUrl) {
-    $data = $gh->getData();
+  $url = $form_state->getValue('field_appverse_github_url')[0]['uri'];
 
-    $readme = $gh->getReadme();
-    $license_link = $gh->getLicenseLink();
-    $license = $gh->getLicense();
-    $manifest = $gh->getManifestData();
-    $organization = $gh->getOrganization();
+  // Per C4: parseUrl() now returns FALSE only for URL-form errors
+  // (bad host, malformed path). All shape decisions (Collection /
+  // single-app / empty) happen here.
+  $fetched = $gh->parseUrl($url);
 
-    if ($readme) {
-      $suffix .= '<i class="bi bi-check-lg text-success"></i> ' . t('README') . '<br/>';
-    } else {
-      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> ' . t('No README detected.') . '<br/>';
-    }
-
-    if ($manifest) {
-      $suffix .= '<i class="bi bi-check-lg text-success"></i> ' . t('manifest.yml file') . '<br/>';
-    } else {
-      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> ' . t('No manifest.yml detected.') . '<br/>';
-    }
-
-    if ($license) {
-      $suffix .= '<i class="bi bi-check-lg text-success"></i> ' . t('LICENSE') . '<br/>';
-    } else {
-      $suffix .= '<i class="bi bi-exclamation-triangle-fill text-warning"></i> ' . t('No license detected.') . '<br/>';
-    }
-
-    if ($manifest) {
-      $apptype = $gh->getAppType();
-      $suffix .= "<p class='pt-3'><strong>" . t("We've detected the following and pre-populated below:") . "</strong></p>";
-      $suffix .= "<p><strong>" . t('Organization:') . " </strong>$organization</p>";
-      if ($apptype) {
-        $suffix .= "<p><strong>" . t('App type:') . " </strong>$apptype</p>";
-      }
-    }
-
-    // Also update the form element to reflect the change.
-    $form['body']['widget'][0]['value']['#value'] = $gh->getDescription();
-    $form['field_appverse_readme']['widget'][0]['value']['#value'] = $readme;
-    $form['title']['widget'][0]['value']['#value'] = $gh->getRepoName();
-    $form['field_appverse_lastupdated']['widget'][0]['value']['#value'] = $gh->getLastComittedDate();
-    $form['field_appverse_organization']['widget'][0]['target_id']['#value'] = $organization;
-
-    if ($license_link) {
-      $form['field_appverse_license_link']['widget'][0]['uri']['#value'] = $license_link;
-    }
-
-    if ($license) {
-      $form['field_license']['widget'][0]['target_id']['#value'] = $license;
-    }
-
-    // Set the app type checkboxes as checked.
-    // After form processing, individual checkboxes exist as sub-elements of the
-    // widget keyed by term ID. Set #checked for the pre-render step and #value
-    // to match #return_value so the checkbox renders as checked in the AJAX response.
-    $apptype_ids = $gh->getAppTypeIds();
-    foreach ($apptype_ids as $apptype_id) {
-      if (isset($form['field_appverse_app_type']['widget'][$apptype_id])) {
-        $form['field_appverse_app_type']['widget'][$apptype_id]['#checked'] = TRUE;
-        $form['field_appverse_app_type']['widget'][$apptype_id]['#value'] = $apptype_id;
-      }
-    }
-
-  } else {
-    $suffix .= '<i class="bi bi-x-lg text-danger"></i> Invalid GitHub URL provided.';
+  if (!$fetched) {
+    // parseUrl messengered the URL-form reason. Echo into the suffix.
+    // Stash 'invalid_url' on form_state so Task 5's validation handler
+    // blocks save instead of falling through to default node entity save
+    // (which would create an orphan appverse_app node with a bad URL).
+    $form_state->set('appverse_shape', 'invalid_url');
+    $form['field_appverse_github_url']['widget'][0]['uri']['#suffix'] =
+      '<div class="gh-url-suffix bg-header-gray p-3 mb-3" style="margin-top:-1.9rem;">'
+      . '<i class="bi bi-x-lg text-danger"></i> '
+      . t('See above for details on what we found.')
+      . '</div>';
+    return $form['group_github'];
   }
 
-  $suffix .= '</div>';
+  // Stash the shape on the form_state so the submit handler doesn't
+  // re-fetch. Service-state is request-scoped but the AJAX callback +
+  // submit run as separate Drupal requests.
+  if ($gh->isCollectionRepo()) {
+    $form_state->set('appverse_shape', 'collection');
+    $suffix = _ood_software_build_collection_preview($gh, $form);
+  }
+  elseif ($gh->isSingleAppRepo()) {
+    $form_state->set('appverse_shape', 'single_app');
+    $suffix = _ood_software_build_single_app_preview($gh, $form);
+  }
+  else {
+    // Reached the repo but it has neither appverse.yml nor root manifest.yml.
+    $form_state->set('appverse_shape', 'empty');
+    $suffix =
+      '<div class="gh-url-suffix bg-header-gray p-3 mb-3" style="margin-top:-1.9rem;">'
+      . '<p><i class="bi bi-x-lg text-danger"></i> '
+      . t("This repository doesn't contain an appverse.yml at the root or a manifest.yml file — there's nothing for the Appverse to register. See <a href=':bp'>contributor docs</a> for what the catalog expects.", [':bp' => 'https://openondemand.connectci.org/appverse-contributor-documentation'])
+      . '</p></div>';
+  }
+
   $form['field_appverse_github_url']['widget'][0]['uri']['#suffix'] = $suffix;
-
   return $form['group_github'];
-
 }
 
+/**
+ * Build the preview block for a Declared Collection.
+ *
+ * Also hides per-App form fields (Title/Body/AppType/etc.) via #access
+ * since they will not be used at submit — sync sources them from each
+ * subpath's manifest.yml. Pass-by-reference $form is required.
+ */
+function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitHubService $gh, array &$form): string {
+  $records = $gh->getAppPreviewData();
+  $appCount = count($records);
+  // Collection-level appverse.yml data. Guard against parse failure —
+  // getAppPreviewData() already caught it and returned [], so by the
+  // time we get here we know the YAML parses cleanly. Wrap defensively
+  // anyway: a corrupted blob between getAppPreviewData and this helper
+  // (theoretically impossible in one request) shouldn't WSOD the AJAX.
+  try {
+    $appverse = Yaml::decode($gh->getAppverseYmlText());
+  }
+  catch (\Throwable $e) {
+    \Drupal::logger('ood_software')->warning('Collection preview: appverse.yml parse failed unexpectedly — @msg', ['@msg' => $e->getMessage()]);
+    $appverse = [];
+  }
+  if (!is_array($appverse)) {
+    $appverse = [];
+  }
+
+  $html = '<div class="gh-url-suffix bg-header-gray p-3 mb-3" style="margin-top:-1.9rem;">';
+  $html .= '<p><i class="bi bi-check-lg text-success"></i> ' . t('Declared Collection (appverse.yml at root)') . '</p>';
+
+  // Collection-level metadata.
+  $html .= '<h4>' . htmlspecialchars($appverse['title'] ?? '(no title)') . '</h4>';
+  if (!empty($appverse['description'])) {
+    $html .= '<p>' . htmlspecialchars($appverse['description']) . '</p>';
+  }
+  $rows = [];
+  if (!empty($appverse['maintainer']['name'])) {
+    $rows[] = '<strong>' . t('Maintainer:') . '</strong> ' . htmlspecialchars($appverse['maintainer']['name']);
+  }
+  if (!empty($appverse['maintainer']['support_url'])) {
+    $link = _ood_software_safe_link($appverse['maintainer']['support_url']);
+    if ($link !== '') {
+      $rows[] = '<strong>' . t('Support:') . '</strong> ' . $link;
+    }
+  }
+  if (!empty($appverse['website'])) {
+    $link = _ood_software_safe_link($appverse['website']);
+    if ($link !== '') {
+      $rows[] = '<strong>' . t('Website:') . '</strong> ' . $link;
+    }
+  }
+  if (!empty($appverse['docs'])) {
+    $link = _ood_software_safe_link($appverse['docs']);
+    if ($link !== '') {
+      $rows[] = '<strong>' . t('Docs:') . '</strong> ' . $link;
+    }
+  }
+  if (!empty($appverse['tags']) && is_array($appverse['tags'])) {
+    $rows[] = '<strong>' . t('Tags:') . '</strong> ' . htmlspecialchars(implode(', ', $appverse['tags']));
+  }
+  if (!empty($appverse['shared_paths']) && is_array($appverse['shared_paths'])) {
+    $rows[] = '<strong>' . t('Shared paths:') . '</strong> ' . htmlspecialchars(implode(', ', $appverse['shared_paths']));
+  }
+  $rows[] = '<strong>' . t('Organization:') . '</strong> ' . htmlspecialchars($gh->getOrganization() ?? '');
+  $rows[] = '<strong>' . t('Stars:') . '</strong> ' . (int) $gh->getStars();
+  $rows[] = '<strong>' . t('License:') . '</strong> ' . htmlspecialchars($gh->getLicense() ?? t('(none detected)'));
+  $html .= '<ul><li>' . implode('</li><li>', $rows) . '</li></ul>';
+
+  // Per-app table.
+  $html .= '<h5>' . t('Apps in this Collection (@n)', ['@n' => $appCount]) . '</h5>';
+  if ($appCount === 0) {
+    $html .= '<p><em>' . t('No apps declared in appverse.yml. The Collection will register with zero apps.') . '</em></p>';
+  }
+  else {
+    $html .= '<table class="table table-striped"><thead><tr>'
+      . '<th>' . t('Subpath') . '</th>'
+      . '<th>' . t('Name') . '</th>'
+      . '<th>' . t('Role') . '</th>'
+      . '<th>' . t('Description') . '</th>'
+      . '<th>' . t('Clusters') . '</th>'
+      . '<th>' . t('Form fields') . '</th>'
+      . '<th>' . t('README') . '</th>'
+      . '</tr></thead><tbody>';
+    foreach ($records as $r) {
+      $description = $r['description'] ?? '';
+      $roleCell = htmlspecialchars($r['role'] ?? '', ENT_QUOTES | ENT_HTML5);
+      if (!empty($r['subcategory'])) {
+        $roleCell .= ' (' . htmlspecialchars($r['subcategory'], ENT_QUOTES | ENT_HTML5) . ')';
+      }
+      $html .= '<tr>'
+        . '<td>' . htmlspecialchars($r['subpath'] ?? '', ENT_QUOTES | ENT_HTML5) . '</td>'
+        . '<td>' . htmlspecialchars($r['name'] ?? '(none)', ENT_QUOTES | ENT_HTML5) . '</td>'
+        . '<td>' . $roleCell . '</td>'
+        . '<td>' . htmlspecialchars(Unicode::truncate($description, 80, FALSE, TRUE), ENT_QUOTES | ENT_HTML5) . '</td>'
+        . '<td>' . htmlspecialchars(implode(', ', $r['clusters'] ?? []), ENT_QUOTES | ENT_HTML5) . '</td>'
+        . '<td>' . htmlspecialchars(implode(', ', $r['formFields'] ?? []), ENT_QUOTES | ENT_HTML5) . '</td>'
+        . '<td>' . (!empty($r['readmePresent']) ? round(($r['readmeBytes'] ?? 0) / 1024, 1) . ' KB' : t('—')) . '</td>'
+        . '</tr>';
+    }
+    $html .= '</tbody></table>';
+  }
+
+  $html .= '<p class="text-muted"><em>' . t('Submitting this form will register the Collection and create @n apps via the sync. App-level fields on this form are not used for Collections — they are sourced from each subpath\'s manifest.yml.', ['@n' => $appCount]) . '</em></p>';
+  $html .= '</div>';
+
+  // Per C3 (merged from former Task 6): hide per-App form fields for the
+  // Collection case. They will not be read at submit (Task 5 replaces
+  // the #submit chain to skip entity save) but hiding them avoids
+  // confusion + accidental edits during preview.
+  $fieldsToHide = [
+    'title', 'body', 'field_appverse_readme', 'field_appverse_app_type',
+    'field_appverse_organization', 'field_license', 'field_appverse_license_link',
+    'field_appverse_lastupdated', 'field_appverse_software_implemen',
+    'field_appverse_stars', 'field_appverse_app_subpath', 'field_appverse_maintainer_name',
+    'field_add_implementation_tags', 'field_tags',
+  ];
+  foreach ($fieldsToHide as $name) {
+    if (isset($form[$name])) {
+      $form[$name]['#access'] = FALSE;
+    }
+  }
+  return $html;
+}
+
+/**
+ * Build the preview block for a Single-App Inferred Collection.
+ *
+ * This is also where the existing form-field pre-population happens
+ * (title, body, license, app types, organization). The form fields
+ * remain editable so editors can override before submit — preserves
+ * the pre-Phase-1 behavior for apps that haven't yet adopted
+ * appverse.yml.
+ */
+function _ood_software_build_single_app_preview(\Drupal\ood_software\Plugin\GitHubService $gh, array &$form): string {
+  $records = $gh->getAppPreviewData();
+  $r = $records[0] ?? [];
+
+  $suffix = '<div class="gh-url-suffix bg-header-gray p-3 mb-3" style="margin-top:-1.9rem;">';
+  $suffix .= '<p><i class="bi bi-check-lg text-success"></i> ' . t('Single-app repository (root manifest.yml, no appverse.yml yet)') . '</p>';
+  $suffix .= '<p><em>' . t('We have pre-filled the form below with what we found. You can edit before submitting.') . '</em></p>';
+  $rows = [];
+  if (!empty($r['name'])) {
+    $rows[] = '<strong>' . t('Name:') . '</strong> ' . htmlspecialchars($r['name']);
+  }
+  if (!empty($r['role'])) {
+    $rows[] = '<strong>' . t('Role:') . '</strong> ' . htmlspecialchars($r['role']) . (!empty($r['subcategory']) ? ' (' . htmlspecialchars($r['subcategory']) . ')' : '');
+  }
+  if (!empty($r['description'])) {
+    $rows[] = '<strong>' . t('Description:') . '</strong> ' . htmlspecialchars(Unicode::truncate($r['description'], 120, FALSE, TRUE), ENT_QUOTES | ENT_HTML5);
+  }
+  if (!empty($r['readmePresent'])) {
+    $rows[] = '<strong>' . t('README:') . '</strong> ' . round(($r['readmeBytes'] ?? 0) / 1024, 1) . ' KB';
+  }
+  if (!empty($gh->getLicense())) {
+    $rows[] = '<strong>' . t('License:') . '</strong> ' . htmlspecialchars($gh->getLicense());
+  }
+  $rows[] = '<strong>' . t('Organization:') . '</strong> ' . htmlspecialchars($gh->getOrganization() ?? '');
+  $rows[] = '<strong>' . t('Stars:') . '</strong> ' . (int) $gh->getStars();
+  $suffix .= '<ul><li>' . implode('</li><li>', $rows) . '</li></ul>';
+  $suffix .= '</div>';
+
+  // Pre-populate the form fields (existing single-app behavior).
+  $form['body']['widget'][0]['value']['#value'] = $gh->getDescription();
+  $form['field_appverse_readme']['widget'][0]['value']['#value'] = $gh->getReadme();
+  $form['title']['widget'][0]['value']['#value'] = $gh->getRepoName();
+  $form['field_appverse_lastupdated']['widget'][0]['value']['#value'] = $gh->getLastComittedDate();
+  $form['field_appverse_organization']['widget'][0]['target_id']['#value'] = $gh->getOrganization();
+  if ($gh->getLicenseLink()) {
+    $form['field_appverse_license_link']['widget'][0]['uri']['#value'] = $gh->getLicenseLink();
+  }
+  if ($gh->getLicense()) {
+    $form['field_license']['widget'][0]['target_id']['#value'] = $gh->getLicense();
+  }
+  foreach ($gh->getAppTypeIds() as $apptype_id) {
+    if (isset($form['field_appverse_app_type']['widget'][$apptype_id])) {
+      $form['field_appverse_app_type']['widget'][$apptype_id]['#checked'] = TRUE;
+      $form['field_appverse_app_type']['widget'][$apptype_id]['#value'] = $apptype_id;
+    }
+  }
+
+  return $suffix;
+}
+
+/**
+ * Render an external URL as a safe anchor tag, or empty string if invalid.
+ *
+ * Only http(s) URLs are linked. Other schemes (javascript:, data:, file:, etc.)
+ * are rejected via a strict scheme prefix check and the Url::fromUri()
+ * validation that follows.
+ */
+function _ood_software_safe_link(string $url, ?string $label = NULL): string {
+  if ($url === '') {
+    return '';
+  }
+  // Strict scheme allowlist — Url::fromUri() accepts internal: and entity:
+  // schemes which we do NOT want here.
+  if (!str_starts_with($url, 'https://') && !str_starts_with($url, 'http://')) {
+    return '';
+  }
+  try {
+    $safeUrl = \Drupal\Core\Url::fromUri($url, ['absolute' => TRUE])->toString();
+  }
+  catch (\Throwable $e) {
+    return '';
+  }
+  $display = $label !== NULL ? $label : $url;
+  return '<a href="' . htmlspecialchars($safeUrl, ENT_QUOTES | ENT_HTML5) . '" target="_blank" rel="noopener noreferrer">' . htmlspecialchars($display, ENT_QUOTES | ENT_HTML5) . '</a>';
+}
 
 /**
  * Ajax callback function to replace the section with '#markup'.
@@ -362,27 +548,359 @@ function ood_software_replace_section_callback(array &$form, FormStateInterface 
 }
 
 /**
- * Form submit handler to update hidden fields.
+ * Form validate handler: block save when AJAX preview detected an empty repo
+ * or a malformed URL (C5).
+ *
+ * Registered via hook_form_alter on appverse_app — runs before submit
+ * handlers, so we can call setErrorByName to keep the form open and
+ * surface a focused error on the URL field instead of letting Drupal's
+ * default node entity save run.
+ */
+function ood_software__edit_validate($form, FormStateInterface $form_state) {
+  $shape = $form_state->get('appverse_shape');
+
+  // Fetch-less path: if the AJAX preview never ran (the user pasted a URL
+  // and clicked Save without clicking Fetch first), shape is NULL.
+  // Re-detect shape here so we can still block 'empty' / 'invalid_url'
+  // submissions BEFORE the submit handler chain runs.
+  if ($shape === NULL) {
+    $url = $form_state->getValue('field_appverse_github_url')[0]['uri'] ?? '';
+    if ($url !== '') {
+      $gh = \Drupal::service('ood_software.gh');
+      if ($gh->parseUrl($url)) {
+        if ($gh->isCollectionRepo()) {
+          $shape = 'collection';
+        }
+        elseif ($gh->isSingleAppRepo()) {
+          $shape = 'single_app';
+        }
+        else {
+          $shape = 'empty';
+        }
+      }
+      else {
+        // parseUrl returned FALSE — URL is malformed or not a GitHub URL.
+        // parseUrl already emitted its own messenger error; still stash a
+        // non-NULL shape so this validate handler blocks save rather than
+        // falling through to default node entity save.
+        $shape = 'invalid_url';
+      }
+      $form_state->set('appverse_shape', $shape);
+    }
+    else {
+      // No URL entered at all. Block save with a clear message.
+      $shape = 'invalid_url';
+      $form_state->set('appverse_shape', $shape);
+    }
+  }
+
+  if ($shape === 'empty') {
+    $form_state->setErrorByName('field_appverse_github_url', t("This repository doesn't contain an appverse.yml or manifest.yml — nothing to register. See <a href=':bp'>contributor docs</a>.", [
+      ':bp' => 'https://openondemand.connectci.org/appverse-contributor-documentation',
+    ]));
+  }
+  elseif ($shape === 'invalid_url') {
+    $form_state->setErrorByName('field_appverse_github_url', t('Please enter a valid GitHub repository URL (e.g. https://github.com/owner/repo).'));
+  }
+}
+
+/**
+ * Form submit handler — shape-aware dispatch.
+ *
+ * Branches on $form_state->get('appverse_shape'):
+ *   - 'collection': run Batch-driven Collection sync, truncate the
+ *     #submit chain (C1) so default node_form_submit + entity save do
+ *     NOT create an orphan appverse_app.
+ *   - 'single_app' (or NULL fallback): preserve legacy form-fill
+ *     behavior — refresh stars / body / readme / lastupdated, then let
+ *     the default submit chain save the appverse_app node.
+ *   - 'empty' / 'invalid_url': defense-in-depth — clear submit handlers
+ *     so no node save runs (validate should have caught this).
  */
 function ood_software__edit_submit($form, FormStateInterface $form_state) {
-  $body = $form_state->getValue('body')[0]['value'];
-  $readme = $form_state->getValue('field_appverse_readme')[0]['value'];
-  $lastupdated = $form_state->getValue('field_appverse_lastupdated')[0]['value'];
+  $url = $form_state->getValue('field_appverse_github_url')[0]['uri'] ?? '';
+  $shape = $form_state->get('appverse_shape');
 
-  // Only update if one of these fields is empty.
-  $gh = \Drupal::service('ood_software.gh');
-  $validUrl = $gh->parseUrl($form_state->getValue('field_appverse_github_url')[0]['uri']);
-  if ($validUrl) {
-    $data = $gh->getData();
-
-    // Always set stars.
-    $form_state->setValue('field_appverse_stars', [['value' => $gh->getStars()]]);
-
-    if ($lastupdated != $gh->getLastComittedDate()) {
-      $form_state->setValue('body', [['format' => 'markdown', 'value' => $gh->getDescription()]]);
-      $form_state->setValue('field_appverse_readme', [['format' => 'markdown', 'value' => $gh->getDescription()]]);
-      $form_state->setValue('field_appverse_lastupdated', [['value' => $gh->getLastComittedDate()]]);
+  // Shape re-detection fallback: if the user submitted programmatically
+  // (no AJAX preview, no validate handler), shape may be NULL. Don't
+  // default to single-app — re-detect via parseUrl + isCollectionRepo()
+  // so a Collection URL doesn't accidentally create an orphan app.
+  if ($shape === NULL && $url !== '') {
+    $gh = \Drupal::service('ood_software.gh');
+    if ($gh->parseUrl($url)) {
+      if ($gh->isCollectionRepo()) {
+        $shape = 'collection';
+      }
+      elseif ($gh->isSingleAppRepo()) {
+        $shape = 'single_app';
+      }
+      else {
+        $shape = 'empty';
+      }
     }
+    else {
+      $shape = 'invalid_url';
+    }
+  }
+
+  if ($shape === 'empty' || $shape === 'invalid_url') {
+    // Validate pass should have caught this and rebuilt the form. If we
+    // got here anyway (e.g. programmatic submission), defense in depth:
+    // setErrorByName + setSubmitHandlers([]) to ensure no node save
+    // happens. addError + return alone is NOT enough — the default
+    // submit handler chain still runs after we return.
+    $form_state->setErrorByName(
+      'field_appverse_github_url',
+      $shape === 'empty'
+        ? t('Cannot register an empty repository.')
+        : t('Cannot register a malformed GitHub URL.')
+    );
+    $form_state->setSubmitHandlers([]);
+    return;
+  }
+
+  if ($shape === 'collection') {
+    _ood_software_handle_collection_submit($url, $form_state);
+    return;
+  }
+
+  // Default: single-app inferred path. Preserve legacy behavior.
+  _ood_software_handle_single_app_submit($form_state);
+}
+
+/**
+ * Handle Collection submission: Batch-driven per-app sync.
+ *
+ * Three phases:
+ *   1. Synchronous (cheap): defensive parseUrl + parse appverse.yml,
+ *      then resolveCollection() creates/updates the Collection node in
+ *      one DB op.
+ *   2. Batch queue: one operation per subpath. Each runs in its own
+ *      AJAX sub-request via Drupal's progress-bar UI — no Pantheon web
+ *      request timeout risk for monorepos with many apps.
+ *   3. Handler-chain truncation (C1): setSubmitHandlers([]) prevents
+ *      Drupal's default node_form_submit + entity save from running
+ *      after we return. Without this, an orphan appverse_app node would
+ *      be saved alongside the Collection.
+ */
+function _ood_software_handle_collection_submit(string $url, FormStateInterface $form_state) {
+  /** @var \Drupal\ood_software\Plugin\GitHubService $gh */
+  $gh = \Drupal::service('ood_software.gh');
+
+  // Defensive re-fetch — submit is a separate Drupal request from AJAX.
+  // parseUrl + the implicit fetchRepoData inside it are idempotent.
+  $gh->parseUrl($url);
+
+  /** @var \Drupal\ood_software\Service\CollectionSyncService $sync */
+  $sync = \Drupal::service('ood_software.collection_sync');
+
+  // Parse the root appverse.yml so we can build repoMetadata and find
+  // the apps[] list.
+  $appverse = NULL;
+  try {
+    $appverse = \Drupal\Component\Serialization\Yaml::decode((string) $gh->getAppverseYmlText());
+  }
+  catch (\Throwable $e) {
+    $form_state->setErrorByName('field_appverse_github_url', t("Could not parse this repo's appverse.yml: @msg", ['@msg' => $e->getMessage()]));
+    $form_state->setSubmitHandlers([]);
+    return;
+  }
+
+  // Build repoMetadata fallback chain — getRepoName() can return NULL
+  // for Collections without a root manifest.yml, so fall back to
+  // appverse.yml's title, then the URL's last segment.
+  preg_match('@^https://github\.com/([^/]+)/([^/]+?)(?:\.git)?/?$@', rtrim($url, '/'), $m);
+  $repoSegment = $m[2] ?? '';
+  $repoMetadata = [
+    'name' => $gh->getRepoName() ?? ($appverse['title'] ?? NULL) ?? $repoSegment,
+    'description' => $gh->getRepoDescription(),
+    'organization' => $gh->getOrganization(),
+    'stars' => $gh->getStars(),
+    'lastCommittedDate' => $gh->getLastComittedDate(),
+    'readme' => $gh->getReadme(),
+  ];
+
+  // Phase 1 (sync): create/update the Collection node.
+  $collection = NULL;
+  try {
+    $collection = $sync->resolveCollection(
+      $gh->getRepoUrl(),
+      $gh->getAppverseYmlText(),
+      $repoMetadata,
+    );
+  }
+  catch (\Throwable $e) {
+    $form_state->setErrorByName('field_appverse_github_url', t('Collection sync failed: @msg', ['@msg' => $e->getMessage()]));
+    \Drupal::logger('ood_software')->error('resolveCollection failed for @url: @msg', [
+      '@url' => $gh->getRepoUrl(),
+      '@msg' => $e->getMessage(),
+    ]);
+    $form_state->setSubmitHandlers([]);
+    return;
+  }
+
+  // Phase 2 (batch): walk apps[] and queue per-subpath operations.
+  $apps = is_array($appverse) ? ($appverse['apps'] ?? []) : [];
+  $subpaths = [];
+  foreach ($apps as $app) {
+    if (isset($app['path']) && is_string($app['path']) && $app['path'] !== '') {
+      $subpaths[] = $app['path'];
+    }
+  }
+
+  if (empty($subpaths)) {
+    \Drupal::messenger()->addWarning(t('Collection registered with zero apps — appverse.yml did not declare any apps[] entries with a path.'));
+    $form_state->setRedirectUrl($collection->toUrl());
+    // Phase 3: still truncate so default entity save doesn't create an app.
+    $form_state->setSubmitHandlers([]);
+    return;
+  }
+
+  $operations = [];
+  foreach ($subpaths as $subpath) {
+    $operations[] = [
+      '_ood_software_batch_sync_app',
+      [
+        (int) $collection->id(),
+        $subpath,
+        $gh->getRepoUrl(),
+        $repoMetadata,
+        // Pass the parsed root yml so per-op doesn't reparse.
+        $appverse,
+      ],
+    ];
+  }
+
+  $batch = [
+    'title' => t('Syncing @n app(s) for @title...', [
+      '@n' => count($operations),
+      '@title' => $collection->getTitle(),
+    ]),
+    'operations' => $operations,
+    'finished' => '_ood_software_batch_collection_synced',
+    'init_message' => t('Starting sync for @title...', ['@title' => $collection->getTitle()]),
+    'progress_message' => t('Syncing app @current of @total...'),
+    'error_message' => t('An error occurred while syncing apps. See the Collection page for partial results.'),
+  ];
+  batch_set($batch);
+
+  // Set the redirect target — Drupal's Batch system intercepts this:
+  // it first redirects the user to the progress UI, runs the operations
+  // via AJAX, then redirects HERE on completion.
+  $form_state->setRedirectUrl($collection->toUrl());
+
+  // Phase 3 (C1): truncate the remaining #submit chain so Drupal's
+  // default node_form_submit + entity save never run. Without this we'd
+  // create an orphan appverse_app node alongside the Collection.
+  $form_state->setSubmitHandlers([]);
+}
+
+/**
+ * Batch operation: sync one subpath's app.
+ *
+ * Each call is its own AJAX sub-request — fresh ~30-60s budget on
+ * Pantheon. Per-app failures don't cascade; they're collected into
+ * $context['results']['failed'] for the finished callback to report.
+ */
+function _ood_software_batch_sync_app(int $collectionId, string $subpath, string $repoUrl, array $repoMetadata, array $parsedRootYml, &$context) {
+  try {
+    $collection = \Drupal::entityTypeManager()->getStorage('node')->load($collectionId);
+    if (!$collection) {
+      $context['results']['failed'][$subpath] = 'Collection node disappeared during batch';
+      return;
+    }
+
+    /** @var \Drupal\ood_software\Plugin\GitHubService $gh */
+    $gh = \Drupal::service('ood_software.gh');
+    $gh->parseUrl($repoUrl);
+    $gh->fetchAppSubpaths([$subpath]);
+    $subpathFiles = $gh->getAppSubpathFiles();
+
+    /** @var \Drupal\ood_software\Service\CollectionSyncService $sync */
+    $sync = \Drupal::service('ood_software.collection_sync');
+
+    // Narrow the parsed apps[] to just this subpath so applyDeclaredApps
+    // only processes this one. (applyDeclaredApps iterates
+    // $parsedRootYml['apps']; we don't want it to re-iterate all apps
+    // on every batch operation.)
+    $narrowed = $parsedRootYml;
+    $narrowed['apps'] = array_values(array_filter(
+      $parsedRootYml['apps'] ?? [],
+      fn($a) => is_array($a) && ($a['path'] ?? NULL) === $subpath,
+    ));
+
+    $sync->applyDeclaredApps(
+      $collection,
+      $narrowed,
+      $subpathFiles,
+      $repoUrl,
+      $repoMetadata,
+    );
+
+    $context['results']['synced'][] = $subpath;
+    $context['message'] = t('Synced @path', ['@path' => $subpath]);
+  }
+  catch (\Throwable $e) {
+    $context['results']['failed'][$subpath] = $e->getMessage();
+    \Drupal::logger('ood_software')->error('Batch sync failed for @path: @msg', [
+      '@path' => $subpath,
+      '@msg' => $e->getMessage(),
+    ]);
+  }
+}
+
+/**
+ * Batch finished callback: render summary of synced + failed apps.
+ */
+function _ood_software_batch_collection_synced($success, $results, $operations) {
+  if (!$success) {
+    \Drupal::messenger()->addError(t('Collection sync did not complete cleanly. Check the Collection page for partial results.'));
+    return;
+  }
+  $synced = $results['synced'] ?? [];
+  $failed = $results['failed'] ?? [];
+  if (!empty($synced)) {
+    \Drupal::messenger()->addStatus(t('Synced @n app(s): @list', [
+      '@n' => count($synced),
+      '@list' => implode(', ', $synced),
+    ]));
+  }
+  if (!empty($failed)) {
+    $details = [];
+    foreach ($failed as $path => $msg) {
+      $details[] = $path . ': ' . $msg;
+    }
+    \Drupal::messenger()->addError(t('@n app(s) failed to sync — @details', [
+      '@n' => count($failed),
+      '@details' => implode('; ', $details),
+    ]));
+  }
+}
+
+/**
+ * Handle single-app submission: legacy form-fill behavior.
+ *
+ * Cron's AppverseAppUpdater retro-promotes this app into an inferred
+ * Collection on the next cycle via resolveCollection (no appverse.yml,
+ * falls through to applyInferred).
+ */
+function _ood_software_handle_single_app_submit(FormStateInterface $form_state) {
+  /** @var \Drupal\ood_software\Plugin\GitHubService $gh */
+  $gh = \Drupal::service('ood_software.gh');
+  $url = $form_state->getValue('field_appverse_github_url')[0]['uri'] ?? '';
+  if ($url === '' || !$gh->parseUrl($url)) {
+    return;
+  }
+
+  $lastupdated = $form_state->getValue('field_appverse_lastupdated')[0]['value'] ?? NULL;
+
+  // Always refresh stars.
+  $form_state->setValue('field_appverse_stars', [['value' => $gh->getStars()]]);
+
+  if ($lastupdated != $gh->getLastComittedDate()) {
+    $form_state->setValue('body', [['format' => 'markdown', 'value' => $gh->getDescription()]]);
+    $form_state->setValue('field_appverse_readme', [['format' => 'markdown', 'value' => $gh->getDescription()]]);
+    $form_state->setValue('field_appverse_lastupdated', [['value' => $gh->getLastComittedDate()]]);
   }
 }
 
@@ -426,7 +944,11 @@ function ood_software_node_delete(NodeInterface $node) {
 }
 
 function _ood_software_invalidate_appverse_cache(NodeInterface $node) {
-  if (in_array($node->bundle(), ['appverse_software', 'appverse_app'])) {
+  // Collection inserts/updates must refresh the cache too — the React
+  // widget reads `collections[]` from appverse-data.json, and without
+  // this entry an admin-created Collection would not appear in the
+  // catalog until the next cron run or app touch.
+  if (in_array($node->bundle(), ['appverse_software', 'appverse_app', 'appverse_collection'])) {
     // Throttle: skip if cache was generated less than 60 seconds ago.
     $cache_file = 'public://appverse-cache/appverse-data.json';
     if (file_exists($cache_file) && (time() - filemtime($cache_file)) < 60) {

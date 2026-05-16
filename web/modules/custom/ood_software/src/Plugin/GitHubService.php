@@ -234,13 +234,9 @@ class GitHubService {
         // If valid GitHub URL, fetch data.
         $this->fetchRepoData();
 
-        if ($this->manifestData === FALSE) {
-          $this->messenger->addError($this->t('Please make sure you have the proper yml files added to your repository.'));
-          return FALSE;
-        }
-        else {
-          return TRUE;
-        }
+        // Don't short-circuit on shape — caller checks isCollectionRepo() /
+        // isSingleAppRepo() / isEmptyRepo() to decide what to do.
+        return TRUE;
 
       }
       else {
@@ -342,29 +338,73 @@ class GitHubService {
     $this->appverseYmlText = $this->data['appverseYml']['text'] ?? NULL;
 
     $manifest_text = $this->data['manifestYml']['text'] ?? NULL;
-    if ($manifest_text === NULL || $this->readme === NULL || $this->license === NULL) {
-      if ($manifest_text === NULL) {
-        $this->messenger->addError($this->t('The manifest.yml needs to be at the root of the repository. Find our about <a href=":bp">best practices</a> in including your app in the Appverse.', [':bp' => 'https://openondemand.connectci.org/appverse-contributor-documentation']));
-        $this->logger->error('The repository @repo does not contain a manifest.yml file.', ['@repo' => $this->owner . '/' . $this->name]);
-      }
-      if ($this->readme === NULL) {
-        $this->messenger->addError($this->t('The repository does not contain a README.md file.'));
-        $this->logger->error('The repository @repo does not contain a README.md file.', ['@repo' => $this->owner . '/' . $this->name]);
-      }
-      if ($this->license === NULL) {
-        $this->messenger->addError($this->t('The repository does not contain a license file or recognized license information.'));
-        $this->logger->error('The repository @repo does not contain recognized license information.', ['@repo' => $this->owner . '/' . $this->name]);
-      }
+
+    // Phase 1.6: this layer no longer emits user-facing shape errors. The
+    // AJAX callback in ood_software.module is the single place that decides
+    // what to tell the user based on isCollectionRepo() / isSingleAppRepo() /
+    // isEmptyRepo(). We log shape gaps at info level for ops visibility but
+    // do not block.
+    //
+    // Backwards-compatibility: the legacy queue worker (AppverseAppUpdater)
+    // calls parseUrl() then reads getRepoName/getDescription/getReadme/
+    // getLicense/getAppTypeIds on each existing app. Every existing app in
+    // the catalog today points at a single-app repo with a root manifest.yml
+    // (otherwise it wouldn't have been created), so manifestData IS
+    // populated for them. If an admin re-pointed an existing app at a
+    // Collection URL, manifestData would be FALSE here and the worker's
+    // getters would return NULL/empty — the worker would gracefully no-op
+    // the changed fields rather than crash.
+    if ($manifest_text === NULL) {
       $this->manifestData = FALSE;
+      $this->logger->info('Repository @repo has no root manifest.yml; caller will decide shape.', ['@repo' => $this->owner . '/' . $this->name]);
       return;
     }
+
     $this->manifestData = Yaml::decode($manifest_text);
-    $this->repoName = $this->manifestData['name'];
+    $this->repoName = $this->manifestData['name'] ?? NULL;
     // Sanitize description from manifest as it may contain HTML.
     $description_raw = $this->manifestData['description'] ?? '';
     $this->description = $description_raw ? Xss::filterAdmin($description_raw) : '';
     $this->role = $this->manifestData['role'] ?? NULL;
     $this->subcategory = $this->manifestData['subcategory'] ?? NULL;
+  }
+
+  /**
+   * Whether this repo has a root appverse.yml (a Declared Collection).
+   *
+   * Call after fetchRepoData(). Returns FALSE if fetchRepoData hasn't
+   * run successfully (i.e. URL was invalid).
+   */
+  public function isCollectionRepo(): bool {
+    return $this->appverseYmlText !== NULL && trim($this->appverseYmlText) !== '';
+  }
+
+  /**
+   * Whether this repo has a root manifest.yml (a Single-App Inferred Collection).
+   *
+   * A repo can have BOTH a root manifest.yml AND a root appverse.yml. In that
+   * case isCollectionRepo() takes precedence — appverse.yml's apps[] is the
+   * authoritative app list.
+   *
+   * See isCollectionRepo() for preconditions (call after fetchRepoData()).
+   */
+  public function isSingleAppRepo(): bool {
+    return $this->data !== NULL
+      && ($this->data['manifestYml']['text'] ?? NULL) !== NULL
+      && !$this->isCollectionRepo();
+  }
+
+  /**
+   * Whether this repo lacks both appverse.yml and root manifest.yml.
+   *
+   * Such a repo cannot register as either a Collection or a single app.
+   *
+   * See isCollectionRepo() for preconditions (call after fetchRepoData()).
+   * Exactly one of isCollectionRepo(), isSingleAppRepo(), isEmptyRepo()
+   * returns TRUE at a time.
+   */
+  public function isEmptyRepo(): bool {
+    return !$this->isCollectionRepo() && !$this->isSingleAppRepo();
   }
 
   /**
@@ -376,7 +416,7 @@ class GitHubService {
    * @param string[] $subpaths
    *   Repo-relative subpaths (e.g. ['jupyter_example', 'rstudio_example']).
    *
-   * @return array<string, array{manifestYml: ?string, appverseYml: ?string, readme: ?string}>
+   * @return array<string, array{manifestYml: ?string, appverseYml: ?string, readme: ?string, form: ?string}>
    *   Per-subpath file contents, keyed by the original subpath string.
    */
   public function fetchAppSubpaths(array $subpaths): array {
@@ -406,8 +446,8 @@ class GitHubService {
       // sprintf builds the query string itself; the values are repo paths
       // we control, so no injection vector here.
       $blobFields[] = sprintf(
-        "%s_manifest: object(expression: \"HEAD:%s/manifest.yml\") { ... on Blob { text } }\n        %s_appverse: object(expression: \"HEAD:%s/appverse.yml\") { ... on Blob { text } }\n        %s_readme: object(expression: \"HEAD:%s/README.md\") { ... on Blob { text } }",
-        $alias, $cleanPath, $alias, $cleanPath, $alias, $cleanPath
+        "%s_manifest: object(expression: \"HEAD:%s/manifest.yml\") { ... on Blob { text } }\n        %s_appverse: object(expression: \"HEAD:%s/appverse.yml\") { ... on Blob { text } }\n        %s_readme: object(expression: \"HEAD:%s/README.md\") { ... on Blob { text } }\n        %s_form: object(expression: \"HEAD:%s/form.yml\") { ... on Blob { text } }",
+        $alias, $cleanPath, $alias, $cleanPath, $alias, $cleanPath, $alias, $cleanPath
       );
     }
     if (empty($blobFields)) {
@@ -444,10 +484,12 @@ class GitHubService {
       $manifestText = $repoData[$alias . '_manifest']['text'] ?? NULL;
       $appverseText = $repoData[$alias . '_appverse']['text'] ?? NULL;
       $readmeText = $repoData[$alias . '_readme']['text'] ?? NULL;
+      $formText = $repoData[$alias . '_form']['text'] ?? NULL;
       $result[$path] = [
         'manifestYml' => $manifestText,
         'appverseYml' => $appverseText,
         'readme' => $readmeText,
+        'form' => $formText,
       ];
     }
     $this->appSubpathFiles = $result;
@@ -457,10 +499,190 @@ class GitHubService {
   /**
    * Get the per-subpath files map, as populated by fetchAppSubpaths().
    *
-   * @return array<string, array{manifestYml: ?string, appverseYml: ?string, readme: ?string}>
+   * @return array<string, array{manifestYml: ?string, appverseYml: ?string, readme: ?string, form: ?string}>
    */
   public function getAppSubpathFiles(): array {
     return $this->appSubpathFiles;
+  }
+
+  /**
+   * Parse an OoD form.yml into a structured preview-friendly array.
+   *
+   * The shape returned mirrors the three top-level keys an OoD Batch
+   * Connect launcher form cares about:
+   * - clusters: the values from the YAML's `cluster` list (e.g. which
+   *   HPC clusters this app can submit to).
+   * - formFields: the values from the YAML's `form` list (the IDs of
+   *   the visible launcher form fields, e.g. `bc_num_hours`).
+   * - attributes: the raw associative array under `attributes`, where
+   *   each key is a form field ID mapping to its widget config
+   *   (label, type, default value, options, …).
+   *
+   * Any missing / non-array top-level keys collapse to empty arrays so
+   * callers can iterate without null-checks.
+   *
+   * @param string|null $yaml
+   *   Raw form.yml text, or NULL if the file wasn't found in the repo.
+   *
+   * @return array{
+   *   clusters: string[],
+   *   formFields: string[],
+   *   attributes: array<string, array>,
+   * }
+   *   Empty arrays at each key when $yaml is NULL, empty, or malformed.
+   */
+  public function parseFormYml(?string $yaml): array {
+    $empty = ['clusters' => [], 'formFields' => [], 'attributes' => []];
+    if ($yaml === NULL || trim($yaml) === '') {
+      return $empty;
+    }
+    try {
+      $parsed = Yaml::decode($yaml);
+    }
+    catch (\Throwable $e) {
+      $this->logger->warning('Could not parse form.yml: @message', ['@message' => $e->getMessage()]);
+      return $empty;
+    }
+    if (!is_array($parsed)) {
+      return $empty;
+    }
+    // Normalize cluster + form to lists: OoD's form.yml schema lets
+    // authors write either a list (`cluster: [cluster_a, cluster_b]`)
+    // or a single scalar (`cluster: cluster_a`). Wrap scalars so callers
+    // always see an array.
+    $cluster = $parsed['cluster'] ?? NULL;
+    $form = $parsed['form'] ?? NULL;
+    return [
+      'clusters' => is_array($cluster)
+        ? array_values($cluster)
+        : (is_string($cluster) && $cluster !== '' ? [$cluster] : []),
+      'formFields' => is_array($form)
+        ? array_values($form)
+        : (is_string($form) && $form !== '' ? [$form] : []),
+      'attributes' => is_array($parsed['attributes'] ?? NULL) ? $parsed['attributes'] : [],
+    ];
+  }
+
+  /**
+   * Return per-app preview records for whatever shape this repo is.
+   *
+   * For a Declared Collection: walks apps[] in appverse.yml and returns
+   * one record per subpath (fetching per-subpath manifest + form.yml +
+   * README presence).
+   *
+   * For a Single-App Inferred Collection: returns one record from the
+   * root manifest, with subpath=''.
+   *
+   * For an empty repo: returns [].
+   *
+   * Call after fetchRepoData(). For Collections, this method also calls
+   * fetchAppSubpaths() internally — caller doesn't need to.
+   *
+   * @return array<int, array{
+   *   subpath: string,
+   *   name: ?string,
+   *   category: ?string,
+   *   subcategory: ?string,
+   *   role: ?string,
+   *   description: ?string,
+   *   license: ?string,
+   *   clusters: string[],
+   *   formFields: string[],
+   *   attributes: array,
+   *   readmePresent: bool,
+   *   readmeBytes: int,
+   * }>
+   */
+  public function getAppPreviewData(): array {
+    if ($this->isEmptyRepo()) {
+      return [];
+    }
+
+    if ($this->isCollectionRepo()) {
+      // Walk apps[] in root appverse.yml.
+      try {
+        $appverse = Yaml::decode($this->appverseYmlText);
+      }
+      catch (\Throwable $e) {
+        $this->logger->warning('appverse.yml at root is not parseable: @msg', ['@msg' => $e->getMessage()]);
+        return [];
+      }
+      $subpaths = [];
+      $skipped = 0;
+      foreach (($appverse['apps'] ?? []) as $app) {
+        if (isset($app['path']) && is_string($app['path']) && $app['path'] !== '') {
+          $subpaths[] = $app['path'];
+        }
+        else {
+          $skipped++;
+        }
+      }
+      if ($skipped > 0) {
+        $this->logger->notice('Skipped @n appverse.yml apps[] entry/entries without a non-empty path.', ['@n' => $skipped]);
+      }
+      if (empty($subpaths)) {
+        return [];
+      }
+      $this->fetchAppSubpaths($subpaths);
+
+      $records = [];
+      // Collection-level license falls through to apps that lack their own.
+      $repoLicense = $this->license;
+      foreach ($subpaths as $path) {
+        $files = $this->appSubpathFiles[$path] ?? [];
+        $manifest = [];
+        if (!empty($files['manifestYml'])) {
+          try {
+            $manifest = Yaml::decode($files['manifestYml']) ?? [];
+          }
+          catch (\Throwable $e) {
+            $this->logger->warning('Could not parse manifest.yml at @path: @msg', ['@path' => $path, '@msg' => $e->getMessage()]);
+            $manifest = [];
+          }
+        }
+        $formData = $this->parseFormYml($files['form'] ?? NULL);
+        $readme = $files['readme'] ?? NULL;
+        $records[] = [
+          'subpath' => $path,
+          'name' => $manifest['name'] ?? NULL,
+          'category' => $manifest['category'] ?? NULL,
+          'subcategory' => $manifest['subcategory'] ?? NULL,
+          'role' => $manifest['role'] ?? NULL,
+          'description' => $manifest['description'] ?? NULL,
+          'license' => $manifest['license'] ?? $repoLicense,
+          'clusters' => $formData['clusters'],
+          'formFields' => $formData['formFields'],
+          'attributes' => $formData['attributes'],
+          'readmePresent' => $readme !== NULL,
+          'readmeBytes' => $readme !== NULL ? strlen($readme) : 0,
+        ];
+      }
+      return $records;
+    }
+
+
+    // Single-App Inferred: one record from the root manifest.
+    // Harden against the edge case where flags say single-app but
+    // manifestData is not an array (e.g. earlier parse failure leaving
+    // it as FALSE — fetchRepoData sets manifestData = FALSE on shape
+    // gaps). Treat that as "no metadata available."
+    $manifest = is_array($this->manifestData) ? $this->manifestData : [];
+    return [[
+      'subpath' => '',
+      'name' => $manifest['name'] ?? NULL,
+      'category' => $manifest['category'] ?? NULL,
+      'subcategory' => $manifest['subcategory'] ?? NULL,
+      'role' => $this->role,
+      'description' => $this->description,
+      'license' => $this->license,
+      // No form.yml fetch for the inferred case in this phase. If we
+      // want this we can add a fetchRootFormYml() helper as a follow-up.
+      'clusters' => [],
+      'formFields' => [],
+      'attributes' => [],
+      'readmePresent' => $this->readme !== NULL,
+      'readmeBytes' => $this->readme !== NULL ? strlen($this->readme) : 0,
+    ]];
   }
 
   /**
