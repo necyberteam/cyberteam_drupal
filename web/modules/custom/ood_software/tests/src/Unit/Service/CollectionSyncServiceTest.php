@@ -108,7 +108,13 @@ class CollectionSyncServiceTest extends UnitTestCase {
     $time = $this->createMock(\Drupal\Component\Datetime\TimeInterface::class);
     $time->method('getCurrentTime')->willReturn(1234567890);
 
-    $this->service = new CollectionSyncService($entityTypeManager, $loggerFactory, $time);
+    // GitHubService is injected for software resolution (Phase 1.7 Task 5).
+    // These tests don't exercise the multi-app per-app sync path, so a bare
+    // mock is fine; the few methods needed (resolveSoftwareForApp) aren't
+    // called from applyDeclared (the Collection-level path under test).
+    $githubService = $this->createMock(\Drupal\ood_software\Plugin\GitHubService::class);
+
+    $this->service = new CollectionSyncService($entityTypeManager, $loggerFactory, $time, $githubService);
   }
 
   /**

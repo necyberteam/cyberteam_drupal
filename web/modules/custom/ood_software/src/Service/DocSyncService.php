@@ -108,6 +108,13 @@ class DocSyncService {
     // Strip the first H1 heading since the page title handles that.
     $markdown = preg_replace('/\A#\s+.+\n*/', '', $markdown, 1);
 
+    // Phase 1.7: substitute vocab-listing tokens. Authors writing
+    // contributor docs can drop `{{ APPVERSE_IMPLEMENTATION_TAGS }}` (or
+    // any other supported token) into their markdown to embed the
+    // current term list at sync time. Keeps the docs and the live
+    // catalog in sync without a separate discovery API endpoint.
+    $markdown = $this->substituteVocabularyTokens($markdown);
+
     $current_body = $node->get('body')->value;
     $current_format = $node->get('body')->format;
 
@@ -126,6 +133,80 @@ class DocSyncService {
       '@file' => $filename,
       '@nid' => $nid,
     ]);
+  }
+
+  /**
+   * Map of supported tokens to taxonomy vocabulary machine names.
+   *
+   * Markdown authors can use any of these tokens in their docs source
+   * to embed the current vocabulary listing at sync time. Adding a new
+   * token: just add a row here.
+   */
+  protected const VOCABULARY_TOKEN_MAP = [
+    '{{ APPVERSE_IMPLEMENTATION_TAGS }}' => 'appverse_implementation_tags',
+    '{{ APPVERSE_SCIENCE_DOMAINS }}' => 'appverse_science_domains',
+    '{{ APPVERSE_APP_TYPES }}' => 'appverse_app_type',
+    '{{ APPVERSE_LICENSES }}' => 'appverse_license',
+  ];
+
+  /**
+   * Substitute vocab-listing tokens in markdown with the current term list.
+   *
+   * Each token in VOCABULARY_TOKEN_MAP gets replaced with a markdown
+   * bullet list of the vocabulary's current term names, sorted
+   * alphabetically. Empty vocabularies emit an italicized "(no terms yet)"
+   * placeholder so missing tokens are visible rather than silently empty.
+   *
+   * @param string $markdown
+   *   Raw markdown from GitHub.
+   *
+   * @return string
+   *   Markdown with tokens substituted.
+   */
+  protected function substituteVocabularyTokens(string $markdown): string {
+    foreach (self::VOCABULARY_TOKEN_MAP as $token => $vocabularyId) {
+      if (strpos($markdown, $token) === FALSE) {
+        continue;
+      }
+      $listing = $this->renderVocabularyListing($vocabularyId);
+      $markdown = str_replace($token, $listing, $markdown);
+    }
+    return $markdown;
+  }
+
+  /**
+   * Render a taxonomy vocabulary's current term list as a markdown bullet list.
+   *
+   * @param string $vocabularyId
+   *   The taxonomy vocabulary machine name.
+   *
+   * @return string
+   *   Markdown — "- Term name\n- Term name\n..." or italicized empty notice.
+   */
+  protected function renderVocabularyListing(string $vocabularyId): string {
+    try {
+      $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
+      $tids = $termStorage->getQuery()
+        ->condition('vid', $vocabularyId)
+        ->sort('name')
+        ->accessCheck(FALSE)
+        ->execute();
+      if (empty($tids)) {
+        return '*(no terms defined yet in vocabulary `' . $vocabularyId . '`)*';
+      }
+      $names = [];
+      foreach ($termStorage->loadMultiple($tids) as $term) {
+        $names[] = '- ' . $term->getName();
+      }
+      return implode("\n", $names);
+    }
+    catch (\Throwable $e) {
+      $this->logger->warning('Failed to render vocabulary listing for @vocab: @msg', [
+        '@vocab' => $vocabularyId,
+        '@msg' => $e->getMessage(),
+      ]);
+      return '*(could not load `' . $vocabularyId . '` — see watchdog)*';
+    }
   }
 
 }

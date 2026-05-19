@@ -6,6 +6,7 @@ use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\node\NodeInterface;
+use Drupal\ood_software\Plugin\GitHubService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -25,6 +26,7 @@ class CollectionSyncService {
     protected EntityTypeManagerInterface $entityTypeManager,
     LoggerChannelFactoryInterface $loggerFactory,
     protected TimeInterface $time,
+    protected GitHubService $githubService,
   ) {
     $this->logger = $loggerFactory->get('ood_software');
   }
@@ -245,7 +247,7 @@ class CollectionSyncService {
 
       $files = $subpathFiles[$subpath] ?? ['manifestYml' => NULL, 'appverseYml' => NULL];
       $appNode = $this->resolveAppNode($repoUrl, $subpath);
-      $this->applyDeclaredApp($appNode, $collection, $subpath, $files, $repoUrl, $repoMetadata);
+      $this->applyDeclaredApp($appNode, $collection, $subpath, $files, $repoUrl, $repoMetadata, $entry);
       $result[$subpath] = $appNode;
     }
     return $result;
@@ -286,7 +288,95 @@ class CollectionSyncService {
    * maintainer.support_url. If any are missing, mark validation_st =
    * rejected and skip writing optional fields.
    */
-  protected function applyDeclaredApp(NodeInterface $app, NodeInterface $collection, string $subpath, array $files, string $repoUrl, array $repoMetadata = []): void {
+  protected function applyDeclaredApp(NodeInterface $app, NodeInterface $collection, string $subpath, array $files, string $repoUrl, array $repoMetadata = [], ?array $entry = NULL): void {
+    // Ordering contract (Phase 1.7 Task 5): software resolution runs FIRST.
+    // Existing manifest/required-field logic below runs AFTER and may APPEND
+    // additional errors via the same read-modify-write pattern. NOTHING in
+    // this method resets validation_st from 'rejected' back to 'valid' once
+    // set. See plan §"Ordering contract".
+    //
+    // Precedence (per spec §5 step 2, revised 2026-05-18): software lives
+    // in the canonical Appverse layer, which is the root-inline apps[]
+    // entry merged with the per-subpath <path>/appverse.yml file. Root-
+    // inline wins when both forms declare the field (more visible to
+    // readers of the root file). manifest.yml does NOT carry software:
+    // (Appverse-only concept), so no manifest fallback for this field.
+    $perSubpathAppverse = [];
+    if (!empty($files['appverseYml'])) {
+      try {
+        $parsed = Yaml::parse($files['appverseYml']);
+        if (is_array($parsed)) {
+          $perSubpathAppverse = $parsed;
+        }
+      }
+      catch (\Throwable $e) {
+        $this->logger->warning('Could not parse @path/appverse.yml: @msg', ['@path' => $subpath, '@msg' => $e->getMessage()]);
+      }
+    }
+    $rootInline = is_array($entry) ? $entry : [];
+    // array_replace lets root-inline override per-subpath. Drop the
+    // structural 'path' key from the merged layer — it identifies the
+    // subpath, not an app field.
+    $appverseLayer = array_replace($perSubpathAppverse, $rootInline);
+    unset($appverseLayer['path']);
+
+    $softwareDeclared = $appverseLayer['software'] ?? NULL;
+    $softwareInfo = $this->githubService->resolveSoftwareForApp($softwareDeclared);
+
+    if ($softwareInfo['resolvedNid'] !== NULL) {
+      // Exact match — attach the Software ref. Do NOT touch validation_st
+      // or validation_er; later steps may set rejected for other reasons.
+      $app->set('field_appverse_software_implemen', $softwareInfo['resolvedNid']);
+    }
+    else {
+      // No match. Flag rejected + APPEND helpful error (preserve any
+      // existing errors set by earlier sync logic).
+      $app->set('field_appverse_app_validation_st', 'rejected');
+      $existingErrors = $app->get('field_appverse_app_validation_er')->getValue();
+      $newError = $this->buildSoftwareError($softwareDeclared, $subpath, $softwareInfo);
+      $existingErrors[] = ['value' => $newError];
+      $app->set('field_appverse_app_validation_er', $existingErrors);
+    }
+
+    // Tags: same precedence + resolution pattern as software. Read the
+    // `tags:` list from the merged appverse layer; resolve against the
+    // appverse_implementation_tags vocabulary; write resolved term ids
+    // to field_add_implementation_tags; append error(s) for unresolved.
+    $declaredTags = $appverseLayer['tags'] ?? NULL;
+    $tagsInfo = $this->githubService->resolveTaxonomyTermsFromAppverseYml(
+      'appverse_implementation_tags',
+      is_array($declaredTags) ? $declaredTags : NULL
+    );
+    if (!empty($tagsInfo['resolved'])) {
+      $tagTids = [];
+      foreach ($tagsInfo['resolved'] as $resolved) {
+        $tagTids[] = $resolved['tid'];
+      }
+      $app->set('field_add_implementation_tags', $tagTids);
+    }
+    if (!empty($tagsInfo['unresolved'])) {
+      $app->set('field_appverse_app_validation_st', 'rejected');
+      $existingErrors = $app->get('field_appverse_app_validation_er')->getValue();
+      foreach ($tagsInfo['unresolved'] as $unresolved) {
+        $suggestion = $unresolved['suggestion'] ?? NULL;
+        if ($suggestion !== NULL) {
+          $msg = sprintf(
+            "tags: '%s' not found in implementation_tags vocabulary. Did you mean '%s'? (See the contributor docs for the current list.)",
+            $unresolved['declared'],
+            $suggestion
+          );
+        }
+        else {
+          $msg = sprintf(
+            "tags: '%s' not found in implementation_tags vocabulary. See the contributor docs for the current list of valid values.",
+            $unresolved['declared']
+          );
+        }
+        $existingErrors[] = ['value' => $msg];
+      }
+      $app->set('field_appverse_app_validation_er', $existingErrors);
+    }
+
     $perAppYml = NULL;
     if (!empty($files['appverseYml'])) {
       try {
@@ -364,7 +454,12 @@ class CollectionSyncService {
     ]);
     $app->set('field_appverse_collection', $collection->id());
     $app->set('field_appverse_app_subpath', $subpath);
-    $app->set('field_appverse_app_validation_st', 'valid');
+    // Ordering contract: never reset 'rejected' to 'valid'. An earlier step
+    // (e.g. software resolution miss) may have flagged rejected for reasons
+    // unrelated to manifest fields; only mark valid if no prior rejection.
+    if ($app->get('field_appverse_app_validation_st')->value !== 'rejected') {
+      $app->set('field_appverse_app_validation_st', 'valid');
+    }
 
     // App type — match-only against the appverse_app_type vocab.
     $appTypeTid = $this->resolveAppTypeTerm((string) $appType);
@@ -418,6 +513,39 @@ class CollectionSyncService {
     }
 
     $app->save();
+  }
+
+  /**
+   * Build a user-facing error message for an unresolved software: value.
+   *
+   * @param string|null $declared
+   *   The raw software: value from appverse.yml's apps[] entry. NULL or
+   *   empty string when the key is missing.
+   * @param string $subpath
+   *   The apps[].path the error refers to. Used in the missing-key message
+   *   so the editor knows which app row to edit.
+   * @param array $info
+   *   The result of GitHubService::resolveSoftwareForApp() — used to pull
+   *   the suggestion on fuzzy-match miss.
+   */
+  protected function buildSoftwareError(?string $declared, string $subpath, array $info): string {
+    if ($declared === NULL || trim($declared) === '') {
+      return sprintf(
+        "software: required key missing from apps[].path '%s'. Add a 'software:' key matching an existing Software entry's title.",
+        $subpath
+      );
+    }
+    if ($info['suggestion'] !== NULL) {
+      return sprintf(
+        "software: '%s' not found in catalog. Did you mean '%s'? (Edit appverse.yml to fix.)",
+        $declared,
+        $info['suggestion']
+      );
+    }
+    return sprintf(
+      "software: '%s' not found in catalog. Check existing Software entries and update appverse.yml.",
+      $declared
+    );
   }
 
   /**

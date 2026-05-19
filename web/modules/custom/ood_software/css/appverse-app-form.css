@@ -1,0 +1,99 @@
+/* AJAX preview cards rendered inside the appverse_app node-add form. */
+
+/* Row containing the GitHub URL field and the Fetch Repo button. */
+.appverse-url-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+/* Drupal's link-field widget wraps the .form-item in
+   .field--name-field-appverse-github-url, so target that wrapper
+   (the direct flex child) rather than .form-item which lives one
+   level deeper. */
+.appverse-url-row > .field--name-field-appverse-github-url,
+.appverse-url-row > .form-item {
+  flex: 1 1 24rem;
+  min-width: 0;
+}
+.appverse-url-row > .field--name-field-appverse-github-url .form-item {
+  margin: 0;
+}
+.appverse-url-row > .button { flex: 0 0 auto; align-self: flex-end; margin-top: 0; }
+
+/* AJAX preview wrapper — sits full-width in its own row inside group_github. */
+.appverse-ajax-preview { width: 100%; clear: both; margin-top: 1rem; }
+
+/* Outer preview frame that wraps a Collection / single-app / empty preview. */
+.appverse-preview-frame {
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 1rem;
+}
+.appverse-preview-frame > p { margin-top: 0; }
+
+/* Each per-app card stacked inside the preview frame. */
+.appverse-app-card {
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  background: #fff;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.appverse-app-card:last-child { margin-bottom: 0; }
+
+.appverse-app-card__header {
+  padding: 0.6rem 0.9rem;
+  background: #f6f8fa;
+  border-bottom: 1px solid #d0d7de;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.appverse-app-card__subpath {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  color: #57606a;
+  flex-shrink: 0;
+}
+.appverse-app-card__name {
+  font-weight: bold;
+  font-size: 1.05em;
+}
+
+.appverse-app-card__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.appverse-app-card__cell {
+  padding: 0.6rem 0.9rem;
+}
+.appverse-app-card__cell + .appverse-app-card__cell { border-left: 1px solid #eaecef; }
+.appverse-app-card__cell--row2 { border-top: 1px solid #eaecef; }
+.appverse-app-card__label {
+  font-size: 0.8em;
+  color: #57606a;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.2rem;
+}
+.appverse-app-card__value { /* default body color */ }
+.appverse-app-card__value--muted { color: #8b949e; }
+
+.appverse-app-card__description {
+  padding: 0.6rem 0.9rem;
+  border-top: 1px solid #eaecef;
+  background: #fafbfc;
+  color: #57606a;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+/* Status icon classes (use existing bootstrap icon classes for the icons themselves). */
+.appverse-status-ok { color: #1a7f37; }
+.appverse-status-warn { color: #9a6700; }
+.appverse-status-err { color: #cf222e; }
+.appverse-status-list > * { display: block; }

@@ -564,6 +564,171 @@ class GitHubService {
   }
 
   /**
+   * Resolve a software: declaration to an appverse_software node title.
+   *
+   * @param string|null $declared
+   *   The raw `software` value from appverse.yml's apps[] entry, or NULL
+   *   if the author omitted it.
+   *
+   * @return array{
+   *   declared: ?string,
+   *   resolvedTitle: ?string,
+   *   resolvedNid: ?int,
+   *   suggestion: ?string,
+   *   suggestionDistance: ?int,
+   * }
+   *   - declared: the raw input.
+   *   - resolvedTitle / resolvedNid: the matched appverse_software title +
+   *     nid if exact match found (case-insensitive); NULL otherwise.
+   *   - suggestion: closest Software title by Levenshtein distance, if
+   *     declared is non-empty and no exact match found and a candidate
+   *     within distance <= 3 exists; NULL otherwise.
+   *   - suggestionDistance: the Levenshtein distance to the suggestion.
+   */
+  // PUBLIC because CollectionSyncService::applyDeclaredApp (Task 5) calls
+  // this from another class. We could move resolution to a dedicated
+  // SoftwareResolverService, but for Phase 1.7's single call site that's
+  // over-engineered. If a third caller appears, extract to its own service.
+  public function resolveSoftwareForApp(?string $declared): array {
+    $result = [
+      'declared' => $declared,
+      'resolvedTitle' => NULL,
+      'resolvedNid' => NULL,
+      'suggestion' => NULL,
+      'suggestionDistance' => NULL,
+    ];
+    if ($declared === NULL || trim($declared) === '') {
+      return $result;
+    }
+
+    $nodeStorage = $this->entityTypeManager->getStorage('node');
+    $allSoftwareIds = $nodeStorage->getQuery()
+      ->condition('type', 'appverse_software')
+      ->condition('status', 1)
+      ->accessCheck(FALSE)
+      ->execute();
+    if (empty($allSoftwareIds)) {
+      return $result;
+    }
+    $software = $nodeStorage->loadMultiple($allSoftwareIds);
+    $declaredLower = mb_strtolower(trim($declared));
+
+    // Exact case-insensitive match wins.
+    foreach ($software as $sw) {
+      if (mb_strtolower($sw->getTitle()) === $declaredLower) {
+        $result['resolvedTitle'] = $sw->getTitle();
+        $result['resolvedNid'] = (int) $sw->id();
+        return $result;
+      }
+    }
+
+    // No exact match. Compute Levenshtein to find closest within threshold.
+    $bestTitle = NULL;
+    $bestDistance = PHP_INT_MAX;
+    foreach ($software as $sw) {
+      $distance = levenshtein($declaredLower, mb_strtolower($sw->getTitle()));
+      if ($distance < $bestDistance) {
+        $bestDistance = $distance;
+        $bestTitle = $sw->getTitle();
+      }
+    }
+    if ($bestTitle !== NULL && $bestDistance <= 3) {
+      $result['suggestion'] = $bestTitle;
+      $result['suggestionDistance'] = $bestDistance;
+    }
+    return $result;
+  }
+
+  /**
+   * Resolve a list of declared taxonomy term names against a vocabulary.
+   *
+   * Generic version of resolveSoftwareForApp for list-shaped fields like
+   * `tags:` in apps[] entries. Each declared value gets the same case-
+   * insensitive exact match + Levenshtein ≤ 3 fuzzy-match-suggestion
+   * treatment.
+   *
+   * @param string $vocabularyId
+   *   The taxonomy vocabulary machine name (e.g. 'appverse_implementation_tags').
+   * @param array|null $declared
+   *   The raw list from appverse.yml (e.g. ['Container', 'GPU-required']),
+   *   or NULL when the field is missing.
+   *
+   * @return array{
+   *   declared: string[],
+   *   resolved: array<int, array{name: string, tid: int}>,
+   *   unresolved: array<int, array{declared: string, suggestion: ?string, suggestionDistance: ?int}>,
+   * }
+   *   - declared: the raw input strings.
+   *   - resolved: terms that matched exactly (case-insensitive).
+   *   - unresolved: declarations with no exact match; each carries an
+   *     optional Levenshtein-≤-3 suggestion of the closest existing term.
+   */
+  public function resolveTaxonomyTermsFromAppverseYml(string $vocabularyId, ?array $declared): array {
+    $result = ['declared' => [], 'resolved' => [], 'unresolved' => []];
+    if ($declared === NULL || empty($declared)) {
+      return $result;
+    }
+    // Normalize the input list: coerce scalars to strings, trim, drop
+    // empties.
+    $declaredStrings = [];
+    foreach ($declared as $d) {
+      if (!is_scalar($d)) {
+        continue;
+      }
+      $s = trim((string) $d);
+      if ($s !== '') {
+        $declaredStrings[] = $s;
+      }
+    }
+    if (empty($declaredStrings)) {
+      return $result;
+    }
+    $result['declared'] = $declaredStrings;
+
+    $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
+    $allTermIds = $termStorage->getQuery()
+      ->condition('vid', $vocabularyId)
+      ->accessCheck(FALSE)
+      ->execute();
+    $terms = $allTermIds ? $termStorage->loadMultiple($allTermIds) : [];
+
+    foreach ($declaredStrings as $value) {
+      $valueLower = mb_strtolower($value);
+
+      // Exact case-insensitive match.
+      $matched = NULL;
+      foreach ($terms as $term) {
+        if (mb_strtolower($term->getName()) === $valueLower) {
+          $matched = $term;
+          break;
+        }
+      }
+      if ($matched !== NULL) {
+        $result['resolved'][] = ['name' => $matched->getName(), 'tid' => (int) $matched->id()];
+        continue;
+      }
+
+      // Fuzzy suggestion.
+      $bestName = NULL;
+      $bestDistance = PHP_INT_MAX;
+      foreach ($terms as $term) {
+        $distance = levenshtein($valueLower, mb_strtolower($term->getName()));
+        if ($distance < $bestDistance) {
+          $bestDistance = $distance;
+          $bestName = $term->getName();
+        }
+      }
+      $result['unresolved'][] = [
+        'declared' => $value,
+        'suggestion' => ($bestName !== NULL && $bestDistance <= 3) ? $bestName : NULL,
+        'suggestionDistance' => ($bestName !== NULL && $bestDistance <= 3) ? $bestDistance : NULL,
+      ];
+    }
+
+    return $result;
+  }
+
+  /**
    * Return per-app preview records for whatever shape this repo is.
    *
    * For a Declared Collection: walks apps[] in appverse.yml and returns
@@ -591,6 +756,13 @@ class GitHubService {
    *   attributes: array,
    *   readmePresent: bool,
    *   readmeBytes: int,
+   *   software: array{
+   *     declared: ?string,
+   *     resolvedTitle: ?string,
+   *     resolvedNid: ?int,
+   *     suggestion: ?string,
+   *     suggestionDistance: ?int,
+   *   },
    * }>
    */
   public function getAppPreviewData(): array {
@@ -608,10 +780,15 @@ class GitHubService {
         return [];
       }
       $subpaths = [];
+      // Map of path => the full apps[] entry so pass 2 can read per-entry
+      // data (e.g. software:) without losing it across fetchAppSubpaths().
+      $entriesByPath = [];
       $skipped = 0;
       foreach (($appverse['apps'] ?? []) as $app) {
         if (isset($app['path']) && is_string($app['path']) && $app['path'] !== '') {
-          $subpaths[] = $app['path'];
+          $path = $app['path'];
+          $subpaths[] = $path;
+          $entriesByPath[$path] = $app;
         }
         else {
           $skipped++;
@@ -629,6 +806,7 @@ class GitHubService {
       // Collection-level license falls through to apps that lack their own.
       $repoLicense = $this->license;
       foreach ($subpaths as $path) {
+        $entry = $entriesByPath[$path] ?? [];
         $files = $this->appSubpathFiles[$path] ?? [];
         $manifest = [];
         if (!empty($files['manifestYml'])) {
@@ -642,19 +820,56 @@ class GitHubService {
         }
         $formData = $this->parseFormYml($files['form'] ?? NULL);
         $readme = $files['readme'] ?? NULL;
+        // Build the canonical appverse layer for this app: per-subpath
+        // <path>/appverse.yml merged with the root-inline apps[] entry,
+        // with root-inline winning. See spec §5 step 2.
+        $perSubpathAppverse = [];
+        if (!empty($files['appverseYml'])) {
+          try {
+            $parsed = Yaml::decode($files['appverseYml']);
+            if (is_array($parsed)) {
+              $perSubpathAppverse = $parsed;
+            }
+          }
+          catch (\Throwable $e) {
+            $this->logger->warning('Could not parse @path/appverse.yml: @msg', ['@path' => $path, '@msg' => $e->getMessage()]);
+          }
+        }
+        $rootInline = is_array($entry) ? $entry : [];
+        $appverseLayer = array_replace($perSubpathAppverse, $rootInline);
+        unset($appverseLayer['path']);
+
+        // appverse layer is canonical for the catalog; falls through to
+        // manifest.yml when a field isn't declared in the layer.
+        $name = $appverseLayer['name'] ?? $manifest['name'] ?? NULL;
+        $description = $appverseLayer['description'] ?? $manifest['description'] ?? NULL;
+        $role = $appverseLayer['role'] ?? $manifest['role'] ?? NULL;
+        $category = $appverseLayer['category'] ?? $manifest['category'] ?? NULL;
+        $subcategory = $appverseLayer['subcategory'] ?? $manifest['subcategory'] ?? NULL;
+        $license = $appverseLayer['license'] ?? $manifest['license'] ?? $repoLicense;
+
+        $softwareInfo = $this->resolveSoftwareForApp($appverseLayer['software'] ?? NULL);
+        // Tags: per-app `tags:` declared in the appverse layer. Resolve
+        // against the appverse_implementation_tags vocabulary with the
+        // same case-insensitive + fuzzy-suggestion pattern as software.
+        $declaredTags = $appverseLayer['tags'] ?? NULL;
+        $tagsInfo = $this->resolveTaxonomyTermsFromAppverseYml('appverse_implementation_tags', is_array($declaredTags) ? $declaredTags : NULL);
+
         $records[] = [
           'subpath' => $path,
-          'name' => $manifest['name'] ?? NULL,
-          'category' => $manifest['category'] ?? NULL,
-          'subcategory' => $manifest['subcategory'] ?? NULL,
-          'role' => $manifest['role'] ?? NULL,
-          'description' => $manifest['description'] ?? NULL,
-          'license' => $manifest['license'] ?? $repoLicense,
+          'name' => $name,
+          'category' => $category,
+          'subcategory' => $subcategory,
+          'role' => $role,
+          'description' => $description,
+          'license' => $license,
           'clusters' => $formData['clusters'],
           'formFields' => $formData['formFields'],
           'attributes' => $formData['attributes'],
           'readmePresent' => $readme !== NULL,
           'readmeBytes' => $readme !== NULL ? strlen($readme) : 0,
+          'software' => $softwareInfo,
+          'tags' => $tagsInfo,
         ];
       }
       return $records;
@@ -682,6 +897,13 @@ class GitHubService {
       'attributes' => [],
       'readmePresent' => $this->readme !== NULL,
       'readmeBytes' => $this->readme !== NULL ? strlen($this->readme) : 0,
+      // Single-app inferred Collections get Software via the form's
+      // field_appverse_software_implemen autocomplete, not the manifest.
+      // Tags get picked via the form's field_add_implementation_tags
+      // widget. Both return empty resolution shapes so consumers can rely
+      // on the keys being present.
+      'software' => $this->resolveSoftwareForApp(NULL),
+      'tags' => $this->resolveTaxonomyTermsFromAppverseYml('appverse_implementation_tags', NULL),
     ]];
   }
 

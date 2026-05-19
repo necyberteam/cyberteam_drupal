@@ -143,6 +143,11 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
   }
   // Alter the node edit form for 'add app' content type.
   if ($form_id === 'node_appverse_app_edit_form' || $form_id === 'node_appverse_app_form') {
+    // Attach the CSS library that styles the URL+Fetch flex row and the
+    // AJAX preview cards. All styling lives in CSS (not inline style="")
+    // because Drupal's filter system strips style= from #markup values.
+    $form['#attached']['library'][] = 'ood_software/appverse_app_form';
+
     // Get user roles.
     $user = \Drupal::currentUser();
     $roles = $user->getRoles();
@@ -182,22 +187,186 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
     $form['group_github']['#prefix'] = '<div id="edit-group-github">';
     $form['group_github']['#suffix'] = '</div>';
 
-    // Place the button right after the github url field.
-    $lookup_button_weight = $form['field_appverse_github_url']['#weight'] + 1;
-
-    $form['group_github']['lookup_button'] = [
-      '#type' => 'button',
-      '#value' => t('Fetch Repo'),
-      '#limit_validation_errors' => array(),
-      '#weight' => $lookup_button_weight,
+    // Hidden field carrying the shape decision from the AJAX preview.
+    // Per-App fields' #states[visible] watches this so they show ONLY
+    // when the shape is 'single_app' (the only branch where the editor
+    // fills in per-App metadata directly; declared Collection apps get
+    // their metadata from per-subpath manifests, and empty/invalid URLs
+    // shouldn't show form fields at all).
+    //
+    // Default value depends on form context:
+    //   - Add form (node_appverse_app_form): empty string → all per-App
+    //     fields hidden at page load. Editor sees only the GitHub URL
+    //     field and Fetch button until the shape is detected.
+    //   - Edit form (node_appverse_app_edit_form): 'single_app' → fields
+    //     visible immediately, since an existing App node is being
+    //     edited and the shape question has already been resolved.
+    //
+    // Place INSIDE group_github so the existing AJAX wrapper re-renders
+    // it with the updated #value on each Fetch click. The :input[name=]
+    // selector finds it by name attribute regardless of DOM nesting.
+    $isEditForm = $form_id === 'node_appverse_app_edit_form';
+    $form['group_github']['appverse_shape_state'] = [
+      '#type' => 'hidden',
+      '#default_value' => $isEditForm ? 'single_app' : '',
+      // The id attribute is what #states selectors target.
       '#attributes' => [
-        'class' => [
-          'ml-0'
+        'id' => 'edit-appverse-shape-state',
+        'data-appverse-shape' => $isEditForm ? 'single_app' : '',
+      ],
+    ];
+
+    // Per-App fields that should only show when the AJAX preview
+    // determined the URL points at a single-app inferred repo. For all
+    // other shapes (collection / empty / invalid_url) AND for the
+    // pre-Fetch initial-page-load state, the fields stay hidden — the
+    // editor sees only the URL field until the shape is known.
+    $perAppFields = [
+      'title', 'body', 'field_appverse_readme', 'field_appverse_app_type',
+      'field_appverse_organization', 'field_license', 'field_appverse_license_link',
+      'field_appverse_lastupdated', 'field_appverse_software_implemen',
+      'field_appverse_stars', 'field_appverse_app_subpath',
+      'field_appverse_maintainer_name', 'field_add_implementation_tags',
+      'field_tags', 'field_appverse_collection',
+    ];
+    $perAppStateCondition = [
+      ':input[name="appverse_shape_state"]' => ['value' => 'single_app'],
+    ];
+    // Determine current shape for required-field stripping. Initial page
+    // load = NULL → treat as 'not single_app' → strip required. AJAX
+    // rebuild after Fetch puts the resolved shape in $form_state.
+    $currentShape = $form_state->get('appverse_shape');
+    $isSingleApp = $isEditForm || $currentShape === 'single_app';
+
+    foreach ($perAppFields as $name) {
+      if (isset($form[$name])) {
+        $form[$name]['#states'] = [
+          'visible' => $perAppStateCondition,
+        ];
+        // Strip #required at form-build time when fields are hidden, so
+        // Drupal's FormValidator::doValidateForm — which recurses through
+        // children BEFORE form-level #validate handlers run — never sees
+        // a #required flag on the hidden inputs. Doing this in a validate
+        // handler is too late: by the time it runs, errors are already
+        // set. See [[feedback-drupal-states-quirk]].
+        if (!$isSingleApp) {
+          $form[$name]['#required'] = FALSE;
+          _ood_software_clear_required_recursive($form[$name]);
+        }
+      }
+    }
+
+    // Disable browser HTML5 validation on the Save button. Without this,
+    // Collection submissions trigger "invalid form control is not
+    // focusable" errors when the browser tries to focus hidden #required
+    // inputs (title, field_license, etc.). Drupal's #states[required]
+    // mechanism doesn't help here — it puts data-drupal-states on the
+    // field WRAPPER, but the required="required" attribute is on the
+    // inner <input>, which Drupal's states JS doesn't toggle.
+    // Server-side validation (ood_software__edit_validate) still runs.
+    if (isset($form['actions']['submit'])) {
+      $form['actions']['submit']['#attributes']['formnovalidate'] = 'formnovalidate';
+    }
+
+    // Bracket the URL field + Fetch button in a flex container so they
+    // sit on the same row. The URL field uses Drupal's #group mechanism
+    // (#group = 'group_github') to render INSIDE the group_github fieldset
+    // even though it lives at top-level in the form tree (needed so that
+    // #parents resolves correctly for form submit). At render time
+    // processGroup() collects children by weight; the button is registered
+    // as a literal child of group_github just below.
+    //
+    // URL field + Fetch button render as a flex row. The button lives at
+    // top-level form (sibling to the URL field) so the two elements
+    // render in adjacent DOM positions — this is what makes the wrapping
+    // <div class="appverse-url-row"> actually contain both at render
+    // time. (Earlier attempt: put the button inside group_github and
+    // rely on the URL field's #group to logically collect them — that
+    // resolved at form-build time but NOT at HTML render time, so the
+    // wrapper opened around the URL field at the top of the form and
+    // closed around the button inside the fieldset, leaving the two
+    // visually disconnected.)
+    //
+    // Styling lives in css/appverse-app-form.css. The button's AJAX
+    // wrapper still targets 'edit-group-github' regardless of where the
+    // button lives in the form tree — AJAX wrapper IDs are DOM-only.
+    // URL field + Fetch button live in the SAME render tree position so
+    // they share a flex row at HTML render time. Approach: declare both
+    // as children of a new top-level container element with #type
+    // 'container' + an inline class. The wrapper's child render order
+    // is guaranteed by #weight.
+    //
+    // Why not just #prefix/#suffix-wrap them as siblings:
+    //   - URL field has #group => 'group_github' in form display config.
+    //     Drupal's Fieldset::processGroup MOVES the field into the
+    //     fieldset's DOM region during render. unset()/NULL on #group
+    //     don't stick — the display config re-asserts it via a process
+    //     callback that runs AFTER hook_form_alter.
+    //   - A container element bypasses the issue: its CHILDREN aren't
+    //     subject to processGroup's relocation, so the URL field renders
+    //     inside our flex container as expected.
+    //
+    // Pull the URL field into the new container by reassignment + unset,
+    // and add the button as the second child. The original #parents on
+    // the URL field stay correct via Drupal's tree-aware processing —
+    // the field's value still lands at $form_state['field_appverse_github_url'].
+    // Weight just below group_github (which contains the AJAX preview)
+    // so the URL+button row renders BEFORE the preview. group_github's
+    // own weight defaults to 9, so anything < 9 works; use 8 to leave
+    // room for future intermediate elements.
+    $form['appverse_url_row'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['appverse-url-row']],
+      '#weight' => 8,
+      'field_appverse_github_url' => $form['field_appverse_github_url'],
+      'lookup_button' => [
+        '#type' => 'button',
+        '#value' => t('Fetch Repo'),
+        '#limit_validation_errors' => array(),
+        '#attributes' => [
+          'class' => ['ml-0'],
+        ],
+        '#ajax' => [
+          'callback' => 'ood_software_fetch_github_data',
+          'wrapper' => 'edit-group-github',
         ],
       ],
-      '#ajax' => [
-        'callback' => 'ood_software_fetch_github_data',
-        'wrapper' => 'edit-group-github',
+    ];
+    // Preserve the URL field's submit data path: even though the field
+    // is now nested under 'appverse_url_row' in the form tree, its value
+    // should still resolve at form_state[field_appverse_github_url].
+    $form['appverse_url_row']['field_appverse_github_url']['#parents'] =
+      ['field_appverse_github_url'];
+    // Set explicit weights inside the container so the URL field renders
+    // FIRST and the button renders second. Without this, the URL field's
+    // original #weight (15, inherited from the form display config) sorts
+    // it AFTER the button (#weight 0 default), reversing the visual order.
+    $form['appverse_url_row']['field_appverse_github_url']['#weight'] = 0;
+    $form['appverse_url_row']['lookup_button']['#weight'] = 1;
+    // Drop the original top-level position so the field doesn't double-
+    // render. We do this AFTER copying the field into the container above
+    // so the copy carries the full field configuration.
+    unset($form['field_appverse_github_url']);
+
+    // Full-width preview container, rendered as its own row inside the
+    // group_github fieldset. The AJAX callback assigns the returned render
+    // array to ['ajax_preview']['content'] (it used to write a #markup
+    // string, but Drupal's filter system strips style= from #markup, so
+    // we now build render arrays whose containers carry class names that
+    // hook into css/appverse-app-form.css). Weighted just after the
+    // button so it appears immediately below the URL + Fetch row,
+    // spanning the full form width.
+    // Preview goes last inside group_github (only sibling is the hidden
+    // appverse_shape_state field, which has weight 0). Any high-ish weight
+    // works; using 100 to leave plenty of room for future siblings.
+    $form['group_github']['ajax_preview'] = [
+      '#type' => 'container',
+      '#weight' => 100,
+      '#attributes' => [
+        'class' => ['appverse-ajax-preview'],
+      ],
+      'content' => [
+        '#markup' => '',
       ],
     ];
 
@@ -249,17 +418,29 @@ function ood_software_fetch_github_data(array &$form, FormStateInterface $form_s
   // single-app / empty) happen here.
   $fetched = $gh->parseUrl($url);
 
+  // The preview goes into the dedicated full-width container declared in
+  // form_alter ($form['group_github']['ajax_preview']['content']). Each
+  // branch builds a render array (no inline style="" attributes — class
+  // names from css/appverse-app-form.css carry all visual styling, since
+  // Drupal's filter system strips style= from #markup at render time).
   if (!$fetched) {
-    // parseUrl messengered the URL-form reason. Echo into the suffix.
-    // Stash 'invalid_url' on form_state so Task 5's validation handler
-    // blocks save instead of falling through to default node entity save
-    // (which would create an orphan appverse_app node with a bad URL).
+    // parseUrl messengered the URL-form reason. Echo into the preview
+    // container. Stash 'invalid_url' on form_state so Task 5's validation
+    // handler blocks save instead of falling through to default node
+    // entity save (which would create an orphan appverse_app node with
+    // a bad URL).
     $form_state->set('appverse_shape', 'invalid_url');
-    $form['field_appverse_github_url']['widget'][0]['uri']['#suffix'] =
-      '<div class="gh-url-suffix bg-header-gray p-3 mb-3" style="margin-top:-1.9rem;">'
-      . '<i class="bi bi-x-lg text-danger"></i> '
-      . t('See above for details on what we found.')
-      . '</div>';
+    $form['group_github']['appverse_shape_state']['#value'] = 'invalid_url';
+    $form['group_github']['ajax_preview']['content'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['appverse-preview-frame']],
+      'icon' => [
+        '#markup' => '<i class="bi bi-x-lg appverse-status-err"></i> ',
+      ],
+      'msg' => [
+        '#markup' => t('See above for details on what we found.'),
+      ],
+    ];
     return $form['group_github'];
   }
 
@@ -268,34 +449,51 @@ function ood_software_fetch_github_data(array &$form, FormStateInterface $form_s
   // submit run as separate Drupal requests.
   if ($gh->isCollectionRepo()) {
     $form_state->set('appverse_shape', 'collection');
-    $suffix = _ood_software_build_collection_preview($gh, $form);
+    $form['group_github']['appverse_shape_state']['#value'] = 'collection';
+    $form['group_github']['ajax_preview']['content'] = _ood_software_build_collection_preview($gh, $form);
   }
   elseif ($gh->isSingleAppRepo()) {
     $form_state->set('appverse_shape', 'single_app');
-    $suffix = _ood_software_build_single_app_preview($gh, $form);
+    $form['group_github']['appverse_shape_state']['#value'] = 'single_app';
+    $form['group_github']['ajax_preview']['content'] = _ood_software_build_single_app_preview($gh, $form);
   }
   else {
     // Reached the repo but it has neither appverse.yml nor root manifest.yml.
     $form_state->set('appverse_shape', 'empty');
-    $suffix =
-      '<div class="gh-url-suffix bg-header-gray p-3 mb-3" style="margin-top:-1.9rem;">'
-      . '<p><i class="bi bi-x-lg text-danger"></i> '
-      . t("This repository doesn't contain an appverse.yml at the root or a manifest.yml file — there's nothing for the Appverse to register. See <a href=':bp'>contributor docs</a> for what the catalog expects.", [':bp' => 'https://openondemand.connectci.org/appverse-contributor-documentation'])
-      . '</p></div>';
+    $form['group_github']['appverse_shape_state']['#value'] = 'empty';
+    $form['group_github']['ajax_preview']['content'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['appverse-preview-frame']],
+      'msg' => [
+        '#markup' => '<p><i class="bi bi-x-lg appverse-status-err"></i> '
+          . t("This repository doesn't contain an appverse.yml at the root or a manifest.yml file — there's nothing for the Appverse to register. See <a href=':bp'>contributor docs</a> for what the catalog expects.", [':bp' => 'https://openondemand.connectci.org/appverse-contributor-documentation'])
+          . '</p>',
+      ],
+    ];
   }
 
-  $form['field_appverse_github_url']['widget'][0]['uri']['#suffix'] = $suffix;
   return $form['group_github'];
 }
 
 /**
  * Build the preview block for a Declared Collection.
  *
- * Also hides per-App form fields (Title/Body/AppType/etc.) via #access
- * since they will not be used at submit — sync sources them from each
- * subpath's manifest.yml. Pass-by-reference $form is required.
+ * Per-App form fields (Title/Body/AppType/etc.) are hidden client-side
+ * via Drupal #states wired in form_alter (watching the
+ * appverse_shape_state hidden field). The sync sources those fields
+ * from each subpath's manifest.yml at submit time.
+ *
+ * Returns a Drupal render array — structure carried by #type containers
+ * with class hooks, content carried by #markup with escaping applied at
+ * the call site. All visual styling lives in css/appverse-app-form.css.
+ * No inline style="" anywhere (Drupal's filter system strips style= from
+ * #markup, which broke the previous HTML-as-string implementation).
+ *
+ * The pass-by-reference $form parameter is retained for symmetry with
+ * _ood_software_build_single_app_preview, which still mutates $form to
+ * pre-populate per-field values.
  */
-function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitHubService $gh, array &$form): string {
+function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitHubService $gh, array &$form): array {
   $records = $gh->getAppPreviewData();
   $appCount = count($records);
   // Collection-level appverse.yml data. Guard against parse failure —
@@ -314,14 +512,11 @@ function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitH
     $appverse = [];
   }
 
-  $html = '<div class="gh-url-suffix bg-header-gray p-3 mb-3" style="margin-top:-1.9rem;">';
-  $html .= '<p><i class="bi bi-check-lg text-success"></i> ' . t('Declared Collection (appverse.yml at root)') . '</p>';
-
-  // Collection-level metadata.
-  $html .= '<h4>' . htmlspecialchars($appverse['title'] ?? '(no title)') . '</h4>';
-  if (!empty($appverse['description'])) {
-    $html .= '<p>' . htmlspecialchars($appverse['description']) . '</p>';
-  }
+  // Collection-level metadata list. Each entry is a small HTML fragment
+  // with user-supplied values escaped at interpolation. We assemble the
+  // <ul> as a single #markup string because all items are internally
+  // built — no element of $rows comes from outside this function without
+  // having been escaped just above.
   $rows = [];
   if (!empty($appverse['maintainer']['name'])) {
     $rows[] = '<strong>' . t('Maintainer:') . '</strong> ' . htmlspecialchars($appverse['maintainer']['name']);
@@ -353,62 +548,220 @@ function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitH
   $rows[] = '<strong>' . t('Organization:') . '</strong> ' . htmlspecialchars($gh->getOrganization() ?? '');
   $rows[] = '<strong>' . t('Stars:') . '</strong> ' . (int) $gh->getStars();
   $rows[] = '<strong>' . t('License:') . '</strong> ' . htmlspecialchars($gh->getLicense() ?? t('(none detected)'));
-  $html .= '<ul><li>' . implode('</li><li>', $rows) . '</li></ul>';
 
-  // Per-app table.
-  $html .= '<h5>' . t('Apps in this Collection (@n)', ['@n' => $appCount]) . '</h5>';
+  $collectionMetaMarkup = '<h4>' . htmlspecialchars($appverse['title'] ?? '(no title)') . '</h4>';
+  if (!empty($appverse['description'])) {
+    $collectionMetaMarkup .= '<p>' . htmlspecialchars($appverse['description']) . '</p>';
+  }
+  $collectionMetaMarkup .= '<ul><li>' . implode('</li><li>', $rows) . '</li></ul>';
+
+  // Build the apps_stack children — one render array per app card.
+  $appsStack = [
+    '#type' => 'container',
+    '#attributes' => ['class' => ['appverse-apps-stack']],
+  ];
   if ($appCount === 0) {
-    $html .= '<p><em>' . t('No apps declared in appverse.yml. The Collection will register with zero apps.') . '</em></p>';
+    $appsStack['empty'] = [
+      '#markup' => '<p><em>' . t('No apps declared in appverse.yml. The Collection will register with zero apps.') . '</em></p>',
+    ];
   }
   else {
-    $html .= '<table class="table table-striped"><thead><tr>'
-      . '<th>' . t('Subpath') . '</th>'
-      . '<th>' . t('Name') . '</th>'
-      . '<th>' . t('Role') . '</th>'
-      . '<th>' . t('Description') . '</th>'
-      . '<th>' . t('Clusters') . '</th>'
-      . '<th>' . t('Form fields') . '</th>'
-      . '<th>' . t('README') . '</th>'
-      . '</tr></thead><tbody>';
+    // Summary line: count apps whose software: declaration didn't resolve
+    // to a real Software node. These will save as rejected until the
+    // Collection author fixes appverse.yml.
+    $unresolved = 0;
     foreach ($records as $r) {
-      $description = $r['description'] ?? '';
-      $roleCell = htmlspecialchars($r['role'] ?? '', ENT_QUOTES | ENT_HTML5);
-      if (!empty($r['subcategory'])) {
-        $roleCell .= ' (' . htmlspecialchars($r['subcategory'], ENT_QUOTES | ENT_HTML5) . ')';
+      if (empty($r['software']['resolvedTitle'])) {
+        $unresolved++;
       }
-      $html .= '<tr>'
-        . '<td>' . htmlspecialchars($r['subpath'] ?? '', ENT_QUOTES | ENT_HTML5) . '</td>'
-        . '<td>' . htmlspecialchars($r['name'] ?? '(none)', ENT_QUOTES | ENT_HTML5) . '</td>'
-        . '<td>' . $roleCell . '</td>'
-        . '<td>' . htmlspecialchars(Unicode::truncate($description, 80, FALSE, TRUE), ENT_QUOTES | ENT_HTML5) . '</td>'
-        . '<td>' . htmlspecialchars(implode(', ', $r['clusters'] ?? []), ENT_QUOTES | ENT_HTML5) . '</td>'
-        . '<td>' . htmlspecialchars(implode(', ', $r['formFields'] ?? []), ENT_QUOTES | ENT_HTML5) . '</td>'
-        . '<td>' . (!empty($r['readmePresent']) ? round(($r['readmeBytes'] ?? 0) / 1024, 1) . ' KB' : t('—')) . '</td>'
-        . '</tr>';
     }
-    $html .= '</tbody></table>';
+    if ($unresolved > 0) {
+      $appsStack['unresolved_summary'] = [
+        '#markup' => '<p class="appverse-status-warn"><i class="bi bi-exclamation-triangle-fill"></i> '
+          . t('@n of @total apps reference Software not in the catalog. These apps will save as <strong>rejected</strong> until appverse.yml is fixed.', ['@n' => $unresolved, '@total' => count($records)])
+          . '</p>',
+      ];
+    }
+
+    foreach ($records as $idx => $r) {
+      $appsStack['card_' . $idx] = _ood_software_build_collection_app_card($r);
+    }
   }
 
-  $html .= '<p class="text-muted"><em>' . t('Submitting this form will register the Collection and create @n apps via the sync. App-level fields on this form are not used for Collections — they are sourced from each subpath\'s manifest.yml.', ['@n' => $appCount]) . '</em></p>';
-  $html .= '</div>';
-
-  // Per C3 (merged from former Task 6): hide per-App form fields for the
-  // Collection case. They will not be read at submit (Task 5 replaces
-  // the #submit chain to skip entity save) but hiding them avoids
-  // confusion + accidental edits during preview.
-  $fieldsToHide = [
-    'title', 'body', 'field_appverse_readme', 'field_appverse_app_type',
-    'field_appverse_organization', 'field_license', 'field_appverse_license_link',
-    'field_appverse_lastupdated', 'field_appverse_software_implemen',
-    'field_appverse_stars', 'field_appverse_app_subpath', 'field_appverse_maintainer_name',
-    'field_add_implementation_tags', 'field_tags',
+  return [
+    '#type' => 'container',
+    '#attributes' => ['class' => ['appverse-preview-frame']],
+    'header' => [
+      '#markup' => '<p><i class="bi bi-check-lg appverse-status-ok"></i> ' . t('Declared Collection (appverse.yml at root)') . '</p>',
+    ],
+    'collection_meta' => [
+      '#markup' => $collectionMetaMarkup,
+    ],
+    'apps_heading' => [
+      '#markup' => '<h5>' . t('Apps in this Collection (@n)', ['@n' => $appCount]) . '</h5>',
+    ],
+    'apps_stack' => $appsStack,
+    'footer_note' => [
+      '#markup' => '<p class="text-muted"><em>' . t('Submitting registers the Collection and creates @n app(s) via the sync. Per-app metadata is read from each subpath\'s `appverse.yml` (with `manifest.yml` as fallback) — edit those files in the repo to change app data.', ['@n' => $appCount]) . '</em></p>',
+    ],
   ];
-  foreach ($fieldsToHide as $name) {
-    if (isset($form[$name])) {
-      $form[$name]['#access'] = FALSE;
-    }
+
+  // Visibility of per-App form fields is controlled by Drupal #states
+  // wired in form_alter; see appverse_shape_state hidden field.
+}
+
+/**
+ * Build a single card render array for one app inside a Collection preview.
+ *
+ * Helper for _ood_software_build_collection_preview(); pulled out for
+ * readability. Returns a render array structured as: header (subpath +
+ * name) → body grid (2x2 of label-above-value cells) → optional
+ * description footer. All styling is via class names from
+ * css/appverse-app-form.css — no inline style attributes.
+ *
+ * User-supplied values (subpath, name, declared-software string, tag
+ * names, description, role/subcategory) are htmlspecialchars-escaped at
+ * the point of interpolation into the #markup strings.
+ */
+function _ood_software_build_collection_app_card(array $r): array {
+  $description = $r['description'] ?? '';
+  $roleText = htmlspecialchars($r['role'] ?? '', ENT_QUOTES | ENT_HTML5);
+  if (!empty($r['subcategory'])) {
+    $roleText .= ' (' . htmlspecialchars($r['subcategory'], ENT_QUOTES | ENT_HTML5) . ')';
   }
-  return $html;
+
+  // Software-resolution status from getAppPreviewData()'s per-record
+  // 'software' info. Four branches: exact match (green check), fuzzy
+  // suggestion (yellow warning), declared but no match (red x),
+  // missing key (red x). Static icon HTML is safe to interpolate;
+  // user-supplied strings (declared, suggestion) go through
+  // htmlspecialchars.
+  $softwareInfo = $r['software'] ?? [];
+  if (!empty($softwareInfo['resolvedTitle'])) {
+    $softwareCell = '<span class="appverse-status-ok"><i class="bi bi-check-lg"></i> '
+      . htmlspecialchars($softwareInfo['resolvedTitle'], ENT_QUOTES | ENT_HTML5)
+      . '</span>';
+  }
+  elseif (!empty($softwareInfo['suggestion'])) {
+    $softwareCell = '<span class="appverse-status-warn"><i class="bi bi-exclamation-triangle-fill"></i> '
+      . t('Unknown: "@d" — did you mean "@s"?', [
+        '@d' => $softwareInfo['declared'] ?? '',
+        '@s' => $softwareInfo['suggestion'],
+      ])
+      . '</span>';
+  }
+  elseif (!empty($softwareInfo['declared'])) {
+    $softwareCell = '<span class="appverse-status-err"><i class="bi bi-x-lg"></i> '
+      . t('Unknown: "@d"', ['@d' => $softwareInfo['declared']])
+      . '</span>';
+  }
+  else {
+    $softwareCell = '<span class="appverse-status-err"><i class="bi bi-x-lg"></i> '
+      . t('Missing software: key')
+      . '</span>';
+  }
+
+  // Tags column. resolveTaxonomyTermsFromAppverseYml returns
+  // {declared, resolved, unresolved}. Render resolved as ✅,
+  // unresolved with suggestion as ⚠️, unresolved without
+  // suggestion as ❌, no declarations as a muted dash.
+  $tagsInfo = $r['tags'] ?? ['declared' => [], 'resolved' => [], 'unresolved' => []];
+  if (empty($tagsInfo['declared'])) {
+    $tagsCell = '<span class="appverse-app-card__value--muted">' . t('—') . '</span>';
+  }
+  else {
+    $parts = [];
+    foreach ($tagsInfo['resolved'] as $tag) {
+      $parts[] = '<span class="appverse-status-ok"><i class="bi bi-check-lg"></i> '
+        . htmlspecialchars($tag['name'], ENT_QUOTES | ENT_HTML5)
+        . '</span>';
+    }
+    foreach ($tagsInfo['unresolved'] as $unresolved) {
+      if (!empty($unresolved['suggestion'])) {
+        $parts[] = '<span class="appverse-status-warn"><i class="bi bi-exclamation-triangle-fill"></i> '
+          . t('"@d" — did you mean "@s"?', [
+            '@d' => $unresolved['declared'],
+            '@s' => $unresolved['suggestion'],
+          ])
+          . '</span>';
+      }
+      else {
+        $parts[] = '<span class="appverse-status-err"><i class="bi bi-x-lg"></i> '
+          . t('Unknown: "@d"', ['@d' => $unresolved['declared']])
+          . '</span>';
+      }
+    }
+    $tagsCell = '<span class="appverse-status-list">' . implode('', $parts) . '</span>';
+  }
+
+  $readmeText = !empty($r['readmePresent'])
+    ? round(($r['readmeBytes'] ?? 0) / 1024, 1) . ' KB'
+    : '—';
+  $readmeCellHtml = $readmeText !== '—'
+    ? htmlspecialchars($readmeText)
+    : '<span class="appverse-app-card__value--muted">—</span>';
+  $roleCellHtml = $roleText !== ''
+    ? $roleText
+    : '<span class="appverse-app-card__value--muted">—</span>';
+
+  $card = [
+    '#type' => 'container',
+    '#attributes' => ['class' => ['appverse-app-card']],
+    'header' => [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['appverse-app-card__header']],
+      'subpath' => [
+        '#markup' => '<span class="appverse-app-card__subpath">'
+          . htmlspecialchars($r['subpath'] ?? '', ENT_QUOTES | ENT_HTML5)
+          . '</span>',
+      ],
+      'name' => [
+        '#markup' => '<span class="appverse-app-card__name">'
+          . htmlspecialchars($r['name'] ?? '(none)', ENT_QUOTES | ENT_HTML5)
+          . '</span>',
+      ],
+    ],
+    'body' => [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['appverse-app-card__body']],
+      'software_cell' => [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['appverse-app-card__cell']],
+        'label' => ['#markup' => '<div class="appverse-app-card__label">' . t('Software') . '</div>'],
+        'value' => ['#markup' => '<div>' . $softwareCell . '</div>'],
+      ],
+      'tags_cell' => [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['appverse-app-card__cell']],
+        'label' => ['#markup' => '<div class="appverse-app-card__label">' . t('Tags') . '</div>'],
+        'value' => ['#markup' => '<div>' . $tagsCell . '</div>'],
+      ],
+      'role_cell' => [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['appverse-app-card__cell', 'appverse-app-card__cell--row2']],
+        'label' => ['#markup' => '<div class="appverse-app-card__label">' . t('Role') . '</div>'],
+        'value' => ['#markup' => '<div>' . $roleCellHtml . '</div>'],
+      ],
+      'readme_cell' => [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['appverse-app-card__cell', 'appverse-app-card__cell--row2']],
+        'label' => ['#markup' => '<div class="appverse-app-card__label">' . t('README') . '</div>'],
+        'value' => ['#markup' => '<div>' . $readmeCellHtml . '</div>'],
+      ],
+    ],
+  ];
+
+  if (!empty($description)) {
+    $card['description'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['appverse-app-card__description']],
+      'text' => [
+        '#markup' => htmlspecialchars(Unicode::truncate($description, 200, FALSE, TRUE), ENT_QUOTES | ENT_HTML5),
+      ],
+    ];
+  }
+
+  return $card;
 }
 
 /**
@@ -419,14 +772,13 @@ function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitH
  * remain editable so editors can override before submit — preserves
  * the pre-Phase-1 behavior for apps that haven't yet adopted
  * appverse.yml.
+ *
+ * Returns a Drupal render array (see notes on the Collection variant).
  */
-function _ood_software_build_single_app_preview(\Drupal\ood_software\Plugin\GitHubService $gh, array &$form): string {
+function _ood_software_build_single_app_preview(\Drupal\ood_software\Plugin\GitHubService $gh, array &$form): array {
   $records = $gh->getAppPreviewData();
   $r = $records[0] ?? [];
 
-  $suffix = '<div class="gh-url-suffix bg-header-gray p-3 mb-3" style="margin-top:-1.9rem;">';
-  $suffix .= '<p><i class="bi bi-check-lg text-success"></i> ' . t('Single-app repository (root manifest.yml, no appverse.yml yet)') . '</p>';
-  $suffix .= '<p><em>' . t('We have pre-filled the form below with what we found. You can edit before submitting.') . '</em></p>';
   $rows = [];
   if (!empty($r['name'])) {
     $rows[] = '<strong>' . t('Name:') . '</strong> ' . htmlspecialchars($r['name']);
@@ -445,8 +797,6 @@ function _ood_software_build_single_app_preview(\Drupal\ood_software\Plugin\GitH
   }
   $rows[] = '<strong>' . t('Organization:') . '</strong> ' . htmlspecialchars($gh->getOrganization() ?? '');
   $rows[] = '<strong>' . t('Stars:') . '</strong> ' . (int) $gh->getStars();
-  $suffix .= '<ul><li>' . implode('</li><li>', $rows) . '</li></ul>';
-  $suffix .= '</div>';
 
   // Pre-populate the form fields (existing single-app behavior).
   $form['body']['widget'][0]['value']['#value'] = $gh->getDescription();
@@ -467,7 +817,21 @@ function _ood_software_build_single_app_preview(\Drupal\ood_software\Plugin\GitH
     }
   }
 
-  return $suffix;
+  return [
+    '#type' => 'container',
+    '#attributes' => ['class' => ['appverse-preview-frame']],
+    'header' => [
+      '#markup' => '<p><i class="bi bi-check-lg appverse-status-ok"></i> '
+        . t('Single-app repository (root manifest.yml, no appverse.yml yet)')
+        . '</p>',
+    ],
+    'note' => [
+      '#markup' => '<p><em>' . t('We have pre-filled the form below with what we found. You can edit before submitting.') . '</em></p>',
+    ],
+    'rows' => [
+      '#markup' => '<ul><li>' . implode('</li><li>', $rows) . '</li></ul>',
+    ],
+  ];
 }
 
 /**
@@ -601,6 +965,34 @@ function ood_software__edit_validate($form, FormStateInterface $form_state) {
   }
   elseif ($shape === 'invalid_url') {
     $form_state->setErrorByName('field_appverse_github_url', t('Please enter a valid GitHub repository URL (e.g. https://github.com/owner/repo).'));
+  }
+
+  // #required on per-App fields is stripped at form-build time in
+  // hook_form_alter (see the foreach over $perAppFields up there).
+  // Doing it here in a validate handler is too late — Drupal's
+  // FormValidator::doValidateForm walks children BEFORE form-level
+  // #validate handlers run, so #required_but_empty would already be
+  // set and the error message in form_state. See
+  // [[feedback-drupal-states-quirk]] for full rationale.
+}
+
+/**
+ * Recursively unset #required on every nested render-array element.
+ *
+ * Called from ood_software__edit_validate when the form's per-App
+ * fields are hidden by shape and shouldn't enforce required.
+ */
+function _ood_software_clear_required_recursive(array &$element) {
+  if (isset($element['#required'])) {
+    $element['#required'] = FALSE;
+  }
+  foreach ($element as $key => &$value) {
+    if (is_string($key) && str_starts_with($key, '#')) {
+      continue;
+    }
+    if (is_array($value)) {
+      _ood_software_clear_required_recursive($value);
+    }
   }
 }
 
