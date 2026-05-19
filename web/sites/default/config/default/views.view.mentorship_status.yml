@@ -399,6 +399,73 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        status:
+          id: status
+          table: node_field_data
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: status
+          plugin_id: field
+          label: Published
+          exclude: false
+          alter:
+            alter_text: true
+            text: "{% if status__value == 1 %}\r\n  <i class=\"bi bi-check2\"></i>\r\n  <span class=\"visually-hidden\">Published</span>\r\n{% else %}\r\n  <span class=\"visually-hidden\">Not Published</span>\r\n{% endif %}"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: boolean
+          settings:
+            format: boolean
+            format_custom_false: ''
+            format_custom_true: ''
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         field_me_state:
           id: field_me_state
           table: node__field_me_state
@@ -638,10 +705,36 @@ display:
           entity_type: node
           entity_field: status
           plugin_id: boolean
-          value: '1'
+          operator: '='
+          value: All
           group: 1
+          exposed: true
           expose:
-            operator: ''
+            operator_id: status_op
+            label: Published
+            description: ''
+            use_operator: false
+            operator: status_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: status
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         field_mentorship_program_target_id:
           id: field_mentorship_program_target_id
           table: node__field_mentorship_program
@@ -928,6 +1021,7 @@ display:
             field_mentee: field_mentee
             field_me_ccmnet_leadership: field_me_ccmnet_leadership
             field_ccmnet_approved: field_ccmnet_approved
+            status: status
             field_me_state: field_me_state
             field_match_interested_users: field_match_interested_users
           default: '-1'
@@ -966,6 +1060,13 @@ display:
               empty_column: false
               responsive: ''
             field_ccmnet_approved:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            status:
               sortable: true
               default_sort_order: asc
               align: ''
@@ -1498,10 +1599,36 @@ display:
           entity_type: node
           entity_field: status
           plugin_id: boolean
-          value: '1'
+          operator: '='
+          value: All
           group: 1
+          exposed: true
           expose:
-            operator: ''
+            operator_id: status_op
+            label: Published
+            description: ''
+            use_operator: false
+            operator: status_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: status
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         type:
           id: type
           table: node_field_data
