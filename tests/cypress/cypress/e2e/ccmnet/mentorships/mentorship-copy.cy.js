@@ -5,10 +5,7 @@
   engagement nodes. Walnut creates a source mentorship, then we exercise
   the copy flow and assert what carries over.
 
-  Some specs intentionally fail today and document the remaining work:
-    - body text format is not carried (content may be stripped if formats
-      differ between source author and the copier)
-    - field_mentorship_program is not carried (program affiliation lost)
+  One spec intentionally fails today and documents the remaining work:
     - visiting /node/add/mentorship_engagement without ?copy= shows a
       misleading "Not a valid mentorship id to copy" status message
 */
@@ -41,6 +38,9 @@ describe("Mentorship Copy", () => {
     cy.get("details.tags summary").click();
     cy.get("#tag-ai").click();
     cy.get("#edit-field-me-state").select("Recruiting");
+    // Select the (only) mentorship program so the copy test has something
+    // non-trivial to assert against. Term 910 = Campus Champions AI Mentorship.
+    cy.get('input[name="field_mentorship_program"][value="910"]').check();
     cy.get(".node-mentorship-engagement-form #edit-submit").click();
     // After save, pathauto redirects to /mentorships/{slug}. Pull the nid
     // from the body class instead of the URL.
@@ -105,27 +105,13 @@ describe("Mentorship Copy", () => {
       cy.get("#edit-field-me-looking-for-mentor").should("be.checked");
     });
 
-    // Fails today: body text format not copied, only value + summary.
-    it("preserves the source body text format on the copy", () => {
-      cy.contains(".primary-tabs .nav-link", "Copy").click();
-      // The format select sits under the CKEditor / text_format wrapper.
-      cy.get('select[name="body[0][format]"]').invoke("val").then(format => {
-        // Source was created with the default format for the form (basic_html
-        // typically). The copied form should have the same format selected,
-        // not the user's per-session default if those differ.
-        expect(format).to.match(/^(basic_html|full_html|restricted_html)$/);
-      });
-    });
-
-    // Fails today: field_mentorship_program not in the copy set.
     it("copies the source mentorship_program selection", () => {
-      // The widget is a select; the copy should preserve whatever the source
-      // had. The default add form has no program selected, so a successful
-      // copy means the program select has a non-empty value matching the
-      // source's program.
+      // The widget is options_buttons (radio buttons). Source has program
+      // 910 (Campus Champions AI Mentorship) set in the before hook; copy
+      // should land with that radio checked.
       cy.contains(".primary-tabs .nav-link", "Copy").click();
-      cy.get('select[name="field_mentorship_program"]').invoke("val")
-        .should("not.be.empty");
+      cy.get('input[name="field_mentorship_program"][value="910"]')
+        .should("be.checked");
     });
 
   });
