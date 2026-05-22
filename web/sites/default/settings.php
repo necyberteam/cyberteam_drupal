@@ -258,7 +258,7 @@ function _get_turnstile_secret($name) {
 function _serve_turnstile_challenge($return_url) {
   $site_key = _get_turnstile_secret('TURNSTILE_SITE_KEY');
   $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-  $cookie_name = 'STYXKEY_turnstile_verified';
+  $cookie_name = '_turnstile_verified';
   $cookie_duration = 86400; // 24 hours
   $error = '';
 
@@ -429,7 +429,7 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
   $token = isset($_GET['token']) ? $_GET['token'] : '';
   $return_url = isset($_GET['return']) ? $_GET['return'] : '/';
   $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-  $cookie_name = 'STYXKEY_turnstile_verified';
+  $cookie_name = '_turnstile_verified';
   $cookie_duration = 86400; // 24 hours
 
   // Sanitize return URL.
@@ -542,7 +542,7 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
 
       // Second line of defense: Turnstile verification for everyone else.
       $turnstile_secret = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-      $cookie_name = 'STYXKEY_turnstile_verified';
+      $cookie_name = '_turnstile_verified';
 
       // Verify the cookie is valid (matches expected hash).
       $cookie_valid = FALSE;
