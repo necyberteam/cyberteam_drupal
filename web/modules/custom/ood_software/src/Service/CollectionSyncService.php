@@ -81,6 +81,7 @@ class CollectionSyncService {
       // Fatal: malformed appverse.yml. Mark stale_invalid and preserve
       // existing data if a Collection already exists.
       $node = $existing ?? $this->createBlankCollection($repoUrl);
+      $node->set('field_collection_shape', 'declared');
       $node->set('field_collection_validation_st', 'stale_invalid');
       $node->set('field_collection_validation_er', [
         sprintf('appverse.yml: parse error — %s. Fix: validate YAML syntax at https://www.yamllint.com/', $this->sanitizeError($e->getMessage())),
@@ -93,6 +94,7 @@ class CollectionSyncService {
 
     if (!is_array($parsed) || (count($parsed) > 0 && array_is_list($parsed))) {
       $node = $existing ?? $this->createBlankCollection($repoUrl);
+      $node->set('field_collection_shape', 'declared');
       $node->set('field_collection_validation_st', 'stale_invalid');
       $node->set('field_collection_validation_er', [
         'appverse.yml: top-level must be a YAML mapping. Fix: ensure the file starts with `key: value` pairs, not a list or scalar.',
@@ -106,6 +108,7 @@ class CollectionSyncService {
     $minVersion = $parsed['appverse']['min_version'] ?? NULL;
     if ($minVersion !== NULL && version_compare($minVersion, '1.0', '>')) {
       $node = $existing ?? $this->createBlankCollection($repoUrl);
+      $node->set('field_collection_shape', 'declared');
       $node->set('field_collection_validation_st', 'stale_invalid');
       $node->set('field_collection_validation_er', [
         sprintf('appverse.yml: appverse.min_version = "%s" but this catalog supports up to "1.0". Fix: upgrade the catalog or lower min_version.', $minVersion),
@@ -131,6 +134,7 @@ class CollectionSyncService {
       $node->set('field_collection_maintainer_url', ['uri' => $maintainerSupport]);
     }
     $node->set('field_collection_shared_paths', $parsed['shared_paths'] ?? []);
+    $node->set('field_collection_shape', 'declared');
     $node->set('field_collection_validation_st', 'valid');
     $node->set('field_collection_validation_er', []);
     $node->set('field_collection_last_synced', $this->time->getCurrentTime());
@@ -196,6 +200,16 @@ class CollectionSyncService {
       ]);
     }
 
+    // Auto-archive when the source repo is archived on GitHub. One-way:
+    // subsequent syncs that find the repo un-archived do NOT auto-un-archive.
+    // Contributor re-submit is the recovery path.
+    if (!empty($repoMetadata['isArchived'])) {
+      $node->set('moderation_state', 'archived');
+      $this->logger->info('Auto-archiving Collection (@repo) — repo is archived on GitHub.', [
+        '@repo' => $repoUrl,
+      ]);
+    }
+
     $node->save();
     return $node;
   }
@@ -226,13 +240,44 @@ class CollectionSyncService {
    *   applyDeclaredApp so per-app organization terms resolve from the
    *   GitHub owner rather than the per-app maintainer.name).
    *
+   * @param bool $reconcile
+   *   If TRUE (default), delete existing member Apps whose subpath is no
+   *   longer in apps[]. Set FALSE when the caller passes a narrowed apps[]
+   *   list that represents a single subpath (e.g. Batch-per-subpath ops);
+   *   reconciliation against the narrowed list would mass-delete every
+   *   other member App. Call reconcileDeclaredApps() once at the end of
+   *   the full-list pass instead.
+   *
    * @return \Drupal\node\NodeInterface[]
    *   The created/updated app nodes, keyed by subpath.
    */
-  public function applyDeclaredApps(NodeInterface $collection, array $parsedRootYml, array $subpathFiles, string $repoUrl, array $repoMetadata = []): array {
+  public function applyDeclaredApps(NodeInterface $collection, array $parsedRootYml, array $subpathFiles, string $repoUrl, array $repoMetadata = [], bool $reconcile = TRUE): array {
     $appsList = $parsedRootYml['apps'] ?? [];
     if (!is_array($appsList)) {
       return [];
+    }
+
+    // Reconcile existing member Apps against the new apps[] list. Any App
+    // whose subpath is no longer in apps[] is deleted (yaml is canonical).
+    // Skipped when the caller passed a narrowed apps[] list — see the
+    // $reconcile param docblock above.
+    if ($reconcile) {
+      $declaredSubpaths = [];
+      foreach ($appsList as $entry) {
+        $path = trim((string) ($entry['path'] ?? ''), '/');
+        if ($path !== '') {
+          $declaredSubpaths[$path] = TRUE;
+        }
+      }
+
+      // Guard against transient yaml-parse failures that produce empty apps[].
+      // If the new yaml declares no apps at all, treat this as "no signal" and
+      // preserve existing member Apps rather than mass-deleting them. The
+      // alternative (delete all) would conflict with the one-way-archive
+      // contract — a stale_invalid yaml shouldn't silently empty the catalog.
+      if (!empty($declaredSubpaths)) {
+        $this->reconcileDeclaredApps($collection, $declaredSubpaths, $repoUrl);
+      }
     }
 
     $result = [];
@@ -250,7 +295,70 @@ class CollectionSyncService {
       $this->applyDeclaredApp($appNode, $collection, $subpath, $files, $repoUrl, $repoMetadata, $entry);
       $result[$subpath] = $appNode;
     }
+
+    // Cascade auto-archive from Collection to member Apps. Mirrors the
+    // one-way archive contract on the Collection itself.
+    if (!empty($repoMetadata['isArchived'])) {
+      $memberAppIds = $this->entityTypeManager->getStorage('node')->getQuery()
+        ->accessCheck(FALSE)
+        ->condition('type', 'appverse_app')
+        ->condition('field_appverse_collection', $collection->id())
+        ->execute();
+      foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($memberAppIds) as $memberApp) {
+        if ($memberApp->hasField('moderation_state')) {
+          $this->logger->info('Cascade-archiving App @nid (subpath @sub) — parent Collection @repo is archived on GitHub.', [
+            '@nid' => $memberApp->id(),
+            '@sub' => $memberApp->get('field_appverse_app_subpath')->value ?? '',
+            '@repo' => $repoUrl,
+          ]);
+          $memberApp->set('moderation_state', 'archived');
+          $memberApp->save();
+        }
+      }
+    }
+
     return $result;
+  }
+
+  /**
+   * Delete member Apps whose subpath isn't in the canonical apps[] list.
+   *
+   * Extracted from applyDeclaredApps so callers that pass a narrowed
+   * single-subpath list (Batch-per-subpath ops) can defer reconciliation
+   * until the full list is known and call this once at the end.
+   *
+   * Caller's responsibility to ensure $declaredSubpaths reflects the
+   * full apps[] list, not a narrowed slice. An empty $declaredSubpaths
+   * is treated as "no signal" (preserve existing) — never mass-delete.
+   *
+   * @param \Drupal\node\NodeInterface $collection
+   *   The Collection whose member apps to reconcile.
+   * @param array<string, bool> $declaredSubpaths
+   *   Map of declared subpath => TRUE from the full canonical apps[].
+   * @param string $repoUrl
+   *   For logging context only.
+   */
+  public function reconcileDeclaredApps(NodeInterface $collection, array $declaredSubpaths, string $repoUrl): void {
+    if (empty($declaredSubpaths)) {
+      return;
+    }
+    $existingAppIds = $this->entityTypeManager->getStorage('node')->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('type', 'appverse_app')
+      ->condition('field_appverse_collection', $collection->id())
+      ->execute();
+
+    foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($existingAppIds) as $existingApp) {
+      $subpath = trim((string) $existingApp->get('field_appverse_app_subpath')->value, '/');
+      if ($subpath !== '' && !isset($declaredSubpaths[$subpath])) {
+        $this->logger->info('Deleting App @nid (subpath @sub) — no longer in apps[] of @repo.', [
+          '@nid' => $existingApp->id(),
+          '@sub' => $subpath,
+          '@repo' => $repoUrl,
+        ]);
+        $existingApp->delete();
+      }
+    }
   }
 
   /**
@@ -273,11 +381,11 @@ class CollectionSyncService {
       'title' => $subpath,
       'field_appverse_github_url' => ['uri' => $repoUrl],
       'field_appverse_app_subpath' => $subpath,
-      'status' => 1,
-      // appverse_app uses content moderation; default 'draft' would leave
-      // the node unpublished and absent from the cache. Sync-created apps
-      // are intended to be public from the moment they pass validation.
-      'moderation_state' => 'published',
+      // appverse_app uses content moderation. New apps land in 'draft'
+      // and proceed to 'ready_for_review' via the contributor's
+      // send_for_review action on the hub. status is forced from
+      // moderation_state by content_moderation (draft -> 0).
+      'moderation_state' => 'draft',
     ]);
   }
 
@@ -289,18 +397,23 @@ class CollectionSyncService {
    * rejected and skip writing optional fields.
    */
   protected function applyDeclaredApp(NodeInterface $app, NodeInterface $collection, string $subpath, array $files, string $repoUrl, array $repoMetadata = [], ?array $entry = NULL): void {
-    // Ordering contract (Phase 1.7 Task 5): software resolution runs FIRST.
-    // Existing manifest/required-field logic below runs AFTER and may APPEND
-    // additional errors via the same read-modify-write pattern. NOTHING in
-    // this method resets validation_st from 'rejected' back to 'valid' once
-    // set. See plan §"Ordering contract".
-    //
-    // Precedence (per spec §5 step 2, revised 2026-05-18): software lives
-    // in the canonical Appverse layer, which is the root-inline apps[]
-    // entry merged with the per-subpath <path>/appverse.yml file. Root-
-    // inline wins when both forms declare the field (more visible to
-    // readers of the root file). manifest.yml does NOT carry software:
-    // (Appverse-only concept), so no manifest fallback for this field.
+    // Reset validation status at the start of each sync run. Validation
+    // checks below set 'rejected' + append errors when they detect
+    // problems; if no checks reject, the app stays 'valid'. This lets a
+    // previously-rejected app recover on a later sync once the source
+    // fields are corrected. The earlier "never reset to valid" ordering
+    // contract is now expressed via the in-method order: every check
+    // OR-folds into 'rejected' but no later step downgrades 'rejected'
+    // back to 'valid'.
+    $app->set('field_appverse_app_validation_st', 'valid');
+    $app->set('field_appverse_app_validation_er', []);
+
+    // Precedence: content fields live in the canonical Appverse layer,
+    // which is the root-inline apps[] entry merged with the per-subpath
+    // <path>/appverse.yml file. Root-inline wins when both forms declare
+    // the same field (more visible to readers of the root file).
+    // manifest.yml is a final fallback for name + description only —
+    // app_type, maintainer, software, and tags are Appverse-only concepts.
     $perSubpathAppverse = [];
     if (!empty($files['appverseYml'])) {
       try {
@@ -377,21 +490,8 @@ class CollectionSyncService {
       $app->set('field_appverse_app_validation_er', $existingErrors);
     }
 
-    $perAppYml = NULL;
-    if (!empty($files['appverseYml'])) {
-      try {
-        $perAppYml = Yaml::parse($files['appverseYml']);
-      }
-      catch (ParseException $e) {
-        $perAppYml = NULL;
-      }
-    }
-    if (!is_array($perAppYml)) {
-      $perAppYml = [];
-    }
-
-    // Fallback to manifest.yml's name + description if per-app appverse.yml
-    // omits them.
+    // Fallback to manifest.yml's name + description if neither the per-app
+    // appverse.yml nor the root-inline apps[] entry declare them.
     $manifestYml = NULL;
     if (!empty($files['manifestYml'])) {
       try {
@@ -405,11 +505,19 @@ class CollectionSyncService {
       $manifestYml = [];
     }
 
-    $name = $perAppYml['name'] ?? ($manifestYml['name'] ?? '');
-    $description = $perAppYml['description'] ?? ($manifestYml['description'] ?? '');
-    $appType = $perAppYml['app_type'] ?? NULL;
-    $maintainerName = $perAppYml['maintainer']['name'] ?? '';
-    $maintainerSupport = $perAppYml['maintainer']['support_url'] ?? '';
+    // Read content fields from the already-merged appverse layer
+    // (per-subpath <path>/appverse.yml + root-inline apps[] entry, with
+    // root-inline winning). The root-inline layer is the canonical place
+    // to declare a small app's metadata without a per-subpath appverse.yml
+    // file; it's the same precedence used above for `software` and `tags`.
+    // manifest.yml is a final fallback for name + description only —
+    // app_type and maintainer are Appverse-only fields not carried in
+    // manifest.yml.
+    $name = $appverseLayer['name'] ?? ($manifestYml['name'] ?? '');
+    $description = $appverseLayer['description'] ?? ($manifestYml['description'] ?? '');
+    $appType = $appverseLayer['app_type'] ?? NULL;
+    $maintainerName = $appverseLayer['maintainer']['name'] ?? '';
+    $maintainerSupport = $appverseLayer['maintainer']['support_url'] ?? '';
 
     $missing = [];
     if (!$name) {
@@ -454,12 +562,11 @@ class CollectionSyncService {
     ]);
     $app->set('field_appverse_collection', $collection->id());
     $app->set('field_appverse_app_subpath', $subpath);
-    // Ordering contract: never reset 'rejected' to 'valid'. An earlier step
-    // (e.g. software resolution miss) may have flagged rejected for reasons
-    // unrelated to manifest fields; only mark valid if no prior rejection.
-    if ($app->get('field_appverse_app_validation_st')->value !== 'rejected') {
-      $app->set('field_appverse_app_validation_st', 'valid');
-    }
+    // validation_st was initialized to 'valid' at the top of this method.
+    // Earlier checks (software, tags, required-fields) may have flipped
+    // it to 'rejected' along with appended error messages. The happy
+    // path here doesn't touch it — if no prior rejection landed, it
+    // stays 'valid'.
 
     // App type — match-only against the appverse_app_type vocab.
     $appTypeTid = $this->resolveAppTypeTerm((string) $appType);
@@ -468,8 +575,10 @@ class CollectionSyncService {
     }
 
     // Per-app tags — match-only against the tags vocabulary.
-    // Always set — empty list when YAML omits tags so removed tags clear.
-    $tags = $perAppYml['tags'] ?? [];
+    // Read from the merged appverse layer so root-inline declarations
+    // are honored. Always set — empty list when YAML omits tags so
+    // removed tags clear.
+    $tags = $appverseLayer['tags'] ?? [];
     $tagIds = [];
     if (is_array($tags)) {
       foreach ($tags as $tagName) {
@@ -581,7 +690,10 @@ class CollectionSyncService {
       'title' => $this->deriveTitleFromRepoUrl($repoUrl),
       'field_collection_repo_url' => ['uri' => $repoUrl],
       'field_collection_validation_st' => 'valid',
-      'status' => 1,
+      // New Collections land in draft. status is forced to 0 by Drupal's
+      // content_moderation when moderation_state != 'published', so we
+      // don't set status here.
+      'moderation_state' => 'draft',
     ]);
   }
 
@@ -602,11 +714,11 @@ class CollectionSyncService {
    * (MySQL's default *_ci collations match case-insensitively, which is
    * what we rely on here).
    *
-   * Phase 1 decision: match-only, no auto-create. Auto-creating organization
-   * terms from raw maintainer strings pollutes the vocab with typos and case
-   * variants ("CHPC" vs "Chpc"). Curators add new organization terms
-   * explicitly through the existing taxonomy admin UI; the sync then picks
-   * them up on the next pass. Unmatched maintainer strings leave
+   * Match-only, no auto-create. Auto-creating organization terms from raw
+   * maintainer strings pollutes the vocab with typos and case variants
+   * ("CHPC" vs "Chpc"). Curators add new organization terms explicitly
+   * through the existing taxonomy admin UI; the sync then picks them up on
+   * the next pass. Unmatched maintainer strings leave
    * field_collection_organization NULL — the Collection still functions; it
    * just isn't filterable by org until an admin adds the term and re-runs
    * the sync.
@@ -661,7 +773,8 @@ class CollectionSyncService {
       }
     }
     // Inferred Collections start valid; they roll up to degraded only if a
-    // child app is rejected (app-level rejection lands in phase 3).
+    // child app is rejected (app-level rejection is handled separately).
+    $node->set('field_collection_shape', 'inferred');
     $node->set('field_collection_validation_st', 'valid');
     $node->set('field_collection_validation_er', []);
     $node->set('field_collection_last_synced', $this->time->getCurrentTime());
@@ -677,6 +790,17 @@ class CollectionSyncService {
         'format' => 'markdown',
       ]);
     }
+
+    // Auto-archive when the source repo is archived on GitHub. One-way:
+    // subsequent syncs that find the repo un-archived do NOT auto-un-archive.
+    // Contributor re-submit is the recovery path.
+    if (!empty($repoMetadata['isArchived'])) {
+      $node->set('moderation_state', 'archived');
+      $this->logger->info('Auto-archiving Collection (@repo) — repo is archived on GitHub.', [
+        '@repo' => $repoUrl,
+      ]);
+    }
+
     $node->save();
     return $node;
   }

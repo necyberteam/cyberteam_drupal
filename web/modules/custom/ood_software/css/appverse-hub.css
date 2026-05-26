@@ -1,0 +1,192 @@
+/* Appverse Maintenance Hub */
+
+/* Wrapper around all rows. The view's html_list style would wrap each
+   row in <li>, but our row template returns a self-contained <article>;
+   we just need the outer list to look like a vertical stack. */
+.view-my-appverse .view-content > ul,
+.view-my-appverse .view-content > div {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.view-my-appverse .view-content > ul > li {
+  display: block;
+}
+
+/* Each Collection card. */
+.appverse-hub-card {
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  background: #fff;
+  padding: 1rem;
+  transition: opacity 0.2s ease;
+  /* Each card creates a local stacking context. When its kebab is
+     open we elevate the whole card so the popup paints above
+     siblings below. */
+  position: relative;
+  z-index: 1;
+}
+.appverse-hub-card.is-dimmed { opacity: 0.6; }
+/* A card with an open kebab needs to paint above all sibling cards.
+   :has() is supported in all browsers we target (Chrome/Edge 105+,
+   Firefox 121+, Safari 15.4+). */
+.appverse-hub-card:has(.appverse-hub-card__kebab[open]) {
+  z-index: 50;
+}
+
+.appverse-hub-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.appverse-hub-card__title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.appverse-hub-card__title {
+  margin: 0;
+  font-size: 1.15rem;
+}
+.appverse-hub-card__title a { text-decoration: none; color: #232323; }
+.appverse-hub-card__title a:hover { text-decoration: underline; }
+
+.appverse-hub-card__meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.85em;
+  color: #57606a;
+  align-items: center;
+}
+.appverse-hub-card__repo-link { color: #0076af; text-decoration: none; }
+.appverse-hub-card__repo-link:hover { text-decoration: underline; }
+.appverse-hub-card__app-count { padding: 2px 8px; background: #f6f8fa; border-radius: 4px; }
+.appverse-hub-card__last-synced {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+}
+
+.appverse-hub-card__actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+.appverse-hub-card__actions form { margin: 0; display: inline-block; }
+
+/* Kebab menu — pure CSS, uses <details>/<summary>. */
+.appverse-hub-card__kebab {
+  position: relative;
+  display: inline-block;
+}
+.appverse-hub-card__kebab > summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  line-height: 1;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+.appverse-hub-card__kebab > summary::-webkit-details-marker { display: none; }
+.appverse-hub-card__kebab[open] > summary { background: #f6f8fa; }
+
+.appverse-hub-card__kebab-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #fff;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  list-style: none;
+  padding: 0.25rem 0;
+  margin: 0.25rem 0 0 0;
+  z-index: 10;
+  min-width: 220px;
+}
+.appverse-hub-card__kebab-menu > li { margin: 0; }
+.appverse-hub-card__kebab-menu form { margin: 0; }
+
+.appverse-hub-card__kebab-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9em;
+  color: #232323;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.appverse-hub-card__kebab-item:hover { background: #f6f8fa; }
+.appverse-hub-card__kebab-item--destructive { color: #cf222e; }
+
+/* Member-apps expansion (declared Collections). */
+.appverse-hub-card__apps-expansion {
+  margin-top: 1rem;
+  border-top: 1px solid #eaecef;
+  padding-top: 0.75rem;
+}
+.appverse-hub-card__apps-expansion > summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9em;
+  color: #57606a;
+}
+
+.appverse-hub-apps-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+  margin-top: 0.5rem;
+}
+.appverse-hub-apps-table th,
+.appverse-hub-apps-table td {
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid #eaecef;
+  text-align: left;
+}
+.appverse-hub-apps-table th { background: #f6f8fa; font-weight: 600; }
+.appverse-hub-apps-table tr.is-dimmed { opacity: 0.6; }
+
+/* Inferred (single-app) card: software shown inline below the header. */
+.appverse-hub-card__inferred-meta {
+  font-size: 0.9em;
+  color: #57606a;
+  margin-top: 0.5rem;
+}
+
+/* Admin's needs_adjustment feedback block. */
+.appverse-hub-card__moderation-comment {
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  background: #fff8c5;
+  border-left: 4px solid #d4a72c;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.appverse-hub-card__moderation-comment p { margin: 0.25rem 0 0 0; }
+
+/* Status badges. */
+.badge {
+  display: inline-block;
+  padding: 0.15em 0.5em;
+  border-radius: 3px;
+  font-size: 0.75em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: #f6f8fa;
+  color: #57606a;
+}
+.badge-success { background: #dafbe1; color: #1a7f37; }
+.badge-warning { background: #fff8c5; color: #9a6700; }
+.badge-error { background: #ffebe9; color: #cf222e; }

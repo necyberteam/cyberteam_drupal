@@ -76,3 +76,155 @@ function ood_software_update_10002() {
 
   return t('Re-fetched @count Appverse apps from GitHub with corrected HTML sanitization.', ['@count' => $count]);
 }
+
+/**
+ * Install field_collection_shape on appverse_collection.
+ *
+ * Adds the shape discriminator field that distinguishes declared
+ * (multi-app via appverse.yml) from inferred (single-app via
+ * manifest.yml) Collections. Consumers branch on this value to
+ * render appropriate layouts.
+ *
+ * Configuration in config/install/ only runs on fresh module installs,
+ * so existing sites need this programmatic field creation. The hook
+ * is idempotent: re-running on a site that already has the field is
+ * a no-op (loadByName returns the existing entity and we skip).
+ *
+ * Sequence: runs before 10502 (workflow attach) and 10503 (inferred
+ * collection backfill).
+ */
+function ood_software_update_10501() {
+  $module_path = \Drupal::service('extension.list.module')->getPath('ood_software');
+  $source = new \Drupal\Core\Config\FileStorage($module_path . '/config/install');
+
+  // 1. Create the field storage if it doesn't exist.
+  //
+  // FieldStorageConfig::create() expects allowed_values in the runtime
+  // (flat) format [value => label]; ListItemBase::storageSettingsToConfigData
+  // restructures it into the on-disk format [{value, label}, ...] during
+  // save. Passing the already-structured YAML form through create() would
+  // double-structure and corrupt the data, so we flatten here even though
+  // the YAML on disk is in the structured form.
+  if (!\Drupal\field\Entity\FieldStorageConfig::loadByName('node', 'field_collection_shape')) {
+    $storage_data = $source->read('field.storage.node.field_collection_shape');
+    if ($storage_data === FALSE) {
+      throw new \RuntimeException('field.storage.node.field_collection_shape config not found in ' . $module_path . '/config/install');
+    }
+    if (!empty($storage_data['settings']['allowed_values'])) {
+      $flat = [];
+      foreach ($storage_data['settings']['allowed_values'] as $item) {
+        if (isset($item['value'], $item['label'])) {
+          $flat[$item['value']] = $item['label'];
+        }
+      }
+      $storage_data['settings']['allowed_values'] = $flat;
+    }
+    \Drupal\field\Entity\FieldStorageConfig::create($storage_data)->save();
+  }
+
+  // 2. Create the field instance on appverse_collection.
+  if (!\Drupal\field\Entity\FieldConfig::loadByName('node', 'appverse_collection', 'field_collection_shape')) {
+    $field_data = $source->read('field.field.node.appverse_collection.field_collection_shape');
+    if ($field_data === FALSE) {
+      throw new \RuntimeException('field.field.node.appverse_collection.field_collection_shape config not found');
+    }
+    \Drupal\field\Entity\FieldConfig::create($field_data)->save();
+  }
+
+  // 3. Add the field to the default form display so it's editable.
+  $form_display = \Drupal::service('entity_display.repository')->getFormDisplay('node', 'appverse_collection', 'default');
+  if (!$form_display->getComponent('field_collection_shape')) {
+    $form_display->setComponent('field_collection_shape', [
+      'type' => 'options_select',
+      'weight' => 50,
+    ])->save();
+  }
+}
+
+/**
+ * Backfill content_moderation_state on existing appverse_collection nodes.
+ *
+ * The appverse_editorial workflow is attached to appverse_collection.
+ * Existing Collections need an initial moderation state set, derived
+ * from node.status:
+ *   - status=1 -> published
+ *   - status=0 -> draft
+ *
+ * Sequence: runs after 10501 (field_collection_shape) and before 10503
+ * (inferred-collection backfill).
+ */
+function ood_software_update_10502() {
+  $entityTypeManager = \Drupal::entityTypeManager();
+  $logger = \Drupal::logger('ood_software');
+
+  $collectionIds = $entityTypeManager->getStorage('node')->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('type', 'appverse_collection')
+    ->execute();
+
+  // Determine which collections already have a persisted content moderation
+  // state row. We can't rely on $node->get('moderation_state')->isEmpty()
+  // because content_moderation lazily computes that field from node.status
+  // when no row exists, so existing collections report 'published' even
+  // though no row has been written yet.
+  $stateStorage = $entityTypeManager->getStorage('content_moderation_state');
+  $count = 0;
+  foreach ($entityTypeManager->getStorage('node')->loadMultiple($collectionIds) as $collection) {
+    if (!$collection->hasField('moderation_state')) {
+      continue;
+    }
+    $existing = $stateStorage->loadByProperties([
+      'content_entity_type_id' => 'node',
+      'content_entity_id' => $collection->id(),
+    ]);
+    if ($existing) {
+      continue;
+    }
+    $state = $collection->isPublished() ? 'published' : 'draft';
+    $collection->set('moderation_state', $state);
+    $collection->save();
+    $count++;
+    $logger->info('Set moderation_state=@state on Collection @nid.', ['@state' => $state, '@nid' => $collection->id()]);
+  }
+
+  return t('Backfilled moderation_state on @count Collections.', ['@count' => $count]);
+}
+
+/**
+ * Backfill inferred Collections for legacy Apps with NULL field_appverse_collection.
+ *
+ * Sequence: runs after 10502 (workflow attachment + moderation_state
+ * backfill) so newly-created Collection nodes get the workflow's
+ * default state instead of NULL. Calls processChunk in chunks of 25
+ * via a sandbox to bound memory.
+ */
+function ood_software_update_10503(&$sandbox) {
+  $entityTypeManager = \Drupal::entityTypeManager();
+
+  if (!isset($sandbox['progress'])) {
+    $sandbox['progress'] = 0;
+    $sandbox['ids'] = array_values($entityTypeManager->getStorage('node')->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('type', 'appverse_app')
+      ->notExists('field_appverse_collection')
+      ->execute());
+    $sandbox['total'] = count($sandbox['ids']);
+  }
+
+  if ($sandbox['total'] === 0) {
+    $sandbox['#finished'] = 1;
+    return t('No Apps needed backfill.');
+  }
+
+  $chunk = array_slice($sandbox['ids'], $sandbox['progress'], 25);
+  $context = ['results' => []];
+  \Drupal\ood_software\Commands\AppverseBackfillCommands::processChunk($chunk, $context);
+
+  $sandbox['progress'] += count($chunk);
+  $sandbox['#finished'] = $sandbox['progress'] / max(1, $sandbox['total']);
+
+  return t('Backfilled @progress of @total Apps.', [
+    '@progress' => $sandbox['progress'],
+    '@total' => $sandbox['total'],
+  ]);
+}

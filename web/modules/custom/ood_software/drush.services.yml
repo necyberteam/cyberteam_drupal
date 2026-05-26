@@ -4,3 +4,8 @@ services:
     arguments: ['@entity_type.manager', '@key.repository', '@http_client', '@ood_software.collection_sync', '@ood_software.gh']
     tags:
       - { name: drush.command }
+  ood_software.commands.backfill:
+    class: \Drupal\ood_software\Commands\AppverseBackfillCommands
+    arguments: ['@entity_type.manager', '@ood_software.collection_sync', '@ood_software.gh', '@logger.factory']
+    tags:
+      - { name: drush.command }

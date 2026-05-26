@@ -1,0 +1,206 @@
+{#
+/**
+ * @file
+ * Custom row template for the maintenance hub view (views.view.my_appverse).
+ *
+ * The view uses the 'fields' row plugin, whose theme hook is
+ * views_view_fields. This template replaces the field output wholesale
+ * and renders structured data from hub_card (built by the preprocess).
+ *
+ * Branches on hub_card.shape:
+ *   - declared (multi-app):  Collection card with <details> expansion.
+ *   - inferred (single-app): Flat row merged with the single App's data.
+ *
+ * Action forms use precomputed per-URL CSRF tokens from hub_card.tokens
+ * (Twig has no csrf_token() helper) and include a destination query so the
+ * controller can redirect back to whichever hub display the action came from.
+ *
+ * Variables:
+ *   hub_card - structured row data; see ood_preprocess_views_view_fields().
+ */
+#}
+{% set c = hub_card.collection %}
+{% set is_declared = hub_card.shape == 'declared' %}
+{% set dest = hub_card.current_path %}
+{% set t = hub_card.tokens %}
+
+{# Dim only states that signal "not active in catalog": archived, OR
+   approved-then-unpublished. Draft / ready_for_review / needs_adjustment
+   are active work and should render in full color. #}
+{% set is_dimmed = c.moderation_state == 'archived' or (not c.published and c.moderation_state == 'published') %}
+<article class="appverse-hub-card {{ is_dimmed ? 'is-dimmed' : '' }} shape-{{ hub_card.shape }} state-{{ c.moderation_state }}">
+  <header class="appverse-hub-card__header">
+    <div class="appverse-hub-card__title-row">
+      <h3 class="appverse-hub-card__title">
+        <a href="/appverse/#/{% if is_declared %}collection/{% endif %}{{ c.slug }}">
+          {{ c.title }}
+        </a>
+      </h3>
+      {# "Unpublished" badge only fires when an approved Collection was
+         actively unpublished. For draft / ready_for_review / needs_adjustment /
+         archived, the moderation badge below tells the whole story —
+         showing both badges is noisy and misleading. #}
+      {% if not c.published and c.moderation_state == 'published' %}
+        <span class="badge badge-warning">{{ hub_card.is_admin ? 'Unpublished'|t : 'Unpublished — admin must republish'|t }}</span>
+      {% endif %}
+
+      {# Moderation state badge: shows where the contributor's submission stands. #}
+      {% set mod_label = {
+        'draft': 'Draft'|t,
+        'ready_for_review': 'Awaiting review'|t,
+        'needs_adjustment': 'Needs changes'|t,
+        'published': 'Approved'|t,
+        'archived': 'Archived'|t,
+      }[c.moderation_state] ?? c.moderation_state %}
+      {% set mod_class = {
+        'draft': 'badge',
+        'ready_for_review': 'badge badge-warning',
+        'needs_adjustment': 'badge badge-error',
+        'published': 'badge badge-success',
+        'archived': 'badge',
+      }[c.moderation_state] ?? 'badge' %}
+      <span class="{{ mod_class }}">{{ mod_label }}</span>
+
+      {% if c.has_validation_issues %}
+        <span class="badge badge-error" title="{{ c.validation_st }}">{{ 'Has validation errors'|t }}</span>
+      {% endif %}
+    </div>
+
+    {# If the admin requested changes, show their comment so the contributor knows what to fix. #}
+    {% if c.moderation_state == 'needs_adjustment' and c.moderation_comment %}
+      <div class="appverse-hub-card__moderation-comment">
+        <strong>{{ 'Admin feedback:'|t }}</strong>
+        <p>{{ c.moderation_comment }}</p>
+      </div>
+    {% endif %}
+
+    <div class="appverse-hub-card__meta">
+      {% if c.repo_url %}
+        <a class="appverse-hub-card__repo-link" href="{{ c.repo_url }}" target="_blank" rel="noopener">{{ 'Open repo on GitHub'|t }}</a>
+      {% endif %}
+      {% if is_declared %}
+        <span class="appverse-hub-card__app-count">{{ '@count apps'|t({'@count': c.app_count}) }}</span>
+      {% endif %}
+      {% if c.last_synced %}
+        <span class="appverse-hub-card__last-synced">{{ 'Last synced'|t }}: {{ c.last_synced|date('Y-m-d H:i') }}</span>
+      {% endif %}
+    </div>
+
+    <div class="appverse-hub-card__actions">
+      <a class="btn btn-sm btn-secondary" href="/appverse/#/{% if is_declared %}collection/{% endif %}{{ c.slug }}">{{ 'View in catalog'|t }}</a>
+
+      {# Contributor transition action: send for review (draft) or re-submit (needs_adjustment). #}
+      {% if c.moderation_state == 'draft' %}
+        <form method="post" action="/appverse/collection/{{ c.id }}/send-for-review?token={{ t.collection_send_for_review }}&destination={{ dest|url_encode }}" style="display:inline">
+          <button type="submit" class="btn btn-sm btn-primary">{{ 'Send for review'|t }}</button>
+        </form>
+      {% elseif c.moderation_state == 'needs_adjustment' %}
+        <form method="post" action="/appverse/collection/{{ c.id }}/send-for-review?token={{ t.collection_send_for_review }}&destination={{ dest|url_encode }}" style="display:inline">
+          <button type="submit" class="btn btn-sm btn-primary">{{ 'Re-submit'|t }}</button>
+        </form>
+      {% endif %}
+
+      {# Admin primary action: when a Collection is waiting for review or
+         needs adjustment, surface the cascading Publish (admin-only) as a
+         prominent toolbar button. This is the moderation-transition route,
+         which on FIRST publish also cascades to member apps. #}
+      {% if hub_card.is_admin and (c.moderation_state == 'ready_for_review' or c.moderation_state == 'needs_adjustment') %}
+        <form method="post" action="/appverse/collection/{{ c.id }}/publish?token={{ t.collection_publish }}&destination={{ dest|url_encode }}" style="display:inline">
+          <button type="submit" class="btn btn-sm btn-primary">{{ 'Publish'|t }}</button>
+        </form>
+      {% endif %}
+
+      {# Unpublish (toggle). Contributors can only unpublish their own
+         published Collections; admins can unpublish anything published. #}
+      {% if c.published %}
+        <form method="post" action="/appverse/collection/{{ c.id }}/unpublish?token={{ t.collection_unpublish }}&destination={{ dest|url_encode }}" style="display:inline">
+          <button type="submit" class="btn btn-sm btn-secondary">{{ 'Unpublish'|t }}</button>
+        </form>
+      {% endif %}
+
+      {# Kebab menu (CSS-only, uses <details>/:focus-within). #}
+      <details class="appverse-hub-card__kebab">
+        <summary class="btn btn-sm btn-link" aria-label="{{ 'More actions'|t }}">⋯</summary>
+        <ul class="appverse-hub-card__kebab-menu">
+          <li>
+            <form method="post" action="/appverse/collection/{{ c.id }}/resync?token={{ t.collection_resync }}&destination={{ dest|url_encode }}">
+              <button type="submit" class="appverse-hub-card__kebab-item">{{ 'Re-sync from GitHub'|t }}</button>
+            </form>
+          </li>
+          <li>
+            <a href="/appverse/collection/{{ c.id }}/delete" class="appverse-hub-card__kebab-item appverse-hub-card__kebab-item--destructive">{{ 'Delete'|t }}</a>
+          </li>
+          {% if c.has_validation_issues %}
+            <li>
+              <a href="/node/{{ c.id }}/edit#edit-field-collection-validation-er-wrapper" class="appverse-hub-card__kebab-item">{{ 'View validation errors'|t }}</a>
+            </li>
+          {% endif %}
+
+          {# Admin-only secondary transition: Request changes. The primary
+             Publish action lives in the toolbar (above) so admins can act
+             on review-queue items with one click. #}
+          {% if hub_card.is_admin and (c.moderation_state == 'ready_for_review' or c.moderation_state == 'needs_adjustment') %}
+            <li>
+              <a href="/appverse/collection/{{ c.id }}/request-changes?destination={{ dest|url_encode }}" class="appverse-hub-card__kebab-item">{{ 'Request changes (admin)'|t }}</a>
+            </li>
+          {% endif %}
+        </ul>
+      </details>
+    </div>
+  </header>
+
+  {# Declared (multi-app) Collection: <details>-expanded member apps sub-table. #}
+  {% if is_declared and hub_card.apps|length > 0 %}
+    <details class="appverse-hub-card__apps-expansion">
+      <summary>{{ 'Show member apps'|t }} ({{ hub_card.apps|length }})</summary>
+      <table class="appverse-hub-apps-table">
+        <thead>
+          <tr>
+            <th>{{ 'App'|t }}</th>
+            <th>{{ 'Subpath'|t }}</th>
+            <th>{{ 'Software'|t }}</th>
+            <th>{{ 'Status'|t }}</th>
+            <th>{{ 'Actions'|t }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for app in hub_card.apps %}
+            <tr class="{{ app.published ? '' : 'is-dimmed' }}">
+              <td><a href="/appverse/#/{{ app.slug }}">{{ app.title }}</a></td>
+              <td><code>{{ app.subpath ?: '.' }}</code></td>
+              <td>{{ app.software ?: '—' }}</td>
+              <td>
+                {% if not c.published %}
+                  <span class="badge">{{ 'Hidden via Collection'|t }}</span>
+                {% elseif app.published %}
+                  <span class="badge badge-success">{{ 'Published'|t }}</span>
+                {% else %}
+                  <span class="badge badge-warning">{{ 'Unpublished'|t }}</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if c.published %}
+                  <form method="post" action="/appverse/app/{{ app.id }}/unpublish?token={{ app.unpublish_token }}&destination={{ dest|url_encode }}" style="display:inline">
+                    <button type="submit" class="btn btn-xs btn-secondary">
+                      {{ app.published ? 'Unpublish'|t : 'Publish'|t }}
+                    </button>
+                  </form>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </details>
+  {% endif %}
+
+  {# Inferred (single-app) Collection: show the App's software inline. #}
+  {% if not is_declared and hub_card.apps|length > 0 %}
+    {% set only_app = hub_card.apps|first %}
+    <div class="appverse-hub-card__inferred-meta">
+      {% if only_app.software %}
+        <span class="appverse-hub-card__software">{{ 'Software'|t }}: {{ only_app.software }}</span>
+      {% endif %}
+    </div>
+  {% endif %}
+</article>

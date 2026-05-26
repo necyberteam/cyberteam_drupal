@@ -9,6 +9,7 @@
 
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\UrlHelper;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\user\Entity\User;
@@ -236,6 +237,153 @@ function ood_preprocess_webform_element_help(array &$variables) {
  */
 function ood_form_node_form_alter(&$form, FormStateInterface $form_state) {
   $form['#theme'] = ['node_edit_form'];
+}
+
+/**
+ * Implements hook_preprocess_views_view_fields() for views.view.my_appverse.
+ *
+ * Populates $variables['hub_card'] with structured data the template reads
+ * to render each Collection as a card. Branches by field_collection_shape
+ * to decide between flat (single-app) and expanded (multi-app) layouts.
+ *
+ * The view uses the 'fields' row plugin, whose theme hook is
+ * views_view_fields (not views_view_row). The custom template
+ * views-view-fields--my-appverse.html.twig replaces the field output
+ * wholesale and renders from $variables['hub_card'] instead.
+ */
+function ood_preprocess_views_view_fields(array &$variables) {
+  if (!isset($variables['view'])) {
+    return;
+  }
+  $view = $variables['view'];
+  if ($view->id() !== 'my_appverse') {
+    return;
+  }
+
+  $row = $variables['row'] ?? NULL;
+  if (!$row || empty($row->_entity) || $row->_entity->bundle() !== 'appverse_collection') {
+    return;
+  }
+  $collection = $row->_entity;
+
+  // Load member apps. Cheap query — field_appverse_collection is indexed.
+  $memberAppIds = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('type', 'appverse_app')
+    ->condition('field_appverse_collection', $collection->id())
+    ->execute();
+  $memberApps = $memberAppIds
+    ? \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($memberAppIds)
+    : [];
+
+  $shape = $collection->get('field_collection_shape')->value ?? 'inferred';
+  $current_uid = \Drupal::currentUser()->id();
+  $is_admin = \Drupal::currentUser()->hasPermission('administer appverse content');
+  $is_owner = (int) $collection->getOwnerId() === (int) $current_uid;
+
+  // Moderation state — uses content_moderation_state field.
+  $moderationState = $collection->hasField('moderation_state')
+    ? ($collection->get('moderation_state')->value ?? 'draft')
+    : 'draft';
+
+  // Latest moderation comment for needs_adjustment state, so contributor
+  // sees the admin's feedback. Read latest revision_log message.
+  $moderationComment = NULL;
+  if ($moderationState === 'needs_adjustment') {
+    $latestRevision = \Drupal::database()
+      ->select('node_field_revision', 'nfr')
+      ->fields('nfr', ['vid', 'revision_log'])
+      ->condition('nid', $collection->id())
+      ->orderBy('vid', 'DESC')
+      ->range(0, 1)
+      ->execute()
+      ->fetchAssoc();
+    $moderationComment = $latestRevision['revision_log'] ?? NULL;
+  }
+
+  // Catalog links target the React app's hash routing (e.g.,
+  // /appverse/#/collection/foo). Pull the slug from the pathauto alias.
+  $aliasManager = \Drupal::service('path_alias.manager');
+  $collectionAlias = $aliasManager->getAliasByPath('/node/' . $collection->id());
+  $collectionSlug = ltrim(preg_replace('#^.*/(collection/)?#', '', $collectionAlias), '/');
+  if ($collectionSlug === '') {
+    $collectionSlug = (string) $collection->id();
+  }
+
+  $repoLinkValues = $collection->get('field_collection_repo_url')->getValue();
+  $repoUrl = $repoLinkValues[0]['uri'] ?? '';
+
+  $validationSt = $collection->get('field_collection_validation_st')->value ?? '';
+
+  // CSRF tokens for action routes. Drupal's _csrf_token route requirement
+  // expects a token generated from the internal path (no leading slash).
+  // Twig has no csrf_token() helper, so we precompute tokens here.
+  $csrf = \Drupal::service('csrf_token');
+  $tokens = [
+    'collection_resync' => $csrf->get('appverse/collection/' . $collection->id() . '/resync'),
+    'collection_unpublish' => $csrf->get('appverse/collection/' . $collection->id() . '/unpublish'),
+    'collection_send_for_review' => $csrf->get('appverse/collection/' . $collection->id() . '/send-for-review'),
+    'collection_publish' => $csrf->get('appverse/collection/' . $collection->id() . '/publish'),
+  ];
+
+  $variables['hub_card'] = [
+    'shape' => $shape,
+    'is_admin' => $is_admin,
+    'is_owner' => $is_owner,
+    'collection' => [
+      'id' => $collection->id(),
+      'title' => $collection->label(),
+      'published' => $collection->isPublished(),
+      'moderation_state' => $moderationState,
+      'moderation_comment' => $moderationComment,
+      'repo_url' => $repoUrl,
+      'app_count' => count($memberApps),
+      'last_synced' => $collection->get('field_collection_last_synced')->value ?? NULL,
+      'validation_st' => $validationSt,
+      // valid / degraded / stale_invalid are the values; degraded + stale_invalid
+      // are "issues worth surfacing" — rejected is App-level only.
+      'has_validation_issues' => in_array($validationSt, ['degraded', 'stale_invalid'], TRUE),
+      'slug' => $collectionSlug,
+    ],
+    'apps' => array_map(function ($app) use ($aliasManager, $csrf) {
+      $software = $app->get('field_appverse_software_implemen')->entity ?? NULL;
+      $appAlias = $aliasManager->getAliasByPath('/node/' . $app->id());
+      $appSlug = ltrim(preg_replace('#^.*/#', '', $appAlias), '/');
+      if ($appSlug === '') {
+        $appSlug = (string) $app->id();
+      }
+      return [
+        'id' => $app->id(),
+        'title' => $app->label(),
+        'subpath' => $app->get('field_appverse_app_subpath')->value ?? '',
+        'software' => $software ? $software->label() : NULL,
+        'published' => $app->isPublished(),
+        'slug' => $appSlug,
+        'unpublish_token' => $csrf->get('appverse/app/' . $app->id() . '/unpublish'),
+      ];
+    }, array_values($memberApps)),
+    'tokens' => $tokens,
+    'current_path' => \Drupal::service('path.current')->getPath(),
+  ];
+
+  $variables['#attached']['library'][] = 'ood_software/appverse_hub';
+
+  // Bubble cache tags from the Collection and each member App so the
+  // rendered card invalidates when any of those entities change. Add
+  // contexts that branch the output: user.permissions (admin/non-admin)
+  // and user (owner vs not).
+  $cache_tags = $collection->getCacheTags();
+  foreach ($memberApps as $memberApp) {
+    $cache_tags = Cache::mergeTags($cache_tags, $memberApp->getCacheTags());
+  }
+  $variables['#cache']['tags'] = Cache::mergeTags(
+    $variables['#cache']['tags'] ?? [],
+    $cache_tags
+  );
+  $variables['#cache']['contexts'] = Cache::mergeContexts(
+    $variables['#cache']['contexts'] ?? [],
+    ['user.permissions', 'user']
+  );
 }
 
 /**

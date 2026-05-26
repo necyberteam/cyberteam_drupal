@@ -80,11 +80,12 @@ class AppverseCacheService {
     $softwareNodes = $nodeStorage->loadMultiple($softwareNids);
 
     // Load all published app nodes.
-    $appNids = $nodeStorage->getQuery()
+    $appQuery = $nodeStorage->getQuery()
       ->condition('type', 'appverse_app')
       ->condition('status', 1)
-      ->accessCheck(FALSE)
-      ->execute();
+      ->accessCheck(FALSE);
+    $this->applyCollectionCascadeFilter($appQuery);
+    $appNids = $appQuery->execute();
     $appNodes = $nodeStorage->loadMultiple($appNids);
 
     // Group apps by software UUID.
@@ -148,12 +149,13 @@ class AppverseCacheService {
     // declared only via a Collection's apps[]) are still members of the
     // Collection — build minimal app data from the node directly.
     $appNidsByCollection = [];
-    $appNids = $nodeStorage->getQuery()
+    $memberAppQuery = $nodeStorage->getQuery()
       ->condition('type', 'appverse_app')
       ->condition('status', 1)
       ->exists('field_appverse_collection')
-      ->accessCheck(FALSE)
-      ->execute();
+      ->accessCheck(FALSE);
+    $this->applyCollectionCascadeFilter($memberAppQuery);
+    $appNids = $memberAppQuery->execute();
     $memberAppNodes = $nodeStorage->loadMultiple($appNids);
     foreach ($memberAppNodes as $app) {
       $collRef = $app->get('field_appverse_collection')->entity;
@@ -178,9 +180,9 @@ class AppverseCacheService {
         }
       }
 
-      // Slug: derived from the canonical URL's last segment. Pathauto
-      // pattern '/collection/[node:title]' (see Task 1 of the plan) ensures
-      // this is a stable URL slug like 'ood-apps-v3', not '/node/123'.
+      // Slug: derived from the canonical URL's last segment. The pathauto
+      // pattern '/collection/[node:title]' ensures this is a stable URL
+      // slug like 'ood-apps-v3', not '/node/123'.
       $canonicalUrl = $collection->toUrl()->toString();
       $slug = basename($canonicalUrl);
 
@@ -215,6 +217,35 @@ class AppverseCacheService {
       ];
     }
     return $result;
+  }
+
+  /**
+   * Apply the parent-Collection cascade filter to an Apps query.
+   *
+   * Hides Apps whose parent Collection is unpublished. Drupal's
+   * content_moderation keeps node.status in sync with moderation_state, so
+   * a single status=0 check on the Collection covers both the publish toggle
+   * and any non-'published' moderation state — no separate moderation_state
+   * check is needed.
+   *
+   * Legacy apps with NULL field_appverse_collection (pre-backfill) remain
+   * visible — the cascade only fires when an explicit parent reference
+   * exists and that parent is unpublished.
+   */
+  protected function applyCollectionCascadeFilter($appQuery): void {
+    $nodeStorage = $this->entityTypeManager->getStorage('node');
+    $unpublishedCollectionIds = $nodeStorage->getQuery()
+      ->condition('type', 'appverse_collection')
+      ->condition('status', 0)
+      ->accessCheck(FALSE)
+      ->execute();
+    if (empty($unpublishedCollectionIds)) {
+      return;
+    }
+    $orphanGroup = $appQuery->orConditionGroup()
+      ->notExists('field_appverse_collection')
+      ->condition('field_appverse_collection', $unpublishedCollectionIds, 'NOT IN');
+    $appQuery->condition($orphanGroup);
   }
 
   /**

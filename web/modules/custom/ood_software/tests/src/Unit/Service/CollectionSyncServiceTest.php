@@ -108,10 +108,10 @@ class CollectionSyncServiceTest extends UnitTestCase {
     $time = $this->createMock(\Drupal\Component\Datetime\TimeInterface::class);
     $time->method('getCurrentTime')->willReturn(1234567890);
 
-    // GitHubService is injected for software resolution (Phase 1.7 Task 5).
-    // These tests don't exercise the multi-app per-app sync path, so a bare
-    // mock is fine; the few methods needed (resolveSoftwareForApp) aren't
-    // called from applyDeclared (the Collection-level path under test).
+    // GitHubService is injected for software resolution. These tests don't
+    // exercise the multi-app per-app sync path, so a bare mock is fine;
+    // the few methods needed (resolveSoftwareForApp) aren't called from
+    // applyDeclared (the Collection-level path under test).
     $githubService = $this->createMock(\Drupal\ood_software\Plugin\GitHubService::class);
 
     $this->service = new CollectionSyncService($entityTypeManager, $loggerFactory, $time, $githubService);
@@ -248,6 +248,338 @@ YAML;
     $this->assertSame('No Maintainer Block', $this->nodeFields['title'] ?? NULL);
     $this->assertSame('Fallback Org', $this->nodeFields['field_collection_maintainer_name'] ?? NULL);
     $this->assertSame('valid', $this->nodeFields['field_collection_validation_st'] ?? NULL);
+  }
+
+  /**
+   * applyDeclared writes field_collection_shape='declared'.
+   *
+   * Consumers of appverse_collection nodes branch on this field to
+   * distinguish multi-app (declared via appverse.yml) from single-app
+   * (inferred via manifest.yml) shapes.
+   */
+  public function testApplyDeclaredSetsShape(): void {
+    $this->service->resolveCollection(
+      'https://github.com/owner/repo',
+      "apps:\n  - path: foo\n    software: Jupyter\n",
+      ['stars' => 0, 'lastCommittedDate' => 0]
+    );
+
+    $this->assertArrayHasKey('field_collection_shape', $this->nodeFields);
+    $this->assertSame('declared', $this->nodeFields['field_collection_shape']);
+  }
+
+  /**
+   * applyInferred writes field_collection_shape='inferred'.
+   *
+   * Consumers of appverse_collection nodes branch on this field to
+   * distinguish multi-app (declared via appverse.yml) from single-app
+   * (inferred via manifest.yml) shapes.
+   */
+  public function testApplyInferredSetsShape(): void {
+    $this->service->resolveCollection(
+      'https://github.com/owner/repo',
+      NULL,
+      ['stars' => 0, 'lastCommittedDate' => 0]
+    );
+
+    $this->assertArrayHasKey('field_collection_shape', $this->nodeFields);
+    $this->assertSame('inferred', $this->nodeFields['field_collection_shape']);
+  }
+
+  /**
+   * applyDeclared writes field_collection_shape='declared' even when yaml is malformed.
+   *
+   * yaml was present at fetch time, so the shape is declared regardless of
+   * parse outcome. NULL shape on a stale_invalid Collection would render
+   * incorrectly in any consumer that branches on shape.
+   */
+  public function testApplyDeclaredSetsShapeOnMalformedYaml(): void {
+    // Yaml syntax error: missing colon makes it unparseable.
+    $this->service->resolveCollection(
+      'https://github.com/owner/repo',
+      "apps\n  not a mapping",
+      ['stars' => 0, 'lastCommittedDate' => 0]
+    );
+
+    $this->assertArrayHasKey('field_collection_shape', $this->nodeFields);
+    $this->assertSame('declared', $this->nodeFields['field_collection_shape']);
+    // Validation should be stale_invalid (parse failure).
+    $this->assertArrayHasKey('field_collection_validation_st', $this->nodeFields);
+    $this->assertSame('stale_invalid', $this->nodeFields['field_collection_validation_st']);
+  }
+
+  /**
+   * applyDeclaredApps deletes Apps whose subpath is no longer in apps[].
+   *
+   * Re-sync that drops an entry from apps[] removes the corresponding
+   * App node — yaml is canonical, catalog mirrors yaml state.
+   */
+  public function testApplyDeclaredAppsDeletesAppsRemovedFromYml(): void {
+    // Build a targeted service with a node storage that returns two
+    // existing member App stubs: 'jupyter_example' (kept) and 'old_app'
+    // (must be deleted). The new yaml declares only 'jupyter_example'.
+    $keptApp = $this->createMock(NodeInterface::class);
+    $keptApp->method('id')->willReturn(101);
+    $keptSubpath = $this->buildSubpathFieldItem('jupyter_example');
+    // Field item with getValue() for validation_er reads; ->value for st reads.
+    $emptyValidationField = new class {
+      public $value = NULL;
+
+      public function getValue(): array {
+        return [];
+      }
+
+    };
+    $keptApp->method('get')->willReturnCallback(
+      function (string $field_name) use ($keptSubpath, $emptyValidationField) {
+        if ($field_name === 'field_appverse_app_subpath') {
+          return $keptSubpath;
+        }
+        return $emptyValidationField;
+      }
+    );
+    // kept App: delete() must NEVER be called.
+    $keptApp->expects($this->never())->method('delete');
+    // kept App: save() / set() called by applyDeclaredApp happy/rejected path.
+    $keptApp->method('set')->willReturnSelf();
+    $keptApp->method('setTitle')->willReturnSelf();
+    $keptApp->method('save')->willReturn(1);
+    $keptApp->method('hasField')->willReturn(FALSE);
+
+    $oldApp = $this->createMock(NodeInterface::class);
+    $oldApp->method('id')->willReturn(102);
+    $oldSubpath = $this->buildSubpathFieldItem('old_app');
+    // Return the same $emptyValidationField stub for fields other than subpath
+    // so future code changes (e.g. reading title or validation_er for the
+    // delete-log message) don't NPE the test.
+    $oldApp->method('get')->willReturnCallback(
+      function (string $field_name) use ($oldSubpath, $emptyValidationField) {
+        return $field_name === 'field_appverse_app_subpath' ? $oldSubpath : $emptyValidationField;
+      }
+    );
+    // old App: delete() MUST be called exactly once.
+    $oldApp->expects($this->once())->method('delete');
+
+    // Build a query that returns both nids; loadMultiple returns the stubs.
+    $appsQuery = $this->createMock(QueryInterface::class);
+    $appsQuery->method('condition')->willReturnSelf();
+    $appsQuery->method('range')->willReturnSelf();
+    $appsQuery->method('accessCheck')->willReturnSelf();
+    $appsQuery->method('execute')->willReturn([101, 102]);
+
+    $appsNodeStorage = $this->createMock(EntityStorageInterface::class);
+    $appsNodeStorage->method('getQuery')->willReturn($appsQuery);
+    $appsNodeStorage->method('loadMultiple')->willReturn([101 => $keptApp, 102 => $oldApp]);
+    // resolveAppNode does ->load(reset(...)) — for the kept app it should
+    // return the kept stub so applyDeclaredApp can use it.
+    $appsNodeStorage->method('load')->willReturnCallback(
+      function ($id) use ($keptApp) {
+        return $id == 101 ? $keptApp : NULL;
+      }
+    );
+    $appsNodeStorage->method('create')->willReturn($keptApp);
+
+    // Term storage: empty matches.
+    $termStorage = $this->createMock(EntityStorageInterface::class);
+    $termQuery = $this->createMock(QueryInterface::class);
+    $termQuery->method('condition')->willReturnSelf();
+    $termQuery->method('range')->willReturnSelf();
+    $termQuery->method('accessCheck')->willReturnSelf();
+    $termQuery->method('execute')->willReturn([]);
+    $termStorage->method('getQuery')->willReturn($termQuery);
+
+    $entityTypeManager = $this->createMock(EntityTypeManagerInterface::class);
+    $entityTypeManager->method('getStorage')->willReturnCallback(
+      function (string $entity_type) use ($termStorage, $appsNodeStorage) {
+        return $entity_type === 'taxonomy_term' ? $termStorage : $appsNodeStorage;
+      }
+    );
+
+    $logger = $this->createMock(LoggerInterface::class);
+    $loggerFactory = $this->createMock(LoggerChannelFactoryInterface::class);
+    $loggerFactory->method('get')->willReturn($logger);
+    $time = $this->createMock(\Drupal\Component\Datetime\TimeInterface::class);
+    $time->method('getCurrentTime')->willReturn(1234567890);
+
+    // GitHubService: resolveSoftwareForApp returns a stub with nid match;
+    // resolveTaxonomyTermsFromAppverseYml returns no resolved/unresolved.
+    $githubService = $this->createMock(\Drupal\ood_software\Plugin\GitHubService::class);
+    $githubService->method('resolveSoftwareForApp')
+      ->willReturn(['resolvedNid' => 999, 'suggestion' => NULL]);
+    $githubService->method('resolveTaxonomyTermsFromAppverseYml')
+      ->willReturn(['resolved' => [], 'unresolved' => []]);
+
+    $service = new CollectionSyncService($entityTypeManager, $loggerFactory, $time, $githubService);
+
+    // Parent Collection stub.
+    $collection = $this->createMock(NodeInterface::class);
+    $collection->method('id')->willReturn(50);
+
+    $parsedRootYml = [
+      'apps' => [
+        ['path' => 'jupyter_example'],
+      ],
+    ];
+    $subpathFiles = [
+      'jupyter_example' => [
+        'manifestYml' => "name: Jupyter Example\ndescription: desc\n",
+        'appverseYml' => "name: Jupyter Example\ndescription: desc\napp_type: jupyter\nmaintainer:\n  name: Bob\n  support_url: https://example.org/support\n",
+        'readme' => NULL,
+      ],
+    ];
+
+    $service->applyDeclaredApps(
+      $collection,
+      $parsedRootYml,
+      $subpathFiles,
+      'https://github.com/owner/repo',
+      ['organization' => 'OwnerOrg']
+    );
+
+    // The kept/deleted mock expectations above carry the contract; assert
+    // here so the test isn't marked risky.
+    $this->assertTrue(TRUE);
+  }
+
+  /**
+   * applyDeclaredApps preserves existing member Apps when the new yaml's
+   * apps[] is empty.
+   *
+   * Empty apps[] is treated as "no signal" (likely a transient parse
+   * failure upstream), not "delete all" — see one-way-archive contract.
+   * A stale_invalid yaml shouldn't silently empty the catalog.
+   */
+  public function testApplyDeclaredAppsPreservesAppsWhenYamlAppsEmpty(): void {
+    // Build an existing App stub; assert ->delete() is NEVER called.
+    $existingApp = $this->createMock(NodeInterface::class);
+    $existingApp->method('id')->willReturn(101);
+    $existingSubpath = $this->buildSubpathFieldItem('jupyter_example');
+    $emptyValidationField = new class {
+      public $value = NULL;
+
+      public function getValue(): array {
+        return [];
+      }
+
+    };
+    $existingApp->method('get')->willReturnCallback(
+      function (string $field_name) use ($existingSubpath, $emptyValidationField) {
+        return $field_name === 'field_appverse_app_subpath' ? $existingSubpath : $emptyValidationField;
+      }
+    );
+    // delete() MUST NEVER be called when apps[] is empty.
+    $existingApp->expects($this->never())->method('delete');
+    $existingApp->method('set')->willReturnSelf();
+    $existingApp->method('setTitle')->willReturnSelf();
+    $existingApp->method('save')->willReturn(1);
+    $existingApp->method('hasField')->willReturn(FALSE);
+
+    // Even if the service queried for existing apps, returning empty here
+    // would still verify guard behavior; but to assert the guard short-
+    // circuits BEFORE the query, we also wire loadMultiple to return our
+    // stub (so a missing guard would attempt deletion and fail expectations).
+    $appsQuery = $this->createMock(QueryInterface::class);
+    $appsQuery->method('condition')->willReturnSelf();
+    $appsQuery->method('range')->willReturnSelf();
+    $appsQuery->method('accessCheck')->willReturnSelf();
+    $appsQuery->method('execute')->willReturn([101]);
+
+    $appsNodeStorage = $this->createMock(EntityStorageInterface::class);
+    $appsNodeStorage->method('getQuery')->willReturn($appsQuery);
+    $appsNodeStorage->method('loadMultiple')->willReturn([101 => $existingApp]);
+    $appsNodeStorage->method('load')->willReturn(NULL);
+    $appsNodeStorage->method('create')->willReturn($existingApp);
+
+    $termStorage = $this->createMock(EntityStorageInterface::class);
+    $termQuery = $this->createMock(QueryInterface::class);
+    $termQuery->method('condition')->willReturnSelf();
+    $termQuery->method('range')->willReturnSelf();
+    $termQuery->method('accessCheck')->willReturnSelf();
+    $termQuery->method('execute')->willReturn([]);
+    $termStorage->method('getQuery')->willReturn($termQuery);
+
+    $entityTypeManager = $this->createMock(EntityTypeManagerInterface::class);
+    $entityTypeManager->method('getStorage')->willReturnCallback(
+      function (string $entity_type) use ($termStorage, $appsNodeStorage) {
+        return $entity_type === 'taxonomy_term' ? $termStorage : $appsNodeStorage;
+      }
+    );
+
+    $logger = $this->createMock(LoggerInterface::class);
+    $loggerFactory = $this->createMock(LoggerChannelFactoryInterface::class);
+    $loggerFactory->method('get')->willReturn($logger);
+    $time = $this->createMock(\Drupal\Component\Datetime\TimeInterface::class);
+    $time->method('getCurrentTime')->willReturn(1234567890);
+
+    $githubService = $this->createMock(\Drupal\ood_software\Plugin\GitHubService::class);
+    $githubService->method('resolveSoftwareForApp')
+      ->willReturn(['resolvedNid' => 999, 'suggestion' => NULL]);
+    $githubService->method('resolveTaxonomyTermsFromAppverseYml')
+      ->willReturn(['resolved' => [], 'unresolved' => []]);
+
+    $service = new CollectionSyncService($entityTypeManager, $loggerFactory, $time, $githubService);
+
+    $collection = $this->createMock(NodeInterface::class);
+    $collection->method('id')->willReturn(50);
+
+    // The new yaml declares NO apps. With the guard in place, the existing
+    // App must be preserved (delete() never called).
+    $parsedRootYml = [
+      'apps' => [],
+    ];
+    $subpathFiles = [];
+
+    $service->applyDeclaredApps(
+      $collection,
+      $parsedRootYml,
+      $subpathFiles,
+      'https://github.com/owner/repo',
+      ['organization' => 'OwnerOrg']
+    );
+
+    // The ->never() expectation above carries the contract; assert here so
+    // the test isn't marked risky.
+    $this->assertTrue(TRUE);
+  }
+
+  /**
+   * Helper: builds a mock field item list whose ->value returns a subpath.
+   */
+  protected function buildSubpathFieldItem(string $subpath): object {
+    $item = new \stdClass();
+    $item->value = $subpath;
+    return $item;
+  }
+
+  /**
+   * applyDeclared transitions Collection to archived when repo is archived.
+   *
+   * One-way: subsequent syncs that find the repo un-archived do NOT
+   * auto-un-archive. Contributor re-submit is the recovery path.
+   */
+  public function testApplyDeclaredAutoArchivesWhenRepoIsArchived(): void {
+    $this->service->resolveCollection(
+      'https://github.com/owner/repo',
+      "apps:\n  - path: foo\n",
+      ['isArchived' => TRUE, 'stars' => 0, 'lastCommittedDate' => 0]
+    );
+
+    $this->assertArrayHasKey('moderation_state', $this->nodeFields);
+    $this->assertSame('archived', $this->nodeFields['moderation_state']);
+  }
+
+  /**
+   * applyInferred transitions Collection to archived when repo is archived.
+   */
+  public function testApplyInferredAutoArchivesWhenRepoIsArchived(): void {
+    $this->service->resolveCollection(
+      'https://github.com/owner/repo',
+      NULL,
+      ['isArchived' => TRUE, 'stars' => 0, 'lastCommittedDate' => 0]
+    );
+
+    $this->assertArrayHasKey('moderation_state', $this->nodeFields);
+    $this->assertSame('archived', $this->nodeFields['moderation_state']);
   }
 
 }

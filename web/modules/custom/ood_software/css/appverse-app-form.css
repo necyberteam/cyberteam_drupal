@@ -1,12 +1,16 @@
 /* AJAX preview cards rendered inside the appverse_app node-add form. */
 
-/* Row containing the GitHub URL field and the Fetch Repo button. */
+/* Row containing the GitHub URL field and the Fetch Repo button.
+   `position: relative` establishes a positioning context so stray
+   theme rules that absolutely-position form submits don't escape
+   the row. */
 .appverse-url-row {
   display: flex;
   gap: 0.5rem;
   align-items: flex-end;
   flex-wrap: wrap;
   margin-bottom: 1rem;
+  position: relative;
 }
 /* Drupal's link-field widget wraps the .form-item in
    .field--name-field-appverse-github-url, so target that wrapper
@@ -20,7 +24,24 @@
 .appverse-url-row > .field--name-field-appverse-github-url .form-item {
   margin: 0;
 }
-.appverse-url-row > .button { flex: 0 0 auto; align-self: flex-end; margin-top: 0; }
+/* The actual <input> inside the wrapper. Constrain it to the
+   wrapper's width so theme-default `width: 100%` doesn't overflow
+   the flex item and visually push under the button. */
+.appverse-url-row > .field--name-field-appverse-github-url input[type="url"],
+.appverse-url-row > .field--name-field-appverse-github-url input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+/* The Fetch Repo button. `position: static` defends against theme
+   rules (style.css legacy or core admin) that try to absolutely
+   position form submits — those break the flex layout and cause
+   the button to overlap the input. */
+.appverse-url-row > .button {
+  flex: 0 0 auto;
+  align-self: flex-end;
+  margin-top: 0;
+  position: static;
+}
 
 /* AJAX preview wrapper — sits full-width in its own row inside group_github. */
 .appverse-ajax-preview { width: 100%; clear: both; margin-top: 1rem; }
