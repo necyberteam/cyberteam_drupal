@@ -1,0 +1,29 @@
+uuid: fb02df6a-6918-4359-ba0d-2bda32a00064
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tcs_access_resource
+    - node.type.access_active_resources_from_cid
+    - node.type.tools_case_study
+id: node.tools_case_study.field_tcs_access_resource
+field_name: field_tcs_access_resource
+entity_type: node
+bundle: tools_case_study
+label: 'ACCESS Resource'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      access_active_resources_from_cid: access_active_resources_from_cid
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

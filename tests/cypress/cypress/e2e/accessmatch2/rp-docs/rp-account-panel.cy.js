@@ -21,43 +21,21 @@ describe("RP account panel", () => {
     cy.get(".rp-account-panel").should("not.exist");
   });
 
-  it("renders YOUR ACCOUNT panel when API returns has_account=true", () => {
-    cy.intercept("GET", "/api/1.0/rp-account/*", {
-      statusCode: 200,
-      body: {
-        rp_nid: 1,
-        rp_display_name: "Test Resource Alpha",
-        state: "rows_fresh",
-        has_account: true,
-        stale: false,
-        rp_username: "testuser123",
-        grants: [{
-          grant_number: "TST111",
-          title: "Test grant title",
-          project_end: "2027-01-01",
-          project_balance: "99999",
-          billable_unit: "Core-hours",
-          account_state: "active",
-        }],
-        manage_url: "https://allocations.access-ci.org/",
-        synced_at: 1746737000,
-      },
-    }).as("rpAccount");
-
+  it("renders YOUR ACCOUNT panel when user has fixture rp_account rows", () => {
+    // Walnut has 2 seeded rows in access_user_rp_account for Test Resource Alpha
+    // (see amp_dev_install_create_rp_account_test_data() — grant_numbers TST111
+    // + TST222, username walnut_alpha). SSR renders the full populated panel
+    // from those rows; no API call / JS rebuild is involved on this path.
     cy.loginAs("walnut@pie.org", "Walnut");
     cy.visit(RP_PATH);
 
-    // When SSR is in error/no_rows_unknown state (no DB rows), the skeleton
-    // renders the YOUR ACCOUNT heading with "Loading account info…". The JS
-    // fetches and gets has_account=true, then constructs the populated panel
-    // from JSON (mirroring the Twig template's structure).
     cy.get(".rp-account-panel", { timeout: 5000 })
       .should("be.visible")
       .and("have.attr", "data-rp-nid");
     cy.contains("YOUR ACCOUNT ON").should("be.visible");
     cy.contains("TST111").should("be.visible");
-    cy.contains("Test grant title").should("be.visible");
-    cy.contains("testuser123").should("be.visible");
+    cy.contains("Walnut Test Grant 1").should("be.visible");
+    cy.contains("walnut_alpha").should("be.visible");
   });
 
   it("rewrites panel to GET AN ACCOUNT CTA when API returns has_account=false", () => {

@@ -1,0 +1,22 @@
+uuid: bd26203f-5c3f-445e-89f0-aed3de514fb0
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: tcs_researcher_stories
+label: 'Researcher Stories'
+type: 'canonical_entities:node'
+pattern: '/tools/researcher-stories/[node:title]'
+selection_criteria:
+  76a1595a-4088-46ad-9a7c-33d9086407fc:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 76a1595a-4088-46ad-9a7c-33d9086407fc
+    context_mapping:
+      node: node
+    bundles:
+      tools_case_study: tools_case_study
+selection_logic: and
+weight: -5
+relationships: {  }
