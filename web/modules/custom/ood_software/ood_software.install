@@ -94,61 +94,39 @@ function ood_software_update_10002() {
  * collection backfill).
  */
 function ood_software_update_10501() {
-  $module_path = \Drupal::service('extension.list.module')->getPath('ood_software');
-  $source = new \Drupal\Core\Config\FileStorage($module_path . '/config/install');
+  $source = new \Drupal\Core\Config\FileStorage(
+    \Drupal::service('extension.list.module')->getPath('ood_software') . '/config/install'
+  );
 
-  // 0. Make sure the appverse_collection content type exists before we
-  // attach a field to it. On Pantheon (and any environment where
-  // `drush deploy` runs updb BEFORE cim), the bundle config from the
-  // sync directory hasn't been imported yet when this hook fires.
-  // Import the bundle config now from sites/default/config/default so
-  // the FieldConfig::create() call below has a real bundle to target.
+  // Create the appverse_collection content type if it doesn't exist.
   if (!\Drupal\node\Entity\NodeType::load('appverse_collection')) {
-    $sync = new \Drupal\Core\Config\FileStorage(\Drupal\Core\Site\Settings::get('config_sync_directory'));
-    $bundle_data = $sync->read('node.type.appverse_collection');
-    if ($bundle_data === FALSE) {
-      throw new \RuntimeException(
-        'Cannot create field_collection_shape: node.type.appverse_collection is not present in code (live or sync). Run `drush cim` first.'
-      );
-    }
-    \Drupal\node\Entity\NodeType::create($bundle_data)->save();
+    \Drupal\node\Entity\NodeType::create($source->read('node.type.appverse_collection'))->save();
   }
 
-  // 1. Create the field storage if it doesn't exist.
+  // Create field_collection_shape storage.
   //
   // FieldStorageConfig::create() expects allowed_values in the runtime
   // (flat) format [value => label]; ListItemBase::storageSettingsToConfigData
   // restructures it into the on-disk format [{value, label}, ...] during
-  // save. Passing the already-structured YAML form through create() would
-  // double-structure and corrupt the data, so we flatten here even though
-  // the YAML on disk is in the structured form.
+  // save. Flatten before passing in.
   if (!\Drupal\field\Entity\FieldStorageConfig::loadByName('node', 'field_collection_shape')) {
     $storage_data = $source->read('field.storage.node.field_collection_shape');
-    if ($storage_data === FALSE) {
-      throw new \RuntimeException('field.storage.node.field_collection_shape config not found in ' . $module_path . '/config/install');
+    $flat = [];
+    foreach ($storage_data['settings']['allowed_values'] as $item) {
+      $flat[$item['value']] = $item['label'];
     }
-    if (!empty($storage_data['settings']['allowed_values'])) {
-      $flat = [];
-      foreach ($storage_data['settings']['allowed_values'] as $item) {
-        if (isset($item['value'], $item['label'])) {
-          $flat[$item['value']] = $item['label'];
-        }
-      }
-      $storage_data['settings']['allowed_values'] = $flat;
-    }
+    $storage_data['settings']['allowed_values'] = $flat;
     \Drupal\field\Entity\FieldStorageConfig::create($storage_data)->save();
   }
 
-  // 2. Create the field instance on appverse_collection.
+  // Attach the field to appverse_collection.
   if (!\Drupal\field\Entity\FieldConfig::loadByName('node', 'appverse_collection', 'field_collection_shape')) {
-    $field_data = $source->read('field.field.node.appverse_collection.field_collection_shape');
-    if ($field_data === FALSE) {
-      throw new \RuntimeException('field.field.node.appverse_collection.field_collection_shape config not found');
-    }
-    \Drupal\field\Entity\FieldConfig::create($field_data)->save();
+    \Drupal\field\Entity\FieldConfig::create(
+      $source->read('field.field.node.appverse_collection.field_collection_shape')
+    )->save();
   }
 
-  // 3. Add the field to the default form display so it's editable.
+  // Make the field editable in the default form display.
   $form_display = \Drupal::service('entity_display.repository')->getFormDisplay('node', 'appverse_collection', 'default');
   if (!$form_display->getComponent('field_collection_shape')) {
     $form_display->setComponent('field_collection_shape', [
@@ -173,23 +151,36 @@ function ood_software_update_10501() {
 function ood_software_update_10502() {
   $entityTypeManager = \Drupal::entityTypeManager();
   $logger = \Drupal::logger('ood_software');
+  $source = new \Drupal\Core\Config\FileStorage(
+    \Drupal::service('extension.list.module')->getPath('ood_software') . '/config/install'
+  );
 
+  // Ensure appverse_editorial exists and includes appverse_collection
+  // in its bundle binding. Without this content_moderation never attaches
+  // moderation_state to Collection nodes and the backfill below no-ops.
+  $workflowStorage = $entityTypeManager->getStorage('workflow');
+  $workflow = $workflowStorage->load('appverse_editorial');
+  if (!$workflow) {
+    $workflow = $workflowStorage->create($source->read('workflows.workflow.appverse_editorial'));
+    $workflow->save();
+  }
+  elseif (!in_array('appverse_collection', $workflow->getTypePlugin()->getBundlesForEntityType('node'), TRUE)) {
+    $workflow->getTypePlugin()->addEntityTypeAndBundle('node', 'appverse_collection');
+    $workflow->save();
+  }
+
+  // Backfill moderation_state on existing Collection nodes. We can't
+  // use $node->get('moderation_state')->isEmpty() because
+  // content_moderation lazily computes that field from node.status when
+  // no row exists, so existing nodes report 'published' even when no
+  // row has been written.
   $collectionIds = $entityTypeManager->getStorage('node')->getQuery()
     ->accessCheck(FALSE)
     ->condition('type', 'appverse_collection')
     ->execute();
-
-  // Determine which collections already have a persisted content moderation
-  // state row. We can't rely on $node->get('moderation_state')->isEmpty()
-  // because content_moderation lazily computes that field from node.status
-  // when no row exists, so existing collections report 'published' even
-  // though no row has been written yet.
   $stateStorage = $entityTypeManager->getStorage('content_moderation_state');
   $count = 0;
   foreach ($entityTypeManager->getStorage('node')->loadMultiple($collectionIds) as $collection) {
-    if (!$collection->hasField('moderation_state')) {
-      continue;
-    }
     $existing = $stateStorage->loadByProperties([
       'content_entity_type_id' => 'node',
       'content_entity_id' => $collection->id(),
@@ -217,6 +208,22 @@ function ood_software_update_10502() {
  */
 function ood_software_update_10503(&$sandbox) {
   $entityTypeManager = \Drupal::entityTypeManager();
+  $source = new \Drupal\Core\Config\FileStorage(
+    \Drupal::service('extension.list.module')->getPath('ood_software') . '/config/install'
+  );
+
+  // Ensure field_appverse_collection is attached to appverse_app before
+  // the entity query below references it.
+  if (!\Drupal\field\Entity\FieldStorageConfig::loadByName('node', 'field_appverse_collection')) {
+    \Drupal\field\Entity\FieldStorageConfig::create(
+      $source->read('field.storage.node.field_appverse_collection')
+    )->save();
+  }
+  if (!\Drupal\field\Entity\FieldConfig::loadByName('node', 'appverse_app', 'field_appverse_collection')) {
+    \Drupal\field\Entity\FieldConfig::create(
+      $source->read('field.field.node.appverse_app.field_appverse_collection')
+    )->save();
+  }
 
   if (!isset($sandbox['progress'])) {
     $sandbox['progress'] = 0;

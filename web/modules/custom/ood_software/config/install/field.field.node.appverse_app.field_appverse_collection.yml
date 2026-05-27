@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_appverse_collection
+    - node.type.appverse_app
+    - node.type.appverse_collection
+id: node.appverse_app.field_appverse_collection
+field_name: field_appverse_collection
+entity_type: node
+bundle: appverse_app
+label: Collection
+description: 'The Collection this app belongs to. Set automatically by sync.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      appverse_collection: appverse_collection
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
