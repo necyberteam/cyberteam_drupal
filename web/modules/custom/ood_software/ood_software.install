@@ -97,6 +97,23 @@ function ood_software_update_10501() {
   $module_path = \Drupal::service('extension.list.module')->getPath('ood_software');
   $source = new \Drupal\Core\Config\FileStorage($module_path . '/config/install');
 
+  // 0. Make sure the appverse_collection content type exists before we
+  // attach a field to it. On Pantheon (and any environment where
+  // `drush deploy` runs updb BEFORE cim), the bundle config from the
+  // sync directory hasn't been imported yet when this hook fires.
+  // Import the bundle config now from sites/default/config/default so
+  // the FieldConfig::create() call below has a real bundle to target.
+  if (!\Drupal\node\Entity\NodeType::load('appverse_collection')) {
+    $sync = new \Drupal\Core\Config\FileStorage(\Drupal\Core\Site\Settings::get('config_sync_directory'));
+    $bundle_data = $sync->read('node.type.appverse_collection');
+    if ($bundle_data === FALSE) {
+      throw new \RuntimeException(
+        'Cannot create field_collection_shape: node.type.appverse_collection is not present in code (live or sync). Run `drush cim` first.'
+      );
+    }
+    \Drupal\node\Entity\NodeType::create($bundle_data)->save();
+  }
+
   // 1. Create the field storage if it doesn't exist.
   //
   // FieldStorageConfig::create() expects allowed_values in the runtime
