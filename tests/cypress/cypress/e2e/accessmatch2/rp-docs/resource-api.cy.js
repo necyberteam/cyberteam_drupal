@@ -71,7 +71,8 @@ describe("Resource Documentation API", () => {
       expect(response.status).to.eq(200);
 
       const body = response.body;
-      expect(body.title).to.eq("Test Resource Alpha");
+      // operations_cider_node_load() rewrites title to short_name in memory.
+      expect(body.title).to.eq("Alpha");
       expect(body.short_name).to.eq("Alpha");
       expect(body.resource_id).to.eq(FIXTURES.alpha.resource_id);
       expect(body.org_name).to.eq(FIXTURES.alpha.org_name);
@@ -133,7 +134,7 @@ describe("Resource Documentation API", () => {
   it("Sparse resource (Beta) returns empty paragraph arrays", () => {
     cy.request(`/api/1.0/resources/${FIXTURES.beta.resource_id}`).then((response) => {
       expect(response.status).to.eq(200);
-      expect(response.body.title).to.eq("Test Resource Beta");
+      expect(response.body.title).to.eq("Beta");
       expect(response.body.description).to.include("CPU-only cluster");
       expect(response.body.file_transfer).to.have.length(0);
       expect(response.body.storage).to.have.length(0);
@@ -171,7 +172,7 @@ describe("Resource Documentation API", () => {
   it("Partial resource (Gamma) returns only populated sections", () => {
     cy.request(`/api/1.0/resources/${FIXTURES.gamma.resource_id}`).then((response) => {
       expect(response.status).to.eq(200);
-      expect(response.body.title).to.eq("Test Resource Gamma");
+      expect(response.body.title).to.eq("Gamma");
       expect(response.body.storage).to.have.length(2);
       expect(response.body.file_transfer).to.have.length(0);
       expect(response.body.queue_specs).to.have.length(0);

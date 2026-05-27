@@ -159,17 +159,6 @@ Cypress.Commands.add("loginWith", (username, password) => {
 });
 
 /**
- * Logs a user in by their uid via drush uli.
- */
-Cypress.Commands.add("loginUserByUid", (uid) => {
-  cy.drush("user-login", [], { uid, uri: Cypress.env("baseUrl") })
-    .its("stdout")
-    .then(function (url) {
-      cy.visit(url);
-    });
-});
-
-/**
  * Custom command to verify the existence of a button within the "region-cta" block
  */
 Cypress.Commands.add("verifyCallToActionBlock", (url, text, href) => {
