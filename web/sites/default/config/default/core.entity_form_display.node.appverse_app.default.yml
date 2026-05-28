@@ -6,7 +6,7 @@ dependencies:
     - field.field.node.appverse_app.body
     - field.field.node.appverse_app.field_add_implementation_tags
     - field.field.node.appverse_app.field_appverse_app_type
-    - field.field.node.appverse_app.field_appverse_collection
+    - field.field.node.appverse_app.field_appverse_repo
     - field.field.node.appverse_app.field_appverse_github_url
     - field.field.node.appverse_app.field_appverse_lastupdated
     - field.field.node.appverse_app.field_appverse_license_link
@@ -31,7 +31,7 @@ third_party_settings:
       children:
         - title
         - field_appverse_github_url
-        - field_appverse_collection
+        - field_appverse_repo
         - body
         - field_appverse_readme
         - field_appverse_lastupdated
@@ -85,7 +85,7 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_appverse_collection:
+  field_appverse_repo:
     type: entity_reference_autocomplete
     weight: 16
     region: content

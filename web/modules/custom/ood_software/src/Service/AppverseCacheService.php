@@ -35,13 +35,13 @@ class AppverseCacheService {
   public function generate(): bool {
     try {
       $software = $this->buildSoftwareData();
-      $collections = $this->buildCollectionsData($software);
-      $this->annotateAppsWithCollectionBackRefs($software, $collections);
+      $repos = $this->buildReposData($software);
+      $this->annotateAppsWithRepoBackRefs($software, $repos);
 
       $data = [
         'software' => $software,
-        'collections' => $collections,
-        'filterOptions' => $this->extractFilterOptions($software, $collections),
+        'repos' => $repos,
+        'filterOptions' => $this->extractFilterOptions($software, $repos),
         'generated' => date('c'),
       ];
 
@@ -51,10 +51,10 @@ class AppverseCacheService {
       $json = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
       $this->fileSystem->saveData($json, self::CACHE_FILE, FileExists::Replace);
 
-      $this->logger->info('Appverse cache generated: @size bytes, @sw software, @col collections.', [
+      $this->logger->info('Appverse cache generated: @size bytes, @sw software, @col repos.', [
         '@size' => strlen($json),
         '@sw' => count($software),
-        '@col' => count($collections),
+        '@col' => count($repos),
       ]);
       return TRUE;
     }
@@ -84,7 +84,7 @@ class AppverseCacheService {
       ->condition('type', 'appverse_app')
       ->condition('status', 1)
       ->accessCheck(FALSE);
-    $this->applyCollectionCascadeFilter($appQuery);
+    $this->applyRepoCascadeFilter($appQuery);
     $appNids = $appQuery->execute();
     $appNodes = $nodeStorage->loadMultiple($appNids);
 
@@ -123,18 +123,18 @@ class AppverseCacheService {
   }
 
   /**
-   * Build the collections array with nested member apps.
+   * Build the repos array with nested member apps.
    */
-  protected function buildCollectionsData(array $softwareData): array {
+  protected function buildReposData(array $softwareData): array {
     $nodeStorage = $this->entityTypeManager->getStorage('node');
 
     $nids = $nodeStorage->getQuery()
-      ->condition('type', 'appverse_collection')
+      ->condition('type', 'appverse_repo')
       ->condition('status', 1)
       ->sort('title')
       ->accessCheck(FALSE)
       ->execute();
-    $collectionNodes = $nodeStorage->loadMultiple($nids);
+    $repoNodes = $nodeStorage->loadMultiple($nids);
 
     // Build a flat lookup of apps by node id (Drupal internal NID) for member resolution.
     $appByNid = [];
@@ -144,74 +144,74 @@ class AppverseCacheService {
       }
     }
 
-    // Build a reverse lookup: collection nid → list of member app nodes.
+    // Build a reverse lookup: repo nid → list of member app nodes.
     // Apps without a field_appverse_software_implemen reference (e.g. apps
-    // declared only via a Collection's apps[]) are still members of the
-    // Collection — build minimal app data from the node directly.
-    $appNidsByCollection = [];
+    // declared only via a repo's apps[]) are still members of the
+    // repo — build minimal app data from the node directly.
+    $appNidsByRepo = [];
     $memberAppQuery = $nodeStorage->getQuery()
       ->condition('type', 'appverse_app')
       ->condition('status', 1)
-      ->exists('field_appverse_collection')
+      ->exists('field_appverse_repo')
       ->accessCheck(FALSE);
-    $this->applyCollectionCascadeFilter($memberAppQuery);
+    $this->applyRepoCascadeFilter($memberAppQuery);
     $appNids = $memberAppQuery->execute();
     $memberAppNodes = $nodeStorage->loadMultiple($appNids);
     foreach ($memberAppNodes as $app) {
-      $collRef = $app->get('field_appverse_collection')->entity;
-      if ($collRef) {
-        $appNidsByCollection[(int) $collRef->id()][] = (int) $app->id();
+      $repoRef = $app->get('field_appverse_repo')->entity;
+      if ($repoRef) {
+        $appNidsByRepo[(int) $repoRef->id()][] = (int) $app->id();
       }
     }
 
     $result = [];
-    foreach ($collectionNodes as $collection) {
-      $nid = (int) $collection->id();
-      $memberNids = $appNidsByCollection[$nid] ?? [];
+    foreach ($repoNodes as $repo) {
+      $nid = (int) $repo->id();
+      $memberNids = $appNidsByRepo[$nid] ?? [];
       $memberApps = [];
       foreach ($memberNids as $appNid) {
         if (isset($appByNid[$appNid])) {
           $memberApps[] = $appByNid[$appNid];
         }
         elseif (isset($memberAppNodes[$appNid])) {
-          // Collection-only app (no software ref). Build app data from the
-          // node directly so it still appears in the Collection's apps list.
+          // Repo-only app (no software ref). Build app data from the
+          // node directly so it still appears in the repo's apps list.
           $memberApps[] = $this->buildAppData($memberAppNodes[$appNid], '');
         }
       }
 
       // Slug: derived from the canonical URL's last segment. The pathauto
-      // pattern '/collection/[node:title]' ensures this is a stable URL
+      // pattern '/repo/[node:title]' ensures this is a stable URL
       // slug like 'ood-apps-v3', not '/node/123'.
-      $canonicalUrl = $collection->toUrl()->toString();
+      $canonicalUrl = $repo->toUrl()->toString();
       $slug = basename($canonicalUrl);
 
       $result[] = [
-        'id' => $collection->uuid(),
-        'title' => $collection->getTitle(),
+        'id' => $repo->uuid(),
+        'title' => $repo->getTitle(),
         'slug' => $slug,
         'nid' => $nid,
-        'description' => $collection->get('field_collection_description')->value ?? '',
-        'repoUrl' => $collection->get('field_collection_repo_url')->uri ?? NULL,
+        'description' => $repo->get('field_repo_description')->value ?? '',
+        'repoUrl' => $repo->get('field_repo_url')->uri ?? NULL,
         'maintainer' => [
-          'name' => $collection->get('field_collection_maintainer_name')->value ?? '',
-          'supportUrl' => $collection->get('field_collection_maintainer_url')->uri ?? NULL,
+          'name' => $repo->get('field_repo_maintainer_name')->value ?? '',
+          'supportUrl' => $repo->get('field_repo_maintainer_url')->uri ?? NULL,
         ],
-        'stars' => (int) ($collection->get('field_collection_stars')->value ?? 0),
-        'lastUpdated' => $collection->get('field_collection_last_commit')->value
-          ? (int) $collection->get('field_collection_last_commit')->value
+        'stars' => (int) ($repo->get('field_repo_stars')->value ?? 0),
+        'lastUpdated' => $repo->get('field_repo_last_commit')->value
+          ? (int) $repo->get('field_repo_last_commit')->value
           : NULL,
-        'organization' => $this->getTerm($collection, 'field_collection_organization'),
-        'wwwUrl' => $collection->get('field_collection_www_url')->uri ?? NULL,
-        'docsUrl' => $collection->get('field_collection_docs_url')->uri ?? NULL,
-        'readme' => $collection->get('field_collection_readme')->value ?? NULL,
-        'tags' => $this->getTerms($collection, 'field_collection_tags'),
-        'sharedPaths' => $this->getStringList($collection, 'field_collection_shared_paths'),
-        'relatedCollections' => $this->getRelatedCollectionUuids($collection),
-        'validationStatus' => $collection->get('field_collection_validation_st')->value ?? 'valid',
-        'validationErrors' => $this->getStringList($collection, 'field_collection_validation_er'),
-        'lastSyncedAt' => $collection->get('field_collection_last_synced')->value
-          ? date('c', (int) $collection->get('field_collection_last_synced')->value)
+        'organization' => $this->getTerm($repo, 'field_repo_organization'),
+        'wwwUrl' => $repo->get('field_repo_www_url')->uri ?? NULL,
+        'docsUrl' => $repo->get('field_repo_docs_url')->uri ?? NULL,
+        'readme' => $repo->get('field_repo_readme')->value ?? NULL,
+        'tags' => $this->getTerms($repo, 'field_repo_tags'),
+        'sharedPaths' => $this->getStringList($repo, 'field_repo_shared_paths'),
+        'relatedRepos' => $this->getRelatedRepoUuids($repo),
+        'validationStatus' => $repo->get('field_repo_validation_st')->value ?? 'valid',
+        'validationErrors' => $this->getStringList($repo, 'field_repo_validation_er'),
+        'lastSyncedAt' => $repo->get('field_repo_last_synced')->value
+          ? date('c', (int) $repo->get('field_repo_last_synced')->value)
           : NULL,
         'apps' => $memberApps,
       ];
@@ -220,31 +220,31 @@ class AppverseCacheService {
   }
 
   /**
-   * Apply the parent-Collection cascade filter to an Apps query.
+   * Apply the parent-Repo cascade filter to an Apps query.
    *
-   * Hides Apps whose parent Collection is unpublished. Drupal's
+   * Hides Apps whose parent repo is unpublished. Drupal's
    * content_moderation keeps node.status in sync with moderation_state, so
-   * a single status=0 check on the Collection covers both the publish toggle
+   * a single status=0 check on the repo covers both the publish toggle
    * and any non-'published' moderation state — no separate moderation_state
    * check is needed.
    *
-   * Legacy apps with NULL field_appverse_collection (pre-backfill) remain
+   * Legacy apps with NULL field_appverse_repo (pre-backfill) remain
    * visible — the cascade only fires when an explicit parent reference
    * exists and that parent is unpublished.
    */
-  protected function applyCollectionCascadeFilter($appQuery): void {
+  protected function applyRepoCascadeFilter($appQuery): void {
     $nodeStorage = $this->entityTypeManager->getStorage('node');
-    $unpublishedCollectionIds = $nodeStorage->getQuery()
-      ->condition('type', 'appverse_collection')
+    $unpublishedRepoIds = $nodeStorage->getQuery()
+      ->condition('type', 'appverse_repo')
       ->condition('status', 0)
       ->accessCheck(FALSE)
       ->execute();
-    if (empty($unpublishedCollectionIds)) {
+    if (empty($unpublishedRepoIds)) {
       return;
     }
     $orphanGroup = $appQuery->orConditionGroup()
-      ->notExists('field_appverse_collection')
-      ->condition('field_appverse_collection', $unpublishedCollectionIds, 'NOT IN');
+      ->notExists('field_appverse_repo')
+      ->condition('field_appverse_repo', $unpublishedRepoIds, 'NOT IN');
     $appQuery->condition($orphanGroup);
   }
 
@@ -263,28 +263,28 @@ class AppverseCacheService {
   }
 
   /**
-   * Get the UUIDs of related Collections referenced by a Collection node.
+   * Get the UUIDs of related repos referenced by a repo node.
    */
-  protected function getRelatedCollectionUuids(NodeInterface $collection): array {
-    if (!$collection->hasField('field_collection_related') || $collection->get('field_collection_related')->isEmpty()) {
+  protected function getRelatedRepoUuids(NodeInterface $repo): array {
+    if (!$repo->hasField('field_repo_related') || $repo->get('field_repo_related')->isEmpty()) {
       return [];
     }
     $uuids = [];
-    foreach ($collection->get('field_collection_related')->referencedEntities() as $other) {
+    foreach ($repo->get('field_repo_related')->referencedEntities() as $other) {
       $uuids[] = $other->uuid();
     }
     return $uuids;
   }
 
   /**
-   * Mutate the software data in place, adding collectionId/collectionTitle on each app.
+   * Mutate the software data in place, adding repoId/repoTitle on each app.
    *
    * Reverse lookup is computed server-side once per cache rebuild so the React
-   * app doesn't need to walk Collections to render "Part of X" lines.
+   * app doesn't need to walk repos to render "Part of X" lines.
    */
-  protected function annotateAppsWithCollectionBackRefs(array &$software, array $collections): void {
+  protected function annotateAppsWithRepoBackRefs(array &$software, array $repos): void {
     $appToColl = [];
-    foreach ($collections as $coll) {
+    foreach ($repos as $coll) {
       foreach ($coll['apps'] as $app) {
         $appToColl[$app['nid']] = ['id' => $coll['id'], 'title' => $coll['title']];
       }
@@ -292,8 +292,8 @@ class AppverseCacheService {
     foreach ($software as &$sw) {
       foreach ($sw['apps'] as &$app) {
         $ref = $appToColl[$app['nid']] ?? NULL;
-        $app['collectionId'] = $ref['id'] ?? NULL;
-        $app['collectionTitle'] = $ref['title'] ?? NULL;
+        $app['repoId'] = $ref['id'] ?? NULL;
+        $app['repoTitle'] = $ref['title'] ?? NULL;
       }
     }
   }
@@ -370,7 +370,7 @@ class AppverseCacheService {
   /**
    * Extract unique filter options from the built software data.
    */
-  protected function extractFilterOptions(array $softwareList, array $collections): array {
+  protected function extractFilterOptions(array $softwareList, array $repos): array {
     $topics = [];
     $licenses = [];
     $tags = [];
@@ -396,7 +396,7 @@ class AppverseCacheService {
         }
       }
     }
-    foreach ($collections as $c) {
+    foreach ($repos as $c) {
       if (!empty($c['organization'])) {
         $organizations[$c['organization']['id']] = $c['organization'];
       }

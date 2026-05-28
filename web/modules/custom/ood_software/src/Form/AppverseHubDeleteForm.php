@@ -50,7 +50,7 @@ final class AppverseHubDeleteForm extends ConfirmFormBase {
   }
 
   public function buildForm(array $form, FormStateInterface $form_state, ?NodeInterface $node = NULL): array {
-    if (!$node || $node->bundle() !== 'appverse_collection') {
+    if (!$node || $node->bundle() !== 'appverse_repo') {
       throw new \InvalidArgumentException('Expected an appverse_collection node.');
     }
     $this->collection = $node;
@@ -61,7 +61,7 @@ final class AppverseHubDeleteForm extends ConfirmFormBase {
     $memberAppIds = $this->entityTypeManager->getStorage('node')->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'appverse_app')
-      ->condition('field_appverse_collection', $node->id())
+      ->condition('field_appverse_repo', $node->id())
       ->execute();
     if (!empty($memberAppIds)) {
       $items = [];
@@ -107,7 +107,7 @@ final class AppverseHubDeleteForm extends ConfirmFormBase {
       $memberAppIds = $this->entityTypeManager->getStorage('node')->getQuery()
         ->accessCheck(FALSE)
         ->condition('type', 'appverse_app')
-        ->condition('field_appverse_collection', $this->collection->id())
+        ->condition('field_appverse_repo', $this->collection->id())
         ->execute();
 
       if (!empty($memberAppIds)) {

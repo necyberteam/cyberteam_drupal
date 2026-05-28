@@ -5,7 +5,7 @@ namespace Drupal\ood_software\Commands;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\ood_software\Plugin\GitHubService;
-use Drupal\ood_software\Service\CollectionSyncService;
+use Drupal\ood_software\Service\RepoSyncService;
 use Drush\Commands\DrushCommands;
 
 /**
@@ -23,9 +23,9 @@ class AppverseBackfillCommands extends DrushCommands {
   /**
    * The Collection sync service.
    *
-   * @var \Drupal\ood_software\Service\CollectionSyncService
+   * @var \Drupal\ood_software\Service\RepoSyncService
    */
-  protected $collectionSync;
+  protected $repoSync;
 
   /**
    * The GitHub service.
@@ -46,7 +46,7 @@ class AppverseBackfillCommands extends DrushCommands {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
-   * @param \Drupal\ood_software\Service\CollectionSyncService $collection_sync
+   * @param \Drupal\ood_software\Service\RepoSyncService $repo_sync
    *   The Collection sync service.
    * @param \Drupal\ood_software\Plugin\GitHubService $github
    *   The GitHub service.
@@ -55,13 +55,13 @@ class AppverseBackfillCommands extends DrushCommands {
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
-    CollectionSyncService $collection_sync,
+    RepoSyncService $repo_sync,
     GitHubService $github,
     LoggerChannelFactoryInterface $logger_factory,
   ) {
     parent::__construct();
     $this->entityTypeManager = $entity_type_manager;
-    $this->collectionSync = $collection_sync;
+    $this->repoSync = $repo_sync;
     $this->github = $github;
     // Drush asserts that $this->logger stays under its LoggerManager
     // control, so we keep the module's logger channel under a separate
@@ -76,11 +76,11 @@ class AppverseBackfillCommands extends DrushCommands {
    * @param array $options
    *   Command options.
    *
-   * @command appverse:backfill-inferred-collections
+   * @command appverse:backfill-inferred-repos
    * @aliases appverse-backfill
    * @option chunk Number of Apps to process per batch operation. Default 25.
-   * @usage drush appverse:backfill-inferred-collections
-   *   Process all Apps with NULL field_appverse_collection.
+   * @usage drush appverse:backfill-inferred-repos
+   *   Process all Apps with NULL field_appverse_repo.
    */
   public function backfill(array $options = ['chunk' => 25]): void {
     $chunk = (int) ($options['chunk'] ?? 25);
@@ -96,12 +96,12 @@ class AppverseBackfillCommands extends DrushCommands {
     $appIds = $this->entityTypeManager->getStorage('node')->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'appverse_app')
-      ->notExists('field_appverse_collection')
+      ->notExists('field_appverse_repo')
       ->execute();
 
     $total = count($appIds);
     if ($total === 0) {
-      $this->logger()->success('No Apps need backfill. All appverse_app nodes already have field_appverse_collection set.');
+      $this->logger()->success('No Apps need backfill. All appverse_app nodes already have field_appverse_repo set.');
       $this->oodLogger->info('Backfill skipped: no Apps need backfilling.');
       return;
     }
@@ -137,7 +137,7 @@ class AppverseBackfillCommands extends DrushCommands {
    */
   public static function processChunk(array $appIds, array &$context): void {
     $em = \Drupal::entityTypeManager();
-    $sync = \Drupal::service('ood_software.collection_sync');
+    $sync = \Drupal::service('ood_software.repo_sync');
     $github = \Drupal::service('ood_software.gh');
     $logger = \Drupal::logger('ood_software');
 
@@ -153,7 +153,7 @@ class AppverseBackfillCommands extends DrushCommands {
           continue;
         }
 
-        // Fetch repo metadata so resolveCollection can populate the
+        // Fetch repo metadata so resolveRepo can populate the
         // new Collection with stars / last commit / org / isArchived.
         // If the fetch fails (404, private), still create a thin
         // Collection so the App has a parent — re-syncs later will
@@ -190,11 +190,11 @@ class AppverseBackfillCommands extends DrushCommands {
           ]);
         }
 
-        // resolveCollection with NULL appverse.yml -> applyInferred path.
-        $collection = $sync->resolveCollection($repoUrl, NULL, $repoMetadata);
+        // resolveRepo with NULL appverse.yml -> applyInferred path.
+        $collection = $sync->resolveRepo($repoUrl, NULL, $repoMetadata);
 
         // The default moderation state for newly-created Collections is
-        // 'draft' (set by CollectionSyncService). Legacy apps being
+        // 'draft' (set by RepoSyncService). Legacy apps being
         // backfilled are already published; if we leave the parent
         // Collection in draft, the cache cascade hides the app. Override
         // to 'published' so visibility stays aligned with the app's
@@ -206,7 +206,7 @@ class AppverseBackfillCommands extends DrushCommands {
           $collection->save();
         }
 
-        $app->set('field_appverse_collection', $collection->id());
+        $app->set('field_appverse_repo', $collection->id());
         $app->save();
 
         $context['results']['linked'][] = $app->id();

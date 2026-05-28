@@ -20,11 +20,11 @@ use Psr\Log\LoggerInterface;
  * The full generate() path is too entangled with file_system, logo media
  * resolution, and node field accessors to mock cleanly here. Instead we
  * test the cascade filter's query-construction in isolation by exercising
- * the protected applyCollectionCascadeFilter() helper directly via
+ * the protected applyRepoCascadeFilter() helper directly via
  * reflection. Cypress E2E covers end-to-end behavior.
  *
  * The unit under test is a query builder, not a node mutator, so the test
- * shape is different from CollectionSyncServiceTest: tests record method
+ * shape is different from RepoSyncServiceTest: tests record method
  * calls on mock query/condition objects rather than asserting against
  * persisted entity state.
  *
@@ -115,7 +115,7 @@ class AppverseCacheServiceTest extends UnitTestCase {
   /**
    * With no unpublished Collections, the cascade filter is a no-op.
    *
-   * @covers ::applyCollectionCascadeFilter
+   * @covers ::applyRepoCascadeFilter
    */
   public function testNoUnpublishedCollectionsLeavesQueryUntouched(): void {
     $capturedConditions = [];
@@ -125,7 +125,7 @@ class AppverseCacheServiceTest extends UnitTestCase {
     $orGroup = $this->buildOrGroupMock($capturedOrGroupCalls);
     $appQuery = $this->buildAppQuery($capturedConditions, $orGroup);
 
-    $this->invokeProtected($service, 'applyCollectionCascadeFilter', [$appQuery]);
+    $this->invokeProtected($service, 'applyRepoCascadeFilter', [$appQuery]);
 
     $this->assertSame([], $capturedConditions, 'No condition() should be added when there are no unpublished Collections.');
     $this->assertSame([], $capturedOrGroupCalls, 'OR group should not be configured when there are no unpublished Collections.');
@@ -135,10 +135,10 @@ class AppverseCacheServiceTest extends UnitTestCase {
    * With unpublished Collections, the cascade adds an OR group:
    *   (no parent reference) OR (parent NOT IN unpublished list).
    *
-   * Legacy apps with NULL field_appverse_collection (orphan branch) stay
+   * Legacy apps with NULL field_appverse_repo (orphan branch) stay
    * visible; apps with a parent reference are subject to the NOT IN filter.
    *
-   * @covers ::applyCollectionCascadeFilter
+   * @covers ::applyRepoCascadeFilter
    */
   public function testUnpublishedCollectionsAddOrFilter(): void {
     $unpublishedNids = [42, 99];
@@ -149,18 +149,18 @@ class AppverseCacheServiceTest extends UnitTestCase {
     $orGroup = $this->buildOrGroupMock($capturedOrGroupCalls);
     $appQuery = $this->buildAppQuery($capturedConditions, $orGroup);
 
-    $this->invokeProtected($service, 'applyCollectionCascadeFilter', [$appQuery]);
+    $this->invokeProtected($service, 'applyRepoCascadeFilter', [$appQuery]);
 
-    // Orphan branch: notExists on field_appverse_collection.
+    // Orphan branch: notExists on field_appverse_repo.
     $notExistsCalls = array_filter($capturedOrGroupCalls, fn($c) => $c['method'] === 'notExists');
     $this->assertCount(1, $notExistsCalls);
     $notExists = array_values($notExistsCalls)[0];
-    $this->assertSame(['field_appverse_collection'], $notExists['args']);
+    $this->assertSame(['field_appverse_repo'], $notExists['args']);
 
     // Published-parent branch: condition(field, [42,99], 'NOT IN').
     $conditionCalls = array_values(array_filter($capturedOrGroupCalls, fn($c) => $c['method'] === 'condition'));
     $this->assertCount(1, $conditionCalls);
-    $this->assertSame('field_appverse_collection', $conditionCalls[0]['args'][0]);
+    $this->assertSame('field_appverse_repo', $conditionCalls[0]['args'][0]);
     $this->assertSame($unpublishedNids, $conditionCalls[0]['args'][1]);
     $this->assertSame('NOT IN', $conditionCalls[0]['args'][2]);
 

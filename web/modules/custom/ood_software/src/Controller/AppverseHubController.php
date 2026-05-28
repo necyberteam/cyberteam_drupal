@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\node\NodeInterface;
 use Drupal\user\UserInterface;
-use Drupal\ood_software\Service\CollectionSyncService;
+use Drupal\ood_software\Service\RepoSyncService;
 use Drupal\ood_software\Plugin\GitHubService;
 
 /**
@@ -25,7 +25,7 @@ use Drupal\ood_software\Plugin\GitHubService;
 final class AppverseHubController extends ControllerBase {
 
   public function __construct(
-    protected CollectionSyncService $collectionSync,
+    protected RepoSyncService $repoSync,
     protected GitHubService $github,
     protected TimeInterface $time,
     protected ModerationInformationInterface $moderationInformation,
@@ -34,7 +34,7 @@ final class AppverseHubController extends ControllerBase {
 
   public static function create(ContainerInterface $container): self {
     return new self(
-      $container->get('ood_software.collection_sync'),
+      $container->get('ood_software.repo_sync'),
       $container->get('ood_software.gh'),
       $container->get('datetime.time'),
       $container->get('content_moderation.moderation_information'),
@@ -62,21 +62,21 @@ final class AppverseHubController extends ControllerBase {
   /**
    * Re-sync a Collection from GitHub.
    *
-   * Route: POST /appverse/collection/{node}/resync
+   * Route: POST /appverse/repo/{node}/resync
    *
    * Behavior contract (matches spec):
    *  - On success: refreshed Collection saved by the service; status
    *    message reports apps-refreshed + apps-removed counts.
-   *  - On failure: field_collection_validation_st='stale_invalid'; error
-   *    appended to field_collection_validation_er (capped at last 10);
-   *    field_collection_last_synced still updated.
+   *  - On failure: field_repo_validation_st='stale_invalid'; error
+   *    appended to field_repo_validation_er (capped at last 10);
+   *    field_repo_last_synced still updated.
    */
   public function resync(NodeInterface $node): RedirectResponse {
-    if ($node->bundle() !== 'appverse_collection') {
+    if ($node->bundle() !== 'appverse_repo') {
       throw new \InvalidArgumentException('Resync requires an appverse_collection node.');
     }
 
-    $repoUrl = $node->get('field_collection_repo_url')->first()?->getValue()['uri'] ?? NULL;
+    $repoUrl = $node->get('field_repo_url')->first()?->getValue()['uri'] ?? NULL;
     if (empty($repoUrl)) {
       $this->messenger()->addError($this->t('Cannot re-sync: this Collection has no repo URL.'));
       return $this->redirectToHub();
@@ -87,7 +87,7 @@ final class AppverseHubController extends ControllerBase {
     $beforeAppIds = $this->entityTypeManager()->getStorage('node')->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'appverse_app')
-      ->condition('field_appverse_collection', $node->id())
+      ->condition('field_appverse_repo', $node->id())
       ->execute();
     $appsBefore = count($beforeAppIds);
 
@@ -114,7 +114,7 @@ final class AppverseHubController extends ControllerBase {
       // declared (had appverse.yml) but the repo no longer has it, the
       // Collection morphs to inferred shape. Warn the user — this isn't
       // an error but it's a significant state change worth highlighting.
-      $existingShape = $node->get('field_collection_shape')->value ?? NULL;
+      $existingShape = $node->get('field_repo_shape')->value ?? NULL;
       if ($existingShape === 'declared' && empty($appverseYml)) {
         $this->messenger()->addWarning($this->t(
           '@title is morphing from a Declared Collection to an Inferred (single-app) Collection — the repo no longer has appverse.yml. If this is unintentional, revert the appverse.yml change in your repo and re-sync.',
@@ -122,26 +122,26 @@ final class AppverseHubController extends ControllerBase {
         ));
       }
 
-      $this->collectionSync->resolveCollection($repoUrl, $appverseYml, $repoMetadata);
+      $this->repoSync->resolveRepo($repoUrl, $appverseYml, $repoMetadata);
 
       // Reload the Collection — service saved updated fields, in-memory
       // $node is stale. The service's applyDeclared/applyInferred
-      // already clear field_collection_validation_er (= []), set
-      // field_collection_validation_st='valid', and update
-      // field_collection_last_synced on success, so the controller
+      // already clear field_repo_validation_er (= []), set
+      // field_repo_validation_st='valid', and update
+      // field_repo_last_synced on success, so the controller
       // doesn't need to write those fields here — only in the catch
       // block below.
       $fresh = $this->entityTypeManager()->getStorage('node')->load($node->id());
       $afterAppIds = $this->entityTypeManager()->getStorage('node')->getQuery()
         ->accessCheck(FALSE)
         ->condition('type', 'appverse_app')
-        ->condition('field_appverse_collection', $node->id())
+        ->condition('field_appverse_repo', $node->id())
         ->execute();
       $appsAfter = count($afterAppIds);
       $appsRemoved = max(0, $appsBefore - $appsAfter);
 
       $title = $fresh ? $fresh->label() : $node->label();
-      $freshValidationSt = $fresh ? ($fresh->get('field_collection_validation_st')->value ?? NULL) : NULL;
+      $freshValidationSt = $fresh ? ($fresh->get('field_repo_validation_st')->value ?? NULL) : NULL;
 
       if ($freshValidationSt === 'stale_invalid') {
         // applyDeclared hit an early-return validation branch (parse error,
@@ -164,8 +164,8 @@ final class AppverseHubController extends ControllerBase {
 
       // Read existing error strings (string_long multi-value field).
       $existingErrors = [];
-      if ($node->hasField('field_collection_validation_er')) {
-        foreach ($node->get('field_collection_validation_er') as $item) {
+      if ($node->hasField('field_repo_validation_er')) {
+        foreach ($node->get('field_repo_validation_er') as $item) {
           $value = $item->value ?? NULL;
           if (is_string($value) && $value !== '') {
             $existingErrors[] = $value;
@@ -176,14 +176,14 @@ final class AppverseHubController extends ControllerBase {
       // Cap to last 10 so the field doesn't grow without bound.
       $existingErrors = array_slice($existingErrors, -10);
 
-      $node->set('field_collection_validation_st', 'stale_invalid');
+      $node->set('field_repo_validation_st', 'stale_invalid');
       // string_long multi-value: each entry needs the {value: '...'}
       // wrapper, matching the format used elsewhere in the sync service.
-      $node->set('field_collection_validation_er', array_map(
+      $node->set('field_repo_validation_er', array_map(
         fn($msg) => ['value' => $msg],
         $existingErrors
       ));
-      $node->set('field_collection_last_synced', $now);
+      $node->set('field_repo_last_synced', $now);
       $node->save();
 
       $this->messenger()->addError($this->t('Re-sync failed: @msg', ['@msg' => $e->getMessage()]));
@@ -195,12 +195,12 @@ final class AppverseHubController extends ControllerBase {
   /**
    * Toggle a Collection's publish state.
    *
-   * Route: POST /appverse/collection/{node}/unpublish
+   * Route: POST /appverse/repo/{node}/unpublish
    *
    * Contributors can unpublish; only admins can republish.
    */
-  public function toggleCollectionPublish(NodeInterface $node): RedirectResponse {
-    if ($node->bundle() !== 'appverse_collection') {
+  public function toggleRepoPublish(NodeInterface $node): RedirectResponse {
+    if ($node->bundle() !== 'appverse_repo') {
       throw new \InvalidArgumentException('Expected an appverse_collection node.');
     }
 
@@ -263,7 +263,7 @@ final class AppverseHubController extends ControllerBase {
     // App-level toggle when parent Collection is unpublished — no
     // visible effect because the cache cascade hides the App
     // regardless. Allow the toggle (it's the user's data) but warn.
-    $parent = $node->get('field_appverse_collection')->entity ?? NULL;
+    $parent = $node->get('field_appverse_repo')->entity ?? NULL;
     if ($parent && !$parent->isPublished()) {
       $this->messenger()->addWarning($this->t(
         '@title is in an unpublished Collection — App-level status has no effect on visibility until the Collection is republished.',
@@ -371,7 +371,7 @@ final class AppverseHubController extends ControllerBase {
   /**
    * Contributor action: send for review.
    *
-   * Routes: POST /appverse/collection/{node}/send-for-review
+   * Routes: POST /appverse/repo/{node}/send-for-review
    *         POST /appverse/app/{node}/send-for-review
    *
    * The existing `send_for_review` workflow transition covers BOTH:
@@ -391,7 +391,7 @@ final class AppverseHubController extends ControllerBase {
   /**
    * Admin action: publish a Collection or App.
    *
-   * Routes: POST /appverse/collection/{node}/publish
+   * Routes: POST /appverse/repo/{node}/publish
    *         POST /appverse/app/{node}/publish
    *
    * Allowed only for users with 'administer appverse content' permission
@@ -405,7 +405,7 @@ final class AppverseHubController extends ControllerBase {
    */
   public function adminPublish(NodeInterface $node): RedirectResponse {
     // Detect first-publish BEFORE the transition runs.
-    $isFirstPublish = $node->bundle() === 'appverse_collection'
+    $isFirstPublish = $node->bundle() === 'appverse_repo'
       && $this->isFirstPublishOfCollection($node);
 
     $response = $this->applyTransition(
@@ -454,7 +454,7 @@ final class AppverseHubController extends ControllerBase {
     $memberAppIds = $this->entityTypeManager()->getStorage('node')->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'appverse_app')
-      ->condition('field_appverse_collection', $collection->id())
+      ->condition('field_appverse_repo', $collection->id())
       ->execute();
 
     $count = 0;
@@ -493,7 +493,7 @@ final class AppverseHubController extends ControllerBase {
     $memberAppIds = $this->entityTypeManager()->getStorage('node')->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'appverse_app')
-      ->condition('field_appverse_collection', $collection->id())
+      ->condition('field_appverse_repo', $collection->id())
       ->condition('status', 1)
       ->execute();
 
@@ -534,17 +534,17 @@ final class AppverseHubController extends ControllerBase {
   }
 
   /**
-   * Redirect /appverse/manage-apps → /appverse/manage-collections.
+   * Redirect /appverse/manage-apps → /appverse/manage-repos.
    */
   public function redirectFromLegacyManageApps(): RedirectResponse {
-    return new RedirectResponse('/appverse/manage-collections', 301);
+    return new RedirectResponse('/appverse/manage-repos', 301);
   }
 
   /**
    * Redirect back to whichever hub display the action came from.
    *
    * Honors Drupal's standard `destination` query param so an admin
-   * acting on /appverse/manage-collections returns there, while a
+   * acting on /appverse/manage-repos returns there, while a
    * contributor acting on their own hub returns to their own URL.
    * Falls back to the user's own hub if no destination is present.
    *
@@ -552,7 +552,7 @@ final class AppverseHubController extends ControllerBase {
    *  - Reject any externally-resolving URL (UrlHelper::isExternal).
    *  - Reject paths containing `..` (relative-path escapes).
    *  - Use strict prefix matching with a terminating char so
-   *    `/appverse/manage-collections-evil` doesn't pass.
+   *    `/appverse/manage-repos-evil` doesn't pass.
    */
   protected function redirectToHub(): RedirectResponse {
     $request = $this->requestStack->getCurrentRequest();
@@ -568,7 +568,7 @@ final class AppverseHubController extends ControllerBase {
           // `/`, `?`, `#`, or end-of-string.
           $allowedPrefixes = [
             '/user/',
-            '/appverse/manage-collections',
+            '/appverse/manage-repos',
           ];
           foreach ($allowedPrefixes as $prefix) {
             if ($destination === $prefix || str_starts_with($destination, $prefix . '/') || str_starts_with($destination, $prefix . '?') || str_starts_with($destination, $prefix . '#')) {

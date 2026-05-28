@@ -243,7 +243,7 @@ function ood_form_node_form_alter(&$form, FormStateInterface $form_state) {
  * Implements hook_preprocess_views_view_fields() for views.view.my_appverse.
  *
  * Populates $variables['hub_card'] with structured data the template reads
- * to render each Collection as a card. Branches by field_collection_shape
+ * to render each repo as a card. Branches by field_repo_shape
  * to decide between flat (single-app) and expanded (multi-app) layouts.
  *
  * The view uses the 'fields' row plugin, whose theme hook is
@@ -261,29 +261,29 @@ function ood_preprocess_views_view_fields(array &$variables) {
   }
 
   $row = $variables['row'] ?? NULL;
-  if (!$row || empty($row->_entity) || $row->_entity->bundle() !== 'appverse_collection') {
+  if (!$row || empty($row->_entity) || $row->_entity->bundle() !== 'appverse_repo') {
     return;
   }
-  $collection = $row->_entity;
+  $repo = $row->_entity;
 
-  // Load member apps. Cheap query — field_appverse_collection is indexed.
+  // Load member apps. Cheap query — field_appverse_repo is indexed.
   $memberAppIds = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
     ->accessCheck(FALSE)
     ->condition('type', 'appverse_app')
-    ->condition('field_appverse_collection', $collection->id())
+    ->condition('field_appverse_repo', $repo->id())
     ->execute();
   $memberApps = $memberAppIds
     ? \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($memberAppIds)
     : [];
 
-  $shape = $collection->get('field_collection_shape')->value ?? 'inferred';
+  $shape = $repo->get('field_repo_shape')->value ?? 'inferred';
   $current_uid = \Drupal::currentUser()->id();
   $is_admin = \Drupal::currentUser()->hasPermission('administer appverse content');
-  $is_owner = (int) $collection->getOwnerId() === (int) $current_uid;
+  $is_owner = (int) $repo->getOwnerId() === (int) $current_uid;
 
   // Moderation state — uses content_moderation_state field.
-  $moderationState = $collection->hasField('moderation_state')
-    ? ($collection->get('moderation_state')->value ?? 'draft')
+  $moderationState = $repo->hasField('moderation_state')
+    ? ($repo->get('moderation_state')->value ?? 'draft')
     : 'draft';
 
   // Latest moderation comment for needs_adjustment state, so contributor
@@ -293,7 +293,7 @@ function ood_preprocess_views_view_fields(array &$variables) {
     $latestRevision = \Drupal::database()
       ->select('node_field_revision', 'nfr')
       ->fields('nfr', ['vid', 'revision_log'])
-      ->condition('nid', $collection->id())
+      ->condition('nid', $repo->id())
       ->orderBy('vid', 'DESC')
       ->range(0, 1)
       ->execute()
@@ -302,48 +302,48 @@ function ood_preprocess_views_view_fields(array &$variables) {
   }
 
   // Catalog links target the React app's hash routing (e.g.,
-  // /appverse/#/collection/foo). Pull the slug from the pathauto alias.
+  // /appverse/#/repo/foo). Pull the slug from the pathauto alias.
   $aliasManager = \Drupal::service('path_alias.manager');
-  $collectionAlias = $aliasManager->getAliasByPath('/node/' . $collection->id());
-  $collectionSlug = ltrim(preg_replace('#^.*/(collection/)?#', '', $collectionAlias), '/');
-  if ($collectionSlug === '') {
-    $collectionSlug = (string) $collection->id();
+  $repoAlias = $aliasManager->getAliasByPath('/node/' . $repo->id());
+  $repoSlug = ltrim(preg_replace('#^.*/(repo/)?#', '', $repoAlias), '/');
+  if ($repoSlug === '') {
+    $repoSlug = (string) $repo->id();
   }
 
-  $repoLinkValues = $collection->get('field_collection_repo_url')->getValue();
+  $repoLinkValues = $repo->get('field_repo_url')->getValue();
   $repoUrl = $repoLinkValues[0]['uri'] ?? '';
 
-  $validationSt = $collection->get('field_collection_validation_st')->value ?? '';
+  $validationSt = $repo->get('field_repo_validation_st')->value ?? '';
 
   // CSRF tokens for action routes. Drupal's _csrf_token route requirement
   // expects a token generated from the internal path (no leading slash).
   // Twig has no csrf_token() helper, so we precompute tokens here.
   $csrf = \Drupal::service('csrf_token');
   $tokens = [
-    'collection_resync' => $csrf->get('appverse/collection/' . $collection->id() . '/resync'),
-    'collection_unpublish' => $csrf->get('appverse/collection/' . $collection->id() . '/unpublish'),
-    'collection_send_for_review' => $csrf->get('appverse/collection/' . $collection->id() . '/send-for-review'),
-    'collection_publish' => $csrf->get('appverse/collection/' . $collection->id() . '/publish'),
+    'repo_resync' => $csrf->get('appverse/repo/' . $repo->id() . '/resync'),
+    'repo_unpublish' => $csrf->get('appverse/repo/' . $repo->id() . '/unpublish'),
+    'repo_send_for_review' => $csrf->get('appverse/repo/' . $repo->id() . '/send-for-review'),
+    'repo_publish' => $csrf->get('appverse/repo/' . $repo->id() . '/publish'),
   ];
 
   $variables['hub_card'] = [
     'shape' => $shape,
     'is_admin' => $is_admin,
     'is_owner' => $is_owner,
-    'collection' => [
-      'id' => $collection->id(),
-      'title' => $collection->label(),
-      'published' => $collection->isPublished(),
+    'repo' => [
+      'id' => $repo->id(),
+      'title' => $repo->label(),
+      'published' => $repo->isPublished(),
       'moderation_state' => $moderationState,
       'moderation_comment' => $moderationComment,
       'repo_url' => $repoUrl,
       'app_count' => count($memberApps),
-      'last_synced' => $collection->get('field_collection_last_synced')->value ?? NULL,
+      'last_synced' => $repo->get('field_repo_last_synced')->value ?? NULL,
       'validation_st' => $validationSt,
       // valid / degraded / stale_invalid are the values; degraded + stale_invalid
       // are "issues worth surfacing" — rejected is App-level only.
       'has_validation_issues' => in_array($validationSt, ['degraded', 'stale_invalid'], TRUE),
-      'slug' => $collectionSlug,
+      'slug' => $repoSlug,
     ],
     'apps' => array_map(function ($app) use ($aliasManager, $csrf) {
       $software = $app->get('field_appverse_software_implemen')->entity ?? NULL;
@@ -368,11 +368,11 @@ function ood_preprocess_views_view_fields(array &$variables) {
 
   $variables['#attached']['library'][] = 'ood_software/appverse_hub';
 
-  // Bubble cache tags from the Collection and each member App so the
+  // Bubble cache tags from the repo and each member App so the
   // rendered card invalidates when any of those entities change. Add
   // contexts that branch the output: user.permissions (admin/non-admin)
   // and user (owner vs not).
-  $cache_tags = $collection->getCacheTags();
+  $cache_tags = $repo->getCacheTags();
   foreach ($memberApps as $memberApp) {
     $cache_tags = Cache::mergeTags($cache_tags, $memberApp->getCacheTags());
   }

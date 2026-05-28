@@ -7,7 +7,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\ood_software\Plugin\GitHubService;
-use Drupal\ood_software\Service\CollectionSyncService;
+use Drupal\ood_software\Service\RepoSyncService;
 
 /**
  * Processes Appverse App nodes to update GitHub data.
@@ -37,9 +37,9 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
   /**
    * The Collection sync service.
    *
-   * @var \Drupal\ood_software\Service\CollectionSyncService
+   * @var \Drupal\ood_software\Service\RepoSyncService
    */
-  protected $collectionSync;
+  protected $repoSync;
 
   /**
    * Constructs a new AppverseAppUpdater object.
@@ -54,14 +54,14 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
    *   The entity type manager.
    * @param \Drupal\ood_software\Plugin\GitHubService $github_service
    *   The GitHub service.
-   * @param \Drupal\ood_software\Service\CollectionSyncService $collection_sync
+   * @param \Drupal\ood_software\Service\RepoSyncService $repo_sync
    *   The Collection sync service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, GitHubService $github_service, CollectionSyncService $collection_sync) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, GitHubService $github_service, RepoSyncService $repo_sync) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->githubService = $github_service;
-    $this->collectionSync = $collection_sync;
+    $this->repoSync = $repo_sync;
   }
 
   /**
@@ -74,7 +74,7 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('ood_software.gh'),
-      $container->get('ood_software.collection_sync')
+      $container->get('ood_software.repo_sync')
     );
   }
 
@@ -98,7 +98,7 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
       $needsSave = FALSE;
 
       // Resolve the Collection for this repo and attach to the app.
-      $collection = $this->collectionSync->resolveCollection(
+      $collection = $this->repoSync->resolveRepo(
         $this->githubService->getRepoUrl(),
         $this->githubService->getAppverseYmlText(),
         [
@@ -110,9 +110,9 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
           'readme' => $this->githubService->getReadme(),
         ]
       );
-      $currentCollectionId = $node->get('field_appverse_collection')->target_id;
+      $currentCollectionId = $node->get('field_appverse_repo')->target_id;
       if ((int) $currentCollectionId !== (int) $collection->id()) {
-        $node->set('field_appverse_collection', $collection->id());
+        $node->set('field_appverse_repo', $collection->id());
         $needsSave = TRUE;
       }
 

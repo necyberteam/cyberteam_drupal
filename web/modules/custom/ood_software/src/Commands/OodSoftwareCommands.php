@@ -5,7 +5,7 @@ namespace Drupal\ood_software\Commands;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\key\KeyRepositoryInterface;
 use Drupal\ood_software\Plugin\GitHubService;
-use Drupal\ood_software\Service\CollectionSyncService;
+use Drupal\ood_software\Service\RepoSyncService;
 use Drush\Commands\DrushCommands;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
@@ -39,9 +39,9 @@ class OodSoftwareCommands extends DrushCommands {
   /**
    * The Collection sync service.
    *
-   * @var \Drupal\ood_software\Service\CollectionSyncService
+   * @var \Drupal\ood_software\Service\RepoSyncService
    */
-  protected $collectionSync;
+  protected $repoSync;
 
   /**
    * The GitHub service.
@@ -59,17 +59,17 @@ class OodSoftwareCommands extends DrushCommands {
    *   The key repository.
    * @param \GuzzleHttp\ClientInterface $http_client
    *   The HTTP client.
-   * @param \Drupal\ood_software\Service\CollectionSyncService $collection_sync
+   * @param \Drupal\ood_software\Service\RepoSyncService $repo_sync
    *   The Collection sync service.
    * @param \Drupal\ood_software\Plugin\GitHubService $github_service
    *   The GitHub service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, KeyRepositoryInterface $key_repository, ClientInterface $http_client, CollectionSyncService $collection_sync, GitHubService $github_service) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, KeyRepositoryInterface $key_repository, ClientInterface $http_client, RepoSyncService $repo_sync, GitHubService $github_service) {
     parent::__construct();
     $this->entityTypeManager = $entity_type_manager;
     $this->keyRepository = $key_repository;
     $this->httpClient = $http_client;
-    $this->collectionSync = $collection_sync;
+    $this->repoSync = $repo_sync;
     $this->githubService = $github_service;
   }
 
@@ -79,9 +79,9 @@ class OodSoftwareCommands extends DrushCommands {
    * @param string $repoUrl
    *   GitHub repo URL (e.g., https://github.com/owner/name).
    *
-   * @command appverse:sync-collection
+   * @command appverse:sync-repo
    * @aliases avsc
-   * @usage drush appverse:sync-collection https://github.com/owner/name
+   * @usage drush appverse:sync-repo https://github.com/owner/name
    *   Refresh the Collection node for the given repo.
    */
   public function syncCollection(string $repoUrl): void {
@@ -112,7 +112,7 @@ class OodSoftwareCommands extends DrushCommands {
       'lastCommittedDate' => $this->githubService->getLastComittedDate(),
       'readme' => $this->githubService->getReadme(),
     ];
-    $collection = $this->collectionSync->resolveCollection(
+    $collection = $this->repoSync->resolveRepo(
       $this->githubService->getRepoUrl(),
       $this->githubService->getAppverseYmlText(),
       $repoMetadata
@@ -122,7 +122,7 @@ class OodSoftwareCommands extends DrushCommands {
       'Collection synced: %s (nid: %d, status: %s, slug: %s)',
       $collection->getTitle(),
       $collection->id(),
-      $collection->get('field_collection_validation_st')->value,
+      $collection->get('field_repo_validation_st')->value,
       basename($collection->toUrl()->toString())
     ));
 
@@ -160,7 +160,7 @@ class OodSoftwareCommands extends DrushCommands {
             ));
             return;
           }
-          $appNodes = $this->collectionSync->applyDeclaredApps(
+          $appNodes = $this->repoSync->applyDeclaredApps(
             $collection,
             $parsed,
             $subpathFiles,

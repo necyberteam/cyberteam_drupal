@@ -585,7 +585,7 @@ class GitHubService {
    *     within distance <= 3 exists; NULL otherwise.
    *   - suggestionDistance: the Levenshtein distance to the suggestion.
    */
-  // PUBLIC because CollectionSyncService::applyDeclaredApp (Task 5) calls
+  // PUBLIC because RepoSyncService::applyDeclaredApp (Task 5) calls
   // this from another class. We could move resolution to a dedicated
   // SoftwareResolverService, but for Phase 1.7's single call site that's
   // over-engineered. If a third caller appears, extract to its own service.

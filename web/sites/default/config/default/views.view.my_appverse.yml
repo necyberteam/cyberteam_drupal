@@ -3,13 +3,13 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_appverse_collection
-    - field.storage.node.field_collection_last_synced
-    - field.storage.node.field_collection_organization
-    - field.storage.node.field_collection_validation_st
+    - field.storage.node.field_appverse_repo
+    - field.storage.node.field_repo_last_synced
+    - field.storage.node.field_repo_organization
+    - field.storage.node.field_repo_validation_st
     - field.storage.node.field_appverse_software_implemen
     - node.type.appverse_app
-    - node.type.appverse_collection
+    - node.type.appverse_repo
     - taxonomy.vocabulary.appverse_organization
   module:
     - content_moderation
@@ -20,7 +20,7 @@ dependencies:
 id: my_appverse
 label: 'My Appverse'
 module: views
-description: "Maintenance hub for the user's Collections and their member apps. Two displays: user-scoped (contextual uid) and admin (all users)."
+description: "Maintenance hub for the user's repos and their member apps. Two displays: user-scoped (contextual uid) and admin (all users)."
 tag: appverse
 base_table: node_field_data
 base_field: nid
@@ -144,7 +144,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: true
-          content: 'You haven''t submitted any Collections yet. <a href="/node/add/appverse_app" class="btn btn-primary btn-sm">Submit your first Collection</a>'
+          content: 'You haven''t submitted any repos yet. <a href="/node/add/appverse_app" class="btn btn-primary btn-sm">Submit your first repo</a>'
           tokenize: false
       sorts:
         changed:
@@ -177,7 +177,7 @@ display:
           plugin_id: bundle
           operator: in
           value:
-            appverse_collection: appverse_collection
+            appverse_repo: appverse_repo
           group: 1
           exposed: false
           expose:
@@ -230,10 +230,10 @@ display:
           replica: false
           query_tags: {  }
       relationships:
-        reverse__node__field_appverse_collection:
-          id: reverse__node__field_appverse_collection
+        reverse__node__field_appverse_repo:
+          id: reverse__node__field_appverse_repo
           table: node_field_data
-          field: reverse__node__field_appverse_collection
+          field: reverse__node__field_appverse_repo
           relationship: none
           group_type: group
           admin_label: 'Member apps'
@@ -269,7 +269,7 @@ display:
     display_plugin: page
     position: 2
     display_options:
-      title: 'Manage Appverse Collections'
+      title: 'Manage Appverse Repos'
       pager:
         type: full
         options:
@@ -304,7 +304,7 @@ display:
           relationship: none
           plugin_id: text_custom
           empty: true
-          content: 'No Collections match the current filters. Adjust the filters above or <a href="/appverse/manage-collections?moderation_state=All">show all Collections</a>.'
+          content: 'No repos match the current filters. Adjust the filters above or <a href="/appverse/manage-repos?moderation_state=All">show all repos</a>.'
           tokenize: false
       filters:
         type:
@@ -319,7 +319,7 @@ display:
           plugin_id: bundle
           operator: in
           value:
-            appverse_collection: appverse_collection
+            appverse_repo: appverse_repo
           group: 1
           exposed: false
           expose:
@@ -477,10 +477,10 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_collection_last_synced_value:
-          id: field_collection_last_synced_value
-          table: node__field_collection_last_synced
-          field: field_collection_last_synced_value
+        field_repo_last_synced_value:
+          id: field_repo_last_synced_value
+          table: node__field_repo_last_synced
+          field: field_repo_last_synced_value
           relationship: none
           group_type: group
           admin_label: ''
@@ -494,11 +494,11 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: field_collection_last_synced_value_op
+            operator_id: field_repo_last_synced_value_op
             label: 'Last synced'
             description: ''
             use_operator: false
-            operator: field_collection_last_synced_value_op
+            operator: field_repo_last_synced_value_op
             operator_limit_selection: false
             operator_list: {  }
             identifier: last_synced
@@ -521,10 +521,10 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_collection_validation_st_value:
-          id: field_collection_validation_st_value
-          table: node__field_collection_validation_st
-          field: field_collection_validation_st_value
+        field_repo_validation_st_value:
+          id: field_repo_validation_st_value
+          table: node__field_repo_validation_st
+          field: field_repo_validation_st_value
           relationship: none
           group_type: group
           admin_label: ''
@@ -534,11 +534,11 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: field_collection_validation_st_value_op
+            operator_id: field_repo_validation_st_value_op
             label: 'Validation status'
             description: ''
             use_operator: false
-            operator: field_collection_validation_st_value_op
+            operator: field_repo_validation_st_value_op
             operator_limit_selection: false
             operator_list: {  }
             identifier: validation_status
@@ -562,10 +562,10 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_collection_organization_target_id:
-          id: field_collection_organization_target_id
-          table: node__field_collection_organization
-          field: field_collection_organization_target_id
+        field_repo_organization_target_id:
+          id: field_repo_organization_target_id
+          table: node__field_repo_organization
+          field: field_repo_organization_target_id
           relationship: none
           group_type: group
           admin_label: ''
@@ -575,11 +575,11 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: field_collection_organization_target_id_op
+            operator_id: field_repo_organization_target_id_op
             label: Organization
             description: ''
             use_operator: false
-            operator: field_collection_organization_target_id_op
+            operator: field_repo_organization_target_id_op
             operator_limit_selection: false
             operator_list: {  }
             identifier: organization
@@ -613,7 +613,7 @@ display:
           id: field_appverse_software_implemen_target_id
           table: node__field_appverse_software_implemen
           field: field_appverse_software_implemen_target_id
-          relationship: reverse__node__field_appverse_collection
+          relationship: reverse__node__field_appverse_repo
           group_type: group
           admin_label: ''
           plugin_id: entity_reference
@@ -665,7 +665,7 @@ display:
         path: false
         relationships: false
       display_extenders: {  }
-      path: appverse/manage-collections
+      path: appverse/manage-repos
     cache_metadata:
       max-age: -1
       contexts:
@@ -725,7 +725,7 @@ display:
       # Drop the member-apps relationship inherited from the default
       # display. The admin display uses it for the software filter; the
       # user display has no filter that needs it, and the LEFT JOIN
-      # would produce one row per member app (a Collection with N apps
+      # would produce one row per member app (a repo with N apps
       # would render N duplicate cards).
       relationships: {  }
       defaults:

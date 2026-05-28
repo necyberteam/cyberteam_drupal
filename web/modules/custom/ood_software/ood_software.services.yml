@@ -23,12 +23,12 @@ services:
     class: Drupal\ood_software\Service\AppverseCacheService
     arguments: ['@entity_type.manager', '@file_url_generator', '@file_system', '@logger.factory']
 
-  ood_software.collection_sync:
-    class: Drupal\ood_software\Service\CollectionSyncService
+  ood_software.repo_sync:
+    class: Drupal\ood_software\Service\RepoSyncService
     arguments: ['@entity_type.manager', '@logger.factory', '@datetime.time', '@ood_software.gh']
 
-  ood_software.collection_notifier:
-    class: Drupal\ood_software\Service\CollectionNotificationService
+  ood_software.repo_notifier:
+    class: Drupal\ood_software\Service\RepoNotificationService
     arguments:
       - '@plugin.manager.mail'
       - '@entity_type.manager'

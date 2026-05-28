@@ -63,7 +63,7 @@ final class AppverseHubRequestChangesForm extends FormBase {
     $form['actions']['cancel'] = [
       '#type' => 'link',
       '#title' => $this->t('Cancel'),
-      '#url' => Url::fromUri('internal:/appverse/manage-collections'),
+      '#url' => Url::fromUri('internal:/appverse/manage-repos'),
       '#attributes' => ['class' => ['button']],
     ];
 
@@ -83,7 +83,7 @@ final class AppverseHubRequestChangesForm extends FormBase {
     $this->node->setRevisionLogMessage((string) $comment);
     $this->node->setNewRevision(TRUE);
     // Stash the comment as a runtime property so ood_software_node_update
-    // can forward it to CollectionNotificationService as $extras['comment'].
+    // can forward it to RepoNotificationService as $extras['comment'].
     // Drupal's entity API ignores unknown properties on save, so nothing
     // is persisted; this only survives in memory long enough for
     // hook_node_update to read it.
@@ -95,7 +95,7 @@ final class AppverseHubRequestChangesForm extends FormBase {
     }
 
     $this->messenger()->addStatus($this->t('Requested changes on @title. The contributor will see your comment.', ['@title' => $this->node->label()]));
-    $form_state->setRedirectUrl(Url::fromUri('internal:/appverse/manage-collections'));
+    $form_state->setRedirectUrl(Url::fromUri('internal:/appverse/manage-repos'));
   }
 
   /**
@@ -111,7 +111,7 @@ final class AppverseHubRequestChangesForm extends FormBase {
     $memberAppIds = $storage->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'appverse_app')
-      ->condition('field_appverse_collection', $collection->id())
+      ->condition('field_appverse_repo', $collection->id())
       ->condition('status', 1)
       ->execute();
 

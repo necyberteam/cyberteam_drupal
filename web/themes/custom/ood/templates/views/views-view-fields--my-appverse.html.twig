@@ -8,7 +8,7 @@
  * and renders structured data from hub_card (built by the preprocess).
  *
  * Branches on hub_card.shape:
- *   - declared (multi-app):  Collection card with <details> expansion.
+ *   - declared (multi-app):  Repo card with <details> expansion.
  *   - inferred (single-app): Flat row merged with the single App's data.
  *
  * Action forms use precomputed per-URL CSRF tokens from hub_card.tokens
@@ -19,7 +19,7 @@
  *   hub_card - structured row data; see ood_preprocess_views_view_fields().
  */
 #}
-{% set c = hub_card.collection %}
+{% set c = hub_card.repo %}
 {% set is_declared = hub_card.shape == 'declared' %}
 {% set dest = hub_card.current_path %}
 {% set t = hub_card.tokens %}
@@ -32,11 +32,11 @@
   <header class="appverse-hub-card__header">
     <div class="appverse-hub-card__title-row">
       <h3 class="appverse-hub-card__title">
-        <a href="/appverse/#/{% if is_declared %}collection/{% endif %}{{ c.slug }}">
+        <a href="/appverse/#/{% if is_declared %}repo/{% endif %}{{ c.slug }}">
           {{ c.title }}
         </a>
       </h3>
-      {# "Unpublished" badge only fires when an approved Collection was
+      {# "Unpublished" badge only fires when an approved repo was
          actively unpublished. For draft / ready_for_review / needs_adjustment /
          archived, the moderation badge below tells the whole story —
          showing both badges is noisy and misleading. #}
@@ -87,33 +87,33 @@
     </div>
 
     <div class="appverse-hub-card__actions">
-      <a class="btn btn-sm btn-secondary" href="/appverse/#/{% if is_declared %}collection/{% endif %}{{ c.slug }}">{{ 'View in catalog'|t }}</a>
+      <a class="btn btn-sm btn-secondary" href="/appverse/#/{% if is_declared %}repo/{% endif %}{{ c.slug }}">{{ 'View in catalog'|t }}</a>
 
       {# Contributor transition action: send for review (draft) or re-submit (needs_adjustment). #}
       {% if c.moderation_state == 'draft' %}
-        <form method="post" action="/appverse/collection/{{ c.id }}/send-for-review?token={{ t.collection_send_for_review }}&destination={{ dest|url_encode }}" style="display:inline">
+        <form method="post" action="/appverse/repo/{{ c.id }}/send-for-review?token={{ t.repo_send_for_review }}&destination={{ dest|url_encode }}" style="display:inline">
           <button type="submit" class="btn btn-sm btn-primary">{{ 'Send for review'|t }}</button>
         </form>
       {% elseif c.moderation_state == 'needs_adjustment' %}
-        <form method="post" action="/appverse/collection/{{ c.id }}/send-for-review?token={{ t.collection_send_for_review }}&destination={{ dest|url_encode }}" style="display:inline">
+        <form method="post" action="/appverse/repo/{{ c.id }}/send-for-review?token={{ t.repo_send_for_review }}&destination={{ dest|url_encode }}" style="display:inline">
           <button type="submit" class="btn btn-sm btn-primary">{{ 'Re-submit'|t }}</button>
         </form>
       {% endif %}
 
-      {# Admin primary action: when a Collection is waiting for review or
+      {# Admin primary action: when a repo is waiting for review or
          needs adjustment, surface the cascading Publish (admin-only) as a
          prominent toolbar button. This is the moderation-transition route,
          which on FIRST publish also cascades to member apps. #}
       {% if hub_card.is_admin and (c.moderation_state == 'ready_for_review' or c.moderation_state == 'needs_adjustment') %}
-        <form method="post" action="/appverse/collection/{{ c.id }}/publish?token={{ t.collection_publish }}&destination={{ dest|url_encode }}" style="display:inline">
+        <form method="post" action="/appverse/repo/{{ c.id }}/publish?token={{ t.repo_publish }}&destination={{ dest|url_encode }}" style="display:inline">
           <button type="submit" class="btn btn-sm btn-primary">{{ 'Publish'|t }}</button>
         </form>
       {% endif %}
 
       {# Unpublish (toggle). Contributors can only unpublish their own
-         published Collections; admins can unpublish anything published. #}
+         published repos; admins can unpublish anything published. #}
       {% if c.published %}
-        <form method="post" action="/appverse/collection/{{ c.id }}/unpublish?token={{ t.collection_unpublish }}&destination={{ dest|url_encode }}" style="display:inline">
+        <form method="post" action="/appverse/repo/{{ c.id }}/unpublish?token={{ t.repo_unpublish }}&destination={{ dest|url_encode }}" style="display:inline">
           <button type="submit" class="btn btn-sm btn-secondary">{{ 'Unpublish'|t }}</button>
         </form>
       {% endif %}
@@ -123,16 +123,16 @@
         <summary class="btn btn-sm btn-link" aria-label="{{ 'More actions'|t }}">⋯</summary>
         <ul class="appverse-hub-card__kebab-menu">
           <li>
-            <form method="post" action="/appverse/collection/{{ c.id }}/resync?token={{ t.collection_resync }}&destination={{ dest|url_encode }}">
+            <form method="post" action="/appverse/repo/{{ c.id }}/resync?token={{ t.repo_resync }}&destination={{ dest|url_encode }}">
               <button type="submit" class="appverse-hub-card__kebab-item">{{ 'Re-sync from GitHub'|t }}</button>
             </form>
           </li>
           <li>
-            <a href="/appverse/collection/{{ c.id }}/delete" class="appverse-hub-card__kebab-item appverse-hub-card__kebab-item--destructive">{{ 'Delete'|t }}</a>
+            <a href="/appverse/repo/{{ c.id }}/delete" class="appverse-hub-card__kebab-item appverse-hub-card__kebab-item--destructive">{{ 'Delete'|t }}</a>
           </li>
           {% if c.has_validation_issues %}
             <li>
-              <a href="/node/{{ c.id }}/edit#edit-field-collection-validation-er-wrapper" class="appverse-hub-card__kebab-item">{{ 'View validation errors'|t }}</a>
+              <a href="/node/{{ c.id }}/edit#edit-field-repo-validation-er-wrapper" class="appverse-hub-card__kebab-item">{{ 'View validation errors'|t }}</a>
             </li>
           {% endif %}
 
@@ -141,7 +141,7 @@
              on review-queue items with one click. #}
           {% if hub_card.is_admin and (c.moderation_state == 'ready_for_review' or c.moderation_state == 'needs_adjustment') %}
             <li>
-              <a href="/appverse/collection/{{ c.id }}/request-changes?destination={{ dest|url_encode }}" class="appverse-hub-card__kebab-item">{{ 'Request changes (admin)'|t }}</a>
+              <a href="/appverse/repo/{{ c.id }}/request-changes?destination={{ dest|url_encode }}" class="appverse-hub-card__kebab-item">{{ 'Request changes (admin)'|t }}</a>
             </li>
           {% endif %}
         </ul>
@@ -149,7 +149,7 @@
     </div>
   </header>
 
-  {# Declared (multi-app) Collection: <details>-expanded member apps sub-table. #}
+  {# Declared (multi-app) repo: <details>-expanded member apps sub-table. #}
   {% if is_declared and hub_card.apps|length > 0 %}
     <details class="appverse-hub-card__apps-expansion">
       <summary>{{ 'Show member apps'|t }} ({{ hub_card.apps|length }})</summary>
@@ -171,7 +171,7 @@
               <td>{{ app.software ?: '—' }}</td>
               <td>
                 {% if not c.published %}
-                  <span class="badge">{{ 'Hidden via Collection'|t }}</span>
+                  <span class="badge">{{ 'Hidden via repo'|t }}</span>
                 {% elseif app.published %}
                   <span class="badge badge-success">{{ 'Published'|t }}</span>
                 {% else %}
@@ -194,7 +194,7 @@
     </details>
   {% endif %}
 
-  {# Inferred (single-app) Collection: show the App's software inline. #}
+  {# Inferred (single-app) repo: show the App's software inline. #}
   {% if not is_declared and hub_card.apps|length > 0 %}
     {% set only_app = hub_card.apps|first %}
     <div class="appverse-hub-card__inferred-meta">

@@ -142,7 +142,7 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
     $form['#attached']['library'][] = 'access_misc/node_add_tags';
   }
   // Hide the right-sidebar "Revision information" section on appverse_app
-  // + appverse_collection node forms. Content for these bundles is
+  // + appverse_repo node forms. Content for these bundles is
   // sync'd from appverse.yml / manifest.yml; revisions get created
   // automatically by content_moderation, and the request_adjustment
   // flow's comment is stored on those auto-generated revisions —
@@ -152,8 +152,8 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
   $appverseAddForms = [
     'node_appverse_app_form',
     'node_appverse_app_edit_form',
-    'node_appverse_collection_form',
-    'node_appverse_collection_edit_form',
+    'node_appverse_repo_form',
+    'node_appverse_repo_edit_form',
   ];
   if (in_array($form_id, $appverseAddForms, TRUE)) {
     if (isset($form['revision_information'])) {
@@ -197,17 +197,17 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
     $form['field_appverse_github_url']['widget'][0]['uri']['#placeholder'] = t('Add the URL of your repo');
     unset($form['field_appverse_github_url']['widget'][0]['uri']['#description']);
 
-    // Lock field_appverse_collection as a read-only autocomplete. The Collection
-    // is set automatically by CollectionSyncService when the app is saved with
+    // Lock field_appverse_repo as a read-only autocomplete. The Collection
+    // is set automatically by RepoSyncService when the app is saved with
     // a GitHub URL; manually editing it would be overwritten on the next sync.
-    if (isset($form['field_appverse_collection'])) {
-      $form['field_appverse_collection']['#disabled'] = TRUE;
-      $form['field_appverse_collection']['widget']['#disabled'] = TRUE;
-      if (isset($form['field_appverse_collection']['widget'][0])) {
-        $form['field_appverse_collection']['widget'][0]['#disabled'] = TRUE;
+    if (isset($form['field_appverse_repo'])) {
+      $form['field_appverse_repo']['#disabled'] = TRUE;
+      $form['field_appverse_repo']['widget']['#disabled'] = TRUE;
+      if (isset($form['field_appverse_repo']['widget'][0])) {
+        $form['field_appverse_repo']['widget'][0]['#disabled'] = TRUE;
       }
-      if (!isset($form['field_appverse_collection']['widget']['#description'])) {
-        $form['field_appverse_collection']['widget']['#description'] = t('Set automatically by sync based on the GitHub repo URL. To change the Collection, change the repo URL.');
+      if (!isset($form['field_appverse_repo']['widget']['#description'])) {
+        $form['field_appverse_repo']['widget']['#description'] = t('Set automatically by sync based on the GitHub repo URL. To change the repo, change the repo URL.');
       }
     }
 
@@ -255,7 +255,7 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
       'field_appverse_lastupdated', 'field_appverse_software_implemen',
       'field_appverse_stars', 'field_appverse_app_subpath',
       'field_appverse_maintainer_name', 'field_add_implementation_tags',
-      'field_tags', 'field_appverse_collection',
+      'field_tags', 'field_appverse_repo',
     ];
     $perAppStateCondition = [
       ':input[name="appverse_shape_state"]' => ['value' => 'single_app'],
@@ -406,8 +406,19 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
 
     // Register a validate handler before the submit handlers so we can
     // block save when the repo shape is 'empty' or 'invalid_url' (C5).
+    //
+    // Drupal ContentEntityForm relies on its own validateForm() running
+    // to set `entity_validated` in form_state temporary values; without
+    // that, the next buildEntity() flips $entity->setValidationRequired(TRUE),
+    // and Drupal 10.2+'s storage guard throws on save. Setting
+    // $form['actions']['submit']['#validate'] AT ALL bypasses the
+    // form-level default validators — so we must reinstate '::validateForm'
+    // explicitly when we add ours.
     if (!isset($form['actions']['submit']['#validate'])) {
-      $form['actions']['submit']['#validate'] = [];
+      // No button-level validators yet. Set up the chain with our
+      // handler PLUS the form-object's default validateForm so
+      // ContentEntityForm validation still runs.
+      $form['actions']['submit']['#validate'] = ['::validateForm'];
     }
     if (!in_array('ood_software__edit_validate', $form['actions']['submit']['#validate'], TRUE)) {
       array_unshift($form['actions']['submit']['#validate'], 'ood_software__edit_validate');
@@ -590,7 +601,7 @@ function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitH
   ];
   if ($appCount === 0) {
     $appsStack['empty'] = [
-      '#markup' => '<p><em>' . t('No apps declared in appverse.yml. The Collection will register with zero apps.') . '</em></p>',
+      '#markup' => '<p><em>' . t('No apps declared in appverse.yml. The repo will register with zero apps.') . '</em></p>',
     ];
   }
   else {
@@ -620,17 +631,17 @@ function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitH
     '#type' => 'container',
     '#attributes' => ['class' => ['appverse-preview-frame']],
     'header' => [
-      '#markup' => '<p><i class="bi bi-check-lg appverse-status-ok"></i> ' . t('Declared Collection (appverse.yml at root)') . '</p>',
+      '#markup' => '<p><i class="bi bi-check-lg appverse-status-ok"></i> ' . t('Declared multi-app repo (appverse.yml at root)') . '</p>',
     ],
     'collection_meta' => [
       '#markup' => $collectionMetaMarkup,
     ],
     'apps_heading' => [
-      '#markup' => '<h5>' . t('Apps in this Collection (@n)', ['@n' => $appCount]) . '</h5>',
+      '#markup' => '<h5>' . t('Apps in this repo (@n)', ['@n' => $appCount]) . '</h5>',
     ],
     'apps_stack' => $appsStack,
     'footer_note' => [
-      '#markup' => '<p class="text-muted"><em>' . t('Submitting registers the Collection and creates @n app(s) via the sync. Per-app metadata is read from each subpath\'s `appverse.yml` (with `manifest.yml` as fallback) — edit those files in the repo to change app data.', ['@n' => $appCount]) . '</em></p>',
+      '#markup' => '<p class="text-muted"><em>' . t('Submitting registers the repo and creates @n app(s) via the sync. Per-app metadata is read from each subpath\'s `appverse.yml` (with `manifest.yml` as fallback) — edit those files in the repo to change app data.', ['@n' => $appCount]) . '</em></p>',
     ],
   ];
 
@@ -995,33 +1006,50 @@ function ood_software__edit_validate($form, FormStateInterface $form_state) {
     $form_state->setErrorByName('field_appverse_github_url', t('Please enter a valid GitHub repository URL (e.g. https://github.com/owner/repo).'));
   }
   elseif (in_array($shape, ['collection', 'single_app'], TRUE)) {
-    // Ownership gate: if a Collection already exists for this repo URL
-    // and is owned by someone else, only admins (administer appverse
-    // content) can proceed. Catalog has no co-maintainer concept yet —
-    // silent re-sync by a different user would create new Apps under
-    // another user's Collection while leaving the original owner
-    // unaware.
+    // Duplicate-URL gate: this URL is already registered. Two outcomes:
+    //   - Same owner re-submitting their own repo → reject with
+    //     "you already registered this; manage it on your hub". Applies
+    //     to everyone including admins; the kebab Re-sync action is the
+    //     right path to refresh from GitHub, not the add form.
+    //   - Different owner submitting an already-registered repo → reject
+    //     with the cross-owner message. Admins are still allowed
+    //     through (takeover path) since the catalog has no co-maintainer
+    //     concept yet and admin override is the only way to move
+    //     ownership.
     $currentUser = \Drupal::currentUser();
-    if (!$currentUser->hasPermission('administer appverse content')) {
-      $url = $form_state->getValue('field_appverse_github_url')[0]['uri'] ?? '';
-      if ($url !== '') {
-        $existingIds = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
-          ->accessCheck(FALSE)
-          ->condition('type', 'appverse_collection')
-          ->condition('field_collection_repo_url.uri', $url)
-          ->range(0, 1)
-          ->execute();
-        if (!empty($existingIds)) {
-          $existing = \Drupal::entityTypeManager()->getStorage('node')->load(reset($existingIds));
-          if ($existing && (int) $existing->getOwnerId() !== (int) $currentUser->id()) {
-            $ownerName = $existing->getOwner()?->getDisplayName() ?? '(unknown)';
-            $form_state->setErrorByName(
-              'field_appverse_github_url',
-              t('This Collection was already submitted by @owner. Ask @owner to add you as a contributor, or contact an Appverse admin if you need to take over maintenance.', [
-                '@owner' => $ownerName,
-              ])
-            );
-          }
+    $url = $form_state->getValue('field_appverse_github_url')[0]['uri'] ?? '';
+    if ($url !== '') {
+      $existingIds = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
+        ->accessCheck(FALSE)
+        ->condition('type', 'appverse_repo')
+        ->condition('field_repo_url.uri', $url)
+        ->range(0, 1)
+        ->execute();
+      if (!empty($existingIds)) {
+        $existing = \Drupal::entityTypeManager()->getStorage('node')->load(reset($existingIds));
+        $existingOwnerId = $existing ? (int) $existing->getOwnerId() : 0;
+        $currentUserId = (int) $currentUser->id();
+
+        if ($existing && $existingOwnerId === $currentUserId) {
+          // Self re-submit. Always block, regardless of role.
+          $hubUrl = \Drupal\Core\Url::fromUri('internal:/user/' . $currentUserId . '/my-appverse')->toString();
+          $form_state->setErrorByName(
+            'field_appverse_github_url',
+            t('You\'ve already registered this repository. <a href=":hub">Manage it on your hub</a> — use Re-sync to refresh from GitHub instead of re-submitting.', [
+              ':hub' => $hubUrl,
+            ])
+          );
+        }
+        elseif ($existing && $existingOwnerId !== $currentUserId
+            && !$currentUser->hasPermission('administer appverse content')) {
+          // Cross-owner. Block non-admins; admins go through as before.
+          $ownerName = $existing->getOwner()?->getDisplayName() ?? '(unknown)';
+          $form_state->setErrorByName(
+            'field_appverse_github_url',
+            t('This repo was already submitted by @owner. Ask @owner to add you as a contributor, or contact an Appverse admin if you need to take over maintenance.', [
+              '@owner' => $ownerName,
+            ])
+          );
         }
       }
     }
@@ -1125,7 +1153,7 @@ function ood_software__edit_submit($form, FormStateInterface $form_state) {
  *
  * Three phases:
  *   1. Synchronous (cheap): defensive parseUrl + parse appverse.yml,
- *      then resolveCollection() creates/updates the Collection node in
+ *      then resolveRepo() creates/updates the Collection node in
  *      one DB op.
  *   2. Batch queue: one operation per subpath. Each runs in its own
  *      AJAX sub-request via Drupal's progress-bar UI — no Pantheon web
@@ -1143,8 +1171,8 @@ function _ood_software_handle_collection_submit(string $url, FormStateInterface 
   // parseUrl + the implicit fetchRepoData inside it are idempotent.
   $gh->parseUrl($url);
 
-  /** @var \Drupal\ood_software\Service\CollectionSyncService $sync */
-  $sync = \Drupal::service('ood_software.collection_sync');
+  /** @var \Drupal\ood_software\Service\RepoSyncService $sync */
+  $sync = \Drupal::service('ood_software.repo_sync');
 
   // Parse the root appverse.yml so we can build repoMetadata and find
   // the apps[] list.
@@ -1175,15 +1203,15 @@ function _ood_software_handle_collection_submit(string $url, FormStateInterface 
   // Sync: create or update the Collection node.
   $collection = NULL;
   try {
-    $collection = $sync->resolveCollection(
+    $collection = $sync->resolveRepo(
       $gh->getRepoUrl(),
       $gh->getAppverseYmlText(),
       $repoMetadata,
     );
   }
   catch (\Throwable $e) {
-    $form_state->setErrorByName('field_appverse_github_url', t('Collection sync failed: @msg', ['@msg' => $e->getMessage()]));
-    \Drupal::logger('ood_software')->error('resolveCollection failed for @url: @msg', [
+    $form_state->setErrorByName('field_appverse_github_url', t('Repo sync failed: @msg', ['@msg' => $e->getMessage()]));
+    \Drupal::logger('ood_software')->error('resolveRepo failed for @url: @msg', [
       '@url' => $gh->getRepoUrl(),
       '@msg' => $e->getMessage(),
     ]);
@@ -1201,7 +1229,7 @@ function _ood_software_handle_collection_submit(string $url, FormStateInterface 
   }
 
   if (empty($subpaths)) {
-    \Drupal::messenger()->addWarning(t('Collection registered with zero apps — appverse.yml did not declare any apps[] entries with a path.'));
+    \Drupal::messenger()->addWarning(t('Repo registered with zero apps — appverse.yml did not declare any apps[] entries with a path.'));
     $form_state->setRedirectUrl($collection->toUrl());
     // Phase 3: still truncate so default entity save doesn't create an app.
     $form_state->setSubmitHandlers([]);
@@ -1243,10 +1271,10 @@ function _ood_software_handle_collection_submit(string $url, FormStateInterface 
       '@title' => $collection->getTitle(),
     ]),
     'operations' => $operations,
-    'finished' => '_ood_software_batch_collection_synced',
+    'finished' => '_ood_software_batch_repo_synced',
     'init_message' => t('Starting sync for @title...', ['@title' => $collection->getTitle()]),
     'progress_message' => t('Syncing app @current of @total...'),
-    'error_message' => t('An error occurred while syncing apps. See the Collection page for partial results.'),
+    'error_message' => t('An error occurred while syncing apps. See the repo page for partial results.'),
   ];
   batch_set($batch);
 
@@ -1282,8 +1310,8 @@ function _ood_software_batch_sync_app(int $collectionId, string $subpath, string
     $gh->fetchAppSubpaths([$subpath]);
     $subpathFiles = $gh->getAppSubpathFiles();
 
-    /** @var \Drupal\ood_software\Service\CollectionSyncService $sync */
-    $sync = \Drupal::service('ood_software.collection_sync');
+    /** @var \Drupal\ood_software\Service\RepoSyncService $sync */
+    $sync = \Drupal::service('ood_software.repo_sync');
 
     // Narrow the parsed apps[] to just this subpath so applyDeclaredApps
     // only processes this one. (applyDeclaredApps iterates
@@ -1344,8 +1372,8 @@ function _ood_software_batch_reconcile_apps(int $collectionId, string $repoUrl, 
       }
     }
 
-    /** @var \Drupal\ood_software\Service\CollectionSyncService $sync */
-    $sync = \Drupal::service('ood_software.collection_sync');
+    /** @var \Drupal\ood_software\Service\RepoSyncService $sync */
+    $sync = \Drupal::service('ood_software.repo_sync');
     $sync->reconcileDeclaredApps($collection, $declaredSubpaths, $repoUrl);
 
     $context['message'] = t('Reconciled apps[] for @title', ['@title' => $collection->label()]);
@@ -1359,9 +1387,9 @@ function _ood_software_batch_reconcile_apps(int $collectionId, string $repoUrl, 
 /**
  * Batch finished callback: render summary of synced + failed apps.
  */
-function _ood_software_batch_collection_synced($success, $results, $operations) {
+function _ood_software_batch_repo_synced($success, $results, $operations) {
   if (!$success) {
-    \Drupal::messenger()->addError(t('Collection sync did not complete cleanly. Check the Collection page for partial results.'));
+    \Drupal::messenger()->addError(t('Repo sync did not complete cleanly. Check the repo page for partial results.'));
     return;
   }
   $synced = $results['synced'] ?? [];
@@ -1388,7 +1416,7 @@ function _ood_software_batch_collection_synced($success, $results, $operations) 
  * Handle single-app submission: legacy form-fill behavior.
  *
  * Cron's AppverseAppUpdater retro-promotes this app into an inferred
- * Collection on the next cycle via resolveCollection (no appverse.yml,
+ * Collection on the next cycle via resolveRepo (no appverse.yml,
  * falls through to applyInferred).
  */
 function _ood_software_handle_single_app_submit(FormStateInterface $form_state) {
@@ -1446,7 +1474,7 @@ function ood_software_node_update(NodeInterface $node) {
   // Moderation transition notifications. Collections only — App-level
   // transitions intentionally don't fan out so a cascade-publish on N
   // member apps doesn't produce N emails.
-  if ($node->bundle() === 'appverse_collection' && $node->hasField('moderation_state')) {
+  if ($node->bundle() === 'appverse_repo' && $node->hasField('moderation_state')) {
     $previousState = _ood_software_previous_moderation_state($node);
     $extras = [];
     // Pick up the reviewer comment if AppverseHubRequestChangesForm
@@ -1454,7 +1482,7 @@ function ood_software_node_update(NodeInterface $node) {
     if (!empty($node->_ood_software_review_comment)) {
       $extras['comment'] = $node->_ood_software_review_comment;
     }
-    \Drupal::service('ood_software.collection_notifier')
+    \Drupal::service('ood_software.repo_notifier')
       ->notifyTransition($node, $previousState, $extras);
   }
 }
@@ -1471,7 +1499,7 @@ function _ood_software_invalidate_appverse_cache(NodeInterface $node) {
   // widget reads `collections[]` from appverse-data.json, and without
   // this entry an admin-created Collection would not appear in the
   // catalog until the next cron run or app touch.
-  if (in_array($node->bundle(), ['appverse_software', 'appverse_app', 'appverse_collection'])) {
+  if (in_array($node->bundle(), ['appverse_software', 'appverse_app', 'appverse_repo'])) {
     // Throttle: skip if cache was generated less than 60 seconds ago.
     $cache_file = 'public://appverse-cache/appverse-data.json';
     if (file_exists($cache_file) && (time() - filemtime($cache_file)) < 60) {
@@ -1507,10 +1535,10 @@ function _ood_software_previous_moderation_state(NodeInterface $node): ?string {
  * Suppress the contrib `appverse_review_requested` notification when the
  * subject is a Collection. App-bundle transitions still notify via that
  * contrib config; Collection-bundle transitions notify via our
- * CollectionNotificationService (see ood_software_node_update).
+ * RepoNotificationService (see ood_software_node_update).
  */
 function ood_software_content_moderation_notification_mail_data_alter(EntityInterface $entity, array &$data) {
-  if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'appverse_collection') {
+  if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'appverse_repo') {
     $data['to'] = [];
   }
 }
@@ -1518,8 +1546,8 @@ function ood_software_content_moderation_notification_mail_data_alter(EntityInte
 /**
  * Implements hook_mail().
  *
- * Renders moderation transition emails for appverse_collection nodes.
- * Dispatched by CollectionNotificationService from ood_software_node_update.
+ * Renders moderation transition emails for appverse_repo nodes.
+ * Dispatched by RepoNotificationService from ood_software_node_update.
  *
  * The From and site_name come from \Drupal::config('system.site'), which
  * domain_config overlays with per-domain values at runtime — so a
@@ -1540,11 +1568,11 @@ function ood_software_mail($key, &$message, $params) {
     case 'ready_for_review':
       $owner = $node->getOwner();
       $owner_name = $owner ? $owner->getDisplayName() : t('Unknown');
-      $repo = $node->hasField('field_collection_repo_url') && !$node->get('field_collection_repo_url')->isEmpty()
-        ? ($node->get('field_collection_repo_url')->first()->getValue()['uri'] ?? '')
+      $repo = $node->hasField('field_repo_url') && !$node->get('field_repo_url')->isEmpty()
+        ? ($node->get('field_repo_url')->first()->getValue()['uri'] ?? '')
         : '';
-      $admin_queue = \Drupal\Core\Url::fromUserInput('/appverse/manage-collections', ['absolute' => TRUE])->toString();
-      $message['subject'] = t('[@site] Collection submitted for review: @title', [
+      $admin_queue = \Drupal\Core\Url::fromUserInput('/appverse/manage-repos', ['absolute' => TRUE])->toString();
+      $message['subject'] = t('[@site] Repo submitted for review: @title', [
         '@site' => $site_name,
         '@title' => $title,
       ]);
@@ -1585,11 +1613,11 @@ function ood_software_mail($key, &$message, $params) {
       $hub_link = $node->getOwnerId()
         ? \Drupal\Core\Url::fromUserInput('/user/' . $node->getOwnerId() . '/my-appverse', ['absolute' => TRUE])->toString()
         : '';
-      $message['subject'] = t('[@site] Changes requested on your Collection: @title', [
+      $message['subject'] = t('[@site] Changes requested on your Repo: @title', [
         '@site' => $site_name,
         '@title' => $title,
       ]);
-      $message['body'][] = t('A reviewer requested changes on your Collection "@title" before it can be published on @site.', [
+      $message['body'][] = t('A reviewer requested changes on your repo "@title" before it can be published on @site.', [
         '@title' => $title,
         '@site' => $site_name,
       ]);
@@ -1605,12 +1633,12 @@ function ood_software_mail($key, &$message, $params) {
       // Build the React catalog URL via pathauto alias so the email
       // lands on /appverse/#/collection/<slug> — same shape the hub
       // Twig uses for its "View in catalog" link.
-      $catalog_link = _ood_software_collection_catalog_url($node);
-      $message['subject'] = t('[@site] Your Collection is published: @title', [
+      $catalog_link = _ood_software_repo_catalog_url($node);
+      $message['subject'] = t('[@site] Your Repo is published: @title', [
         '@site' => $site_name,
         '@title' => $title,
       ]);
-      $message['body'][] = t('Your Collection "@title" has been published to the @site catalog.', [
+      $message['body'][] = t('Your repo "@title" has been published to the @site catalog.', [
         '@title' => $title,
         '@site' => $site_name,
       ]);
@@ -1634,16 +1662,16 @@ function ood_software_mail($key, &$message, $params) {
  * fallback slug is the nid so the URL still resolves to something
  * meaningful inside the catalog (not the canonical /node/<nid>).
  */
-function _ood_software_collection_catalog_url(NodeInterface $node): string {
+function _ood_software_repo_catalog_url(NodeInterface $node): string {
   $alias = \Drupal::service('path_alias.manager')
     ->getAliasByPath('/node/' . $node->id());
   // Same regex the hub preprocess uses (ood.theme): strip everything up
-  // to and including an optional "collection/" prefix.
-  $slug = ltrim(preg_replace('#^.*/(collection/)?#', '', $alias), '/');
+  // to and including an optional "repo/" prefix.
+  $slug = ltrim(preg_replace('#^.*/(repo/)?#', '', $alias), '/');
   if ($slug === '') {
     $slug = (string) $node->id();
   }
-  return \Drupal\Core\Url::fromUserInput('/appverse/#/collection/' . $slug, ['absolute' => TRUE])
+  return \Drupal\Core\Url::fromUserInput('/appverse/#/repo/' . $slug, ['absolute' => TRUE])
     ->toString();
 }
 
@@ -1736,12 +1764,12 @@ function ood_software_node_view(array &$build, EntityInterface $entity, EntityVi
   // node pages. Catalog pages can't show unpublished apps (JSON:API filters
   // by status), so this is the path contributors and reviewers use to
   // inspect a draft Collection's members.
-  if ($entity->bundle() === 'appverse_collection') {
+  if ($entity->bundle() === 'appverse_repo') {
     $app_storage = \Drupal::entityTypeManager()->getStorage('node');
     $app_ids = $app_storage->getQuery()
       ->accessCheck(TRUE)
       ->condition('type', 'appverse_app')
-      ->condition('field_appverse_collection', $entity->id())
+      ->condition('field_appverse_repo', $entity->id())
       ->sort('field_appverse_app_subpath')
       ->execute();
 
@@ -1762,7 +1790,7 @@ function ood_software_node_view(array &$build, EntityInterface $entity, EntityVi
       }
       $build['member_apps'] = [
         '#type' => 'fieldset',
-        '#title' => t('Apps in this Collection'),
+        '#title' => t('Apps in this repo'),
         '#weight' => 20,
         'list' => [
           '#theme' => 'item_list',
@@ -1829,7 +1857,7 @@ function ood_software_node_view(array &$build, EntityInterface $entity, EntityVi
  * Implements hook_menu_local_tasks_alter().
  *
  * Push the "Revisions" tab to the END of the tab strip on
- * appverse_collection and appverse_app node pages. Content for these
+ * appverse_repo and appverse_app node pages. Content for these
  * bundles is derived from appverse.yml / manifest.yml in the source
  * repo; each sync overwrites the same fields, so revision history is
  * rarely meaningful to contributors. Keeping the tab available for
@@ -1847,7 +1875,7 @@ function ood_software_menu_local_tasks_alter(&$data, $route_name, \Drupal\Core\C
   if (!$node instanceof \Drupal\node\NodeInterface) {
     return;
   }
-  if (!in_array($node->bundle(), ['appverse_app', 'appverse_collection'], TRUE)) {
+  if (!in_array($node->bundle(), ['appverse_app', 'appverse_repo'], TRUE)) {
     return;
   }
   // The tab strip is cached per route + node; bind both so a
