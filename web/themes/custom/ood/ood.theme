@@ -290,9 +290,13 @@ function ood_preprocess_views_view_fields(array &$variables) {
   // sees the admin's feedback. Read latest revision_log message.
   $moderationComment = NULL;
   if ($moderationState === 'needs_adjustment') {
+    // revision_log lives on node_revision (the revision metadata table), NOT
+    // node_field_revision (the per-revision field-values table). This query
+    // was previously selecting from node_field_revision and crashing with
+    // "Unknown column 'nfr.revision_log'".
     $latestRevision = \Drupal::database()
-      ->select('node_field_revision', 'nfr')
-      ->fields('nfr', ['vid', 'revision_log'])
+      ->select('node_revision', 'nr')
+      ->fields('nr', ['vid', 'revision_log'])
       ->condition('nid', $repo->id())
       ->orderBy('vid', 'DESC')
       ->range(0, 1)

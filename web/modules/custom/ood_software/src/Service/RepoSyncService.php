@@ -5,6 +5,7 @@ namespace Drupal\ood_software\Service;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Drupal\ood_software\Plugin\GitHubService;
 use Psr\Log\LoggerInterface;
@@ -359,6 +360,111 @@ class RepoSyncService {
         $existingApp->delete();
       }
     }
+  }
+
+  /**
+   * Create or update the single member app for an inferred-shape repo.
+   *
+   * Inferred repos have one app, no appverse.yml. The repo's root manifest.yml
+   * is the source of truth. Replaces the cron-deferred attach that the
+   * AppverseAppUpdater queue worker used to perform on first run — the
+   * AddRepoForm calls this synchronously so the new card appears on the
+   * contributor's hub immediately.
+   *
+   * @param \Drupal\node\NodeInterface $repo
+   *   The Repo node returned by resolveRepo() for this URL.
+   * @param string $repoUrl
+   *   Canonical GitHub repo URL.
+   * @param array $rootManifest
+   *   Parsed root manifest.yml. Required: name. Optional: description, role,
+   *   subcategory, license, licenseLink. Optional convenience: '_app_type_ids'
+   *   (int[]) — the caller's resolved term IDs from
+   *   GitHubService::getAppTypeIds(), since this method can't reach the
+   *   GitHubService itself.
+   * @param array $repoMetadata
+   *   {name, description, organization, stars, lastCommittedDate, readme,
+   *   licenseLink}. 'organization' is the raw GitHub owner login string;
+   *   this method resolves it to a term ID via resolveOrganizationTerm().
+   *
+   * @return \Drupal\node\NodeInterface
+   *   The saved appverse_app node.
+   */
+  public function syncInferredMemberApp(
+    NodeInterface $repo,
+    string $repoUrl,
+    array $rootManifest,
+    array $repoMetadata,
+  ): NodeInterface {
+    $existing = $this->entityTypeManager->getStorage('node')->loadByProperties([
+      'type' => 'appverse_app',
+      'field_appverse_repo' => $repo->id(),
+    ]);
+    $isNew = !$existing;
+    $app = $existing ? reset($existing) : Node::create(['type' => 'appverse_app']);
+
+    $title = $rootManifest['name']
+      ?? ($repoMetadata['name'] ?? NULL)
+      ?? $this->urlSegment($repoUrl);
+    $app->setTitle($title);
+
+    $body = $rootManifest['description'] ?? $repoMetadata['description'] ?? '';
+    // Match production text format (declared sync + AppverseAppUpdater both use markdown).
+    $app->set('body', ['value' => $body, 'format' => 'markdown']);
+
+    $app->set('field_appverse_repo', $repo->id());
+    $app->set('field_appverse_github_url', ['uri' => $repoUrl]);
+
+    // Organization as TERM REFERENCE, not string. Mirrors applyDeclaredApp.
+    $repoOwner = (string) ($repoMetadata['organization'] ?? '');
+    $orgTid = $repoOwner !== '' ? $this->resolveOrganizationTerm($repoOwner) : NULL;
+    $app->set('field_appverse_organization', $orgTid);
+
+    $app->set('field_appverse_stars', (int) ($repoMetadata['stars'] ?? 0));
+    if (!empty($repoMetadata['lastCommittedDate'])) {
+      $app->set('field_appverse_lastupdated', (int) $repoMetadata['lastCommittedDate']);
+    }
+
+    $readme = (string) ($repoMetadata['readme'] ?? '');
+    if ($readme !== '') {
+      $app->set('field_appverse_readme', ['value' => $readme, 'format' => 'markdown']);
+    }
+
+    if (!empty($rootManifest['_app_type_ids'])) {
+      // Multi-value entity reference: each value is ['target_id' => N].
+      $app->set('field_appverse_app_type', array_map(
+        static fn (int $id): array => ['target_id' => $id],
+        array_map('intval', $rootManifest['_app_type_ids']),
+      ));
+    }
+
+    // License link is a plain link field — safe to set directly. field_license
+    // is an entity reference to a taxonomy term; GitHubService::getLicense()
+    // returns the SPDX string (e.g., "MIT"), not a term ID. Until a
+    // resolveLicenseTerm() helper exists (parallel to resolveOrganizationTerm),
+    // we don't set field_license here. See Out of Scope in the form plan.
+    if (!empty($repoMetadata['licenseLink'])) {
+      $app->set('field_appverse_license_link', ['uri' => $repoMetadata['licenseLink']]);
+    }
+
+    $app->set('field_appverse_app_validation_st', 'valid');
+
+    if ($isNew) {
+      $app->setOwnerId((int) $repo->getOwnerId());
+      // Mirror createBlankRepo (line 696) and applyDeclaredApp — new member
+      // apps start in draft.
+      $app->set('moderation_state', 'draft');
+    }
+
+    $app->save();
+    return $app;
+  }
+
+  /**
+   * Derive a fallback title segment from a GitHub repo URL's last path segment.
+   */
+  protected function urlSegment(string $repoUrl): string {
+    $parts = array_filter(explode('/', parse_url($repoUrl, PHP_URL_PATH) ?? ''));
+    return (string) (end($parts) ?: 'untitled-app');
   }
 
   /**

@@ -3,12 +3,12 @@
  *
  * Covers:
  *  - Legacy /user/<uid>/my-apps → /user/<uid>/my-appverse 301 redirect.
- *  - Legacy /appverse/manage-apps → /appverse/manage-collections 301 redirect.
+ *  - Legacy /appverse/manage-apps → /appverse/manage-repos 301 redirect.
  *  - Hub renders Collection cards.
  *  - Member apps expand via <details>.
  *  - Re-sync from the kebab menu triggers the controller.
  *  - Cross-user action returns 403.
- *  - Admin's /appverse/manage-collections renders with exposed filters.
+ *  - Admin's /appverse/manage-repos renders with exposed filters.
  *  - Moderation transition notifications (Phase 1.8): send_for_review,
  *    request_adjustment (email-only + cascade-unpublish), and publish
  *    (email + no-fan-out + cascade-publish).
@@ -25,7 +25,7 @@ const CONTRIBUTOR_PASS = LEGACY_PASS;
 const CONTRIBUTOR_NAME = 'legacy_contributor';
 
 /**
- * Seed a fresh appverse_collection via ddev drush, optionally with member apps.
+ * Seed a fresh appverse_repo via ddev drush, optionally with member apps.
  *
  * Yields { nid, uuid } so callers can stash the UUID in Cypress.env for
  * later JSON:API cascade assertions. Titles must be unique per block to
@@ -37,7 +37,7 @@ const CONTRIBUTOR_NAME = 'legacy_contributor';
  * @param {number} opts.memberApps - How many member apps to create.
  * @param {string} opts.memberAppState - moderation_state for member apps.
  */
-function seedCollection(opts) {
+function seedRepo(opts) {
   const title = opts.title;
   const state = opts.state;
   const memberApps = opts.memberApps || 0;
@@ -46,16 +46,16 @@ function seedCollection(opts) {
   // Validate interpolated inputs to prevent shell/PHP quote-escape breakouts.
   // All test fixtures use plain ASCII names, so a strict allowlist is fine.
   if (!/^[A-Za-z0-9 ()\-]+$/.test(title)) {
-    throw new Error(`seedCollection: title contains unsafe characters: ${title}`);
+    throw new Error(`seedRepo: title contains unsafe characters: ${title}`);
   }
   if (!/^[a-z_]+$/.test(state)) {
-    throw new Error(`seedCollection: state contains unsafe characters: ${state}`);
+    throw new Error(`seedRepo: state contains unsafe characters: ${state}`);
   }
   if (!/^[a-z_]+$/.test(memberAppState)) {
-    throw new Error(`seedCollection: memberAppState contains unsafe characters: ${memberAppState}`);
+    throw new Error(`seedRepo: memberAppState contains unsafe characters: ${memberAppState}`);
   }
   if (!Number.isInteger(memberApps) || memberApps < 0) {
-    throw new Error(`seedCollection: memberApps must be a non-negative integer: ${memberApps}`);
+    throw new Error(`seedRepo: memberApps must be a non-negative integer: ${memberApps}`);
   }
 
   // Delete any prior fixture with the same title so re-runs are deterministic.
@@ -63,59 +63,59 @@ function seedCollection(opts) {
   // fixture Collections whose titles share the "Test Notebooks" prefix, so
   // a previous interrupted run can't poison the next run.
   const phpEval = `
-    \\$storage = \\Drupal::entityTypeManager()->getStorage('node');
-    \\$existing = \\$storage->getQuery()->accessCheck(FALSE)
-      ->condition('type', 'appverse_collection')
+    $storage = \\Drupal::entityTypeManager()->getStorage('node');
+    $existing = $storage->getQuery()->accessCheck(FALSE)
+      ->condition('type', 'appverse_repo')
       ->condition('title', '${title}')
       ->execute();
-    foreach (\\$storage->loadMultiple(\\$existing) as \\$old) {
-      \\$apps = \\$storage->getQuery()->accessCheck(FALSE)
+    foreach ($storage->loadMultiple($existing) as $old) {
+      $apps = $storage->getQuery()->accessCheck(FALSE)
         ->condition('type', 'appverse_app')
-        ->condition('field_appverse_collection', \\$old->id())
+        ->condition('field_appverse_repo', $old->id())
         ->execute();
-      foreach (\\$storage->loadMultiple(\\$apps) as \\$app) { \\$app->delete(); }
-      \\$old->delete();
+      foreach ($storage->loadMultiple($apps) as $app) { $app->delete(); }
+      $old->delete();
     }
     // Drop any other stale "Test Notebooks*" Collection (covers casing/renaming drift).
-    \\$staleIds = \\$storage->getQuery()->accessCheck(FALSE)
-      ->condition('type', 'appverse_collection')
+    $staleIds = $storage->getQuery()->accessCheck(FALSE)
+      ->condition('type', 'appverse_repo')
       ->condition('title', 'Test Notebooks%', 'LIKE')
       ->execute();
-    foreach (\\$storage->loadMultiple(\\$staleIds) as \\$stale) {
-      \\$staleApps = \\$storage->getQuery()->accessCheck(FALSE)
+    foreach ($storage->loadMultiple($staleIds) as $stale) {
+      $staleApps = $storage->getQuery()->accessCheck(FALSE)
         ->condition('type', 'appverse_app')
-        ->condition('field_appverse_collection', \\$stale->id())
+        ->condition('field_appverse_repo', $stale->id())
         ->execute();
-      foreach (\\$storage->loadMultiple(\\$staleApps) as \\$app) { \\$app->delete(); }
-      \\$stale->delete();
+      foreach ($storage->loadMultiple($staleApps) as $app) { $app->delete(); }
+      $stale->delete();
     }
     // Drop orphan apps from prior runs (no Collection reference).
-    \\$orphanIds = \\$storage->getQuery()->accessCheck(FALSE)
+    $orphanIds = $storage->getQuery()->accessCheck(FALSE)
       ->condition('type', 'appverse_app')
-      ->notExists('field_appverse_collection')
+      ->notExists('field_appverse_repo')
       ->execute();
-    foreach (\\$storage->loadMultiple(\\$orphanIds) as \\$orphan) { \\$orphan->delete(); }
-    \\$user = user_load_by_name('${CONTRIBUTOR_NAME}');
-    if (!\\$user) { throw new \\Exception('Contributor fixture user not found.'); }
-    \\$collection = \\Drupal\\node\\Entity\\Node::create([
-      'type' => 'appverse_collection',
+    foreach ($storage->loadMultiple($orphanIds) as $orphan) { $orphan->delete(); }
+    $user = user_load_by_name('${CONTRIBUTOR_NAME}');
+    if (!$user) { throw new \\Exception('Contributor fixture user not found.'); }
+    $collection = \\Drupal\\node\\Entity\\Node::create([
+      'type' => 'appverse_repo',
       'title' => '${title}',
-      'uid' => \\$user->id(),
+      'uid' => $user->id(),
       'moderation_state' => '${state}',
-      'field_collection_repo_url' => ['uri' => 'https://github.com/example/${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}'],
+      'field_repo_repo_url' => ['uri' => 'https://github.com/example/${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}'],
     ]);
-    \\$collection->save();
-    for (\\$i = 0; \\$i < ${memberApps}; \\$i++) {
-      \\$app = \\Drupal\\node\\Entity\\Node::create([
+    $collection->save();
+    for ($i = 0; $i < ${memberApps}; $i++) {
+      $app = \\Drupal\\node\\Entity\\Node::create([
         'type' => 'appverse_app',
-        'title' => '${title} App ' . (\\$i + 1),
-        'uid' => \\$user->id(),
+        'title' => '${title} App ' . ($i + 1),
+        'uid' => $user->id(),
         'moderation_state' => '${memberAppState}',
-        'field_appverse_collection' => \\$collection->id(),
+        'field_appverse_repo' => $collection->id(),
       ]);
-      \\$app->save();
+      $app->save();
     }
-    echo \\$collection->id();
+    echo $collection->id();
   `;
 
   // Pass the PHP payload via php:script over stdin to bypass zsh quoting.
@@ -136,7 +136,7 @@ function seedCollection(opts) {
       }
       // Resolve UUID via JSON:API (admin must be logged in for unpublished states).
       return cy.request({
-        url: `/jsonapi/node/appverse_collection?filter[drupal_internal__nid]=${nid}`,
+        url: `/jsonapi/node/appverse_repo?filter[drupal_internal__nid]=${nid}`,
         headers: { Accept: 'application/vnd.api+json' },
         failOnStatusCode: false,
       }).then((res) => {
@@ -169,7 +169,7 @@ describe('Appverse Maintenance Hub', () => {
       });
     });
 
-    it('redirects /appverse/manage-apps to /manage-collections with 301', () => {
+    it('redirects /appverse/manage-apps to /appverse/manage-repos with 301', () => {
       cy.loginUser(ADMIN_EMAIL, ADMIN_PASS);
       cy.request({
         url: '/appverse/manage-apps',
@@ -177,7 +177,7 @@ describe('Appverse Maintenance Hub', () => {
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.be.oneOf([301, 302]);
-        expect(response.headers.location).to.match(/\/appverse\/manage-collections$/);
+        expect(response.headers.location).to.match(/\/appverse\/manage-repos$/);
       });
     });
   });
@@ -218,7 +218,7 @@ describe('Appverse Maintenance Hub', () => {
     });
 
     it('renders the manage-collections page with exposed filters', () => {
-      cy.visit('/appverse/manage-collections', { failOnStatusCode: false });
+      cy.visit('/appverse/manage-repos', { failOnStatusCode: false });
       cy.get('body').then(($body) => {
         if ($body.text().includes('Access denied')) {
           cy.log('Administrator user lacks "administer appverse content" permission; skipping.');
@@ -291,7 +291,7 @@ describe('Appverse Maintenance Hub', () => {
         }
 
         cy.request({
-          url: '/jsonapi/node/appverse_collection?filter[title]=Test%20Notebooks%20Collection',
+          url: '/jsonapi/node/appverse_repo?filter[title]=Test%20Notebooks%20Collection',
           failOnStatusCode: false,
         }).then((collectionResp) => {
           if (collectionResp.status !== 200 || !collectionResp.body.data.length) {
@@ -303,7 +303,7 @@ describe('Appverse Maintenance Hub', () => {
           cy.loginUser(LEGACY_EMAIL, LEGACY_PASS);
           cy.request({
             method: 'POST',
-            url: `/appverse/collection/${collectionNid}/resync`,
+            url: `/appverse/repo/${collectionNid}/resync`,
             failOnStatusCode: false,
             form: true,
             body: {},
@@ -331,7 +331,7 @@ describe('Appverse Maintenance Hub', () => {
       // Seed as admin so JSON:API can read the unpublished Collection while
       // resolving the UUID. Then switch users for the actual flow.
       cy.loginUser(ADMIN_EMAIL, ADMIN_PASS);
-      seedCollection({ title: COLLECTION_TITLE, state: 'draft' });
+      seedRepo({ title: COLLECTION_TITLE, state: 'draft' });
       cy.clearMailpit();
     });
 
@@ -360,12 +360,12 @@ describe('Appverse Maintenance Hub', () => {
       // Assert the admin received the notification.
       cy.waitForEmail({
         to: ADMIN_EMAIL,
-        subject: 'Collection submitted for review',
+        subject: 'Repo submitted for review',
       }).then((message) => {
         cy.assertEmailContent(message, {
-          subject: 'Collection submitted for review',
+          subject: 'Repo submitted for review',
           to: ADMIN_EMAIL,
-          bodyContains: [COLLECTION_TITLE, '/appverse/manage-collections'],
+          bodyContains: [COLLECTION_TITLE, '/appverse/manage-repos'],
         });
 
         // From-address verification: this spec runs at /e2e/ondemand/, so
@@ -398,12 +398,12 @@ describe('Appverse Maintenance Hub', () => {
 
       beforeEach(() => {
         cy.loginUser(ADMIN_EMAIL, ADMIN_PASS);
-        seedCollection({ title: COLLECTION_TITLE, state: 'ready_for_review' });
+        seedRepo({ title: COLLECTION_TITLE, state: 'ready_for_review' });
         cy.clearMailpit();
       });
 
       it('emails the contributor with the reviewer comment', () => {
-        cy.visit('/appverse/manage-collections', { failOnStatusCode: false });
+        cy.visit('/appverse/manage-repos', { failOnStatusCode: false });
         cy.contains('.appverse-hub-card', COLLECTION_TITLE, { timeout: 10000 })
           .within(() => {
             cy.get('.appverse-hub-card__kebab > summary').click();
@@ -436,7 +436,7 @@ describe('Appverse Maintenance Hub', () => {
 
       beforeEach(() => {
         cy.loginUser(ADMIN_EMAIL, ADMIN_PASS);
-        seedCollection({
+        seedRepo({
           title: COLLECTION_TITLE,
           state: 'published',
           memberApps: 2,
@@ -446,7 +446,7 @@ describe('Appverse Maintenance Hub', () => {
       });
 
       it('emails the contributor AND cascade-unpublishes member apps', () => {
-        cy.visit('/appverse/manage-collections', { failOnStatusCode: false });
+        cy.visit('/appverse/manage-repos', { failOnStatusCode: false });
         cy.contains('.appverse-hub-card', COLLECTION_TITLE, { timeout: 10000 })
           .within(() => {
             cy.get('.appverse-hub-card__kebab > summary').click();
@@ -476,7 +476,7 @@ describe('Appverse Maintenance Hub', () => {
         // unpublished nodes (filter status=1 should return zero rows).
         const collectionUuid = Cypress.env('TEST_COLLECTION_UUID');
         cy.request({
-          url: `/jsonapi/node/appverse_app?filter[field_appverse_collection.id]=${collectionUuid}&filter[status]=1`,
+          url: `/jsonapi/node/appverse_app?filter[field_appverse_repo.id]=${collectionUuid}&filter[status]=1`,
           headers: { Accept: 'application/vnd.api+json' },
         }).then((res) => {
           expect(res.body.data).to.have.length(0);
@@ -490,7 +490,7 @@ describe('Appverse Maintenance Hub', () => {
 
     beforeEach(() => {
       cy.loginUser(ADMIN_EMAIL, ADMIN_PASS);
-      seedCollection({
+      seedRepo({
         title: COLLECTION_TITLE,
         state: 'ready_for_review',
         memberApps: 2,
@@ -500,7 +500,7 @@ describe('Appverse Maintenance Hub', () => {
     });
 
     it('emails the contributor once and cascade-publishes member apps', () => {
-      cy.visit('/appverse/manage-collections', { failOnStatusCode: false });
+      cy.visit('/appverse/manage-repos', { failOnStatusCode: false });
       cy.contains('.appverse-hub-card', COLLECTION_TITLE, { timeout: 10000 })
         .within(() => {
           cy.get('form[action*="/publish"] button[type="submit"]')
@@ -511,12 +511,12 @@ describe('Appverse Maintenance Hub', () => {
       // Contributor email landed.
       cy.waitForEmail({
         to: CONTRIBUTOR_EMAIL,
-        subject: 'Your Collection is published',
+        subject: 'Your Repo is published',
       }).then((message) => {
         cy.assertEmailContent(message, {
-          subject: 'Your Collection is published',
+          subject: 'Your Repo is published',
           to: CONTRIBUTOR_EMAIL,
-          bodyContains: [COLLECTION_TITLE, '/appverse/#/collection/'],
+          bodyContains: [COLLECTION_TITLE, '/appverse/#/repo/'],
         });
       });
 
@@ -541,7 +541,7 @@ describe('Appverse Maintenance Hub', () => {
       // Cascade-publish: member apps flipped from draft to published.
       const collectionUuid = Cypress.env('TEST_COLLECTION_UUID');
       cy.request({
-        url: `/jsonapi/node/appverse_app?filter[field_appverse_collection.id]=${collectionUuid}&filter[status]=1`,
+        url: `/jsonapi/node/appverse_app?filter[field_appverse_repo.id]=${collectionUuid}&filter[status]=1`,
         headers: { Accept: 'application/vnd.api+json' },
       }).then((res) => {
         expect(res.body.data).to.have.length(2);

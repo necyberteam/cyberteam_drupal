@@ -33,3 +33,9 @@ services:
       - '@plugin.manager.mail'
       - '@entity_type.manager'
       - '@logger.factory'
+
+  ood_software.legacy_app_add_redirect:
+    class: Drupal\ood_software\EventSubscriber\LegacyAppAddRedirectSubscriber
+    arguments: ['@messenger', '@current_user']
+    tags:
+      - { name: event_subscriber }

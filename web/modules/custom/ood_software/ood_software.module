@@ -149,8 +149,10 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
   // contributors never write revision log messages directly. On the
   // add form especially, the section is the only thing visible in
   // the sidebar and looks like noise.
+  // node_appverse_app_form is gone — AddRepoForm at /appverse/add-repo
+  // replaces the legacy node-add path, and the
+  // LegacyAppAddRedirectSubscriber 301s anyone who hits the old URL.
   $appverseAddForms = [
-    'node_appverse_app_form',
     'node_appverse_app_edit_form',
     'node_appverse_repo_form',
     'node_appverse_repo_edit_form',
@@ -169,22 +171,37 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
     }
   }
 
-  // Alter the node edit form for 'add app' content type.
-  if ($form_id === 'node_appverse_app_edit_form' || $form_id === 'node_appverse_app_form') {
-    // Attach the CSS library that styles the URL+Fetch flex row and the
-    // AJAX preview cards. All styling lives in CSS (not inline style="")
-    // because Drupal's filter system strips style= from #markup values.
+  // Edit-form-only alter. The node-add path is gone — AddRepoForm at
+  // /appverse/add-repo replaces it, and LegacyAppAddRedirectSubscriber 301s
+  // anyone who hits /node/add/appverse_app. The edit-form alter survives
+  // unchanged in spirit: library attach, field-access locks for non-admins,
+  // intro/footer markup, the read-only field_appverse_repo backref, and
+  // formnovalidate on Save.
+  if ($form_id === 'node_appverse_app_edit_form') {
+    // Attach the CSS library used by the field tweaks below.
     $form['#attached']['library'][] = 'ood_software/appverse_app_form';
 
     // Get user roles.
     $user = \Drupal::currentUser();
     $roles = $user->getRoles();
 
-    // Hide fields controlled by repo.
+    // Hide fields controlled by sync (body, README, last-updated). Sync
+    // overwrites these on every refresh; only admins should edit them
+    // directly.
     if (!in_array('administrator', $roles)) {
       $form['body']['#access'] = FALSE;
       $form['field_appverse_readme']['#access'] = FALSE;
       $form['field_appverse_lastupdated']['#access'] = FALSE;
+    }
+    else {
+      // Render the lastupdated unix int as a readable date for admins.
+      // The field is sync-managed, so an editable int widget isn't useful.
+      $node = $form_state->getFormObject()->getEntity();
+      $ts = (int) $node->get('field_appverse_lastupdated')->value;
+      if ($ts > 0) {
+        $form['field_appverse_lastupdated']['widget'][0]['value']['#field_suffix'] =
+          ' (' . \Drupal::service('date.formatter')->format($ts, 'medium') . ')';
+      }
     }
 
     $form['intro_text'] = [
@@ -197,7 +214,7 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
     $form['field_appverse_github_url']['widget'][0]['uri']['#placeholder'] = t('Add the URL of your repo');
     unset($form['field_appverse_github_url']['widget'][0]['uri']['#description']);
 
-    // Lock field_appverse_repo as a read-only autocomplete. The Collection
+    // Lock field_appverse_repo as a read-only autocomplete. The Repo
     // is set automatically by RepoSyncService when the app is saved with
     // a GitHub URL; manually editing it would be overwritten on the next sync.
     if (isset($form['field_appverse_repo'])) {
@@ -211,220 +228,19 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
       }
     }
 
-    // Add prefix/suffix to make the fieldset ajax-replaceable.
-    $form['group_github']['#prefix'] = '<div id="edit-group-github">';
-    $form['group_github']['#suffix'] = '</div>';
-
-    // Hidden field carrying the shape decision from the AJAX preview.
-    // Per-App fields' #states[visible] watches this so they show ONLY
-    // when the shape is 'single_app' (the only branch where the editor
-    // fills in per-App metadata directly; declared Collection apps get
-    // their metadata from per-subpath manifests, and empty/invalid URLs
-    // shouldn't show form fields at all).
-    //
-    // Default value depends on form context:
-    //   - Add form (node_appverse_app_form): empty string → all per-App
-    //     fields hidden at page load. Editor sees only the GitHub URL
-    //     field and Fetch button until the shape is detected.
-    //   - Edit form (node_appverse_app_edit_form): 'single_app' → fields
-    //     visible immediately, since an existing App node is being
-    //     edited and the shape question has already been resolved.
-    //
-    // Place INSIDE group_github so the existing AJAX wrapper re-renders
-    // it with the updated #value on each Fetch click. The :input[name=]
-    // selector finds it by name attribute regardless of DOM nesting.
-    $isEditForm = $form_id === 'node_appverse_app_edit_form';
-    $form['group_github']['appverse_shape_state'] = [
-      '#type' => 'hidden',
-      '#default_value' => $isEditForm ? 'single_app' : '',
-      // The id attribute is what #states selectors target.
-      '#attributes' => [
-        'id' => 'edit-appverse-shape-state',
-        'data-appverse-shape' => $isEditForm ? 'single_app' : '',
-      ],
-    ];
-
-    // Per-App fields that should only show when the AJAX preview
-    // determined the URL points at a single-app inferred repo. For all
-    // other shapes (collection / empty / invalid_url) AND for the
-    // pre-Fetch initial-page-load state, the fields stay hidden — the
-    // editor sees only the URL field until the shape is known.
-    $perAppFields = [
-      'title', 'body', 'field_appverse_readme', 'field_appverse_app_type',
-      'field_appverse_organization', 'field_license', 'field_appverse_license_link',
-      'field_appverse_lastupdated', 'field_appverse_software_implemen',
-      'field_appverse_stars', 'field_appverse_app_subpath',
-      'field_appverse_maintainer_name', 'field_add_implementation_tags',
-      'field_tags', 'field_appverse_repo',
-    ];
-    $perAppStateCondition = [
-      ':input[name="appverse_shape_state"]' => ['value' => 'single_app'],
-    ];
-    // Determine current shape for required-field stripping. Initial page
-    // load = NULL → treat as 'not single_app' → strip required. AJAX
-    // rebuild after Fetch puts the resolved shape in $form_state.
-    $currentShape = $form_state->get('appverse_shape');
-    $isSingleApp = $isEditForm || $currentShape === 'single_app';
-
-    foreach ($perAppFields as $name) {
-      if (isset($form[$name])) {
-        $form[$name]['#states'] = [
-          'visible' => $perAppStateCondition,
-        ];
-        // Strip #required at form-build time when fields are hidden, so
-        // Drupal's FormValidator::doValidateForm — which recurses through
-        // children BEFORE form-level #validate handlers run — never sees
-        // a #required flag on the hidden inputs. Doing this in a validate
-        // handler is too late: by the time it runs, errors are already
-        // set. See [[feedback-drupal-states-quirk]].
-        if (!$isSingleApp) {
-          $form[$name]['#required'] = FALSE;
-          _ood_software_clear_required_recursive($form[$name]);
-        }
-      }
-    }
-
-    // Disable browser HTML5 validation on the Save button. Without this,
-    // Collection submissions trigger "invalid form control is not
-    // focusable" errors when the browser tries to focus hidden #required
-    // inputs (title, field_license, etc.). Drupal's #states[required]
-    // mechanism doesn't help here — it puts data-drupal-states on the
-    // field WRAPPER, but the required="required" attribute is on the
-    // inner <input>, which Drupal's states JS doesn't toggle.
-    // Server-side validation (ood_software__edit_validate) still runs.
+    // Disable browser HTML5 validation on the Save button. Keeps parity with
+    // the legacy alter — Drupal #states[required] doesn't toggle the inner-
+    // input required attribute (see [[feedback-drupal-states-quirk]]), and
+    // server-side validation still runs.
     if (isset($form['actions']['submit'])) {
       $form['actions']['submit']['#attributes']['formnovalidate'] = 'formnovalidate';
     }
-
-    // Bracket the URL field + Fetch button in a flex container so they
-    // sit on the same row. The URL field uses Drupal's #group mechanism
-    // (#group = 'group_github') to render INSIDE the group_github fieldset
-    // even though it lives at top-level in the form tree (needed so that
-    // #parents resolves correctly for form submit). At render time
-    // processGroup() collects children by weight; the button is registered
-    // as a literal child of group_github just below.
-    //
-    // URL field + Fetch button render as a flex row. The button lives at
-    // top-level form (sibling to the URL field) so the two elements
-    // render in adjacent DOM positions — this is what makes the wrapping
-    // <div class="appverse-url-row"> actually contain both at render
-    // time. (Earlier attempt: put the button inside group_github and
-    // rely on the URL field's #group to logically collect them — that
-    // resolved at form-build time but NOT at HTML render time, so the
-    // wrapper opened around the URL field at the top of the form and
-    // closed around the button inside the fieldset, leaving the two
-    // visually disconnected.)
-    //
-    // Styling lives in css/appverse-app-form.css. The button's AJAX
-    // wrapper still targets 'edit-group-github' regardless of where the
-    // button lives in the form tree — AJAX wrapper IDs are DOM-only.
-    // URL field + Fetch button live in the SAME render tree position so
-    // they share a flex row at HTML render time. Approach: declare both
-    // as children of a new top-level container element with #type
-    // 'container' + an inline class. The wrapper's child render order
-    // is guaranteed by #weight.
-    //
-    // Why not just #prefix/#suffix-wrap them as siblings:
-    //   - URL field has #group => 'group_github' in form display config.
-    //     Drupal's Fieldset::processGroup MOVES the field into the
-    //     fieldset's DOM region during render. unset()/NULL on #group
-    //     don't stick — the display config re-asserts it via a process
-    //     callback that runs AFTER hook_form_alter.
-    //   - A container element bypasses the issue: its CHILDREN aren't
-    //     subject to processGroup's relocation, so the URL field renders
-    //     inside our flex container as expected.
-    //
-    // Pull the URL field into the new container by reassignment + unset,
-    // and add the button as the second child. The original #parents on
-    // the URL field stay correct via Drupal's tree-aware processing —
-    // the field's value still lands at $form_state['field_appverse_github_url'].
-    // Weight just below group_github (which contains the AJAX preview)
-    // so the URL+button row renders BEFORE the preview. group_github's
-    // own weight defaults to 9, so anything < 9 works; use 8 to leave
-    // room for future intermediate elements.
-    $form['appverse_url_row'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['appverse-url-row']],
-      '#weight' => 8,
-      'field_appverse_github_url' => $form['field_appverse_github_url'],
-      'lookup_button' => [
-        '#type' => 'button',
-        '#value' => t('Fetch Repo'),
-        '#limit_validation_errors' => array(),
-        '#attributes' => [
-          'class' => ['ml-0'],
-        ],
-        '#ajax' => [
-          'callback' => 'ood_software_fetch_github_data',
-          'wrapper' => 'edit-group-github',
-        ],
-      ],
-    ];
-    // Preserve the URL field's submit data path: even though the field
-    // is now nested under 'appverse_url_row' in the form tree, its value
-    // should still resolve at form_state[field_appverse_github_url].
-    $form['appverse_url_row']['field_appverse_github_url']['#parents'] =
-      ['field_appverse_github_url'];
-    // Set explicit weights inside the container so the URL field renders
-    // FIRST and the button renders second. Without this, the URL field's
-    // original #weight (15, inherited from the form display config) sorts
-    // it AFTER the button (#weight 0 default), reversing the visual order.
-    $form['appverse_url_row']['field_appverse_github_url']['#weight'] = 0;
-    $form['appverse_url_row']['lookup_button']['#weight'] = 1;
-    // Drop the original top-level position so the field doesn't double-
-    // render. We do this AFTER copying the field into the container above
-    // so the copy carries the full field configuration.
-    unset($form['field_appverse_github_url']);
-
-    // Full-width preview container, rendered as its own row inside the
-    // group_github fieldset. The AJAX callback assigns the returned render
-    // array to ['ajax_preview']['content'] (it used to write a #markup
-    // string, but Drupal's filter system strips style= from #markup, so
-    // we now build render arrays whose containers carry class names that
-    // hook into css/appverse-app-form.css). Weighted just after the
-    // button so it appears immediately below the URL + Fetch row,
-    // spanning the full form width.
-    // Preview goes last inside group_github (only sibling is the hidden
-    // appverse_shape_state field, which has weight 0). Any high-ish weight
-    // works; using 100 to leave plenty of room for future siblings.
-    $form['group_github']['ajax_preview'] = [
-      '#type' => 'container',
-      '#weight' => 100,
-      '#attributes' => [
-        'class' => ['appverse-ajax-preview'],
-      ],
-      'content' => [
-        '#markup' => '',
-      ],
-    ];
 
     $form['footer_text'] = [
       '#type' => 'markup',
       '#markup' => '<div class="">' . t('<strong>Thank you for making this available to the community!</strong>') . '</div>',
       '#weight' => 10,
     ];
-
-    // Register a validate handler before the submit handlers so we can
-    // block save when the repo shape is 'empty' or 'invalid_url' (C5).
-    //
-    // Drupal ContentEntityForm relies on its own validateForm() running
-    // to set `entity_validated` in form_state temporary values; without
-    // that, the next buildEntity() flips $entity->setValidationRequired(TRUE),
-    // and Drupal 10.2+'s storage guard throws on save. Setting
-    // $form['actions']['submit']['#validate'] AT ALL bypasses the
-    // form-level default validators — so we must reinstate '::validateForm'
-    // explicitly when we add ours.
-    if (!isset($form['actions']['submit']['#validate'])) {
-      // No button-level validators yet. Set up the chain with our
-      // handler PLUS the form-object's default validateForm so
-      // ContentEntityForm validation still runs.
-      $form['actions']['submit']['#validate'] = ['::validateForm'];
-    }
-    if (!in_array('ood_software__edit_validate', $form['actions']['submit']['#validate'], TRUE)) {
-      array_unshift($form['actions']['submit']['#validate'], 'ood_software__edit_validate');
-    }
-    array_unshift($form['actions']['submit']['#submit'], 'ood_software__edit_submit');
-    $form['actions']['submit']['#submit'][] = 'ood_software__redirect_submit';
   }
 
   // Hide description for link.
@@ -444,76 +260,6 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
   }
 
 }
-
-/**
- * Ajax call to pull in Github data.
- */
-function ood_software_fetch_github_data(array &$form, FormStateInterface $form_state) {
-  $gh = \Drupal::service('ood_software.gh');
-  $url = $form_state->getValue('field_appverse_github_url')[0]['uri'];
-
-  // Per C4: parseUrl() now returns FALSE only for URL-form errors
-  // (bad host, malformed path). All shape decisions (Collection /
-  // single-app / empty) happen here.
-  $fetched = $gh->parseUrl($url);
-
-  // The preview goes into the dedicated full-width container declared in
-  // form_alter ($form['group_github']['ajax_preview']['content']). Each
-  // branch builds a render array (no inline style="" attributes — class
-  // names from css/appverse-app-form.css carry all visual styling, since
-  // Drupal's filter system strips style= from #markup at render time).
-  if (!$fetched) {
-    // parseUrl messengered the URL-form reason. Echo into the preview
-    // container. Stash 'invalid_url' on form_state so Task 5's validation
-    // handler blocks save instead of falling through to default node
-    // entity save (which would create an orphan appverse_app node with
-    // a bad URL).
-    $form_state->set('appverse_shape', 'invalid_url');
-    $form['group_github']['appverse_shape_state']['#value'] = 'invalid_url';
-    $form['group_github']['ajax_preview']['content'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['appverse-preview-frame']],
-      'icon' => [
-        '#markup' => '<i class="bi bi-x-lg appverse-status-err"></i> ',
-      ],
-      'msg' => [
-        '#markup' => t('See above for details on what we found.'),
-      ],
-    ];
-    return $form['group_github'];
-  }
-
-  // Stash the shape on the form_state so the submit handler doesn't
-  // re-fetch. Service-state is request-scoped but the AJAX callback +
-  // submit run as separate Drupal requests.
-  if ($gh->isCollectionRepo()) {
-    $form_state->set('appverse_shape', 'collection');
-    $form['group_github']['appverse_shape_state']['#value'] = 'collection';
-    $form['group_github']['ajax_preview']['content'] = _ood_software_build_collection_preview($gh, $form);
-  }
-  elseif ($gh->isSingleAppRepo()) {
-    $form_state->set('appverse_shape', 'single_app');
-    $form['group_github']['appverse_shape_state']['#value'] = 'single_app';
-    $form['group_github']['ajax_preview']['content'] = _ood_software_build_single_app_preview($gh, $form);
-  }
-  else {
-    // Reached the repo but it has neither appverse.yml nor root manifest.yml.
-    $form_state->set('appverse_shape', 'empty');
-    $form['group_github']['appverse_shape_state']['#value'] = 'empty';
-    $form['group_github']['ajax_preview']['content'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['appverse-preview-frame']],
-      'msg' => [
-        '#markup' => '<p><i class="bi bi-x-lg appverse-status-err"></i> '
-          . t("This repository doesn't contain an appverse.yml at the root or a manifest.yml file — there's nothing for the Appverse to register. See <a href=':bp'>contributor docs</a> for what the catalog expects.", [':bp' => 'https://openondemand.connectci.org/appverse-contributor-documentation'])
-          . '</p>',
-      ],
-    ];
-  }
-
-  return $form['group_github'];
-}
-
 /**
  * Build the preview block for a Declared Collection.
  *
@@ -837,18 +583,32 @@ function _ood_software_build_single_app_preview(\Drupal\ood_software\Plugin\GitH
   $rows[] = '<strong>' . t('Organization:') . '</strong> ' . htmlspecialchars($gh->getOrganization() ?? '');
   $rows[] = '<strong>' . t('Stars:') . '</strong> ' . (int) $gh->getStars();
 
-  // Pre-populate the form fields (existing single-app behavior).
-  $form['body']['widget'][0]['value']['#value'] = $gh->getDescription();
-  $form['field_appverse_readme']['widget'][0]['value']['#value'] = $gh->getReadme();
-  $form['title']['widget'][0]['value']['#value'] = $gh->getRepoName();
-  $form['field_appverse_lastupdated']['widget'][0]['value']['#value'] = $gh->getLastComittedDate();
-  $form['field_appverse_organization']['widget'][0]['target_id']['#value'] = $gh->getOrganization();
-  if ($gh->getLicenseLink()) {
+  // Pre-populate the form fields. Each write is guarded with isset() so this
+  // helper can be safely reused from AddRepoForm at /appverse/add-repo, which
+  // doesn't have the same widget render tree as the legacy node-add form. On
+  // the node-add form all these keys exist, so isset() is a no-op there.
+  if (isset($form['body']['widget'])) {
+    $form['body']['widget'][0]['value']['#value'] = $gh->getDescription();
+  }
+  if (isset($form['field_appverse_readme']['widget'])) {
+    $form['field_appverse_readme']['widget'][0]['value']['#value'] = $gh->getReadme();
+  }
+  if (isset($form['title']['widget'])) {
+    $form['title']['widget'][0]['value']['#value'] = $gh->getRepoName();
+  }
+  if (isset($form['field_appverse_lastupdated']['widget'])) {
+    $form['field_appverse_lastupdated']['widget'][0]['value']['#value'] = $gh->getLastComittedDate();
+  }
+  if (isset($form['field_appverse_organization']['widget'])) {
+    $form['field_appverse_organization']['widget'][0]['target_id']['#value'] = $gh->getOrganization();
+  }
+  if ($gh->getLicenseLink() && isset($form['field_appverse_license_link']['widget'])) {
     $form['field_appverse_license_link']['widget'][0]['uri']['#value'] = $gh->getLicenseLink();
   }
-  if ($gh->getLicense()) {
+  if ($gh->getLicense() && isset($form['field_license']['widget'])) {
     $form['field_license']['widget'][0]['target_id']['#value'] = $gh->getLicense();
   }
+  // app_type loop already guards per-checkbox with isset(), so it's safe across hosts.
   foreach ($gh->getAppTypeIds() as $apptype_id) {
     if (isset($form['field_appverse_app_type']['widget'][$apptype_id])) {
       $form['field_appverse_app_type']['widget'][$apptype_id]['#checked'] = TRUE;
@@ -950,352 +710,6 @@ function ood_software_replace_section_callback(array &$form, FormStateInterface 
   return $form['field_tags_replace'];
 }
 
-/**
- * Form validate handler: block save when AJAX preview detected an empty repo
- * or a malformed URL (C5).
- *
- * Registered via hook_form_alter on appverse_app — runs before submit
- * handlers, so we can call setErrorByName to keep the form open and
- * surface a focused error on the URL field instead of letting Drupal's
- * default node entity save run.
- */
-function ood_software__edit_validate($form, FormStateInterface $form_state) {
-  $shape = $form_state->get('appverse_shape');
-
-  // Fetch-less path: if the AJAX preview never ran (the user pasted a URL
-  // and clicked Save without clicking Fetch first), shape is NULL.
-  // Re-detect shape here so we can still block 'empty' / 'invalid_url'
-  // submissions BEFORE the submit handler chain runs.
-  if ($shape === NULL) {
-    $url = $form_state->getValue('field_appverse_github_url')[0]['uri'] ?? '';
-    if ($url !== '') {
-      $gh = \Drupal::service('ood_software.gh');
-      if ($gh->parseUrl($url)) {
-        if ($gh->isCollectionRepo()) {
-          $shape = 'collection';
-        }
-        elseif ($gh->isSingleAppRepo()) {
-          $shape = 'single_app';
-        }
-        else {
-          $shape = 'empty';
-        }
-      }
-      else {
-        // parseUrl returned FALSE — URL is malformed or not a GitHub URL.
-        // parseUrl already emitted its own messenger error; still stash a
-        // non-NULL shape so this validate handler blocks save rather than
-        // falling through to default node entity save.
-        $shape = 'invalid_url';
-      }
-      $form_state->set('appverse_shape', $shape);
-    }
-    else {
-      // No URL entered at all. Block save with a clear message.
-      $shape = 'invalid_url';
-      $form_state->set('appverse_shape', $shape);
-    }
-  }
-
-  if ($shape === 'empty') {
-    $form_state->setErrorByName('field_appverse_github_url', t("This repository doesn't contain an appverse.yml or manifest.yml — nothing to register. See <a href=':bp'>contributor docs</a>.", [
-      ':bp' => 'https://openondemand.connectci.org/appverse-contributor-documentation',
-    ]));
-  }
-  elseif ($shape === 'invalid_url') {
-    $form_state->setErrorByName('field_appverse_github_url', t('Please enter a valid GitHub repository URL (e.g. https://github.com/owner/repo).'));
-  }
-  elseif (in_array($shape, ['collection', 'single_app'], TRUE)) {
-    // Duplicate-URL gate: this URL is already registered. Two outcomes:
-    //   - Same owner re-submitting their own repo → reject with
-    //     "you already registered this; manage it on your hub". Applies
-    //     to everyone including admins; the kebab Re-sync action is the
-    //     right path to refresh from GitHub, not the add form.
-    //   - Different owner submitting an already-registered repo → reject
-    //     with the cross-owner message. Admins are still allowed
-    //     through (takeover path) since the catalog has no co-maintainer
-    //     concept yet and admin override is the only way to move
-    //     ownership.
-    $currentUser = \Drupal::currentUser();
-    $url = $form_state->getValue('field_appverse_github_url')[0]['uri'] ?? '';
-    if ($url !== '') {
-      $existingIds = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
-        ->accessCheck(FALSE)
-        ->condition('type', 'appverse_repo')
-        ->condition('field_repo_url.uri', $url)
-        ->range(0, 1)
-        ->execute();
-      if (!empty($existingIds)) {
-        $existing = \Drupal::entityTypeManager()->getStorage('node')->load(reset($existingIds));
-        $existingOwnerId = $existing ? (int) $existing->getOwnerId() : 0;
-        $currentUserId = (int) $currentUser->id();
-
-        if ($existing && $existingOwnerId === $currentUserId) {
-          // Self re-submit. Always block, regardless of role.
-          $hubUrl = \Drupal\Core\Url::fromUri('internal:/user/' . $currentUserId . '/my-appverse')->toString();
-          $form_state->setErrorByName(
-            'field_appverse_github_url',
-            t('You\'ve already registered this repository. <a href=":hub">Manage it on your hub</a> — use Re-sync to refresh from GitHub instead of re-submitting.', [
-              ':hub' => $hubUrl,
-            ])
-          );
-        }
-        elseif ($existing && $existingOwnerId !== $currentUserId
-            && !$currentUser->hasPermission('administer appverse content')) {
-          // Cross-owner. Block non-admins; admins go through as before.
-          $ownerName = $existing->getOwner()?->getDisplayName() ?? '(unknown)';
-          $form_state->setErrorByName(
-            'field_appverse_github_url',
-            t('This repo was already submitted by @owner. Ask @owner to add you as a contributor, or contact an Appverse admin if you need to take over maintenance.', [
-              '@owner' => $ownerName,
-            ])
-          );
-        }
-      }
-    }
-  }
-
-  // #required on per-App fields is stripped at form-build time in
-  // hook_form_alter (see the foreach over $perAppFields up there).
-  // Doing it here in a validate handler is too late — Drupal's
-  // FormValidator::doValidateForm walks children BEFORE form-level
-  // #validate handlers run, so #required_but_empty would already be
-  // set and the error message in form_state. See
-  // [[feedback-drupal-states-quirk]] for full rationale.
-}
-
-/**
- * Recursively unset #required on every nested render-array element.
- *
- * Called from ood_software__edit_validate when the form's per-App
- * fields are hidden by shape and shouldn't enforce required.
- */
-function _ood_software_clear_required_recursive(array &$element) {
-  if (isset($element['#required'])) {
-    $element['#required'] = FALSE;
-  }
-  foreach ($element as $key => &$value) {
-    if (is_string($key) && str_starts_with($key, '#')) {
-      continue;
-    }
-    if (is_array($value)) {
-      _ood_software_clear_required_recursive($value);
-    }
-  }
-}
-
-/**
- * Form submit handler — shape-aware dispatch.
- *
- * Branches on $form_state->get('appverse_shape'):
- *   - 'collection': run Batch-driven Collection sync, truncate the
- *     #submit chain (C1) so default node_form_submit + entity save do
- *     NOT create an orphan appverse_app.
- *   - 'single_app' (or NULL fallback): preserve legacy form-fill
- *     behavior — refresh stars / body / readme / lastupdated, then let
- *     the default submit chain save the appverse_app node.
- *   - 'empty' / 'invalid_url': defense-in-depth — clear submit handlers
- *     so no node save runs (validate should have caught this).
- */
-function ood_software__edit_submit($form, FormStateInterface $form_state) {
-  $url = $form_state->getValue('field_appverse_github_url')[0]['uri'] ?? '';
-  $shape = $form_state->get('appverse_shape');
-
-  // Shape re-detection fallback: if the user submitted programmatically
-  // (no AJAX preview, no validate handler), shape may be NULL. Don't
-  // default to single-app — re-detect via parseUrl + isCollectionRepo()
-  // so a Collection URL doesn't accidentally create an orphan app.
-  if ($shape === NULL && $url !== '') {
-    $gh = \Drupal::service('ood_software.gh');
-    if ($gh->parseUrl($url)) {
-      if ($gh->isCollectionRepo()) {
-        $shape = 'collection';
-      }
-      elseif ($gh->isSingleAppRepo()) {
-        $shape = 'single_app';
-      }
-      else {
-        $shape = 'empty';
-      }
-    }
-    else {
-      $shape = 'invalid_url';
-    }
-  }
-
-  if ($shape === 'empty' || $shape === 'invalid_url') {
-    // Validate pass should have caught this and rebuilt the form. If we
-    // got here anyway (e.g. programmatic submission), defense in depth:
-    // setErrorByName + setSubmitHandlers([]) to ensure no node save
-    // happens. addError + return alone is NOT enough — the default
-    // submit handler chain still runs after we return.
-    $form_state->setErrorByName(
-      'field_appverse_github_url',
-      $shape === 'empty'
-        ? t('Cannot register an empty repository.')
-        : t('Cannot register a malformed GitHub URL.')
-    );
-    $form_state->setSubmitHandlers([]);
-    return;
-  }
-
-  if ($shape === 'collection') {
-    _ood_software_handle_collection_submit($url, $form_state);
-    return;
-  }
-
-  // Default: single-app inferred path. Preserve legacy behavior.
-  _ood_software_handle_single_app_submit($form_state);
-}
-
-/**
- * Handle Collection submission: Batch-driven per-app sync.
- *
- * Three phases:
- *   1. Synchronous (cheap): defensive parseUrl + parse appverse.yml,
- *      then resolveRepo() creates/updates the Collection node in
- *      one DB op.
- *   2. Batch queue: one operation per subpath. Each runs in its own
- *      AJAX sub-request via Drupal's progress-bar UI — no Pantheon web
- *      request timeout risk for monorepos with many apps.
- *   3. Handler-chain truncation (C1): setSubmitHandlers([]) prevents
- *      Drupal's default node_form_submit + entity save from running
- *      after we return. Without this, an orphan appverse_app node would
- *      be saved alongside the Collection.
- */
-function _ood_software_handle_collection_submit(string $url, FormStateInterface $form_state) {
-  /** @var \Drupal\ood_software\Plugin\GitHubService $gh */
-  $gh = \Drupal::service('ood_software.gh');
-
-  // Defensive re-fetch — submit is a separate Drupal request from AJAX.
-  // parseUrl + the implicit fetchRepoData inside it are idempotent.
-  $gh->parseUrl($url);
-
-  /** @var \Drupal\ood_software\Service\RepoSyncService $sync */
-  $sync = \Drupal::service('ood_software.repo_sync');
-
-  // Parse the root appverse.yml so we can build repoMetadata and find
-  // the apps[] list.
-  $appverse = NULL;
-  try {
-    $appverse = \Drupal\Component\Serialization\Yaml::decode((string) $gh->getAppverseYmlText());
-  }
-  catch (\Throwable $e) {
-    $form_state->setErrorByName('field_appverse_github_url', t("Could not parse this repo's appverse.yml: @msg", ['@msg' => $e->getMessage()]));
-    $form_state->setSubmitHandlers([]);
-    return;
-  }
-
-  // Build repoMetadata fallback chain — getRepoName() can return NULL
-  // for Collections without a root manifest.yml, so fall back to
-  // appverse.yml's title, then the URL's last segment.
-  preg_match('@^https://github\.com/([^/]+)/([^/]+?)(?:\.git)?/?$@', rtrim($url, '/'), $m);
-  $repoSegment = $m[2] ?? '';
-  $repoMetadata = [
-    'name' => $gh->getRepoName() ?? ($appverse['title'] ?? NULL) ?? $repoSegment,
-    'description' => $gh->getRepoDescription(),
-    'organization' => $gh->getOrganization(),
-    'stars' => $gh->getStars(),
-    'lastCommittedDate' => $gh->getLastComittedDate(),
-    'readme' => $gh->getReadme(),
-  ];
-
-  // Sync: create or update the Collection node.
-  $collection = NULL;
-  try {
-    $collection = $sync->resolveRepo(
-      $gh->getRepoUrl(),
-      $gh->getAppverseYmlText(),
-      $repoMetadata,
-    );
-  }
-  catch (\Throwable $e) {
-    $form_state->setErrorByName('field_appverse_github_url', t('Repo sync failed: @msg', ['@msg' => $e->getMessage()]));
-    \Drupal::logger('ood_software')->error('resolveRepo failed for @url: @msg', [
-      '@url' => $gh->getRepoUrl(),
-      '@msg' => $e->getMessage(),
-    ]);
-    $form_state->setSubmitHandlers([]);
-    return;
-  }
-
-  // Phase 2 (batch): walk apps[] and queue per-subpath operations.
-  $apps = is_array($appverse) ? ($appverse['apps'] ?? []) : [];
-  $subpaths = [];
-  foreach ($apps as $app) {
-    if (isset($app['path']) && is_string($app['path']) && $app['path'] !== '') {
-      $subpaths[] = $app['path'];
-    }
-  }
-
-  if (empty($subpaths)) {
-    \Drupal::messenger()->addWarning(t('Repo registered with zero apps — appverse.yml did not declare any apps[] entries with a path.'));
-    $form_state->setRedirectUrl($collection->toUrl());
-    // Phase 3: still truncate so default entity save doesn't create an app.
-    $form_state->setSubmitHandlers([]);
-    return;
-  }
-
-  $operations = [];
-  foreach ($subpaths as $subpath) {
-    $operations[] = [
-      '_ood_software_batch_sync_app',
-      [
-        (int) $collection->id(),
-        $subpath,
-        $gh->getRepoUrl(),
-        $repoMetadata,
-        // Pass the parsed root yml so per-op doesn't reparse.
-        $appverse,
-      ],
-    ];
-  }
-  // Final operation: reconcile member Apps against the FULL apps[] list.
-  // Each per-subpath op above passes a narrowed apps[] containing only its
-  // own subpath, so reconciliation has to happen here against the
-  // canonical list to delete genuinely-removed apps. Without this final
-  // op, per-subpath ops would either mass-delete other apps (if
-  // reconciliation ran per-op) or never reconcile at all.
-  $operations[] = [
-    '_ood_software_batch_reconcile_apps',
-    [
-      (int) $collection->id(),
-      $gh->getRepoUrl(),
-      $appverse,
-    ],
-  ];
-
-  $batch = [
-    'title' => t('Syncing @n app(s) for @title...', [
-      '@n' => count($operations),
-      '@title' => $collection->getTitle(),
-    ]),
-    'operations' => $operations,
-    'finished' => '_ood_software_batch_repo_synced',
-    'init_message' => t('Starting sync for @title...', ['@title' => $collection->getTitle()]),
-    'progress_message' => t('Syncing app @current of @total...'),
-    'error_message' => t('An error occurred while syncing apps. See the repo page for partial results.'),
-  ];
-  batch_set($batch);
-
-  // Set the redirect target — Drupal's Batch system intercepts this:
-  // it first redirects the user to the progress UI, runs the operations
-  // via AJAX, then redirects HERE on completion.
-  $form_state->setRedirectUrl($collection->toUrl());
-
-  // Phase 3 (C1): truncate the remaining #submit chain so Drupal's
-  // default node_form_submit + entity save never run. Without this we'd
-  // create an orphan appverse_app node alongside the Collection.
-  $form_state->setSubmitHandlers([]);
-}
-
-/**
- * Batch operation: sync one subpath's app.
- *
- * Each call is its own AJAX sub-request — fresh ~30-60s budget on
- * Pantheon. Per-app failures don't cascade; they're collected into
- * $context['results']['failed'] for the finished callback to report.
- */
 function _ood_software_batch_sync_app(int $collectionId, string $subpath, string $repoUrl, array $repoMetadata, array $parsedRootYml, &$context) {
   try {
     $collection = \Drupal::entityTypeManager()->getStorage('node')->load($collectionId);
@@ -1410,43 +824,6 @@ function _ood_software_batch_repo_synced($success, $results, $operations) {
       '@details' => implode('; ', $details),
     ]));
   }
-}
-
-/**
- * Handle single-app submission: legacy form-fill behavior.
- *
- * Cron's AppverseAppUpdater retro-promotes this app into an inferred
- * Collection on the next cycle via resolveRepo (no appverse.yml,
- * falls through to applyInferred).
- */
-function _ood_software_handle_single_app_submit(FormStateInterface $form_state) {
-  /** @var \Drupal\ood_software\Plugin\GitHubService $gh */
-  $gh = \Drupal::service('ood_software.gh');
-  $url = $form_state->getValue('field_appverse_github_url')[0]['uri'] ?? '';
-  if ($url === '' || !$gh->parseUrl($url)) {
-    return;
-  }
-
-  $lastupdated = $form_state->getValue('field_appverse_lastupdated')[0]['value'] ?? NULL;
-
-  // Always refresh stars.
-  $form_state->setValue('field_appverse_stars', [['value' => $gh->getStars()]]);
-
-  if ($lastupdated != $gh->getLastComittedDate()) {
-    $form_state->setValue('body', [['format' => 'markdown', 'value' => $gh->getDescription()]]);
-    $form_state->setValue('field_appverse_readme', [['format' => 'markdown', 'value' => $gh->getDescription()]]);
-    $form_state->setValue('field_appverse_lastupdated', [['value' => $gh->getLastComittedDate()]]);
-  }
-}
-
-/**
- * Form submit handler to redirect to user's my-appverse page.
- */
-function ood_software__redirect_submit($form, FormStateInterface $form_state) {
-  $current_user = \Drupal::currentUser();
-  $user_id = $current_user->id();
-  $url = \Drupal\Core\Url::fromUri('internal:/user/' . $user_id . '/my-appverse');
-  $form_state->setRedirectUrl($url);
 }
 
 /**

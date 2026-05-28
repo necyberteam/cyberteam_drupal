@@ -141,3 +141,11 @@ ood_software.repo_delete_confirm:
         type: entity:node
   requirements:
     _custom_access: '\Drupal\ood_software\Controller\AppverseHubController::ownerOrAdminAccess'
+
+ood_software.add_repo:
+  path: '/appverse/add-repo'
+  defaults:
+    _form: '\Drupal\ood_software\Form\AddRepoForm'
+    _title: 'Add an Appverse repo'
+  requirements:
+    _permission: 'submit appverse repo'

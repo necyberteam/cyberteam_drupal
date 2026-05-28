@@ -1,98 +1,84 @@
 /**
- * Add Repository form — Phase 1.6 + 1.7 shape branching.
+ * AddRepoForm — dedicated /appverse/add-repo submission flow.
  *
- * Covers the AJAX preview + Batch submit flow on /node/add/appverse_app,
- * with particular focus on the Phase 1.7 hidden-required-field bug:
- * when shape !== single_app, per-App fields are hidden by #states[visible]
- * AND must NOT trigger "Name of your App field is required" server-side
- * errors on submit. Fix: strip #required at form-build time in
- * hook_form_alter (not from a validate handler — too late).
- * See feedback-drupal-states-quirk memory.
+ * Covers the URL-stage form, the dup-URL gate, permission check, and the
+ * legacy /node/add/appverse_app redirect. Happy-path submits (declared +
+ * inferred) require a server-side GitHub fixture and are deferred per
+ * Phase 1.7 Task 52 — marked `.skip` until that lands.
+ *
+ * Replaces the legacy node-add Cypress spec (Phase 1.6 / 1.7 shape
+ * branching). The Phase 1.7 hidden-required-field bug it covered was a
+ * symptom of the legacy form's #states wiring; AddRepoForm doesn't have
+ * the same shape — fields appear stage-by-stage instead of being toggled.
  */
 
 const ADMIN_EMAIL = 'administrator@amptesting.com';
 const ADMIN_PASS = 'b8QW]X9h7#5n';
 
-const URL_COLLECTION = 'https://github.com/Sweet-and-Fizzy/appverse-example-collection';
-const URL_SINGLEAPP = 'https://github.com/OSC/bc_osc_abaqus';
-const URL_EMPTY = 'https://github.com/github/docs';
+const URL_INPUT = 'input[name="repo_url"]';
+const FETCH_BUTTON = 'input[type="submit"][value="Fetch repo"]';
 
-const URL_INPUT = 'input[name="field_appverse_github_url[0][uri]"]';
-const TITLE_INPUT = 'input[name="title[0][value]"]';
-const FETCH_BUTTON = ':button:contains("Fetch Repo"), input[type="submit"][value="Fetch Repo"]';
-const SAVE_BUTTON = ':button:contains("Save"), input[type="submit"][value="Save"]';
+describe('AddRepoForm — Phase 1.9 dedicated submit form', () => {
+  // ----- Legacy redirect (Phase 1.9 Task 3) -----
 
-describe('Add Repository form — Phase 1.6 + 1.7 shape branching', () => {
-  beforeEach(() => {
+  it('301-redirects /node/add/appverse_app to /appverse/add-repo', () => {
     cy.loginUser(ADMIN_EMAIL, ADMIN_PASS);
-    cy.visit('/node/add/appverse_app', { failOnStatusCode: false });
+    cy.request({
+      url: '/node/add/appverse_app',
+      followRedirect: false,
+    }).then((response) => {
+      expect(response.status).to.eq(301);
+      expect(response.redirectedToUrl).to.include('/appverse/add-repo');
+    });
   });
 
-  // ----- Initial state -----
+  // ----- Permission gate -----
 
-  it('hides per-App fields on initial page load (before any URL is fetched)', () => {
+  it('serves the form to users with submit-appverse-repo permission', () => {
+    cy.loginUser(ADMIN_EMAIL, ADMIN_PASS);
+    cy.visit('/appverse/add-repo');
     cy.get(URL_INPUT).should('be.visible');
     cy.get(FETCH_BUTTON).should('be.visible');
-    cy.get(TITLE_INPUT).should('not.be.visible');
-    cy.get('[data-drupal-selector="edit-field-license-0-target-id"]').should('not.be.visible');
-    cy.get('[data-drupal-selector="edit-field-appverse-app-type"]').should('not.be.visible');
+    cy.contains(/Paste the GitHub URL/).should('be.visible');
   });
 
-  // ----- Layout regression (Phase 1.7) -----
-
-  it('renders URL field and Fetch button on the same row, no absolute positioning', () => {
-    cy.get('.appverse-url-row').then(($row) => {
-      // Dump the HTML for diagnosis.
-      cy.task('log', '.appverse-url-row HTML:\n' + $row[0].outerHTML.slice(0, 1500));
-      cy.task('log', '.appverse-url-row direct children: ' +
-        Array.from($row[0].children).map((c) => `<${c.tagName}.${c.className}>`).join(' '));
-    });
-    cy.get('.appverse-url-row input').then(($url) => {
-      cy.get('.appverse-url-row .button').then(($btn) => {
-        const urlBottom = $url[0].getBoundingClientRect().bottom;
-        const btnBottom = $btn[0].getBoundingClientRect().bottom;
-        expect(Math.abs(urlBottom - btnBottom), 'URL field and Fetch button share baseline')
-          .to.be.lessThan(8);
-        expect(getComputedStyle($url[0]).position).to.not.equal('absolute');
-        expect(getComputedStyle($btn[0]).position).to.not.equal('absolute');
-      });
+  it('403s the form for anonymous visitors', () => {
+    cy.clearCookies();
+    cy.request({
+      url: '/appverse/add-repo',
+      followRedirect: false,
+      failOnStatusCode: false,
+    }).then((response) => {
+      // 403 directly, or 302 to login (Drupal's default for anonymous access denied).
+      expect([302, 403]).to.include(response.status);
     });
   });
 
-  it('has formnovalidate on the Save button (Phase 1.7 client-side fix)', () => {
-    cy.get(SAVE_BUTTON).first().should('have.attr', 'formnovalidate');
+  // ----- URL stage validation -----
+
+  it('rejects an empty URL with the field-required error', () => {
+    cy.loginUser(ADMIN_EMAIL, ADMIN_PASS);
+    cy.visit('/appverse/add-repo');
+    cy.get(FETCH_BUTTON).click();
+    cy.contains(/required/i).should('be.visible');
   });
 
-  // ----- THE PHASE 1.7 REGRESSION -----
+  it('rejects an unparseable URL with a friendly error', () => {
+    cy.loginUser(ADMIN_EMAIL, ADMIN_PASS);
+    cy.visit('/appverse/add-repo');
+    cy.get(URL_INPUT).type('https://example.com/not-a-github-repo');
+    cy.get(FETCH_BUTTON).click();
+    // AddRepoForm::submitFetch sets an error via setErrorByName + setRebuild.
+    cy.contains(/could not parse|not a GitHub repository/i, { timeout: 30000 }).should('be.visible');
+  });
 
-  // REGRESSION TEST for the bug found on 2026-05-18 (Phase 1.7): Drupal's
-  // server-side required-field validators ran against #required fields
-  // that were hidden by #states[visible]. The form rejected the submit
-  // with "Name of your App field is required" + similar for App Type
-  // and License. Fix: hook_form_alter now strips #required at
-  // form-build time on per-App fields when shape !== single_app.
-  // Build-time strip is REQUIRED because Drupal's FormValidator walks
-  // children before form-level #validate handlers, so unsetting in a
-  // validate handler is too late. See [[feedback-drupal-states-quirk]].
-  it('submits a Collection URL WITHOUT errors on hidden required fields', () => {
-    cy.get(URL_INPUT).type(URL_COLLECTION);
-    cy.get(FETCH_BUTTON).first().click();
-    // AJAX returns the preview. Wait for the Collection preview frame.
-    cy.contains(/Declared Collection|Appverse Example Collection/i, { timeout: 30000 })
-      .should('be.visible');
-    // Now Save. NO "field is required" messages should appear.
-    cy.get(SAVE_BUTTON).first().click();
-    cy.get('body').then(($body) => {
-      const text = $body.text();
-      // Log the full error region so failure output is diagnostic.
-      cy.log('Body excerpt:', text.slice(0, 500));
-    });
-    cy.contains(/Name of your App.*required/i).should('not.exist');
-    cy.contains(/App Type.*required/i).should('not.exist');
-    cy.contains(/License.*required/i).should('not.exist');
-    // Drupal's ood_software__redirect_submit handler sends the editor to
-    // /user/<uid>/my-apps after a successful Collection sync. Also accept
-    // /batch (legacy redirect) or /collection/... (direct redirect).
-    cy.url({ timeout: 30000 }).should('match', /\/(batch|collection|my-apps)\b/);
+  // ----- Happy paths (deferred per Phase 1.7 Task 52) -----
+
+  it.skip('previews a declared (multi-app) repo and walks to confirm', () => {
+    // Requires server-side GitHub fixture wiring; deferred per Phase 1.7 Task 52.
+  });
+
+  it.skip('previews an inferred (single-app) repo and submits synchronously', () => {
+    // Requires server-side GitHub fixture wiring; deferred per Phase 1.7 Task 52.
   });
 });
