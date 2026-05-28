@@ -1365,3 +1365,44 @@ main a:focus:not(.btn) {
 .page-node-12067 .tt-top-blocks {
   width: 33%
 }
+
+.events-recorded-tips-tricks .grid {
+  display: grid;
+  position: relative;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  .views-field-field-video {
+    .field__item {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      padding-top: 56.25%;
+    }
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.events-recorded-tips-tricks .grid,
+.events-upcoming-tips-tricks .grid {
+  border-bottom: 2px solid var(--header-gray);
+  padding-bottom: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.events-recorded-tips-tricks .grid:last-child,
+.events-upcoming-tips-tricks .grid:last-child {
+  border: 0;
+}
+
+.events-recorded-tips-tricks .grid > div:first-child {
+  grid-column: 1 / -1;
+}
