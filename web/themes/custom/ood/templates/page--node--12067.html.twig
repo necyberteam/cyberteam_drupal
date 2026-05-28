@@ -1,0 +1,62 @@
+{% extends "page.html.twig" %}
+
+{% block main_wrapper_classes %}
+  {% set main_wrapper_classes = "main-content col-12 mx-auto" %}
+
+  <div class="row">
+    {% if page.primary_sidebar or page.secondary_sidebar %}
+    <div class="{{ main_wrapper_classes }}">
+      {{ page.view_type_buttons }}
+      {{ page.drupal_tabs }}
+      {{ page.exposed_filters }}
+      {{ page.tags_page_resources }}
+      {{ page.tags_page_projects }}
+      {{ page.tags_page_students }}
+      {{ page.tags_page_mentors }}
+      {{ page.tags_page_researchers }}
+      {{ page.tags_page_blog }}
+      {{ page.tags_page_askci }}
+      {{ page.people_page_card }}
+      {{ page.people_page_list }}
+      {{ page.projects_page }}
+      {{ page.resources_page }}
+      {{ page.blog_page }}
+      {{ page.help_desk }}
+      {{ page.user_profile }}
+      {{ page.content }}
+      {{ page.below_main_content }}
+    </div>
+    {% if page.primary_sidebar %}
+    <aside class="{{ sidebar_first_classes }}" role="complementary">
+    {{ page.primary_sidebar }}
+    </aside>
+    </div>{% endif %}{% if page.secondary_sidebar %}
+    <aside class="order-3 order-lg-3 col-lg-3 col-12 mx-auto" role="complementary">
+    {{ page.secondary_sidebar }}
+    </aside>{% endif %}
+    {% else %}
+    <div class="col-12 mx-auto">
+    {{ page.view_type_buttons }}
+    {{ page.drupal_tabs }}
+    {{ page.exposed_filters }}
+    {{ page.tags_page_mentors }}
+    {{ page.tags_page_askci }}
+    {{ page.tags_page_students }}
+    {{ page.tags_page_researchers }}
+    {{ page.tags_page_resources }}
+    {{ page.tags_page_projects }}
+    {{ page.tags_page_blog }}
+    {{ page.people_page_card }}
+    {{ page.people_page_list }}
+    {{ page.projects_page }}
+    {{ page.resources_page }}
+    {{ page.blog_page }}
+    {{ page.help_desk }}
+    {{ page.user_profile }}
+    {{ page.content }}
+    {{ page.below_main_content }}
+    </div>
+    {% endif %}
+    </main>
+  </div>
+{% endblock %}
