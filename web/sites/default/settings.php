@@ -208,6 +208,15 @@ if (defined(
       ],
     ],
   ];
+
+  // Skip Drupal's default `Vary: Cookie` on anonymous responses so Pantheon's
+  // edge can share one cache entry per URL across visitors with different
+  // non-session cookies (analytics, tracking, etc.). Authenticated users
+  // still bypass the edge because Pantheon recognizes the SESS*/SSESS*
+  // session cookie as cache-busting, so they continue to get personalized
+  // content from origin. See web/core/assets/scaffold/files/default.settings.php
+  // for the upstream documentation of this setting.
+  $settings['omit_vary_cookie'] = TRUE;
 }
 
 $env = getenv('PANTHEON_ENVIRONMENT');
