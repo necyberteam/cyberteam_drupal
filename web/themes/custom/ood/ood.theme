@@ -330,10 +330,17 @@ function ood_preprocess_views_view_fields(array &$variables) {
     'repo_publish' => $csrf->get('appverse/repo/' . $repo->id() . '/publish'),
   ];
 
+  $appCount = count($memberApps);
   $variables['hub_card'] = [
     'shape' => $shape,
     'is_admin' => $is_admin,
     'is_owner' => $is_owner,
+    // Render-time label per the rename plan: "Monorepo" when the repo has
+    // 2+ apps, "Repo" otherwise. Shape (declared/inferred) tracks
+    // provenance and does NOT drive the label — a 1-app declared repo is
+    // still labeled "Repo."
+    'app_count' => $appCount,
+    'label' => $appCount > 1 ? t('Monorepo') : t('Repo'),
     'repo' => [
       'id' => $repo->id(),
       'title' => $repo->label(),
