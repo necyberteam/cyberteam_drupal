@@ -51,7 +51,7 @@ final class AppverseHubDeleteForm extends ConfirmFormBase {
 
   public function buildForm(array $form, FormStateInterface $form_state, ?NodeInterface $node = NULL): array {
     if (!$node || $node->bundle() !== 'appverse_repo') {
-      throw new \InvalidArgumentException('Expected an appverse_collection node.');
+      throw new \InvalidArgumentException('Expected an appverse_repo node.');
     }
     $this->collection = $node;
 
@@ -93,7 +93,7 @@ final class AppverseHubDeleteForm extends ConfirmFormBase {
   }
 
   public function getDescription(): \Drupal\Core\StringTranslation\TranslatableMarkup {
-    return $this->t('This cannot be undone. The Collection and all its apps will be removed from the catalog. You can re-submit the Collection later if you change your mind.');
+    return $this->t('This cannot be undone. The Repo and all its apps will be removed from the catalog. You can re-submit the Repo later if you change your mind.');
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state): void {
@@ -120,7 +120,7 @@ final class AppverseHubDeleteForm extends ConfirmFormBase {
     catch (\Throwable $e) {
       $transaction->rollBack();
       $this->logger->error(
-        'Cascade delete of Collection @nid failed: @msg',
+        'Cascade delete of Repo @nid failed: @msg',
         ['@nid' => $this->collection->id(), '@msg' => $e->getMessage()]
       );
       $this->messenger()->addError($this->t('Could not delete @title — the operation has been rolled back. @msg', [

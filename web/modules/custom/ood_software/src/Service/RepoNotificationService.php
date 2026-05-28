@@ -106,7 +106,7 @@ class RepoNotificationService {
   protected function sendToOwner(NodeInterface $node, string $key, array $extras): void {
     $owner = $node->getOwner();
     if (!$owner || !$owner->getEmail()) {
-      $this->logger->warning('Collection @id has no owner email; skipping @key notification.', [
+      $this->logger->warning('Repo @id has no owner email; skipping @key notification.', [
         '@id' => $node->id(),
         '@key' => $key,
       ]);

@@ -122,7 +122,7 @@ final class AppverseHubRequestChangesForm extends FormBase {
       }
       $app->set('moderation_state', 'draft');
       $app->setNewRevision(TRUE);
-      $app->setRevisionLogMessage('Auto-unpublished via parent Collection request-changes.');
+      $app->setRevisionLogMessage('Auto-unpublished via parent Repo request-changes.');
       $app->save();
       $count++;
     }

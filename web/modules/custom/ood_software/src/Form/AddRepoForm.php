@@ -13,6 +13,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Messenger\MessengerTrait;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
+use Drupal\node\NodeInterface;
 use Drupal\ood_software\Plugin\GitHubService;
 use Drupal\ood_software\Service\RepoSyncService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -142,12 +143,20 @@ final class AddRepoForm extends FormBase {
       return;
     }
 
-    // Dup-URL gate — same semantics as legacy validate (ood_software.module:1015-1050,
-    // which used 'appverse_collection' + 'field_collection_repo_url' pre-rename).
+    // Dup-URL gate. Match all stored variants (case, .git suffix, trailing
+    // slash) so a contributor can't paste a non-canonical URL, miss this
+    // check, and silently take over an existing repo via resolveRepo()'s
+    // downstream canonicalization. MySQL's default collation is
+    // case-insensitive on '=' / 'IN', covering casing variants.
+    $canonicalUrl = $this->github->getRepoUrl();
     $existingIds = $this->entityTypeManager->getStorage('node')->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'appverse_repo')
-      ->condition('field_repo_url.uri', $url)
+      ->condition('field_repo_url.uri', [
+        $canonicalUrl,
+        $canonicalUrl . '/',
+        $canonicalUrl . '.git',
+      ], 'IN')
       ->range(0, 1)
       ->execute();
     if (!empty($existingIds)) {
@@ -333,6 +342,16 @@ final class AddRepoForm extends FormBase {
       return;
     }
 
+    // Defense in depth: check ownership BEFORE resolveRepo() mutates an
+    // existing record. The dup-URL gate in submitFetch already catches
+    // cross-owner takeover, but a URL-variant slip would otherwise let the
+    // sync overwrite the existing repo's metadata before the form-layer
+    // check could abort.
+    $existing = $this->repoSync->findRepoByUrl($url);
+    if ($existing && !$this->assertOwnershipOrAbort($existing, $form_state)) {
+      return;
+    }
+
     $repo = $this->repoSync->resolveRepo($url, $appverseYmlText, $repoMetadata);
 
     // Stamp the contributor as owner if it's a brand-new node.
@@ -391,8 +410,15 @@ final class AddRepoForm extends FormBase {
     // Prefer canonical URL (same rationale as submitDeclared).
     $url = $repoMetadata['repoUrl'] ?? $url;
 
+    // Defense in depth: see comment in submitDeclared.
+    $existing = $this->repoSync->findRepoByUrl($url);
+    if ($existing && !$this->assertOwnershipOrAbort($existing, $form_state)) {
+      return;
+    }
+
     // resolveRepo routes through applyInferred() when appverseYmlText is NULL.
     $repo = $this->repoSync->resolveRepo($url, NULL, $repoMetadata);
+
     if ((int) $repo->getOwnerId() === 0) {
       $repo->setOwnerId((int) $this->currentUser->id());
       $repo->save();
@@ -415,6 +441,38 @@ final class AddRepoForm extends FormBase {
     $form_state->setRedirectUrl(
       Url::fromUri('internal:/user/' . (int) $this->currentUser->id() . '/my-appverse')
     );
+  }
+
+  /**
+   * Check that the current user can claim or update $repo.
+   *
+   * Three legitimate cases:
+   *   - brand-new node (uid 0): caller will stamp ownership next
+   *   - current user already owns it: re-submit (the dup-URL gate normally
+   *     catches this earlier, but a URL-shape mismatch could let it through)
+   *   - admin: cross-owner takeover is allowed for the same reason it is in
+   *     submitFetch — admins are the only way to reassign maintenance
+   *
+   * Any other case is a silent takeover attempt and we abort with the same
+   * error copy the dup-URL gate uses.
+   */
+  private function assertOwnershipOrAbort(NodeInterface $repo, FormStateInterface $form_state): bool {
+    $existingOwnerId = (int) $repo->getOwnerId();
+    $currentUserId = (int) $this->currentUser->id();
+    if ($existingOwnerId === 0 || $existingOwnerId === $currentUserId) {
+      return TRUE;
+    }
+    if ($this->currentUser->hasPermission('administer appverse content')) {
+      return TRUE;
+    }
+    $ownerName = $repo->getOwner()?->getDisplayName() ?? '(unknown)';
+    $this->messenger()->addError($this->t(
+      'This repo was already submitted by @owner. Ask @owner to add you as a contributor, or contact an Appverse admin if you need to take over maintenance.',
+      ['@owner' => $ownerName],
+    ));
+    $form_state->set('stage', 'url');
+    $form_state->setRebuild();
+    return FALSE;
   }
 
 }

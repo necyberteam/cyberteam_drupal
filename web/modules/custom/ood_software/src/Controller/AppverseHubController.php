@@ -73,12 +73,12 @@ final class AppverseHubController extends ControllerBase {
    */
   public function resync(NodeInterface $node): RedirectResponse {
     if ($node->bundle() !== 'appverse_repo') {
-      throw new \InvalidArgumentException('Resync requires an appverse_collection node.');
+      throw new \InvalidArgumentException('Resync requires an appverse_repo node.');
     }
 
     $repoUrl = $node->get('field_repo_url')->first()?->getValue()['uri'] ?? NULL;
     if (empty($repoUrl)) {
-      $this->messenger()->addError($this->t('Cannot re-sync: this Collection has no repo URL.'));
+      $this->messenger()->addError($this->t('Cannot re-sync: this Repo has no repo URL.'));
       return $this->redirectToHub();
     }
 
@@ -117,7 +117,7 @@ final class AppverseHubController extends ControllerBase {
       $existingShape = $node->get('field_repo_shape')->value ?? NULL;
       if ($existingShape === 'declared' && empty($appverseYml)) {
         $this->messenger()->addWarning($this->t(
-          '@title is morphing from a Declared Collection to an Inferred (single-app) Collection — the repo no longer has appverse.yml. If this is unintentional, revert the appverse.yml change in your repo and re-sync.',
+          '@title is morphing from a Declared Repo to an Inferred (single-app) Repo — the repo no longer has appverse.yml. If this is unintentional, revert the appverse.yml change in your repo and re-sync.',
           ['@title' => $node->label()]
         ));
       }
@@ -148,7 +148,7 @@ final class AppverseHubController extends ControllerBase {
         // non-mapping yaml, bad min_version). The Collection is marked
         // stale_invalid; no apps were refreshed.
         $this->messenger()->addError($this->t(
-          'Re-sync of @title failed validation. See the Collection node for details.',
+          'Re-sync of @title failed validation. See the Repo node for details.',
           ['@title' => $title]
         ));
       }
@@ -201,7 +201,7 @@ final class AppverseHubController extends ControllerBase {
    */
   public function toggleRepoPublish(NodeInterface $node): RedirectResponse {
     if ($node->bundle() !== 'appverse_repo') {
-      throw new \InvalidArgumentException('Expected an appverse_collection node.');
+      throw new \InvalidArgumentException('Expected an appverse_repo node.');
     }
 
     $currentlyPublished = (bool) $node->isPublished();
@@ -234,7 +234,7 @@ final class AppverseHubController extends ControllerBase {
       // level, because contributors CAN call this endpoint to unpublish
       // their own Collections (just not republish them).
       if (!$isAdmin) {
-        $this->messenger()->addError($this->t('Only an admin can republish a Collection.'));
+        $this->messenger()->addError($this->t('Only an admin can republish a Repo.'));
         return $this->redirectToHub();
       }
       return $this->applyTransition(
@@ -266,7 +266,7 @@ final class AppverseHubController extends ControllerBase {
     $parent = $node->get('field_appverse_repo')->entity ?? NULL;
     if ($parent && !$parent->isPublished()) {
       $this->messenger()->addWarning($this->t(
-        '@title is in an unpublished Collection — App-level status has no effect on visibility until the Collection is republished.',
+        '@title is in an unpublished Repo — App-level status has no effect on visibility until the Repo is republished.',
         ['@title' => $node->label()]
       ));
     }
@@ -478,7 +478,7 @@ final class AppverseHubController extends ControllerBase {
       }
       $app->set('moderation_state', 'published');
       $app->setNewRevision(TRUE);
-      $app->setRevisionLogMessage('Auto-published via parent Collection first-publish.');
+      $app->setRevisionLogMessage('Auto-published via parent Repo first-publish.');
       if (method_exists($app, 'setValidationRequired')) {
         $app->setValidationRequired(FALSE);
       }
@@ -517,7 +517,7 @@ final class AppverseHubController extends ControllerBase {
       }
       $app->set('moderation_state', 'draft');
       $app->setNewRevision(TRUE);
-      $app->setRevisionLogMessage('Auto-unpublished via parent Collection.');
+      $app->setRevisionLogMessage('Auto-unpublished via parent Repo.');
       if (method_exists($app, 'setValidationRequired')) {
         $app->setValidationRequired(FALSE);
       }

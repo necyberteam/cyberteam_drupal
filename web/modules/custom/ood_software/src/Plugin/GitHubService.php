@@ -227,7 +227,9 @@ class GitHubService {
       $path_parts = explode('/', trim($parsed_url['path'], '/'));
       if (count($path_parts) >= 2) {
         $organization = $path_parts[0];
-        $repository = $path_parts[1];
+        // Strip a trailing .git so duplicate-detection downstream sees the same
+        // canonical owner/name regardless of which variant the user pasted.
+        $repository = preg_replace('/\.git$/', '', $path_parts[1]);
         $this->owner = $organization;
         $this->name = $repository;
 

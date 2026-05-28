@@ -55,7 +55,17 @@ class RepoSyncService {
   }
 
   /**
-   * Load a Collection by its repo URL, or NULL if not yet created.
+   * Public read-only lookup of an existing Repo by URL.
+   *
+   * Use this from callers that need to inspect an existing Repo (e.g.,
+   * for ownership checks) before invoking resolveRepo(), which mutates.
+   */
+  public function findRepoByUrl(string $repoUrl): ?NodeInterface {
+    return $this->loadCollectionByRepoUrl($repoUrl);
+  }
+
+  /**
+   * Load a Repo by its repo URL, or NULL if not yet created.
    */
   protected function loadCollectionByRepoUrl(string $repoUrl): ?NodeInterface {
     $nodeStorage = $this->entityTypeManager->getStorage('node');
@@ -89,7 +99,7 @@ class RepoSyncService {
       ]);
       $node->set('field_repo_last_synced', $this->time->getCurrentTime());
       $node->save();
-      $this->logger->warning('Collection sync failed for @repo: malformed appverse.yml.', ['@repo' => $repoUrl]);
+      $this->logger->warning('Repo sync failed for @repo: malformed appverse.yml.', ['@repo' => $repoUrl]);
       return $node;
     }
 
@@ -206,7 +216,7 @@ class RepoSyncService {
     // Contributor re-submit is the recovery path.
     if (!empty($repoMetadata['isArchived'])) {
       $node->set('moderation_state', 'archived');
-      $this->logger->info('Auto-archiving Collection (@repo) — repo is archived on GitHub.', [
+      $this->logger->info('Auto-archiving Repo (@repo) — repo is archived on GitHub.', [
         '@repo' => $repoUrl,
       ]);
     }
@@ -307,7 +317,7 @@ class RepoSyncService {
         ->execute();
       foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($memberAppIds) as $memberApp) {
         if ($memberApp->hasField('moderation_state')) {
-          $this->logger->info('Cascade-archiving App @nid (subpath @sub) — parent Collection @repo is archived on GitHub.', [
+          $this->logger->info('Cascade-archiving App @nid (subpath @sub) — parent Repo @repo is archived on GitHub.', [
             '@nid' => $memberApp->id(),
             '@sub' => $memberApp->get('field_appverse_app_subpath')->value ?? '',
             '@repo' => $repoUrl,
@@ -902,7 +912,7 @@ class RepoSyncService {
     // Contributor re-submit is the recovery path.
     if (!empty($repoMetadata['isArchived'])) {
       $node->set('moderation_state', 'archived');
-      $this->logger->info('Auto-archiving Collection (@repo) — repo is archived on GitHub.', [
+      $this->logger->info('Auto-archiving Repo (@repo) — repo is archived on GitHub.', [
         '@repo' => $repoUrl,
       ]);
     }
