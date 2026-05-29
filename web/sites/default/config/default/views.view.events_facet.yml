@@ -4,12 +4,14 @@ status: true
 dependencies:
   config:
     - field.storage.eventinstance.domain_access
+    - field.storage.eventinstance.field_events_slide_deck
     - field.storage.eventinstance.field_video
     - search_api.index.events
   module:
     - access_misc
     - better_exposed_filters
     - datetime_range
+    - file
     - rest
     - search_api
     - serialization
@@ -8778,14 +8780,14 @@ display:
             trim: false
             preserve_tags: ''
             html: false
-          element_type: ''
+          element_type: div
           element_class: ''
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: true
+          element_default_classes: false
           empty: ''
           hide_empty: false
           empty_zero: false
@@ -8976,6 +8978,77 @@ display:
             display_methods:
               domain:
                 display_method: label
+        field_events_slide_deck:
+          id: field_events_slide_deck
+          table: search_api_datasource_events_entity_eventinstance
+          field: field_events_slide_deck
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: eventinstance
+          plugin_id: search_api_field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: file_default
+          settings:
+            use_description_as_link_text: false
+          group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
         nothing_1:
           id: nothing_1
           table: views
@@ -8988,7 +9061,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"tt-recorded-text\">\r\n  {{ title }}\r\n  {{ speakers }}\r\n  {{ event_summary }}\r\n</div>"
+            text: "<div class=\"tt-recorded-text\">\r\n  <div>\r\n    {{ title }} \r\n    {% if speakers %}\r\n      <span class=\"pdf-slide-deck\">{{ field_events_slide_deck }}</span>\r\n    {% endif %}\r\n  </div>\r\n  <div>{{ speakers }}</div>\r\n  <p>{{ event_summary }}</p>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -9509,6 +9582,7 @@ display:
         - 'config:facets.facet.recorded_tips_tricks_event_affiliation'
         - 'config:facets.facet.recorded_tips_tricks_tags'
         - 'config:field.storage.eventinstance.domain_access'
+        - 'config:field.storage.eventinstance.field_events_slide_deck'
         - 'config:field.storage.eventinstance.field_video'
         - 'config:search_api.index.events'
         - 'search_api_list:events'
@@ -11798,7 +11872,7 @@ display:
         type: some
         options:
           offset: 0
-          items_per_page: 3
+          items_per_page: 4
       exposed_form:
         type: bef
         options:

@@ -6,6 +6,7 @@ dependencies:
     - field.field.eventinstance.default.domain_access
     - field.field.eventinstance.default.field_event_speakers
     - field.field.eventinstance.default.field_event_virtual_meeting_link
+    - field.field.eventinstance.default.field_events_slide_deck
     - field.field.eventinstance.default.field_location
     - field.field.eventinstance.default.field_post_survey_email_text
     - field.field.eventinstance.default.field_post_survey_reminder_sent
@@ -24,6 +25,7 @@ dependencies:
     - content_moderation
     - datetime_range
     - field_group
+    - file
     - link
     - media_library
     - text
@@ -36,7 +38,7 @@ third_party_settings:
       label: 'Email on approval '
       region: content
       parent_name: ''
-      weight: 26
+      weight: 12
       format_type: details
       format_settings:
         classes: ''
@@ -53,7 +55,7 @@ third_party_settings:
       label: 'Email near event end'
       region: content
       parent_name: ''
-      weight: 27
+      weight: 14
       format_type: details
       format_settings:
         classes: ''
@@ -70,7 +72,7 @@ third_party_settings:
       label: 'Email sent on registration'
       region: content
       parent_name: ''
-      weight: 25
+      weight: 10
       format_type: details
       format_settings:
         classes: ''
@@ -95,19 +97,19 @@ content:
     third_party_settings: {  }
   date:
     type: daterange_default
-    weight: 1
+    weight: 0
     region: content
     settings: {  }
     third_party_settings: {  }
   domain_access:
     type: options_buttons
-    weight: 26
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }
   field_event_speakers:
     type: string_textfield
-    weight: 14
+    weight: 9
     region: content
     settings:
       size: 60
@@ -115,15 +117,22 @@ content:
     third_party_settings: {  }
   field_event_virtual_meeting_link:
     type: link_default
-    weight: 13
+    weight: 8
     region: content
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
+  field_events_slide_deck:
+    type: file_generic
+    weight: 4
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
   field_location:
     type: text_textfield
-    weight: 12
+    weight: 7
     region: content
     settings:
       size: 60
@@ -139,14 +148,14 @@ content:
     third_party_settings: {  }
   field_post_survey_reminder_sent:
     type: number
-    weight: 28
+    weight: 15
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_post_survey_sent:
     type: number
-    weight: 27
+    weight: 13
     region: content
     settings:
       placeholder: ''
@@ -177,7 +186,7 @@ content:
     third_party_settings: {  }
   field_registration:
     type: link_default
-    weight: 28
+    weight: 16
     region: content
     settings:
       placeholder_url: ''
@@ -209,20 +218,20 @@ content:
     third_party_settings: {  }
   field_video:
     type: media_library_widget
-    weight: 2
+    weight: 3
     region: content
     settings:
       media_types: {  }
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 4
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 3
+    weight: 5
     region: content
     settings:
       display_label: true
