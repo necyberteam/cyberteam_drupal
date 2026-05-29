@@ -10,6 +10,14 @@
 
 describe("Events API v2.3", () => {
 
+  // The v2.3 "upcoming events" filter is applied server-side in the site's
+  // configured timezone (America/New_York). Compute the comparison date in that
+  // same timezone rather than UTC, otherwise the test flakes between local
+  // midnight and UTC midnight, rejecting a same-day event as if it were past.
+  const SITE_TIMEZONE = 'America/New_York';
+  const siteToday = () =>
+    new Date().toLocaleDateString('en-CA', { timeZone: SITE_TIMEZONE });
+
   it("returns correct structure with expected fields", () => {
     cy.request('/api/2.3/events')
       .then((response) => {
@@ -36,7 +44,7 @@ describe("Events API v2.3", () => {
   });
 
   it("defaults to upcoming events only", () => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = siteToday();
 
     cy.request('/api/2.3/events')
       .then((response) => {
@@ -136,7 +144,9 @@ describe("Events API v2.3", () => {
   });
 
   it("supports beginning_date_relative parameter", () => {
-    const today = new Date().toISOString().split('T')[0];
+    // beginning_date_relative=today is resolved server-side in the site
+    // timezone, so compare against the site's today rather than UTC.
+    const today = siteToday();
 
     cy.request('/api/2.3/events?beginning_date_relative=today')
       .then((response) => {
