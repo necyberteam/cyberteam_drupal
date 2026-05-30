@@ -132,13 +132,17 @@ final class AddRepoForm extends FormBase {
   public function submitFetch(array &$form, FormStateInterface $form_state): void {
     $url = trim((string) $form_state->getValue('repo_url'));
 
+    // submitFetch runs in the submit phase (it advances stage via setRebuild
+    // rather than firing the final submit), so use messenger()->addError
+    // instead of $form_state->setErrorByName — the latter throws
+    // LogicException because form validation has already finished.
     if (!$this->github->parseUrl($url)) {
-      $form_state->setErrorByName('repo_url', $this->t('We could not parse @url as a GitHub repository.', ['@url' => $url]));
+      $this->messenger()->addError($this->t('We could not parse @url as a GitHub repository.', ['@url' => $url]));
       $form_state->setRebuild();
       return;
     }
     if ($this->github->getIsArchived()) {
-      $form_state->setErrorByName('repo_url', $this->t('This repo is archived on GitHub. Archived repos cannot be submitted.'));
+      $this->messenger()->addError($this->t('This repo is archived on GitHub. Archived repos cannot be submitted.'));
       $form_state->setRebuild();
       return;
     }
@@ -173,8 +177,7 @@ final class AddRepoForm extends FormBase {
       elseif ($existingOwnerId === $currentUserId) {
         // Self re-submit — always block, regardless of role.
         $hubUrl = Url::fromUri('internal:/user/' . $currentUserId . '/my-appverse')->toString();
-        $form_state->setErrorByName(
-          'repo_url',
+        $this->messenger()->addError(
           $this->t('You\'ve already registered this repository. <a href=":hub">Manage it on your hub</a> — use Re-sync to refresh from GitHub instead of re-submitting.', [':hub' => $hubUrl]),
         );
         $form_state->setRebuild();
@@ -183,8 +186,7 @@ final class AddRepoForm extends FormBase {
       elseif (!$this->currentUser->hasPermission('administer appverse content')) {
         // Cross-owner non-admin — block.
         $ownerName = $existing->getOwner()?->getDisplayName() ?? '(unknown)';
-        $form_state->setErrorByName(
-          'repo_url',
+        $this->messenger()->addError(
           $this->t('This repo was already submitted by @owner. Ask @owner to add you as a contributor, or contact an Appverse admin if you need to take over maintenance.', ['@owner' => $ownerName]),
         );
         $form_state->setRebuild();
@@ -204,7 +206,7 @@ final class AddRepoForm extends FormBase {
 
     // Shape detection.
     if ($this->github->isEmptyRepo()) {
-      $form_state->setErrorByName('repo_url', $this->t('This repo has neither a root <code>appverse.yml</code> nor a root <code>manifest.yml</code>. Nothing to register.'));
+      $this->messenger()->addError($this->t('This repo has neither a root <code>appverse.yml</code> nor a root <code>manifest.yml</code>. Nothing to register.'));
       $form_state->setRebuild();
       return;
     }

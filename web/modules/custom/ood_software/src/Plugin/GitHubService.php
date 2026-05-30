@@ -233,8 +233,13 @@ class GitHubService {
         $this->owner = $organization;
         $this->name = $repository;
 
-        // If valid GitHub URL, fetch data.
-        $this->fetchRepoData();
+        // If valid GitHub URL, fetch data. A FALSE return means the GraphQL
+        // call failed (repo not found, private, rate-limited, auth issue);
+        // surface as a parse failure so the form shows the standard
+        // "could not parse" error rather than running on stale state.
+        if ($this->fetchRepoData() === FALSE) {
+          return FALSE;
+        }
 
         // Don't short-circuit on shape — caller checks isCollectionRepo() /
         // isSingleAppRepo() / isEmptyRepo() to decide what to do.
@@ -325,7 +330,25 @@ class GitHubService {
 
     // Parse JSON first, then sanitize specific content fields.
     // Running Xss::filter() on raw JSON corrupts embedded HTML attributes.
-    $this->data = json_decode($response->getBody()->getContents(), TRUE)['data']['repository'];
+    $decoded = json_decode($response->getBody()->getContents(), TRUE);
+
+    // GitHub GraphQL returns 200 OK with {errors: [...]} for soft failures
+    // (repo not found, private repo, rate limit, auth issues). Treat any
+    // missing data.repository as a failed fetch so downstream getters
+    // don't trip null-offset warnings and the form short-circuits to a
+    // friendly "could not parse" error.
+    if (!is_array($decoded) || empty($decoded['data']['repository'])) {
+      $errMsg = is_array($decoded) && !empty($decoded['errors'][0]['message'])
+        ? $decoded['errors'][0]['message']
+        : 'no repository data returned';
+      $this->logger->warning(
+        'GitHub GraphQL did not return repository data for @owner/@name: @err',
+        ['@owner' => $this->owner, '@name' => $this->name, '@err' => $errMsg]
+      );
+      $this->data = NULL;
+      return FALSE;
+    }
+    $this->data = $decoded['data']['repository'];
 
     $this->isArchived = $this->data['isArchived'];
     $this->stars = $this->data['stargazerCount'];
@@ -359,7 +382,7 @@ class GitHubService {
     if ($manifest_text === NULL) {
       $this->manifestData = FALSE;
       $this->logger->info('Repository @repo has no root manifest.yml; caller will decide shape.', ['@repo' => $this->owner . '/' . $this->name]);
-      return;
+      return TRUE;
     }
 
     $this->manifestData = Yaml::decode($manifest_text);
@@ -369,6 +392,7 @@ class GitHubService {
     $this->description = $description_raw ? Xss::filterAdmin($description_raw) : '';
     $this->role = $this->manifestData['role'] ?? NULL;
     $this->subcategory = $this->manifestData['subcategory'] ?? NULL;
+    return TRUE;
   }
 
   /**

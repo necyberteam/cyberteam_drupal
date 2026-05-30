@@ -11,7 +11,11 @@ use Drupal\key\KeyRepositoryInterface;
 use Drupal\node\NodeInterface;
 use Drupal\ood_software\Plugin\GitHubService;
 use Drupal\Tests\UnitTestCase;
+use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -320,6 +324,103 @@ class GitHubServiceTest extends UnitTestCase {
     $reflProp = new \ReflectionProperty($this->service, 'entityTypeManager');
     $reflProp->setAccessible(TRUE);
     $reflProp->setValue($this->service, $etm);
+  }
+
+  /**
+   * Rebuild $this->service with a HTTP client that returns a fixed body.
+   *
+   * Used by the fetchRepoData/parseUrl regression tests below. Returns the
+   * mock logger so tests can assert the warning content.
+   */
+  protected function mockGraphQLResponse(string $body): LoggerInterface {
+    // Guzzle's ClientInterface routes named methods like post() through a
+    // magic __call; PHPUnit can't mock magic methods. Use a real Client
+    // with a MockHandler stack so the actual ->post() path executes
+    // against canned response bytes.
+    $mock = new MockHandler([new Response(200, [], $body)]);
+    $handler = HandlerStack::create($mock);
+    $httpClient = new Client(['handler' => $handler]);
+
+    $key = $this->createMock(\Drupal\key\KeyInterface::class);
+    $key->method('getKeyValue')->willReturn('fake-token');
+    $keyRepository = $this->createMock(KeyRepositoryInterface::class);
+    $keyRepository->method('getKey')->willReturn($key);
+
+    $messenger = $this->createMock(MessengerInterface::class);
+    $logger = $this->createMock(LoggerInterface::class);
+    $loggerFactory = $this->createMock(LoggerChannelFactoryInterface::class);
+    $loggerFactory->method('get')->willReturn($logger);
+    $entityTypeManager = $this->createMock(EntityTypeManagerInterface::class);
+
+    $this->service = new GitHubService(
+      $httpClient,
+      $keyRepository,
+      $messenger,
+      $loggerFactory,
+      $entityTypeManager,
+    );
+    return $logger;
+  }
+
+  /**
+   * GraphQL returns 200 OK with data.repository === null (repo not found,
+   * private, or removed). parseUrl must return FALSE and log a warning
+   * — NOT throw a "Trying to access array offset on null" warning, which
+   * was the bug that caused AddRepoForm to crash for Lissie.
+   *
+   * @covers ::parseUrl
+   * @covers ::fetchRepoData
+   */
+  public function testParseUrlReturnsFalseWhenGraphqlRepositoryIsNull(): void {
+    $logger = $this->mockGraphQLResponse('{"data":{"repository":null}}');
+    $logger->expects($this->once())
+      ->method('warning')
+      ->with(
+        $this->stringContains('GitHub GraphQL did not return repository data'),
+        $this->anything(),
+      );
+
+    $result = $this->service->parseUrl('https://github.com/example/missing-repo');
+    $this->assertFalse($result);
+  }
+
+  /**
+   * GraphQL returns only an errors block (no data key) — typical for auth
+   * failures and rate-limit responses. parseUrl must return FALSE and the
+   * logged warning must include the GitHub error message for ops triage.
+   *
+   * @covers ::parseUrl
+   * @covers ::fetchRepoData
+   */
+  public function testParseUrlReturnsFalseWhenGraphqlErrorsOnly(): void {
+    $body = '{"errors":[{"message":"Could not resolve to a Repository with the name \"example/missing\"."}]}';
+    $logger = $this->mockGraphQLResponse($body);
+    $logger->expects($this->once())
+      ->method('warning')
+      ->with(
+        $this->anything(),
+        $this->callback(function ($context) {
+          return isset($context['@err']) && str_contains((string) $context['@err'], 'Could not resolve to a Repository');
+        }),
+      );
+
+    $result = $this->service->parseUrl('https://github.com/example/missing');
+    $this->assertFalse($result);
+  }
+
+  /**
+   * GraphQL returns malformed JSON (network corruption, partial response).
+   * parseUrl must return FALSE rather than letting json_decode's NULL
+   * cascade into fatal-style warnings.
+   *
+   * @covers ::parseUrl
+   * @covers ::fetchRepoData
+   */
+  public function testParseUrlReturnsFalseWhenResponseIsNotJson(): void {
+    $this->mockGraphQLResponse('not json at all');
+
+    $result = $this->service->parseUrl('https://github.com/example/anything');
+    $this->assertFalse($result);
   }
 
 }
