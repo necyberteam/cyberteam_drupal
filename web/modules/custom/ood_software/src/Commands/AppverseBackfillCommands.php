@@ -193,6 +193,14 @@ class AppverseBackfillCommands extends DrushCommands {
         // resolveRepo with NULL appverse.yml -> applyInferred path.
         $collection = $sync->resolveRepo($repoUrl, NULL, $repoMetadata);
 
+        // Inherit the app's owner so the contributor's maintenance hub
+        // surfaces the new Repo. First-app-wins for monorepo cases —
+        // siblings from earlier iterations keep their existing owner.
+        if ((int) $collection->getOwnerId() === 0) {
+          $collection->setOwnerId((int) $app->getOwnerId());
+          $collection->save();
+        }
+
         // The default moderation state for newly-created Collections is
         // 'draft' (set by RepoSyncService). Legacy apps being
         // backfilled are already published; if we leave the parent
