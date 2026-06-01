@@ -216,8 +216,12 @@
   min-width: 0;
 }
 
-/* Labels: tight, uppercase, secondary color so the inputs read first. */
-.views-exposed-form[data-drupal-selector*="my-appverse"] .form-item label {
+/* Labels: tight, uppercase, secondary color so the inputs read first.
+   The date filter is a fieldset, so normalize its legend to match the
+   plain <label> the other filters use. */
+.views-exposed-form[data-drupal-selector*="my-appverse"] .form-item label,
+.views-exposed-form[data-drupal-selector*="my-appverse"] .appverse-date-filter > legend,
+.views-exposed-form[data-drupal-selector*="my-appverse"] .appverse-date-filter > .fieldset-legend {
   display: block;
   font-size: 0.7rem;
   font-weight: 600;
@@ -225,6 +229,8 @@
   letter-spacing: 0.04em;
   color: #57606a;
   margin-bottom: 0.2rem;
+  padding: 0;
+  border: 0;
 }
 
 /* Inputs + selects: span their grid cell width. */
@@ -234,6 +240,20 @@
 .views-exposed-form[data-drupal-selector*="my-appverse"] select {
   width: 100%;
   box-sizing: border-box;
+}
+
+/* The HTML5 date input doesn't pick up the theme's .form-control chrome the
+   way text/select inputs do, so it looks unstyled next to them. Match the
+   border, padding, and height of the sibling inputs. */
+.views-exposed-form[data-drupal-selector*="my-appverse"] input[type="date"] {
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
 }
 
 /* Action row (Apply + Reset) — keep buttons inline, right-aligned. */
@@ -255,4 +275,17 @@
   .views-exposed-form[data-drupal-selector*="my-appverse"] {
     grid-template-columns: 1fr;
   }
+}
+
+/* Date filter (Last synced): operator select + date input on one line. */
+.views-exposed-form .appverse-date-filter > .fieldset-wrapper,
+.views-exposed-form fieldset.appverse-date-filter > .fieldset-wrapper {
+  display: flex;
+  gap: 0.5rem;
+  align-items: end;
+}
+.views-exposed-form .appverse-date-filter .form-item {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
 }

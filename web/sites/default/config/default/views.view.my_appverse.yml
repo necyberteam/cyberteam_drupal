@@ -485,7 +485,7 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: date
-          operator: '='
+          operator: '>='
           value:
             min: ''
             max: ''
@@ -497,10 +497,13 @@ display:
             operator_id: field_repo_last_synced_value_op
             label: 'Last synced'
             description: ''
-            use_operator: false
+            use_operator: true
             operator: field_repo_last_synced_value_op
-            operator_limit_selection: false
-            operator_list: {  }
+            operator_limit_selection: true
+            operator_list:
+              '<': '<'
+              '>': '>'
+              '=': '='
             identifier: last_synced
             required: false
             remember: false
@@ -544,7 +547,7 @@ display:
             identifier: validation_status
             required: false
             remember: false
-            multiple: true
+            multiple: false
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
@@ -664,7 +667,17 @@ display:
         operator: AND
         groups:
           1: AND
-      relationships: {  }
+      relationships:
+        reverse__node__field_appverse_repo:
+          id: reverse__node__field_appverse_repo
+          table: node_field_data
+          field: reverse__node__field_appverse_repo
+          relationship: none
+          group_type: group
+          admin_label: 'Member apps'
+          entity_type: node
+          plugin_id: entity_reverse
+          required: false
       defaults:
         empty: false
         access: false

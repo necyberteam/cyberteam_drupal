@@ -65,6 +65,61 @@ function ood_software_entity_bundle_field_info(EntityTypeInterface $entity_type,
  * Implements hook_form_alter().
  */
 function ood_software_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  // Exposed date filters render as plain textfields with no format hint.
+  // Upgrade their value/min/max inputs to HTML5 date pickers so the expected
+  // YYYY-MM-DD shape is obvious. Matches the 'date' filter plugin (timestamp
+  // fields are re-typed to it via ood_software_views_data_alter below).
+  if (str_starts_with($form_id, 'views_exposed_form')) {
+    $view = $form_state->getStorage()['view'] ?? NULL;
+    if ($view instanceof \Drupal\views\ViewExecutable) {
+      foreach ($view->filter as $filter) {
+        if (empty($filter->options['exposed'])
+          || $filter->getPluginId() !== 'date'
+          || empty($filter->options['expose']['identifier'])) {
+          continue;
+        }
+        $key = $filter->options['expose']['identifier'];
+        // When the operator is exposed, Views wraps value/min/max in a
+        // fieldset keyed "{identifier}_wrapper"; otherwise the inputs sit
+        // directly under the identifier. Resolve whichever container holds
+        // the leaf inputs.
+        $container = &$form;
+        if (isset($form[$key . '_wrapper'][$key])) {
+          $container = &$form[$key . '_wrapper'];
+        }
+        if (!isset($container[$key])) {
+          continue;
+        }
+        foreach (['value', 'min', 'max'] as $sub) {
+          if (isset($container[$key][$sub]['#type']) && $container[$key][$sub]['#type'] === 'textfield') {
+            $container[$key][$sub]['#type'] = 'date';
+          }
+        }
+        if (isset($container[$key]['#type']) && $container[$key]['#type'] === 'textfield') {
+          $container[$key]['#type'] = 'date';
+        }
+
+        // Relabel the operator options to plain date language. Core's date
+        // filter uses "Is less than" / "Is greater than" which read oddly
+        // against a date; before/after/on are clearer.
+        $op_key = $filter->options['expose']['operator_id'] ?? NULL;
+        if ($op_key && isset($container[$op_key]['#options'])) {
+          $relabel = ['<' => t('Before'), '>' => t('After'), '=' => t('On')];
+          foreach ($relabel as $op => $text) {
+            if (isset($container[$op_key]['#options'][$op])) {
+              $container[$op_key]['#options'][$op] = $text;
+            }
+          }
+        }
+
+        // Add a class so CSS can lay the operator + date input on one line.
+        $container['#attributes']['class'][] = 'appverse-date-filter';
+
+        unset($container);
+      }
+    }
+  }
+
   // Alter the node edit form for 'add software' content type.
   if ($form_id === 'node_appverse_software_edit_form' || $form_id === 'node_appverse_software_form') {
     $form['title']['widget'][0]['value']['#placeholder'] = t('Add title');
@@ -1286,16 +1341,23 @@ function ood_software_views_pre_render(\Drupal\views\ViewExecutable $view) {
 /**
  * Implements hook_views_data_alter().
  *
- * Core's field-storage discovery types appverse_app's
- * field_appverse_software_implemen_target_id as a numeric filter (it's an
- * integer column), so the manage-repos exposed filter renders as a plain
- * number input. Override to the entity_reference filter so it renders as
- * an autocomplete bound to appverse_software titles.
+ * Two manage-repos exposed filters get the wrong filter plugin from core's
+ * field-storage discovery:
+ *
+ * - field_appverse_software_implemen_target_id is an integer column, typed
+ *   as a numeric filter. Override to entity_reference so it renders as an
+ *   autocomplete bound to appverse_software titles.
+ * - field_repo_last_synced is a timestamp column, typed as a numeric filter
+ *   (raw int input). Override to the date filter so it accepts human date
+ *   input; the exposed form-alter then upgrades it to an HTML5 date picker.
  */
 function ood_software_views_data_alter(array &$data) {
   if (isset($data['node__field_appverse_software_implemen']['field_appverse_software_implemen_target_id']['filter'])) {
     $data['node__field_appverse_software_implemen']['field_appverse_software_implemen_target_id']['filter']['id'] = 'entity_reference';
     $data['node__field_appverse_software_implemen']['field_appverse_software_implemen_target_id']['filter']['entity_type'] = 'node';
+  }
+  if (isset($data['node__field_repo_last_synced']['field_repo_last_synced_value']['filter'])) {
+    $data['node__field_repo_last_synced']['field_repo_last_synced_value']['filter']['id'] = 'date';
   }
 }
 
