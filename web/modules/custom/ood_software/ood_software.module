@@ -879,6 +879,12 @@ function _ood_software_batch_repo_synced($success, $results, $operations) {
       '@details' => implode('; ', $details),
     ]));
   }
+
+  // The per-subpath app saves in this batch each marked the cache dirty via
+  // hook. Progressive (browser) batch usually flushes on each request's
+  // kernel.terminate, but flush once more here so the final state — after the
+  // last subpath and any reconcile-delete — is guaranteed to be on disk.
+  \Drupal::service('ood_software.appverse_cache')->flushIfDirty();
 }
 
 /**

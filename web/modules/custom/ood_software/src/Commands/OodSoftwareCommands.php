@@ -5,6 +5,7 @@ namespace Drupal\ood_software\Commands;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\key\KeyRepositoryInterface;
 use Drupal\ood_software\Plugin\GitHubService;
+use Drupal\ood_software\Service\AppverseCacheService;
 use Drupal\ood_software\Service\RepoSyncService;
 use Drush\Commands\DrushCommands;
 use GuzzleHttp\ClientInterface;
@@ -51,6 +52,13 @@ class OodSoftwareCommands extends DrushCommands {
   protected $githubService;
 
   /**
+   * The Appverse cache service.
+   *
+   * @var \Drupal\ood_software\Service\AppverseCacheService
+   */
+  protected $appverseCache;
+
+  /**
    * Constructs an OodSoftwareCommands object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -63,14 +71,17 @@ class OodSoftwareCommands extends DrushCommands {
    *   The Collection sync service.
    * @param \Drupal\ood_software\Plugin\GitHubService $github_service
    *   The GitHub service.
+   * @param \Drupal\ood_software\Service\AppverseCacheService $appverse_cache
+   *   The Appverse cache service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, KeyRepositoryInterface $key_repository, ClientInterface $http_client, RepoSyncService $repo_sync, GitHubService $github_service) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, KeyRepositoryInterface $key_repository, ClientInterface $http_client, RepoSyncService $repo_sync, GitHubService $github_service, AppverseCacheService $appverse_cache) {
     parent::__construct();
     $this->entityTypeManager = $entity_type_manager;
     $this->keyRepository = $key_repository;
     $this->httpClient = $http_client;
     $this->repoSync = $repo_sync;
     $this->githubService = $github_service;
+    $this->appverseCache = $appverse_cache;
   }
 
   /**
@@ -171,6 +182,10 @@ class OodSoftwareCommands extends DrushCommands {
         }
       }
     }
+
+    // One-shot drush invocations may not dispatch kernel.terminate, so the
+    // hook-marked dirty flag could otherwise sit until cron. Flush now.
+    $this->appverseCache->flushIfDirty();
   }
 
   /**
