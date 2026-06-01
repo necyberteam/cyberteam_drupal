@@ -244,6 +244,11 @@ class AppverseBackfillCommands extends DrushCommands {
     $skipped = count($results['skipped'] ?? []);
     $failed = count($results['failed'] ?? []);
     \Drupal::messenger()->addStatus("Backfill complete. Linked: $linked. Skipped: $skipped. Failed: $failed.");
+
+    // The per-item saves above each marked the cache dirty via hook. Batch
+    // operations may not dispatch kernel.terminate the way a web request does,
+    // so flush explicitly here — once, after the whole backfill settles.
+    \Drupal::service('ood_software.appverse_cache')->flushIfDirty();
   }
 
 }
