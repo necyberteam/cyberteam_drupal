@@ -1271,3 +1271,31 @@ function ood_software_menu_local_tasks_alter(&$data, $route_name, \Drupal\Core\C
   }
 }
 
+/**
+ * Implements hook_views_pre_render().
+ *
+ * The per-row preprocess attaches appverse_hub too, but on an empty result
+ * set it never runs and the exposed-form filter grid loses its CSS.
+ */
+function ood_software_views_pre_render(\Drupal\views\ViewExecutable $view) {
+  if ($view->id() === 'my_appverse') {
+    $view->element['#attached']['library'][] = 'ood_software/appverse_hub';
+  }
+}
+
+/**
+ * Implements hook_views_data_alter().
+ *
+ * Core's field-storage discovery types appverse_app's
+ * field_appverse_software_implemen_target_id as a numeric filter (it's an
+ * integer column), so the manage-repos exposed filter renders as a plain
+ * number input. Override to the entity_reference filter so it renders as
+ * an autocomplete bound to appverse_software titles.
+ */
+function ood_software_views_data_alter(array &$data) {
+  if (isset($data['node__field_appverse_software_implemen']['field_appverse_software_implemen_target_id']['filter'])) {
+    $data['node__field_appverse_software_implemen']['field_appverse_software_implemen_target_id']['filter']['id'] = 'entity_reference';
+    $data['node__field_appverse_software_implemen']['field_appverse_software_implemen_target_id']['filter']['entity_type'] = 'node';
+  }
+}
+

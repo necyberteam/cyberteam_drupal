@@ -632,7 +632,7 @@ display:
             identifier: software
             required: false
             remember: false
-            multiple: true
+            multiple: false
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
@@ -650,6 +650,16 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          sub_handler: 'default:node'
+          sub_handler_settings:
+            target_bundles:
+              appverse_software: appverse_software
+            sort:
+              field: title
+              direction: ASC
+            auto_create: false
+            auto_create_bundle: ''
+          widget: autocomplete
       filter_groups:
         operator: AND
         groups:

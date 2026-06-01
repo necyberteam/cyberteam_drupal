@@ -32,7 +32,7 @@
   <header class="appverse-hub-card__header">
     <div class="appverse-hub-card__title-row">
       <h3 class="appverse-hub-card__title">
-        <a href="/appverse/#/{% if is_declared %}repo/{% endif %}{{ c.slug }}">
+        <a href="/appverse/#/repo/{{ c.slug }}">
           {{ c.title }}
         </a>
       </h3>
@@ -87,24 +87,27 @@
     </div>
 
     <div class="appverse-hub-card__actions">
-      <a class="btn btn-sm btn-secondary" href="/appverse/#/{% if is_declared %}repo/{% endif %}{{ c.slug }}">{{ 'View in catalog'|t }}</a>
+      <a class="btn btn-sm btn-secondary" href="/appverse/#/repo/{{ c.slug }}">{{ 'View in catalog'|t }}</a>
 
-      {# Contributor transition action: send for review (draft) or re-submit (needs_adjustment). #}
-      {% if c.moderation_state == 'draft' %}
+      {# Contributor transition action: send for review (draft) or
+         re-submit (needs_adjustment). Hidden for admins (appverse_pm) —
+         they ARE the reviewer, so they go straight to Publish below
+         instead of sending their own work for review. #}
+      {% if not hub_card.is_admin and c.moderation_state == 'draft' %}
         <form method="post" action="/appverse/repo/{{ c.id }}/send-for-review?token={{ t.repo_send_for_review }}&destination={{ dest|url_encode }}" style="display:inline">
           <button type="submit" class="btn btn-sm btn-primary">{{ 'Send for review'|t }}</button>
         </form>
-      {% elseif c.moderation_state == 'needs_adjustment' %}
+      {% elseif not hub_card.is_admin and c.moderation_state == 'needs_adjustment' %}
         <form method="post" action="/appverse/repo/{{ c.id }}/send-for-review?token={{ t.repo_send_for_review }}&destination={{ dest|url_encode }}" style="display:inline">
           <button type="submit" class="btn btn-sm btn-primary">{{ 'Re-submit'|t }}</button>
         </form>
       {% endif %}
 
-      {# Admin primary action: when a repo is waiting for review or
-         needs adjustment, surface the cascading Publish (admin-only) as a
-         prominent toolbar button. This is the moderation-transition route,
-         which on FIRST publish also cascades to member apps. #}
-      {% if hub_card.is_admin and (c.moderation_state == 'ready_for_review' or c.moderation_state == 'needs_adjustment') %}
+      {# Admin (appverse_pm) primary action: Publish. Available on every
+         non-published state — draft, ready_for_review, needs_adjustment,
+         and an approved repo that was actively unpublished. On FIRST
+         publish this also cascades to member apps. #}
+      {% if hub_card.is_admin and (c.moderation_state in ['draft', 'ready_for_review', 'needs_adjustment'] or (not c.published and c.moderation_state == 'published')) %}
         <form method="post" action="/appverse/repo/{{ c.id }}/publish?token={{ t.repo_publish }}&destination={{ dest|url_encode }}" style="display:inline">
           <button type="submit" class="btn btn-sm btn-primary">{{ 'Publish'|t }}</button>
         </form>
@@ -166,7 +169,7 @@
         <tbody>
           {% for app in hub_card.apps %}
             <tr class="{{ app.published ? '' : 'is-dimmed' }}">
-              <td><a href="/appverse/#/{{ app.slug }}">{{ app.title }}</a></td>
+              <td><a href="/appverse/#/repo/{{ hub_card.repo.slug }}?app={{ app.slug }}">{{ app.title }}</a></td>
               <td><code>{{ app.subpath ?: '.' }}</code></td>
               <td>{{ app.software ?: '—' }}</td>
               <td>
