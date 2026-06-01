@@ -927,10 +927,10 @@ function ood_software_node_delete(NodeInterface $node) {
 }
 
 function _ood_software_invalidate_appverse_cache(NodeInterface $node) {
-  // Collection inserts/updates must refresh the cache too — the React
-  // widget reads `collections[]` from appverse-data.json, and without
-  // this entry an admin-created Collection would not appear in the
-  // catalog until the next cron run or app touch.
+  // Repo/app/software inserts/updates must refresh the cache — the React
+  // widget reads from appverse-data.json, and without this entry an
+  // admin-created Repo would not appear in the catalog until the next
+  // cron run or app touch.
   if (in_array($node->bundle(), ['appverse_software', 'appverse_app', 'appverse_repo'])) {
     // Throttle: skip if cache was generated less than 60 seconds ago.
     $cache_file = 'public://appverse-cache/appverse-data.json';
