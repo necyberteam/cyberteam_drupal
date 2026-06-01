@@ -20,6 +20,16 @@ class AppverseCacheService {
 
   protected LoggerInterface $logger;
 
+  /**
+   * Whether an appverse content change in this request needs a cache flush.
+   *
+   * Set by markDirty(); consumed once per request by flushIfDirty() (called
+   * from AppverseCacheFlushSubscriber on kernel.terminate). Holding the flag
+   * on the service lets any number of saves in a request collapse to a single
+   * generate() at the end, replacing the old per-save throttle.
+   */
+  protected bool $dirty = FALSE;
+
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
     protected FileUrlGeneratorInterface $fileUrlGenerator,
@@ -27,6 +37,36 @@ class AppverseCacheService {
     LoggerChannelFactoryInterface $loggerFactory,
   ) {
     $this->logger = $loggerFactory->get('ood_software');
+  }
+
+  /**
+   * Flag that the appverse cache is stale and should be regenerated.
+   *
+   * Cheap and idempotent — only sets a flag. The actual (expensive)
+   * regeneration runs at most once per request via flushIfDirty().
+   */
+  public function markDirty(): void {
+    $this->dirty = TRUE;
+  }
+
+  /**
+   * Regenerate the cache once if it was marked dirty this request.
+   *
+   * Called from the kernel.terminate subscriber after the response is sent,
+   * and explicitly at the end of drush batch/queue runs where terminate may
+   * not fire. Clears the flag first so a generate() failure doesn't loop.
+   *
+   * @return bool
+   *   TRUE if a regeneration ran (whether or not it succeeded), FALSE if the
+   *   cache was not dirty.
+   */
+  public function flushIfDirty(): bool {
+    if (!$this->dirty) {
+      return FALSE;
+    }
+    $this->dirty = FALSE;
+    $this->generate();
+    return TRUE;
   }
 
   /**
