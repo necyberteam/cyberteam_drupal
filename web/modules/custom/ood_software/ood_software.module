@@ -885,7 +885,7 @@ function _ood_software_batch_repo_synced($success, $results, $operations) {
  * Implements hook_node_insert().
  */
 function ood_software_node_insert(NodeInterface $node) {
-  _ood_software_invalidate_appverse_cache($node);
+  _ood_software_mark_appverse_cache_dirty($node);
   if ($node->bundle() === 'appverse_app') {
     $flag_service = \Drupal::service('flag');
     $flag = $flag_service->getFlagById('appverse_apps');
@@ -901,7 +901,7 @@ function ood_software_node_insert(NodeInterface $node) {
  * Implements hook_node_update().
  */
 function ood_software_node_update(NodeInterface $node) {
-  _ood_software_invalidate_appverse_cache($node);
+  _ood_software_mark_appverse_cache_dirty($node);
 
   // Moderation transition notifications. Collections only — App-level
   // transitions intentionally don't fan out so a cascade-publish on N
@@ -923,21 +923,25 @@ function ood_software_node_update(NodeInterface $node) {
  * Implements hook_node_delete().
  */
 function ood_software_node_delete(NodeInterface $node) {
-  _ood_software_invalidate_appverse_cache($node);
+  _ood_software_mark_appverse_cache_dirty($node);
 }
 
-function _ood_software_invalidate_appverse_cache(NodeInterface $node) {
-  // Repo/app/software inserts/updates must refresh the cache — the React
-  // widget reads from appverse-data.json, and without this entry an
-  // admin-created Repo would not appear in the catalog until the next
-  // cron run or app touch.
-  if (in_array($node->bundle(), ['appverse_software', 'appverse_app', 'appverse_repo'])) {
-    // Throttle: skip if cache was generated less than 60 seconds ago.
-    $cache_file = 'public://appverse-cache/appverse-data.json';
-    if (file_exists($cache_file) && (time() - filemtime($cache_file)) < 60) {
-      return;
-    }
-    \Drupal::service('ood_software.appverse_cache')->generate();
+/**
+ * Mark the appverse static cache dirty for appverse content changes.
+ *
+ * Cheap and idempotent: only flags staleness. The single regeneration runs
+ * once per request on kernel.terminate (AppverseCacheFlushSubscriber), so any
+ * number of saves in a request — including a first-publish cascade that saves
+ * a Repo and N member apps — collapse to one generate() against the settled
+ * state. This replaces the old 60-second throttle, which suppressed the
+ * trailing save of such cascades and left the cache stale until cron.
+ *
+ * Covers app saves too: the cache reads live app fields and filters apps by
+ * published status, so per-app edits and publish/unpublish change its output.
+ */
+function _ood_software_mark_appverse_cache_dirty(NodeInterface $node) {
+  if (in_array($node->bundle(), ['appverse_software', 'appverse_app', 'appverse_repo'], TRUE)) {
+    \Drupal::service('ood_software.appverse_cache')->markDirty();
   }
 }
 
