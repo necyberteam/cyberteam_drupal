@@ -45,16 +45,39 @@ class AppverseCacheInvalidationTest extends KernelTestBase {
   }
 
   /**
-   * markDirty() then flushIfDirty() runs exactly one regeneration.
+   * Build a partial mock that stubs only generate() to a fixed result.
+   *
+   * Lets the flag-semantics tests run deterministically without the full
+   * appverse field/bundle config that real generation needs. The real
+   * markDirty()/flushIfDirty() bodies run against the stubbed generate().
+   */
+  protected function cacheWithGenerateResult(bool $result): AppverseCacheService {
+    $mock = $this->getMockBuilder(AppverseCacheService::class)
+      ->setConstructorArgs([
+        $this->container->get('entity_type.manager'),
+        $this->container->get('file_url_generator'),
+        $this->container->get('file_system'),
+        $this->container->get('logger.factory'),
+      ])
+      ->onlyMethods(['generate'])
+      ->getMock();
+    $mock->method('generate')->willReturn($result);
+    return $mock;
+  }
+
+  /**
+   * markDirty() then flushIfDirty() runs exactly one (successful) regeneration.
    *
    * @covers ::markDirty
    * @covers ::flushIfDirty
    */
   public function testMarkThenFlushRunsOnce(): void {
-    $this->cache->markDirty();
-    $this->assertTrue($this->cache->flushIfDirty(), 'First flush after markDirty should regenerate.');
-    // Flag is consumed: a second flush is a no-op.
-    $this->assertFalse($this->cache->flushIfDirty(), 'Second flush without a new mark should be a no-op.');
+    $cache = $this->cacheWithGenerateResult(TRUE);
+    $cache->expects($this->once())->method('generate');
+    $cache->markDirty();
+    $this->assertTrue($cache->flushIfDirty(), 'First flush after markDirty should regenerate and succeed.');
+    // Flag is consumed: a second flush is a no-op (generate not called again).
+    $this->assertFalse($cache->flushIfDirty(), 'Second flush without a new mark should be a no-op.');
   }
 
   /**
@@ -64,11 +87,28 @@ class AppverseCacheInvalidationTest extends KernelTestBase {
    * @covers ::flushIfDirty
    */
   public function testMultipleMarksCollapseToOneFlush(): void {
-    $this->cache->markDirty();
-    $this->cache->markDirty();
-    $this->cache->markDirty();
-    $this->assertTrue($this->cache->flushIfDirty(), 'Flush runs once for N marks.');
-    $this->assertFalse($this->cache->flushIfDirty(), 'No second flush — N marks collapsed to one.');
+    $cache = $this->cacheWithGenerateResult(TRUE);
+    $cache->expects($this->once())->method('generate');
+    $cache->markDirty();
+    $cache->markDirty();
+    $cache->markDirty();
+    $this->assertTrue($cache->flushIfDirty(), 'Flush runs once for N marks.');
+    $this->assertFalse($cache->flushIfDirty(), 'No second flush — N marks collapsed to one.');
+  }
+
+  /**
+   * A failed generate() leaves the flag set so the next flush retries.
+   *
+   * @covers ::flushIfDirty
+   */
+  public function testFailedGenerateKeepsDirtyForRetry(): void {
+    $cache = $this->cacheWithGenerateResult(FALSE);
+    // Two flush attempts: each should call generate() because the first
+    // failure re-set the flag.
+    $cache->expects($this->exactly(2))->method('generate');
+    $cache->markDirty();
+    $this->assertFalse($cache->flushIfDirty(), 'A failed regeneration returns FALSE.');
+    $this->assertFalse($cache->flushIfDirty(), 'Flag stayed set, so the retry attempts generate() again.');
   }
 
   /**

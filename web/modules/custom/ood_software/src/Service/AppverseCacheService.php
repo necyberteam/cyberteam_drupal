@@ -54,18 +54,27 @@ class AppverseCacheService {
    *
    * Called from the kernel.terminate subscriber after the response is sent,
    * and explicitly at the end of drush batch/queue runs where terminate may
-   * not fire. Clears the flag first so a generate() failure doesn't loop.
+   * not fire. Clears the flag before regenerating so a single flush can't
+   * loop, but re-sets it if generate() reports failure so the next flush
+   * opportunity (a later request, the explicit drush/batch caller's next run,
+   * or cron) retries rather than silently dropping the stale state.
    *
    * @return bool
-   *   TRUE if a regeneration ran (whether or not it succeeded), FALSE if the
-   *   cache was not dirty.
+   *   TRUE if a regeneration ran and succeeded, FALSE if the cache was not
+   *   dirty or the regeneration failed (in which case the dirty flag is
+   *   left set for a later retry).
    */
   public function flushIfDirty(): bool {
     if (!$this->dirty) {
       return FALSE;
     }
+    // Clear first: within one request, terminate fires once, so this can't
+    // loop. Re-set on failure so the staleness isn't dropped until cron.
     $this->dirty = FALSE;
-    $this->generate();
+    if (!$this->generate()) {
+      $this->dirty = TRUE;
+      return FALSE;
+    }
     return TRUE;
   }
 

@@ -115,77 +115,86 @@ class OodSoftwareCommands extends DrushCommands {
       ), 0, $e);
     }
 
-    $repoMetadata = [
-      'name' => $this->githubService->getRepoName() ?? $name,
-      'description' => $this->githubService->getRepoDescription(),
-      'organization' => $this->githubService->getOrganization(),
-      'stars' => $this->githubService->getStars(),
-      'lastCommittedDate' => $this->githubService->getLastComittedDate(),
-      'readme' => $this->githubService->getReadme(),
-    ];
-    $collection = $this->repoSync->resolveRepo(
-      $this->githubService->getRepoUrl(),
-      $this->githubService->getAppverseYmlText(),
-      $repoMetadata
-    );
+    // Wrap the sync body in try/finally so the cache flush always runs — even
+    // when the subpath-fetch error path returns early. resolveRepo() below may
+    // already have saved (and dirtied) the Repo node; a one-shot drush command
+    // won't dispatch kernel.terminate, so without the finally a mid-sync
+    // failure would leave the cache dirty-but-unflushed until cron.
+    try {
+      $repoMetadata = [
+        'name' => $this->githubService->getRepoName() ?? $name,
+        'description' => $this->githubService->getRepoDescription(),
+        'organization' => $this->githubService->getOrganization(),
+        'stars' => $this->githubService->getStars(),
+        'lastCommittedDate' => $this->githubService->getLastComittedDate(),
+        'readme' => $this->githubService->getReadme(),
+      ];
+      $collection = $this->repoSync->resolveRepo(
+        $this->githubService->getRepoUrl(),
+        $this->githubService->getAppverseYmlText(),
+        $repoMetadata
+      );
 
-    $this->logger()->success(sprintf(
-      'Collection synced: %s (nid: %d, status: %s, slug: %s)',
-      $collection->getTitle(),
-      $collection->id(),
-      $collection->get('field_repo_validation_st')->value,
-      basename($collection->toUrl()->toString())
-    ));
+      $this->logger()->success(sprintf(
+        'Collection synced: %s (nid: %d, status: %s, slug: %s)',
+        $collection->getTitle(),
+        $collection->id(),
+        $collection->get('field_repo_validation_st')->value,
+        basename($collection->toUrl()->toString())
+      ));
 
-    // Walk apps[] from the root appverse.yml (when declared) and create
-    // per-subpath app nodes. Per-app metadata is sourced from
-    // <path>/appverse.yml + <path>/manifest.yml.
-    $rootYml = $this->githubService->getAppverseYmlText();
-    if ($rootYml !== NULL) {
-      try {
-        $parsed = \Symfony\Component\Yaml\Yaml::parse($rootYml);
-      }
-      catch (\Throwable $e) {
-        $parsed = NULL;
-      }
-      $apps = is_array($parsed) ? ($parsed['apps'] ?? []) : [];
-      if (is_array($apps) && $apps) {
-        $subpaths = [];
-        foreach ($apps as $entry) {
-          if (is_array($entry) && !empty($entry['path'])) {
-            $cleanPath = trim((string) $entry['path'], '/');
-            if ($cleanPath !== '') {
-              $subpaths[] = $cleanPath;
+      // Walk apps[] from the root appverse.yml (when declared) and create
+      // per-subpath app nodes. Per-app metadata is sourced from
+      // <path>/appverse.yml + <path>/manifest.yml.
+      $rootYml = $this->githubService->getAppverseYmlText();
+      if ($rootYml !== NULL) {
+        try {
+          $parsed = \Symfony\Component\Yaml\Yaml::parse($rootYml);
+        }
+        catch (\Throwable $e) {
+          $parsed = NULL;
+        }
+        $apps = is_array($parsed) ? ($parsed['apps'] ?? []) : [];
+        if (is_array($apps) && $apps) {
+          $subpaths = [];
+          foreach ($apps as $entry) {
+            if (is_array($entry) && !empty($entry['path'])) {
+              $cleanPath = trim((string) $entry['path'], '/');
+              if ($cleanPath !== '') {
+                $subpaths[] = $cleanPath;
+              }
             }
           }
-        }
-        if ($subpaths) {
-          try {
-            $subpathFiles = $this->githubService->fetchAppSubpaths($subpaths);
-          }
-          catch (\Throwable $e) {
-            $this->logger()->error(sprintf(
-              'Failed to fetch app subpaths for %s: %s',
+          if ($subpaths) {
+            try {
+              $subpathFiles = $this->githubService->fetchAppSubpaths($subpaths);
+            }
+            catch (\Throwable $e) {
+              $this->logger()->error(sprintf(
+                'Failed to fetch app subpaths for %s: %s',
+                $this->githubService->getRepoUrl(),
+                $e->getMessage()
+              ));
+              return;
+            }
+            $appNodes = $this->repoSync->applyDeclaredApps(
+              $collection,
+              $parsed,
+              $subpathFiles,
               $this->githubService->getRepoUrl(),
-              $e->getMessage()
-            ));
-            return;
+              $repoMetadata
+            );
+            $this->logger()->success(sprintf('Synced %d apps from declared apps[]', count($appNodes)));
           }
-          $appNodes = $this->repoSync->applyDeclaredApps(
-            $collection,
-            $parsed,
-            $subpathFiles,
-            $this->githubService->getRepoUrl(),
-            $repoMetadata
-          );
-          $this->logger()->success(sprintf('Synced %d apps from declared apps[]', count($appNodes)));
         }
       }
     }
-
-    // One-shot drush invocations may not dispatch kernel.terminate, so the
-    // hook-marked dirty flag could otherwise sit until cron. Flush now.
-    $this->appverseCache->flushIfDirty();
+    finally {
+      // One-shot drush invocations may not dispatch kernel.terminate, so the
+      // hook-marked dirty flag could otherwise sit until cron. Flush now —
+      // in finally so the early-return error path above is also covered.
+      $this->appverseCache->flushIfDirty();
+    }
   }
 
   /**
