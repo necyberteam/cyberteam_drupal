@@ -442,7 +442,7 @@ function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitH
     ],
     'apps_stack' => $appsStack,
     'footer_note' => [
-      '#markup' => '<p class="text-muted"><em>' . t('Submitting registers the repo and creates @n app(s) via the sync. Per-app metadata is read from each subpath\'s `appverse.yml` (with `manifest.yml` as fallback) — edit those files in the repo to change app data.', ['@n' => $appCount]) . '</em></p>',
+      '#markup' => '<p class="text-muted"><em>' . t('Submitting registers the repo and creates @n app(s) via the sync. App metadata comes from your repo\'s <code>appverse.yml</code> files — edit them and re-sync to change app data. See the contributor documentation for details.', ['@n' => $appCount]) . '</em></p>',
     ],
   ];
 

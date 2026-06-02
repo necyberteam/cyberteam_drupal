@@ -1,5 +1,53 @@
 /* AJAX preview cards rendered inside the appverse_app node-add form. */
 
+/* The whole Add-a-Repo form is wrapped in #add-repo-form-wrapper (the AJAX
+   replace target). Scope the link + actions polish to it so nothing leaks. */
+
+/* Breathing room below the form so it doesn't end flush against the
+   footer / viewport bottom. Covers the add-repo AJAX form
+   (#add-repo-form-wrapper) and the appverse_app edit form (Drupal gives
+   the latter a form-id-derived class). */
+#add-repo-form-wrapper,
+form.node-appverse-app-edit-form,
+form.node-appverse-app-form {
+  padding-bottom: 3rem;
+}
+
+/* Intro / inline links use the appverse-red brand color instead of the
+   theme's default (off-brand) link color. */
+#add-repo-form-wrapper a {
+  color: #c91235;
+}
+
+/* Inline <code> (the preview "Repo: <url>" and the appverse.yml/manifest.yml
+   mentions) — mute to the secondary gray instead of Bootstrap's default
+   bright pink (#e83e8c), matching the preview card's subpath. */
+#add-repo-form-wrapper code {
+  color: #57606a;
+  background: transparent;
+  font-size: 0.95em;
+}
+#add-repo-form-wrapper a:hover,
+#add-repo-form-wrapper a:focus {
+  color: #a30e2b;
+  text-decoration: underline;
+}
+
+/* Form action buttons (Fetch on the URL stage; Back + Confirm on the
+   preview stage) lay out inline with a consistent gap. Drupal's default
+   .form-actions rendering stacks/spaces them unevenly. */
+#add-repo-form-wrapper .form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+#add-repo-form-wrapper .form-actions .button,
+#add-repo-form-wrapper .form-actions input[type="submit"] {
+  margin: 0;
+}
+
 /* Row containing the GitHub URL field and the Fetch Repo button.
    `position: relative` establishes a positioning context so stray
    theme rules that absolutely-position form submits don't escape

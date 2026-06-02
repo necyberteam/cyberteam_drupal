@@ -44,22 +44,29 @@
         <span class="badge badge-warning">{{ hub_card.is_admin ? 'Unpublished'|t : 'Unpublished — admin must republish'|t }}</span>
       {% endif %}
 
-      {# Moderation state badge: shows where the contributor's submission stands. #}
-      {% set mod_label = {
-        'draft': 'Draft'|t,
-        'ready_for_review': 'Awaiting review'|t,
-        'needs_adjustment': 'Needs changes'|t,
-        'published': 'Approved'|t,
-        'archived': 'Archived'|t,
-      }[c.moderation_state] ?? c.moderation_state %}
-      {% set mod_class = {
-        'draft': 'badge',
-        'ready_for_review': 'badge badge-warning',
-        'needs_adjustment': 'badge badge-error',
-        'published': 'badge badge-success',
-        'archived': 'badge',
-      }[c.moderation_state] ?? 'badge' %}
-      <span class="{{ mod_class }}">{{ mod_label }}</span>
+      {# Moderation state badge: shows where the contributor's submission stands.
+         The 'published' state reads as "Published" (matching the workflow's own
+         state label and the maintainer's mental model of "my app is live").
+         Suppressed in the approved-then-unpublished case — there the
+         "Unpublished" badge above tells the story, and showing "Published"
+         alongside it would contradict. #}
+      {% if not (c.moderation_state == 'published' and not c.published) %}
+        {% set mod_label = {
+          'draft': 'Draft'|t,
+          'ready_for_review': 'Awaiting review'|t,
+          'needs_adjustment': 'Needs changes'|t,
+          'published': 'Published'|t,
+          'archived': 'Archived'|t,
+        }[c.moderation_state] ?? c.moderation_state %}
+        {% set mod_class = {
+          'draft': 'badge',
+          'ready_for_review': 'badge badge-warning',
+          'needs_adjustment': 'badge badge-error',
+          'published': 'badge badge-success',
+          'archived': 'badge',
+        }[c.moderation_state] ?? 'badge' %}
+        <span class="{{ mod_class }}">{{ mod_label }}</span>
+      {% endif %}
 
       {% if c.has_validation_issues %}
         <span class="badge badge-error" title="{{ c.validation_st }}">{{ 'Has validation errors'|t }}</span>

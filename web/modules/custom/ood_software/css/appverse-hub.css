@@ -1,5 +1,11 @@
 /* Appverse Maintenance Hub */
 
+/* Breathing room below the last card so the management page doesn't end
+   flush against the footer / viewport bottom. */
+.view-my-appverse {
+  padding-bottom: 3rem;
+}
+
 /* Wrapper around all rows. The view's html_list style would wrap each
    row in <li>, but our row template returns a self-contained <article>;
    we just need the outer list to look like a vertical stack. */
@@ -157,6 +163,14 @@
 }
 .appverse-hub-apps-table th { background: #f6f8fa; font-weight: 600; }
 .appverse-hub-apps-table tr.is-dimmed { opacity: 0.6; }
+/* Subpath column renders inside <code>. Drupal/Bootstrap default <code> is
+   bright pink (#e83e8c); mute it to the same secondary gray the preview
+   card's subpath uses so it reads as quiet metadata, not an alert. */
+.appverse-hub-apps-table td code {
+  color: #57606a;
+  background: transparent;
+  font-size: 0.95em;
+}
 
 /* Inferred (single-app) card: software shown inline below the header. */
 .appverse-hub-card__inferred-meta {
