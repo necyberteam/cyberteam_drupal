@@ -370,6 +370,9 @@ function ood_preprocess_views_view_fields(array &$variables) {
         'software' => $software ? $software->label() : NULL,
         'published' => $app->isPublished(),
         'slug' => $appSlug,
+        // TRUE exactly for users who can edit this app node — admins (node
+        // admin perms) and the node owner. Gates the inline "Edit app" link.
+        'can_edit' => $app->access('update'),
         'unpublish_token' => $csrf->get('appverse/app/' . $app->id() . '/unpublish'),
       ];
     }, array_values($memberApps)),

@@ -204,6 +204,9 @@
       {% if only_app.software %}
         <span class="appverse-hub-card__software">{{ 'Software'|t }}: {{ only_app.software }}</span>
       {% endif %}
+      {% if only_app.can_edit %}
+        <a href="/node/{{ only_app.id }}/edit" class="btn btn-sm btn-secondary appverse-hub-card__edit-app">{{ 'Edit app'|t }}</a>
+      {% endif %}
     </div>
   {% endif %}
 </article>
