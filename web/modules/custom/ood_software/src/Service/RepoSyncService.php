@@ -576,13 +576,14 @@ class RepoSyncService {
       'appverse_implementation_tags',
       is_array($declaredTags) ? $declaredTags : NULL
     );
-    if (!empty($tagsInfo['resolved'])) {
-      $tagTids = [];
-      foreach ($tagsInfo['resolved'] as $resolved) {
-        $tagTids[] = $resolved['tid'];
-      }
-      $app->set('field_add_implementation_tags', $tagTids);
+    // Always set the field (to the resolved tids, or an empty list when the
+    // app declares no tags or none resolve) so that removing tags from the
+    // appverse.yml clears them on the next sync instead of leaving stale ones.
+    $tagTids = [];
+    foreach (($tagsInfo['resolved'] ?? []) as $resolved) {
+      $tagTids[] = $resolved['tid'];
     }
+    $app->set('field_add_implementation_tags', $tagTids);
     if (!empty($tagsInfo['unresolved'])) {
       $app->set('field_appverse_app_validation_st', 'rejected');
       $existingErrors = $app->get('field_appverse_app_validation_er')->getValue();
@@ -690,24 +691,11 @@ class RepoSyncService {
       $app->set('field_appverse_app_type', [$appTypeTid]);
     }
 
-    // Per-app tags — match-only against the tags vocabulary.
-    // Read from the merged appverse layer so root-inline declarations
-    // are honored. Always set — empty list when YAML omits tags so
-    // removed tags clear.
-    $tags = $appverseLayer['tags'] ?? [];
-    $tagIds = [];
-    if (is_array($tags)) {
-      foreach ($tags as $tagName) {
-        if (!is_string($tagName)) {
-          continue;
-        }
-        $tid = $this->resolveTagTerm(trim($tagName));
-        if ($tid !== NULL) {
-          $tagIds[] = $tid;
-        }
-      }
-    }
-    $app->set('field_add_implementation_tags', $tagIds);
+    // Per-app implementation tags are resolved + written above (against the
+    // appverse_implementation_tags vocabulary, with validation errors for
+    // unresolved values). Do NOT re-resolve them here against the generic
+    // `tags` vocabulary — that was a duplicate write that clobbered the
+    // correct one and silently dropped valid implementation tags.
 
     // Organization term — match-only against appverse_organization, keyed
     // off the GitHub repo owner (the team/lab/center that owns the repo),
