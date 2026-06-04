@@ -7,6 +7,9 @@
   --primary-border-hover: var(--primary-hover);
   --success-hover: #0a6a4c;
   --selected-tag: #232323;
+  --ood-blue: rgb(0, 118, 175);
+  --ood-teal: #00857a;
+  --ood-purple: #686EA7;
   --tw-translate-x: 0;
   --tw-translate-y: 0;
   --tw-rotate: 0;
@@ -16,8 +19,21 @@
   --tw-scale-y: 1;
 }
 
+.bg-ood-purple {
+  background-color: var(--ood-purple);
+}
+.bg-ood-teal {
+  background-color: var(--ood-teal);
+}
+.bg-ood-blue {
+  background-color: var(--ood-blue);
+}
 .bg-header-gray {
   background-color: var(--header-gray);
+}
+
+.border-dashed {
+  border: 1px dashed var(--secondary);
 }
 
 @font-face {
@@ -1344,4 +1360,68 @@ main a.border[href*="/taxonomy/term"],
 main a.border[href*="/tags"],
 main a:focus:not(.btn) {
   text-decoration: none;
+}
+
+@media screen and (min-width: 575px) {
+  .page-node-12067 .tt-top-blocks {
+    width: 33%
+  }
+}
+
+.events-recorded-tips-tricks .grid {
+  display: grid;
+  position: relative;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  .views-field-field-video {
+    .field__item {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      padding-top: 56.25%;
+    }
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .pdf-slide-deck {
+    padding-left: .75rem;
+    a {
+      display: inline-block;
+      height: 18px;
+      width: 30px;
+      background: url('../img/slide-deck.jpg') top left no-repeat;
+      text-indent: -9999px;
+      overflow: hidden;
+    }
+    span:not(.file) {
+      display: none;
+    }
+  }
+}
+
+.events-recorded-tips-tricks .grid,
+.events-upcoming-tips-tricks .grid {
+  border-bottom: 2px solid var(--header-gray);
+  padding-bottom: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.events-recorded-tips-tricks .grid:last-child,
+.events-upcoming-tips-tricks .grid:last-child {
+  border: 0;
+}
+
+.events-recorded-tips-tricks .grid > div:first-child {
+  grid-column: 1 / -1;
+}
+.collapsiblockTitle h2 {
+  color: #000;
 }
