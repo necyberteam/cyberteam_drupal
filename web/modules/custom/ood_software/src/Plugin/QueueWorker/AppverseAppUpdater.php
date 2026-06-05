@@ -7,6 +7,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\ood_software\Plugin\GitHubService;
+use Drupal\ood_software\Service\RepoSyncService;
 
 /**
  * Processes Appverse App nodes to update GitHub data.
@@ -34,6 +35,13 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
   protected $githubService;
 
   /**
+   * The Collection sync service.
+   *
+   * @var \Drupal\ood_software\Service\RepoSyncService
+   */
+  protected $repoSync;
+
+  /**
    * Constructs a new AppverseAppUpdater object.
    *
    * @param array $configuration
@@ -46,11 +54,14 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
    *   The entity type manager.
    * @param \Drupal\ood_software\Plugin\GitHubService $github_service
    *   The GitHub service.
+   * @param \Drupal\ood_software\Service\RepoSyncService $repo_sync
+   *   The Collection sync service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, GitHubService $github_service) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, GitHubService $github_service, RepoSyncService $repo_sync) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->githubService = $github_service;
+    $this->repoSync = $repo_sync;
   }
 
   /**
@@ -62,7 +73,8 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('ood_software.gh')
+      $container->get('ood_software.gh'),
+      $container->get('ood_software.repo_sync')
     );
   }
 
@@ -84,6 +96,25 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
       $this->githubService->getData();
       $lastupdated = $node->get('field_appverse_lastupdated')->value;
       $needsSave = FALSE;
+
+      // Resolve the Collection for this repo and attach to the app.
+      $collection = $this->repoSync->resolveRepo(
+        $this->githubService->getRepoUrl(),
+        $this->githubService->getAppverseYmlText(),
+        [
+          'name' => $this->githubService->getRepoName(),
+          'description' => $this->githubService->getRepoDescription(),
+          'organization' => $this->githubService->getOrganization(),
+          'stars' => $this->githubService->getStars(),
+          'lastCommittedDate' => $this->githubService->getLastComittedDate(),
+          'readme' => $this->githubService->getReadme(),
+        ]
+      );
+      $currentCollectionId = $node->get('field_appverse_repo')->target_id;
+      if ((int) $currentCollectionId !== (int) $collection->id()) {
+        $node->set('field_appverse_repo', $collection->id());
+        $needsSave = TRUE;
+      }
 
       // Always update stars.
       $currentStars = $node->get('field_appverse_stars')->value;

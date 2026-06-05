@@ -1,0 +1,147 @@
+{#
+/**
+ * @file
+ * Maintenance-hub card for one appverse_repo (views.view.my_appverse).
+ *
+ * @var hub - structured row data from _ood_software_build_hub_row().
+ *
+ * Header cluster, left→right:
+ *   [status badge] | [pencil — inferred+can_edit] | Last sync <ts> [resync]
+ *   | [github] | [catalog] | [owner name][email — admin] | [lifecycle icons]
+ */
+#}
+<article class="appverse-hub-card state-{{ hub.moderation_state }}">
+  {# Header is a CSS grid with shared column tracks so fields line up across
+     cards: title | last-sync+resync | github | owner | status | actions.
+     Status sits in its own column next to the actions so it always lines up.
+     Each cell always renders (even when empty) to preserve column alignment. #}
+  <header class="appverse-hub-card__header">
+    <h3 class="appverse-hub-card__title appverse-hub-card__cell--title">
+      {# Only published repos appear in the catalog, so don't link to it when
+         this repo isn't visible there. #}
+      {% if hub.published %}
+        <a href="{{ hub.catalog_url }}">{{ hub.title }}</a>
+      {% else %}
+        {{ hub.title }}
+      {% endif %}
+    </h3>
+
+    <div class="appverse-hub-card__cell appverse-hub-card__cell--sync">
+      {% if hub.last_synced %}
+        <span class="appverse-hub-card__last-synced">{{ 'Last sync'|t }} {{ hub.last_synced }}</span>
+      {% endif %}
+      {% if hub.actions.resync %}{{ hub.actions.resync }}{% endif %}
+    </div>
+
+    {# The card title links to the catalog, so a separate catalog icon would be
+       redundant. GitHub is the only remaining header link here. #}
+    <div class="appverse-hub-card__cell appverse-hub-card__cell--github">
+      {% if hub.github_url %}
+        <a href="{{ hub.github_url }}" class="appverse-hub-card__icon-btn" target="_blank" rel="noopener"
+           title="{{ 'View on GitHub'|t }}" aria-label="{{ 'View @t on GitHub'|t({'@t': hub.title}) }}">
+          <i class="bi bi-github" aria-hidden="true"></i>
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="appverse-hub-card__cell appverse-hub-card__cell--owner">
+      {% if hub.owner %}
+        <a href="{{ hub.owner.persona_url }}" class="appverse-hub-card__owner">{{ hub.owner.name }}</a>
+        {% if hub.owner.email %}
+          <a href="mailto:{{ hub.owner.email }}" class="appverse-hub-card__icon-btn"
+             title="{{ 'Email @n'|t({'@n': hub.owner.name}) }}" aria-label="{{ 'Email @n'|t({'@n': hub.owner.name}) }}">
+            <i class="bi bi-envelope" aria-hidden="true"></i>
+          </a>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    <div class="appverse-hub-card__cell appverse-hub-card__cell--status">
+      {% if hub.unpublished_after_publish %}
+        <span class="badge badge-warning">{{ hub.is_admin ? 'Unpublished'|t : 'Unpublished — admin must republish'|t }}</span>
+      {% else %}
+        <span class="badge badge-{{ hub.status.modifier }}">{{ hub.status.label }}</span>
+      {% endif %}
+      {% if hub.has_validation_issues %}
+        <span class="badge badge-error">{{ 'Validation errors'|t }}</span>
+      {% endif %}
+    </div>
+
+    <div class="appverse-hub-card__cell appverse-hub-card__cell--actions">
+      {% if hub.edit_url %}
+        <a href="{{ hub.edit_url }}" class="appverse-hub-card__icon-btn"
+           title="{{ 'Edit'|t }}" aria-label="{{ 'Edit @t'|t({'@t': hub.title}) }}">
+          <i class="bi bi-pencil-square" aria-hidden="true"></i>
+        </a>
+      {% endif %}
+      {% if hub.actions.send_for_review %}{{ hub.actions.send_for_review }}{% endif %}
+      {% if hub.actions.publish %}{{ hub.actions.publish }}{% endif %}
+      {% if hub.actions.unpublish %}{{ hub.actions.unpublish }}{% endif %}
+      {% if hub.actions.request_changes %}
+        <a href="{{ hub.actions.request_changes.url }}" class="appverse-hub-card__icon-btn"
+           title="{{ 'Request changes'|t }}" aria-label="{{ 'Request changes'|t }}">
+          <i class="bi bi-chat-left-text" aria-hidden="true"></i>
+        </a>
+      {% endif %}
+      {% if hub.actions.delete %}
+        <a href="{{ hub.actions.delete.url }}" class="appverse-hub-card__icon-btn appverse-hub-card__icon-btn--danger"
+           title="{{ 'Delete'|t }}" aria-label="{{ 'Delete @t'|t({'@t': hub.title}) }}">
+          <i class="bi bi-trash" aria-hidden="true"></i>
+        </a>
+      {% endif %}
+    </div>
+  </header>
+
+  {% if hub.moderation_state == 'needs_adjustment' and hub.moderation_comment %}
+    <div class="appverse-hub-card__moderation-comment">
+      <strong>{{ 'Admin feedback:'|t }}</strong>
+      <p>{{ hub.moderation_comment }}</p>
+    </div>
+  {% endif %}
+
+  {% if hub.is_monorepo %}
+    <details class="appverse-hub-card__apps">
+      <summary>
+        <i class="bi bi-chevron-right appverse-hub-card__apps-chevron" aria-hidden="true"></i>
+        {{ '@count apps'|t({'@count': hub.app_count}) }}
+      </summary>
+      <table class="appverse-hub-apps-table">
+        <thead>
+          <tr>
+            <th>{{ 'App'|t }}</th>
+            <th>{{ 'Subpath'|t }}</th>
+            <th>{{ 'Software'|t }}</th>
+            <th>{{ 'Status'|t }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for app in hub.apps %}
+            <tr>
+              <td>
+                {# Link to the catalog only when the app is actually visible
+                   there: both the app and its parent repo must be published. #}
+                {% if hub.published and app.published %}
+                  <a href="{{ app.catalog_url }}">{{ app.title }}</a>
+                {% else %}
+                  {{ app.title }}
+                {% endif %}
+              </td>
+              <td><code>{{ app.subpath ?: '.' }}</code></td>
+              <td>{{ app.software ?: '—' }}</td>
+              <td>
+                <span class="badge badge-{{ app.status.modifier }}">{{ app.status.label }}</span>
+                {% if app.edit_url %}
+                  <a href="{{ app.edit_url }}" class="appverse-hub-card__icon-btn"
+                     title="{{ 'Edit'|t }}" aria-label="{{ 'Edit @t'|t({'@t': app.title}) }}">
+                    <i class="bi bi-pencil-square" aria-hidden="true"></i>
+                  </a>
+                {% endif %}
+                {% if app.unpublish_form %}{{ app.unpublish_form }}{% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </details>
+  {% endif %}
+</article>
