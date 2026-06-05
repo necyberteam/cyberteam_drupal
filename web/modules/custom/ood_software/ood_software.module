@@ -40,6 +40,16 @@ function ood_software_theme() {
     'ag_coordinators_block' => $people_grid('ag-coordinators-block'),
     'good_conference_committee_block' => $people_grid('good-committee-block'),
     'tips_tricks_calls_block' => $people_grid('tips-tricks-block'),
+    'appverse_hub' => [
+      'variables' => ['hub' => []],
+      'template' => 'appverse-hub',
+    ],
+    // Module-registered suggestion for the my_appverse fields row. Modules do
+    // not get views-view-fields--<id> filename autodiscovery the way themes do,
+    // so the suggestion must be declared with its base hook to be picked up.
+    'views_view_fields__my_appverse' => [
+      'base hook' => 'views_view_fields',
+    ],
   ];
 }
 
@@ -1337,16 +1347,377 @@ function ood_software_menu_local_tasks_alter(&$data, $route_name, \Drupal\Core\C
 }
 
 /**
- * Implements hook_views_pre_render().
+ * Implements hook_theme_suggestions_views_view_fields_alter().
  *
- * The per-row preprocess attaches appverse_hub too, but on an empty result
- * set it never runs and the exposed-form filter grid loses its CSS.
+ * Adds the views_view_fields__my_appverse suggestion so the module's
+ * views-view-fields--my-appverse.html.twig wins for this view's rows. (Themes
+ * get this suggestion by filename automatically; modules must add it.)
  */
-function ood_software_views_pre_render(\Drupal\views\ViewExecutable $view) {
-  if ($view->id() === 'my_appverse') {
-    $view->element['#attached']['library'][] = 'ood_software/appverse_hub';
+function ood_software_theme_suggestions_views_view_fields_alter(array &$suggestions, array $variables) {
+  $view = $variables['view'] ?? NULL;
+  if ($view instanceof \Drupal\views\ViewExecutable && $view->id() === 'my_appverse') {
+    $suggestions[] = 'views_view_fields__my_appverse';
   }
 }
+
+/**
+ * Implements hook_preprocess_views_view_fields().
+ *
+ * Builds the appverse_hub render element for each my_appverse row. The
+ * views-view-fields--my-appverse.html.twig suggestion prints {{ appverse_hub }}
+ * instead of the default {{ fields }} loop. The previous renderer lived in the
+ * ood theme (ood_preprocess_views_view_fields + a same-named suggestion
+ * template) and was removed in the same change.
+ */
+function ood_software_preprocess_views_view_fields(array &$variables) {
+  if (!isset($variables['view']) || $variables['view']->id() !== 'my_appverse') {
+    return;
+  }
+  $row = $variables['row'] ?? NULL;
+  if (!$row || empty($row->_entity) || $row->_entity->bundle() !== 'appverse_repo') {
+    return;
+  }
+  $repo = $row->_entity;
+
+  $variables['appverse_hub'] = [
+    '#theme' => 'appverse_hub',
+    '#hub' => _ood_software_build_hub_row($repo),
+  ];
+  $meta = _ood_software_hub_cache_meta($repo);
+  $variables['appverse_hub']['#cache']['tags'] = $meta['tags'];
+  $variables['appverse_hub']['#cache']['contexts'] = $meta['contexts'];
+}
+
+/**
+ * Cache tags + contexts for a repo card.
+ *
+ * Tags: the repo, every member app, and the owner USER entity (the admin owner
+ * block renders the owner's name/email, so a rename/re-email must invalidate
+ * the card). Contexts: user.permissions (admin vs not) and user (owner vs not)
+ * branch the output.
+ */
+function _ood_software_hub_cache_meta(\Drupal\node\NodeInterface $repo): array {
+  $tags = $repo->getCacheTags();
+  foreach (_ood_software_hub_member_apps($repo) as $app) {
+    $tags = \Drupal\Core\Cache\Cache::mergeTags($tags, $app->getCacheTags());
+  }
+  // getOwner() is NULL for a deleted author — guard before tagging.
+  if ($ownerAccount = $repo->getOwner()) {
+    $tags = \Drupal\Core\Cache\Cache::mergeTags($tags, $ownerAccount->getCacheTags());
+  }
+  return ['tags' => $tags, 'contexts' => ['user.permissions', 'user']];
+}
+
+/**
+ * Maps an appverse_editorial moderation state to a badge label + modifier.
+ *
+ * Single source of the state→color mapping; used for both repo and app badges.
+ */
+function _ood_software_hub_badge(string $state): array {
+  // Literal t() calls so the labels are extractable for translation.
+  $map = [
+    'published' => ['label' => t('Published'), 'modifier' => 'success'],
+    'ready_for_review' => ['label' => t('Awaiting review'), 'modifier' => 'warning'],
+    'needs_adjustment' => ['label' => t('Needs changes'), 'modifier' => 'error'],
+    'draft' => ['label' => t('Draft'), 'modifier' => 'muted'],
+    'archived' => ['label' => t('Archived'), 'modifier' => 'muted'],
+  ];
+  // Unknown state: pass the raw id through dynamically (genuinely variable).
+  return $map[$state] ?? ['label' => t('@l', ['@l' => ucfirst($state)]), 'modifier' => 'muted'];
+}
+
+/**
+ * Loads the member appverse_app nodes for a repo (indexed query).
+ *
+ * Memoized per repo id for the request: the row builder and the cache-meta
+ * helper both need the member list, and member apps don't change within a
+ * single page render. Avoids a second query + loadMultiple per hub row.
+ */
+function _ood_software_hub_member_apps(\Drupal\node\NodeInterface $repo): array {
+  $memo = &drupal_static(__FUNCTION__, []);
+  $id = (int) $repo->id();
+  if (array_key_exists($id, $memo)) {
+    return $memo[$id];
+  }
+  $ids = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('type', 'appverse_app')
+    ->condition('field_appverse_repo', $id)
+    ->sort('title')
+    ->execute();
+  return $memo[$id] = $ids
+    ? array_values(\Drupal::entityTypeManager()->getStorage('node')->loadMultiple($ids))
+    : [];
+}
+
+/**
+ * Builds a CSRF-protected POST form render array for one hub action.
+ *
+ * The action routes (ood_software.repo_resync etc.) require _csrf_token and
+ * _method POST. We mirror the existing per-URL token mechanism but via a
+ * render-array form rather than a precomputed Twig token string.
+ *
+ * @param string $internalPath
+ *   The route's internal path WITHOUT leading slash, e.g.
+ *   'appverse/repo/12/resync' — the value the csrf_token service signs.
+ * @param string $label
+ *   Visible/aria label for the submit control.
+ * @param string $icon
+ *   Bootstrap-icon class, e.g. 'bi-arrow-clockwise'.
+ * @param string $variant
+ *   Optional modifier class suffix for styling (e.g. 'primary', 'danger').
+ */
+function _ood_software_hub_action_form(string $internalPath, string $label, string $icon, string $variant = ''): array {
+  $token = \Drupal::service('csrf_token')->get($internalPath);
+  $dest = \Drupal::service('path.current')->getPath();
+  $action = '/' . $internalPath . '?token=' . $token . '&destination=' . urlencode($dest);
+  return [
+    '#type' => 'inline_template',
+    '#template' => '<form method="post" action="{{ action }}" class="appverse-hub-card__action-form">'
+      . '<button type="submit" class="appverse-hub-card__icon-btn {{ variant ? "appverse-hub-card__icon-btn--" ~ variant : "" }}" '
+      . 'title="{{ label }}" aria-label="{{ label }}"><i class="bi {{ icon }}" aria-hidden="true"></i></button></form>',
+    '#context' => [
+      'action' => $action,
+      'label' => $label,
+      'icon' => $icon,
+      'variant' => $variant,
+    ],
+    // The CSRF token is minted here at render time. If this fragment were
+    // cached, a stale token would be served and the POST would 403 silently.
+    // max-age 0 bubbles to ancestors, so the whole card (and the view rows)
+    // become uncacheable for render caching — acceptable here because the hub
+    // is authenticated, per-user and access-controlled, so its rows aren't
+    // render-cached for these viewers anyway. (If render caching were ever
+    // wanted, place just the token behind a #lazy_builder, or use the Form API,
+    // which auto-placeholders CSRF tokens.)
+    '#cache' => ['max-age' => 0],
+  ];
+}
+
+/**
+ * Computes the permission-filtered action set for a repo card.
+ */
+function _ood_software_hub_repo_actions(\Drupal\node\NodeInterface $repo, bool $isAdmin, string $state, bool $published): array {
+  $id = $repo->id();
+  $dest = urlencode(\Drupal::service('path.current')->getPath());
+  $actions = [
+    'resync' => _ood_software_hub_action_form('appverse/repo/' . $id . '/resync', t('Re-sync from GitHub'), 'bi-arrow-clockwise'),
+    'send_for_review' => NULL,
+    'publish' => NULL,
+    'unpublish' => NULL,
+    'request_changes' => NULL,
+    'delete' => NULL,
+  ];
+
+  $notPublishedActive = in_array($state, ['draft', 'ready_for_review', 'needs_adjustment'], TRUE)
+    || (!$published && $state === 'published');
+
+  if (!$isAdmin && in_array($state, ['draft', 'needs_adjustment'], TRUE)) {
+    $actions['send_for_review'] = _ood_software_hub_action_form(
+      'appverse/repo/' . $id . '/send-for-review',
+      $state === 'draft' ? t('Send for review') : t('Re-submit'),
+      'bi-send', 'primary'
+    );
+  }
+  if ($isAdmin && $notPublishedActive) {
+    $actions['publish'] = _ood_software_hub_action_form('appverse/repo/' . $id . '/publish', t('Publish'), 'bi-check-circle', 'primary');
+  }
+  if ($published) {
+    $actions['unpublish'] = _ood_software_hub_action_form('appverse/repo/' . $id . '/unpublish', t('Unpublish'), 'bi-slash-circle');
+  }
+  if ($isAdmin && in_array($state, ['ready_for_review', 'needs_adjustment'], TRUE)) {
+    $actions['request_changes'] = ['url' => '/appverse/repo/' . $id . '/request-changes?destination=' . $dest];
+  }
+  if ($isAdmin) {
+    $actions['delete'] = ['url' => '/appverse/repo/' . $id . '/delete?destination=' . $dest];
+  }
+  return $actions;
+}
+
+/**
+ * Builds the structured hub-card data for one appverse_repo row.
+ */
+function _ood_software_build_hub_row(\Drupal\node\NodeInterface $repo): array {
+  $memberApps = _ood_software_hub_member_apps($repo);
+  $appCount = count($memberApps);
+
+  $shape = $repo->get('field_repo_shape')->value ?? 'inferred';
+  $moderationState = $repo->hasField('moderation_state')
+    ? ($repo->get('moderation_state')->value ?? 'draft')
+    : 'draft';
+
+  $aliasManager = \Drupal::service('path_alias.manager');
+  $repoAlias = $aliasManager->getAliasByPath('/node/' . $repo->id());
+  $repoSlug = ltrim(preg_replace('#^.*/(repo/)?#', '', $repoAlias), '/');
+  if ($repoSlug === '') {
+    $repoSlug = (string) $repo->id();
+  }
+
+  $repoLinkValues = $repo->get('field_repo_url')->getValue();
+  $githubUrl = $repoLinkValues[0]['uri'] ?? '';
+
+  $validationSt = $repo->get('field_repo_validation_st')->value ?? '';
+  $lastSyncedTs = $repo->get('field_repo_last_synced')->value ?? NULL;
+
+  $isInferred = $shape === 'inferred';
+  $apps = [];
+  if ($appCount > 1) {
+    foreach ($memberApps as $app) {
+      $apps[] = _ood_software_build_hub_app($app, $isInferred, $repo->isPublished(), (string) $repoSlug);
+    }
+  }
+
+  $isAdmin = \Drupal::currentUser()->hasPermission('administer appverse content');
+  $canEdit = $repo->access('update');
+  $editUrl = ($shape === 'inferred' && $canEdit) ? '/node/' . $repo->id() . '/edit' : NULL;
+
+  // Owner block — admin-permission gated. Reviewers on the Manage page need to
+  // see who owns each repo, INCLUDING repos they own themselves, so this is not
+  // suppressed for the current user. Contributors (no admin permission) never
+  // see it, which keeps their own "My Apps" hub free of a redundant "owner is
+  // you" block. The 'user.permissions' cache context makes this admin-vs-not
+  // split per-viewer-safe.
+  $owner = NULL;
+  // getOwner() is NULL if the author account was deleted while the repo
+  // persists — a realistic admin-view case. Guard before dereferencing.
+  if ($isAdmin && ($ownerAccount = $repo->getOwner())) {
+    $owner = [
+      'name' => $ownerAccount->getDisplayName(),
+      'persona_url' => '/community-persona/' . $ownerAccount->id(),
+      'email' => $ownerAccount->getEmail() ?? '',
+    ];
+  }
+
+  // needs_adjustment feedback: latest revision_log on node_revision.
+  $moderationComment = NULL;
+  if ($moderationState === 'needs_adjustment') {
+    $latest = \Drupal::database()->select('node_revision', 'nr')
+      ->fields('nr', ['revision_log'])
+      ->condition('nid', $repo->id())
+      ->orderBy('vid', 'DESC')
+      ->range(0, 1)
+      ->execute()
+      ->fetchAssoc();
+    $moderationComment = $latest['revision_log'] ?? NULL;
+  }
+
+  return [
+    'repo_id' => (int) $repo->id(),
+    'title' => $repo->label(),
+    'label' => $appCount > 1 ? t('Monorepo') : t('Repo'),
+    'catalog_url' => '/appverse/#/repo/' . $repoSlug,
+    'github_url' => $githubUrl,
+    'is_inferred' => $shape === 'inferred',
+    'is_monorepo' => $appCount > 1,
+    'app_count' => $appCount,
+    'published' => $repo->isPublished(),
+    'can_edit' => $canEdit,
+    'is_admin' => $isAdmin,
+    'moderation_state' => $moderationState,
+    'status' => _ood_software_hub_badge($moderationState),
+    'has_validation_issues' => in_array($validationSt, ['degraded', 'stale_invalid'], TRUE),
+    'validation_st' => $validationSt,
+    'last_synced' => $lastSyncedTs ? \Drupal::service('date.formatter')->format((int) $lastSyncedTs, 'custom', 'm-d-y H:i') : '',
+    'unpublished_after_publish' => !$repo->isPublished() && $moderationState === 'published',
+    'moderation_comment' => $moderationComment,
+    'edit_url' => $editUrl,
+    'owner' => $owner,
+    'actions' => _ood_software_hub_repo_actions($repo, $isAdmin, $moderationState, $repo->isPublished()),
+    'apps' => $apps,
+  ];
+}
+
+/**
+ * Builds one member-app row for the hub card.
+ *
+ * @param \Drupal\node\NodeInterface $app
+ *   The member appverse_app node.
+ * @param bool $parentInferred
+ *   Whether the parent repo is inferred (gates the per-app edit link together
+ *   with entity update access).
+ * @param bool $repoPublished
+ *   Whether the parent repo is published (drives the per-app status label).
+ * @param string $repoSlug
+ *   Parent repo slug for the app's catalog deep-link.
+ */
+function _ood_software_build_hub_app(\Drupal\node\NodeInterface $app, bool $parentInferred, bool $repoPublished, string $repoSlug): array {
+  $aliasManager = \Drupal::service('path_alias.manager');
+  $appAlias = $aliasManager->getAliasByPath('/node/' . $app->id());
+  $appSlug = ltrim(preg_replace('#^.*/#', '', $appAlias), '/');
+  if ($appSlug === '') {
+    $appSlug = (string) $app->id();
+  }
+
+  $software = $app->get('field_appverse_software_implemen')->entity ?? NULL;
+  $canEdit = $app->access('update');
+
+  // Per-app status: when the parent repo is unpublished, member apps are
+  // hidden from the catalog regardless of their own state.
+  if (!$repoPublished) {
+    $status = ['label' => t('Hidden'), 'modifier' => 'muted'];
+  }
+  else {
+    $status = $app->isPublished()
+      ? ['label' => t('Published'), 'modifier' => 'success']
+      : ['label' => t('Unpublished'), 'modifier' => 'warning'];
+  }
+
+  return [
+    'app_id' => (int) $app->id(),
+    'title' => $app->label(),
+    'catalog_url' => '/appverse/#/repo/' . $repoSlug . '?app=' . $appSlug,
+    'subpath' => $app->get('field_appverse_app_subpath')->value ?? '',
+    'software' => $software ? $software->label() : NULL,
+    'published' => $app->isPublished(),
+    'can_edit' => $canEdit,
+    'edit_url' => ($parentInferred && $canEdit) ? '/node/' . $app->id() . '/edit' : NULL,
+    'status' => $status,
+    'unpublish_form' => $repoPublished
+      ? _ood_software_hub_action_form('appverse/app/' . $app->id() . '/unpublish', $app->isPublished() ? t('Unpublish app') : t('Publish app'), $app->isPublished() ? 'bi-slash-circle' : 'bi-check-circle')
+      : NULL,
+  ];
+}
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * The per-row template renders each card, but the appverse_hub library must
+ * attach even on an empty result set (no rows → no per-row preprocess) so the
+ * exposed-form filter grid keeps its CSS. Attaching here covers both cases.
+ */
+function ood_software_views_pre_render(\Drupal\views\ViewExecutable $view) {
+  if ($view->id() !== 'my_appverse') {
+    return;
+  }
+  $view->element['#attached']['library'][] = 'ood_software/appverse_hub';
+
+  // Collapse relationship-multiplied rows. The admin "Software used" exposed
+  // filter joins each repo to its member apps (reverse relationship), so a
+  // monorepo's row is returned once per member app. The SQL DISTINCT can't
+  // collapse it because the relationship's id column is in the SELECT, and the
+  // filter must stay (it constrains which repos match). De-duplicate the
+  // result set here, keeping the first row per repo node.
+  if (!empty($view->result)) {
+    $seen = [];
+    $deduped = [];
+    foreach ($view->result as $row) {
+      if (empty($row->_entity)) {
+        $deduped[] = $row;
+        continue;
+      }
+      $id = $row->_entity->id();
+      if (isset($seen[$id])) {
+        continue;
+      }
+      $seen[$id] = TRUE;
+      $deduped[] = $row;
+    }
+    if (count($deduped) !== count($view->result)) {
+      $view->result = array_values($deduped);
+    }
+  }
+}
+
 
 /**
  * Implements hook_views_data_alter().

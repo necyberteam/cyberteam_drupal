@@ -6,7 +6,7 @@
  *  - Legacy /appverse/manage-apps → /appverse/manage-repos 301 redirect.
  *  - Hub renders Collection cards.
  *  - Member apps expand via <details>.
- *  - Re-sync from the kebab menu triggers the controller.
+ *  - Re-sync from the inline icon button triggers the controller.
  *  - Cross-user action returns 403.
  *  - Admin's /appverse/manage-repos renders with exposed filters.
  *  - Moderation transition notifications (Phase 1.8): send_for_review,
@@ -196,17 +196,13 @@ describe('Appverse Maintenance Hub', () => {
       cy.visit('/user/65016/my-appverse', { failOnStatusCode: false });
       cy.get('.appverse-hub-card', { timeout: 10000 }).should('exist');
       cy.get('body').then(($body) => {
-        if ($body.find('.appverse-hub-card.shape-declared').length === 0) {
-          cy.log('No declared (multi-app) Collections owned by this user; skipping apps-expansion check.');
+        if ($body.find('.appverse-hub-card__apps').length === 0) {
+          cy.log('No monorepo (multi-app) repos owned by this user; skipping apps-expansion check.');
           return;
         }
-        cy.get('.appverse-hub-card.shape-declared')
-          .first()
-          .find('.appverse-hub-card__apps-expansion summary')
-          .click();
-        cy.get('.appverse-hub-card.shape-declared')
-          .first()
-          .find('.appverse-hub-apps-table')
+        cy.get('.appverse-hub-card__apps').first().find('summary').click();
+        cy.get('.appverse-hub-card__apps').first()
+          .find('table.appverse-hub-apps-table')
           .should('be.visible');
       });
     });
@@ -231,18 +227,71 @@ describe('Appverse Maintenance Hub', () => {
     });
   });
 
-  describe('Re-sync via kebab menu', () => {
+  describe('Redesigned hub layout', () => {
+    it('admin manage-repos shows owner block and header icons', () => {
+      cy.loginUser(ADMIN_EMAIL, ADMIN_PASS);
+      cy.visit('/appverse/manage-repos', { failOnStatusCode: false });
+      cy.get('body').then(($body) => {
+        if ($body.text().includes('Access denied')) {
+          cy.log('Administrator lacks "administer appverse content"; skipping.');
+          return;
+        }
+        // Header icon affordances exist on the first card. (The catalog icon
+        // was dropped as redundant — the card title links to the catalog — so
+        // resync + github are the header icons now.)
+        cy.get('.appverse-hub-card').first().within(() => {
+          cy.get('.bi-arrow-clockwise').should('exist');
+          cy.get('.bi-github').should('exist');
+        });
+        // Admin owner block: persona link + mailto, scoped to the card whose
+        // owner we assert (the email link is conditional on the owner having
+        // an email, so check within the owner-bearing card).
+        cy.get('.appverse-hub-card').filter(':has(.appverse-hub-card__owner)').first().within(() => {
+          cy.get('.appverse-hub-card__owner')
+            .should('have.attr', 'href').and('match', /^\/community-persona\/\d+$/);
+          cy.get('a[href^="mailto:"]').should('exist');
+        });
+      });
+    });
+
+    it('contributor my-appverse hides admin-only affordances', () => {
+      cy.loginUser(CONTRIBUTOR_EMAIL, CONTRIBUTOR_PASS);
+      // Resolve the contributor's own hub the same way the moderation blocks
+      // do: visit /user, read the uid off the resolved profile URL, then visit
+      // that uid's /my-appverse hub.
+      cy.visit('/user', { failOnStatusCode: false });
+      cy.url().then((profileUrl) => {
+        const match = profileUrl.match(/\/user\/(\d+)/);
+        const uid = match ? match[1] : null;
+        if (!uid) {
+          throw new Error(`Could not resolve contributor uid from ${profileUrl}`);
+        }
+        cy.visit(`/user/${uid}/my-appverse`, { failOnStatusCode: false });
+      });
+      cy.get('body').then(($body) => {
+        if ($body.find('.appverse-hub-card').length === 0) {
+          cy.log('Contributor owns no repos; skipping affordance check.');
+          return;
+        }
+        // No owner block and no delete (danger) icon on the contributor's own hub.
+        cy.get('.appverse-hub-card__owner').should('not.exist');
+        cy.get('.appverse-hub-card__icon-btn--danger').should('not.exist');
+      });
+    });
+  });
+
+  describe('Re-sync via inline icon', () => {
     beforeEach(() => {
       cy.loginUser(ADMIN_EMAIL, ADMIN_PASS);
     });
 
-    it('exposes a Re-sync action under the kebab menu', () => {
+    it('exposes an inline Re-sync action', () => {
       cy.visit('/user/65016/my-appverse', { failOnStatusCode: false });
       cy.get('.appverse-hub-card', { timeout: 10000 }).first().within(() => {
-        cy.get('.appverse-hub-card__kebab > summary').should('exist');
         cy.get('form[action*="/resync"]').should('exist');
         cy.get('form[action*="/resync"] button[type="submit"]')
-          .should('contain.text', 'Re-sync from GitHub');
+          .should('have.attr', 'aria-label', 'Re-sync from GitHub');
+        cy.get('form[action*="/resync"] .bi-arrow-clockwise').should('exist');
       });
     });
 
@@ -406,10 +455,8 @@ describe('Appverse Maintenance Hub', () => {
         cy.visit('/appverse/manage-repos', { failOnStatusCode: false });
         cy.contains('.appverse-hub-card', COLLECTION_TITLE, { timeout: 10000 })
           .within(() => {
-            cy.get('.appverse-hub-card__kebab > summary').click();
-            cy.get('a.appverse-hub-card__kebab-item')
-              .contains('Request changes (admin)')
-              .click();
+            // Request changes is now a direct inline icon link (no kebab).
+            cy.get('a[href*="/request-changes"]').click();
           });
 
         // Fill out the Request changes form.
@@ -449,10 +496,8 @@ describe('Appverse Maintenance Hub', () => {
         cy.visit('/appverse/manage-repos', { failOnStatusCode: false });
         cy.contains('.appverse-hub-card', COLLECTION_TITLE, { timeout: 10000 })
           .within(() => {
-            cy.get('.appverse-hub-card__kebab > summary').click();
-            cy.get('a.appverse-hub-card__kebab-item')
-              .contains('Request changes (admin)')
-              .click();
+            // Request changes is now a direct inline icon link (no kebab).
+            cy.get('a[href*="/request-changes"]').click();
           });
 
         cy.url().should('include', '/request-changes');

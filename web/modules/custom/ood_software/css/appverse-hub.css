@@ -1,9 +1,15 @@
 /* Appverse Maintenance Hub */
 
-/* Breathing room below the last card so the management page doesn't end
-   flush against the footer / viewport bottom. */
+/* Breathing room so the management page doesn't end flush against the footer /
+   viewport bottom. Applied to the view wrapper AND the pager itself so both the
+   admin (page_admin, with exposed filters) and user (page_user) displays get
+   consistent space below the pagination regardless of the surrounding region. */
 .view-my-appverse {
   padding-bottom: 3rem;
+}
+.view-my-appverse .pager,
+.view-my-appverse .views-element-container > .pager {
+  margin-bottom: 3rem;
 }
 
 /* Wrapper around all rows. The view's html_list style would wrap each
@@ -24,130 +30,31 @@
 
 /* Each Collection card. */
 .appverse-hub-card {
-  border: 1px solid #d0d7de;
-  border-radius: 8px;
   background: #fff;
-  padding: 1rem;
-  transition: opacity 0.2s ease;
-  /* Each card creates a local stacking context. When its kebab is
-     open we elevate the whole card so the popup paints above
-     siblings below. */
-  position: relative;
-  z-index: 1;
+  padding: 1rem 0;
 }
-.appverse-hub-card.is-dimmed { opacity: 0.6; }
-/* A card with an open kebab needs to paint above all sibling cards.
-   :has() is supported in all browsers we target (Chrome/Edge 105+,
-   Firefox 121+, Safari 15.4+). */
-.appverse-hub-card:has(.appverse-hub-card__kebab[open]) {
-  z-index: 50;
+/* Separate cards with a horizontal rule rather than boxing each one. The rule
+   lives on the Views row that wraps a hub card (the actual repeating boundary,
+   independent of the outer view wrapper class); the last such row gets none.
+   `:has()` keeps it from touching unrelated rows. */
+.views-row:has(> .appverse-hub-card) {
+  border-bottom: 1px solid #c6c6c6;
 }
-
-.appverse-hub-card__header {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.views-row:has(> .appverse-hub-card):last-child {
+  border-bottom: none;
+}
+/* Fallback for engines without :has() — style the card directly, accepting a
+   rule under the final card too. */
+@supports not (selector(:has(*))) {
+  .appverse-hub-card { border-bottom: 1px solid #c6c6c6; }
 }
 
-.appverse-hub-card__title-row {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
 .appverse-hub-card__title {
   margin: 0;
   font-size: 1.15rem;
 }
 .appverse-hub-card__title a { text-decoration: none; color: #232323; }
 .appverse-hub-card__title a:hover { text-decoration: underline; }
-
-.appverse-hub-card__meta {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  font-size: 0.85em;
-  color: #57606a;
-  align-items: center;
-}
-.appverse-hub-card__repo-link { color: #0076af; text-decoration: none; }
-.appverse-hub-card__repo-link:hover { text-decoration: underline; }
-.appverse-hub-card__app-count { padding: 2px 8px; background: #f6f8fa; border-radius: 4px; }
-.appverse-hub-card__last-synced {
-  font-family: ui-monospace, Menlo, Consolas, monospace;
-  font-size: 0.85em;
-}
-
-.appverse-hub-card__actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 0.5rem;
-}
-.appverse-hub-card__actions form { margin: 0; display: inline-block; }
-
-/* Kebab menu — pure CSS, uses <details>/<summary>. */
-.appverse-hub-card__kebab {
-  position: relative;
-  display: inline-block;
-}
-.appverse-hub-card__kebab > summary {
-  list-style: none;
-  cursor: pointer;
-  font-size: 1.2em;
-  line-height: 1;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-}
-.appverse-hub-card__kebab > summary::-webkit-details-marker { display: none; }
-.appverse-hub-card__kebab[open] > summary { background: #f6f8fa; }
-
-.appverse-hub-card__kebab-menu {
-  position: absolute;
-  right: 0;
-  top: 100%;
-  background: #fff;
-  border: 1px solid #d0d7de;
-  border-radius: 6px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  list-style: none;
-  padding: 0.25rem 0;
-  margin: 0.25rem 0 0 0;
-  z-index: 10;
-  min-width: 220px;
-}
-.appverse-hub-card__kebab-menu > li { margin: 0; }
-.appverse-hub-card__kebab-menu form { margin: 0; }
-
-.appverse-hub-card__kebab-item {
-  display: block;
-  width: 100%;
-  text-align: left;
-  background: transparent;
-  border: 0;
-  padding: 0.5rem 0.9rem;
-  font-size: 0.9em;
-  color: #232323;
-  text-decoration: none;
-  cursor: pointer;
-  font-family: inherit;
-}
-.appverse-hub-card__kebab-item:hover { background: #f6f8fa; }
-.appverse-hub-card__kebab-item--destructive { color: #cf222e; }
-
-/* Member-apps expansion (declared Collections). */
-.appverse-hub-card__apps-expansion {
-  margin-top: 1rem;
-  border-top: 1px solid #eaecef;
-  padding-top: 0.75rem;
-}
-.appverse-hub-card__apps-expansion > summary {
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.9em;
-  color: #57606a;
-}
 
 .appverse-hub-apps-table {
   width: 100%;
@@ -162,21 +69,16 @@
   text-align: left;
 }
 .appverse-hub-apps-table th { background: #f6f8fa; font-weight: 600; }
-.appverse-hub-apps-table tr.is-dimmed { opacity: 0.6; }
 /* Subpath column renders inside <code>. Drupal/Bootstrap default <code> is
    bright pink (#e83e8c); mute it to the same secondary gray the preview
    card's subpath uses so it reads as quiet metadata, not an alert. */
 .appverse-hub-apps-table td code {
   color: #57606a;
   background: transparent;
-  font-size: 0.95em;
-}
-
-/* Inferred (single-app) card: software shown inline below the header. */
-.appverse-hub-card__inferred-meta {
-  font-size: 0.9em;
-  color: #57606a;
-  margin-top: 0.5rem;
+  /* Pin to the cell's own size. The site theme inflates bare <code>, and
+     monospace glyphs read larger than the surrounding sans at the same px, so
+     match the table body text rather than leaving it em-relative. */
+  font-size: 0.875rem;
 }
 
 /* Admin's needs_adjustment feedback block. */
@@ -302,4 +204,107 @@
   margin: 0;
   flex: 1 1 auto;
   min-width: 0;
+}
+
+/* Redesigned hub card header: a CSS grid with SHARED column tracks so the
+   fields line up vertically across every card. Title flexes; the data columns
+   have fixed widths so column N is the same x-position on every row.
+   Columns: title | status | last-sync+resync | github | owner | actions. */
+.appverse-hub-card__header {
+  display: grid;
+  /* FIXED column widths (no `auto`). Each card header is its own grid
+     container, so `auto`/content-sized tracks would size per-card and the
+     columns wouldn't line up between cards. Fixed tracks make every card's
+     grid identical, so e.g. the status badge starts at the same x on every
+     row regardless of label length ("Draft" vs "Published"). */
+  grid-template-columns:
+    minmax(12rem, 1fr)   /* title (the only flexible track) */
+    11rem                /* last sync + resync */
+    2.5rem               /* github */
+    12rem                /* owner (blank on own hub) */
+    9rem                 /* status */
+    9rem;                /* edit pencil + lifecycle actions */
+  align-items: center;
+  column-gap: 1.25rem;
+  row-gap: 0.5rem;
+}
+.appverse-hub-card__cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+/* Keep the sync cell's content (timestamp + resync icon) packed to the LEFT of
+   its track so the resync icon doesn't ride the column's right edge up against
+   the GitHub icon in the next column. This makes the refresh/github spacing read
+   the same on monorepo and single-app cards. */
+.appverse-hub-card__cell--sync { justify-content: flex-start; }
+.appverse-hub-card__cell--actions { justify-content: flex-end; }
+.appverse-hub-card__last-synced {
+  font-size: 0.875rem;
+  color: #555;
+  white-space: nowrap;
+}
+
+/* Below the md breakpoint the grid would crush; stack into a single column. */
+@media (max-width: 768px) {
+  .appverse-hub-card__header {
+    grid-template-columns: 1fr;
+  }
+  .appverse-hub-card__cell--actions { justify-content: flex-start; }
+}
+.appverse-hub-card__owner {
+  font-weight: 600;
+  color: #c91235; /* appverse-red — brand link color */
+  text-decoration: none;
+}
+.appverse-hub-card__owner:hover { text-decoration: underline; }
+
+/* Icon buttons (links and form submits share one look). */
+.appverse-hub-card__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #232323;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.appverse-hub-card__icon-btn:hover { background: #f0f0f0; }
+/* Icon-only controls carry no text, so a visible focus ring is required for
+   keyboard users (Bootstrap suppresses the UA default outline). */
+.appverse-hub-card__icon-btn:focus-visible,
+.appverse-hub-card__owner:focus-visible,
+.appverse-hub-card__title a:focus-visible {
+  outline: 2px solid #0076af;
+  outline-offset: 2px;
+}
+.appverse-hub-card__icon-btn--primary { color: #0076af; }
+.appverse-hub-card__icon-btn--danger { color: #c91235; }
+.appverse-hub-card__action-form { display: inline; margin: 0; }
+
+/* Draft/archived badge. */
+.badge-muted { background: #e9e9e9; color: #555; }
+
+/* Member-apps disclosure. */
+.appverse-hub-card__apps { margin-top: 0.75rem; }
+.appverse-hub-card__apps > summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+/* Hide the native disclosure triangle (Safari/WebKit + standard). */
+.appverse-hub-card__apps > summary::-webkit-details-marker { display: none; }
+/* Chevron points right when closed, rotates down when open. */
+.appverse-hub-card__apps-chevron { transition: transform 0.15s ease; }
+.appverse-hub-card__apps[open] > summary .appverse-hub-card__apps-chevron {
+  transform: rotate(90deg);
 }
