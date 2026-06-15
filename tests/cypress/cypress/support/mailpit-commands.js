@@ -34,13 +34,23 @@ Cypress.Commands.add('getMailpitMessages', () => {
  */
 Cypress.Commands.add('searchMailpitMessages', (searchParams) => {
   const mailpitUrl = getMailpitUrl();
+
+  // Mailpit's search API takes a SINGLE `query` parameter whose space-separated
+  // terms are ANDed together. Appending multiple `query` params (one per
+  // criterion) does NOT AND them — Mailpit honors only the first, silently
+  // dropping the rest. So a {to, subject} search would degrade to `to:` alone
+  // and match the most recent email to that address regardless of subject,
+  // which let stale cross-spec emails satisfy waitForEmail(). Build one
+  // combined query string instead.
+  const terms = [];
+  if (searchParams.to) terms.push(`to:"${searchParams.to}"`);
+  if (searchParams.from) terms.push(`from:"${searchParams.from}"`);
+  if (searchParams.subject) terms.push(`subject:"${searchParams.subject}"`);
+  if (searchParams.query) terms.push(searchParams.query);
+
   const params = new URLSearchParams();
-  
-  if (searchParams.to) params.append('query', `to:"${searchParams.to}"`);
-  if (searchParams.from) params.append('query', `from:"${searchParams.from}"`);
-  if (searchParams.subject) params.append('query', `subject:"${searchParams.subject}"`);
-  if (searchParams.query) params.append('query', searchParams.query);
-  
+  params.append('query', terms.join(' '));
+
   return cy.request({
     method: 'GET',
     url: `${mailpitUrl}/api/v1/search?${params.toString()}`,
