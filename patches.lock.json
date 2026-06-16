@@ -1,5 +1,5 @@
 {
-    "_hash": "34bdcfd95b635405c4abb1f9714fd514e5b3e5b6e031fc957e931fc0065b1338",
+    "_hash": "5aa1d7cbf861dbc6a711d73684c85fb50d4849180817e0d585b9d779286f6d5f",
     "patches": {
         "drupal/core": [
             {
@@ -119,6 +119,18 @@
                 "description": "Fix TypeError when domain source field is not present",
                 "url": "patches/domain_source-null-check-3482951.patch",
                 "sha256": "644b01de70c4374b2f8bc0b81809823e8ee62196877845886e1965a51c23d02e",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/multiple_registration": [
+            {
+                "package": "drupal/multiple_registration",
+                "description": "Undefined array key #access in form_alter",
+                "url": "patches/multiple_registration-undefined-access-key.patch",
+                "sha256": "c2c2db46bf70e0dff2a4422680b17f68480fb976868ba53cc99717801daf7684",
                 "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"
