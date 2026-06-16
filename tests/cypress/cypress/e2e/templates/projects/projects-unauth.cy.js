@@ -11,27 +11,42 @@ describe("test projects/engagements page", () => {
     cy.contains('Status');
     cy.contains('Project Leader');
 
-    // The /projects search is a Views AJAX exposed filter (better_exposed_filters,
-    // auto-submit on input) that rebuilds the result list asynchronously. Rather
-    // than wait on the AJAX request itself — clear() does not reliably fire a
-    // catchable views/ajax call — wait on the DOM condition each step actually
-    // needs. cy.contains/cy.get already retry until the condition holds; the only
-    // gap was the click below racing the post-clear list rebuild, so we wait for
-    // the tag link to exist (longer timeout for CI load) before clicking it.
-    cy.get('input[name="search"]').type('test', { delay: 0 });
-    cy.contains('test');
+    // This spec is a *reader*: the "login" tag link it ultimately clicks lives
+    // in the Tags cell of the login-tagged project that projects-1-submit-admin
+    // creates (projects are sanitized out of the DB snapshot, so that fixture is
+    // the only project carrying the "login" tag). The flow exercises the search
+    // exposed filter, returns to the full listing, then clicks the tag.
 
-    cy.get('input[name="search"]').clear();
+    // Search behaves as a Views AJAX exposed filter; exercise it to the
+    // no-results state.
     cy.get('input[name="search"]').type('testy2002', { delay: 0 });
     cy.contains('There are no projects at this time. Please check back often as projects are added regularly.');
 
-    cy.get('input[name="search"]').clear();
-    // Wait for the full (unfiltered) list to rebuild and surface the "login" tag
-    // before clicking it. The default cy.contains retry (4s) was racing the AJAX
-    // rebuild under CI load; a generous timeout waits on the real DOM condition.
-    // Element selector kept unconstrained (as before) so we don't assume the tag
-    // markup; the subsequent URL assertion confirms it was the right link.
-    cy.contains('login', { timeout: 15000 }).click();
+    // Better Exposed Filters re-renders the exposed form on each AJAX response.
+    // If .clear() fires while the typed-search request is still in flight, the
+    // response restores the old input value, leaving the view stuck on the
+    // no-results state forever (verified: searchVal stays "testy2002", tbody
+    // never repopulates). Retry the clear until the field actually stays empty.
+    const clearSearch = (attempt = 0) => {
+      cy.get('input[name="search"]').clear();
+      cy.wait(500);
+      cy.get('input[name="search"]').then(($input) => {
+        if ($input.val() !== '' && attempt < 6) {
+          clearSearch(attempt + 1);
+        }
+      });
+    };
+    clearSearch();
+    cy.get('input[name="search"]').should('have.value', '');
+
+    // Clearing rebuilds the results table via AJAX; the tbody is momentarily
+    // empty mid-flight. Wait for it to repopulate before going for the tag link.
+    cy.get('tbody tr', { timeout: 20000 }).should('have.length.greaterThan', 0);
+
+    // Target the "login" tag link by href — the bare word "login" also appears
+    // in "Login to Add New Project" and /user/login links — then confirm it
+    // reaches the tag page.
+    cy.get('a[href*="/tags/login"]').first().click();
     cy.url().should('include', '/tags/login');
   });
 
