@@ -140,10 +140,13 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
 
   it("renders software section CTA (Alpha's own value, not the Group's)", () => {
     // CTA moved from .rp-sidebar to .rp-software-sidebar in the Software section.
-    cy.get(".rp-software-sidebar").contains("View all available software")
+    // The link label is now standardized ("See Provider Software Documentation")
+    // regardless of the RP-provided title, so distinguish resource vs group by href.
+    cy.get(".rp-software-sidebar")
+      .contains("a", "See Provider Software Documentation")
       .should("have.attr", "href")
-      .and("include", "alpha.test.example.edu/software");
-    cy.get(".rp-software-sidebar").should("not.contain.text", "View all group software");
+      .and("include", "alpha.test.example.edu/software")
+      .and("not.include", "group.test.example.edu/software");
   });
 
   it("uses 'Software Documentation Service' label for SDS", () => {
@@ -203,8 +206,11 @@ describe("Resource Documentation Page — Beta (sparse data, in Test Resource Gr
   });
 
   it("inherits software_list_url from the Resource Group", () => {
-    // CTA moved from .rp-sidebar to .rp-software-sidebar.
-    cy.get(".rp-software-sidebar").contains("View all group software")
+    // CTA moved from .rp-sidebar to .rp-software-sidebar. Label is the
+    // standardized "See Provider Software Documentation"; the inherited
+    // group value is confirmed via the href.
+    cy.get(".rp-software-sidebar")
+      .contains("a", "See Provider Software Documentation")
       .should("have.attr", "href")
       .and("include", "group.test.example.edu/software");
   });
