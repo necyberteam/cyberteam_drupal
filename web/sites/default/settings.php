@@ -208,6 +208,15 @@ if (defined(
       ],
     ],
   ];
+
+  // Skip Drupal's default `Vary: Cookie` on anonymous responses so Pantheon's
+  // edge can share one cache entry per URL across visitors with different
+  // non-session cookies (analytics, tracking, etc.). Authenticated users
+  // still bypass the edge because Pantheon recognizes the SESS*/SSESS*
+  // session cookie as cache-busting, so they continue to get personalized
+  // content from origin. See web/core/assets/scaffold/files/default.settings.php
+  // for the upstream documentation of this setting.
+  $settings['omit_vary_cookie'] = TRUE;
 }
 
 $env = getenv('PANTHEON_ENVIRONMENT');
@@ -258,7 +267,7 @@ function _get_turnstile_secret($name) {
 function _serve_turnstile_challenge($return_url) {
   $site_key = _get_turnstile_secret('TURNSTILE_SITE_KEY');
   $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-  $cookie_name = 'STYXKEY_turnstile_verified';
+  $cookie_name = '_turnstile_verified';
   $cookie_duration = 86400; // 24 hours
   $error = '';
 
@@ -429,7 +438,7 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
   $token = isset($_GET['token']) ? $_GET['token'] : '';
   $return_url = isset($_GET['return']) ? $_GET['return'] : '/';
   $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-  $cookie_name = 'STYXKEY_turnstile_verified';
+  $cookie_name = '_turnstile_verified';
   $cookie_duration = 86400; // 24 hours
 
   // Sanitize return URL.
@@ -542,7 +551,7 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
 
       // Second line of defense: Turnstile verification for everyone else.
       $turnstile_secret = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-      $cookie_name = 'STYXKEY_turnstile_verified';
+      $cookie_name = '_turnstile_verified';
 
       // Verify the cookie is valid (matches expected hash).
       $cookie_valid = FALSE;

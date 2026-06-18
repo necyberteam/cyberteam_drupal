@@ -4,9 +4,12 @@
  * @file
  */
 
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Serialization\Yaml;
@@ -383,6 +386,37 @@ function ood_software__redirect_submit($form, FormStateInterface $form_state) {
 }
 
 /**
+ * Implements hook_node_access().
+ *
+ * Lets the Appverse PM role view unpublished appverse_app nodes (Ready for
+ * Review / Needs Adjustment / Draft). Without this, moderating an app fails:
+ * after a save the node form redirects to /node/{nid}, and core denies view of
+ * the now-unpublished node, producing "Either the path '/node/N' is invalid or
+ * you do not have access to it." It also lets moderators see in-review apps on
+ * the software/hub pages. Scoped to appverse_app + view only; published nodes
+ * fall through to normal access. (D8-2746.)
+ *
+ * Interim implementation keyed to the appverse_pm role. The md-2724 appverse
+ * refactor introduces an "administer appverse content" permission; the version
+ * of this hook on that branch keys off that permission and supersedes this one.
+ */
+function ood_software_node_access(NodeInterface $node, string $operation, AccountInterface $account): AccessResultInterface {
+  if ($operation !== 'view' || $node->bundle() !== 'appverse_app') {
+    return AccessResult::neutral();
+  }
+
+  $access = AccessResult::neutral()
+    ->addCacheableDependency($node)
+    ->cachePerPermissions();
+
+  if (!$node->isPublished() && in_array('appverse_pm', $account->getRoles(), TRUE)) {
+    return $access->orIf(AccessResult::allowed());
+  }
+
+  return $access;
+}
+
+/**
  * Implements hook_node_insert().
  */
 function ood_software_node_insert(NodeInterface $node) {
@@ -529,30 +563,40 @@ function ood_software_node_view(array &$build, EntityInterface $entity, EntityVi
   }
 
   // Appverse SPA redirects for software and app nodes.
-  if ($entity->bundle() === 'appverse_software') {
-    $slug = basename($entity->toUrl()->toString());
-    $build['#attached']['html_head'][] = [
-      [
-        '#type' => 'html_tag',
-        '#tag' => 'script',
-        '#value' => "window.location.replace('/appverse#/' + " . json_encode($slug) . ");",
-      ],
-      'appverse_redirect',
-    ];
-  }
-  elseif ($entity->bundle() === 'appverse_app') {
-    $software = $entity->get('field_appverse_software_implemen')->entity;
-    if ($software) {
-      $software_slug = basename($software->toUrl()->toString());
-      $app_slug = basename($entity->toUrl()->toString());
+  //
+  // Only redirect PUBLISHED nodes to the /appverse catalog. Unpublished apps
+  // (Draft / Ready for Review / Needs Adjustment) are not in the catalog —
+  // its data sources filter on published status and are grant-enforced — so
+  // redirecting there would bounce a reviewer to a page that cannot show the
+  // item. Rendering the node page lets moderators (who have view access via
+  // ood_software_node_access) actually review the in-moderation app, e.g. when
+  // arriving from the manage-apps list or after saving a moderation change.
+  if ($entity->isPublished()) {
+    if ($entity->bundle() === 'appverse_software') {
+      $slug = basename($entity->toUrl()->toString());
       $build['#attached']['html_head'][] = [
         [
           '#type' => 'html_tag',
           '#tag' => 'script',
-          '#value' => "window.location.replace('/appverse#/' + " . json_encode($software_slug) . " + '?app=' + " . json_encode($app_slug) . ");",
+          '#value' => "window.location.replace('/appverse#/' + " . json_encode($slug) . ");",
         ],
         'appverse_redirect',
       ];
+    }
+    elseif ($entity->bundle() === 'appverse_app') {
+      $software = $entity->get('field_appverse_software_implemen')->entity;
+      if ($software) {
+        $software_slug = basename($software->toUrl()->toString());
+        $app_slug = basename($entity->toUrl()->toString());
+        $build['#attached']['html_head'][] = [
+          [
+            '#type' => 'html_tag',
+            '#tag' => 'script',
+            '#value' => "window.location.replace('/appverse#/' + " . json_encode($software_slug) . " + '?app=' + " . json_encode($app_slug) . ");",
+          ],
+          'appverse_redirect',
+        ];
+      }
     }
   }
 }
