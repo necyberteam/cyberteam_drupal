@@ -16,11 +16,11 @@ use Drupal\taxonomy\Entity\Vocabulary;
  * In a monorepo (root appverse.yml with an apps[] list), a root-level
  * `shared_implementation_tags` list is inherited ADDITIVELY by every member
  * app: each app's effective implementation tags are the UNION of its own
- * `tags:` and the shared list, deduplicated. It is never an override and has
- * no opt-out. The combined list runs through the same resolve/suggest/reject
- * path as the app's own tags, against the appverse_implementation_tags
- * vocabulary (the SAME vocab as per-app `tags:`, NOT the generic `tags`
- * discovery vocab).
+ * `implementation_tags:` and the shared list, deduplicated. It is never an
+ * override and has no opt-out. The combined list runs through the same
+ * resolve/suggest/reject path as the app's own tags, against the
+ * appverse_implementation_tags vocabulary (the SAME vocab as per-app
+ * `implementation_tags:`, NOT the generic `tags` discovery vocab).
  *
  * @coversDefaultClass \Drupal\ood_software\Service\RepoSyncService
  * @group ood_software
@@ -276,7 +276,7 @@ class DeclaredAppSharedTagsInheritanceTest extends KernelTestBase {
           'description' => 'desc',
           'app_type' => 'batch-connect-basic',
           'software' => 'Jupyter',
-          'tags' => ['jupyter'],
+          'implementation_tags' => ['jupyter'],
           'maintainer' => ['name' => 'Team', 'support_url' => 'https://e.org'],
         ],
       ],
@@ -362,7 +362,7 @@ class DeclaredAppSharedTagsInheritanceTest extends KernelTestBase {
           'app_type' => 'batch-connect-basic',
           'software' => 'Jupyter',
           // Declares 'containerized' too — must not double up.
-          'tags' => ['containerized', 'jupyter'],
+          'implementation_tags' => ['containerized', 'jupyter'],
           'maintainer' => ['name' => 'Team', 'support_url' => 'https://e.org'],
         ],
       ],
@@ -415,7 +415,7 @@ class DeclaredAppSharedTagsInheritanceTest extends KernelTestBase {
           'app_type' => 'batch-connect-basic',
           'software' => 'Jupyter',
           // App also declares the same bad tag — must yield one error.
-          'tags' => ['bogus-tag', 'jupyter'],
+          'implementation_tags' => ['bogus-tag', 'jupyter'],
           'maintainer' => ['name' => 'Team', 'support_url' => 'https://e.org'],
         ],
       ],
@@ -463,7 +463,7 @@ class DeclaredAppSharedTagsInheritanceTest extends KernelTestBase {
       'description' => 'desc',
       'app_type' => 'batch-connect-basic',
       'software' => 'Jupyter',
-      'tags' => ['jupyter'],
+      'implementation_tags' => ['jupyter'],
       'maintainer' => ['name' => 'Team', 'support_url' => 'https://e.org'],
       // Deliberately bogus shared tags — must be ignored on this path.
       'shared_implementation_tags' => ['bogus-tag'],

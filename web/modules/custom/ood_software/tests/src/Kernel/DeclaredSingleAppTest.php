@@ -180,6 +180,9 @@ class DeclaredSingleAppTest extends KernelTestBase {
 
     // App-type term so app_type resolves.
     Term::create(['vid' => 'appverse_app_type', 'name' => 'batch-connect-basic'])->save();
+    // Implementation-tag term so the single-app root `implementation_tags:`
+    // resolves against the appverse_implementation_tags vocab.
+    Term::create(['vid' => 'appverse_implementation_tags', 'name' => 'gpu-enabled'])->save();
     // Org term so resolveOrganizationTerm() can match the GitHub owner.
     Term::create(['vid' => 'appverse_organization', 'name' => 'OSC'])->save();
 
@@ -195,7 +198,10 @@ class DeclaredSingleAppTest extends KernelTestBase {
    * A root appverse.yml with top-level app metadata and no apps[] list.
    *
    * Mirrors docs/appverse.yml SHAPE 1. Note `title` (not `name`) — the
-   * single-app path maps the root title onto the app's name.
+   * single-app path maps the root title onto the app's name. The app's
+   * IMPLEMENTATION tags are declared at the root with `implementation_tags:`
+   * (a bare root `tags:` is repo-level DISCOVERY tags, handled separately in
+   * applyDeclared()).
    */
   protected function singleAppRootYml(): string {
     return <<<YAML
@@ -203,6 +209,8 @@ title: "RStudio Server"
 description: "RStudio Server on HPC via Open OnDemand."
 software: "RStudio"
 app_type: "batch-connect-basic"
+implementation_tags:
+  - "gpu-enabled"
 maintainer:
   name: "OSC User Support"
   support_url: "https://example.org/support"
@@ -273,6 +281,16 @@ YAML;
     $swNid = (int) $app->get('field_appverse_software_implemen')->target_id;
     self::assertGreaterThan(0, $swNid);
     self::assertSame('RStudio', Node::load($swNid)->label());
+
+    // Root-level `implementation_tags:` flow into the app's implementation
+    // tags. This is the single-app implementation-tag key: a bare root
+    // `tags:` would be repo-level DISCOVERY tags, NOT implementation tags.
+    $tagTids = [];
+    foreach ($app->get('field_add_implementation_tags')->getValue() as $item) {
+      $tagTids[] = (int) $item['target_id'];
+    }
+    self::assertCount(1, $tagTids, 'Single-app root implementation_tags must resolve to one term.');
+    self::assertSame('gpu-enabled', Term::load($tagTids[0])->label());
 
     // All required fields present + software matched => valid.
     self::assertSame('valid', $app->get('field_appverse_app_validation_st')->value);

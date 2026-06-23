@@ -14,12 +14,19 @@ use Drupal\taxonomy\Entity\Vocabulary;
  * Regression guard for per-app implementation-tag resolution.
  *
  * A duplicate write in RepoSyncService::applyDeclaredApp re-resolved the
- * declared `tags:` against the generic `tags` vocabulary (vid='tags') and
- * clobbered field_add_implementation_tags, silently dropping valid
- * implementation tags. The duplicate block was deleted; the correct block
- * always sets the field from terms resolved against the
- * appverse_implementation_tags vocabulary. These tests fail if that bug
- * is reintroduced.
+ * declared per-app `implementation_tags:` against the generic `tags`
+ * vocabulary (vid='tags') and clobbered field_add_implementation_tags,
+ * silently dropping valid implementation tags. The duplicate block was
+ * deleted; the correct block always sets the field from terms resolved
+ * against the appverse_implementation_tags vocabulary. These tests fail if
+ * that bug is reintroduced.
+ *
+ * Note the two-vocabulary distinction: the per-app `implementation_tags:`
+ * key resolves against appverse_implementation_tags, while a repo-level
+ * `tags:` key (not exercised here at the app level) targets the generic
+ * `tags` discovery vocabulary. testTagOnlyInGenericTagsVocabIsNotWritten
+ * proves a value living only in the generic `tags` vocab is rejected, not
+ * written, when declared as an app-level implementation tag.
  *
  * @coversDefaultClass \Drupal\ood_software\Service\RepoSyncService
  * @group ood_software
@@ -187,7 +194,7 @@ class DeclaredAppTagsTest extends KernelTestBase {
           'name' => 'Jupyter',
           'description' => 'desc',
           'app_type' => 'batch-connect-basic',
-          'tags' => $tags,
+          'implementation_tags' => $tags,
           'maintainer' => ['name' => 'Team', 'support_url' => 'https://e.org'],
         ],
       ],

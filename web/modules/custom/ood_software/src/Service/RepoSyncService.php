@@ -312,8 +312,9 @@ class RepoSyncService {
         ? $parsedRootYml['maintainer']
         : NULL;
       // Thread the root-level shared_implementation_tags down so each member
-      // app's effective implementation tags are the union of its own `tags:`
-      // and the repo-level shared list (additive). Only a non-empty array
+      // app's effective implementation tags are the union of its own
+      // `implementation_tags:` and the repo-level shared list (additive).
+      // Only a non-empty array
       // signal is forwarded; anything else leaves per-app behaviour unchanged.
       $sharedImplementationTags = (isset($parsedRootYml['shared_implementation_tags']) && is_array($parsedRootYml['shared_implementation_tags']) && $parsedRootYml['shared_implementation_tags'] !== [])
         ? $parsedRootYml['shared_implementation_tags']
@@ -363,6 +364,13 @@ class RepoSyncService {
    * `name`, not `title`). shared_implementation_tags is monorepo-only and has
    * nothing to inherit into for a single app, so it is ignored here.
    *
+   * The app's IMPLEMENTATION tags are declared at the root via
+   * `implementation_tags:` (NOT `tags:` — root `tags:` is repo-level DISCOVERY
+   * tags handled in applyDeclared()). That key is deliberately kept in the
+   * synthesized $entry so it flows through applyDeclaredApp()'s
+   * $appverseLayer['implementation_tags'] read and lands the single app's
+   * implementation tags in field_add_implementation_tags.
+   *
    * @param \Drupal\node\NodeInterface $repo
    *   The Repo node returned by resolveRepo() for this URL (already saved).
    * @param array $parsedRootYml
@@ -381,9 +389,14 @@ class RepoSyncService {
    */
   public function applyDeclaredSingleApp(NodeInterface $repo, array $parsedRootYml, array $rootFiles, string $repoUrl, array $repoMetadata = []): NodeInterface {
     // Synthesize the apps[] entry from the root mapping. Drop repo-only and
-    // structural keys; what remains (software, app_type, tags, maintainer,
-    // description) are the app's Appverse fields. Map root `title` -> `name`
-    // since applyDeclaredApp() reads `name` for the app title.
+    // structural keys; what remains (software, app_type, implementation_tags,
+    // maintainer, description) are the app's Appverse fields. Map root
+    // `title` -> `name` since applyDeclaredApp() reads `name` for the app
+    // title. Root `implementation_tags:` survives (it is NOT in the drop list)
+    // so the single app gets its implementation tags. A root `tags:` key (if
+    // present) also survives into $entry but is harmless: applyDeclaredApp()
+    // no longer reads `tags` at the app level, and repo-level discovery
+    // `tags:` are handled separately in applyDeclared() -> field_repo_tags.
     $entry = $parsedRootYml;
     unset(
       $entry['apps'],
@@ -393,11 +406,11 @@ class RepoSyncService {
       $entry['appverse'],
       // shared_implementation_tags is a monorepo-only concept: it exists to
       // be inherited additively by member apps[]. A single-app repo has no
-      // member apps to inherit into — its own `tags:` already cover it — so
-      // we drop the key here. Leaving it would let array_replace fold it into
-      // $appverseLayer where it is not an app field, and (harmlessly today)
-      // it is never read as `tags`, but dropping it keeps the synthesized
-      // entry clean and prevents any future spurious resolution.
+      // member apps to inherit into — its own `implementation_tags:` already
+      // cover it — so we drop the key here. Leaving it would let array_replace
+      // fold it into $appverseLayer where it is not an app field, and
+      // (harmlessly today) it is never read, but dropping it keeps the
+      // synthesized entry clean and prevents any future spurious resolution.
       $entry['shared_implementation_tags'],
     );
     if (isset($entry['title']) && !isset($entry['name'])) {
@@ -646,8 +659,9 @@ class RepoSyncService {
    * @param array|null $sharedImplementationTags
    *   The root-level `shared_implementation_tags` list, passed only by the
    *   multi-app applyDeclaredApps() path. Each member app's effective
-   *   implementation tags are the UNION of its own declared `tags:` and these
-   *   shared tags (deduplicated, additive — there is no override or opt-out).
+   *   implementation tags are the UNION of its own declared
+   *   `implementation_tags:` and these shared tags (deduplicated, additive —
+   *   there is no override or opt-out).
    *   The combined list runs through the same resolve/suggest/reject path as
    *   the app's own tags, so an unresolved inherited tag rejects the app too.
    *   NULL (the single-app path / no shared tags) leaves behaviour unchanged.
@@ -722,13 +736,17 @@ class RepoSyncService {
     }
 
     // Tags: same precedence + resolution pattern as software. Read the
-    // `tags:` list from the merged appverse layer; resolve against the
-    // appverse_implementation_tags vocabulary; write resolved term ids
-    // to field_add_implementation_tags; append error(s) for unresolved.
+    // `implementation_tags:` list from the merged appverse layer; resolve
+    // against the appverse_implementation_tags vocabulary; write resolved
+    // term ids to field_add_implementation_tags; append error(s) for
+    // unresolved. NOTE: the app-level key is `implementation_tags` — a bare
+    // `tags:` at the app level is repo-level DISCOVERY tags and is NOT read
+    // here.
     //
     // Repo-level shared_implementation_tags inheritance (monorepo apps[] path
     // only). The effective implementation-tag list is the UNION of the app's
-    // own declared `tags:` and the repo-level $sharedImplementationTags —
+    // own declared `implementation_tags:` and the repo-level
+    // $sharedImplementationTags —
     // additive, never an override, no opt-out. We dedup the combined list
     // (case-insensitive, first spelling wins) BEFORE resolving so a tag
     // declared at both levels produces a single term ref and, if unresolved,
@@ -738,7 +756,7 @@ class RepoSyncService {
     // treatment. $sharedImplementationTags is NULL on the single-app declared
     // path (shared_implementation_tags is a monorepo-only concept) and when no
     // shared tags are declared, leaving the single-app behaviour unchanged.
-    $declaredTags = $appverseLayer['tags'] ?? NULL;
+    $declaredTags = $appverseLayer['implementation_tags'] ?? NULL;
     $effectiveTags = [];
     foreach ([$declaredTags, $sharedImplementationTags] as $source) {
       if (!is_array($source)) {
