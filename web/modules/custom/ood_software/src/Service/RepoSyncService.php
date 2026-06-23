@@ -303,7 +303,15 @@ class RepoSyncService {
 
       $files = $subpathFiles[$subpath] ?? ['manifestYml' => NULL, 'appverseYml' => NULL];
       $appNode = $this->resolveAppNode($repoUrl, $subpath);
-      $this->applyDeclaredApp($appNode, $collection, $subpath, $files, $repoUrl, $repoMetadata, $entry);
+      // Thread the root-level maintainer down so an app that declares no
+      // maintainer of its own can inherit the repo-level maintainer. Only
+      // the multi-app (apps[]) path passes this; the single-app declared
+      // path already carries the maintainer inline in $entry, so it does
+      // NOT pass a fallback and is unaffected by inheritance.
+      $rootMaintainer = (isset($parsedRootYml['maintainer']) && is_array($parsedRootYml['maintainer']))
+        ? $parsedRootYml['maintainer']
+        : NULL;
+      $this->applyDeclaredApp($appNode, $collection, $subpath, $files, $repoUrl, $repoMetadata, $entry, $rootMaintainer);
       $result[$subpath] = $appNode;
     }
 
@@ -596,8 +604,30 @@ class RepoSyncService {
    * Required fields: name, description, app_type, maintainer.name,
    * maintainer.support_url. If any are missing, mark validation_st =
    * rejected and skip writing optional fields.
+   *
+   * @param \Drupal\node\NodeInterface $app
+   *   The app node to populate.
+   * @param \Drupal\node\NodeInterface $collection
+   *   The parent Repo/Collection node.
+   * @param string $subpath
+   *   The app's subpath within the repo ('' for a root single-app).
+   * @param array $files
+   *   {manifestYml, appverseYml, readme} text for this subpath.
+   * @param string $repoUrl
+   *   Canonical GitHub repo URL.
+   * @param array $repoMetadata
+   *   Metadata from GitHubService (organization term, etc.).
+   * @param array|null $entry
+   *   The root-inline apps[] entry for this app (or the synthesized entry on
+   *   the single-app path). Wins over the per-subpath appverse.yml.
+   * @param array|null $rootMaintainer
+   *   The top-level `maintainer` mapping from the root appverse.yml, passed
+   *   only by the multi-app applyDeclaredApps() path. When the app declares
+   *   no `maintainer` of its own, the WHOLE root maintainer mapping is
+   *   inherited; an app that declares its own maintainer always overrides.
+   *   NULL (the single-app path / no repo maintainer) disables inheritance.
    */
-  protected function applyDeclaredApp(NodeInterface $app, NodeInterface $collection, string $subpath, array $files, string $repoUrl, array $repoMetadata = [], ?array $entry = NULL): void {
+  protected function applyDeclaredApp(NodeInterface $app, NodeInterface $collection, string $subpath, array $files, string $repoUrl, array $repoMetadata = [], ?array $entry = NULL, ?array $rootMaintainer = NULL): void {
     // Reset validation status at the start of each sync run. Validation
     // checks below set 'rejected' + append errors when they detect
     // problems; if no checks reject, the app stays 'valid'. This lets a
@@ -633,6 +663,20 @@ class RepoSyncService {
     // subpath, not an app field.
     $appverseLayer = array_replace($perSubpathAppverse, $rootInline);
     unset($appverseLayer['path']);
+
+    // Repo-level maintainer inheritance (monorepo apps[] path only).
+    // Rule: inherit the ENTIRE root-level maintainer mapping ONLY when the
+    // app declares no `maintainer` at all (neither in its per-subpath
+    // appverse.yml nor in its inline apps[] entry). An app that declares its
+    // own `maintainer` always wins (override) — even a partial one; we do
+    // NOT merge sub-fields, because a partial app-level maintainer is the
+    // app's own (fixable) problem and per-field merging would be
+    // unpredictable. $rootMaintainer is NULL on the single-app declared path
+    // (applyDeclaredSingleApp), whose maintainer already lives in $entry, so
+    // that path is never double-applied.
+    if ($rootMaintainer !== NULL && !isset($appverseLayer['maintainer'])) {
+      $appverseLayer['maintainer'] = $rootMaintainer;
+    }
 
     $softwareDeclared = $appverseLayer['software'] ?? NULL;
     $softwareInfo = $this->githubService->resolveSoftwareForApp($softwareDeclared);
