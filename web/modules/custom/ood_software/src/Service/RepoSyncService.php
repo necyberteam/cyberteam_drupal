@@ -311,7 +311,14 @@ class RepoSyncService {
       $rootMaintainer = (isset($parsedRootYml['maintainer']) && is_array($parsedRootYml['maintainer']))
         ? $parsedRootYml['maintainer']
         : NULL;
-      $this->applyDeclaredApp($appNode, $collection, $subpath, $files, $repoUrl, $repoMetadata, $entry, $rootMaintainer);
+      // Thread the root-level shared_implementation_tags down so each member
+      // app's effective implementation tags are the union of its own `tags:`
+      // and the repo-level shared list (additive). Only a non-empty array
+      // signal is forwarded; anything else leaves per-app behaviour unchanged.
+      $sharedImplementationTags = (isset($parsedRootYml['shared_implementation_tags']) && is_array($parsedRootYml['shared_implementation_tags']) && $parsedRootYml['shared_implementation_tags'] !== [])
+        ? $parsedRootYml['shared_implementation_tags']
+        : NULL;
+      $this->applyDeclaredApp($appNode, $collection, $subpath, $files, $repoUrl, $repoMetadata, $entry, $rootMaintainer, $sharedImplementationTags);
       $result[$subpath] = $appNode;
     }
 
@@ -351,8 +358,10 @@ class RepoSyncService {
    *
    * Reuses applyDeclaredApp() for all field logic. We synthesize the apps[]
    * "entry" from the root yaml by dropping repo-only/structural keys
-   * (apps, shared_paths, website, docs, appverse) and mapping the root
-   * `title` to the app's `name` (applyDeclaredApp reads `name`, not `title`).
+   * (apps, shared_paths, website, docs, appverse, shared_implementation_tags)
+   * and mapping the root `title` to the app's `name` (applyDeclaredApp reads
+   * `name`, not `title`). shared_implementation_tags is monorepo-only and has
+   * nothing to inherit into for a single app, so it is ignored here.
    *
    * @param \Drupal\node\NodeInterface $repo
    *   The Repo node returned by resolveRepo() for this URL (already saved).
@@ -382,6 +391,14 @@ class RepoSyncService {
       $entry['website'],
       $entry['docs'],
       $entry['appverse'],
+      // shared_implementation_tags is a monorepo-only concept: it exists to
+      // be inherited additively by member apps[]. A single-app repo has no
+      // member apps to inherit into — its own `tags:` already cover it — so
+      // we drop the key here. Leaving it would let array_replace fold it into
+      // $appverseLayer where it is not an app field, and (harmlessly today)
+      // it is never read as `tags`, but dropping it keeps the synthesized
+      // entry clean and prevents any future spurious resolution.
+      $entry['shared_implementation_tags'],
     );
     if (isset($entry['title']) && !isset($entry['name'])) {
       $entry['name'] = $entry['title'];
@@ -626,8 +643,16 @@ class RepoSyncService {
    *   no `maintainer` of its own, the WHOLE root maintainer mapping is
    *   inherited; an app that declares its own maintainer always overrides.
    *   NULL (the single-app path / no repo maintainer) disables inheritance.
+   * @param array|null $sharedImplementationTags
+   *   The root-level `shared_implementation_tags` list, passed only by the
+   *   multi-app applyDeclaredApps() path. Each member app's effective
+   *   implementation tags are the UNION of its own declared `tags:` and these
+   *   shared tags (deduplicated, additive — there is no override or opt-out).
+   *   The combined list runs through the same resolve/suggest/reject path as
+   *   the app's own tags, so an unresolved inherited tag rejects the app too.
+   *   NULL (the single-app path / no shared tags) leaves behaviour unchanged.
    */
-  protected function applyDeclaredApp(NodeInterface $app, NodeInterface $collection, string $subpath, array $files, string $repoUrl, array $repoMetadata = [], ?array $entry = NULL, ?array $rootMaintainer = NULL): void {
+  protected function applyDeclaredApp(NodeInterface $app, NodeInterface $collection, string $subpath, array $files, string $repoUrl, array $repoMetadata = [], ?array $entry = NULL, ?array $rootMaintainer = NULL, ?array $sharedImplementationTags = NULL): void {
     // Reset validation status at the start of each sync run. Validation
     // checks below set 'rejected' + append errors when they detect
     // problems; if no checks reject, the app stays 'valid'. This lets a
@@ -700,10 +725,43 @@ class RepoSyncService {
     // `tags:` list from the merged appverse layer; resolve against the
     // appverse_implementation_tags vocabulary; write resolved term ids
     // to field_add_implementation_tags; append error(s) for unresolved.
+    //
+    // Repo-level shared_implementation_tags inheritance (monorepo apps[] path
+    // only). The effective implementation-tag list is the UNION of the app's
+    // own declared `tags:` and the repo-level $sharedImplementationTags —
+    // additive, never an override, no opt-out. We dedup the combined list
+    // (case-insensitive, first spelling wins) BEFORE resolving so a tag
+    // declared at both levels produces a single term ref and, if unresolved,
+    // a single "did you mean" error rather than a doubled one. The combined
+    // list then runs through the SAME resolveTaxonomyTermsFromAppverseYml call
+    // as before, so inherited tags also get the resolve/suggest/reject
+    // treatment. $sharedImplementationTags is NULL on the single-app declared
+    // path (shared_implementation_tags is a monorepo-only concept) and when no
+    // shared tags are declared, leaving the single-app behaviour unchanged.
     $declaredTags = $appverseLayer['tags'] ?? NULL;
+    $effectiveTags = [];
+    foreach ([$declaredTags, $sharedImplementationTags] as $source) {
+      if (!is_array($source)) {
+        continue;
+      }
+      foreach ($source as $tag) {
+        if (!is_scalar($tag)) {
+          continue;
+        }
+        $trimmed = trim((string) $tag);
+        if ($trimmed === '') {
+          continue;
+        }
+        // Case-insensitive dedup; keep the first spelling encountered.
+        $key = mb_strtolower($trimmed);
+        if (!isset($effectiveTags[$key])) {
+          $effectiveTags[$key] = $trimmed;
+        }
+      }
+    }
     $tagsInfo = $this->githubService->resolveTaxonomyTermsFromAppverseYml(
       'appverse_implementation_tags',
-      is_array($declaredTags) ? $declaredTags : NULL
+      $effectiveTags !== [] ? array_values($effectiveTags) : NULL
     );
     // Always set the field (to the resolved tids, or an empty list when the
     // app declares no tags or none resolve) so that removing tags from the
