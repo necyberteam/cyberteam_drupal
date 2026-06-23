@@ -789,21 +789,27 @@ class RepoSyncService {
       $tagTids[] = $resolved['tid'];
     }
     $app->set('field_add_implementation_tags', $tagTids);
+    // Drop-and-flag (NOT reject) for unresolved implementation tags: the app
+    // keeps the tags that DID resolve (written above) and stays listed; each
+    // unresolved tag is simply dropped and recorded as a flag in
+    // validation_er for a reviewer to act on (map to an existing term or
+    // create it). An unknown implementation tag must not delist an otherwise
+    // valid app — unlike `software` (a hard gate above), a missing discovery
+    // facet is not fatal. We deliberately do NOT set validation_st here.
     if (!empty($tagsInfo['unresolved'])) {
-      $app->set('field_appverse_app_validation_st', 'rejected');
       $existingErrors = $app->get('field_appverse_app_validation_er')->getValue();
       foreach ($tagsInfo['unresolved'] as $unresolved) {
         $suggestion = $unresolved['suggestion'] ?? NULL;
         if ($suggestion !== NULL) {
           $msg = sprintf(
-            "tags: '%s' not found in implementation_tags vocabulary. Did you mean '%s'? (See the contributor docs for the current list.)",
+            "implementation_tags: '%s' is not in the implementation_tags vocabulary and was not applied. Did you mean '%s'? (A reviewer can map or create the term; see the contributor docs for the current list.)",
             $unresolved['declared'],
             $suggestion
           );
         }
         else {
           $msg = sprintf(
-            "tags: '%s' not found in implementation_tags vocabulary. See the contributor docs for the current list of valid values.",
+            "implementation_tags: '%s' is not in the implementation_tags vocabulary and was not applied. (A reviewer can map or create the term; see the contributor docs for the current list of valid values.)",
             $unresolved['declared']
           );
         }

@@ -81,6 +81,7 @@ class DeclaredAppTagsTest extends KernelTestBase {
     $this->importProdConfig([
       'node.type.appverse_repo',
       'node.type.appverse_app',
+      'node.type.appverse_software',
       'workflows.workflow.appverse_editorial',
       // Repo bundle fields.
       'field.storage.node.field_repo_url',
@@ -167,6 +168,17 @@ class DeclaredAppTagsTest extends KernelTestBase {
 
     // Seed an org term so resolveOrganizationTerm() can match.
     Term::create(['vid' => 'appverse_organization', 'name' => 'x'])->save();
+
+    // A published Software node so the declared `software:` resolves and the
+    // app is not rejected on the software hard-gate. This keeps these tests
+    // focused on tag behaviour: an unresolved implementation tag is now
+    // drop-and-flag (app stays valid), so the only thing that could flip the
+    // app to 'rejected' must be tags, not a missing software.
+    Node::create([
+      'type' => 'appverse_software',
+      'title' => 'Jupyter',
+      'status' => 1,
+    ])->save();
   }
 
   /**
@@ -194,6 +206,7 @@ class DeclaredAppTagsTest extends KernelTestBase {
           'name' => 'Jupyter',
           'description' => 'desc',
           'app_type' => 'batch-connect-basic',
+          'software' => 'Jupyter',
           'implementation_tags' => $tags,
           'maintainer' => ['name' => 'Team', 'support_url' => 'https://e.org'],
         ],
@@ -309,7 +322,14 @@ class DeclaredAppTagsTest extends KernelTestBase {
   }
 
   /**
-   * A tag present only in the generic `tags` vocab is not written + rejected.
+   * A tag present only in the generic `tags` vocab is not written + flagged.
+   *
+   * The vocab distinction is unchanged: a value living only in the generic
+   * `tags` vocab still does not resolve against appverse_implementation_tags,
+   * so it is NOT written to field_add_implementation_tags. What changed is the
+   * handling of the unresolved tag — it is now drop-and-flag, not reject: the
+   * app stays 'valid' and the unknown tag is recorded as a flag in
+   * validation_er for a reviewer.
    *
    * @covers ::applyDeclaredApp
    */
@@ -333,7 +353,8 @@ class DeclaredAppTagsTest extends KernelTestBase {
       $this->appTagTids($app),
       'A generic-vocab-only tag must not be written to the impl-tag field.'
     );
-    self::assertSame('rejected', $app->get('field_appverse_app_validation_st')->value);
+    // Drop-and-flag: the unresolved implementation tag no longer rejects.
+    self::assertSame('valid', $app->get('field_appverse_app_validation_st')->value);
 
     $errors = [];
     foreach ($app->get('field_appverse_app_validation_er')->getValue() as $item) {

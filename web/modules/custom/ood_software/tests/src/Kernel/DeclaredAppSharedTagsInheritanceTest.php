@@ -391,16 +391,19 @@ class DeclaredAppSharedTagsInheritanceTest extends KernelTestBase {
   }
 
   /**
-   * An unresolved shared tag rejects the app, with a single error.
+   * An unresolved shared tag is dropped and flagged, with a single error.
    *
-   * Confirms the inherited tags also get the resolve/suggest/reject treatment,
-   * and dedup prevents a doubled error when the same unresolved tag would
-   * appear at both levels.
+   * Drop-and-flag, not reject: an unresolved inherited implementation tag does
+   * NOT delist the app. The app stays 'valid'; the tags that DID resolve are
+   * still written; each unresolved tag is dropped (not applied) and recorded as
+   * a single flag in validation_er for a reviewer to map or create the term.
+   * Dedup still applies, so a tag declared at both the shared and app level
+   * yields one flag, not a doubled one.
    *
    * @covers ::applyDeclaredApps
    * @covers ::applyDeclaredApp
    */
-  public function testUnresolvedSharedTagRejectsAppOnce(): void {
+  public function testUnresolvedSharedTagDroppedAndFlaggedOnce(): void {
     $sync = $this->container->get('ood_software.repo_sync');
     $repo = $this->createRepo();
 
@@ -414,7 +417,7 @@ class DeclaredAppSharedTagsInheritanceTest extends KernelTestBase {
           'description' => 'desc',
           'app_type' => 'batch-connect-basic',
           'software' => 'Jupyter',
-          // App also declares the same bad tag — must yield one error.
+          // App also declares the same bad tag — must yield one flag.
           'implementation_tags' => ['bogus-tag', 'jupyter'],
           'maintainer' => ['name' => 'Team', 'support_url' => 'https://e.org'],
         ],
@@ -431,15 +434,69 @@ class DeclaredAppSharedTagsInheritanceTest extends KernelTestBase {
 
     $app = $this->loadApp($repo, 'jup');
 
-    self::assertSame('rejected', $this->status($app));
-    // The valid one still resolves.
+    // Drop-and-flag: the app stays valid despite the unresolved tag.
+    self::assertSame('valid', $this->status($app), 'An unresolved implementation tag must drop-and-flag, not reject. Errors: ' . $this->errors($app));
+    // The valid one still resolves and is written.
     self::assertSame(
       [$this->tidByName('appverse_implementation_tags', 'jupyter')],
       $this->appTagTids($app)
     );
-    // Only one tag error mentioning the bad value (deduped, not doubled).
+    // Only one tag flag mentioning the bad value (deduped, not doubled).
     $tagErrorCount = substr_count($this->errors($app), 'bogus-tag');
-    self::assertSame(1, $tagErrorCount, 'A tag declared at both levels must produce a single error, not a doubled one.');
+    self::assertSame(1, $tagErrorCount, 'A tag declared at both levels must produce a single flag, not a doubled one.');
+  }
+
+  /**
+   * Per-app implementation_tags: drop the unknown, keep the valid, flag it.
+   *
+   * The core drop-and-flag contract for a plain per-app implementation_tags
+   * case (no inheritance involved). An app declares two tags: one that exists
+   * as a term and one that does not. The resolved term is written and only it;
+   * the unknown tag is dropped (not written) and recorded as a flag; the app
+   * stays 'valid' (NOT rejected) so it remains listed.
+   *
+   * @covers ::applyDeclaredApps
+   * @covers ::applyDeclaredApp
+   */
+  public function testUnresolvedAppTagDroppedAndFlaggedKeepsAppValid(): void {
+    $sync = $this->container->get('ood_software.repo_sync');
+    $repo = $this->createRepo();
+
+    $rootYml = [
+      'apps' => [
+        [
+          'path' => 'jup',
+          'name' => 'Jupyter',
+          'description' => 'desc',
+          'app_type' => 'batch-connect-basic',
+          'software' => 'Jupyter',
+          // One real term ('gpu-enabled') + one that doesn't exist.
+          'implementation_tags' => ['gpu-enabled', 'totally-bogus-tag'],
+          'maintainer' => ['name' => 'Team', 'support_url' => 'https://e.org'],
+        ],
+      ],
+    ];
+
+    $sync->applyDeclaredApps(
+      $repo,
+      $rootYml,
+      ['jup' => ['manifestYml' => NULL, 'appverseYml' => NULL]],
+      'https://github.com/x/y',
+      [],
+    );
+
+    $app = $this->loadApp($repo, 'jup');
+
+    // Stay listed: the unknown tag does not delist an otherwise-valid app.
+    self::assertSame('valid', $this->status($app), 'An unresolved implementation tag must not reject the app. Errors: ' . $this->errors($app));
+    // Keep the valid: only the resolved term is written, the bogus one dropped.
+    self::assertSame(
+      [$this->tidByName('appverse_implementation_tags', 'gpu-enabled')],
+      $this->appTagTids($app),
+      'Only the resolved tag must be written; the unknown one is dropped.'
+    );
+    // Flag it: a message naming the bogus tag is recorded for a reviewer.
+    self::assertStringContainsString('totally-bogus-tag', $this->errors($app));
   }
 
   /**
