@@ -332,6 +332,91 @@ class RepoSyncService {
   }
 
   /**
+   * Create/update the single member app for a declared single-app repo.
+   *
+   * SHAPE 1 (docs/appverse.yml): a root appverse.yml that declares top-level
+   * app metadata (software, app_type, tags, maintainer, description, title)
+   * but no `apps:` list. The repo IS the one app, living at the repo root
+   * (subpath ''). This is the declared-shape analogue of
+   * syncInferredMemberApp(): one app at root, created synchronously by the
+   * AddRepoForm so the contributor's hub shows it immediately.
+   *
+   * Reuses applyDeclaredApp() for all field logic. We synthesize the apps[]
+   * "entry" from the root yaml by dropping repo-only/structural keys
+   * (apps, shared_paths, website, docs, appverse) and mapping the root
+   * `title` to the app's `name` (applyDeclaredApp reads `name`, not `title`).
+   *
+   * @param \Drupal\node\NodeInterface $repo
+   *   The Repo node returned by resolveRepo() for this URL (already saved).
+   * @param array $parsedRootYml
+   *   The full parsed root appverse.yml mapping.
+   * @param array $rootFiles
+   *   Root manifest/appverse/readme text, in the same {manifestYml,
+   *   appverseYml, readme} shape applyDeclaredApp expects for a subpath.
+   *   Pass [] when none were fetched.
+   * @param string $repoUrl
+   *   Canonical GitHub repo URL.
+   * @param array $repoMetadata
+   *   Metadata from GitHubService (used for the organization term, etc.).
+   *
+   * @return \Drupal\node\NodeInterface
+   *   The created/updated appverse_app node at subpath ''.
+   */
+  public function applyDeclaredSingleApp(NodeInterface $repo, array $parsedRootYml, array $rootFiles, string $repoUrl, array $repoMetadata = []): NodeInterface {
+    // Synthesize the apps[] entry from the root mapping. Drop repo-only and
+    // structural keys; what remains (software, app_type, tags, maintainer,
+    // description) are the app's Appverse fields. Map root `title` -> `name`
+    // since applyDeclaredApp() reads `name` for the app title.
+    $entry = $parsedRootYml;
+    unset(
+      $entry['apps'],
+      $entry['shared_paths'],
+      $entry['website'],
+      $entry['docs'],
+      $entry['appverse'],
+    );
+    if (isset($entry['title']) && !isset($entry['name'])) {
+      $entry['name'] = $entry['title'];
+    }
+    unset($entry['title']);
+
+    $files = $rootFiles ?: ['manifestYml' => NULL, 'appverseYml' => NULL];
+
+    // Resolve the existing root app by parent repo, mirroring
+    // syncInferredMemberApp(). A single-app repo has exactly one member app
+    // at subpath '' (the repo root). We deliberately look up by
+    // field_appverse_repo rather than resolveAppNode($repoUrl, '') because
+    // an empty-string subpath does not round-trip through a string-field
+    // equality query (Drupal treats '' as an empty field item), so a
+    // subpath='' lookup would never re-find the app and re-syncs would
+    // duplicate it.
+    $existing = $this->entityTypeManager->getStorage('node')->loadByProperties([
+      'type' => 'appverse_app',
+      'field_appverse_repo' => $repo->id(),
+    ]);
+    if ($existing) {
+      $appNode = reset($existing);
+    }
+    else {
+      $appNode = $this->entityTypeManager->getStorage('node')->create([
+        'type' => 'appverse_app',
+        'field_appverse_github_url' => ['uri' => $repoUrl],
+        'field_appverse_app_subpath' => '',
+        // New apps land in 'draft' (mirrors resolveAppNode + createBlankRepo).
+        'moderation_state' => 'draft',
+      ]);
+    }
+
+    // Stamp ownership on a brand-new node, mirroring syncInferredMemberApp().
+    if ($appNode->isNew()) {
+      $appNode->setOwnerId((int) $repo->getOwnerId());
+    }
+
+    $this->applyDeclaredApp($appNode, $repo, '', $files, $repoUrl, $repoMetadata, $entry);
+    return $appNode;
+  }
+
+  /**
    * Delete member Apps whose subpath isn't in the canonical apps[] list.
    *
    * Extracted from applyDeclaredApps so callers that pass a narrowed

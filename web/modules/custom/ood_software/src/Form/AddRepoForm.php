@@ -317,6 +317,23 @@ final class AddRepoForm extends FormBase {
   }
 
   /**
+   * Whether a parsed root appverse.yml (with no apps[]) describes one app.
+   *
+   * SHAPE 1 single-app repos declare top-level app metadata instead of an
+   * apps[] list. We treat any of software / app_type / title / description
+   * at the root as the signal that the contributor meant to register one app
+   * here, rather than an empty repo with nothing to sync.
+   */
+  private function rootDeclaresSingleApp(array $parsedRootYml): bool {
+    foreach (['software', 'app_type', 'title', 'description'] as $key) {
+      if (isset($parsedRootYml[$key]) && $parsedRootYml[$key] !== '' && $parsedRootYml[$key] !== []) {
+        return TRUE;
+      }
+    }
+    return FALSE;
+  }
+
+  /**
    * Declared shape: resolveRepo + per-subpath Batch + reconcile + redirect.
    *
    * Mirrors _ood_software_handle_collection_submit at ood_software.module:1166
@@ -373,6 +390,36 @@ final class AddRepoForm extends FormBase {
     }
 
     if (!$subpaths) {
+      // SHAPE 1 (docs/appverse.yml): a root appverse.yml with top-level app
+      // metadata but no apps[] is the documented single-app repo. The repo
+      // IS the one app, at the repo root (subpath ''). Create it
+      // synchronously via RepoSyncService::applyDeclaredSingleApp(), the
+      // declared-shape analogue of the inferred path's syncInferredMemberApp.
+      // Only do this when top-level app metadata is actually present;
+      // otherwise the root yaml carries no app and there's nothing to sync.
+      if ($this->rootDeclaresSingleApp($parsedRootYml)) {
+        $rootFiles = [
+          // The root appverse.yml is already parsed and passed as $entry to
+          // applyDeclaredApp, so don't re-feed it as the per-subpath
+          // appverseYml (that layer is merged under $entry anyway).
+          'manifestYml' => NULL,
+          'appverseYml' => NULL,
+          'readme' => $this->github->getReadme() ?? '',
+        ];
+        $app = $this->repoSync->applyDeclaredSingleApp($repo, $parsedRootYml, $rootFiles, $url, $repoMetadata);
+
+        if ($app->get('field_appverse_app_validation_st')->value === 'rejected') {
+          $this->messenger()->addWarning($this->t('Repo registered and one app was created from the root appverse.yml, but it is missing required fields and was flagged for fixes. Edit appverse.yml and re-sync.'));
+        }
+        else {
+          $this->messenger()->addStatus($this->t('Registered <em>@title</em> as a single-app repo. It is now in your hub as a draft — send it for review when you are ready.', [
+            '@title' => $app->label(),
+          ]));
+        }
+        $form_state->setRedirectUrl($repo->toUrl());
+        return;
+      }
+
       $this->messenger()->addWarning($this->t('Repo registered, but appverse.yml declared no apps[] entries with a path. Nothing to sync.'));
       $form_state->setRedirectUrl($repo->toUrl());
       return;
