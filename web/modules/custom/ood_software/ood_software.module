@@ -1649,6 +1649,24 @@ function _ood_software_build_hub_row(\Drupal\node\NodeInterface $repo): array {
     $moderationComment = $latest['revision_log'] ?? NULL;
   }
 
+  // Discovery tags (repo-level `tags` vocab) shown on the card header.
+  // field_repo_unresolved_tags does not exist until B2 adds it; guard the
+  // field read so a partial deploy can't fatal the hub render.
+  $discoveryResolved = [];
+  foreach ($repo->get('field_repo_tags')->referencedEntities() as $term) {
+    $discoveryResolved[] = $term->label();
+  }
+  $discoveryUnresolved = [];
+  if ($repo->hasField('field_repo_unresolved_tags')) {
+    foreach ($repo->get('field_repo_unresolved_tags')->getValue() as $item) {
+      $discoveryUnresolved[] = $item['value'];
+    }
+  }
+  $discoveryTags = [
+    'resolved' => $discoveryResolved,
+    'unresolved' => $discoveryUnresolved,
+  ];
+
   return [
     'repo_id' => (int) $repo->id(),
     'title' => $repo->label(),
@@ -1671,6 +1689,7 @@ function _ood_software_build_hub_row(\Drupal\node\NodeInterface $repo): array {
     'edit_url' => $editUrl,
     'owner' => $owner,
     'actions' => _ood_software_hub_repo_actions($repo, $isAdmin, $moderationState, $repo->isPublished()),
+    'discovery_tags' => $discoveryTags,
     'apps' => $apps,
   ];
 }
@@ -1710,6 +1729,33 @@ function _ood_software_build_hub_app(\Drupal\node\NodeInterface $app, bool $pare
       : ['label' => t('Unpublished'), 'modifier' => 'warning'];
   }
 
+  // Resolved implementation tags (chips) + unresolved (flagged, with a
+  // per-tag create-term URL). Flagged always shown in full; resolved
+  // truncate to keep tag-heavy repos readable.
+  $resolvedTags = [];
+  foreach ($app->get('field_add_implementation_tags')->referencedEntities() as $term) {
+    $resolvedTags[] = $term->label();
+  }
+  $unresolved = [];
+  $routeExists = (bool) \Drupal::service('router.route_provider')
+    ->getRoutesByNames(['ood_software.create_implementation_tag']);
+  foreach ($app->get('field_appverse_unresolved_tags')->getValue() as $item) {
+    $declared = $item['value'];
+    $createUrl = $routeExists
+      ? \Drupal\Core\Url::fromRoute('ood_software.create_implementation_tag', ['node' => $app->id()],
+          ['query' => ['tag' => $declared, 'destination' => \Drupal::destination()->get()]])->toString()
+      : NULL;
+    $unresolved[] = ['declared' => $declared, 'create_url' => $createUrl];
+  }
+  $shownLimit = 5;
+  $tags = [
+    'resolved' => $resolvedTags,
+    'resolved_shown' => array_slice($resolvedTags, 0, $shownLimit),
+    'truncated' => count($resolvedTags) > $shownLimit,
+    'remaining' => max(0, count($resolvedTags) - $shownLimit),
+    'unresolved' => $unresolved,
+  ];
+
   return [
     'app_id' => (int) $app->id(),
     'title' => $app->label(),
@@ -1720,6 +1766,7 @@ function _ood_software_build_hub_app(\Drupal\node\NodeInterface $app, bool $pare
     'can_edit' => $canEdit,
     'edit_url' => ($parentInferred && $canEdit) ? '/node/' . $app->id() . '/edit' : NULL,
     'status' => $status,
+    'tags' => $tags,
     'unpublish_form' => $repoPublished
       ? _ood_software_hub_action_form('appverse/app/' . $app->id() . '/unpublish', $app->isPublished() ? t('Unpublish app') : t('Publish app'), $app->isPublished() ? 'bi-slash-circle' : 'bi-check-circle')
       : NULL,

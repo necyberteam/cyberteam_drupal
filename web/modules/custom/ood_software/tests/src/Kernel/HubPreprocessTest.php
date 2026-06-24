@@ -8,6 +8,8 @@ use Drupal\Core\Config\FileStorage;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Tests\ood_software\Kernel\Traits\ProdConfigTrait;
 use Drupal\Tests\user\Traits\UserCreationTrait;
 
@@ -60,8 +62,14 @@ class HubPreprocessTest extends KernelTestBase {
       'field.field.node.appverse_app.field_appverse_software_implemen',
       'field.storage.node.field_appverse_app_subpath',
       'field.field.node.appverse_app.field_appverse_app_subpath',
+      // Implementation tags (resolved + unresolved).
+      'field.storage.node.field_add_implementation_tags',
+      'field.field.node.appverse_app.field_add_implementation_tags',
+      // Discovery tags (repo-level, resolved).
+      'field.storage.node.field_repo_tags',
+      'field.field.node.appverse_repo.field_repo_tags',
     ]);
-    // field_repo_shape lives in module config/install.
+    // field_repo_shape and field_appverse_unresolved_tags live in module config/install.
     $moduleSource = new FileStorage(
       DRUPAL_ROOT . '/modules/custom/ood_software/config/install'
     );
@@ -70,6 +78,8 @@ class HubPreprocessTest extends KernelTestBase {
     foreach ([
       'field.storage.node.field_repo_shape',
       'field.field.node.appverse_repo.field_repo_shape',
+      'field.storage.node.field_appverse_unresolved_tags',
+      'field.field.node.appverse_app.field_appverse_unresolved_tags',
     ] as $name) {
       $data = $moduleSource->read($name);
       if ($data === FALSE) {
@@ -82,6 +92,10 @@ class HubPreprocessTest extends KernelTestBase {
       }
       $storage->createFromStorageRecord($data)->save();
     }
+    // Vocabularies required by the tag fields.
+    Vocabulary::create(['vid' => 'appverse_implementation_tags', 'name' => 'Implementation Tags'])->save();
+    Vocabulary::create(['vid' => 'tags', 'name' => 'Tags'])->save();
+
     \Drupal::moduleHandler()->loadInclude('ood_software', 'module');
 
     // Burn uid 1. Drupal's uid-1 superuser bypasses every permission check, so
@@ -313,6 +327,137 @@ class HubPreprocessTest extends KernelTestBase {
     $this->assertContains('user:' . $owner->id(), $meta['tags']);
     $this->assertContains('user.permissions', $meta['contexts']);
     $this->assertContains('user', $meta['contexts']);
+  }
+
+  // -------------------------------------------------------------------------
+  // Tag-rendering tests (A2/A2b)
+  // -------------------------------------------------------------------------
+
+  /**
+   * App row exposes resolved + unresolved implementation tags.
+   */
+  public function testAppRowExposesResolvedAndUnresolvedTags(): void {
+    // Create a resolved term.
+    $term = Term::create(['vid' => 'appverse_implementation_tags', 'name' => 'gpu-enabled']);
+    $term->save();
+
+    $repo = $this->makeRepo(['shape' => 'declared']);
+    // Need two apps to get a monorepo so the apps array is populated.
+    $app1 = Node::create([
+      'type' => 'appverse_app',
+      'title' => 'App Alpha',
+      'field_appverse_repo' => $repo->id(),
+      'field_appverse_app_subpath' => 'alpha',
+      'field_add_implementation_tags' => [['target_id' => $term->id()]],
+      'field_appverse_unresolved_tags' => [['value' => 'bogus']],
+      'moderation_state' => 'published',
+    ]);
+    $app1->save();
+    $this->makeApp($repo, ['title' => 'App Beta', 'subpath' => 'beta']);
+
+    $hub = _ood_software_build_hub_row($repo);
+    // App Alpha sorts first (alpha < beta).
+    $appRow = $hub['apps'][0];
+    $this->assertArrayHasKey('tags', $appRow, 'App row must have a tags key');
+
+    // Resolved tags.
+    $this->assertSame(['gpu-enabled'], $appRow['tags']['resolved']);
+    $this->assertSame(['gpu-enabled'], $appRow['tags']['resolved_shown']);
+    $this->assertFalse($appRow['tags']['truncated']);
+    $this->assertSame(0, $appRow['tags']['remaining']);
+
+    // Unresolved tags.
+    $this->assertCount(1, $appRow['tags']['unresolved']);
+    $this->assertSame('bogus', $appRow['tags']['unresolved'][0]['declared']);
+
+    // create_url: the A3 route exists so it must not be NULL.
+    $createUrl = $appRow['tags']['unresolved'][0]['create_url'];
+    $this->assertNotNull($createUrl, 'create_url must not be NULL when A3 route exists');
+    $this->assertStringContainsString('/create-implementation-tag', $createUrl);
+  }
+
+  /**
+   * Resolved tags beyond the limit are truncated; unresolved tags never are.
+   */
+  public function testResolvedTagsTruncateAndUnresolvedNever(): void {
+    // Create 10 resolved implementation-tag terms.
+    $termIds = [];
+    for ($i = 1; $i <= 10; $i++) {
+      $term = Term::create(['vid' => 'appverse_implementation_tags', 'name' => "tag-$i"]);
+      $term->save();
+      $termIds[] = ['target_id' => $term->id()];
+    }
+
+    $repo = $this->makeRepo(['shape' => 'declared']);
+    $app1 = Node::create([
+      'type' => 'appverse_app',
+      'title' => 'Heavy App',
+      'field_appverse_repo' => $repo->id(),
+      'field_appverse_app_subpath' => 'heavy',
+      'field_add_implementation_tags' => $termIds,
+      'field_appverse_unresolved_tags' => [['value' => 'flag-a'], ['value' => 'flag-b']],
+      'moderation_state' => 'published',
+    ]);
+    $app1->save();
+    $this->makeApp($repo, ['title' => 'Filler App', 'subpath' => 'filler']);
+
+    // Heavy App sorts first (h < f? No — 'Filler' < 'Heavy' alphabetically).
+    // makeApp creates 'Filler App' which sorts before 'Heavy App'.
+    $hub = _ood_software_build_hub_row($repo);
+    // Find the heavy app row by subpath.
+    $heavyRow = NULL;
+    foreach ($hub['apps'] as $row) {
+      if ($row['subpath'] === 'heavy') {
+        $heavyRow = $row;
+        break;
+      }
+    }
+    $this->assertNotNull($heavyRow, 'Could not find Heavy App row');
+
+    $this->assertCount(10, $heavyRow['tags']['resolved']);
+    $this->assertTrue($heavyRow['tags']['truncated']);
+    $this->assertCount(5, $heavyRow['tags']['resolved_shown']);
+    $this->assertSame(5, $heavyRow['tags']['remaining']);
+
+    // All unresolved are shown (never truncated).
+    $this->assertCount(2, $heavyRow['tags']['unresolved']);
+  }
+
+  /**
+   * Repo row exposes discovery_tags (resolved from field_repo_tags).
+   */
+  public function testRepoRowExposesDiscoveryTags(): void {
+    $term = Term::create(['vid' => 'tags', 'name' => 'hpc']);
+    $term->save();
+
+    $repo = $this->makeRepo(['shape' => 'inferred']);
+    $repo->set('field_repo_tags', [['target_id' => $term->id()]]);
+    $repo->save();
+
+    $hub = _ood_software_build_hub_row($repo);
+
+    $this->assertArrayHasKey('discovery_tags', $hub, 'Repo row must have a discovery_tags key');
+    $this->assertSame(['hpc'], $hub['discovery_tags']['resolved']);
+    // field_repo_unresolved_tags doesn't exist yet (B2 adds it); guard returns [].
+    $this->assertSame([], $hub['discovery_tags']['unresolved']);
+  }
+
+  /**
+   * App row with no tags at all has a safe empty tags structure.
+   */
+  public function testAppRowEmptyTagsStructure(): void {
+    $repo = $this->makeRepo(['shape' => 'declared']);
+    $this->makeApp($repo, ['title' => 'App A', 'subpath' => 'a']);
+    $this->makeApp($repo, ['title' => 'App B', 'subpath' => 'b']);
+
+    $hub = _ood_software_build_hub_row($repo);
+    $appRow = $hub['apps'][0];
+
+    $this->assertSame([], $appRow['tags']['resolved']);
+    $this->assertSame([], $appRow['tags']['resolved_shown']);
+    $this->assertFalse($appRow['tags']['truncated']);
+    $this->assertSame(0, $appRow['tags']['remaining']);
+    $this->assertSame([], $appRow['tags']['unresolved']);
   }
 
 }

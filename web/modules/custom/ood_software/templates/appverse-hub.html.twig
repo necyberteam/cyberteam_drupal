@@ -67,6 +67,21 @@
       {% endif %}
     </div>
 
+    {# Repo-level discovery tags (shared `tags` vocab). Shown on the card
+       header so reviewers see them without expanding the apps table. #}
+    {% if hub.discovery_tags.resolved or hub.discovery_tags.unresolved %}
+      <div class="appverse-hub-card__cell appverse-hub-card__cell--discovery-tags">
+        {% for tag in hub.discovery_tags.resolved %}
+          <span class="appverse-tag appverse-tag--resolved">{{ tag }}</span>
+        {% endfor %}
+        {% for tag in hub.discovery_tags.unresolved %}
+          <span class="appverse-tag appverse-tag--unresolved" title="{{ 'Unresolved discovery tag'|t }}">
+            <i class="bi bi-exclamation-triangle" aria-hidden="true"></i> {{ tag }}
+          </span>
+        {% endfor %}
+      </div>
+    {% endif %}
+
     <div class="appverse-hub-card__cell appverse-hub-card__cell--actions">
       {% if hub.edit_url %}
         <a href="{{ hub.edit_url }}" class="appverse-hub-card__icon-btn"
@@ -111,6 +126,7 @@
             <th>{{ 'App'|t }}</th>
             <th>{{ 'Subpath'|t }}</th>
             <th>{{ 'Software'|t }}</th>
+            <th>{{ 'Tags'|t }}</th>
             <th>{{ 'Status'|t }}</th>
           </tr>
         </thead>
@@ -128,6 +144,33 @@
               </td>
               <td><code>{{ app.subpath ?: '.' }}</code></td>
               <td>{{ app.software ?: '—' }}</td>
+              <td class="appverse-hub-apps-table__tags">
+                {# Resolved implementation tags — first N chips, then "+M more". #}
+                {% for tag in app.tags.resolved_shown %}
+                  <span class="appverse-tag appverse-tag--resolved">{{ tag }}</span>
+                {% endfor %}
+                {% if app.tags.truncated %}
+                  <span class="appverse-tag appverse-tag--more"
+                        title="{{ '@count more tags'|t({'@count': app.tags.remaining}) }}">
+                    +{{ app.tags.remaining }} {{ 'more'|t }}
+                  </span>
+                {% endif %}
+                {# Unresolved tags — always shown in full, with a create-term link. #}
+                {% for item in app.tags.unresolved %}
+                  {% if item.create_url %}
+                    <a href="{{ item.create_url }}"
+                       class="appverse-tag appverse-tag--unresolved"
+                       title="{{ 'Create term for unresolved tag'|t }}">
+                      <i class="bi bi-exclamation-triangle" aria-hidden="true"></i> {{ item.declared }}
+                    </a>
+                  {% else %}
+                    <span class="appverse-tag appverse-tag--unresolved"
+                          title="{{ 'Unresolved tag (route unavailable)'|t }}">
+                      <i class="bi bi-exclamation-triangle" aria-hidden="true"></i> {{ item.declared }}
+                    </span>
+                  {% endif %}
+                {% endfor %}
+              </td>
               <td>
                 <span class="badge badge-{{ app.status.modifier }}">{{ app.status.label }}</span>
                 {% if app.edit_url %}
