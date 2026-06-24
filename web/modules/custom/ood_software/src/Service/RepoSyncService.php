@@ -814,6 +814,15 @@ class RepoSyncService {
       }
       $app->set('field_appverse_app_validation_er', $existingErrors);
     }
+    // Persist the structured unresolved implementation tags so the hub can
+    // render per-tag [Create term] actions without re-parsing prose or
+    // re-fetching from GitHub. Always set (cleared when none) so it never
+    // goes stale across syncs.
+    $unresolvedTagValues = [];
+    foreach (($tagsInfo['unresolved'] ?? []) as $unresolved) {
+      $unresolvedTagValues[] = $unresolved['declared'];
+    }
+    $app->set('field_appverse_unresolved_tags', $unresolvedTagValues);
 
     // Fallback to manifest.yml's name + description if neither the per-app
     // appverse.yml nor the root-inline apps[] entry declare them.
