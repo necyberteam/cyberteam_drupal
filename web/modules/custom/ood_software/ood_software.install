@@ -379,3 +379,50 @@ function ood_software_update_10504() {
   // sites/default/config/default/. We do NOT recreate anything new here.
   return t('Dropped legacy appverse_collection bundle + fields. Run drush cim to import the renamed appverse_repo configs.');
 }
+
+/**
+ * Install the unresolved-tags fields on existing sites.
+ *
+ * field_appverse_unresolved_tags (appverse_app) and field_repo_unresolved_tags
+ * (appverse_repo) are defined only in this module's config/install/, which runs
+ * at module-install time only. Existing sites (md, prod) never received them on
+ * deploy — drush cim imports from the config sync dir, not config/install — so
+ * the reviewer-tag-handling sync threw "Field field_appverse_unresolved_tags is
+ * unknown" at runtime. This hook installs both fields from config/install.
+ *
+ * Idempotent: re-running on a site that already has a field is a no-op
+ * (loadByName returns the existing entity and we skip). Both fields are plain
+ * `string` (no allowed_values), so no flatten is needed (cf. 10501).
+ */
+function ood_software_update_10505() {
+  $source = new \Drupal\Core\Config\FileStorage(
+    \Drupal::service('extension.list.module')->getPath('ood_software') . '/config/install'
+  );
+
+  $fields = [
+    // [storage config name, field config name, entity bundle, field name].
+    [
+      'field.storage.node.field_appverse_unresolved_tags',
+      'field.field.node.appverse_app.field_appverse_unresolved_tags',
+      'appverse_app',
+      'field_appverse_unresolved_tags',
+    ],
+    [
+      'field.storage.node.field_repo_unresolved_tags',
+      'field.field.node.appverse_repo.field_repo_unresolved_tags',
+      'appverse_repo',
+      'field_repo_unresolved_tags',
+    ],
+  ];
+
+  foreach ($fields as [$storageName, $fieldName, $bundle, $field]) {
+    if (!\Drupal\field\Entity\FieldStorageConfig::loadByName('node', $field)) {
+      \Drupal\field\Entity\FieldStorageConfig::create($source->read($storageName))->save();
+    }
+    if (!\Drupal\field\Entity\FieldConfig::loadByName('node', $bundle, $field)) {
+      \Drupal\field\Entity\FieldConfig::create($source->read($fieldName))->save();
+    }
+  }
+
+  return t('Installed field_appverse_unresolved_tags and field_repo_unresolved_tags.');
+}
