@@ -150,6 +150,8 @@ class DeclaredSingleAppTest extends KernelTestBase {
       'field.field.node.appverse_repo.field_repo_shape',
       'field.storage.node.field_appverse_unresolved_tags',
       'field.field.node.appverse_app.field_appverse_unresolved_tags',
+      'field.storage.node.field_repo_unresolved_tags',
+      'field.field.node.appverse_repo.field_repo_unresolved_tags',
     ] as $name) {
       $data = $moduleSource->read($name);
       if ($data === FALSE) {

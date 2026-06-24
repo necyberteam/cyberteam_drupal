@@ -13,20 +13,17 @@ use Drupal\taxonomy\Entity\Vocabulary;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Discovery tags (repo-level `tags:`) must use the exact resolver, not LIKE.
+ * Covers persistence of unresolved repo-level discovery tags.
  *
- * The old resolveTagTerm() used a LIKE query, which treats `_` as a
- * single-character SQL wildcard. A declared tag like `c_t` could therefore
- * match any 3-character term (e.g. "cat", "cot") — or, with MySQL's ci
- * collation, could match unexpected terms. This test pins the correct
- * behaviour: only exact case-insensitive matches count; declared values with
- * wildcard-like characters must NOT match anything that doesn't literally equal
- * them.
+ * A discovery-tag miss is a FLAG, not a degrade — the repo must NOT be marked
+ * degraded/invalid solely because a declared `tags:` value didn't resolve.
+ * Unresolved values are persisted to field_repo_unresolved_tags; the field is
+ * always set (cleared to [] when all resolve) so it never goes stale.
  *
  * @coversDefaultClass \Drupal\ood_software\Service\RepoSyncService
  * @group ood_software
  */
-class DiscoveryTagResolverTest extends KernelTestBase {
+class DiscoveryTagFlagTest extends KernelTestBase {
 
   use Traits\ProdConfigTrait;
 
@@ -114,7 +111,7 @@ class DiscoveryTagResolverTest extends KernelTestBase {
       'field.field.node.appverse_repo.field_repo_www_url',
       'field.storage.node.field_repo_docs_url',
       'field.field.node.appverse_repo.field_repo_docs_url',
-      // The discovery tag field — the field under test.
+      // The discovery tag field — field_repo_tags holds resolved TIDs.
       'field.storage.node.field_repo_tags',
       'field.field.node.appverse_repo.field_repo_tags',
       'field.storage.node.field_repo_readme',
@@ -147,7 +144,7 @@ class DiscoveryTagResolverTest extends KernelTestBase {
       'taxonomy.vocabulary.appverse_organization',
     ]);
 
-    // field_repo_shape lives in the module's config/install.
+    // Import module-only fields from config/install (not in prod snapshot).
     $moduleSource = new FileStorage(
       DRUPAL_ROOT . '/modules/custom/ood_software/config/install'
     );
@@ -193,7 +190,7 @@ class DiscoveryTagResolverTest extends KernelTestBase {
   }
 
   /**
-   * Build an appverse.yml string from a data array and sync the repo.
+   * Sync a repo from a root appverse.yml data array.
    *
    * @param array $rootData
    *   Scalar-value pairs to serialise as the root appverse.yml.
@@ -210,24 +207,64 @@ class DiscoveryTagResolverTest extends KernelTestBase {
   }
 
   /**
-   * Exact (case-insensitive) match only; a wildcard-like value must not match.
+   * Unresolved discovery tags are flagged; resolved ones are stored; no degrade.
    *
-   * Declares two tags: 'Containerized' (case-shifted version of the seeded
-   * term) and 'c_t' (which under SQL LIKE is a 3-char wildcard pattern that
-   * would match the seeded term 'cat'). After the fix only 'containerized'
-   * resolves; 'c_t' resolves to nothing even though the seeded term 'cat'
-   * would match under LIKE.
+   * Declares 'containerized' (seeded) and 'containerised' (British spelling,
+   * no matching term). The resolved tag goes to field_repo_tags; the unresolved
+   * value goes to field_repo_unresolved_tags; and the repo is NOT degraded.
    *
    * @covers ::applyDeclared
    */
-  public function testDiscoveryTagsUseExactResolverNotLike(): void {
+  public function testUnresolvedDiscoveryTagIsFlaggedNotDegraded(): void {
+    // Seed only the American spelling — the British spelling has no term.
     Term::create(['vid' => 'tags', 'name' => 'containerized'])->save();
-    // 'cat' is a 3-char term; under LIKE, `c_t` would match it as a wildcard.
-    Term::create(['vid' => 'tags', 'name' => 'cat'])->save();
-    $repo = $this->syncDeclaredRepo(['description' => 'x', 'tags' => ['Containerized', 'c_t']]);
+
+    $repo = $this->syncDeclaredRepo([
+      'description' => 'x',
+      'tags' => ['containerized', 'containerised'],
+    ]);
+
+    // Resolved tag is stored in field_repo_tags.
     $tids = array_column($repo->get('field_repo_tags')->getValue(), 'target_id');
     $names = array_map(fn($t) => Term::load($t)->label(), $tids);
-    self::assertSame(['containerized'], $names, 'Exact (ci) match only; c_t must not wildcard-match.');
+    self::assertSame(['containerized'], $names, 'Resolved tag written to field_repo_tags.');
+
+    // Unresolved tag is flagged in field_repo_unresolved_tags.
+    $unresolved = array_column($repo->get('field_repo_unresolved_tags')->getValue(), 'value');
+    self::assertSame(['containerised'], $unresolved, 'Unresolved tag written to field_repo_unresolved_tags.');
+
+    // Discovery-tag miss is a FLAG, not a degrade — repo stays valid.
+    self::assertSame('valid', $repo->get('field_repo_validation_st')->value,
+      'Repo validation status must not be degraded by an unresolved discovery tag alone.');
+  }
+
+  /**
+   * The unresolved field clears to [] when all discovery tags resolve.
+   *
+   * @covers ::applyDeclared
+   */
+  public function testUnresolvedFieldClearsWhenAllDiscoveryTagsResolve(): void {
+    Term::create(['vid' => 'tags', 'name' => 'containerized'])->save();
+
+    $repo = $this->syncDeclaredRepo([
+      'description' => 'x',
+      'tags' => ['containerized'],
+    ]);
+
+    self::assertSame([], $repo->get('field_repo_unresolved_tags')->getValue(),
+      'field_repo_unresolved_tags must be empty when all declared tags resolved.');
+  }
+
+  /**
+   * The unresolved field is set even when no tags are declared.
+   *
+   * @covers ::applyDeclared
+   */
+  public function testUnresolvedFieldSetWhenNoTagsDeclared(): void {
+    $repo = $this->syncDeclaredRepo(['description' => 'x']);
+
+    self::assertSame([], $repo->get('field_repo_unresolved_tags')->getValue(),
+      'field_repo_unresolved_tags must be empty (not missing) when no tags declared.');
   }
 
 }

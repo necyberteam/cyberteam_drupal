@@ -199,7 +199,13 @@ class RepoSyncService {
       $repoTagIds[] = $resolved['tid'];
     }
     $node->set('field_repo_tags', $repoTagIds);
-    // (B2 will append $discoveryInfo['unresolved'] to field_repo_unresolved_tags.)
+    // Read-only flag for reviewers — discovery-tag misses are NEVER reviewer-
+    // created (the `tags` vocab is portal-wide). Always set (cleared when none).
+    $repoUnresolved = [];
+    foreach (($discoveryInfo['unresolved'] ?? []) as $unresolved) {
+      $repoUnresolved[] = $unresolved['declared'];
+    }
+    $node->set('field_repo_unresolved_tags', $repoUnresolved);
 
     if (isset($repoMetadata['readme'])) {
       $node->set('field_repo_readme', [
