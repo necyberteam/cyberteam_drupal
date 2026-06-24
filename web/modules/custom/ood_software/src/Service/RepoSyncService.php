@@ -184,25 +184,22 @@ class RepoSyncService {
       $node->set('field_repo_docs_url', NULL);
     }
 
-    // Collection-level tags (case-insensitive match against existing tags
-    // vocabulary; no auto-create — same approach as resolveOrganizationTerm).
-    $tags = $parsed['tags'] ?? [];
-    if (is_array($tags) && $tags) {
-      $tagIds = [];
-      foreach ($tags as $tagName) {
-        if (!is_string($tagName)) {
-          continue;
-        }
-        $tid = $this->resolveTagTerm(trim($tagName));
-        if ($tid !== NULL) {
-          $tagIds[] = $tid;
-        }
-      }
-      $node->set('field_repo_tags', $tagIds);
+    // Repo-level discovery tags resolve against the shared `tags` vocabulary
+    // via the same exact-match + suggestion resolver used for implementation
+    // tags (retires the old LIKE matcher, which treated %/_ in a declared tag
+    // as SQL wildcards and could match the wrong term). No auto-create — the
+    // `tags` vocab is portal-wide and not AppVerse's to grow.
+    $declaredDiscoveryTags = $parsed['tags'] ?? NULL;
+    $discoveryInfo = $this->githubService->resolveTaxonomyTermsFromAppverseYml(
+      'tags',
+      is_array($declaredDiscoveryTags) ? $declaredDiscoveryTags : NULL
+    );
+    $repoTagIds = [];
+    foreach (($discoveryInfo['resolved'] ?? []) as $resolved) {
+      $repoTagIds[] = $resolved['tid'];
     }
-    else {
-      $node->set('field_repo_tags', []);
-    }
+    $node->set('field_repo_tags', $repoTagIds);
+    // (B2 will append $discoveryInfo['unresolved'] to field_repo_unresolved_tags.)
 
     if (isset($repoMetadata['readme'])) {
       $node->set('field_repo_readme', [
@@ -1118,30 +1115,6 @@ class RepoSyncService {
 
     $node->save();
     return $node;
-  }
-
-  /**
-   * Match an existing tag taxonomy term by name.
-   *
-   * Matches by name; case-insensitivity depends on the database collation
-   * (MySQL's default *_ci collations match case-insensitively, which is
-   * what we rely on here).
-   *
-   * Match-only — does not auto-create. Tags must exist in the `tags`
-   * vocabulary before they can be assigned to a Collection.
-   */
-  protected function resolveTagTerm(string $name): ?int {
-    $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
-    $tids = $termStorage->getQuery()
-      ->condition('vid', 'tags')
-      ->condition('name', $name, 'LIKE')
-      ->range(0, 1)
-      ->accessCheck(FALSE)
-      ->execute();
-    if (!$tids) {
-      return NULL;
-    }
-    return (int) reset($tids);
   }
 
 }
