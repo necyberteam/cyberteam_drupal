@@ -943,8 +943,15 @@ function _ood_software_resync_repo_batch(int $repoId, string $repoUrl, ?string $
     $operations[] = ['_ood_software_batch_sync_app', [$repoId, $subpath, $repoUrl, $repoMetadata, $parsedRootYml]];
   }
   $operations[] = ['_ood_software_batch_reconcile_apps', [$repoId, $repoUrl, $parsedRootYml]];
+  // Prefer the repo's human label for the progress title; fall back to the
+  // URL if the node can't be loaded or has no label.
+  $repoLabel = $repoUrl;
+  $repoNode = \Drupal::entityTypeManager()->getStorage('node')->load($repoId);
+  if ($repoNode && $repoNode->label()) {
+    $repoLabel = $repoNode->label();
+  }
   batch_set([
-    'title' => t('Syncing apps from @url…', ['@url' => $repoUrl]),
+    'title' => t('Syncing apps from @repo…', ['@repo' => $repoLabel]),
     'operations' => $operations,
     'finished' => '_ood_software_batch_repo_synced',
     'init_message' => t('Starting…'),
@@ -1745,8 +1752,10 @@ function _ood_software_build_hub_app(\Drupal\node\NodeInterface $app, bool $pare
     $resolvedTags[] = $term->label();
   }
   $unresolved = [];
-  $routeExists = (bool) \Drupal::service('router.route_provider')
-    ->getRoutesByNames(['ood_software.create_implementation_tag']);
+  // getRoutesByNames() returns a plain array of only the routes that exist
+  // (empty if the route is absent), so count() is the clear existence check.
+  $routeExists = count(\Drupal::service('router.route_provider')
+    ->getRoutesByNames(['ood_software.create_implementation_tag'])) > 0;
   foreach ($app->get('field_appverse_unresolved_tags')->getValue() as $item) {
     $declared = $item['value'];
     $createUrl = $routeExists
