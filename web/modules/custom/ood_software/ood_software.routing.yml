@@ -104,6 +104,18 @@ ood_software.repo_request_changes:
   requirements:
     _custom_access: '\Drupal\ood_software\Controller\AppverseHubController::adminOnlyAccess'
 
+ood_software.create_implementation_tag:
+  path: '/appverse/app/{node}/create-implementation-tag'
+  defaults:
+    _form: '\Drupal\ood_software\Form\AppverseHubCreateTagForm'
+    _title: 'Create implementation tag'
+  options:
+    parameters:
+      node:
+        type: entity:node
+  requirements:
+    _custom_access: '\Drupal\ood_software\Controller\AppverseHubController::adminOnlyAccess'
+
 ood_software.repo_publish:
   path: '/appverse/repo/{node}/publish'
   defaults:
