@@ -898,6 +898,54 @@ function _ood_software_batch_repo_synced($success, $results, $operations) {
 }
 
 /**
+ * Resync a repo without blocking: resolve the Repo, then Batch its apps.
+ *
+ * Shared by AddRepoForm::submitDeclared, AppverseHubController::resync, and
+ * the reviewer create-tag action. Large monorepos make an inline per-app
+ * GitHub round-trip block the browser for many seconds; batching shows a
+ * progress bar instead. Single-app/inferred repos (no apps[]) sync inline
+ * (one app — nothing to batch).
+ *
+ * @param int $repoId
+ *   The node ID of the already-resolved appverse_repo entity.
+ * @param string $repoUrl
+ *   Canonical GitHub repo URL.
+ * @param string|null $appverseYmlText
+ *   Raw appverse.yml text, or NULL for inferred repos.
+ * @param array $repoMetadata
+ *   Repo-level metadata array (stars, description, etc.).
+ * @param array $parsedRootYml
+ *   Parsed appverse.yml as an array (NOT raw YAML text).
+ */
+function _ood_software_resync_repo_batch(int $repoId, string $repoUrl, ?string $appverseYmlText, array $repoMetadata, array $parsedRootYml): void {
+  $subpaths = [];
+  foreach (($parsedRootYml['apps'] ?? []) as $app) {
+    if (!empty($app['path']) && is_string($app['path'])) {
+      $subpaths[] = $app['path'];
+    }
+  }
+  if (!$subpaths) {
+    // No apps[] — declared single-app or inferred. Resolve synchronously;
+    // resolveRepo + the single-app path are cheap (one app).
+    \Drupal::service('ood_software.repo_sync')->resolveRepo($repoUrl, $appverseYmlText, $repoMetadata);
+    return;
+  }
+  $operations = [];
+  foreach ($subpaths as $subpath) {
+    $operations[] = ['_ood_software_batch_sync_app', [$repoId, $subpath, $repoUrl, $repoMetadata, $parsedRootYml]];
+  }
+  $operations[] = ['_ood_software_batch_reconcile_apps', [$repoId, $repoUrl, $parsedRootYml]];
+  batch_set([
+    'title' => t('Syncing apps from @url…', ['@url' => $repoUrl]),
+    'operations' => $operations,
+    'finished' => '_ood_software_batch_repo_synced',
+    'init_message' => t('Starting…'),
+    'progress_message' => t('Processed @current of @total.'),
+    'error_message' => t('Sync hit an error.'),
+  ]);
+}
+
+/**
  * Implements hook_node_insert().
  */
 function ood_software_node_insert(NodeInterface $node) {

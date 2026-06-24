@@ -122,7 +122,8 @@ final class AppverseHubController extends ControllerBase {
         ));
       }
 
-      $this->repoSync->resolveRepo($repoUrl, $appverseYml, $repoMetadata);
+      $parsedRootYml = $appverseYml !== NULL ? (\Symfony\Component\Yaml\Yaml::parse($appverseYml) ?: []) : [];
+      _ood_software_resync_repo_batch((int) $node->id(), $repoUrl, $appverseYml, $repoMetadata, is_array($parsedRootYml) ? $parsedRootYml : []);
 
       // Reload the Collection — service saved updated fields, in-memory
       // $node is stale. The service's applyDeclared/applyInferred

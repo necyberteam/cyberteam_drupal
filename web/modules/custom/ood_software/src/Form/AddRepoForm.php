@@ -425,26 +425,10 @@ final class AddRepoForm extends FormBase {
       return;
     }
 
-    $operations = [];
-    foreach ($subpaths as $subpath) {
-      $operations[] = [
-        '_ood_software_batch_sync_app',
-        [(int) $repo->id(), $subpath, $url, $repoMetadata, $parsedRootYml],
-      ];
-    }
-    $operations[] = [
-      '_ood_software_batch_reconcile_apps',
-      [(int) $repo->id(), $url, $parsedRootYml],
-    ];
-
-    batch_set([
-      'title' => $this->t('Syncing apps from @repo…', ['@repo' => $repo->label()]),
-      'operations' => $operations,
-      'finished' => '_ood_software_batch_repo_synced',
-      'init_message' => $this->t('Starting…'),
-      'progress_message' => $this->t('Processed @current of @total.'),
-      'error_message' => $this->t('Sync hit an error.'),
-    ]);
+    // resolveRepo has already run above; $repo is resolved and $apps[] is
+    // non-empty. Call the helper to batch the per-subpath sync ops. The
+    // helper's no-apps fallback won't trigger because $subpaths is non-empty.
+    _ood_software_resync_repo_batch((int) $repo->id(), $url, $appverseYmlText, $repoMetadata, $parsedRootYml);
     $form_state->setRedirectUrl($repo->toUrl());
   }
 
