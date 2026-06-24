@@ -906,6 +906,14 @@ function _ood_software_batch_repo_synced($success, $results, $operations) {
  * progress bar instead. Single-app/inferred repos (no apps[]) sync inline
  * (one app — nothing to batch).
  *
+ * CONTRACT: For multi-app repos (non-empty apps[]), callers MUST call
+ * RepoSyncService::resolveRepo() BEFORE this helper. The helper only batches
+ * per-app ops (applyDeclaredApps + reconcileDeclaredApps); it does NOT write
+ * repo-level fields (field_repo_validation_st, field_repo_last_synced,
+ * field_repo_unresolved_tags, field_repo_tags, etc.) for the multi-app path.
+ * Those fields are written exclusively by applyDeclared(), which resolveRepo()
+ * calls. Failing to call resolveRepo() first leaves repo-level fields stale.
+ *
  * @param int $repoId
  *   The node ID of the already-resolved appverse_repo entity.
  * @param string $repoUrl

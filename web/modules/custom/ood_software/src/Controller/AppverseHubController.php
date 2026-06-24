@@ -123,13 +123,28 @@ final class AppverseHubController extends ControllerBase {
       }
 
       $parsedRootYml = $appverseYml !== NULL ? (\Symfony\Component\Yaml\Yaml::parse($appverseYml) ?: []) : [];
-      _ood_software_resync_repo_batch((int) $node->id(), $repoUrl, $appverseYml, $repoMetadata, is_array($parsedRootYml) ? $parsedRootYml : []);
+      $parsedRootYml = is_array($parsedRootYml) ? $parsedRootYml : [];
+
+      // Always call resolveRepo first so repo-level fields
+      // (field_repo_validation_st, field_repo_last_synced,
+      // field_repo_unresolved_tags, field_repo_tags, etc.) are written
+      // before any per-app batch ops run. This mirrors
+      // AddRepoForm::submitDeclared, which calls resolveRepo inline BEFORE
+      // calling the helper. The helper's own no-apps fallback also calls
+      // resolveRepo, so only delegate to it for the multi-app (apps[]) case
+      // where the batch progress bar is needed — single-app and inferred
+      // repos are handled entirely by resolveRepo here.
+      $this->repoSync->resolveRepo($repoUrl, $appverseYml, $repoMetadata);
+
+      $hasApps = !empty($parsedRootYml['apps']) && is_array($parsedRootYml['apps']);
+      if ($hasApps) {
+        _ood_software_resync_repo_batch((int) $node->id(), $repoUrl, $appverseYml, $repoMetadata, $parsedRootYml);
+      }
 
       // Reload the Collection — service saved updated fields, in-memory
-      // $node is stale. The service's applyDeclared/applyInferred
-      // already clear field_repo_validation_er (= []), set
-      // field_repo_validation_st='valid', and update
-      // field_repo_last_synced on success, so the controller
+      // $node is stale. resolveRepo (via applyDeclared/applyInferred)
+      // already wrote field_repo_validation_st, field_repo_last_synced,
+      // and clears field_repo_validation_er on success, so the controller
       // doesn't need to write those fields here — only in the catch
       // block below.
       $fresh = $this->entityTypeManager()->getStorage('node')->load($node->id());

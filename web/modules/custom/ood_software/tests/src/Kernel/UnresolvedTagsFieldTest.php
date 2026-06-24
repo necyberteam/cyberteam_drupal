@@ -105,7 +105,10 @@ class UnresolvedTagsFieldTest extends KernelTestBase {
       'taxonomy.vocabulary.appverse_organization',
     ]);
 
-    // Import the new unresolved-tags field from the module's config/install.
+    // Import fields from the module's config/install (not in the prod
+    // snapshot). field_repo_shape is required because applyDeclared()
+    // reads and writes it; field_appverse_unresolved_tags is the per-app
+    // counterpart to the repo-level field_repo_unresolved_tags.
     $moduleSource = new FileStorage(
       DRUPAL_ROOT . '/modules/custom/ood_software/config/install'
     );
