@@ -13,7 +13,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Confirm form for deleting an appverse_collection node + cascade.
+ * Confirm form for deleting an appverse_repo node + cascade.
  *
  * Lists the member Apps that will be cascade-deleted alongside the
  * Collection. On submit, deletes member Apps first, then the Collection.

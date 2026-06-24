@@ -274,28 +274,41 @@ function ood_software_update_10504() {
   $entityTypeManager = \Drupal::entityTypeManager();
   $configFactory = \Drupal::configFactory();
 
+  $storage = $entityTypeManager->getStorage('node');
+
   // 1. Delete every appverse_collection node (cascades to revisions +
   // moderation_state rows via entity-system delete semantics).
-  $storage = $entityTypeManager->getStorage('node');
-  $ids = $storage->getQuery()
-    ->accessCheck(FALSE)
-    ->condition('type', 'appverse_collection')
-    ->execute();
-  if ($ids) {
-    $storage->delete($storage->loadMultiple($ids));
+  // Guard: on an environment that came up AFTER the rename, the
+  // appverse_collection bundle never existed — querying a non-existent
+  // bundle/field throws, so skip the node + back-reference cleanup entirely
+  // when the old bundle is absent. (Steps 3-5 are already loadByName-guarded
+  // and no-op safely on their own.)
+  if (\Drupal\node\Entity\NodeType::load('appverse_collection')) {
+    $ids = $storage->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('type', 'appverse_collection')
+      ->execute();
+    if ($ids) {
+      $storage->delete($storage->loadMultiple($ids));
+    }
   }
 
   // 2. Unset field_appverse_collection on every appverse_app node so the
   // field can be deleted without orphaning row data.
-  $appIds = $storage->getQuery()
-    ->accessCheck(FALSE)
-    ->condition('type', 'appverse_app')
-    ->exists('field_appverse_collection')
-    ->execute();
-  foreach ($storage->loadMultiple($appIds) as $app) {
-    $app->set('field_appverse_collection', NULL);
-    $app->setNewRevision(FALSE);
-    $app->save();
+  // Guard: an entity query with ->exists() on a field that was never defined
+  // throws "'field_appverse_collection' not found". Only run when the field
+  // storage actually exists.
+  if (\Drupal\field\Entity\FieldStorageConfig::loadByName('node', 'field_appverse_collection')) {
+    $appIds = $storage->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('type', 'appverse_app')
+      ->exists('field_appverse_collection')
+      ->execute();
+    foreach ($storage->loadMultiple($appIds) as $app) {
+      $app->set('field_appverse_collection', NULL);
+      $app->setNewRevision(FALSE);
+      $app->save();
+    }
   }
 
   // 3. Delete every field.field instance on the appverse_collection bundle.

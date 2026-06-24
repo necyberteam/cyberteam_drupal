@@ -225,7 +225,7 @@ final class AppverseHubController extends ControllerBase {
 
     if ($currentlyPublished) {
       // Unpublish: allowed for owner or admin.
-      // appverse_collection uses content_moderation. setUnpublished()
+      // appverse_repo uses content_moderation. setUnpublished()
       // alone won't stick because the workflow forces status from
       // moderation_state on save. Drive via the moderation field instead.
       $response = $this->applyTransition(

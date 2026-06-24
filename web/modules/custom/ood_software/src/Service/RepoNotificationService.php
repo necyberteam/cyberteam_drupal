@@ -10,7 +10,7 @@ use Drupal\node\NodeInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Sends moderation-transition emails for appverse_collection nodes.
+ * Sends moderation-transition emails for appverse_repo nodes.
  *
  * Triggered from ood_software_node_update() when moderation_state changes.
  * Three transitions are notified:

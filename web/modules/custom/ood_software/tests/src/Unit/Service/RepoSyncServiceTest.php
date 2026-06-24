@@ -253,7 +253,7 @@ YAML;
   /**
    * applyDeclared writes field_repo_shape='declared'.
    *
-   * Consumers of appverse_collection nodes branch on this field to
+   * Consumers of appverse_repo nodes branch on this field to
    * distinguish multi-app (declared via appverse.yml) from single-app
    * (inferred via manifest.yml) shapes.
    */
@@ -271,7 +271,7 @@ YAML;
   /**
    * applyInferred writes field_repo_shape='inferred'.
    *
-   * Consumers of appverse_collection nodes branch on this field to
+   * Consumers of appverse_repo nodes branch on this field to
    * distinguish multi-app (declared via appverse.yml) from single-app
    * (inferred via manifest.yml) shapes.
    */
