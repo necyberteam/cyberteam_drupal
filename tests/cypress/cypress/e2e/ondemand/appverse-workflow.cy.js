@@ -42,28 +42,32 @@ describe("Appverse Workflow Moderation", () => {
       // Submit to create in draft state
       cy.get('#edit-submit').click();
 
-      // Should redirect away from node/add (might go to my-apps or the node)
-      cy.url().should('not.include', '/node/add');
+      // Submit redirects to the user's my-apps listing.
+      cy.url({ timeout: 10000 }).should('include', '/my-apps');
 
-      // Get the created node ID from the success message or by querying
-      cy.get('.messages--status').then(($msg) => {
-        // Extract node ID from message like "Appverse App Jupyter Notebook has been created."
-        // We need to find the node - query JSON:API for recently created apps
-        cy.request({
-          method: 'GET',
-          url: '/jsonapi/node/appverse_app?sort=-created&page[limit]=1',
-          headers: { 'Accept': 'application/vnd.api+json' }
-        }).then((response) => {
-          if (response.body.data && response.body.data.length > 0) {
-            const nodeId = response.body.data[0].attributes.drupal_internal__nid;
-            Cypress.env('createdNodeId', nodeId);
+      // Assert the "has been created" status message actually renders. This is
+      // a real quality check, not just a wait: confirming the message appears
+      // protects against regressions in status-message rendering (e.g. the
+      // BigPipe removal Pantheon requires). Target the semantic status wrapper
+      // (role="status") and the message content rather than the .messages--status
+      // class, which the ood theme does not emit.
+      cy.get('[role="status"]', { timeout: 10000 })
+        .should('contain', 'has been created');
 
-            // Verify moderation state in edit form
-            cy.visit(`/node/${nodeId}/edit`);
-            cy.get('[data-drupal-selector="edit-moderation-state-0-state"]')
-              .should('have.value', 'draft');
-          }
-        });
+      // Find the just-created node via JSON:API to drive the rest of the flow.
+      cy.request({
+        method: 'GET',
+        url: '/jsonapi/node/appverse_app?sort=-created&page[limit]=1',
+        headers: { 'Accept': 'application/vnd.api+json' }
+      }).then((response) => {
+        expect(response.body.data, 'a newly created appverse_app node').to.have.length.greaterThan(0);
+        const nodeId = response.body.data[0].attributes.drupal_internal__nid;
+        Cypress.env('createdNodeId', nodeId);
+
+        // Verify moderation state in edit form
+        cy.visit(`/node/${nodeId}/edit`);
+        cy.get('[data-drupal-selector="edit-moderation-state-0-state"]')
+          .should('have.value', 'draft');
       });
     });
 

@@ -35,23 +35,27 @@ Cypress.Commands.add("verifyImage", { prevSubject: true }, ($img) => {
     return cy.wrap($img);
   }
 
-  // Regular image URL - retry once on failure
-  return cy.request(url).then(
-    (response) => {
-      expect(response.status).to.eq(200);
-      expect(response.body.length).to.be.greaterThan(0);
-      return cy.wrap($img);
-    },
-    (error) => {
-      // Retry once on network/server errors
-      cy.task("log", `Image request failed, retrying: ${url}`);
-      return cy.request(url).then((response) => {
-        expect(response.status).to.eq(200);
-        expect(response.body.length).to.be.greaterThan(0);
+  // Regular image URL. The first hit to an image-style derivative triggers
+  // on-the-fly generation, which can briefly return 503 under CI load before
+  // the derivative is ready. Poll with backoff (not failing on non-2xx) until
+  // it builds, rather than a single immediate retry that races the generation.
+  const attempts = 4;
+  const verifyImageUrl = (remaining, delay) => {
+    return cy.request({ url, failOnStatusCode: false }).then((response) => {
+      if (response.status === 200 && response.body.length > 0) {
         return cy.wrap($img);
-      });
-    }
-  );
+      }
+      if (remaining <= 1) {
+        // Out of retries — assert so the failure message is meaningful.
+        expect(response.status, `image ${url} status`).to.eq(200);
+        expect(response.body.length, `image ${url} body length`).to.be.greaterThan(0);
+        return cy.wrap($img);
+      }
+      cy.task("log", `Image not ready (status ${response.status}), retrying: ${url}`);
+      return cy.wait(delay).then(() => verifyImageUrl(remaining - 1, delay * 2));
+    });
+  };
+  return verifyImageUrl(attempts, 500);
 });
 
 /**
