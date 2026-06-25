@@ -75,6 +75,7 @@
         initScrollSpy(root, headings, nav);
         initDeepLink(headings, nav);
         initSearch(root, headings, rail, nav);
+        initMobileDisclosure(rail);
       });
     }
   };
@@ -351,6 +352,30 @@
     document.addEventListener('click', function (e) {
       if (!rail.contains(e.target)) { closeResults(); }
     });
+  }
+
+  function initMobileDisclosure(rail) {
+    var toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'appverse-doc-sidebar__toggle';
+    toggle.textContent = 'On this page';
+    toggle.setAttribute('aria-expanded', 'false');
+    rail.insertBefore(toggle, rail.firstChild);
+
+    function setOpen(open) {
+      rail.classList.toggle('appverse-doc-sidebar--mobile-open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    toggle.addEventListener('click', function () {
+      setOpen(!rail.classList.contains('appverse-doc-sidebar--mobile-open'));
+    });
+    // Tapping a TOC link closes the disclosure (jump then collapse).
+    rail.querySelector('.appverse-doc-toc').addEventListener('click', function (e) {
+      if (e.target.closest('.appverse-doc-toc__link')) { setOpen(false); }
+    });
+    // Escape + outside tap close it.
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { setOpen(false); } });
+    document.addEventListener('click', function (e) { if (!rail.contains(e.target)) { setOpen(false); } });
   }
 
 })(Drupal, once);

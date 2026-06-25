@@ -1,1 +1,103 @@
-/* Appverse doc sidebar: left-rail TOC + in-page search. Styles in Task 4. */
+/* Appverse doc sidebar: left-rail TOC + in-page search.
+   All rules scoped to .appverse-doc-node so they never affect other pages. */
+
+.appverse-doc-node {
+  display: grid;
+  grid-template-columns: 16rem minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Rail sits in column 1, sticky; body content flows in column 2.
+   The body field is the node's existing content element. */
+.appverse-doc-node .appverse-doc-sidebar {
+  position: sticky;
+  top: 1rem;
+  align-self: start;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  font-size: 0.875rem;
+}
+.appverse-doc-node .field--name-body { grid-column: 2; }
+.appverse-doc-node .appverse-doc-sidebar { grid-column: 1; grid-row: 1 / 99; }
+
+.appverse-doc-search { margin-bottom: 0.75rem; position: relative; }
+.appverse-doc-search__input {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #DDDEDF;
+  border-radius: 8px;
+}
+.appverse-doc-search__results {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  border: 1px solid #DDDEDF;
+  border-radius: 8px;
+  background: #fff;
+  max-height: 18rem;
+  overflow-y: auto;
+}
+.appverse-doc-search__result {
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+}
+.appverse-doc-search__result[aria-selected="true"],
+.appverse-doc-search__result:hover { background: #F2E2E5; }
+.appverse-doc-search__result-heading { display: block; font-weight: 600; }
+.appverse-doc-search__result-snippet { display: block; color: #57606a; font-size: 0.8rem; }
+.appverse-doc-search__empty { padding: 0.4rem 0.6rem; color: #57606a; }
+.appverse-doc-search mark,
+.appverse-doc-node mark[data-appverse-search] { background: #fff3cd; padding: 0 1px; }
+
+.appverse-doc-toc__list,
+.appverse-doc-toc__sublist { list-style: none; margin: 0; padding: 0; }
+.appverse-doc-toc__sublist { margin-left: 0.75rem; }
+.appverse-doc-toc__link {
+  display: block;
+  padding: 0.15rem 0.5rem;
+  color: #232323;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+}
+.appverse-doc-toc__item--h3 .appverse-doc-toc__link { padding-left: 1rem; }
+.appverse-doc-toc__item--h4 .appverse-doc-toc__link { padding-left: 1.5rem; font-size: 0.8rem; }
+.appverse-doc-toc__link:hover { color: #C91235; }
+.appverse-doc-toc__link[aria-current="true"] {
+  color: #C91235;
+  border-left-color: #C91235;
+  font-weight: 600;
+}
+
+/* Mobile: content first. Rail collapses into a tap-to-open disclosure. */
+.appverse-doc-sidebar__toggle { display: none; }
+
+@media (max-width: 60rem) {
+  .appverse-doc-node {
+    display: block; /* single column; content first */
+  }
+  .appverse-doc-node .appverse-doc-sidebar {
+    position: static;
+    max-height: none;
+    margin-bottom: 1rem;
+    border: 1px solid #DDDEDF;
+    border-radius: 8px;
+    padding: 0.5rem;
+  }
+  /* Collapse the rail body; show only the toggle until opened. */
+  .appverse-doc-sidebar__toggle {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: 0;
+    font-weight: 600;
+    padding: 0.25rem;
+    cursor: pointer;
+  }
+  .appverse-doc-sidebar .appverse-doc-search,
+  .appverse-doc-sidebar .appverse-doc-toc { display: none; }
+  .appverse-doc-sidebar--mobile-open .appverse-doc-search,
+  .appverse-doc-sidebar--mobile-open .appverse-doc-toc { display: block; }
+}
