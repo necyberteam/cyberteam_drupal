@@ -1630,20 +1630,30 @@ function _ood_software_build_hub_row(\Drupal\node\NodeInterface $repo): array {
     }
   }
 
+  // A single-app repo has no apps table to host a Tags column, so surface the
+  // one app's implementation tags on the card itself (below the header).
+  // Reuse the per-app builder so the tag structure is identical to the table.
+  $singleAppTags = NULL;
+  if ($appCount === 1) {
+    $only = reset($memberApps);
+    $built = _ood_software_build_hub_app($only, $isInferred, $repo->isPublished(), (string) $repoSlug);
+    $singleAppTags = $built['tags'] ?? NULL;
+  }
+
   $isAdmin = \Drupal::currentUser()->hasPermission('administer appverse content');
   $canEdit = $repo->access('update');
   $editUrl = ($shape === 'inferred' && $canEdit) ? '/node/' . $repo->id() . '/edit' : NULL;
 
-  // Owner block — admin-permission gated. Reviewers on the Manage page need to
-  // see who owns each repo, INCLUDING repos they own themselves, so this is not
-  // suppressed for the current user. Contributors (no admin permission) never
-  // see it, which keeps their own "My Apps" hub free of a redundant "owner is
-  // you" block. The 'user.permissions' cache context makes this admin-vs-not
-  // split per-viewer-safe.
+  // Owner block — shown only when the repo is owned by SOMEONE ELSE. On a
+  // viewer's own apps (their "My Apps" hub, or their own repo on the Manage
+  // page) the owner is the viewer, so the block is redundant noise and is
+  // suppressed. The 'user' cache context keeps this per-viewer-safe.
   $owner = NULL;
+  $currentUid = (int) \Drupal::currentUser()->id();
   // getOwner() is NULL if the author account was deleted while the repo
-  // persists — a realistic admin-view case. Guard before dereferencing.
-  if ($isAdmin && ($ownerAccount = $repo->getOwner())) {
+  // persists. Guard before dereferencing.
+  $ownerAccount = $repo->getOwner();
+  if ($ownerAccount && (int) $ownerAccount->id() !== $currentUid) {
     $owner = [
       'name' => $ownerAccount->getDisplayName(),
       'persona_url' => '/community-persona/' . $ownerAccount->id(),
@@ -1705,6 +1715,7 @@ function _ood_software_build_hub_row(\Drupal\node\NodeInterface $repo): array {
     'owner' => $owner,
     'actions' => _ood_software_hub_repo_actions($repo, $isAdmin, $moderationState, $repo->isPublished()),
     'discovery_tags' => $discoveryTags,
+    'single_app_tags' => $singleAppTags,
     'apps' => $apps,
   ];
 }
@@ -1747,22 +1758,36 @@ function _ood_software_build_hub_app(\Drupal\node\NodeInterface $app, bool $pare
   // Resolved implementation tags (chips) + unresolved (flagged, with a
   // per-tag create-term URL). Flagged always shown in full; resolved
   // truncate to keep tag-heavy repos readable.
+  //
+  // Guard both field reads with hasField(): on an environment where the
+  // module's update hooks haven't run yet (the field config from
+  // config/install isn't installed), reading an undefined field throws
+  // "Field X is unknown" and fatals the whole hub render. Guarding degrades
+  // gracefully (no chips) instead — the field appears once updates run.
   $resolvedTags = [];
-  foreach ($app->get('field_add_implementation_tags')->referencedEntities() as $term) {
-    $resolvedTags[] = $term->label();
+  if ($app->hasField('field_add_implementation_tags')) {
+    foreach ($app->get('field_add_implementation_tags')->referencedEntities() as $term) {
+      $resolvedTags[] = $term->label();
+    }
   }
   $unresolved = [];
-  // getRoutesByNames() returns a plain array of only the routes that exist
-  // (empty if the route is absent), so count() is the clear existence check.
-  $routeExists = count(\Drupal::service('router.route_provider')
-    ->getRoutesByNames(['ood_software.create_implementation_tag'])) > 0;
-  foreach ($app->get('field_appverse_unresolved_tags')->getValue() as $item) {
-    $declared = $item['value'];
-    $createUrl = $routeExists
-      ? \Drupal\Core\Url::fromRoute('ood_software.create_implementation_tag', ['node' => $app->id()],
-          ['query' => ['tag' => $declared, 'destination' => \Drupal::destination()->get()]])->toString()
-      : NULL;
-    $unresolved[] = ['declared' => $declared, 'create_url' => $createUrl];
+  // The create-term action is admin-only (route uses adminOnlyAccess), so only
+  // build the create link for admins. Non-admin contributors (e.g. on their own
+  // My Apps hub) still SEE the unresolved chip, but without a link that would
+  // 403 on click — their fix is to correct appverse.yml. The 'user.permissions'
+  // cache context (set on the hub render) keeps this per-viewer-safe.
+  $canCreateTags = \Drupal::currentUser()->hasPermission('administer appverse content')
+    && count(\Drupal::service('router.route_provider')
+      ->getRoutesByNames(['ood_software.create_implementation_tag'])) > 0;
+  if ($app->hasField('field_appverse_unresolved_tags')) {
+    foreach ($app->get('field_appverse_unresolved_tags')->getValue() as $item) {
+      $declared = $item['value'];
+      $createUrl = $canCreateTags
+        ? \Drupal\Core\Url::fromRoute('ood_software.create_implementation_tag', ['node' => $app->id()],
+            ['query' => ['tag' => $declared, 'destination' => \Drupal::destination()->get()]])->toString()
+        : NULL;
+      $unresolved[] = ['declared' => $declared, 'create_url' => $createUrl];
+    }
   }
   $shownLimit = 5;
   $tags = [
@@ -1830,6 +1855,32 @@ function ood_software_views_pre_render(\Drupal\views\ViewExecutable $view) {
   }
 }
 
+/**
+ * Implements hook_preprocess_views_view().
+ *
+ * Adds an "Add a repo" button to the top of the my_appverse hub (both the
+ * user "My Apps" and admin "Manage repos" displays), linking to the existing
+ * /appverse/add-repo submission form. No permission gate: 'submit appverse
+ * repo' is granted to all authenticated users, and the page itself only needs
+ * 'access content', so everyone who can reach the hub can submit. If submit is
+ * ever restricted to specific roles, gate this on that permission then.
+ */
+function ood_software_preprocess_views_view(array &$variables) {
+  if (($variables['view'] ?? NULL) === NULL || $variables['view']->id() !== 'my_appverse') {
+    return;
+  }
+  $button = [
+    '#type' => 'link',
+    '#title' => t('+ Add a repo'),
+    '#url' => \Drupal\Core\Url::fromRoute('ood_software.add_repo'),
+    '#attributes' => ['class' => ['appverse-hub-add-repo', 'btn', 'btn-primary']],
+  ];
+  // Prepend to the header without clobbering anything already there.
+  if (empty($variables['header'])) {
+    $variables['header'] = [];
+  }
+  $variables['header']['ood_software_add_repo'] = $button;
+}
 
 /**
  * Implements hook_views_data_alter().

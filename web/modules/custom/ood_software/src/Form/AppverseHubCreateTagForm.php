@@ -116,7 +116,7 @@ final class AppverseHubCreateTagForm extends FormBase {
               'Created tag "@t" and re-synced the repo.',
               ['@t' => $declared]
             ));
-            $form_state->setRedirect('view.my_appverse.page_1');
+            $this->redirectBack($form_state);
             return;
           }
         }
@@ -132,7 +132,22 @@ final class AppverseHubCreateTagForm extends FormBase {
     else {
       $this->messenger()->addStatus($this->t('Created tag "@t".', ['@t' => $declared]));
     }
-    $form_state->setRedirect('view.my_appverse.page_1');
+    $this->redirectBack($form_state);
+  }
+
+  /**
+   * Send the reviewer back to the hub they came from.
+   *
+   * The create link carries a ?destination= param (set when the hub builds the
+   * link), which Drupal's form submitter honors automatically, returning the
+   * reviewer to whichever hub display they were on (manage-repos or
+   * my-appverse). We set a real fallback route for the rare case the param is
+   * absent — the user's own my-appverse page (display page_user).
+   */
+  private function redirectBack(FormStateInterface $form_state): void {
+    $form_state->setRedirect('view.my_appverse.page_user', [
+      'user' => (int) $this->currentUser()->id(),
+    ]);
   }
 
 }

@@ -44,6 +44,10 @@
       {% endif %}
     </div>
 
+    {# Owner name + contact only when the repo is owned by someone else (the
+       row builder sets hub.owner to null when the viewer owns it). On your own
+       apps the owner is you, so it's redundant noise. The grid column track
+       stays (empty) when there's no owner so cards stay aligned. #}
     <div class="appverse-hub-card__cell appverse-hub-card__cell--owner">
       {% if hub.owner %}
         <a href="{{ hub.owner.persona_url }}" class="appverse-hub-card__owner">{{ hub.owner.name }}</a>
@@ -66,21 +70,6 @@
         <span class="badge badge-error">{{ 'Validation errors'|t }}</span>
       {% endif %}
     </div>
-
-    {# Repo-level discovery tags (shared `tags` vocab). Shown on the card
-       header so reviewers see them without expanding the apps table. #}
-    {% if hub.discovery_tags.resolved or hub.discovery_tags.unresolved %}
-      <div class="appverse-hub-card__cell appverse-hub-card__cell--discovery-tags">
-        {% for tag in hub.discovery_tags.resolved %}
-          <span class="appverse-tag appverse-tag--resolved">{{ tag }}</span>
-        {% endfor %}
-        {% for tag in hub.discovery_tags.unresolved %}
-          <span class="appverse-tag appverse-tag--unresolved" title="{{ 'Unresolved discovery tag'|t }}">
-            <i class="bi bi-exclamation-triangle" aria-hidden="true"></i> {{ tag }}
-          </span>
-        {% endfor %}
-      </div>
-    {% endif %}
 
     <div class="appverse-hub-card__cell appverse-hub-card__cell--actions">
       {% if hub.edit_url %}
@@ -107,6 +96,50 @@
     </div>
   </header>
 
+  {# Repo-level discovery tags (shared `tags` vocab), on their own full-width
+     row below the header so they wrap freely and don't compete with the
+     header's fixed grid (which would shove the action icons to a second row).
+     Resolved tags are quiet neutral chips; unresolved ones read as warnings. #}
+  {% if hub.discovery_tags.resolved or hub.discovery_tags.unresolved %}
+    <div class="appverse-hub-card__tags" role="list" aria-label="{{ 'Repository tags'|t }}">
+      <span class="appverse-hub-card__tags-label">{{ 'Tags:'|t }}</span>
+      {% for tag in hub.discovery_tags.resolved %}
+        <span class="appverse-tag appverse-tag--resolved" role="listitem">{{ tag }}</span>
+      {% endfor %}
+      {% for tag in hub.discovery_tags.unresolved %}
+        <span class="appverse-tag appverse-tag--unresolved" role="listitem"
+              title="{{ 'Not a catalog tag — not applied. Contributor should use an existing tag in appverse.yml.'|t }}">
+          <i class="bi bi-exclamation-triangle" aria-hidden="true"></i> {{ tag }}
+        </span>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {# Single-app repos have no apps table, so show the one app's implementation
+     tags here on the card. (Monorepos show per-app tags in the apps table
+     below instead; hub.single_app_tags is null for them.) #}
+  {% if hub.single_app_tags and (hub.single_app_tags.resolved or hub.single_app_tags.unresolved) %}
+    <div class="appverse-hub-card__tags" role="list" aria-label="{{ 'Implementation tags'|t }}">
+      <span class="appverse-hub-card__tags-label">{{ 'Implementation:'|t }}</span>
+      {% for tag in hub.single_app_tags.resolved_shown %}
+        <span class="appverse-tag appverse-tag--resolved" role="listitem">{{ tag }}</span>
+      {% endfor %}
+      {% if hub.single_app_tags.truncated %}
+        <span class="appverse-tag appverse-tag--more" role="listitem"
+              title="{{ '@count more tags'|t({'@count': hub.single_app_tags.remaining}) }}">
+          +{{ hub.single_app_tags.remaining }} {{ 'more'|t }}
+        </span>
+      {% endif %}
+      {% for item in hub.single_app_tags.unresolved %}
+        <span class="appverse-tag appverse-tag--unresolved" role="listitem"
+              title="{{ item.create_url ? 'Not in the vocabulary yet — click to create this tag.'|t : 'Not in the vocabulary — an admin can add it.'|t }}">
+          <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
+          {% if item.create_url %}<a href="{{ item.create_url }}">{{ item.declared }}</a>{% else %}{{ item.declared }}{% endif %}
+        </span>
+      {% endfor %}
+    </div>
+  {% endif %}
+
   {% if hub.moderation_state == 'needs_adjustment' and hub.moderation_comment %}
     <div class="appverse-hub-card__moderation-comment">
       <strong>{{ 'Admin feedback:'|t }}</strong>
@@ -126,7 +159,7 @@
             <th>{{ 'App'|t }}</th>
             <th>{{ 'Subpath'|t }}</th>
             <th>{{ 'Software'|t }}</th>
-            <th>{{ 'Tags'|t }}</th>
+            <th>{{ 'Implementation'|t }}</th>
             <th>{{ 'Status'|t }}</th>
           </tr>
         </thead>
@@ -160,12 +193,12 @@
                   {% if item.create_url %}
                     <a href="{{ item.create_url }}"
                        class="appverse-tag appverse-tag--unresolved"
-                       title="{{ 'Create term for unresolved tag'|t }}">
+                       title="{{ 'Not in the vocabulary yet — click to create this tag.'|t }}">
                       <i class="bi bi-exclamation-triangle" aria-hidden="true"></i> {{ item.declared }}
                     </a>
                   {% else %}
                     <span class="appverse-tag appverse-tag--unresolved"
-                          title="{{ 'Unresolved tag (route unavailable)'|t }}">
+                          title="{{ 'Not in the vocabulary — an admin can add it.'|t }}">
                       <i class="bi bi-exclamation-triangle" aria-hidden="true"></i> {{ item.declared }}
                     </span>
                   {% endif %}

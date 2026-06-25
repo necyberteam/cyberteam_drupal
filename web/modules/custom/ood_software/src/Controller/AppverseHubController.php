@@ -4,6 +4,7 @@ namespace Drupal\ood_software\Controller;
 
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Component\Utility\UrlHelper;
+use Symfony\Component\HttpFoundation\Response;
 use Drupal\content_moderation\ModerationInformationInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Session\AccountInterface;
@@ -71,7 +72,7 @@ final class AppverseHubController extends ControllerBase {
    *    appended to field_repo_validation_er (capped at last 10);
    *    field_repo_last_synced still updated.
    */
-  public function resync(NodeInterface $node): RedirectResponse {
+  public function resync(NodeInterface $node): Response {
     if ($node->bundle() !== 'appverse_repo') {
       throw new \InvalidArgumentException('Resync requires an appverse_repo node.');
     }
@@ -136,44 +137,37 @@ final class AppverseHubController extends ControllerBase {
       // repos are handled entirely by resolveRepo here.
       $this->repoSync->resolveRepo($repoUrl, $appverseYml, $repoMetadata);
 
-      $hasApps = !empty($parsedRootYml['apps']) && is_array($parsedRootYml['apps']);
-      if ($hasApps) {
-        _ood_software_resync_repo_batch((int) $node->id(), $repoUrl, $appverseYml, $repoMetadata, $parsedRootYml);
-      }
-
-      // Reload the Collection — service saved updated fields, in-memory
-      // $node is stale. resolveRepo (via applyDeclared/applyInferred)
-      // already wrote field_repo_validation_st, field_repo_last_synced,
-      // and clears field_repo_validation_er on success, so the controller
-      // doesn't need to write those fields here — only in the catch
-      // block below.
+      // Reload — resolveRepo saved repo-level fields; in-memory $node is stale.
       $fresh = $this->entityTypeManager()->getStorage('node')->load($node->id());
-      $afterAppIds = $this->entityTypeManager()->getStorage('node')->getQuery()
-        ->accessCheck(FALSE)
-        ->condition('type', 'appverse_app')
-        ->condition('field_appverse_repo', $node->id())
-        ->execute();
-      $appsAfter = count($afterAppIds);
-      $appsRemoved = max(0, $appsBefore - $appsAfter);
-
       $title = $fresh ? $fresh->label() : $node->label();
       $freshValidationSt = $fresh ? ($fresh->get('field_repo_validation_st')->value ?? NULL) : NULL;
 
       if ($freshValidationSt === 'stale_invalid') {
         // applyDeclared hit an early-return validation branch (parse error,
-        // non-mapping yaml, bad min_version). The Collection is marked
-        // stale_invalid; no apps were refreshed.
+        // non-mapping yaml, bad min_version). No apps will be synced.
         $this->messenger()->addError($this->t(
           'Re-sync of @title failed validation. See the Repo node for details.',
           ['@title' => $title]
         ));
+        return $this->redirectToHub();
       }
-      else {
-        $this->messenger()->addStatus($this->t(
-          'Re-synced @title — @after apps refreshed, @removed removed.',
-          ['@title' => $title, '@after' => $appsAfter, '@removed' => $appsRemoved]
-        ));
+
+      $hasApps = !empty($parsedRootYml['apps']) && is_array($parsedRootYml['apps']);
+      if ($hasApps) {
+        // Declared multi-app repo: sync the member apps via Batch API. We must
+        // RETURN batch_process() so the batch actually runs — batch_set() alone
+        // registers a batch that a plain controller redirect would silently
+        // drop (the apps would never sync, even though resolveRepo already
+        // refreshed the repo-level fields). batch_process() runs the queued
+        // per-app ops (with a progress bar for large monorepos) and redirects
+        // to the given URL when finished; _ood_software_batch_repo_synced
+        // reports the "synced N apps" message.
+        _ood_software_resync_repo_batch((int) $node->id(), $repoUrl, $appverseYml, $repoMetadata, $parsedRootYml);
+        return batch_process($this->hubRedirectUrl());
       }
+
+      // Single-app / inferred repo: resolveRepo already synced the one app.
+      $this->messenger()->addStatus($this->t('Re-synced @title.', ['@title' => $title]));
     }
     catch (\Throwable $e) {
       $now = $this->time->getCurrentTime();
@@ -587,6 +581,18 @@ final class AppverseHubController extends ControllerBase {
    *    `/appverse/manage-repos-evil` doesn't pass.
    */
   protected function redirectToHub(): RedirectResponse {
+    return new RedirectResponse($this->hubRedirectUrl());
+  }
+
+  /**
+   * The hub URL to return to after an action, as a string.
+   *
+   * Honors a validated `?destination=` (so an action triggered from
+   * manage-repos returns there, my-appverse returns there), falling back to
+   * the current user's own my-appverse page. Used both for plain redirects
+   * and as the batch_process() finish URL.
+   */
+  protected function hubRedirectUrl(): string {
     $request = $this->requestStack->getCurrentRequest();
     $destination = $request->query->get('destination');
 
@@ -604,20 +610,19 @@ final class AppverseHubController extends ControllerBase {
           ];
           foreach ($allowedPrefixes as $prefix) {
             if ($destination === $prefix || str_starts_with($destination, $prefix . '/') || str_starts_with($destination, $prefix . '?') || str_starts_with($destination, $prefix . '#')) {
-              return new RedirectResponse($destination);
+              return $destination;
             }
             // Special case: the /user/ prefix is itself the terminator
             // (e.g. /user/123/my-appverse).
             if ($prefix === '/user/' && str_starts_with($destination, $prefix)) {
-              return new RedirectResponse($destination);
+              return $destination;
             }
           }
         }
       }
     }
 
-    $uid = $this->currentUser()->id();
-    return new RedirectResponse('/user/' . $uid . '/my-appverse');
+    return '/user/' . $this->currentUser()->id() . '/my-appverse';
   }
 
 }

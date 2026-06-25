@@ -1,15 +1,37 @@
 /* Appverse Maintenance Hub */
 
 /* Breathing room so the management page doesn't end flush against the footer /
-   viewport bottom. Applied to the view wrapper AND the pager itself so both the
-   admin (page_admin, with exposed filters) and user (page_user) displays get
-   consistent space below the pagination regardless of the surrounding region. */
-.view-my-appverse {
+   viewport bottom. The view renders inside a generic `.views-element-container`
+   with no `.view-my-appverse` class on the page, so scope to a container that
+   actually holds a hub card (`:has()`), and also pad the legacy wrapper class
+   for any display that does carry it. Covers both the admin (page_admin) and
+   user (page_user) displays regardless of the surrounding region markup. */
+.view-my-appverse,
+.views-element-container:has(.appverse-hub-card) {
   padding-bottom: 3rem;
 }
+/* Extra space below the pagination itself when present. */
 .view-my-appverse .pager,
-.view-my-appverse .views-element-container > .pager {
+.views-element-container:has(.appverse-hub-card) .pager {
   margin-bottom: 3rem;
+}
+/* Fallback for engines without :has() — pad the row list's container. */
+@supports not (selector(:has(*))) {
+  .views-element-container { padding-bottom: 3rem; }
+}
+
+/* "Add a repo" button in the view header (links to /appverse/add-repo).
+   Inherits .btn.btn-primary brand styling. The header render-array renders
+   into a plain <header> element (no .view-header class), so target the
+   <header> that actually contains our button via :has() and right-align it. */
+.appverse-hub-add-repo {
+  display: inline-block;
+  text-decoration: none;
+}
+header:has(> .appverse-hub-add-repo) {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
 }
 
 /* Wrapper around all rows. The view's html_list style would wrap each
@@ -307,4 +329,79 @@
 .appverse-hub-card__apps-chevron { transition: transform 0.15s ease; }
 .appverse-hub-card__apps[open] > summary .appverse-hub-card__apps-chevron {
   transform: rotate(90deg);
+}
+
+/* -----------------------------------------------------------------------------
+   Tag chips. Shared by the repo-level discovery-tags row (.appverse-hub-card__tags)
+   and the per-app implementation tags in the apps table
+   (.appverse-hub-apps-table__tags). Quiet neutral chips in the same GitHub-muted
+   palette as the rest of the hub; unresolved tags read as a warning.
+   ----------------------------------------------------------------------------- */
+
+/* Discovery-tag row: full-width, wraps freely below the header grid. */
+.appverse-hub-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 0.25rem;
+}
+/* Row label ("Tags:" / "Implementation:") distinguishing the two vocabularies. */
+.appverse-hub-card__tags-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #57606a;
+  margin-right: 0.125rem;
+}
+
+/* The apps-table tags cell also lays its chips out as a wrapping row. */
+.appverse-hub-apps-table__tags {
+  white-space: normal;
+}
+.appverse-hub-apps-table__tags .appverse-tag {
+  margin: 0.125rem 0.25rem 0.125rem 0;
+}
+
+.appverse-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  max-width: 100%;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Resolved: quiet neutral chip (matches the muted card palette). */
+.appverse-tag--resolved {
+  background: #f6f8fa;
+  color: #57606a;
+  border: 1px solid #eaecef;
+}
+
+/* Unresolved: warning chip (same colors as .badge-warning). */
+.appverse-tag--unresolved {
+  background: #fff8c5;
+  color: #9a6700;
+  border: 1px solid #eac54f;
+}
+.appverse-tag--unresolved .bi { font-size: 0.7rem; }
+
+/* "+N more" count: subtle, no border, reads as secondary. */
+.appverse-tag--more {
+  background: transparent;
+  color: #57606a;
+  font-weight: 600;
+  padding-inline: 0.25rem;
+}
+
+/* Create-term link inside an unresolved app tag stays inline + inherits warning color. */
+.appverse-tag--unresolved a {
+  color: inherit;
+  text-decoration: underline;
 }

@@ -202,6 +202,45 @@ class HubPreprocessTest extends KernelTestBase {
     $this->assertSame([], $hub['apps']);
   }
 
+  public function testSingleAppRepoExposesItsImplementationTags(): void {
+    // A single-app repo has no apps table, so its one app's implementation
+    // tags surface on the card via single_app_tags (monorepos use the table).
+    $term = Term::create(['vid' => 'appverse_implementation_tags', 'name' => 'gpu-enabled']);
+    $term->save();
+
+    $repo = $this->makeRepo(['title' => 'Solo', 'shape' => 'inferred']);
+    // makeApp() ignores extra fields, so build the app directly to attach the
+    // tag (same pattern as testAppRowExposesResolvedAndUnresolvedTags).
+    $app = Node::create([
+      'type' => 'appverse_app',
+      'title' => 'solo_app',
+      'field_appverse_repo' => $repo->id(),
+      'field_appverse_app_subpath' => '',
+      'field_add_implementation_tags' => [['target_id' => $term->id()]],
+      'moderation_state' => 'published',
+    ]);
+    $app->save();
+
+    $hub = _ood_software_build_hub_row($repo);
+
+    $this->assertSame([], $hub['apps'], 'Single-app repo still has no apps table.');
+    $this->assertNotNull($hub['single_app_tags']);
+    $this->assertSame(['gpu-enabled'], $hub['single_app_tags']['resolved']);
+  }
+
+  public function testMonorepoHasNoSingleAppTags(): void {
+    // single_app_tags is only for single-app repos; a monorepo leaves it null
+    // (its per-app tags live in the apps table instead).
+    $repo = $this->makeRepo(['title' => 'Multi', 'shape' => 'declared']);
+    $this->makeApp($repo, ['title' => 'a', 'subpath' => 'a']);
+    $this->makeApp($repo, ['title' => 'b', 'subpath' => 'b']);
+
+    $hub = _ood_software_build_hub_row($repo);
+
+    $this->assertTrue($hub['is_monorepo']);
+    $this->assertNull($hub['single_app_tags']);
+  }
+
   public function testInferredRepoHeaderEditLink(): void {
     // Admin reviewing ANOTHER user's repo (the real owner-block scenario).
     $contributor = $this->createUser([], 'repo_contributor');
@@ -217,10 +256,11 @@ class HubPreprocessTest extends KernelTestBase {
     $this->assertStringStartsWith('/community-persona/', $hub['owner']['persona_url']);
   }
 
-  public function testAdminSeesOwnerBlockEvenOnOwnRepo(): void {
-    // On the Manage page a reviewer should see the owner of every repo,
-    // including repos they own themselves — so the owner block is NOT
-    // suppressed for the current user (it is permission-gated, not owner-gated).
+  public function testOwnerBlockSuppressedOnOwnRepoEvenForAdmin(): void {
+    // The owner block is owner-gated, NOT permission-gated: when the viewer
+    // owns the repo, the owner is the viewer, so the block is redundant and
+    // suppressed — even for an admin viewing their own repo. (Admins still see
+    // the owner of OTHER users' repos; see testInferredRepoHeaderEditLink.)
     $admin = $this->createUser(['administer appverse content', 'bypass node access']);
     \Drupal::currentUser()->setAccount($admin);
 
@@ -228,8 +268,7 @@ class HubPreprocessTest extends KernelTestBase {
     $repo->setOwnerId($admin->id())->save();
     $hub = _ood_software_build_hub_row($repo);
     $this->assertTrue($hub['is_admin']);
-    $this->assertNotNull($hub['owner']);
-    $this->assertSame('/community-persona/' . $admin->id(), $hub['owner']['persona_url']);
+    $this->assertNull($hub['owner'], 'Owner block must be suppressed on a repo the viewer owns.');
   }
 
   public function testDeclaredRepoHasNoHeaderEditLink(): void {
@@ -337,6 +376,10 @@ class HubPreprocessTest extends KernelTestBase {
    * App row exposes resolved + unresolved implementation tags.
    */
   public function testAppRowExposesResolvedAndUnresolvedTags(): void {
+    // The create link is admin-gated, so view as an admin to get a create_url.
+    $admin = $this->createUser(['administer appverse content', 'bypass node access']);
+    \Drupal::currentUser()->setAccount($admin);
+
     // Create a resolved term.
     $term = Term::create(['vid' => 'appverse_implementation_tags', 'name' => 'gpu-enabled']);
     $term->save();
@@ -370,10 +413,20 @@ class HubPreprocessTest extends KernelTestBase {
     $this->assertCount(1, $appRow['tags']['unresolved']);
     $this->assertSame('bogus', $appRow['tags']['unresolved'][0]['declared']);
 
-    // create_url: the A3 route exists so it must not be NULL.
+    // create_url: admin + the A3 route exists, so it must not be NULL.
     $createUrl = $appRow['tags']['unresolved'][0]['create_url'];
-    $this->assertNotNull($createUrl, 'create_url must not be NULL when A3 route exists');
+    $this->assertNotNull($createUrl, 'create_url must not be NULL for an admin when the A3 route exists');
     $this->assertStringContainsString('/create-implementation-tag', $createUrl);
+
+    // Non-admin contributor: same unresolved tag, but NO create link (the
+    // create action is admin-gated; a non-admin fix is editing appverse.yml).
+    $contributor = $this->createUser([]);
+    \Drupal::currentUser()->setAccount($contributor);
+    $hubAsContributor = _ood_software_build_hub_row($repo);
+    $this->assertNull(
+      $hubAsContributor['apps'][0]['tags']['unresolved'][0]['create_url'],
+      'create_url must be NULL for a non-admin viewer.',
+    );
   }
 
   /**

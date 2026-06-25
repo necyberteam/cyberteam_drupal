@@ -181,12 +181,37 @@ class CreateImplementationTagTest extends KernelTestBase {
    * `ood_software.gh` service the call will be skipped or throw — in the
    * kernel environment we only assert the term-creation side of submit.
    */
-  protected function submitCreateTag(AppverseHubCreateTagForm $form, Node $node, string $declared): void {
+  protected function submitCreateTag(AppverseHubCreateTagForm $form, Node $node, string $declared): FormState {
     $form_state = new FormState();
     $form_state->set('node', $node);
     $form_state->set('declared', $declared);
     $form_array = [];
     $form->submitForm($form_array, $form_state);
+    return $form_state;
+  }
+
+  /**
+   * The submit redirect targets the my_appverse user display route.
+   *
+   * Regression guard for a bad redirect: the form once pointed at the
+   * nonexistent 'view.my_appverse.page_1', which threw RouteNotFoundException
+   * (white screen) when the form submitter resolved it during a real request.
+   * The view's real page displays are page_admin + page_user. We assert the
+   * stored route NAME (not its resolution — the views config isn't installed
+   * in this kernel test), so a typo'd display name is caught here; that the
+   * route resolves is guaranteed by the view config shipping page_user.
+   *
+   * @covers ::submitForm
+   */
+  public function testSubmitRedirectsToMyAppverseUserDisplay(): void {
+    $form_state = $this->submitCreateTag(
+      AppverseHubCreateTagForm::create($this->container),
+      $this->app,
+      'mxnet',
+    );
+    $redirect = $form_state->getRedirect();
+    self::assertInstanceOf(\Drupal\Core\Url::class, $redirect, 'submitForm must set a redirect Url.');
+    self::assertSame('view.my_appverse.page_user', $redirect->getRouteName());
   }
 
   /**
