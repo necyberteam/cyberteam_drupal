@@ -60,8 +60,8 @@ describe("Resource Group — listing page", () => {
   it("renders the sidebar with an ARA CTA", () => {
     cy.visit("/documentation/resources");
     cy.get(".rp-listing-sidebar").within(() => {
-      cy.contains("NEED HELP CHOOSING?");
-      cy.contains("TRY THE ARA")
+      cy.contains("Find the best resource for your project");
+      cy.contains("Try the ACCESS Resource Advisor")
         .should("have.attr", "href")
         .and("include", "ara.access-ci.org");
     });

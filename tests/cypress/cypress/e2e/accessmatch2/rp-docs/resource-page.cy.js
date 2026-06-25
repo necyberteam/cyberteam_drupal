@@ -89,6 +89,17 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     });
   });
 
+  it("renders quota size and inode count in one cell, TB for large quotas", () => {
+    // Home: 25 GB + 1,000,000 inodes, in a single cell (size then files).
+    cy.get(".rp-storage table tbody tr").contains("td", "Home")
+      .parent("tr").should("contain", "25 GB").and("contain", "1,000,000 files");
+    // Project: 10000 GB renders as decimal TB.
+    cy.get(".rp-storage table tbody tr").contains("td", "Project")
+      .parent("tr").should("contain", "10 TB");
+    // The old transposed rendering ("…GB … files") is gone.
+    cy.get(".rp-storage table").should("not.contain", "GB files");
+  });
+
   it("renders external storage section", () => {
     cy.contains("External Storage");
     cy.contains("GETTING MORE STORAGE");
@@ -105,6 +116,22 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     cy.contains("td", "gpu-standard");
     cy.contains("td", "gpu-large");
     cy.contains("td", "cpu-shared");
+  });
+
+  it("renders corrected GPU and Node RAM columns", () => {
+    // Column relabeled away from the ambiguous "RAM" (field_rp_vram is node RAM).
+    cy.get(".rp-queue-specs").contains("th", "Node RAM");
+    // GPU column no longer mislabels the count as "cores".
+    cy.get(".rp-queue-specs table").should("not.contain", "cores");
+    // GPU cell: "<count> <type> (<vram> GB vRAM)" and Node RAM in GB.
+    cy.get(".rp-queue-specs table tbody tr").contains("td", "gpu-standard")
+      .parent("tr").within(() => {
+        cy.contains("4 NVIDIA A100 (80 GB vRAM)");
+        cy.contains("256 GB");
+      });
+    // CPU-only queue shows a dash for GPU, never "0 …".
+    cy.get(".rp-queue-specs table tbody tr").contains("td", "cpu-shared")
+      .parent("tr").should("contain", "—").and("not.contain", "0 NVIDIA");
   });
 
   it("renders top software table", () => {
