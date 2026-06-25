@@ -103,12 +103,30 @@
     return map;
   }
 
+  // Scroll a TOC link into view WITHIN its own scroll container (the rail),
+  // without moving the page. Only acts when the container actually overflows,
+  // so a short TOC never hijacks anything. This keeps the highlighted item
+  // visible in the rail as scroll-spy advances past the fold.
+  function keepActiveLinkVisible(nav, link) {
+    // The scrollable ancestor is the rail (.appverse-doc-sidebar, overflow-y:auto).
+    var container = nav.closest('.appverse-doc-sidebar') || nav;
+    if (container.scrollHeight <= container.clientHeight + 1) { return; }
+    var cRect = container.getBoundingClientRect();
+    var lRect = link.getBoundingClientRect();
+    if (lRect.top < cRect.top) {
+      container.scrollTop -= (cRect.top - lRect.top) + 16;
+    } else if (lRect.bottom > cRect.bottom) {
+      container.scrollTop += (lRect.bottom - cRect.bottom) + 16;
+    }
+  }
+
   function setActive(nav, activeId, sectionMap) {
     var links = nav.querySelectorAll('.appverse-doc-toc__link');
     var activeSection = sectionMap[activeId];
+    var activeLink = null;
     links.forEach(function (link) {
       var isActive = link.dataset.targetId === activeId;
-      if (isActive) { link.setAttribute('aria-current', 'true'); }
+      if (isActive) { link.setAttribute('aria-current', 'true'); activeLink = link; }
       else { link.removeAttribute('aria-current'); }
     });
     // Reveal h4 sublists only under the active section's h2; collapse others.
@@ -120,6 +138,9 @@
       ul.hidden = !belongs;
       if (parentLink) { parentLink.setAttribute('aria-expanded', belongs ? 'true' : 'false'); }
     });
+    // Keep the highlighted link visible inside the rail (post-reveal, so h4
+    // expansion is accounted for in the container's scroll height).
+    if (activeLink) { keepActiveLinkVisible(nav, activeLink); }
   }
 
   var initScrollSpy = function (root, headings, nav) {
@@ -360,6 +381,8 @@
     toggle.className = 'appverse-doc-sidebar__toggle';
     toggle.textContent = 'On this page';
     toggle.setAttribute('aria-expanded', 'false');
+    // Associate the button with the rail region it controls (spec a11y req).
+    if (rail.id) { toggle.setAttribute('aria-controls', rail.id); }
     rail.insertBefore(toggle, rail.firstChild);
 
     function setOpen(open) {

@@ -1340,7 +1340,13 @@ function ood_software_node_view(array &$build, EntityInterface $entity, EntityVi
     $build['appverse_doc_sidebar'] = [
       '#type' => 'container',
       '#weight' => -90,
-      '#attributes' => ['class' => ['appverse-doc-sidebar'], 'hidden' => 'hidden'],
+      '#attributes' => [
+        'class' => ['appverse-doc-sidebar'],
+        'hidden' => 'hidden',
+        // Stable id so the mobile disclosure button's aria-controls can point
+        // at the rail it expands/collapses.
+        'id' => 'appverse-doc-rail',
+      ],
       'search' => [
         '#type' => 'container',
         '#attributes' => ['class' => ['appverse-doc-search']],
