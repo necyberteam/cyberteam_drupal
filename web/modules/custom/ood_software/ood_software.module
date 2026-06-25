@@ -985,7 +985,12 @@ function ood_software_node_update(NodeInterface $node) {
   // Moderation transition notifications. Collections only — App-level
   // transitions intentionally don't fan out so a cascade-publish on N
   // member apps doesn't produce N emails.
-  if ($node->bundle() === 'appverse_repo' && $node->hasField('moderation_state')) {
+  if ($node->bundle() === 'appverse_repo' && $node->hasField('moderation_state')
+    // Bulk/migration callers (e.g. the inferred-repo backfill) set this
+    // runtime flag to opt out of publish notifications — a backfill creates
+    // and publishes many repos at once, and emailing every owner about a
+    // data migration is noise, not a real "your app was published" event.
+    && empty($node->_ood_software_suppress_notifications)) {
     $previousState = _ood_software_previous_moderation_state($node);
     $extras = [];
     // Pick up the reviewer comment if AppverseHubRequestChangesForm

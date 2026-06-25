@@ -193,6 +193,14 @@ class AppverseBackfillCommands extends DrushCommands {
         // resolveRepo with NULL appverse.yml -> applyInferred path.
         $collection = $sync->resolveRepo($repoUrl, NULL, $repoMetadata);
 
+        // Suppress publish/transition notifications for backfilled repos:
+        // this is a data migration, not a contributor-facing publish event,
+        // and emailing every legacy app's owner would be noise (and, on envs
+        // with no working SMTP, the per-repo send stalls the whole run). The
+        // flag is read in ood_software_node_update(); it's a runtime property
+        // on this same $collection object, so it covers every save below.
+        $collection->_ood_software_suppress_notifications = TRUE;
+
         // Inherit the app's owner so the contributor's maintenance hub
         // surfaces the new Repo. First-app-wins for monorepo cases —
         // siblings from earlier iterations keep their existing owner.

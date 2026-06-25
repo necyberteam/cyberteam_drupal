@@ -263,6 +263,26 @@ class RepoNotificationServiceTest extends KernelTestBase {
   }
 
   /**
+   * The _ood_software_suppress_notifications runtime flag silences the
+   * publish notification (used by the inferred-repo backfill, which publishes
+   * many repos as a data migration and must not email each owner).
+   */
+  public function testSuppressFlagSilencesPublishNotification(): void {
+    $contributor = $this->createContributor();
+    $node = $this->createCollection((int) $contributor->id(), 'draft');
+
+    // Same transition that normally emails the owner — but flagged.
+    $node->_ood_software_suppress_notifications = TRUE;
+    $node->set('moderation_state', 'published');
+    $node->setNewRevision(TRUE);
+    $node->save();
+
+    $mails = $this->drupalGetMails();
+    $oodMails = array_values(array_filter($mails, fn($m) => $m['module'] === 'ood_software'));
+    $this->assertCount(0, $oodMails, 'Suppress flag must prevent any ood_software notification on publish.');
+  }
+
+  /**
    * Assert that the contrib `appverse_review_requested` email is suppressed
    * for Collection bundles via hook_content_moderation_notification_mail_data_alter.
    */
