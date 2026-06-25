@@ -108,8 +108,9 @@
   // so a short TOC never hijacks anything. This keeps the highlighted item
   // visible in the rail as scroll-spy advances past the fold.
   function keepActiveLinkVisible(nav, link) {
-    // The scrollable ancestor is the rail (.appverse-doc-sidebar, overflow-y:auto).
-    var container = nav.closest('.appverse-doc-sidebar') || nav;
+    // The TOC nav itself is the scroll container (overflow-y:auto); the search
+    // box sits above it outside the scroll area, so we scroll within the nav.
+    var container = nav;
     if (container.scrollHeight <= container.clientHeight + 1) { return; }
     var cRect = container.getBoundingClientRect();
     var lRect = link.getBoundingClientRect();
@@ -379,7 +380,15 @@
     var toggle = document.createElement('button');
     toggle.type = 'button';
     toggle.className = 'appverse-doc-sidebar__toggle';
-    toggle.textContent = 'On this page';
+    // Label + a right-aligned chevron icon that flips when expanded.
+    var label = document.createElement('span');
+    label.className = 'appverse-doc-sidebar__toggle-label';
+    label.textContent = 'On this page';
+    var icon = document.createElement('span');
+    icon.className = 'appverse-doc-sidebar__toggle-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    toggle.appendChild(label);
+    toggle.appendChild(icon);
     toggle.setAttribute('aria-expanded', 'false');
     // Associate the button with the rail region it controls (spec a11y req).
     if (rail.id) { toggle.setAttribute('aria-controls', rail.id); }

@@ -21,11 +21,26 @@
   position: sticky;
   top: 1rem;
   align-self: start;
+  /* Flex column: search stays fixed at the top, only the TOC scrolls.
+     The rail itself does NOT scroll — that keeps the scrollbar off the
+     search box (a single scroll container would run its bar over the
+     search input's right edge). */
+  display: flex;
+  flex-direction: column;
   max-height: calc(100vh - 2rem);
-  overflow-y: auto;
   font-size: 0.875rem;
   grid-column: 1;
   grid-row: 2;
+}
+/* Search region: fixed height at the top of the rail, never scrolls away. */
+.appverse-doc-node .appverse-doc-sidebar > .appverse-doc-search {
+  flex: 0 0 auto;
+}
+/* Only the TOC list scrolls; its scrollbar is confined below the search box. */
+.appverse-doc-node .appverse-doc-toc {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0; /* allow the flex child to actually shrink + scroll */
 }
 .appverse-doc-node > div:has(> .appverse-doc-sidebar) > .layout--onecol {
   grid-column: 2;
@@ -103,9 +118,17 @@
     border-radius: 8px;
     padding: 0.5rem;
   }
-  /* Collapse the rail body; show only the toggle until opened. */
+  /* On mobile the disclosure expands fully — no inner TOC scroll region. */
+  .appverse-doc-node .appverse-doc-toc {
+    overflow-y: visible;
+    flex: none;
+  }
+  /* Collapse the rail body; show only the toggle until opened.
+     Flex row so the label sits left and the chevron icon is right-aligned. */
   .appverse-doc-sidebar__toggle {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
     text-align: left;
     background: none;
@@ -114,8 +137,36 @@
     padding: 0.25rem;
     cursor: pointer;
   }
+  /* Right-aligned chevron: a CSS-drawn caret that points down when collapsed
+     and flips up when the disclosure is open. No icon-font dependency. */
+  .appverse-doc-sidebar__toggle-icon {
+    flex: 0 0 auto;
+    margin-left: 0.5rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.15s ease;
+  }
+  .appverse-doc-sidebar--mobile-open .appverse-doc-sidebar__toggle-icon {
+    transform: rotate(-135deg);
+  }
   .appverse-doc-sidebar .appverse-doc-search,
   .appverse-doc-sidebar .appverse-doc-toc { display: none; }
   .appverse-doc-sidebar--mobile-open .appverse-doc-search,
   .appverse-doc-sidebar--mobile-open .appverse-doc-toc { display: block; }
+  /* When open, separate the toggle (which keeps a focus outline after the
+     tap) from the revealed search box so the outline doesn't butt against
+     the input. */
+  .appverse-doc-sidebar--mobile-open .appverse-doc-sidebar__toggle {
+    margin-bottom: 0.75rem;
+  }
+  /* Keep the toggle's focus ring tidy and inset so it never overlaps the
+     content below it. */
+  .appverse-doc-sidebar__toggle:focus-visible {
+    outline: 2px solid #0076af;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
 }
