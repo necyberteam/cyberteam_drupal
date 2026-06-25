@@ -1320,6 +1320,64 @@ function ood_software_node_view(array &$build, EntityInterface $entity, EntityVi
   $nid = (int) $entity->id();
   if (isset($doc_map[$nid])) {
     $build['#attached']['library'][] = 'ood_software/appverse-docs';
+    $build['#attached']['library'][] = 'ood_software/appverse_doc_sidebar';
+
+    // Wrap the doc node output so the two-column grid + rail styles can be
+    // scoped to .appverse-doc-node (never global). The JS reads headings
+    // from inside this wrapper and fills the rail. Guard #attributes/class so
+    // we don't hit "undefined array key" if the caller didn't initialize them.
+    if (!isset($build['#attributes']) || !is_array($build['#attributes'])) {
+      $build['#attributes'] = [];
+    }
+    if (!isset($build['#attributes']['class']) || !is_array($build['#attributes']['class'])) {
+      $build['#attributes']['class'] = [];
+    }
+    $build['#attributes']['class'][] = 'appverse-doc-node';
+
+    // Left-rail scaffolding: search box (combobox) + empty results listbox +
+    // empty TOC nav. Starts hidden; the JS reveals it after building a
+    // non-empty TOC, so no-JS / no-heading pages show no empty rail.
+    $build['appverse_doc_sidebar'] = [
+      '#type' => 'container',
+      '#weight' => -90,
+      '#attributes' => ['class' => ['appverse-doc-sidebar'], 'hidden' => 'hidden'],
+      'search' => [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['appverse-doc-search']],
+        'input' => [
+          '#type' => 'html_tag',
+          '#tag' => 'input',
+          '#attributes' => [
+            'type' => 'search',
+            'class' => ['appverse-doc-search__input'],
+            'placeholder' => 'Search this page',
+            'role' => 'combobox',
+            'aria-expanded' => 'false',
+            'aria-controls' => 'appverse-doc-search-results',
+            'aria-autocomplete' => 'list',
+            'autocomplete' => 'off',
+          ],
+        ],
+        'results' => [
+          '#type' => 'html_tag',
+          '#tag' => 'ul',
+          '#attributes' => [
+            'id' => 'appverse-doc-search-results',
+            'class' => ['appverse-doc-search__results'],
+            'role' => 'listbox',
+            'hidden' => 'hidden',
+          ],
+        ],
+      ],
+      'toc' => [
+        '#type' => 'html_tag',
+        '#tag' => 'nav',
+        '#attributes' => [
+          'class' => ['appverse-doc-toc'],
+          'aria-label' => 'On this page',
+        ],
+      ],
+    ];
 
     $github_url = 'https://github.com/sweet-and-fizzy/ood-appverse/edit/main/docs/' . $doc_map[$nid];
     $build['github_edit_link'] = [
