@@ -1,6 +1,7 @@
 /*
  * Verify the /api-docs landing page and the Content and SDS API cards.
- * Also asserts that the served SDS spec is external and key-gated.
+ * Also asserts that the served SDS spec is key-gated (X-API-Key) and points to
+ * the ACCESS help ticket for key requests.
  *
  * Routes:
  *   /api-docs            — landing page listing all API cards (public)
@@ -17,10 +18,11 @@
  */
 
 describe("API Docs landing + new cards", () => {
-  it("landing page lists the Content and SDS cards", () => {
+  it("landing page lists the Content, Resource Documentation, and SDS cards", () => {
     cy.request("/api-docs").then((r) => {
       expect(r.status).to.eq(200);
       expect(r.body).to.contain("ACCESS Content API");
+      expect(r.body).to.contain("ACCESS Resource Documentation API");
       expect(r.body).to.contain("ACCESS SDS");
     });
   });
@@ -29,11 +31,15 @@ describe("API Docs landing + new cards", () => {
     cy.request("/api-docs/content").then((r) => expect(r.status).to.eq(200));
   });
 
+  it("Resource Documentation API swagger sub-page loads", () => {
+    cy.request("/api-docs/resources").then((r) => expect(r.status).to.eq(200));
+  });
+
   it("SDS swagger sub-page loads", () => {
     cy.request("/api-docs/sds").then((r) => expect(r.status).to.eq(200));
   });
 
-  it("served SDS spec is external, key-gated, and names UKy", () => {
+  it("served SDS spec is key-gated and points to the help ticket for access", () => {
     // Log in as administrator via programmatic form POST to avoid cy.visit()
     // (which crashes the Electron renderer when the prior tests used only
     // cy.request() and the browser context has not yet navigated anywhere).
@@ -65,14 +71,11 @@ describe("API Docs landing + new cards", () => {
           expect(r.status).to.eq(200);
           const spec =
             typeof r.body === "string" ? JSON.parse(r.body) : r.body;
-          // The YAML description wraps "University of Kentucky" across a line
-          // break, so assert on each half separately; also check the server
-          // description which is on one line.
-          expect(spec.info.description).to.contain("University of");
-          expect(spec.info.description).to.contain("Kentucky");
-          expect(spec.servers[0].description).to.contain(
-            "University of Kentucky"
-          );
+          // The SDS card is key-gated: it documents an X-API-Key apiKey scheme
+          // and directs key requests to the ACCESS help ticket. It deliberately
+          // does NOT advertise the external host/operator, so we assert the
+          // key-gating and the help-ticket guidance rather than provenance.
+          expect(spec.info.description).to.contain("help-ticket");
           expect(spec.components.securitySchemes).to.have.property(
             "ApiKeyAuth"
           );
