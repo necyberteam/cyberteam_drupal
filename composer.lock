@@ -7316,22 +7316,22 @@
         },
         {
             "name": "drupal/pantheon_advanced_page_cache",
-            "version": "2.3.4",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/pantheon_advanced_page_cache.git",
-                "reference": "2.3.4"
+                "reference": "2.4.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/pantheon_advanced_page_cache-2.3.4.zip",
-                "reference": "2.3.4",
-                "shasum": "dbb52fa98b44aaab17887c4a3d22ef90e8075f2b"
+                "url": "https://ftp.drupal.org/files/projects/pantheon_advanced_page_cache-2.4.0.zip",
+                "reference": "2.4.0",
+                "shasum": "910024eefab0111371e8d1f53db957ba43145cc4"
             },
             "require": {
-                "drupal/core": "^9.4 || ^10 || ^11",
+                "drupal/core": "^10 || ^11",
                 "guzzlehttp/psr7": "^2.4.5",
-                "php": ">=7.4",
+                "php": ">=8.1",
                 "symfony/http-foundation": "^6 || ^7"
             },
             "require-dev": {
@@ -7348,8 +7348,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.3.4",
-                    "datestamp": "1762527530",
+                    "version": "2.4.0",
+                    "datestamp": "1782503467",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -7364,11 +7364,11 @@
             "notification-url": "https://packages.drupal.org/8/downloads",
             "scripts": {
                 "code:fix": [
-                    "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer",
+                    "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer,vendor/slevomat/coding-standard,vendor/sirbrillig/phpcs-variable-analysis",
                     "vendor/bin/phpcbf . --ignore=vendor src"
                 ],
                 "code:lint": [
-                    "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer",
+                    "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer,vendor/slevomat/coding-standard,vendor/sirbrillig/phpcs-variable-analysis",
                     "vendor/bin/phpcs --ignore=RoboFile.php,vendor,.github . "
                 ],
                 "test": [
@@ -7401,6 +7401,10 @@
                     "homepage": "https://www.drupal.org/user/1349780"
                 },
                 {
+                    "name": "metasim",
+                    "homepage": "https://www.drupal.org/user/3714887"
+                },
+                {
                     "name": "pantheon-ci",
                     "homepage": "https://www.drupal.org/user/3735947"
                 },
@@ -7411,10 +7415,6 @@
                 {
                     "name": "roshnykunjappan",
                     "homepage": "https://www.drupal.org/user/3581210"
-                },
-                {
-                    "name": "scottbuscemi",
-                    "homepage": "https://www.drupal.org/user/3829532"
                 },
                 {
                     "name": "stevector",
