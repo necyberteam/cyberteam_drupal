@@ -32,13 +32,12 @@ describe("Admin user tests the Individual Affinity Groups", () => {
     // Add a ci-link - this involves typing the title into the field, which
     // get populated with options that have (nn) suffixes, then can select
     // the first the dropdown the shows up.
-    // Split into separate commands (don't chain .type().wait().type()): Drupal's
-    // autocomplete re-renders the input, detaching the cached subject. Re-querying
-    // and waiting on the suggestion list (state, not a fixed timer) avoids that.
+    // Use cy.typeAutocomplete (waits on the entity_reference_autocomplete AJAX),
+    // then send the key selection as a separate command so the autocomplete's
+    // re-render of the input can't detach a chained subject.
     const ciLink0 = '#edit-field-resources-entity-reference-0-target-id';
     cy.get(ciLink0).clear();
-    cy.get(ciLink0).type('access-support-ci-link-for-testing');
-    cy.get('.ui-autocomplete li.ui-menu-item', { timeout: 10000 }).should('be.visible');
+    cy.typeAutocomplete(ciLink0, 'access-support-ci-link-for-testing');
     cy.get(ciLink0).type('{downarrow}{enter}');
 
     if (!Cypress.$('[data-drupal-selector="edit-field-resources-entity-reference-1-target-id"]').length) {
@@ -47,8 +46,7 @@ describe("Admin user tests the Individual Affinity Groups", () => {
 
     const ciLink1 = '[data-drupal-selector="edit-field-resources-entity-reference-1-target-id"]';
     cy.get(ciLink1).clear();
-    cy.get(ciLink1).type('access-support-ci-link-for-testing');
-    cy.get('.ui-autocomplete li.ui-menu-item', { timeout: 10000 }).should('be.visible');
+    cy.typeAutocomplete(ciLink1, 'access-support-ci-link-for-testing');
     cy.get(ciLink1).type('{downarrow}{enter}');
 
     // Add a cider resource
@@ -133,12 +131,11 @@ describe("Admin can add announcements to Affinity Group via entity reference", (
     cy.visit("/node/327/edit");
 
     // Find the field_affinity_announcements field and add the announcement.
-    // Split commands and wait on the suggestion list so the autocomplete re-render
-    // doesn't detach the cached subject mid-chain.
+    // typeAutocomplete waits on the autocomplete AJAX; the key selection is a
+    // separate command so the re-render can't detach a chained subject.
     const announcementField = '[data-drupal-selector="edit-field-affinity-announcements-0-target-id"]';
     cy.get(announcementField).clear();
-    cy.get(announcementField).type(testAnnouncementTitle);
-    cy.get('.ui-autocomplete li.ui-menu-item', { timeout: 10000 }).should('be.visible');
+    cy.typeAutocomplete(announcementField, testAnnouncementTitle);
     cy.get(announcementField).type('{downarrow}{enter}');
 
     cy.get('#edit-submit').click();
