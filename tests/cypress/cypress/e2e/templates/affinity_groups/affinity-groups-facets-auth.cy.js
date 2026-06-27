@@ -30,21 +30,31 @@ describe("Test Affinity Groups page facets for authenticated users", () => {
     cy.get('#edit-search-api-fulltext--2').clear()
     cy.wait(1000)
 
-    // Test Tags facet (available to all users)  
-    // Click "Show more" to expand tags list - try the last one instead of first
-    cy.get('ul[data-drupal-facet-alias="affinity_search_tags"]').parent().find('a.facets-soft-limit-link').last().click();
-    cy.wait(500);
-    
-    // Test the AI tag (tag ID 271)
-    cy.get('input#affinity-search-tags-271.facets-checkbox').should('exist').check({ force: true });
-    cy.wait(1000);
-    
+    // Test Tags facet (available to all users).
+    // Re-visit to get a clean state after the search AJAX above, so the facet
+    // interaction doesn't race against a mid-flight re-render of the facet block.
+    cy.visit('/affinity-groups');
+    cy.get('ul[data-drupal-facet-alias="affinity_search_tags"]').should('be.visible');
+
+    // Expand the tags list and confirm it actually expanded before selecting,
+    // rather than relying on a fixed wait.
+    cy.get('a.facets-soft-limit-link').contains('Show more').click();
+    cy.get('a.facets-soft-limit-link').should('contain', 'Show less');
+
+    // Select the AI tag by its visible label, not a hard-coded term ID.
+    cy.get('ul[data-drupal-facet-alias="affinity_search_tags"]')
+      .contains('.facet-item', 'AI')
+      .find('input.facets-checkbox')
+      .check({ force: true });
+
     // Verify the filter is applied
     cy.url().should('include', 'affinity_search_tags');
-    
+
     // Uncheck to reset
-    cy.get('input#affinity-search-tags-271.facets-checkbox').uncheck({ force: true });
-    cy.wait(500);
+    cy.get('ul[data-drupal-facet-alias="affinity_search_tags"]')
+      .contains('.facet-item', 'AI')
+      .find('input.facets-checkbox')
+      .uncheck({ force: true });
 
     // Test Category facet if it exists (requires authentication)
     cy.get('body').then($body => {
