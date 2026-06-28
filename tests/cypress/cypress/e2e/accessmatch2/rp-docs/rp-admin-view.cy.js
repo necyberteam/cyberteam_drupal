@@ -82,6 +82,10 @@ describe("RP Resources Admin View", () => {
       // due to operations_cider_node_load() mutation.
       cy.get("#edit-title").type("Test Resource Alpha");
       cy.get("#edit-submit-rp-resources-admin").click();
+      // The exposed filter submits as a GET; wait for the URL to reflect the
+      // applied filter before asserting, otherwise the unfiltered (paginated)
+      // result can still be on screen and Alpha may be on a later page.
+      cy.url().should("include", "title=Test+Resource+Alpha");
       cy.get("table tbody tr").should("have.length.greaterThan", 0);
       cy.get("table tbody").contains("Alpha");
     });

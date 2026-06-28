@@ -94,10 +94,38 @@ describe("Resource Documentation API", () => {
       expect(body.storage).to.be.an("array");
       expect(body.storage).to.have.length(4);
       expect(body.storage[0].directory).to.eq("Home");
+      // Storage quota is now two typed fields (raw, GB) plus a summary string.
+      // The deprecated free-text `quota` is gone.
+      expect(body.storage[0]).to.not.have.property("quota");
+      expect(body.storage[0].quota_size).to.eq(25);
+      expect(body.storage[0].quota_inode_amount).to.eq(1000000);
+      expect(body.storage[0].summary).to.eq("25 GB, 1,000,000 files");
+      // Large quotas render as decimal TB in the summary; raw stays in GB.
+      const project = body.storage.find((s) => s.directory === "Project");
+      expect(project.quota_size).to.eq(10000);
+      expect(project.summary).to.eq("10 TB, 5,000,000 files");
 
       expect(body.queue_specs).to.be.an("array");
       expect(body.queue_specs).to.have.length(3);
-      expect(body.queue_specs[0].name).to.eq("gpu-standard");
+      // Structured queue fields stay raw and typed (GB), with a derived summary.
+      const gpuStandard = body.queue_specs[0];
+      expect(gpuStandard.name).to.eq("gpu-standard");
+      expect(gpuStandard.cpu_count).to.eq(64);
+      expect(gpuStandard.cpu_type).to.eq("AMD EPYC 7763");
+      expect(gpuStandard.gpu_count).to.eq(4);
+      expect(gpuStandard.gpu_type).to.eq("NVIDIA A100");
+      expect(gpuStandard.gpu_vram).to.eq(80);
+      // `ram` carries node RAM (field_rp_vram, GB) despite the legacy name.
+      expect(gpuStandard.ram).to.eq(256);
+      expect(gpuStandard.summary).to.eq(
+        "4 NVIDIA A100 (80 GB vRAM), 64-core AMD EPYC 7763, 256 GB RAM"
+      );
+      // CPU-only queue: no GPU clause in the summary.
+      const cpuShared = body.queue_specs.find((q) => q.name === "cpu-shared");
+      expect(cpuShared.gpu_count).to.eq(0);
+      expect(cpuShared.summary).to.eq(
+        "128-core Intel Xeon Platinum 8480+, 256 GB RAM"
+      );
 
       expect(body.datasets).to.be.an("array");
       expect(body.datasets).to.have.length(2);
