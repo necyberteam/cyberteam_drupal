@@ -96,15 +96,55 @@ Cypress.Commands.add("checkBreadcrumbs", (crumbs) => {
  * Logs out the user.
  */
 Cypress.Commands.add('drupalLogout', () => {
-  cy.visit('/user/logout');
+  cy.visit('/user/logout', { failOnStatusCode: false });
 
-  // Deal with logout confirmation form.
+  // Deal with logout confirmation form (Drupal 10 requires confirmation).
   cy.get('body').then(($body) => {
     if ($body.find('#user-logout-confirm #edit-submit').length) {
-      cy.get('#user-logout-confirm #edit-submit').click()
+      cy.get('#user-logout-confirm #edit-submit').click();
     }
-  })
+  });
+
+  // Guarantee the session is gone even if the confirmation flow raced or the
+  // page was already anonymous. Dropping the session cookie makes the browser
+  // anonymous so the login form is rendered on the next visit, instead of the
+  // current user's profile page.
+  cy.clearCookies();
 });
+
+/**
+ * Logs out, visits a login route, and submits the login form.
+ *
+ * Self-heals against a stale session: if a leftover session redirects the
+ * login route to the user profile page (where #edit-name is absent), it clears
+ * cookies and reloads so the anonymous login form renders before typing.
+ *
+ * @param {string} loginPath
+ *   The path of the login form to visit.
+ * @param {string} username
+ *   The username with which to log in.
+ * @param {string} password
+ *   The password for the user's account.
+ */
+const submitLoginForm = (loginPath, username, password) => {
+  cy.drupalLogout();
+  cy.visit(loginPath);
+
+  // If a stale session redirected us away from the login form, force the
+  // anonymous state and reload before interacting with the form.
+  cy.get('body').then(($body) => {
+    if (!$body.find('#edit-name').length) {
+      cy.clearCookies();
+      cy.visit(loginPath);
+    }
+  });
+
+  cy.get('#edit-name').should('be.visible').type(username);
+  cy.get('#edit-pass').type(password, {
+    log: false,
+  });
+  cy.get('.form-submit').contains('Log in').click();
+};
 
 /**
  * Basic user login command. Requires valid username and password.
@@ -115,13 +155,7 @@ Cypress.Commands.add('drupalLogout', () => {
  *   The password for the user's account.
  */
 Cypress.Commands.add("loginAs", (username, password) => {
-  cy.drupalLogout();
-  cy.visit("/f64816be-34ca-4d5b-975a-687cb374ddf7");
-  cy.get("#edit-name").type(username);
-  cy.get("#edit-pass").type(password, {
-    log: false,
-  });
-  cy.get(".form-submit").contains("Log in").click();
+  submitLoginForm("/f64816be-34ca-4d5b-975a-687cb374ddf7", username, password);
 });
 
 /**
@@ -133,13 +167,7 @@ Cypress.Commands.add("loginAs", (username, password) => {
  *   The password for the user's account.
  */
 Cypress.Commands.add("loginUser", (username, password) => {
-  cy.drupalLogout();
-  cy.visit("/user");
-  cy.get("#edit-name").type(username);
-  cy.get("#edit-pass").type(password, {
-    log: false,
-  });
-  cy.get(".form-submit").contains("Log in").click();
+  submitLoginForm("/user", username, password);
 });
 
 /**
@@ -153,13 +181,7 @@ Cypress.Commands.add("loginUser", (username, password) => {
  *   The password for the user's account.
  */
 Cypress.Commands.add("loginWith", (username, password) => {
-  cy.drupalLogout();
-  cy.visit("/user/login");
-  cy.get("#edit-name").type(username);
-  cy.get("#edit-pass").type(password, {
-    log: false,
-  });
-  cy.get(".form-submit").contains("Log in").click();
+  submitLoginForm("/user/login", username, password);
 });
 
 /**
