@@ -57,9 +57,10 @@ describe("Resource Group — listing page", () => {
     cy.contains("Resource Documentation");
   });
 
-  it("renders the sidebar with an ARA CTA", () => {
+  it("renders the ARA CTA in the listing header", () => {
     cy.visit("/documentation/resources");
-    cy.get(".rp-listing-sidebar").within(() => {
+    // The ARA CTA moved from the right sidebar into the full-width view header.
+    cy.get(".rp-ara-cta").within(() => {
       cy.contains("Find the best resource for your project");
       cy.contains("Try the ACCESS Resource Advisor")
         .should("have.attr", "href")
@@ -263,7 +264,7 @@ describe("Resource Group — field_rp_listing filter", () => {
     // Test Resource Beta has field_rp_listing unchecked — it should not appear
     // as its own row. After the short_name change, an h2 would read "Beta" —
     // assert both the full title and the short name are absent.
-    cy.get(".view-rp-documentation-index > .view-content > .rp-listing-main > .views-row").each(($row) => {
+    cy.get(".view-rp-documentation-index > .view-content.rp-listing-main > .views-row").each(($row) => {
       cy.wrap($row).find("h2").should("not.contain", "Test Resource Beta");
       cy.wrap($row).find("h2").invoke("text").then((text) => {
         expect(text.trim()).to.not.eq("Beta");
