@@ -492,6 +492,14 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
       if (!empty($result['success'])) {
         // Verification successful - set cookie and redirect.
         $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+        // TEMP DIAGNOSTIC (turnstile loop): log set-side inputs, no secret.
+        error_log(sprintf(
+          'TURNSTILE_SET ip=%s secure=%s xff=%s return=%s',
+          _get_real_client_ip(),
+          $secure ? 'yes' : 'no',
+          $_SERVER['HTTP_X_FORWARDED_FOR'] ?? 'none',
+          $return_url
+        ));
         setcookie($cookie_name, hash('sha256', $secret_key . _get_real_client_ip()), [
           'expires' => time() + $cookie_duration,
           'path' => '/',
@@ -581,6 +589,15 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
         $expected_hash = hash('sha256', $turnstile_secret . _get_real_client_ip());
         $cookie_valid = hash_equals($expected_hash, $_COOKIE[$cookie_name]);
       }
+      // TEMP DIAGNOSTIC (turnstile loop): log check-side inputs, no secret.
+      error_log(sprintf(
+        'TURNSTILE_CHECK ip=%s cookie_present=%s cookie_valid=%s xff=%s uri=%s',
+        _get_real_client_ip(),
+        isset($_COOKIE[$cookie_name]) ? 'yes' : 'no',
+        $cookie_valid ? 'yes' : 'no',
+        $_SERVER['HTTP_X_FORWARDED_FOR'] ?? 'none',
+        $_SERVER['REQUEST_URI']
+      ));
 
       if (!$cookie_valid && !empty($turnstile_secret)) {
         // No valid verification cookie - redirect to Turnstile challenge.
