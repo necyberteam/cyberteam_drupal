@@ -293,7 +293,7 @@ function _serve_turnstile_challenge(string $return_url): void {
   // forwarding them to origin and bypassing the edge cache for that visitor.
   // This mirrors the working SESSaccess_auth cookie on this site. (An unprefixed
   // cookie is stripped at the edge and never reaches PHP, which loops the user.)
-  $cookie_name = 'SESSturnstile_verified';
+  $cookie_name = 'SESSturnstileverified';
   $cookie_duration = 86400; // 24 hours
   $error = '';
 
@@ -492,7 +492,7 @@ if ($env === 'live'
   && isset($_GET['f']) && is_array($_GET['f']) && count($_GET['f']) >= 2) {
   // Exempt genuine logged-in users only: a real Drupal session cookie is
   // SESS/SSESS followed by a 32-char hex id. Do NOT exempt on mere presence of
-  // any SESS* name (that would let our own SESSturnstile_verified cookie, or a
+  // any SESS* name (that would let our own SESSturnstileverified cookie, or a
   // fabricated one, bypass this) — everyone else falls through to the real
   // Turnstile check below, which validates the cookie properly.
   $_is_authed = FALSE;
@@ -520,7 +520,7 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
   $return_url = isset($_GET['return']) ? $_GET['return'] : '/';
   $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
   // SESS prefix required so Pantheon's CDN forwards the cookie to origin.
-  $cookie_name = 'SESSturnstile_verified';
+  $cookie_name = 'SESSturnstileverified';
   $cookie_duration = 86400; // 24 hours
 
   // Sanitize return URL.
@@ -649,7 +649,7 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
       // Second line of defense: Turnstile verification for everyone else.
       $turnstile_secret = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
       // SESS prefix required so Pantheon's CDN forwards the cookie to origin.
-      $cookie_name = 'SESSturnstile_verified';
+      $cookie_name = 'SESSturnstileverified';
 
       // Verify the cookie is valid (matches expected hash).
       $cookie_valid = FALSE;
