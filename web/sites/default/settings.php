@@ -314,10 +314,14 @@ function _serve_turnstile_challenge(string $return_url): void {
     $ch = curl_init('https://challenges.cloudflare.com/turnstile/v0/siteverify');
     curl_setopt_array($ch, [
       CURLOPT_POST => true,
+      // Do not send 'remoteip': Cloudflare validates it against the IP that
+      // solved the widget, and behind Pantheon's load balancer the client IP
+      // we resolve doesn't reliably match Cloudflare's edge view, which makes
+      // siteverify return success=false and loops the user back to the
+      // challenge. The token alone is sufficient proof of a valid solve.
       CURLOPT_POSTFIELDS => http_build_query([
         'secret' => $secret_key,
         'response' => $token,
-        'remoteip' => _get_real_client_ip(),
       ]),
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_TIMEOUT => 10,
@@ -473,10 +477,14 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
     $ch = curl_init('https://challenges.cloudflare.com/turnstile/v0/siteverify');
     curl_setopt_array($ch, [
       CURLOPT_POST => true,
+      // Do not send 'remoteip': Cloudflare validates it against the IP that
+      // solved the widget, and behind Pantheon's load balancer the client IP
+      // we resolve doesn't reliably match Cloudflare's edge view, which makes
+      // siteverify return success=false and loops the user back to the
+      // challenge. The token alone is sufficient proof of a valid solve.
       CURLOPT_POSTFIELDS => http_build_query([
         'secret' => $secret_key,
         'response' => $token,
-        'remoteip' => _get_real_client_ip(),
       ]),
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_TIMEOUT => 10,
