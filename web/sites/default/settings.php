@@ -173,6 +173,9 @@ if (defined(
 
   // Manually add the classloader path, this is required for the container
   // cache bin definition below.
+  // $class_loader is provided in scope by Drupal's bootstrap when it includes
+  // this settings file.
+  /** @var \Composer\Autoload\ClassLoader $class_loader */
   $class_loader->addPsr4('Drupal\\redis\\', 'modules/contrib/redis/src');
 
   // Use redis for container cache.
@@ -223,7 +226,7 @@ $env = getenv('PANTHEON_ENVIRONMENT');
 
 // Helper function to get Turnstile secrets.
 // Reads from private secrets file (Pantheon) or env vars (local dev).
-function _get_turnstile_secret($name) {
+function _get_turnstile_secret(string $name): string {
   static $secrets = null;
   static $debug_logged = false;
 
@@ -257,6 +260,25 @@ function _get_turnstile_secret($name) {
   return getenv($name) ?: '';
 }
 
+// Resolve the real visitor IP for Turnstile cookie binding.
+//
+// On Pantheon, $_SERVER['REMOTE_ADDR'] is the internal load-balancer IP
+// (10.1.x.x), identical for every visitor behind a given LB. Binding the
+// verification cookie to it makes one solved challenge valid for everyone
+// sharing that LB — which let the facet-crawl bots replay a single cookie
+// past the gate. Bind to the real client instead: Pantheon puts it as the
+// first token of X-Forwarded-For (format: "client, client, 10.1.x.x").
+function _get_real_client_ip(): string {
+  if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $parts = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+    $client = trim($parts[0]);
+    if (filter_var($client, FILTER_VALIDATE_IP)) {
+      return $client;
+    }
+  }
+  return $_SERVER['REMOTE_ADDR'] ?? '';
+}
+
 /**
  * Serve the Turnstile challenge page.
  *
@@ -264,7 +286,7 @@ function _get_turnstile_secret($name) {
  * the verification response. It runs before Drupal bootstraps to minimize
  * server load from bot traffic.
  */
-function _serve_turnstile_challenge($return_url) {
+function _serve_turnstile_challenge(string $return_url): void {
   $site_key = _get_turnstile_secret('TURNSTILE_SITE_KEY');
   $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
   $cookie_name = '_turnstile_verified';
@@ -295,7 +317,7 @@ function _serve_turnstile_challenge($return_url) {
       CURLOPT_POSTFIELDS => http_build_query([
         'secret' => $secret_key,
         'response' => $token,
-        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
+        'remoteip' => _get_real_client_ip(),
       ]),
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_TIMEOUT => 10,
@@ -311,7 +333,7 @@ function _serve_turnstile_challenge($return_url) {
       if (!empty($result['success'])) {
         // Verification successful - set cookie and redirect.
         $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
-        setcookie($cookie_name, hash('sha256', $secret_key . $_SERVER['REMOTE_ADDR']), [
+        setcookie($cookie_name, hash('sha256', $secret_key . _get_real_client_ip()), [
           'expires' => time() + $cookie_duration,
           'path' => '/',
           'secure' => $secure,
@@ -454,7 +476,7 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
       CURLOPT_POSTFIELDS => http_build_query([
         'secret' => $secret_key,
         'response' => $token,
-        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
+        'remoteip' => _get_real_client_ip(),
       ]),
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_TIMEOUT => 10,
@@ -470,7 +492,7 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
       if (!empty($result['success'])) {
         // Verification successful - set cookie and redirect.
         $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
-        setcookie($cookie_name, hash('sha256', $secret_key . $_SERVER['REMOTE_ADDR']), [
+        setcookie($cookie_name, hash('sha256', $secret_key . _get_real_client_ip()), [
           'expires' => time() + $cookie_duration,
           'path' => '/',
           'secure' => $secure,
@@ -556,7 +578,7 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
       // Verify the cookie is valid (matches expected hash).
       $cookie_valid = FALSE;
       if (isset($_COOKIE[$cookie_name]) && !empty($turnstile_secret)) {
-        $expected_hash = hash('sha256', $turnstile_secret . $_SERVER['REMOTE_ADDR']);
+        $expected_hash = hash('sha256', $turnstile_secret . _get_real_client_ip());
         $cookie_valid = hash_equals($expected_hash, $_COOKIE[$cookie_name]);
       }
 

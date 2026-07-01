@@ -31,7 +31,7 @@ jobs:
           sudo apt-get update && sudo apt-get install -y ddev
           ddev config global --instrumentation-opt-in=false
           mkcert -install
-          ddev config --project-type=drupal10 --docroot=web --database=mysql:8.0 --php-version=8.2
+          ddev config --project-type=drupal10 --docroot=web --database=mysql:8.0 --php-version=8.3
           ddev start
 
       - name: Import live DB and export config (no deploy/cim)
