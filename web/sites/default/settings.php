@@ -462,6 +462,25 @@ function _serve_turnstile_challenge(string $return_url): void {
   exit();
 }
 
+// Emergency netblock denylist (2026-07-01 facet-crawl outage).
+// A distributed bot crawl from these /16 ranges took the site down by walking
+// faceted URLs. Return a cheap 403 for faceted requests from these networks
+// before any expensive query or the Turnstile flow runs. Remove once the
+// attack subsides. Scoped to faceted requests (?f[]) to limit collateral to
+// the abuse pattern; legitimate non-facet browsing from these ranges is
+// unaffected.
+if (($env === 'live') && !empty($_GET['f'])) {
+  $_denylist_prefixes = ['84.75.', '145.223.', '57.141.', '82.38.'];
+  $_client_ip = _get_real_client_ip();
+  foreach ($_denylist_prefixes as $_prefix) {
+    if (strpos($_client_ip, $_prefix) === 0) {
+      header('HTTP/1.1 403 Forbidden');
+      header('Retry-After: 3600');
+      exit('Access denied.');
+    }
+  }
+}
+
 // Turnstile-based bot protection for faceted searches.
 // Enable on live environment OR when TURNSTILE_ENABLED is explicitly 'true'.
 $enable_turnstile = ($env === 'live') || (getenv('TURNSTILE_ENABLED') === 'true');
