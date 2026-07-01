@@ -289,7 +289,14 @@ function _get_real_client_ip(): string {
 function _serve_turnstile_challenge(string $return_url): void {
   $site_key = _get_turnstile_secret('TURNSTILE_SITE_KEY');
   $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-  $cookie_name = '_turnstile_verified';
+  // Pantheon's Global CDN strips cookies that aren't prefixed SESS*/SSESS* or
+  // STYXKEY*, so an unprefixed cookie is set in the browser but never reaches
+  // PHP and the check always fails. Use SESS (not STYXKEY): SESS is
+  // cache-busting, so a request carrying it always bypasses the edge cache and
+  // re-runs this gate at origin. STYXKEY is cache-allowing, which risks the
+  // edge serving a cached /turnstile-challenge redirect to an already-verified
+  // visitor and looping them. Matches the existing SESSaccess_auth cookie.
+  $cookie_name = 'SESSturnstile_verified';
   $cookie_duration = 86400; // 24 hours
   $error = '';
 
@@ -464,7 +471,8 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
   $token = isset($_GET['token']) ? $_GET['token'] : '';
   $return_url = isset($_GET['return']) ? $_GET['return'] : '/';
   $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-  $cookie_name = '_turnstile_verified';
+  // SESS prefix required so Pantheon's CDN forwards the cookie to origin.
+  $cookie_name = 'SESSturnstile_verified';
   $cookie_duration = 86400; // 24 hours
 
   // Sanitize return URL.
@@ -589,7 +597,8 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
 
       // Second line of defense: Turnstile verification for everyone else.
       $turnstile_secret = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-      $cookie_name = '_turnstile_verified';
+      // SESS prefix required so Pantheon's CDN forwards the cookie to origin.
+      $cookie_name = 'SESSturnstile_verified';
 
       // Verify the cookie is valid (matches expected hash).
       $cookie_valid = FALSE;
@@ -598,11 +607,16 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
         $cookie_valid = hash_equals($expected_hash, $_COOKIE[$cookie_name]);
       }
       // TEMP DIAGNOSTIC (turnstile loop): log check-side inputs, no secret.
+      // cookie_names shows which cookies actually reached PHP — this tells us
+      // whether the edge/CDN stripped our cookie, the browser withheld it, or
+      // it's present but the check logic misses it.
       error_log(sprintf(
-        'TURNSTILE_CHECK ip=%s cookie_present=%s cookie_valid=%s xff=%s uri=%s',
+        'TURNSTILE_CHECK ip=%s cookie_present=%s cookie_valid=%s cookie_names=[%s] has_cookie_header=%s xff=%s uri=%s',
         _get_real_client_ip(),
         isset($_COOKIE[$cookie_name]) ? 'yes' : 'no',
         $cookie_valid ? 'yes' : 'no',
+        implode(',', array_keys($_COOKIE)),
+        isset($_SERVER['HTTP_COOKIE']) ? 'yes' : 'no',
         $_SERVER['HTTP_X_FORWARDED_FOR'] ?? 'none',
         $_SERVER['REQUEST_URI']
       ));
