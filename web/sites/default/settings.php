@@ -289,13 +289,10 @@ function _get_real_client_ip(): string {
 function _serve_turnstile_challenge(string $return_url): void {
   $site_key = _get_turnstile_secret('TURNSTILE_SITE_KEY');
   $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-  // Pantheon's Global CDN strips cookies that aren't prefixed SESS*/SSESS* or
-  // STYXKEY*, so an unprefixed cookie is set in the browser but never reaches
-  // PHP and the check always fails. Use SESS (not STYXKEY): SESS is
-  // cache-busting, so a request carrying it always bypasses the edge cache and
-  // re-runs this gate at origin. STYXKEY is cache-allowing, which risks the
-  // edge serving a cached /turnstile-challenge redirect to an already-verified
-  // visitor and looping them. Matches the existing SESSaccess_auth cookie.
+  // SESS prefix: Pantheon's Global CDN treats SESS* cookies as session cookies,
+  // forwarding them to origin and bypassing the edge cache for that visitor.
+  // This mirrors the working SESSaccess_auth cookie on this site. (An unprefixed
+  // cookie is stripped at the edge and never reaches PHP, which loops the user.)
   $cookie_name = 'SESSturnstile_verified';
   $cookie_duration = 86400; // 24 hours
   $error = '';
@@ -343,13 +340,16 @@ function _serve_turnstile_challenge(string $return_url): void {
 
       if (!empty($result['success'])) {
         // Verification successful - set cookie and redirect.
-        $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+        // Match the working SESSaccess_auth cookie: always Secure (Pantheon's
+        // LB terminates TLS so $_SERVER['HTTPS'] is unset at origin) and
+        // SameSite=None so the cookie survives the cross-context navigation
+        // back from the Turnstile challenge.
         setcookie($cookie_name, hash('sha256', $secret_key . _get_real_client_ip()), [
           'expires' => time() + $cookie_duration,
           'path' => '/',
-          'secure' => $secure,
+          'secure' => true,
           'httponly' => true,
-          'samesite' => 'Lax',
+          'samesite' => 'None',
         ]);
 
         header('Location: ' . $return_url);
@@ -481,6 +481,35 @@ if (($env === 'live') && !empty($_GET['f'])) {
   }
 }
 
+// Emergency multi-facet kill switch (2026-07-01 facet-crawl outage).
+// While the attack is active, return a cheap 503 for anonymous multi-facet
+// requests (2+ facets) before Drupal bootstraps — this is the expensive,
+// uncacheable URL space the bots walk. Real single-facet filtering still
+// works. Controlled by an env var so it can be flipped off WITHOUT a deploy:
+// unset FACET_KILL_SWITCH (or set to '0') once traffic subsides.
+if ($env === 'live'
+  && getenv('FACET_KILL_SWITCH') !== '0'
+  && isset($_GET['f']) && is_array($_GET['f']) && count($_GET['f']) >= 2) {
+  // Exempt genuine logged-in users only: a real Drupal session cookie is
+  // SESS/SSESS followed by a 32-char hex id. Do NOT exempt on mere presence of
+  // any SESS* name (that would let our own SESSturnstile_verified cookie, or a
+  // fabricated one, bypass this) — everyone else falls through to the real
+  // Turnstile check below, which validates the cookie properly.
+  $_is_authed = FALSE;
+  foreach (array_keys($_COOKIE) as $_cn) {
+    if (preg_match('/^S?SESS[0-9a-f]{32}$/', $_cn)) {
+      $_is_authed = TRUE;
+      break;
+    }
+  }
+  if (!$_is_authed) {
+    header('HTTP/1.1 503 Service Unavailable');
+    header('Retry-After: 3600');
+    header('Cache-Control: no-store');
+    exit('Filtered search is temporarily unavailable due to unusual traffic. Please try again later.');
+  }
+}
+
 // Turnstile-based bot protection for faceted searches.
 // Enable on live environment OR when TURNSTILE_ENABLED is explicitly 'true'.
 $enable_turnstile = ($env === 'live') || (getenv('TURNSTILE_ENABLED') === 'true');
@@ -551,6 +580,9 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
 
   // Verification failed - redirect back to challenge with error.
   $challenge_url = '/turnstile-challenge?return=' . urlencode($return_url) . '&error=1';
+  // Never let the edge cache a challenge redirect — a cached challenge would be
+  // served to already-verified visitors and loop them.
+  header('Cache-Control: no-store, no-cache, private, max-age=0');
   header('Location: ' . $challenge_url);
   exit();
 }
