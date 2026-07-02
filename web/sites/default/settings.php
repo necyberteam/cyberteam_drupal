@@ -289,7 +289,11 @@ function _get_real_client_ip(): string {
 function _serve_turnstile_challenge(string $return_url): void {
   $site_key = _get_turnstile_secret('TURNSTILE_SITE_KEY');
   $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-  $cookie_name = '_turnstile_verified';
+  // SESS prefix: Pantheon's Global CDN treats SESS* cookies as session cookies,
+  // forwarding them to origin and bypassing the edge cache for that visitor.
+  // This mirrors the working SESSaccess_auth cookie on this site. (An unprefixed
+  // cookie is stripped at the edge and never reaches PHP, which loops the user.)
+  $cookie_name = 'SESSturnstileverified';
   $cookie_duration = 86400; // 24 hours
   $error = '';
 
@@ -314,10 +318,14 @@ function _serve_turnstile_challenge(string $return_url): void {
     $ch = curl_init('https://challenges.cloudflare.com/turnstile/v0/siteverify');
     curl_setopt_array($ch, [
       CURLOPT_POST => true,
+      // Do not send 'remoteip': Cloudflare validates it against the IP that
+      // solved the widget, and behind Pantheon's load balancer the client IP
+      // we resolve doesn't reliably match Cloudflare's edge view, which makes
+      // siteverify return success=false and loops the user back to the
+      // challenge. The token alone is sufficient proof of a valid solve.
       CURLOPT_POSTFIELDS => http_build_query([
         'secret' => $secret_key,
         'response' => $token,
-        'remoteip' => _get_real_client_ip(),
       ]),
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_TIMEOUT => 10,
@@ -332,13 +340,16 @@ function _serve_turnstile_challenge(string $return_url): void {
 
       if (!empty($result['success'])) {
         // Verification successful - set cookie and redirect.
-        $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+        // Match the working SESSaccess_auth cookie: always Secure (Pantheon's
+        // LB terminates TLS so $_SERVER['HTTPS'] is unset at origin) and
+        // SameSite=None so the cookie survives the cross-context navigation
+        // back from the Turnstile challenge.
         setcookie($cookie_name, hash('sha256', $secret_key . _get_real_client_ip()), [
           'expires' => time() + $cookie_duration,
           'path' => '/',
-          'secure' => $secure,
+          'secure' => true,
           'httponly' => true,
-          'samesite' => 'Lax',
+          'samesite' => 'None',
         ]);
 
         header('Location: ' . $return_url);
@@ -451,6 +462,54 @@ function _serve_turnstile_challenge(string $return_url): void {
   exit();
 }
 
+// Emergency netblock denylist (2026-07-01 facet-crawl outage).
+// A distributed bot crawl from these /16 ranges took the site down by walking
+// faceted URLs. Return a cheap 403 for faceted requests from these networks
+// before any expensive query or the Turnstile flow runs. Remove once the
+// attack subsides. Scoped to faceted requests (?f[]) to limit collateral to
+// the abuse pattern; legitimate non-facet browsing from these ranges is
+// unaffected.
+if (($env === 'live') && !empty($_GET['f'])) {
+  $_denylist_prefixes = ['84.75.', '145.223.', '57.141.', '82.38.'];
+  $_client_ip = _get_real_client_ip();
+  foreach ($_denylist_prefixes as $_prefix) {
+    if (strpos($_client_ip, $_prefix) === 0) {
+      header('HTTP/1.1 403 Forbidden');
+      header('Retry-After: 3600');
+      exit('Access denied.');
+    }
+  }
+}
+
+// Emergency multi-facet kill switch (2026-07-01 facet-crawl outage).
+// While the attack is active, return a cheap 503 for anonymous multi-facet
+// requests (2+ facets) before Drupal bootstraps — this is the expensive,
+// uncacheable URL space the bots walk. Real single-facet filtering still
+// works. Controlled by an env var so it can be flipped off WITHOUT a deploy:
+// unset FACET_KILL_SWITCH (or set to '0') once traffic subsides.
+if ($env === 'live'
+  && getenv('FACET_KILL_SWITCH') !== '0'
+  && isset($_GET['f']) && is_array($_GET['f']) && count($_GET['f']) >= 2) {
+  // Exempt genuine logged-in users only: a real Drupal session cookie is
+  // SESS/SSESS followed by a 32-char hex id. Do NOT exempt on mere presence of
+  // any SESS* name (that would let our own SESSturnstileverified cookie, or a
+  // fabricated one, bypass this) — everyone else falls through to the real
+  // Turnstile check below, which validates the cookie properly.
+  $_is_authed = FALSE;
+  foreach (array_keys($_COOKIE) as $_cn) {
+    if (preg_match('/^S?SESS[0-9a-f]{32}$/', $_cn)) {
+      $_is_authed = TRUE;
+      break;
+    }
+  }
+  if (!$_is_authed) {
+    header('HTTP/1.1 503 Service Unavailable');
+    header('Retry-After: 3600');
+    header('Cache-Control: no-store');
+    exit('Filtered search is temporarily unavailable due to unusual traffic. Please try again later.');
+  }
+}
+
 // Turnstile-based bot protection for faceted searches.
 // Enable on live environment OR when TURNSTILE_ENABLED is explicitly 'true'.
 $enable_turnstile = ($env === 'live') || (getenv('TURNSTILE_ENABLED') === 'true');
@@ -460,7 +519,8 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
   $token = isset($_GET['token']) ? $_GET['token'] : '';
   $return_url = isset($_GET['return']) ? $_GET['return'] : '/';
   $secret_key = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-  $cookie_name = '_turnstile_verified';
+  // SESS prefix required so Pantheon's CDN forwards the cookie to origin.
+  $cookie_name = 'SESSturnstileverified';
   $cookie_duration = 86400; // 24 hours
 
   // Sanitize return URL.
@@ -473,10 +533,14 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
     $ch = curl_init('https://challenges.cloudflare.com/turnstile/v0/siteverify');
     curl_setopt_array($ch, [
       CURLOPT_POST => true,
+      // Do not send 'remoteip': Cloudflare validates it against the IP that
+      // solved the widget, and behind Pantheon's load balancer the client IP
+      // we resolve doesn't reliably match Cloudflare's edge view, which makes
+      // siteverify return success=false and loops the user back to the
+      // challenge. The token alone is sufficient proof of a valid solve.
       CURLOPT_POSTFIELDS => http_build_query([
         'secret' => $secret_key,
         'response' => $token,
-        'remoteip' => _get_real_client_ip(),
       ]),
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_TIMEOUT => 10,
@@ -492,6 +556,14 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
       if (!empty($result['success'])) {
         // Verification successful - set cookie and redirect.
         $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+        // TEMP DIAGNOSTIC (turnstile loop): log set-side inputs, no secret.
+        error_log(sprintf(
+          'TURNSTILE_SET ip=%s secure=%s xff=%s return=%s',
+          _get_real_client_ip(),
+          $secure ? 'yes' : 'no',
+          $_SERVER['HTTP_X_FORWARDED_FOR'] ?? 'none',
+          $return_url
+        ));
         setcookie($cookie_name, hash('sha256', $secret_key . _get_real_client_ip()), [
           'expires' => time() + $cookie_duration,
           'path' => '/',
@@ -508,6 +580,9 @@ if ($enable_turnstile && strpos($_SERVER['REQUEST_URI'], '/turnstile-verify') ==
 
   // Verification failed - redirect back to challenge with error.
   $challenge_url = '/turnstile-challenge?return=' . urlencode($return_url) . '&error=1';
+  // Never let the edge cache a challenge redirect — a cached challenge would be
+  // served to already-verified visitors and loop them.
+  header('Cache-Control: no-store, no-cache, private, max-age=0');
   header('Location: ' . $challenge_url);
   exit();
 }
@@ -573,7 +648,8 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
 
       // Second line of defense: Turnstile verification for everyone else.
       $turnstile_secret = _get_turnstile_secret('TURNSTILE_SECRET_KEY');
-      $cookie_name = '_turnstile_verified';
+      // SESS prefix required so Pantheon's CDN forwards the cookie to origin.
+      $cookie_name = 'SESSturnstileverified';
 
       // Verify the cookie is valid (matches expected hash).
       $cookie_valid = FALSE;
@@ -581,6 +657,20 @@ if ($enable_turnstile && isset($_SERVER['QUERY_STRING'])) {
         $expected_hash = hash('sha256', $turnstile_secret . _get_real_client_ip());
         $cookie_valid = hash_equals($expected_hash, $_COOKIE[$cookie_name]);
       }
+      // TEMP DIAGNOSTIC (turnstile loop): log check-side inputs, no secret.
+      // cookie_names shows which cookies actually reached PHP — this tells us
+      // whether the edge/CDN stripped our cookie, the browser withheld it, or
+      // it's present but the check logic misses it.
+      error_log(sprintf(
+        'TURNSTILE_CHECK ip=%s cookie_present=%s cookie_valid=%s cookie_names=[%s] has_cookie_header=%s xff=%s uri=%s',
+        _get_real_client_ip(),
+        isset($_COOKIE[$cookie_name]) ? 'yes' : 'no',
+        $cookie_valid ? 'yes' : 'no',
+        implode(',', array_keys($_COOKIE)),
+        isset($_SERVER['HTTP_COOKIE']) ? 'yes' : 'no',
+        $_SERVER['HTTP_X_FORWARDED_FOR'] ?? 'none',
+        $_SERVER['REQUEST_URI']
+      ));
 
       if (!$cookie_valid && !empty($turnstile_secret)) {
         // No valid verification cookie - redirect to Turnstile challenge.
