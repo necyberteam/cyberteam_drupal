@@ -110,6 +110,8 @@ describe("Resource Documentation API", () => {
       // Structured queue fields stay raw and typed (GB), with a derived summary.
       const gpuStandard = body.queue_specs[0];
       expect(gpuStandard.name).to.eq("gpu-standard");
+      // node_count is the per-partition node count (field_rp_node_count).
+      expect(gpuStandard.node_count).to.eq(100);
       expect(gpuStandard.cpu_count).to.eq(64);
       expect(gpuStandard.cpu_type).to.eq("AMD EPYC 7763");
       expect(gpuStandard.gpu_count).to.eq(4);
@@ -117,14 +119,16 @@ describe("Resource Documentation API", () => {
       expect(gpuStandard.gpu_vram).to.eq(80);
       // `ram` carries node RAM (field_rp_vram, GB) despite the legacy name.
       expect(gpuStandard.ram).to.eq(256);
+      // Summary includes the node count between the GPU and CPU clauses.
       expect(gpuStandard.summary).to.eq(
-        "4 NVIDIA A100 (80 GB vRAM), 64-core AMD EPYC 7763, 256 GB RAM"
+        "4 NVIDIA A100 (80 GB vRAM), 100 nodes, 64-core AMD EPYC 7763, 256 GB RAM"
       );
       // CPU-only queue: no GPU clause in the summary.
       const cpuShared = body.queue_specs.find((q) => q.name === "cpu-shared");
       expect(cpuShared.gpu_count).to.eq(0);
+      expect(cpuShared.node_count).to.eq(200);
       expect(cpuShared.summary).to.eq(
-        "128-core Intel Xeon Platinum 8480+, 256 GB RAM"
+        "200 nodes, 128-core Intel Xeon Platinum 8480+, 256 GB RAM"
       );
 
       expect(body.datasets).to.be.an("array");

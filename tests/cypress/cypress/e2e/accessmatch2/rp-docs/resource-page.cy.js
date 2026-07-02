@@ -121,17 +121,30 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
   it("renders corrected GPU and Node RAM columns", () => {
     // Column relabeled away from the ambiguous "RAM" (field_rp_vram is node RAM).
     cy.get(".rp-queue-specs").contains("th", "Node RAM");
-    // GPU column no longer mislabels the count as "cores".
-    cy.get(".rp-queue-specs table").should("not.contain", "cores");
+    // Per-node column labels: CPU count reads as cores per node, GPUs per node.
+    cy.get(".rp-queue-specs").contains("th", "CPU cores / node");
+    cy.get(".rp-queue-specs").contains("th", "GPUs / node");
     // GPU cell: "<count> <type> (<vram> GB vRAM)" and Node RAM in GB.
     cy.get(".rp-queue-specs table tbody tr").contains("td", "gpu-standard")
       .parent("tr").within(() => {
         cy.contains("4 NVIDIA A100 (80 GB vRAM)");
         cy.contains("256 GB");
+        // CPU count renders as cores (per-node), not "CPUs".
+        cy.contains("64 cores");
       });
     // CPU-only queue shows a dash for GPU, never "0 …".
     cy.get(".rp-queue-specs table tbody tr").contains("td", "cpu-shared")
       .parent("tr").should("contain", "—").and("not.contain", "0 NVIDIA");
+  });
+
+  it("renders the per-partition Nodes column", () => {
+    cy.get(".rp-queue-specs").contains("th", "Nodes");
+    // gpu-standard has field_rp_node_count = 100 in the fixture.
+    cy.get(".rp-queue-specs table tbody tr").contains("td", "gpu-standard")
+      .parent("tr").should("contain", "100");
+    // cpu-shared has field_rp_node_count = 200.
+    cy.get(".rp-queue-specs table tbody tr").contains("td", "cpu-shared")
+      .parent("tr").should("contain", "200");
   });
 
   it("renders top software table", () => {
