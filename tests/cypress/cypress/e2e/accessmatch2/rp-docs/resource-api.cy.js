@@ -131,11 +131,28 @@ describe("Resource Documentation API", () => {
         "200 nodes, 128-core Intel Xeon Platinum 8480+, 256 GB RAM"
       );
 
+      // Max wall time: gpu-standard has a limit (fixture sets 48h); the API
+      // exposes raw hours + a friendly display string.
+      expect(gpuStandard.max_wall_time_hours).to.eq(48);
+      expect(gpuStandard.max_wall_time_display).to.eq("48 hours");
+      // cpu-shared has no limit -> null.
+      expect(cpuShared.max_wall_time_hours).to.be.null;
+      expect(cpuShared.max_wall_time_display).to.be.null;
+
       expect(body.datasets).to.be.an("array");
       expect(body.datasets).to.have.length(2);
 
       expect(body.top_software).to.be.an("array");
       expect(body.top_software).to.have.length(5);
+
+      expect(body.ood_software).to.be.an("array");
+      expect(body.ood_software.map((s) => s.name)).to.include.members(["Jupyter", "RStudio"]);
+      const jup = body.ood_software.find((s) => s.name === "Jupyter");
+      expect(jup.web_page).to.include("jupyter.org");
+      // Every entry is SDS-enriched (name-only input, enriched on cron).
+      const rst = body.ood_software.find((s) => s.name === "RStudio");
+      expect(rst.web_page).to.include("posit.co");
+      expect(rst.research_field).to.eq("Other Natural Sciences");
 
       // SSH logins use structured fields (hostname / placeholder / docs_url).
       expect(body.ssh_logins).to.be.an("array");
