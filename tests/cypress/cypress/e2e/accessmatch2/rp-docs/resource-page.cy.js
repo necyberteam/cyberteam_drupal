@@ -112,10 +112,11 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
 
   it("renders queue specs table", () => {
     cy.contains("h2", "Jobs");
-    cy.get(".rp-queue-specs table tbody tr").should("have.length", 3);
+    cy.get(".rp-queue-specs table tbody tr").should("have.length", 4);
     cy.contains("td", "gpu-standard");
     cy.contains("td", "gpu-large");
     cy.contains("td", "cpu-shared");
+    cy.contains("td", "gpu-cloud");
   });
 
   it("renders corrected GPU and Node RAM columns", () => {
@@ -129,12 +130,39 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
       .parent("tr").within(() => {
         cy.contains("4 NVIDIA A100 (80 GB vRAM)");
         cy.contains("256 GB");
-        // CPU count renders as cores (per-node), not "CPUs".
-        cy.contains("64 cores");
+        // CPU core count is parenthesized like the GPU vRAM.
+        cy.contains("AMD EPYC 7763 (64 cores)");
       });
     // CPU-only queue shows a dash for GPU, never "0 …".
     cy.get(".rp-queue-specs table tbody tr").contains("td", "cpu-shared")
       .parent("tr").should("contain", "—").and("not.contain", "0 NVIDIA");
+    // gpu-cloud has GPU type + vRAM but no per-node count: render type/vRAM
+    // without a leading count, not an em-dash.
+    cy.get(".rp-queue-specs table tbody tr").contains("td", "gpu-cloud")
+      .parent("tr").should("contain", "NVIDIA H100 (80 GB vRAM)")
+      .and("not.contain", "0 NVIDIA H100");
+  });
+
+  it("renders the max wall time on the wall-time cell", () => {
+    // The wall-time limit renders as text below the sparkline ("limit Nh", in
+    // hours) plus a red ceiling line inside the SVG. Numbers (range/avg/limit)
+    // live in the text row, not inside the chart.
+    // gpu-standard: limit 48h, drawn as a red line + "limit 48h" text.
+    cy.get(".rp-queue-specs table tbody tr").contains("td", "gpu-standard")
+      .parent("tr").within(() => {
+        cy.contains("limit 48h");
+        cy.get("svg line[stroke='#c0392b']").should("exist"); // red ceiling line
+        cy.get("svg polyline").should("exist"); // trend not flattened
+      });
+    // gpu-large: limit 120h (the 30-day usage exceeds it — line drawn, text shown).
+    cy.get(".rp-queue-specs table tbody tr").contains("td", "gpu-large")
+      .parent("tr").should("contain", "limit 120h");
+    // cpu-shared has no limit set -> no "limit" text, no red line.
+    cy.get(".rp-queue-specs table tbody tr").contains("td", "cpu-shared")
+      .parent("tr").within(() => {
+        cy.contains("limit").should("not.exist");
+        cy.get("svg line[stroke='#c0392b']").should("not.exist");
+      });
   });
 
   it("renders the per-partition Nodes column", () => {
@@ -145,15 +173,21 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     // cpu-shared has field_rp_node_count = 200.
     cy.get(".rp-queue-specs table tbody tr").contains("td", "cpu-shared")
       .parent("tr").should("contain", "200");
+    // gpu-cloud has an unknown node count: em-dash, not 0.
+    cy.get(".rp-queue-specs table tbody tr").contains("td", "gpu-cloud")
+      .parent("tr").find("td").eq(2).should("contain", "—");
   });
 
   it("renders top software table", () => {
     cy.contains("h2", "Software");
     cy.contains("h3", "Most Frequently Used");
-    cy.get(".rp-top-software table tbody tr").should("have.length", 5);
+    // Scope to the top-software table specifically — the OOD software table
+    // now lives in the same #rp-software section, so an unscoped row count
+    // would catch both tables' rows.
+    cy.get(".rp-top-software-table table tbody tr").should("have.length", 5);
     cy.contains("td", "python");
     cy.contains("td", "gromacs");
-    cy.get(".rp-top-software").contains("XDMoD");
+    cy.get(".rp-top-software-table").contains("XDMoD");
   });
 
   it("renders datasets table", () => {
@@ -161,6 +195,19 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     cy.get(".rp-datasets table tbody tr").should("have.length", 2);
     cy.get(".rp-datasets table").contains("td", "ImageNet-1K");
     cy.get(".rp-datasets table").contains("td", "Common Crawl (2024)");
+  });
+
+  it("renders the OOD software subsection as an enriched table", () => {
+    cy.contains("h3", "Available via ACCESS OnDemand");
+    // Rendered as a table (like top software) so SDS enrichment is visible:
+    // Application / Description / Research Discipline columns.
+    cy.get(".rp-ood-software").contains("th", "Research Discipline");
+    // Both entries are SDS-enriched (students enter only names; cron fills the
+    // rest). Name links to web_page, description + research field are shown.
+    cy.get(".rp-ood-software").contains("a", "Jupyter").should("have.attr", "href").and("include", "jupyter.org");
+    cy.get(".rp-ood-software").contains("Computer & Information Sciences");
+    cy.get(".rp-ood-software").contains("a", "RStudio").should("have.attr", "href").and("include", "posit.co");
+    cy.get(".rp-ood-software").contains("Other Natural Sciences");
   });
 
   it("renders sidebar with support links (Alpha's own values override the Group)", () => {
