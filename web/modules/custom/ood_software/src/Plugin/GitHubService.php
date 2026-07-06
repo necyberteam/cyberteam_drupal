@@ -30,13 +30,13 @@ class GitHubService {
       '*' => ['batch-connect-basic'],
     ],
     'dashboard' => [
-      '*' => ['dashboards'],
+      '*' => ['dashboard'],
     ],
     'passenger_app' => [
       '*' => ['companion_app'],
     ],
     'widget' => [
-      '*' => ['widgets'],
+      '*' => ['widget'],
     ],
   ];
 

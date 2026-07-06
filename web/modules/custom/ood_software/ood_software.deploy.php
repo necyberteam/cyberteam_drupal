@@ -1226,3 +1226,37 @@ function ood_software_deploy_10012_remove_parent_tags_from_software() {
     '@summary' => $summary,
   ]);
 }
+
+/**
+ * Singularize the dashboards/widgets app type term names.
+ *
+ * The value names what a single app is, so singular is the correct form.
+ * `dashboards`/`widgets` were the only plural outliers (10008 renamed them
+ * to plural to match APP_TYPE_MANIFEST_MAP; that map is now singular too).
+ * Renames in place, preserving the term ID, so every app node reference
+ * follows automatically. Idempotent: re-runs no-op once the singular term
+ * exists.
+ */
+function ood_software_deploy_10013_singularize_app_types() {
+  $renames = [
+    'dashboards' => 'dashboard',
+    'widgets'    => 'widget',
+  ];
+  $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $count = 0;
+  foreach ($renames as $old_name => $new_name) {
+    // Idempotency: if the singular term already exists, nothing to do.
+    $existing = $storage->loadByProperties(['name' => $new_name, 'vid' => 'appverse_app_type']);
+    if (!empty($existing)) {
+      continue;
+    }
+    $old = $storage->loadByProperties(['name' => $old_name, 'vid' => 'appverse_app_type']);
+    if (!empty($old)) {
+      $term = reset($old);
+      $term->setName($new_name);
+      $term->save();
+      $count++;
+    }
+  }
+  return t('Singularized @count app type terms.', ['@count' => $count]);
+}
