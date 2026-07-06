@@ -112,10 +112,11 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
 
   it("renders queue specs table", () => {
     cy.contains("h2", "Jobs");
-    cy.get(".rp-queue-specs table tbody tr").should("have.length", 3);
+    cy.get(".rp-queue-specs table tbody tr").should("have.length", 4);
     cy.contains("td", "gpu-standard");
     cy.contains("td", "gpu-large");
     cy.contains("td", "cpu-shared");
+    cy.contains("td", "gpu-cloud");
   });
 
   it("renders corrected GPU and Node RAM columns", () => {
@@ -129,12 +130,17 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
       .parent("tr").within(() => {
         cy.contains("4 NVIDIA A100 (80 GB vRAM)");
         cy.contains("256 GB");
-        // CPU count renders as cores (per-node), not "CPUs".
-        cy.contains("64 cores");
+        // CPU core count is parenthesized like the GPU vRAM.
+        cy.contains("AMD EPYC 7763 (64 cores)");
       });
     // CPU-only queue shows a dash for GPU, never "0 …".
     cy.get(".rp-queue-specs table tbody tr").contains("td", "cpu-shared")
       .parent("tr").should("contain", "—").and("not.contain", "0 NVIDIA");
+    // gpu-cloud has GPU type + vRAM but no per-node count: render type/vRAM
+    // without a leading count, not an em-dash.
+    cy.get(".rp-queue-specs table tbody tr").contains("td", "gpu-cloud")
+      .parent("tr").should("contain", "NVIDIA H100 (80 GB vRAM)")
+      .and("not.contain", "0 NVIDIA H100");
   });
 
   it("renders the max wall time on the wall-time cell", () => {
@@ -167,6 +173,9 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
     // cpu-shared has field_rp_node_count = 200.
     cy.get(".rp-queue-specs table tbody tr").contains("td", "cpu-shared")
       .parent("tr").should("contain", "200");
+    // gpu-cloud has an unknown node count: em-dash, not 0.
+    cy.get(".rp-queue-specs table tbody tr").contains("td", "gpu-cloud")
+      .parent("tr").find("td").eq(2).should("contain", "—");
   });
 
   it("renders top software table", () => {

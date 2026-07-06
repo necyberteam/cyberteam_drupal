@@ -106,7 +106,7 @@ describe("Resource Documentation API", () => {
       expect(project.summary).to.eq("10 TB, 5,000,000 files");
 
       expect(body.queue_specs).to.be.an("array");
-      expect(body.queue_specs).to.have.length(3);
+      expect(body.queue_specs).to.have.length(4);
       // Structured queue fields stay raw and typed (GB), with a derived summary.
       const gpuStandard = body.queue_specs[0];
       expect(gpuStandard.name).to.eq("gpu-standard");
@@ -129,6 +129,12 @@ describe("Resource Documentation API", () => {
       expect(cpuShared.node_count).to.eq(200);
       expect(cpuShared.summary).to.eq(
         "200 nodes, 128-core Intel Xeon Platinum 8480+, 256 GB RAM"
+      );
+      // gpu-cloud: GPU type/vRAM present but no per-node count; summary drops
+      // the leading count and there's no node count clause.
+      const gpuCloud = body.queue_specs.find((q) => q.name === "gpu-cloud");
+      expect(gpuCloud.summary).to.eq(
+        "NVIDIA H100 (80 GB vRAM), 32-core AMD EPYC 9004, 384 GB RAM"
       );
 
       // Max wall time: gpu-standard has a limit (fixture sets 48h); the API
