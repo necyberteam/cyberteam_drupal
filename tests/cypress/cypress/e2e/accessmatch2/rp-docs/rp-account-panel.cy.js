@@ -12,8 +12,21 @@
 */
 
 const RP_PATH = "/documentation/resources/alpha";
+// walnut@pie.org uid=199, node 12060 (test-resource-alpha)
+const WALNUT_UID = 199;
+const RP_NID = 12060;
 
 describe("RP account panel", () => {
+
+  // Remove any DB rows for walnut on this RP before authenticated tests so
+  // SSR renders the no_rows_unknown skeleton, enabling the JS fetch path.
+  before(() => {
+    cy.exec(
+      `ddev drush sqlq "DELETE FROM access_user_rp_account WHERE uid=${WALNUT_UID} AND rp_nid=${RP_NID}"`,
+      { failOnNonZeroExit: false }
+    );
+    cy.exec('ddev drush cr', { failOnNonZeroExit: false });
+  });
 
   it("shows GET AN ACCOUNT CTA for anonymous users (no panel element)", () => {
     cy.visit(RP_PATH);
