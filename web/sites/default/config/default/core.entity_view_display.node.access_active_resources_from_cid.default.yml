@@ -24,6 +24,7 @@ dependencies:
     - field.field.node.access_active_resources_from_cid.field_rp_account_required
     - field.field.node.access_active_resources_from_cid.field_rp_account_setup_url
     - field.field.node.access_active_resources_from_cid.field_rp_datasets
+    - field.field.node.access_active_resources_from_cid.field_rp_datasets_text
     - field.field.node.access_active_resources_from_cid.field_rp_description
     - field.field.node.access_active_resources_from_cid.field_rp_external_storage
     - field.field.node.access_active_resources_from_cid.field_rp_file_transfer
@@ -41,6 +42,7 @@ dependencies:
     - field.field.node.access_active_resources_from_cid.field_rp_software_list_url
     - field.field.node.access_active_resources_from_cid.field_rp_ssh_login_nodes
     - field.field.node.access_active_resources_from_cid.field_rp_storage
+    - field.field.node.access_active_resources_from_cid.field_rp_storage_text
     - field.field.node.access_active_resources_from_cid.field_rp_support_links
     - field.field.node.access_active_resources_from_cid.field_rp_top_software
     - field.field.node.access_active_resources_from_cid.field_rp_xdmod_resource_id
@@ -208,6 +210,13 @@ content:
     third_party_settings: {  }
     weight: 30
     region: content
+  field_rp_datasets_text:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 29
+    region: content
   field_rp_description:
     type: text_default
     label: above
@@ -324,6 +333,13 @@ content:
       link: ''
     third_party_settings: {  }
     weight: 28
+    region: content
+  field_rp_storage_text:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 27
     region: content
   field_rp_support_links:
     type: link
