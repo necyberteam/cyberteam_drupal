@@ -1,4 +1,85 @@
-# cyberteam_drupal
+# Connect.CI Portal
+
+**A single Drupal platform powering the web presence of 13+ cyberinfrastructure communities.**
+
+Connect.CI is a web-based platform for collaboration across the national research computing ecosystem. Originally built to manage project workflows for regional cyberteams, it has grown into a comprehensive community infrastructure hosting thirteen community sites — including ACCESS Support, the Campus Champions program, the Cyberinfrastructure Community-wide Mentorship Network (CCMNet), and the Open OnDemand Community Hub — on a single shared codebase. Each program selectively enables and configures a common set of features while sharing one user base, knowledge base, and tag taxonomy, so a member's profile, skills, and contributions persist as they move between communities.
+
+A research paper describing the platform and its operational model appeared at PEARC '26 — see [Citation](#citation) below.
+
+---
+
+## What it does
+
+The platform provides a common set of features that each community selectively enables and configures:
+
+- **People directories** — searchable per-community directories with skills, interests, and expertise tagging (surfaced on ACCESS Support as the CSSN directory).
+- **Affinity groups** — topical communities with coordinators, goals, meeting notes, announcements, and mailing lists.
+- **Events** — recurring events with registration, waitlists, surveys, reminders, and archived recordings.
+- **Knowledge base** — curated tutorials and documentation with community voting and Ask.CI Q&A integration.
+- **Mentorship & matchmaking** — structured mentor/mentee engagements with goal setting and progress tracking (CCMNet, ACCESS MATCH, Campus Champions AI Mentorship).
+- **Recognition** — a cross-community "community persona," badges, and an Open OnDemand Contributor Wall.
+- **Appverse** — a GitHub-synchronized catalog of Open OnDemand application configurations with an editorial workflow.
+- **AI integration** — a retrieval-augmented generation (RAG) support chatbot, Model Context Protocol (MCP) servers for live platform data, and JSON/plain-text content APIs.
+- **Federated identity** — CILogon single sign-on across all communities.
+
+Communities served include ACCESS Support, the Campus Champions program, CCMNet, the Open OnDemand Community Hub, the Pennsylvania Science DMZ, and several regional cyberteam sites (originating with the Northeast Cyberteam).
+
+---
+
+## Architecture
+
+The platform is a Drupal 10 application built around the **Domain** module, which lets one codebase present many sites. Domain-specific theming, configuration, and content are layered on top of shared subsystems.
+
+Custom functionality is organized into several groups:
+
+**The `access` module suite** ([connectci-platform/access](https://github.com/connectci-platform/access)) — 18 focused submodules implementing most of the community subsystems:
+`access_affinitygroup`, `access_events`, `access_badges`, `access_news`, `access_outages`, `access_cilink`, `access_shortcodes`, `access_misc`, `access_entity_copy`, `access_match_engagement`, `access_content_api`, `access_llm`, `ccmnet` (mentorship), `cssn` (directory), `ondemand`, `ticketing`, `user_profiles`, and `recurring_events_surveys`.
+
+**Portal-level modules** (in this repository) — cross-cutting concerns maintained directly in the portal:
+`ood_software` (Appverse/OnDemand application catalog), `ood_contributions`, `openid_connect_cilogon_client` (federated SSO), `campuschampions`, and `viewsoverride`.
+
+**Shared and external modules** — some functionality is packaged as standalone repositories (see [Repository layout](#repository-layout)): CiDeR resource ingestion (`operations_cider`), seamless CILogon (`drupal_seamless_cilogon`), infrastructure news (`infrastructure_news`), search-API helpers (`webform_submission_search_api`), and development fixtures (`amp_dev`).
+
+**Themes** — four custom themes drive presentation:
+
+- **`ood`** and **`pascience`** (in this repository) — the OpenOnDemand-community and PA-ScienceDMZ themes.
+- **[connectci-platform/aspTheme](https://github.com/connectci-platform/aspTheme)** — the primary Tailwind-based theme used by ACCESS Support and most domains.
+- **[connectci-platform/campus-champions-theme](https://github.com/connectci-platform/campus-champions-theme)** — the Campus Champions community theme.
+
+### Tech stack
+
+- **Drupal 10.6** / PHP 8.3
+- **Domain** module for multi-site-from-one-codebase
+- **Search API** for faceted search across events, resources, and the professional directory
+- **Recurring Events** for the events subsystem
+- **CILogon / OpenID Connect** for federated SSO
+- **Feeds** for automated ingestion from the ACCESS CiDeR resource repository
+- **Tailwind CSS** in the custom themes
+- **DDEV** for local development; **Pantheon** for hosting; **Cypress** for end-to-end testing
+
+---
+
+## Repository layout
+
+The bulk of the custom code is in **this repository** (portal-level modules, the `ood` and `pascience` themes, all site configuration, build and deploy tooling). Several subsystems are maintained as standalone repositories and assembled at build time via Composer:
+
+| Repository | Contents | Owner |
+|------------|----------|-------|
+| **connectci-platform/portal** (this repo) | Drupal site, portal-level modules, `ood`/`pascience` themes, config, tooling | connectci-platform |
+| [connectci-platform/access](https://github.com/connectci-platform/access) | The `access` module suite — 18 community subsystems | connectci-platform |
+| [connectci-platform/aspTheme](https://github.com/connectci-platform/aspTheme) | Primary Tailwind theme | connectci-platform |
+| [connectci-platform/campus-champions-theme](https://github.com/connectci-platform/campus-champions-theme) | Campus Champions theme | connectci-platform |
+| [connectci-platform/amp_dev](https://github.com/connectci-platform/amp_dev) | Development/data fixtures | connectci-platform |
+| [connectci-platform/webform_submission_search_api](https://github.com/connectci-platform/webform_submission_search_api) | Search API helper module | connectci-platform |
+| [access-ci-org/drupal_seamless_cilogon](https://github.com/access-ci-org/drupal_seamless_cilogon) | Seamless CILogon (shared ACCESS infrastructure) | access-ci-org |
+| [access-ci-org/infrastructure_news](https://github.com/access-ci-org/infrastructure_news) | Infrastructure news (shared ACCESS infrastructure) | access-ci-org |
+| [connectci-platform/operations_cider](https://github.com/connectci-platform/operations_cider) | Feed integration that ingests HPC resource data from the ACCESS Operations CiDeR API | connectci-platform |
+
+Third-party dependencies (e.g. [UCBoulder/facets_honeypot](https://github.com/UCBoulder/facets_honeypot)) and all contributed Drupal modules are pulled via Composer and are not vendored here.
+
+---
+
+# Developer guide
 
 ## Development Environment
 
@@ -237,3 +318,30 @@ The email secret is the email you use with pantheon and the token can be setup u
 You can create, open, and ssh into your codespaces using Github CLI, see [install instructions](https://github.com/cli/cli#installation) to install on your local system. Once installed check out the [documentation](https://docs.github.com/en/codespaces/developing-in-codespaces/using-github-codespaces-with-github-cli) for commands you can use. You can authorize Github CLI by running the following command:
 
 ```gh auth login```
+
+---
+
+## License
+
+Licensed under **GPL-2.0-or-later**, consistent with Drupal core and the broader Drupal ecosystem (the platform is a derivative work of GPL-licensed Drupal). See [LICENSE](LICENSE).
+
+---
+
+## Citation
+
+If you use or reference this work, please cite:
+
+> Julie Ma, Lissie Fein, Andrew Pasquale, Vikram Gazula, Kevin Brandt, Dhruva Chakravorty, Alan Chalker, Wayne Figurelle, Andrew Sherman, and Forough Ghahramani. 2026. The Connect.CI Portal: Building and Sustaining a Cyberinfrastructure Community Platform. In Practice and Experience in Advanced Research Computing (PEARC '26), July 26–30, 2026, Minneapolis, MN, USA. ACM, New York, NY, USA, 5 pages. https://doi.org/10.1145/3785462.3815904
+
+```bibtex
+@inproceedings{connectci-portal-2026,
+  author    = {Ma, Julie and Fein, Lissie and Pasquale, Andrew and Gazula, Vikram and Brandt, Kevin and Chakravorty, Dhruva and Chalker, Alan and Figurelle, Wayne and Sherman, Andrew and Ghahramani, Forough},
+  title     = {The Connect.CI Portal: Building and Sustaining a Cyberinfrastructure Community Platform},
+  booktitle = {Practice and Experience in Advanced Research Computing (PEARC '26)},
+  year      = {2026},
+  month     = jul,
+  address   = {Minneapolis, MN, USA},
+  publisher = {ACM},
+  doi       = {10.1145/3785462.3815904}
+}
+```

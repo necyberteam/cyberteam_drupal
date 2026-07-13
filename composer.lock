@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dfd222ccdd5f27bb479b3b0aec12649b",
+    "content-hash": "4e5847a37b78089b6a02b8bd1ea8fd18",
     "packages": [
         {
             "name": "access/drupal_seamless_cilogon",
@@ -61,70 +61,6 @@
                 "source": "https://github.com/access-ci-org/infrastructure_news"
             },
             "time": "2026-06-25T17:57:15+00:00"
-        },
-        {
-            "name": "access/operations_cider",
-            "version": "dev-d8-2772",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/connectci-platform/operations_cider.git",
-                "reference": "10e159bc521bacbcb575a777962175e16291742b"
-            },
-            "require": {
-                "drupal/feeds": "^3.0@beta",
-                "drupal/feeds_ex": "^1.0@beta"
-            },
-            "type": "drupal-custom-module",
-            "license": [
-                "Apache License, Version 2.0"
-            ],
-            "authors": [
-                {
-                    "name": "JP Navarro",
-                    "email": "jpfnavarro@gmail.com"
-                },
-                {
-                    "name": "Andrew Pasquale",
-                    "email": "andrew@elytra.net"
-                }
-            ],
-            "description": "Drupal Feed of ACCESS Integrated Resources",
-            "support": {
-                "issues": "https://github.com/access-ci-org/Operations_Drupal_Feed_Cider/issues",
-                "source": "https://github.com/access-ci-org/Operations_Drupal_Feed_Cider"
-            },
-            "time": "2026-07-09T18:18:35+00:00"
-        },
-        {
-            "name": "amp/access",
-            "version": "dev-d8-2772",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/connectci-platform/access.git",
-                "reference": "423da77bf235d5ab6fce21518cf0667094bc8a24"
-            },
-            "require": {
-                "firebase/php-jwt": "^6.0 || ^7.0",
-                "gioni06/gpt3-tokenizer": "^1.2",
-                "openai-php/client": "^0.10"
-            },
-            "default-branch": true,
-            "type": "drupal-custom-module",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Miles France",
-                    "email": "Miles.France@protitude.com"
-                }
-            ],
-            "description": "A collection of modules for access match.",
-            "support": {
-                "issues": "https://github.com/necyberteam/access/issues",
-                "source": "https://github.com/necyberteam/access"
-            },
-            "time": "2026-07-09T18:35:58+00:00"
         },
         {
             "name": "asm89/stack-cors",
@@ -736,6 +672,159 @@
                 }
             ],
             "time": "2025-08-20T19:15:30+00:00"
+        },
+        {
+            "name": "connectci/access",
+            "version": "3.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/connectci-platform/access.git",
+                "reference": "4bd201c46fc6227bf6d71521d92678cd52e75fb0"
+            },
+            "require": {
+                "firebase/php-jwt": "^6.0 || ^7.0",
+                "gioni06/gpt3-tokenizer": "^1.2",
+                "openai-php/client": "^0.10"
+            },
+            "default-branch": true,
+            "type": "drupal-custom-module",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Miles France",
+                    "email": "Miles.France@protitude.com"
+                }
+            ],
+            "description": "The access module suite: community subsystem modules for the Connect.CI portal.",
+            "support": {
+                "issues": "https://github.com/connectci-platform/access/issues",
+                "source": "https://github.com/connectci-platform/access"
+            },
+            "time": "2026-07-13T19:54:23+00:00"
+        },
+        {
+            "name": "connectci/asp-theme",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/connectci-platform/aspTheme.git",
+                "reference": "9ce578ab944fb42224abd7d66e4c7f2f570a3f72"
+            },
+            "default-branch": true,
+            "type": "drupal-theme",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Pasquale",
+                    "email": "andrew@elytra.net"
+                }
+            ],
+            "description": "A custom theme for the ACCESS Support Portal.",
+            "support": {
+                "issues": "https://github.com/connectci-platform/aspTheme/issues",
+                "source": "https://github.com/connectci-platform/aspTheme"
+            },
+            "time": "2026-07-13T19:54:25+00:00"
+        },
+        {
+            "name": "connectci/campus-champions-theme",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/connectci-platform/campus-champions-theme.git",
+                "reference": "81e76eb69356265fd21bda0e37862e7c9e0eef3e"
+            },
+            "default-branch": true,
+            "type": "drupal-theme",
+            "license": [
+                "Apache License, Version 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Shawn Rice",
+                    "email": "zooley@purdue.edu"
+                }
+            ],
+            "description": "A custom theme for the Campus Champions site.",
+            "support": {
+                "issues": "https://github.com/connectci-platform/campus-champions-theme/issues",
+                "source": "https://github.com/connectci-platform/campus-champions-theme"
+            },
+            "time": "2026-07-13T01:29:15+00:00"
+        },
+        {
+            "name": "connectci/operations_cider",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/connectci-platform/operations_cider.git",
+                "reference": "c54fdc9b5e01a7934cebcfaad46df81f600ea635"
+            },
+            "require": {
+                "drupal/feeds": "^3.0@beta",
+                "drupal/feeds_ex": "^1.0@beta"
+            },
+            "replace": {
+                "access/operations_cider": "self.version"
+            },
+            "default-branch": true,
+            "type": "drupal-custom-module",
+            "license": [
+                "Apache License, Version 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "JP Navarro",
+                    "email": "jpfnavarro@gmail.com"
+                },
+                {
+                    "name": "Andrew Pasquale",
+                    "email": "andrew@elytra.net"
+                }
+            ],
+            "description": "Drupal Feed of ACCESS Integrated Resources",
+            "support": {
+                "issues": "https://github.com/connectci-platform/operations_cider/issues",
+                "source": "https://github.com/connectci-platform/operations_cider"
+            },
+            "time": "2026-07-13T14:40:10+00:00"
+        },
+        {
+            "name": "connectci/webform_submission_search_api",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/connectci-platform/webform_submission_search_api.git",
+                "reference": "a646925bf3c798ba92c3bcfe9624a6654305be1f"
+            },
+            "require": {
+                "drupal/search_api": "^1.3",
+                "drupal/webform": "^6"
+            },
+            "default-branch": true,
+            "type": "drupal-custom-module",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Pasquale",
+                    "email": "andrew@elytra.net"
+                }
+            ],
+            "description": "Index fields from Webform Submissions for Search API",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "issues": "https://github.com/connectci-platform/webform_submission_search_api/issues",
+                "source": "https://github.com/connectci-platform/webform_submission_search_api"
+            },
+            "time": "2026-07-13T01:29:17+00:00"
         },
         {
             "name": "consolidation/annotated-command",
@@ -6735,17 +6824,17 @@
         },
         {
             "name": "drupal/menu_link_attributes",
-            "version": "1.5.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/menu_link_attributes.git",
-                "reference": "8.x-1.5"
+                "reference": "8.x-1.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/menu_link_attributes-8.x-1.5.zip",
-                "reference": "8.x-1.5",
-                "shasum": "ad1db596ad8a76ba95fbf2d0a42d4777056587d5"
+                "url": "https://ftp.drupal.org/files/projects/menu_link_attributes-8.x-1.7.zip",
+                "reference": "8.x-1.7",
+                "shasum": "ae473541208cbe18130cb4b75104b55a9b80d073"
             },
             "require": {
                 "drupal/core": "^8 || ^9 || ^10 || ^11"
@@ -6753,8 +6842,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.5",
-                    "datestamp": "1724848806",
+                    "version": "8.x-1.7",
+                    "datestamp": "1774255144",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -10938,48 +11027,6 @@
             }
         },
         {
-            "name": "drupal_fork/cilogon_auth",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/necyberteam/cilogin_auth.git",
-                "reference": "a557481ba3afdfda63ef5d58cdbdb447e9bc5ca9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/necyberteam/cilogin_auth/zipball/a557481ba3afdfda63ef5d58cdbdb447e9bc5ca9",
-                "reference": "a557481ba3afdfda63ef5d58cdbdb447e9bc5ca9",
-                "shasum": ""
-            },
-            "require": {
-                "drupal/core": "^10"
-            },
-            "default-branch": true,
-            "type": "drupal-module",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Stephen Cheung",
-                    "email": "s2cheung@ucsd.edu",
-                    "role": "Maintainer"
-                }
-            ],
-            "description": "The CILogon Auth module enables Single Sign-on via the CILogon.org service, which supports authorization from a large number of academic institutions and other organizations around the world.",
-            "homepage": "https://drupal.org/project/cilogon_auth",
-            "keywords": [
-                "CILogon",
-                "Drupal",
-                "SingleSignOn"
-            ],
-            "support": {
-                "issues": "https://drupal.org/project/issues/cilogon_auth",
-                "source": "https://git.drupalcode.org/project/cilogon_auth"
-            },
-            "time": "2024-06-13T20:13:09+00:00"
-        },
-        {
             "name": "drush/drush",
             "version": "13.7.4",
             "source": {
@@ -13243,90 +13290,6 @@
                 "source": "https://github.com/jmespath/jmespath.php/tree/2.9.2"
             },
             "time": "2026-07-06T18:56:19+00:00"
-        },
-        {
-            "name": "necyberteam/asp-theme",
-            "version": "dev-d8-2772",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/connectci-platform/aspTheme.git",
-                "reference": "2d316c82c2404d3faeb22591cc1b480cfcbf2067"
-            },
-            "type": "drupal-theme",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Andrew Pasquale",
-                    "email": "andrew@elytra.net"
-                }
-            ],
-            "description": "A custom theme for the ACCESS Support Portal.",
-            "support": {
-                "issues": "https://github.com/necyberteam/aspTheme/issues",
-                "source": "https://github.com/necyberteam/aspTheme"
-            },
-            "time": "2026-07-09T18:47:23+00:00"
-        },
-        {
-            "name": "necyberteam/campus-champions-theme",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/connectci-platform/campus-champions-theme.git",
-                "reference": "27927ffec962bda1cacf2458ceb2c05990bbebb9"
-            },
-            "default-branch": true,
-            "type": "drupal-theme",
-            "license": [
-                "Apache License, Version 2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Shawn Rice",
-                    "email": "zooley@purdue.edu"
-                }
-            ],
-            "description": "A custom theme for the Campus Champions site.",
-            "support": {
-                "issues": "https://github.com/necyberteam/campus-champions-theme/issues",
-                "source": "https://github.com/necyberteam/campus-champions-theme"
-            },
-            "time": "2026-06-30T14:54:23+00:00"
-        },
-        {
-            "name": "necyberteam/webform_submission_search_api",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/connectci-platform/webform_submission_search_api.git",
-                "reference": "2f0eeebe5ce0ea0a4b92328542a8b5f1d34a16e3"
-            },
-            "require": {
-                "drupal/search_api": "^1.3",
-                "drupal/webform": "^6"
-            },
-            "default-branch": true,
-            "type": "drupal-custom-module",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Andrew Pasquale",
-                    "email": "andrew@elytra.net"
-                }
-            ],
-            "description": "Index fields from Webform Submissions for Search API ",
-            "keywords": [
-                "Drupal"
-            ],
-            "support": {
-                "issues": "https://github.com/necyberteam/webform_submission_search_api/issues",
-                "source": "https://github.com/necyberteam/webform_submission_search_api"
-            },
-            "time": "2026-05-11T20:05:21+00:00"
         },
         {
             "name": "nette/schema",
@@ -18212,26 +18175,6 @@
     ],
     "packages-dev": [
         {
-            "name": "amp/amp_dev",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/connectci-platform/amp_dev.git",
-                "reference": "ec97aacb915c562ec31a4c97c7f76e8d4eab4f73"
-            },
-            "default-branch": true,
-            "type": "drupal-custom-module",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "description": "Initiate settings necessary in dev site.",
-            "homepage": "https://github.com/necyberteam/amp_dev",
-            "keywords": [
-                "Drupal"
-            ],
-            "time": "2026-07-11T16:37:43+00:00"
-        },
-        {
             "name": "behat/mink",
             "version": "v1.13.0",
             "source": {
@@ -19047,6 +18990,26 @@
                 }
             ],
             "time": "2024-05-06T16:37:16+00:00"
+        },
+        {
+            "name": "connectci/amp_dev",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/connectci-platform/amp_dev.git",
+                "reference": "7a1c3191643d1b8e9fb8fd39c89d85f5329b644b"
+            },
+            "default-branch": true,
+            "type": "drupal-custom-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Initiate settings necessary in dev site.",
+            "homepage": "https://github.com/connectci-platform/amp_dev",
+            "keywords": [
+                "Drupal"
+            ],
+            "time": "2026-07-13T01:29:11+00:00"
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
@@ -24483,9 +24446,12 @@
     "stability-flags": {
         "access/drupal_seamless_cilogon": 20,
         "access/infrastructure_news": 20,
-        "access/operations_cider": 20,
-        "amp/access": 20,
-        "amp/amp_dev": 20,
+        "connectci/access": 20,
+        "connectci/amp_dev": 20,
+        "connectci/asp-theme": 20,
+        "connectci/campus-champions-theme": 20,
+        "connectci/operations_cider": 20,
+        "connectci/webform_submission_search_api": 20,
         "drupal/auditfiles": 10,
         "drupal/crawler_rate_limit": 10,
         "drupal/datalayer": 5,
@@ -24505,11 +24471,7 @@
         "drupal/search_exclude": 10,
         "drupal/ultimate_cron": 10,
         "drupal/views_data_export": 5,
-        "drupal/views_field_view": 10,
-        "drupal_fork/cilogon_auth": 20,
-        "necyberteam/asp-theme": 20,
-        "necyberteam/campus-champions-theme": 20,
-        "necyberteam/webform_submission_search_api": 20
+        "drupal/views_field_view": 10
     },
     "prefer-stable": true,
     "prefer-lowest": false,
