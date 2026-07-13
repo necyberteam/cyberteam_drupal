@@ -423,4 +423,51 @@ class GitHubServiceTest extends UnitTestCase {
     $this->assertFalse($result);
   }
 
+  /**
+   * Data provider: subpaths that are safe to interpolate into the GraphQL
+   * expression literal.
+   */
+  public static function validSubpathProvider(): array {
+    return [
+      'simple' => ['jupyter'],
+      'nested' => ['apps/jupyter'],
+      'version dots' => ['nf-core-rnaseq-3.26.0'],
+      'underscores' => ['bc_osc_jupyter'],
+      'deep nesting' => ['a/b/c/d'],
+    ];
+  }
+
+  /**
+   * @dataProvider validSubpathProvider
+   * @covers ::isValidSubpath
+   */
+  public function testValidSubpathAccepted(string $path): void {
+    $this->assertTrue(GitHubService::isValidSubpath($path), "'$path' should be a valid subpath.");
+  }
+
+  /**
+   * Data provider: subpaths that must be rejected. The quote-bearing cases are
+   * the GraphQL-injection payloads that would break out of the "HEAD:%s/..."
+   * string literal; the rest are non-path junk.
+   */
+  public static function invalidSubpathProvider(): array {
+    return [
+      'double quote (injection)' => ['x") { y: object(expression: "HEAD:secret'],
+      'quote only' => ['a"b'],
+      'newline' => ["a\nb"],
+      'space' => ['has space'],
+      'backslash' => ['a\\b'],
+      'brace' => ['a{b}'],
+      'empty' => [''],
+    ];
+  }
+
+  /**
+   * @dataProvider invalidSubpathProvider
+   * @covers ::isValidSubpath
+   */
+  public function testInvalidSubpathRejected(string $path): void {
+    $this->assertFalse(GitHubService::isValidSubpath($path), "'$path' must be rejected.");
+  }
+
 }

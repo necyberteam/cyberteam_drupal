@@ -124,8 +124,16 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
         $needsSave = TRUE;
       }
 
-      // Update other fields if repo has new commits.
-      if ($lastupdated != $this->githubService->getLastComittedDate()) {
+      // Update root-derived content fields if the repo has new commits — but
+      // ONLY for apps whose content comes from the repo root. A monorepo
+      // member app (non-empty field_appverse_app_subpath) gets its body,
+      // README, and app_type from its OWN subpath via RepoSyncService, which
+      // owns those fields. This worker reads root-level data only, so syncing
+      // it here would clobber the member's per-subpath values with root (often
+      // empty) content. Skip the block for member apps; stars and the repo
+      // link above still apply to every app.
+      $isMemberApp = !$node->get('field_appverse_app_subpath')->isEmpty();
+      if (!$isMemberApp && $lastupdated != $this->githubService->getLastComittedDate()) {
         $node->set('body', [['format' => 'markdown', 'value' => $this->githubService->getDescription()]]);
         $node->set('field_appverse_readme', [['format' => 'markdown', 'value' => $this->githubService->getReadme()]]);
         $node->set('field_appverse_lastupdated', [['value' => $this->githubService->getLastComittedDate()]]);

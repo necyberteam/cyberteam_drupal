@@ -88,6 +88,7 @@ class AppverseCachePublishTest extends KernelTestBase {
     $this->importProdConfig([
       'node.type.appverse_repo',
       'node.type.appverse_app',
+      'node.type.appverse_software',
       'workflows.workflow.appverse_editorial',
       // field_repo_url is read unguarded by buildReposData (->uri).
       'field.storage.node.field_repo_url',
@@ -120,6 +121,13 @@ class AppverseCachePublishTest extends KernelTestBase {
       // buildSoftwareData groups every published app by its software ref.
       'field.storage.node.field_appverse_software_implemen',
       'field.field.node.appverse_app.field_appverse_software_implemen',
+      // buildSoftwareData reads these software fields unguarded (->uri /
+      // ->processed) when a software node is present.
+      'field.storage.node.field_appverse_software_website',
+      'field.field.node.appverse_software.field_appverse_software_website',
+      'field.storage.node.field_appverse_software_doc',
+      'field.field.node.appverse_software.field_appverse_software_doc',
+      'field.field.node.appverse_software.body',
       // buildAppData reads these app fields unguarded (->uri / ->value).
       'field.storage.node.field_appverse_github_url',
       'field.field.node.appverse_app.field_appverse_github_url',
@@ -190,15 +198,40 @@ class AppverseCachePublishTest extends KernelTestBase {
    * @param string $state
    *   Moderation state: 'published' or 'draft'.
    */
-  private function makeApp(string $title, NodeInterface $repo, string $state): NodeInterface {
-    $app = Node::create([
+  private function makeApp(string $title, NodeInterface $repo, string $state, ?NodeInterface $software = NULL): NodeInterface {
+    $values = [
       'type' => 'appverse_app',
       'title' => $title,
       'field_appverse_repo' => $repo->id(),
       'moderation_state' => $state,
-    ]);
+    ];
+    if ($software) {
+      $values['field_appverse_software_implemen'] = $software->id();
+    }
+    $app = Node::create($values);
     $app->save();
     return $app;
+  }
+
+  /**
+   * Build an appverse_software node.
+   *
+   * @param string $title
+   *   Software title.
+   * @param string $state
+   *   Moderation state: 'published' or 'draft'.
+   */
+  private function makeSoftware(string $title, bool $published): NodeInterface {
+    // appverse_software is NOT under the editorial moderation workflow (that
+    // covers only appverse_app + appverse_repo), so its visibility is driven
+    // by the raw published status, not a moderation_state.
+    $sw = Node::create([
+      'type' => 'appverse_software',
+      'title' => $title,
+      'status' => $published ? 1 : 0,
+    ]);
+    $sw->save();
+    return $sw;
   }
 
   /**
@@ -331,6 +364,40 @@ class AppverseCachePublishTest extends KernelTestBase {
       $this->allRepoAppTitles($data),
       'After unpublish, app "Member" should no longer appear under any repo.'
     );
+  }
+
+  /**
+   * A member app whose software is UNPUBLISHED must not leak into the cache.
+   *
+   * buildReposData keys published apps by nid from published-software data.
+   * A member app referencing an unpublished software drops out of that map;
+   * the fix must skip it rather than emit it as a repo-only app with an
+   * empty softwareId. A genuinely software-less member app still appears.
+   *
+   * @covers ::buildReposData
+   */
+  public function testMemberAppWithUnpublishedSoftwareIsExcluded(): void {
+    $repo = $this->makeRepo('MonoSw', 'https://github.com/OSC/monosw', 'published');
+    $hiddenSw = $this->makeSoftware('Hidden Software', FALSE);
+    $liveSw = $this->makeSoftware('Live Software', TRUE);
+
+    // Published app whose software is unpublished — must be excluded.
+    $this->makeApp('Leaky App', $repo, 'published', $hiddenSw);
+    // Published app whose software is published — must appear.
+    $this->makeApp('Visible App', $repo, 'published', $liveSw);
+    // Published app with NO software ref — legitimate repo-only, must appear.
+    $this->makeApp('Repo-Only App', $repo, 'published');
+
+    $data = $this->generateAndDecode();
+    $titles = $this->allRepoAppTitles($data);
+
+    self::assertNotContains(
+      'Leaky App',
+      $titles,
+      'App whose software is unpublished must NOT appear in the public catalog.'
+    );
+    self::assertContains('Visible App', $titles, 'App with published software should appear.');
+    self::assertContains('Repo-Only App', $titles, 'Software-less repo-only app should still appear.');
   }
 
   /**

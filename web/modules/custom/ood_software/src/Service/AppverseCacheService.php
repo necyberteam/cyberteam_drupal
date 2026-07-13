@@ -223,9 +223,18 @@ class AppverseCacheService {
           $memberApps[] = $appByNid[$appNid];
         }
         elseif (isset($memberAppNodes[$appNid])) {
-          // Repo-only app (no software ref). Build app data from the
-          // node directly so it still appears in the repo's apps list.
-          $memberApps[] = $this->buildAppData($memberAppNodes[$appNid], '');
+          // Not in $appByNid (which is keyed from PUBLISHED software only).
+          // Two cases to tell apart:
+          //  - The app genuinely has NO software ref → legitimate repo-only
+          //    app, emit it with empty softwareId.
+          //  - The app HAS a software ref but that software is unpublished
+          //    (so it dropped out of $appByNid) → do NOT leak it into the
+          //    public catalog with an empty softwareId; skip it.
+          $app = $memberAppNodes[$appNid];
+          if (!$app->get('field_appverse_software_implemen')->isEmpty()) {
+            continue;
+          }
+          $memberApps[] = $this->buildAppData($app, '');
         }
       }
 

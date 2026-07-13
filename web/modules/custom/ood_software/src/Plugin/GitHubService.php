@@ -434,6 +434,25 @@ class GitHubService {
   }
 
   /**
+   * Whether a submitter-supplied repo subpath is safe to interpolate.
+   *
+   * The subpath is placed into a GraphQL expression string literal
+   * ("HEAD:<path>/manifest.yml"). Restrict it to characters that occur in a
+   * real repo path so a crafted value cannot break out of the literal (and,
+   * absent Guzzle's json_encode, achieve injection) or produce a malformed
+   * query. Empty is not a valid path.
+   *
+   * @param string $path
+   *   The trimmed subpath.
+   *
+   * @return bool
+   *   TRUE if the path contains only [A-Za-z0-9._/-] and is non-empty.
+   */
+  public static function isValidSubpath(string $path): bool {
+    return $path !== '' && preg_match('#^[A-Za-z0-9._/-]+$#', $path) === 1;
+  }
+
+  /**
    * Fetch per-subpath manifest.yml + appverse.yml from the same repo.
    *
    * Call after setOwnerAndName()/parseUrl() and fetchRepoData(); pass the
@@ -466,11 +485,21 @@ class GitHubService {
       if ($cleanPath === '') {
         continue;
       }
+      // The subpath comes verbatim from a submitter-authored appverse.yml
+      // (apps[].path) and is interpolated into the GraphQL expression string
+      // literal below. Guzzle json_encodes the whole request body, so a stray
+      // quote cannot achieve true structural injection — but it WOULD produce
+      // a malformed query and fail the sync. Reject anything that isn't a
+      // plain repo subpath so a bad path is skipped with a clear log rather
+      // than silently breaking the whole repo's import.
+      if (!self::isValidSubpath($cleanPath)) {
+        $this->logger->warning('Skipping app with invalid subpath %path (must match [A-Za-z0-9._/-]).', ['%path' => $cleanPath]);
+        continue;
+      }
       $aliasMap[$alias] = $cleanPath;
       // The expression argument MUST be a literal string in the query —
-      // GraphQL won't substitute variables into "HEAD:<path>/...".
-      // sprintf builds the query string itself; the values are repo paths
-      // we control, so no injection vector here.
+      // GraphQL won't substitute variables into "HEAD:<path>/...", so sprintf
+      // builds the query string itself. $cleanPath is validated above.
       $blobFields[] = sprintf(
         "%s_manifest: object(expression: \"HEAD:%s/manifest.yml\") { ... on Blob { text } }\n        %s_appverse: object(expression: \"HEAD:%s/appverse.yml\") { ... on Blob { text } }\n        %s_readme: object(expression: \"HEAD:%s/README.md\") { ... on Blob { text } }\n        %s_form: object(expression: \"HEAD:%s/form.yml\") { ... on Blob { text } }",
         $alias, $cleanPath, $alias, $cleanPath, $alias, $cleanPath, $alias, $cleanPath
