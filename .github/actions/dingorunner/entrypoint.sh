@@ -160,7 +160,7 @@ then
   storeKey
   git branch $drupal_update
   git checkout $drupal_update
-  git remote set-url origin "https://$username:$gh_token@github.com/necyberteam/cyberteam_drupal.git"
+  git remote set-url origin "https://$username:$gh_token@github.com/connectci-platform/portal.git"
   git config --global user.email \"$email\"
   git config --global user.name \"$username\"
   composer config -g github-oauth.github.com $gh_token
