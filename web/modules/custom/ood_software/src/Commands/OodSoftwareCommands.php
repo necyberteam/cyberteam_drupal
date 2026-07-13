@@ -38,7 +38,7 @@ class OodSoftwareCommands extends DrushCommands {
   protected $httpClient;
 
   /**
-   * The Collection sync service.
+   * The Repo sync service.
    *
    * @var \Drupal\ood_software\Service\RepoSyncService
    */
@@ -68,7 +68,7 @@ class OodSoftwareCommands extends DrushCommands {
    * @param \GuzzleHttp\ClientInterface $http_client
    *   The HTTP client.
    * @param \Drupal\ood_software\Service\RepoSyncService $repo_sync
-   *   The Collection sync service.
+   *   The Repo sync service.
    * @param \Drupal\ood_software\Plugin\GitHubService $github_service
    *   The GitHub service.
    * @param \Drupal\ood_software\Service\AppverseCacheService $appverse_cache
@@ -85,7 +85,7 @@ class OodSoftwareCommands extends DrushCommands {
   }
 
   /**
-   * Sync the Collection for a single GitHub repo URL.
+   * Sync the Repo for a single GitHub repo URL.
    *
    * @param string $repoUrl
    *   GitHub repo URL (e.g., https://github.com/owner/name).
@@ -93,16 +93,16 @@ class OodSoftwareCommands extends DrushCommands {
    * @command appverse:sync-repo
    * @aliases avsc
    * @usage drush appverse:sync-repo https://github.com/owner/name
-   *   Refresh the Collection node for the given repo.
+   *   Refresh the Repo node for the given repo.
    */
-  public function syncCollection(string $repoUrl): void {
+  public function syncRepo(string $repoUrl): void {
     if (!preg_match('@^https://github\.com/([^/]+)/([^/]+?)(?:\.git)?/?$@', rtrim($repoUrl, '/'), $m)) {
       throw new \InvalidArgumentException('Repo URL must be of the form https://github.com/owner/name');
     }
     $owner = $m[1];
     $name = $m[2];
 
-    // Bypass parseUrl()'s manifest.yml requirement — Collections are
+    // Bypass parseUrl()'s manifest.yml requirement — declared repos are
     // repo-based, not necessarily app-manifest-based.
     $this->githubService->setOwnerAndName($owner, $name);
     try {
@@ -129,18 +129,18 @@ class OodSoftwareCommands extends DrushCommands {
         'lastCommittedDate' => $this->githubService->getLastComittedDate(),
         'readme' => $this->githubService->getReadme(),
       ];
-      $collection = $this->repoSync->resolveRepo(
+      $repo = $this->repoSync->resolveRepo(
         $this->githubService->getRepoUrl(),
         $this->githubService->getAppverseYmlText(),
         $repoMetadata
       );
 
       $this->logger()->success(sprintf(
-        'Collection synced: %s (nid: %d, status: %s, slug: %s)',
-        $collection->getTitle(),
-        $collection->id(),
-        $collection->get('field_repo_validation_st')->value,
-        basename($collection->toUrl()->toString())
+        'Repo synced: %s (nid: %d, status: %s, slug: %s)',
+        $repo->getTitle(),
+        $repo->id(),
+        $repo->get('field_repo_validation_st')->value,
+        basename($repo->toUrl()->toString())
       ));
 
       // Walk apps[] from the root appverse.yml (when declared) and create
@@ -178,7 +178,7 @@ class OodSoftwareCommands extends DrushCommands {
               return;
             }
             $appNodes = $this->repoSync->applyDeclaredApps(
-              $collection,
+              $repo,
               $parsed,
               $subpathFiles,
               $this->githubService->getRepoUrl(),

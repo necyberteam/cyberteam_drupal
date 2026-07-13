@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * Three stages:
  *   1. URL paste → fetch + detect shape (AJAX rebuild)
- *   2. Preview (via _ood_software_build_collection_preview /
+ *   2. Preview (via _ood_software_build_declared_preview /
  *      _ood_software_build_single_app_preview)
  *   3. Confirm → sync (declared: Batch; inferred: synchronous)
  */
@@ -210,7 +210,7 @@ final class AddRepoForm extends FormBase {
       $form_state->setRebuild();
       return;
     }
-    $shape = $this->github->isCollectionRepo() ? 'declared' : 'inferred';
+    $shape = $this->github->isDeclaredRepo() ? 'declared' : 'inferred';
 
     $form_state->set('stage', 'preview');
     $form_state->set('repo_url', $url);
@@ -237,7 +237,7 @@ final class AddRepoForm extends FormBase {
 
     $this->moduleHandler->loadInclude('ood_software', 'module');
     $form['preview'] = $shape === 'declared'
-      ? _ood_software_build_collection_preview($this->github, $form)
+      ? _ood_software_build_declared_preview($this->github, $form)
       : _ood_software_build_single_app_preview($this->github, $form);
 
     $form['actions'] = ['#type' => 'actions'];
@@ -336,12 +336,12 @@ final class AddRepoForm extends FormBase {
   /**
    * Declared shape: resolveRepo + per-subpath Batch + reconcile + redirect.
    *
-   * Mirrors _ood_software_handle_collection_submit at ood_software.module:1166
-   * (which gets deleted in Task 9).
+   * Replaced the legacy procedural declared-submit handler that lived in
+   * ood_software.module (removed during the dedicated-repo-submit-form work).
    */
   private function submitDeclared(string $url, array $repoMetadata, FormStateInterface $form_state): void {
     // Prefer the canonical URL that GitHubService normalized; same rationale
-    // as the legacy collection handler.
+    // as the legacy declared handler.
     $url = $repoMetadata['repoUrl'] ?? $url;
 
     $appverseYmlText = $this->github->getAppverseYmlText();

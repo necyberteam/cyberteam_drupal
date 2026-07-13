@@ -73,7 +73,7 @@ class SyncInferredMemberAppTest extends KernelTestBase {
       'node.type.appverse_repo',
       'node.type.appverse_app',
       'workflows.workflow.appverse_editorial',
-      // Bundle's field used by createBlankRepo for resolveCollectionByRepoUrl.
+      // Bundle's field used by createBlankRepo for loadRepoByUrl.
       'field.storage.node.field_repo_url',
       'field.field.node.appverse_repo.field_repo_url',
       // body is a base-table field on node bundles; attach it to appverse_app.

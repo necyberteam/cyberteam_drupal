@@ -241,7 +241,7 @@ class GitHubService {
           return FALSE;
         }
 
-        // Don't short-circuit on shape — caller checks isCollectionRepo() /
+        // Don't short-circuit on shape — caller checks isDeclaredRepo() /
         // isSingleAppRepo() / isEmptyRepo() to decide what to do.
         return TRUE;
 
@@ -366,7 +366,7 @@ class GitHubService {
 
     // Phase 1.6: this layer no longer emits user-facing shape errors. The
     // AJAX callback in ood_software.module is the single place that decides
-    // what to tell the user based on isCollectionRepo() / isSingleAppRepo() /
+    // what to tell the user based on isDeclaredRepo() / isSingleAppRepo() /
     // isEmptyRepo(). We log shape gaps at info level for ops visibility but
     // do not block.
     //
@@ -376,7 +376,7 @@ class GitHubService {
     // the catalog today points at a single-app repo with a root manifest.yml
     // (otherwise it wouldn't have been created), so manifestData IS
     // populated for them. If an admin re-pointed an existing app at a
-    // Collection URL, manifestData would be FALSE here and the worker's
+    // declared-repo URL, manifestData would be FALSE here and the worker's
     // getters would return NULL/empty — the worker would gracefully no-op
     // the changed fields rather than crash.
     if ($manifest_text === NULL) {
@@ -396,41 +396,41 @@ class GitHubService {
   }
 
   /**
-   * Whether this repo has a root appverse.yml (a Declared Collection).
+   * Whether this repo has a root appverse.yml (a declared repo).
    *
    * Call after fetchRepoData(). Returns FALSE if fetchRepoData hasn't
    * run successfully (i.e. URL was invalid).
    */
-  public function isCollectionRepo(): bool {
+  public function isDeclaredRepo(): bool {
     return $this->appverseYmlText !== NULL && trim($this->appverseYmlText) !== '';
   }
 
   /**
-   * Whether this repo has a root manifest.yml (a Single-App Inferred Collection).
+   * Whether this repo has a root manifest.yml (a single-app inferred repo).
    *
    * A repo can have BOTH a root manifest.yml AND a root appverse.yml. In that
-   * case isCollectionRepo() takes precedence — appverse.yml's apps[] is the
+   * case isDeclaredRepo() takes precedence — appverse.yml's apps[] is the
    * authoritative app list.
    *
-   * See isCollectionRepo() for preconditions (call after fetchRepoData()).
+   * See isDeclaredRepo() for preconditions (call after fetchRepoData()).
    */
   public function isSingleAppRepo(): bool {
     return $this->data !== NULL
       && ($this->data['manifestYml']['text'] ?? NULL) !== NULL
-      && !$this->isCollectionRepo();
+      && !$this->isDeclaredRepo();
   }
 
   /**
    * Whether this repo lacks both appverse.yml and root manifest.yml.
    *
-   * Such a repo cannot register as either a Collection or a single app.
+   * Such a repo cannot register as either a declared repo or a single app.
    *
-   * See isCollectionRepo() for preconditions (call after fetchRepoData()).
-   * Exactly one of isCollectionRepo(), isSingleAppRepo(), isEmptyRepo()
+   * See isDeclaredRepo() for preconditions (call after fetchRepoData()).
+   * Exactly one of isDeclaredRepo(), isSingleAppRepo(), isEmptyRepo()
    * returns TRUE at a time.
    */
   public function isEmptyRepo(): bool {
-    return !$this->isCollectionRepo() && !$this->isSingleAppRepo();
+    return !$this->isDeclaredRepo() && !$this->isSingleAppRepo();
   }
 
   /**
@@ -786,16 +786,16 @@ class GitHubService {
   /**
    * Return per-app preview records for whatever shape this repo is.
    *
-   * For a Declared Collection: walks apps[] in appverse.yml and returns
+   * For a declared repo: walks apps[] in appverse.yml and returns
    * one record per subpath (fetching per-subpath manifest + form.yml +
    * README presence).
    *
-   * For a Single-App Inferred Collection: returns one record from the
+   * For a single-app inferred repo: returns one record from the
    * root manifest, with subpath=''.
    *
    * For an empty repo: returns [].
    *
-   * Call after fetchRepoData(). For Collections, this method also calls
+   * Call after fetchRepoData(). For declared repos, this method also calls
    * fetchAppSubpaths() internally — caller doesn't need to.
    *
    * @return array<int, array{
@@ -825,7 +825,7 @@ class GitHubService {
       return [];
     }
 
-    if ($this->isCollectionRepo()) {
+    if ($this->isDeclaredRepo()) {
       // Walk apps[] in root appverse.yml.
       try {
         $appverse = Yaml::decode($this->appverseYmlText);
@@ -858,7 +858,7 @@ class GitHubService {
       $this->fetchAppSubpaths($subpaths);
 
       $records = [];
-      // Collection-level license falls through to apps that lack their own.
+      // Repo-level license falls through to apps that lack their own.
       $repoLicense = $this->license;
       foreach ($subpaths as $path) {
         $entry = $entriesByPath[$path] ?? [];
@@ -952,7 +952,7 @@ class GitHubService {
       'attributes' => [],
       'readmePresent' => $this->readme !== NULL,
       'readmeBytes' => $this->readme !== NULL ? strlen($this->readme) : 0,
-      // Single-app inferred Collections get Software via the form's
+      // Single-app inferred repos get Software via the form's
       // field_appverse_software_implemen autocomplete, not the manifest.
       // Tags get picked via the form's field_add_implementation_tags
       // widget. Both return empty resolution shapes so consumers can rely
@@ -1062,7 +1062,7 @@ class GitHubService {
   /**
    * Set owner and repo name directly, bypassing parseUrl's manifest check.
    *
-   * Useful for Collection-only repos that don't have a manifest.yml. After
+   * Useful for Declared repos that don't have a manifest.yml. After
    * calling this, invoke fetchRepoData() to populate the rest of the data.
    *
    * @param string $owner

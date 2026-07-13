@@ -64,7 +64,7 @@ class RepoNotificationServiceTest extends KernelTestBase {
       'workflows',
     ]);
 
-    // The Collection bundle, its fields, and the appverse_editorial
+    // The Repo bundle, its fields, and the appverse_editorial
     // workflow live in sites/default/config/default — not the module's
     // config/install. Import the bundles + field storages BEFORE
     // installing ood_software's own config (which has a field.field
@@ -218,9 +218,9 @@ class RepoNotificationServiceTest extends KernelTestBase {
   }
 
   /**
-   * Create a Collection node in the given moderation state.
+   * Create a Repo node in the given moderation state.
    */
-  protected function createCollection(int $ownerId, string $state = 'draft', string $title = 'Test Collection'): Node {
+  protected function createRepo(int $ownerId, string $state = 'draft', string $title = 'Test Repo'): Node {
     $node = Node::create([
       'type' => 'appverse_repo',
       'title' => $title,
@@ -248,7 +248,7 @@ class RepoNotificationServiceTest extends KernelTestBase {
   public function testReadyForReviewNotifiesAdmins(): void {
     $admin = $this->createAdminUser('admin@example.com');
     $contributor = $this->createContributor();
-    $node = $this->createCollection((int) $contributor->id(), 'draft');
+    $node = $this->createRepo((int) $contributor->id(), 'draft');
 
     $node->set('moderation_state', 'ready_for_review');
     $node->setNewRevision(TRUE);
@@ -269,7 +269,7 @@ class RepoNotificationServiceTest extends KernelTestBase {
    */
   public function testSuppressFlagSilencesPublishNotification(): void {
     $contributor = $this->createContributor();
-    $node = $this->createCollection((int) $contributor->id(), 'draft');
+    $node = $this->createRepo((int) $contributor->id(), 'draft');
 
     // Same transition that normally emails the owner — but flagged.
     $node->_ood_software_suppress_notifications = TRUE;
@@ -284,12 +284,12 @@ class RepoNotificationServiceTest extends KernelTestBase {
 
   /**
    * Assert that the contrib `appverse_review_requested` email is suppressed
-   * for Collection bundles via hook_content_moderation_notification_mail_data_alter.
+   * for Repo bundles via hook_content_moderation_notification_mail_data_alter.
    */
-  public function testCollectionSendForReviewDoesNotTriggerContribMail(): void {
+  public function testRepoSendForReviewDoesNotTriggerContribMail(): void {
     $this->createAdminUser('admin@example.com');
     $contributor = $this->createContributor();
-    $node = $this->createCollection((int) $contributor->id(), 'draft');
+    $node = $this->createRepo((int) $contributor->id(), 'draft');
 
     $node->set('moderation_state', 'ready_for_review');
     $node->setNewRevision(TRUE);
@@ -300,7 +300,7 @@ class RepoNotificationServiceTest extends KernelTestBase {
       $this->assertStringNotContainsString(
         'New Appverse App submitted',
         (string) $mail['subject'],
-        'Contrib App-flavored email must not fire for Collection bundle.'
+        'Contrib App-flavored email must not fire for Repo bundle.'
       );
     }
   }
@@ -311,7 +311,7 @@ class RepoNotificationServiceTest extends KernelTestBase {
   public function testNeedsAdjustmentEmailsOwnerWithCommentFromRuntimeProperty(): void {
     $this->createAdminUser('admin@example.com');
     $contributor = $this->createContributor('owner@example.com');
-    $node = $this->createCollection((int) $contributor->id(), 'ready_for_review');
+    $node = $this->createRepo((int) $contributor->id(), 'ready_for_review');
 
     $node->set('moderation_state', 'needs_adjustment');
     $node->setNewRevision(TRUE);
@@ -333,7 +333,7 @@ class RepoNotificationServiceTest extends KernelTestBase {
   public function testNeedsAdjustmentFallsBackToRevisionLogWhenNoRuntimeProperty(): void {
     $this->createAdminUser();
     $contributor = $this->createContributor('owner@example.com');
-    $node = $this->createCollection((int) $contributor->id(), 'ready_for_review');
+    $node = $this->createRepo((int) $contributor->id(), 'ready_for_review');
 
     $node->set('moderation_state', 'needs_adjustment');
     $node->setRevisionLogMessage('fix Y');
@@ -354,7 +354,7 @@ class RepoNotificationServiceTest extends KernelTestBase {
   public function testNeedsAdjustmentWithNoCommentOmitsNoteBlock(): void {
     $this->createAdminUser();
     $contributor = $this->createContributor('owner@example.com');
-    $node = $this->createCollection((int) $contributor->id(), 'ready_for_review');
+    $node = $this->createRepo((int) $contributor->id(), 'ready_for_review');
 
     $node->set('moderation_state', 'needs_adjustment');
     $node->setNewRevision(TRUE);
@@ -373,7 +373,7 @@ class RepoNotificationServiceTest extends KernelTestBase {
   public function testPublishedNotifiesOwner(): void {
     $this->createAdminUser();
     $contributor = $this->createContributor('owner@example.com');
-    $node = $this->createCollection((int) $contributor->id(), 'ready_for_review');
+    $node = $this->createRepo((int) $contributor->id(), 'ready_for_review');
 
     $node->set('moderation_state', 'published');
     $node->setNewRevision(TRUE);
@@ -394,7 +394,7 @@ class RepoNotificationServiceTest extends KernelTestBase {
   public function testArchivedToPublishedUsesPublishedTemplate(): void {
     $this->createAdminUser();
     $contributor = $this->createContributor('owner@example.com');
-    $node = $this->createCollection((int) $contributor->id(), 'published');
+    $node = $this->createRepo((int) $contributor->id(), 'published');
 
     // Move to archived first.
     $node->set('moderation_state', 'archived');
@@ -415,7 +415,7 @@ class RepoNotificationServiceTest extends KernelTestBase {
   }
 
   /**
-   * App bundle transitions do not trigger Collection notifier.
+   * App bundle transitions do not trigger Repo notifier.
    */
   public function testAppBundleTransitionDoesNotNotify(): void {
     $this->createAdminUser();
@@ -445,7 +445,7 @@ class RepoNotificationServiceTest extends KernelTestBase {
   public function testSameStateSaveDoesNotNotify(): void {
     $this->createAdminUser();
     $contributor = $this->createContributor();
-    $node = $this->createCollection((int) $contributor->id(), 'draft');
+    $node = $this->createRepo((int) $contributor->id(), 'draft');
 
     // Save without changing moderation_state.
     $node->setTitle('Updated title');
@@ -462,7 +462,7 @@ class RepoNotificationServiceTest extends KernelTestBase {
   public function testResubmitFiresAnotherAdminEmail(): void {
     $this->createAdminUser('admin@example.com');
     $contributor = $this->createContributor();
-    $node = $this->createCollection((int) $contributor->id(), 'needs_adjustment');
+    $node = $this->createRepo((int) $contributor->id(), 'needs_adjustment');
 
     $node->set('moderation_state', 'ready_for_review');
     $node->setNewRevision(TRUE);

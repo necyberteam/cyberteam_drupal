@@ -9,7 +9,7 @@ use Drupal\ood_software\Service\RepoSyncService;
 use Drush\Commands\DrushCommands;
 
 /**
- * Drush commands for backfilling legacy Apps with inferred Collections.
+ * Drush commands for backfilling legacy Apps with inferred Repos.
  */
 class AppverseBackfillCommands extends DrushCommands {
 
@@ -21,7 +21,7 @@ class AppverseBackfillCommands extends DrushCommands {
   protected $entityTypeManager;
 
   /**
-   * The Collection sync service.
+   * The Repo sync service.
    *
    * @var \Drupal\ood_software\Service\RepoSyncService
    */
@@ -47,7 +47,7 @@ class AppverseBackfillCommands extends DrushCommands {
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\ood_software\Service\RepoSyncService $repo_sync
-   *   The Collection sync service.
+   *   The Repo sync service.
    * @param \Drupal\ood_software\Plugin\GitHubService $github
    *   The GitHub service.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
@@ -71,7 +71,7 @@ class AppverseBackfillCommands extends DrushCommands {
   }
 
   /**
-   * Create inferred Collections for legacy Apps with no parent.
+   * Create inferred Repos for legacy Apps with no parent.
    *
    * @param array $options
    *   Command options.
@@ -89,9 +89,9 @@ class AppverseBackfillCommands extends DrushCommands {
     }
 
     // Backfill ALL Apps regardless of status (published or unpublished).
-    // Every App should have a parent Collection per the spec's "every
-    // App belongs to a Collection" rule. Unpublished legacy Apps with
-    // no parent Collection would be invisible in the hub today; the
+    // Every App should have a parent Repo per the spec's "every
+    // App belongs to a Repo" rule. Unpublished legacy Apps with
+    // no parent Repo would be invisible in the hub today; the
     // backfill makes them visible.
     $appIds = $this->entityTypeManager->getStorage('node')->getQuery()
       ->accessCheck(FALSE)
@@ -119,7 +119,7 @@ class AppverseBackfillCommands extends DrushCommands {
     }
 
     batch_set([
-      'title' => 'Backfilling inferred Collections',
+      'title' => 'Backfilling inferred Repos',
       'operations' => $operations,
       'finished' => [self::class, 'finishedCallback'],
     ]);
@@ -154,9 +154,9 @@ class AppverseBackfillCommands extends DrushCommands {
         }
 
         // Fetch repo metadata so resolveRepo can populate the
-        // new Collection with stars / last commit / org / isArchived.
+        // new Repo with stars / last commit / org / isArchived.
         // If the fetch fails (404, private), still create a thin
-        // Collection so the App has a parent — re-syncs later will
+        // Repo so the App has a parent — re-syncs later will
         // populate.
         $repoMetadata = [];
         try {
@@ -173,9 +173,9 @@ class AppverseBackfillCommands extends DrushCommands {
               'license' => $github->getLicense(),
               'licenseLink' => $github->getLicenseLink(),
               // If the legacy app's repo is already archived on GitHub,
-              // sync should auto-archive the new Collection (cascading
+              // sync should auto-archive the new Repo (cascading
               // to this App). Without this, archived-repo apps would
-              // backfill into 'draft' Collections, which is wrong.
+              // backfill into 'draft' Repos, which is wrong.
               'isArchived' => $github->getIsArchived(),
             ];
           }
@@ -191,38 +191,38 @@ class AppverseBackfillCommands extends DrushCommands {
         }
 
         // resolveRepo with NULL appverse.yml -> applyInferred path.
-        $collection = $sync->resolveRepo($repoUrl, NULL, $repoMetadata);
+        $repo = $sync->resolveRepo($repoUrl, NULL, $repoMetadata);
 
         // Suppress publish/transition notifications for backfilled repos:
         // this is a data migration, not a contributor-facing publish event,
         // and emailing every legacy app's owner would be noise (and, on envs
         // with no working SMTP, the per-repo send stalls the whole run). The
         // flag is read in ood_software_node_update(); it's a runtime property
-        // on this same $collection object, so it covers every save below.
-        $collection->_ood_software_suppress_notifications = TRUE;
+        // on this same $repo object, so it covers every save below.
+        $repo->_ood_software_suppress_notifications = TRUE;
 
         // Inherit the app's owner so the contributor's maintenance hub
         // surfaces the new Repo. First-app-wins for monorepo cases —
         // siblings from earlier iterations keep their existing owner.
-        if ((int) $collection->getOwnerId() === 0) {
-          $collection->setOwnerId((int) $app->getOwnerId());
-          $collection->save();
+        if ((int) $repo->getOwnerId() === 0) {
+          $repo->setOwnerId((int) $app->getOwnerId());
+          $repo->save();
         }
 
-        // The default moderation state for newly-created Collections is
+        // The default moderation state for newly-created Repos is
         // 'draft' (set by RepoSyncService). Legacy apps being
         // backfilled are already published; if we leave the parent
-        // Collection in draft, the cache cascade hides the app. Override
+        // Repo in draft, the cache cascade hides the app. Override
         // to 'published' so visibility stays aligned with the app's
         // existing state. Don't override if applyInferred already set
         // 'archived' (i.e. the upstream repo is archived) — that state
         // should propagate.
-        if ($app->isPublished() && $collection->get('moderation_state')->value !== 'archived') {
-          $collection->set('moderation_state', 'published');
-          $collection->save();
+        if ($app->isPublished() && $repo->get('moderation_state')->value !== 'archived') {
+          $repo->set('moderation_state', 'published');
+          $repo->save();
         }
 
-        $app->set('field_appverse_repo', $collection->id());
+        $app->set('field_appverse_repo', $repo->id());
         $app->save();
 
         $context['results']['linked'][] = $app->id();

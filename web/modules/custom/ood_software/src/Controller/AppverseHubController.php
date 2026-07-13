@@ -61,12 +61,12 @@ final class AppverseHubController extends ControllerBase {
   }
 
   /**
-   * Re-sync a Collection from GitHub.
+   * Re-sync a Repo from GitHub.
    *
    * Route: POST /appverse/repo/{node}/resync
    *
    * Behavior contract (matches spec):
-   *  - On success: refreshed Collection saved by the service; status
+   *  - On success: refreshed Repo saved by the service; status
    *    message reports apps-refreshed + apps-removed counts.
    *  - On failure: field_repo_validation_st='stale_invalid'; error
    *    appended to field_repo_validation_er (capped at last 10);
@@ -111,9 +111,9 @@ final class AppverseHubController extends ControllerBase {
 
       $appverseYml = $this->github->getAppverseYmlText();
 
-      // Detect a shape-change before sync: if the existing Collection is
+      // Detect a shape-change before sync: if the existing Repo is
       // declared (had appverse.yml) but the repo no longer has it, the
-      // Collection morphs to inferred shape. Warn the user — this isn't
+      // Repo morphs to inferred shape. Warn the user — this isn't
       // an error but it's a significant state change worth highlighting.
       $existingShape = $node->get('field_repo_shape')->value ?? NULL;
       if ($existingShape === 'declared' && empty($appverseYml)) {
@@ -203,7 +203,7 @@ final class AppverseHubController extends ControllerBase {
   }
 
   /**
-   * Toggle a Collection's publish state.
+   * Toggle a Repo's publish state.
    *
    * Route: POST /appverse/repo/{node}/unpublish
    *
@@ -242,7 +242,7 @@ final class AppverseHubController extends ControllerBase {
       // owner-or-admin to invoke it. The asymmetric admin-only republish
       // rule is enforced HERE in the controller body, not at the route
       // level, because contributors CAN call this endpoint to unpublish
-      // their own Collections (just not republish them).
+      // their own Repos (just not republish them).
       if (!$isAdmin) {
         $this->messenger()->addError($this->t('Only an admin can republish a Repo.'));
         return $this->redirectToHub();
@@ -261,16 +261,16 @@ final class AppverseHubController extends ControllerBase {
    * Route: POST /appverse/app/{node}/unpublish
    *
    * Contributors can toggle App-level state both ways within a published
-   * Collection. When the parent Collection is unpublished, the App-level
+   * Repo. When the parent Repo is unpublished, the App-level
    * toggle still works but the cache cascade hides the App until the
-   * Collection is republished.
+   * Repo is republished.
    */
   public function toggleAppPublish(NodeInterface $node): RedirectResponse {
     if ($node->bundle() !== 'appverse_app') {
       throw new \InvalidArgumentException('Expected an appverse_app node.');
     }
 
-    // App-level toggle when parent Collection is unpublished — no
+    // App-level toggle when parent Repo is unpublished — no
     // visible effect because the cache cascade hides the App
     // regardless. Allow the toggle (it's the user's data) but warn.
     $parent = $node->get('field_appverse_repo')->entity ?? NULL;
@@ -294,7 +294,7 @@ final class AppverseHubController extends ControllerBase {
   }
 
   /**
-   * Trigger a content_moderation transition on a Collection or App.
+   * Trigger a content_moderation transition on a Repo or App.
    *
    * Centralizes the workflow API call so all four transition routes
    * share one implementation. The transition's role permissions are
@@ -310,7 +310,7 @@ final class AppverseHubController extends ControllerBase {
    * Workflow entity's type plugin.
    *
    * @param \Drupal\node\NodeInterface $node
-   *   The Collection or App to transition.
+   *   The Repo or App to transition.
    * @param string $newState
    *   Target moderation state.
    * @param \Drupal\Core\StringTranslation\TranslatableMarkup $statusMessage
@@ -409,7 +409,7 @@ final class AppverseHubController extends ControllerBase {
   }
 
   /**
-   * Admin action: publish a Collection or App.
+   * Admin action: publish a Repo or App.
    *
    * Routes: POST /appverse/repo/{node}/publish
    *         POST /appverse/app/{node}/publish
@@ -417,16 +417,16 @@ final class AppverseHubController extends ControllerBase {
    * Allowed only for users with 'administer appverse content' permission
    * (gated by adminOnlyAccess on the route).
    *
-   * Cascade rule: on a Collection's FIRST publish (no prior revision in
+   * Cascade rule: on a Repo's FIRST publish (no prior revision in
    * the published state), this method also publishes every member App
    * still in draft / ready_for_review / needs_adjustment. Subsequent
-   * republishes of a Collection that was previously published do NOT
+   * republishes of a Repo that was previously published do NOT
    * cascade — apps are managed individually by then.
    */
   public function adminPublish(NodeInterface $node): RedirectResponse {
     // Detect first-publish BEFORE the transition runs.
     $isFirstPublish = $node->bundle() === 'appverse_repo'
-      && $this->isFirstPublishOfCollection($node);
+      && $this->isFirstPublishOfRepo($node);
 
     $response = $this->applyTransition(
       $node,
@@ -446,14 +446,14 @@ final class AppverseHubController extends ControllerBase {
   }
 
   /**
-   * Check whether this Collection has never been in the 'published' state.
+   * Check whether this Repo has never been in the 'published' state.
    *
    * Walks the revision log; returns TRUE if no prior revision had
    * moderation_state='published'. The current revision's state isn't
    * checked (we're called before applyTransition runs).
    */
-  protected function isFirstPublishOfCollection(NodeInterface $collection): bool {
-    $vids = $this->entityTypeManager()->getStorage('node')->revisionIds($collection);
+  protected function isFirstPublishOfRepo(NodeInterface $repo): bool {
+    $vids = $this->entityTypeManager()->getStorage('node')->revisionIds($repo);
     foreach ($vids as $vid) {
       $rev = $this->entityTypeManager()->getStorage('node')->loadRevision($vid);
       if ($rev && $rev->hasField('moderation_state') && $rev->get('moderation_state')->value === 'published') {
@@ -466,15 +466,15 @@ final class AppverseHubController extends ControllerBase {
   /**
    * Cascade-publish every member App in a non-published moderation state.
    *
-   * Only used on a Collection's first publish, per the cascade rule
+   * Only used on a Repo's first publish, per the cascade rule
    * documented on adminPublish().
    */
-  protected function cascadePublishToMemberApps(NodeInterface $collection): void {
+  protected function cascadePublishToMemberApps(NodeInterface $repo): void {
     $cascadeStates = ['draft', 'ready_for_review', 'needs_adjustment'];
     $memberAppIds = $this->entityTypeManager()->getStorage('node')->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'appverse_app')
-      ->condition('field_appverse_repo', $collection->id())
+      ->condition('field_appverse_repo', $repo->id())
       ->execute();
 
     $count = 0;
@@ -499,7 +499,7 @@ final class AppverseHubController extends ControllerBase {
     if ($count > 0) {
       $this->messenger()->addStatus($this->t(
         'Also published @count member apps under @title.',
-        ['@count' => $count, '@title' => $collection->label()]
+        ['@count' => $count, '@title' => $repo->label()]
       ));
     }
   }
@@ -507,16 +507,16 @@ final class AppverseHubController extends ControllerBase {
   /**
    * Cascade-drop all currently-published member apps to draft.
    *
-   * Mirror of cascadePublishToMemberApps. Triggered when a Collection
+   * Mirror of cascadePublishToMemberApps. Triggered when a Repo
    * transitions out of 'published' so member apps don't outlive their
    * parent in the catalog (the catalog filters by status; an orphan
    * "published" app would still appear).
    */
-  protected function cascadeUnpublishMemberApps(NodeInterface $collection): void {
+  protected function cascadeUnpublishMemberApps(NodeInterface $repo): void {
     $memberAppIds = $this->entityTypeManager()->getStorage('node')->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'appverse_app')
-      ->condition('field_appverse_repo', $collection->id())
+      ->condition('field_appverse_repo', $repo->id())
       ->condition('status', 1)
       ->execute();
 
@@ -538,7 +538,7 @@ final class AppverseHubController extends ControllerBase {
     if ($count > 0) {
       $this->messenger()->addStatus($this->t(
         'Also unpublished @count member apps under @title.',
-        ['@count' => $count, '@title' => $collection->label()]
+        ['@count' => $count, '@title' => $repo->label()]
       ));
     }
   }

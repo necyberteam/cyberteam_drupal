@@ -326,7 +326,7 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
 
 }
 /**
- * Build the preview block for a Declared Collection.
+ * Build the preview block for a declared repo.
  *
  * Per-App form fields (Title/Body/AppType/etc.) are hidden client-side
  * via Drupal #states wired in form_alter (watching the
@@ -343,10 +343,10 @@ function ood_software_form_alter(array &$form, FormStateInterface $form_state, $
  * _ood_software_build_single_app_preview, which still mutates $form to
  * pre-populate per-field values.
  */
-function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitHubService $gh, array &$form): array {
+function _ood_software_build_declared_preview(\Drupal\ood_software\Plugin\GitHubService $gh, array &$form): array {
   $records = $gh->getAppPreviewData();
   $appCount = count($records);
-  // Collection-level appverse.yml data. Guard against parse failure —
+  // Repo-level appverse.yml data. Guard against parse failure —
   // getAppPreviewData() already caught it and returned [], so by the
   // time we get here we know the YAML parses cleanly. Wrap defensively
   // anyway: a corrupted blob between getAppPreviewData and this helper
@@ -355,14 +355,14 @@ function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitH
     $appverse = Yaml::decode($gh->getAppverseYmlText());
   }
   catch (\Throwable $e) {
-    \Drupal::logger('ood_software')->warning('Collection preview: appverse.yml parse failed unexpectedly — @msg', ['@msg' => $e->getMessage()]);
+    \Drupal::logger('ood_software')->warning('Repo preview: appverse.yml parse failed unexpectedly — @msg', ['@msg' => $e->getMessage()]);
     $appverse = [];
   }
   if (!is_array($appverse)) {
     $appverse = [];
   }
 
-  // Collection-level metadata list. Each entry is a small HTML fragment
+  // repo-level metadata list. Each entry is a small HTML fragment
   // with user-supplied values escaped at interpolation. We assemble the
   // <ul> as a single #markup string because all items are internally
   // built — no element of $rows comes from outside this function without
@@ -399,11 +399,11 @@ function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitH
   $rows[] = '<strong>' . t('Stars:') . '</strong> ' . (int) $gh->getStars();
   $rows[] = '<strong>' . t('License:') . '</strong> ' . htmlspecialchars($gh->getLicense() ?? t('(none detected)'));
 
-  $collectionMetaMarkup = '<h4>' . htmlspecialchars($appverse['title'] ?? '(no title)') . '</h4>';
+  $repoMetaMarkup = '<h4>' . htmlspecialchars($appverse['title'] ?? '(no title)') . '</h4>';
   if (!empty($appverse['description'])) {
-    $collectionMetaMarkup .= '<p>' . htmlspecialchars($appverse['description']) . '</p>';
+    $repoMetaMarkup .= '<p>' . htmlspecialchars($appverse['description']) . '</p>';
   }
-  $collectionMetaMarkup .= '<ul><li>' . implode('</li><li>', $rows) . '</li></ul>';
+  $repoMetaMarkup .= '<ul><li>' . implode('</li><li>', $rows) . '</li></ul>';
 
   // Build the apps_stack children — one render array per app card.
   $appsStack = [
@@ -418,7 +418,7 @@ function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitH
   else {
     // Summary line: count apps whose software: declaration didn't resolve
     // to a real Software node. These will save as rejected until the
-    // Collection author fixes appverse.yml.
+    // Repo author fixes appverse.yml.
     $unresolved = 0;
     foreach ($records as $r) {
       if (empty($r['software']['resolvedTitle'])) {
@@ -434,7 +434,7 @@ function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitH
     }
 
     foreach ($records as $idx => $r) {
-      $appsStack['card_' . $idx] = _ood_software_build_collection_app_card($r);
+      $appsStack['card_' . $idx] = _ood_software_build_declared_app_card($r);
     }
   }
 
@@ -444,8 +444,8 @@ function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitH
     'header' => [
       '#markup' => '<p><i class="bi bi-check-lg appverse-status-ok"></i> ' . t('Declared multi-app repo (appverse.yml at root)') . '</p>',
     ],
-    'collection_meta' => [
-      '#markup' => $collectionMetaMarkup,
+    'repo_meta' => [
+      '#markup' => $repoMetaMarkup,
     ],
     'apps_heading' => [
       '#markup' => '<h5>' . t('Apps in this repo (@n)', ['@n' => $appCount]) . '</h5>',
@@ -461,9 +461,9 @@ function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitH
 }
 
 /**
- * Build a single card render array for one app inside a Collection preview.
+ * Build a single card render array for one app inside a Repo preview.
  *
- * Helper for _ood_software_build_collection_preview(); pulled out for
+ * Helper for _ood_software_build_declared_preview(); pulled out for
  * readability. Returns a render array structured as: header (subpath +
  * name) → body grid (2x2 of label-above-value cells) → optional
  * description footer. All styling is via class names from
@@ -473,7 +473,7 @@ function _ood_software_build_collection_preview(\Drupal\ood_software\Plugin\GitH
  * names, description, role/subcategory) are htmlspecialchars-escaped at
  * the point of interpolation into the #markup strings.
  */
-function _ood_software_build_collection_app_card(array $r): array {
+function _ood_software_build_declared_app_card(array $r): array {
   $description = $r['description'] ?? '';
   $roleText = htmlspecialchars($r['role'] ?? '', ENT_QUOTES | ENT_HTML5);
   if (!empty($r['subcategory'])) {
@@ -615,7 +615,7 @@ function _ood_software_build_collection_app_card(array $r): array {
 }
 
 /**
- * Build the preview block for a Single-App Inferred Collection.
+ * Build the preview block for a single-app inferred repo.
  *
  * This is also where the existing form-field pre-population happens
  * (title, body, license, app types, organization). The form fields
@@ -623,7 +623,7 @@ function _ood_software_build_collection_app_card(array $r): array {
  * the pre-Phase-1 behavior for apps that haven't yet adopted
  * appverse.yml.
  *
- * Returns a Drupal render array (see notes on the Collection variant).
+ * Returns a Drupal render array (see notes on the Repo variant).
  */
 function _ood_software_build_single_app_preview(\Drupal\ood_software\Plugin\GitHubService $gh, array &$form): array {
   $records = $gh->getAppPreviewData();
@@ -775,11 +775,11 @@ function ood_software_replace_section_callback(array &$form, FormStateInterface 
   return $form['field_tags_replace'];
 }
 
-function _ood_software_batch_sync_app(int $collectionId, string $subpath, string $repoUrl, array $repoMetadata, array $parsedRootYml, &$context) {
+function _ood_software_batch_sync_app(int $repoId, string $subpath, string $repoUrl, array $repoMetadata, array $parsedRootYml, &$context) {
   try {
-    $collection = \Drupal::entityTypeManager()->getStorage('node')->load($collectionId);
-    if (!$collection) {
-      $context['results']['failed'][$subpath] = 'Collection node disappeared during batch';
+    $repo = \Drupal::entityTypeManager()->getStorage('node')->load($repoId);
+    if (!$repo) {
+      $context['results']['failed'][$subpath] = 'Repo node disappeared during batch';
       return;
     }
 
@@ -803,7 +803,7 @@ function _ood_software_batch_sync_app(int $collectionId, string $subpath, string
     ));
 
     $sync->applyDeclaredApps(
-      $collection,
+      $repo,
       $narrowed,
       $subpathFiles,
       $repoUrl,
@@ -835,11 +835,11 @@ function _ood_software_batch_sync_app(int $collectionId, string $subpath, string
  * This op runs with the full canonical apps[] list and deletes any
  * member App whose subpath is no longer declared.
  */
-function _ood_software_batch_reconcile_apps(int $collectionId, string $repoUrl, array $parsedRootYml, &$context) {
+function _ood_software_batch_reconcile_apps(int $repoId, string $repoUrl, array $parsedRootYml, &$context) {
   try {
-    $collection = \Drupal::entityTypeManager()->getStorage('node')->load($collectionId);
-    if (!$collection) {
-      $context['results']['failed']['__reconcile__'] = 'Collection node disappeared during reconciliation';
+    $repo = \Drupal::entityTypeManager()->getStorage('node')->load($repoId);
+    if (!$repo) {
+      $context['results']['failed']['__reconcile__'] = 'Repo node disappeared during reconciliation';
       return;
     }
 
@@ -853,9 +853,9 @@ function _ood_software_batch_reconcile_apps(int $collectionId, string $repoUrl, 
 
     /** @var \Drupal\ood_software\Service\RepoSyncService $sync */
     $sync = \Drupal::service('ood_software.repo_sync');
-    $sync->reconcileDeclaredApps($collection, $declaredSubpaths, $repoUrl);
+    $sync->reconcileDeclaredApps($repo, $declaredSubpaths, $repoUrl);
 
-    $context['message'] = t('Reconciled apps[] for @title', ['@title' => $collection->label()]);
+    $context['message'] = t('Reconciled apps[] for @title', ['@title' => $repo->label()]);
   }
   catch (\Throwable $e) {
     $context['results']['failed']['__reconcile__'] = $e->getMessage();
@@ -982,7 +982,7 @@ function ood_software_node_insert(NodeInterface $node) {
 function ood_software_node_update(NodeInterface $node) {
   _ood_software_mark_appverse_cache_dirty($node);
 
-  // Moderation transition notifications. Collections only — App-level
+  // Moderation transition notifications. Repos only — App-level
   // transitions intentionally don't fan out so a cascade-publish on N
   // member apps doesn't produce N emails.
   if ($node->bundle() === 'appverse_repo' && $node->hasField('moderation_state')
@@ -1053,8 +1053,8 @@ function _ood_software_previous_moderation_state(NodeInterface $node): ?string {
  * Implements hook_content_moderation_notification_mail_data_alter().
  *
  * Suppress the contrib `appverse_review_requested` notification when the
- * subject is a Collection. App-bundle transitions still notify via that
- * contrib config; Collection-bundle transitions notify via our
+ * subject is a Repo. App-bundle transitions still notify via that
+ * contrib config; Repo-bundle transitions notify via our
  * RepoNotificationService (see ood_software_node_update).
  */
 function ood_software_content_moderation_notification_mail_data_alter(EntityInterface $entity, array &$data) {
@@ -1151,7 +1151,7 @@ function ood_software_mail($key, &$message, $params) {
 
     case 'published':
       // Build the React catalog URL via pathauto alias so the email
-      // lands on /appverse/#/collection/<slug> — same shape the hub
+      // lands on /appverse/#/repo/<slug> — same shape the hub
       // Twig uses for its "View in catalog" link.
       $catalog_link = _ood_software_repo_catalog_url($node);
       $message['subject'] = t('[@site] Your Repo is published: @title', [
@@ -1168,14 +1168,14 @@ function ood_software_mail($key, &$message, $params) {
 }
 
 /**
- * Resolve the public catalog URL for a Collection.
+ * Resolve the public catalog URL for a Repo.
  *
  * Mirrors the hub preprocess (ood.theme) which builds "View in catalog"
  * links the same way: read the pathauto alias for the node and strip
- * everything up to and including an optional "collection/" prefix to
- * derive the slug, then assemble /appverse/#/collection/<slug>. The
- * production pathauto pattern is /collection/[node:title], so the
- * alias typically looks like /collection/my-collection.
+ * everything up to and including an optional "repo/" prefix to
+ * derive the slug, then assemble /appverse/#/repo/<slug>. The
+ * production pathauto pattern is /repo/[node:title], so the
+ * alias typically looks like /repo/my-repo.
  *
  * When no alias resolves (newly-created node before pathauto runs,
  * alias disabled, etc.), getAliasByPath returns the input path; the
@@ -1280,10 +1280,10 @@ function ood_software_node_view(array &$build, EntityInterface $entity, EntityVi
     return;
   }
 
-  // Collection node page: list member apps with links to their canonical
+  // Repo node page: list member apps with links to their canonical
   // node pages. Catalog pages can't show unpublished apps (JSON:API filters
   // by status), so this is the path contributors and reviewers use to
-  // inspect a draft Collection's members.
+  // inspect a draft Repo's members.
   if ($entity->bundle() === 'appverse_repo') {
     $app_storage = \Drupal::entityTypeManager()->getStorage('node');
     $app_ids = $app_storage->getQuery()

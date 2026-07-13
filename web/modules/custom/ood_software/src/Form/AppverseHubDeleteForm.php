@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Confirm form for deleting an appverse_repo node + cascade.
  *
  * Lists the member Apps that will be cascade-deleted alongside the
- * Collection. On submit, deletes member Apps first, then the Collection.
+ * Repo. On submit, deletes member Apps first, then the Repo.
  * The two deletes are wrapped in a DB transaction so a failure mid-way
  * rolls back to a clean state. Redirects back to the user's hub.
  *
@@ -25,7 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 final class AppverseHubDeleteForm extends ConfirmFormBase {
 
-  protected NodeInterface $collection;
+  protected NodeInterface $repo;
 
   protected LoggerInterface $logger;
 
@@ -53,7 +53,7 @@ final class AppverseHubDeleteForm extends ConfirmFormBase {
     if (!$node || $node->bundle() !== 'appverse_repo') {
       throw new \InvalidArgumentException('Expected an appverse_repo node.');
     }
-    $this->collection = $node;
+    $this->repo = $node;
 
     $form = parent::buildForm($form, $form_state);
 
@@ -81,7 +81,7 @@ final class AppverseHubDeleteForm extends ConfirmFormBase {
   }
 
   public function getQuestion(): \Drupal\Core\StringTranslation\TranslatableMarkup {
-    return $this->t('Delete @title and all its apps?', ['@title' => $this->collection->label()]);
+    return $this->t('Delete @title and all its apps?', ['@title' => $this->repo->label()]);
   }
 
   public function getCancelUrl(): Url {
@@ -97,17 +97,17 @@ final class AppverseHubDeleteForm extends ConfirmFormBase {
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state): void {
-    $title = $this->collection->label();
+    $title = $this->repo->label();
 
     // Wrap the cascade in a DB transaction so a failure mid-way rolls
     // back to a clean state (no orphaned apps with a missing parent
-    // Collection, and no Collection sticking around without its apps).
+    // Repo, and no Repo sticking around without its apps).
     $transaction = $this->database->startTransaction();
     try {
       $memberAppIds = $this->entityTypeManager->getStorage('node')->getQuery()
         ->accessCheck(FALSE)
         ->condition('type', 'appverse_app')
-        ->condition('field_appverse_repo', $this->collection->id())
+        ->condition('field_appverse_repo', $this->repo->id())
         ->execute();
 
       if (!empty($memberAppIds)) {
@@ -115,13 +115,13 @@ final class AppverseHubDeleteForm extends ConfirmFormBase {
         $this->entityTypeManager->getStorage('node')->delete($apps);
       }
 
-      $this->collection->delete();
+      $this->repo->delete();
     }
     catch (\Throwable $e) {
       $transaction->rollBack();
       $this->logger->error(
         'Cascade delete of Repo @nid failed: @msg',
-        ['@nid' => $this->collection->id(), '@msg' => $e->getMessage()]
+        ['@nid' => $this->repo->id(), '@msg' => $e->getMessage()]
       );
       $this->messenger()->addError($this->t('Could not delete @title — the operation has been rolled back. @msg', [
         '@title' => $title,

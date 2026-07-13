@@ -15,7 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
- * Unit tests for AppverseCacheService's parent-Collection cascade filter.
+ * Unit tests for AppverseCacheService's parent-Repo cascade filter.
  *
  * The full generate() path is too entangled with file_system, logo media
  * resolution, and node field accessors to mock cleanly here. Instead we
@@ -36,24 +36,24 @@ class AppverseCacheServiceTest extends UnitTestCase {
 
   /**
    * Build an AppverseCacheService with a node storage that returns the given
-   * NIDs from any Collection query (status=0).
+   * NIDs from any Repo query (status=0).
    *
-   * @param int[] $unpublishedCollectionIds
-   *   NIDs the unpublished-Collection lookup should return.
+   * @param int[] $unpublishedRepoIds
+   *   NIDs the unpublished-Repo lookup should return.
    *
    * @return \Drupal\ood_software\Service\AppverseCacheService
    */
-  protected function buildService(array $unpublishedCollectionIds): AppverseCacheService {
-    // Collection query: records nothing, just returns the configured NIDs.
-    $collectionQuery = $this->createMock(QueryInterface::class);
-    $collectionQuery->method('condition')->willReturnSelf();
-    $collectionQuery->method('accessCheck')->willReturnSelf();
-    $collectionQuery->method('execute')->willReturn($unpublishedCollectionIds);
+  protected function buildService(array $unpublishedRepoIds): AppverseCacheService {
+    // Repo query: records nothing, just returns the configured NIDs.
+    $repoQuery = $this->createMock(QueryInterface::class);
+    $repoQuery->method('condition')->willReturnSelf();
+    $repoQuery->method('accessCheck')->willReturnSelf();
+    $repoQuery->method('execute')->willReturn($unpublishedRepoIds);
 
-    // Storage::getQuery() returns the collection query (the cascade helper
+    // Storage::getQuery() returns the repo query (the cascade helper
     // is the only thing being exercised so we don't need to disambiguate).
     $nodeStorage = $this->createMock(EntityStorageInterface::class);
-    $nodeStorage->method('getQuery')->willReturn($collectionQuery);
+    $nodeStorage->method('getQuery')->willReturn($repoQuery);
 
     $entityTypeManager = $this->createMock(EntityTypeManagerInterface::class);
     $entityTypeManager->method('getStorage')->willReturn($nodeStorage);
@@ -113,11 +113,11 @@ class AppverseCacheServiceTest extends UnitTestCase {
   }
 
   /**
-   * With no unpublished Collections, the cascade filter is a no-op.
+   * With no unpublished Repos, the cascade filter is a no-op.
    *
    * @covers ::applyRepoCascadeFilter
    */
-  public function testNoUnpublishedCollectionsLeavesQueryUntouched(): void {
+  public function testNoUnpublishedReposLeavesQueryUntouched(): void {
     $capturedConditions = [];
     $capturedOrGroupCalls = [];
     $service = $this->buildService([]);
@@ -127,12 +127,12 @@ class AppverseCacheServiceTest extends UnitTestCase {
 
     $this->invokeProtected($service, 'applyRepoCascadeFilter', [$appQuery]);
 
-    $this->assertSame([], $capturedConditions, 'No condition() should be added when there are no unpublished Collections.');
-    $this->assertSame([], $capturedOrGroupCalls, 'OR group should not be configured when there are no unpublished Collections.');
+    $this->assertSame([], $capturedConditions, 'No condition() should be added when there are no unpublished Repos.');
+    $this->assertSame([], $capturedOrGroupCalls, 'OR group should not be configured when there are no unpublished Repos.');
   }
 
   /**
-   * With unpublished Collections, the cascade adds an OR group:
+   * With unpublished Repos, the cascade adds an OR group:
    *   (no parent reference) OR (parent NOT IN unpublished list).
    *
    * Legacy apps with NULL field_appverse_repo (orphan branch) stay
@@ -140,7 +140,7 @@ class AppverseCacheServiceTest extends UnitTestCase {
    *
    * @covers ::applyRepoCascadeFilter
    */
-  public function testUnpublishedCollectionsAddOrFilter(): void {
+  public function testUnpublishedReposAddOrFilter(): void {
     $unpublishedNids = [42, 99];
     $capturedConditions = [];
     $capturedOrGroupCalls = [];

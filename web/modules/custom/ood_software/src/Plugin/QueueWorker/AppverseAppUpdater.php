@@ -35,7 +35,7 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
   protected $githubService;
 
   /**
-   * The Collection sync service.
+   * The Repo sync service.
    *
    * @var \Drupal\ood_software\Service\RepoSyncService
    */
@@ -55,7 +55,7 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
    * @param \Drupal\ood_software\Plugin\GitHubService $github_service
    *   The GitHub service.
    * @param \Drupal\ood_software\Service\RepoSyncService $repo_sync
-   *   The Collection sync service.
+   *   The Repo sync service.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, GitHubService $github_service, RepoSyncService $repo_sync) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -97,8 +97,8 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
       $lastupdated = $node->get('field_appverse_lastupdated')->value;
       $needsSave = FALSE;
 
-      // Resolve the Collection for this repo and attach to the app.
-      $collection = $this->repoSync->resolveRepo(
+      // Resolve the Repo for this repo and attach to the app.
+      $repo = $this->repoSync->resolveRepo(
         $this->githubService->getRepoUrl(),
         $this->githubService->getAppverseYmlText(),
         [
@@ -110,9 +110,9 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
           'readme' => $this->githubService->getReadme(),
         ]
       );
-      $currentCollectionId = $node->get('field_appverse_repo')->target_id;
-      if ((int) $currentCollectionId !== (int) $collection->id()) {
-        $node->set('field_appverse_repo', $collection->id());
+      $currentRepoId = $node->get('field_appverse_repo')->target_id;
+      if ((int) $currentRepoId !== (int) $repo->id()) {
+        $node->set('field_appverse_repo', $repo->id());
         $needsSave = TRUE;
       }
 

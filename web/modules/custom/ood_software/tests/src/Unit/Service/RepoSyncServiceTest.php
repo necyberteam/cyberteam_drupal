@@ -66,7 +66,7 @@ class RepoSyncServiceTest extends UnitTestCase {
     $this->node->method('save')->willReturn(1);
     $this->node->method('id')->willReturn(1);
 
-    // Query mock — always returns empty (no existing Collection found).
+    // Query mock — always returns empty (no existing Repo found).
     $query = $this->createMock(QueryInterface::class);
     $query->method('condition')->willReturnSelf();
     $query->method('range')->willReturnSelf();
@@ -111,7 +111,7 @@ class RepoSyncServiceTest extends UnitTestCase {
     // GitHubService is injected for software resolution. These tests don't
     // exercise the multi-app per-app sync path, so a bare mock is fine;
     // the few methods needed (resolveSoftwareForApp) aren't called from
-    // applyDeclared (the Collection-level path under test).
+    // applyDeclared (the Repo-level path under test).
     $githubService = $this->createMock(\Drupal\ood_software\Plugin\GitHubService::class);
 
     $this->service = new RepoSyncService($entityTypeManager, $loggerFactory, $time, $githubService);
@@ -127,8 +127,8 @@ class RepoSyncServiceTest extends UnitTestCase {
 appverse:
   min_version: "1.0"
 
-title: Happy Path Collection
-description: A happy-path test collection.
+title: Happy Path Repo
+description: A happy-path test repo.
 
 website: https://example.org
 docs: https://docs.example.org
@@ -146,8 +146,8 @@ YAML;
 
     $this->service->resolveRepo('https://github.com/test/happy', $yml, ['organization' => 'Test Org']);
 
-    $this->assertSame('Happy Path Collection', $this->nodeFields['title'] ?? NULL);
-    $this->assertSame('A happy-path test collection.', $this->nodeFields['field_repo_description'] ?? NULL);
+    $this->assertSame('Happy Path Repo', $this->nodeFields['title'] ?? NULL);
+    $this->assertSame('A happy-path test repo.', $this->nodeFields['field_repo_description'] ?? NULL);
     $this->assertSame('valid', $this->nodeFields['field_repo_validation_st'] ?? NULL);
     $this->assertSame([], $this->nodeFields['field_repo_validation_er'] ?? NULL);
   }
@@ -218,7 +218,7 @@ YAML;
 appverse:
   min_version: "2.0"
 
-title: Future Collection
+title: Future Repo
 YAML;
 
     $this->service->resolveRepo('https://github.com/test/future', $yml, []);
@@ -290,7 +290,7 @@ YAML;
    * applyDeclared writes field_repo_shape='declared' even when yaml is malformed.
    *
    * yaml was present at fetch time, so the shape is declared regardless of
-   * parse outcome. NULL shape on a stale_invalid Collection would render
+   * parse outcome. NULL shape on a stale_invalid Repo would render
    * incorrectly in any consumer that branches on shape.
    */
   public function testApplyDeclaredSetsShapeOnMalformedYaml(): void {
@@ -411,9 +411,9 @@ YAML;
 
     $service = new RepoSyncService($entityTypeManager, $loggerFactory, $time, $githubService);
 
-    // Parent Collection stub.
-    $collection = $this->createMock(NodeInterface::class);
-    $collection->method('id')->willReturn(50);
+    // Parent Repo stub.
+    $repo = $this->createMock(NodeInterface::class);
+    $repo->method('id')->willReturn(50);
 
     $parsedRootYml = [
       'apps' => [
@@ -429,7 +429,7 @@ YAML;
     ];
 
     $service->applyDeclaredApps(
-      $collection,
+      $repo,
       $parsedRootYml,
       $subpathFiles,
       'https://github.com/owner/repo',
@@ -519,8 +519,8 @@ YAML;
 
     $service = new RepoSyncService($entityTypeManager, $loggerFactory, $time, $githubService);
 
-    $collection = $this->createMock(NodeInterface::class);
-    $collection->method('id')->willReturn(50);
+    $repo = $this->createMock(NodeInterface::class);
+    $repo->method('id')->willReturn(50);
 
     // The new yaml declares NO apps. With the guard in place, the existing
     // App must be preserved (delete() never called).
@@ -530,7 +530,7 @@ YAML;
     $subpathFiles = [];
 
     $service->applyDeclaredApps(
-      $collection,
+      $repo,
       $parsedRootYml,
       $subpathFiles,
       'https://github.com/owner/repo',
@@ -552,7 +552,7 @@ YAML;
   }
 
   /**
-   * applyDeclared transitions Collection to archived when repo is archived.
+   * applyDeclared transitions Repo to archived when repo is archived.
    *
    * One-way: subsequent syncs that find the repo un-archived do NOT
    * auto-un-archive. Contributor re-submit is the recovery path.
@@ -569,7 +569,7 @@ YAML;
   }
 
   /**
-   * applyInferred transitions Collection to archived when repo is archived.
+   * applyInferred transitions Repo to archived when repo is archived.
    */
   public function testApplyInferredAutoArchivesWhenRepoIsArchived(): void {
     $this->service->resolveRepo(

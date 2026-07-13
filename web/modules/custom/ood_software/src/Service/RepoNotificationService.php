@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
  * Three transitions are notified:
  *   - <any> → ready_for_review : email all users with the
  *     'administer appverse content' permission. Fires for resubmit too.
- *   - <any> → needs_adjustment : email the Collection owner. The
+ *   - <any> → needs_adjustment : email the Repo owner. The
  *     reviewer comment reaches hook_mail via two paths:
  *       1. $params['comment'] set by AppverseHubRequestChangesForm
  *          (the primary path; the form stashes the comment on a
@@ -26,7 +26,7 @@ use Psr\Log\LoggerInterface;
  *          which covers any future code path that drives the
  *          transition with a revision log message but doesn't set
  *          the runtime property.
- *   - <non-published> → published : email the Collection owner. Covers
+ *   - <non-published> → published : email the Repo owner. Covers
  *     archived → published (restore from archive).
  *
  * App-level state changes are NOT notified — this is intentional to avoid
@@ -53,7 +53,7 @@ class RepoNotificationService {
    * Send the appropriate notification(s) for a moderation transition.
    *
    * @param \Drupal\node\NodeInterface $node
-   *   The Collection (post-save).
+   *   The Repo (post-save).
    * @param string|null $previousState
    *   The moderation_state value before this save, or NULL if unknown.
    * @param array $extras
@@ -101,7 +101,7 @@ class RepoNotificationService {
   }
 
   /**
-   * Email the Collection owner.
+   * Email the Repo owner.
    */
   protected function sendToOwner(NodeInterface $node, string $key, array $extras): void {
     $owner = $node->getOwner();

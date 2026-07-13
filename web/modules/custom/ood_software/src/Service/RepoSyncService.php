@@ -13,10 +13,10 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
- * Resolves Collections from GitHub repos.
+ * Resolves Repos from GitHub repos.
  *
- * Each source repo is a Collection. appverse.yml at the repo root enriches
- * the Collection's metadata (title, description, maintainer, multi-app list);
+ * Each source repo is a Repo. appverse.yml at the repo root enriches
+ * the Repo's metadata (title, description, maintainer, multi-app list);
  * when absent, the sync derives minimal metadata from the repo itself.
  */
 class RepoSyncService {
@@ -33,7 +33,7 @@ class RepoSyncService {
   }
 
   /**
-   * Resolve or create the Collection for a repo.
+   * Resolve or create the Repo for a repo.
    *
    * @param string $repoUrl
    *   GitHub repo URL (e.g., https://github.com/owner/name).
@@ -43,15 +43,15 @@ class RepoSyncService {
    *   Metadata from GitHubService (organization name, description, default branch, etc.).
    *
    * @return \Drupal\node\NodeInterface
-   *   The Collection node (newly created or updated).
+   *   The Repo node (newly created or updated).
    */
   public function resolveRepo(string $repoUrl, ?string $appverseYmlText, array $repoMetadata): NodeInterface {
-    $collection = $this->loadCollectionByRepoUrl($repoUrl);
+    $repo = $this->loadRepoByUrl($repoUrl);
 
     if ($appverseYmlText !== NULL) {
-      return $this->applyDeclared($collection, $repoUrl, $appverseYmlText, $repoMetadata);
+      return $this->applyDeclared($repo, $repoUrl, $appverseYmlText, $repoMetadata);
     }
-    return $this->applyInferred($collection, $repoUrl, $repoMetadata);
+    return $this->applyInferred($repo, $repoUrl, $repoMetadata);
   }
 
   /**
@@ -61,13 +61,13 @@ class RepoSyncService {
    * for ownership checks) before invoking resolveRepo(), which mutates.
    */
   public function findRepoByUrl(string $repoUrl): ?NodeInterface {
-    return $this->loadCollectionByRepoUrl($repoUrl);
+    return $this->loadRepoByUrl($repoUrl);
   }
 
   /**
    * Load a Repo by its repo URL, or NULL if not yet created.
    */
-  protected function loadCollectionByRepoUrl(string $repoUrl): ?NodeInterface {
+  protected function loadRepoByUrl(string $repoUrl): ?NodeInterface {
     $nodeStorage = $this->entityTypeManager->getStorage('node');
     $nids = $nodeStorage->getQuery()
       ->condition('type', 'appverse_repo')
@@ -82,7 +82,7 @@ class RepoSyncService {
   }
 
   /**
-   * Apply appverse.yml-derived metadata to a Collection node.
+   * Apply appverse.yml-derived metadata to a Repo node.
    */
   protected function applyDeclared(?NodeInterface $existing, string $repoUrl, string $appverseYmlText, array $repoMetadata): NodeInterface {
     try {
@@ -90,7 +90,7 @@ class RepoSyncService {
     }
     catch (ParseException $e) {
       // Fatal: malformed appverse.yml. Mark stale_invalid and preserve
-      // existing data if a Collection already exists.
+      // existing data if a Repo already exists.
       $node = $existing ?? $this->createBlankRepo($repoUrl);
       $node->set('field_repo_shape', 'declared');
       $node->set('field_repo_validation_st', 'stale_invalid');
@@ -167,7 +167,7 @@ class RepoSyncService {
     $org = $repoOwner ? $this->resolveOrganizationTerm($repoOwner) : NULL;
     $node->set('field_repo_organization', $org);
 
-    // appverse.yml-derived collection-level fields.
+    // appverse.yml-derived repo-level fields.
     $websiteUrl = $parsed['website'] ?? '';
     if ($websiteUrl) {
       $node->set('field_repo_www_url', ['uri' => $websiteUrl]);
@@ -241,14 +241,14 @@ class RepoSyncService {
    * Inline-at-root per-app data (spec §5) is not yet implemented — only
    * the <path>/appverse.yml-per-subpath style is supported here.
    *
-   * @param \Drupal\node\NodeInterface $collection
-   *   The parent Collection node (already saved).
+   * @param \Drupal\node\NodeInterface $repo
+   *   The parent Repo node (already saved).
    * @param array $parsedRootYml
    *   The full parsed root appverse.yml.
    * @param array<string, array{manifestYml: ?string, appverseYml: ?string}> $subpathFiles
    *   Per-subpath manifest.yml + appverse.yml text, keyed by path.
    * @param string $repoUrl
-   *   The Collection's repo URL.
+   *   The Repo's repo URL.
    * @param array $repoMetadata
    *   Metadata from GitHubService (used to thread the repo owner down to
    *   applyDeclaredApp so per-app organization terms resolve from the
@@ -265,7 +265,7 @@ class RepoSyncService {
    * @return \Drupal\node\NodeInterface[]
    *   The created/updated app nodes, keyed by subpath.
    */
-  public function applyDeclaredApps(NodeInterface $collection, array $parsedRootYml, array $subpathFiles, string $repoUrl, array $repoMetadata = [], bool $reconcile = TRUE): array {
+  public function applyDeclaredApps(NodeInterface $repo, array $parsedRootYml, array $subpathFiles, string $repoUrl, array $repoMetadata = [], bool $reconcile = TRUE): array {
     $appsList = $parsedRootYml['apps'] ?? [];
     if (!is_array($appsList)) {
       return [];
@@ -290,7 +290,7 @@ class RepoSyncService {
       // alternative (delete all) would conflict with the one-way-archive
       // contract — a stale_invalid yaml shouldn't silently empty the catalog.
       if (!empty($declaredSubpaths)) {
-        $this->reconcileDeclaredApps($collection, $declaredSubpaths, $repoUrl);
+        $this->reconcileDeclaredApps($repo, $declaredSubpaths, $repoUrl);
       }
     }
 
@@ -322,17 +322,17 @@ class RepoSyncService {
       $sharedImplementationTags = (isset($parsedRootYml['shared_implementation_tags']) && is_array($parsedRootYml['shared_implementation_tags']) && $parsedRootYml['shared_implementation_tags'] !== [])
         ? $parsedRootYml['shared_implementation_tags']
         : NULL;
-      $this->applyDeclaredApp($appNode, $collection, $subpath, $files, $repoUrl, $repoMetadata, $entry, $rootMaintainer, $sharedImplementationTags);
+      $this->applyDeclaredApp($appNode, $repo, $subpath, $files, $repoUrl, $repoMetadata, $entry, $rootMaintainer, $sharedImplementationTags);
       $result[$subpath] = $appNode;
     }
 
-    // Cascade auto-archive from Collection to member Apps. Mirrors the
-    // one-way archive contract on the Collection itself.
+    // Cascade auto-archive from Repo to member Apps. Mirrors the
+    // one-way archive contract on the Repo itself.
     if (!empty($repoMetadata['isArchived'])) {
       $memberAppIds = $this->entityTypeManager->getStorage('node')->getQuery()
         ->accessCheck(FALSE)
         ->condition('type', 'appverse_app')
-        ->condition('field_appverse_repo', $collection->id())
+        ->condition('field_appverse_repo', $repo->id())
         ->execute();
       foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($memberAppIds) as $memberApp) {
         if ($memberApp->hasField('moderation_state')) {
@@ -468,21 +468,21 @@ class RepoSyncService {
    * full apps[] list, not a narrowed slice. An empty $declaredSubpaths
    * is treated as "no signal" (preserve existing) — never mass-delete.
    *
-   * @param \Drupal\node\NodeInterface $collection
-   *   The Collection whose member apps to reconcile.
+   * @param \Drupal\node\NodeInterface $repo
+   *   The Repo whose member apps to reconcile.
    * @param array<string, bool> $declaredSubpaths
    *   Map of declared subpath => TRUE from the full canonical apps[].
    * @param string $repoUrl
    *   For logging context only.
    */
-  public function reconcileDeclaredApps(NodeInterface $collection, array $declaredSubpaths, string $repoUrl): void {
+  public function reconcileDeclaredApps(NodeInterface $repo, array $declaredSubpaths, string $repoUrl): void {
     if (empty($declaredSubpaths)) {
       return;
     }
     $existingAppIds = $this->entityTypeManager->getStorage('node')->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'appverse_app')
-      ->condition('field_appverse_repo', $collection->id())
+      ->condition('field_appverse_repo', $repo->id())
       ->execute();
 
     foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($existingAppIds) as $existingApp) {
@@ -640,8 +640,8 @@ class RepoSyncService {
    *
    * @param \Drupal\node\NodeInterface $app
    *   The app node to populate.
-   * @param \Drupal\node\NodeInterface $collection
-   *   The parent Repo/Collection node.
+   * @param \Drupal\node\NodeInterface $repo
+   *   The parent Repo/Repo node.
    * @param string $subpath
    *   The app's subpath within the repo ('' for a root single-app).
    * @param array $files
@@ -669,7 +669,7 @@ class RepoSyncService {
    *   the app's own tags, so an unresolved inherited tag rejects the app too.
    *   NULL (the single-app path / no shared tags) leaves behaviour unchanged.
    */
-  protected function applyDeclaredApp(NodeInterface $app, NodeInterface $collection, string $subpath, array $files, string $repoUrl, array $repoMetadata = [], ?array $entry = NULL, ?array $rootMaintainer = NULL, ?array $sharedImplementationTags = NULL): void {
+  protected function applyDeclaredApp(NodeInterface $app, NodeInterface $repo, string $subpath, array $files, string $repoUrl, array $repoMetadata = [], ?array $entry = NULL, ?array $rootMaintainer = NULL, ?array $sharedImplementationTags = NULL): void {
     // Reset validation status at the start of each sync run. Validation
     // checks below set 'rejected' + append errors when they detect
     // problems; if no checks reject, the app stays 'valid'. This lets a
@@ -878,7 +878,7 @@ class RepoSyncService {
 
     if ($missing) {
       $app->setTitle($name ?: $subpath);
-      $app->set('field_appverse_repo', $collection->id());
+      $app->set('field_appverse_repo', $repo->id());
       $app->set('field_appverse_app_subpath', $subpath);
       $app->set('field_appverse_app_validation_st', 'rejected');
       // Per spec §5: never silently delist. Previously-good content
@@ -900,7 +900,7 @@ class RepoSyncService {
       'value' => $description,
       'format' => 'markdown',
     ]);
-    $app->set('field_appverse_repo', $collection->id());
+    $app->set('field_appverse_repo', $repo->id());
     $app->set('field_appverse_app_subpath', $subpath);
     // validation_st was initialized to 'valid' at the top of this method.
     // Earlier checks (software, tags, required-fields) may have flipped
@@ -1009,7 +1009,7 @@ class RepoSyncService {
   }
 
   /**
-   * Create a new, unsaved Collection node bound to a repo URL.
+   * Create a new, unsaved Repo node bound to a repo URL.
    */
   protected function createBlankRepo(string $repoUrl): NodeInterface {
     return $this->entityTypeManager->getStorage('node')->create([
@@ -1017,7 +1017,7 @@ class RepoSyncService {
       'title' => $this->deriveTitleFromRepoUrl($repoUrl),
       'field_repo_url' => ['uri' => $repoUrl],
       'field_repo_validation_st' => 'valid',
-      // New Collections land in draft. status is forced to 0 by Drupal's
+      // New Repos land in draft. status is forced to 0 by Drupal's
       // content_moderation when moderation_state != 'published', so we
       // don't set status here.
       'moderation_state' => 'draft',
@@ -1025,7 +1025,7 @@ class RepoSyncService {
   }
 
   /**
-   * Derive a fallback Collection title from a GitHub repo URL.
+   * Derive a fallback Repo title from a GitHub repo URL.
    */
   protected function deriveTitleFromRepoUrl(string $repoUrl): string {
     $parsed = parse_url($repoUrl);
@@ -1046,7 +1046,7 @@ class RepoSyncService {
    * ("CHPC" vs "Chpc"). Curators add new organization terms explicitly
    * through the existing taxonomy admin UI; the sync then picks them up on
    * the next pass. Unmatched maintainer strings leave
-   * field_repo_organization NULL — the Collection still functions; it
+   * field_repo_organization NULL — the Repo still functions; it
    * just isn't filterable by org until an admin adds the term and re-runs
    * the sync.
    */
@@ -1075,7 +1075,7 @@ class RepoSyncService {
   }
 
   /**
-   * Apply minimal repo-derived metadata to a Collection node when appverse.yml is absent.
+   * Apply minimal repo-derived metadata to a Repo node when appverse.yml is absent.
    */
   protected function applyInferred(?NodeInterface $existing, string $repoUrl, array $repoMetadata): NodeInterface {
     $node = $existing ?? $this->createBlankRepo($repoUrl);
@@ -1099,7 +1099,7 @@ class RepoSyncService {
         $node->set('field_repo_organization', $org);
       }
     }
-    // Inferred Collections start valid; they roll up to degraded only if a
+    // Inferred repos start valid; they roll up to degraded only if a
     // child app is rejected (app-level rejection is handled separately).
     $node->set('field_repo_shape', 'inferred');
     $node->set('field_repo_validation_st', 'valid');

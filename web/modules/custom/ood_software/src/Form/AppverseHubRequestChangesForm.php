@@ -74,7 +74,7 @@ final class AppverseHubRequestChangesForm extends FormBase {
     $comment = $form_state->getValue('comment');
 
     // Snapshot pre-transition status so we know whether to cascade-unpublish
-    // member apps. Dropping a published Collection to needs_adjustment hides
+    // member apps. Dropping a published Repo to needs_adjustment hides
     // it from the catalog; member apps must follow.
     $wasPublished = (bool) $this->node->isPublished();
 
@@ -99,19 +99,19 @@ final class AppverseHubRequestChangesForm extends FormBase {
   }
 
   /**
-   * Drop all currently-published member apps of $collection to draft.
+   * Drop all currently-published member apps of $repo to draft.
    *
    * Mirrors AppverseHubController::cascadeUnpublishMemberApps. Inlined here
    * to keep this form independent of the controller; both should stay
    * structurally identical. If the rule grows beyond a simple loop, move
    * it to a shared service.
    */
-  protected function cascadeUnpublishMemberApps(NodeInterface $collection): void {
+  protected function cascadeUnpublishMemberApps(NodeInterface $repo): void {
     $storage = $this->entityTypeManager->getStorage('node');
     $memberAppIds = $storage->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'appverse_app')
-      ->condition('field_appverse_repo', $collection->id())
+      ->condition('field_appverse_repo', $repo->id())
       ->condition('status', 1)
       ->execute();
 
@@ -130,7 +130,7 @@ final class AppverseHubRequestChangesForm extends FormBase {
     if ($count > 0) {
       $this->messenger()->addStatus($this->t(
         'Also unpublished @count member apps under @title.',
-        ['@count' => $count, '@title' => $collection->label()]
+        ['@count' => $count, '@title' => $repo->label()]
       ));
     }
   }
