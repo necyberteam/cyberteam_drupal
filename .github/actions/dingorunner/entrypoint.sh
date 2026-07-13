@@ -124,10 +124,10 @@ then
   git config --get remote.origin.url
 
   echo 'Remove some dev files/folders'
-  # Remove all .txt files.
-  find . -type f -name "*.txt" -delete
-  # Remove all .github directories.
-  find . -mindepth 1 -type f -name "*.txt" -not -path "*/.github/*" -delete
+  # Remove all .txt files EXCEPT robots.txt — deleting robots.txt left prod
+  # with a 404 robots.txt and unrestricted crawling of faceted pages.
+  find . -type f -name "*.txt" -not -name "robots.txt" -delete
+  find . -mindepth 1 -type f -name "*.txt" -not -path "*/.github/*" -not -name "robots.txt" -delete
   rm -fR .devcontainer
   rm -fR .editorconfig
   rm -fR .github
