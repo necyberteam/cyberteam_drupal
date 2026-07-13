@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "22f571a081225eb33f781925c1cf0f90",
+    "content-hash": "dfd222ccdd5f27bb479b3b0aec12649b",
     "packages": [
         {
             "name": "access/drupal_seamless_cilogon",
@@ -67,7 +67,7 @@
             "version": "dev-d8-2772",
             "source": {
                 "type": "git",
-                "url": "https://github.com/necyberteam/Operations_Drupal_Feed_Cider.git",
+                "url": "https://github.com/connectci-platform/operations_cider.git",
                 "reference": "10e159bc521bacbcb575a777962175e16291742b"
             },
             "require": {
@@ -100,7 +100,7 @@
             "version": "dev-d8-2772",
             "source": {
                 "type": "git",
-                "url": "https://github.com/necyberteam/access.git",
+                "url": "https://github.com/connectci-platform/access.git",
                 "reference": "423da77bf235d5ab6fce21518cf0667094bc8a24"
             },
             "require": {
@@ -8072,17 +8072,17 @@
         },
         {
             "name": "drupal/recaptcha_v3",
-            "version": "2.0.4",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/recaptcha_v3.git",
-                "reference": "2.0.4"
+                "reference": "2.0.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/recaptcha_v3-2.0.4.zip",
-                "reference": "2.0.4",
-                "shasum": "f108d19d1c14dac0ea2b16b1cc30f6066f3c00c2"
+                "url": "https://ftp.drupal.org/files/projects/recaptcha_v3-2.0.5.zip",
+                "reference": "2.0.5",
+                "shasum": "085e7758694680dea2963ffd0b5240fb01c0c0c5"
             },
             "require": {
                 "drupal/captcha": "^2.0",
@@ -8092,8 +8092,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.4",
-                    "datestamp": "1739448400",
+                    "version": "2.0.5",
+                    "datestamp": "1777000708",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -9825,27 +9825,33 @@
         },
         {
             "name": "drupal/token_views_filter",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/token_views_filter.git",
-                "reference": "2.1.0"
+                "reference": "2.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/token_views_filter-2.1.0.zip",
-                "reference": "2.1.0",
-                "shasum": "9ab266fa4e9f3149431d5551cb15b59425f06ce1"
+                "url": "https://ftp.drupal.org/files/projects/token_views_filter-2.2.0.zip",
+                "reference": "2.2.0",
+                "shasum": "00c29b724cea7da6f3b51f891cee266849f97a0e"
             },
             "require": {
                 "drupal/core": "^9.2 || ^10.1 || ^11",
-                "drupal/token": "*"
+                "drupal/token": "^1.15"
+            },
+            "require-dev": {
+                "drupal/geofield": "^1.55 || ^2.0"
+            },
+            "suggest": {
+                "drupal/geofield": "Enables token support for the geofield_proximity views filter (#3394994)."
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.1.0",
-                    "datestamp": "1749022147",
+                    "version": "2.2.0",
+                    "datestamp": "1782994529",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -13243,7 +13249,7 @@
             "version": "dev-d8-2772",
             "source": {
                 "type": "git",
-                "url": "https://github.com/necyberteam/aspTheme.git",
+                "url": "https://github.com/connectci-platform/aspTheme.git",
                 "reference": "2d316c82c2404d3faeb22591cc1b480cfcbf2067"
             },
             "type": "drupal-theme",
@@ -13268,7 +13274,7 @@
             "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/necyberteam/campus-champions-theme.git",
+                "url": "https://github.com/connectci-platform/campus-champions-theme.git",
                 "reference": "27927ffec962bda1cacf2458ceb2c05990bbebb9"
             },
             "default-branch": true,
@@ -13294,7 +13300,7 @@
             "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/necyberteam/webform_submission_search_api.git",
+                "url": "https://github.com/connectci-platform/webform_submission_search_api.git",
                 "reference": "2f0eeebe5ce0ea0a4b92328542a8b5f1d34a16e3"
             },
             "require": {
@@ -18207,12 +18213,13 @@
     "packages-dev": [
         {
             "name": "amp/amp_dev",
-            "version": "dev-d8-2772",
+            "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/necyberteam/amp_dev.git",
-                "reference": "8ad11d988db3825b73c7f25e1bb656f6ca30f85b"
+                "url": "https://github.com/connectci-platform/amp_dev.git",
+                "reference": "ec97aacb915c562ec31a4c97c7f76e8d4eab4f73"
             },
+            "default-branch": true,
             "type": "drupal-custom-module",
             "license": [
                 "GPL-2.0-or-later"
@@ -18222,7 +18229,7 @@
             "keywords": [
                 "Drupal"
             ],
-            "time": "2026-07-09T18:38:12+00:00"
+            "time": "2026-07-11T16:37:43+00:00"
         },
         {
             "name": "behat/mink",
