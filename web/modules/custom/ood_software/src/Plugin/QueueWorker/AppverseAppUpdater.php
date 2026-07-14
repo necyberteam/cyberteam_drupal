@@ -9,8 +9,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\ood_software\Plugin\GitHubService;
 use Drupal\ood_software\Service\RepoSyncService;
 use Drupal\node\NodeInterface;
-use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
  * Processes Appverse App nodes to update GitHub data.
@@ -110,22 +108,38 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
         'readme' => $this->githubService->getReadme(),
       ];
 
-      // Resolve the Repo for this repo and attach to the app.
-      $repo = $this->repoSync->resolveRepo(
-        $this->githubService->getRepoUrl(),
-        $appverseYmlText,
-        $repoMetadata
+      // A SHAPE CHANGE is when the repo's stored shape no longer matches the
+      // repo's current state on GitHub — EITHER direction:
+      //   inferred (registered without appverse.yml) → now HAS one, or
+      //   declared (registered with appverse.yml)    → now LOST it.
+      // Cron must NOT transform shape unattended in either direction — doing so
+      // is inherently hazardous (a transient GitHub failure would degrade the
+      // whole repo; reshaping orphans or deletes live members). Detect it and
+      // flag for the attended Resync instead.
+      $existingRepo = $this->repoSync->findRepoByUrl($this->githubService->getRepoUrl());
+      $storedShape = $existingRepo ? ($existingRepo->get('field_repo_shape')->value ?? NULL) : NULL;
+      $nowDeclared = $this->githubService->isDeclaredRepo();
+      $shapeChangePending = $existingRepo && (
+        ($storedShape === 'inferred' && $nowDeclared)
+        || ($storedShape === 'declared' && !$nowDeclared)
       );
 
-      // If the maintainer added a root appverse.yml declaring an apps[] list
-      // since this repo was registered (a single-app or inferred repo becoming
-      // a monorepo), resolveRepo() above flips the shape but does NOT create
-      // the member apps — that needs a fetch-subpaths pass. Detect the pending
-      // transition and run the full declared sync so cron materializes the
-      // members instead of leaving an empty Collection. Guarded to fire only
-      // when the repo's members don't yet match the declared apps[], so it
-      // doesn't re-sync on every pass (the queue processes every app).
-      $this->syncDeclaredMembersIfPending($repo, $appverseYmlText, $repoMetadata);
+      if ($shapeChangePending) {
+        // Do NOT resolveRepo with the appverse.yml (that would reshape/half-
+        // apply). Leave the repo as-is and flag it so the maintainer/admin runs
+        // the attended Resync, which transforms it safely with a progress UI.
+        $repo = $existingRepo;
+        $this->flagShapeChange($repo);
+      }
+      else {
+        // Normal path: refresh the repo (metadata, and the shape it already is).
+        $repo = $this->repoSync->resolveRepo(
+          $this->githubService->getRepoUrl(),
+          $appverseYmlText,
+          $repoMetadata
+        );
+      }
+
       $currentRepoId = $node->get('field_appverse_repo')->target_id;
       if ((int) $currentRepoId !== (int) $repo->id()) {
         $node->set('field_appverse_repo', $repo->id());
@@ -212,80 +226,42 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
   }
 
   /**
-   * Materialize declared member apps when a repo has newly gained an apps[].
+   * Flag a repo whose shape changed (either direction) for attended Resync.
    *
-   * Fires only when the root appverse.yml declares subpaths that don't all
-   * exist as member apps yet — i.e. a real pending transition — so the full
-   * (GitHub-hitting) sync runs once, not on every queued app of the repo.
+   * Cron never transforms shape itself. It marks the repo degraded with a
+   * message so the hub surfaces it and the maintainer/admin runs Resync, which
+   * rebuilds the members safely with a progress UI. Idempotent — re-flagging an
+   * already-flagged repo is a no-op save-wise (same values).
    *
    * @param \Drupal\node\NodeInterface $repo
-   *   The parent Repo node.
-   * @param string|null $appverseYmlText
-   *   Raw root appverse.yml text, or NULL if the repo has none.
-   * @param array $repoMetadata
-   *   Repo-level metadata forwarded to the sync.
+   *   The repo node to flag.
    */
-  protected function syncDeclaredMembersIfPending(NodeInterface $repo, ?string $appverseYmlText, array $repoMetadata): void {
-    if ($appverseYmlText === NULL || trim($appverseYmlText) === '') {
-      return;
-    }
-    try {
-      $parsed = Yaml::parse($appverseYmlText);
-    }
-    catch (ParseException) {
-      return;
-    }
-    if (!is_array($parsed)) {
-      return;
-    }
-    $declaredSubpaths = [];
-    foreach (($parsed['apps'] ?? []) as $entry) {
-      $path = is_array($entry) ? trim((string) ($entry['path'] ?? ''), '/') : '';
-      if ($path !== '') {
-        $declaredSubpaths[$path] = TRUE;
-      }
-    }
-    if (!$declaredSubpaths) {
-      // No apps[] — a declared single-app or inferred repo; resolveRepo already
-      // handled it. Nothing to materialize.
+  protected function flagShapeChange(NodeInterface $repo): void {
+    // field_repo_validation_st + _er are PUBLISHED into the public catalog
+    // (AppverseCacheService::buildReposData), so the note must be neutral — no
+    // admin-only "click Resync" instruction. The admin sees the 'degraded'
+    // state in the hub and knows to resync; the detail goes to the log.
+    $note = "The repo's app structure changed and needs to be re-synced.";
+    $currentSt = $repo->get('field_repo_validation_st')->value ?? NULL;
+    $existing = array_column($repo->get('field_repo_validation_er')->getValue(), 'value');
+
+    // Idempotent: already flagged with this note → no churn.
+    if ($currentSt === 'degraded' && in_array($note, $existing, TRUE)) {
       return;
     }
 
-    // What member subpaths already exist for this repo?
-    $existingIds = $this->entityTypeManager->getStorage('node')->getQuery()
-      ->accessCheck(FALSE)
-      ->condition('type', 'appverse_app')
-      ->condition('field_appverse_repo', $repo->id())
-      ->execute();
-    $existingSubpaths = [];
-    foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($existingIds) as $app) {
-      $existingSubpaths[trim((string) $app->get('field_appverse_app_subpath')->value, '/')] = TRUE;
+    $repo->set('field_repo_validation_st', 'degraded');
+    // APPEND — don't clobber pre-existing errors (rejected child apps, prior
+    // failures) that the maintainer still needs to see.
+    if (!in_array($note, $existing, TRUE)) {
+      $existing[] = $note;
     }
-
-    // Pending transition = a declared subpath with no member yet. (This also
-    // covers the fresh flip where the repo has zero real members.) When the
-    // members already match, do nothing so cron doesn't re-sync every pass.
-    $pending = array_diff_key($declaredSubpaths, $existingSubpaths);
-    if (!$pending) {
-      return;
-    }
-
-    // Fetch every declared subpath's files in one GitHub round-trip, then hand
-    // them to the sync (the fetch lives here, where GitHubService is loaded).
-    $this->githubService->fetchAppSubpaths(array_keys($declaredSubpaths));
-    $subpathFiles = $this->githubService->getAppSubpathFiles();
-
-    $count = $this->repoSync->syncDeclaredRepoFully(
-      $repo,
-      $this->githubService->getRepoUrl(),
-      $parsed,
-      $subpathFiles,
-      $repoMetadata
-    );
-    \Drupal::logger('ood_software')->notice('Cron materialized @count declared member apps for repo @nid (appverse.yml apps[] added after registration).', [
-      '@count' => $count,
-      '@nid' => $repo->id(),
-    ]);
+    $repo->set('field_repo_validation_er', $existing);
+    // Match every other validation-state write in the codebase, which stamps
+    // last_synced so the hub reflects when the state was last evaluated.
+    $repo->set('field_repo_last_synced', \Drupal::time()->getCurrentTime());
+    $repo->save();
+    \Drupal::logger('ood_software')->notice('Repo @nid appverse.yml shape changed since registration; flagged degraded for attended Resync.', ['@nid' => $repo->id()]);
   }
 
 }

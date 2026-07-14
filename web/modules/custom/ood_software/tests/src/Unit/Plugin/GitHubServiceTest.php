@@ -470,4 +470,61 @@ class GitHubServiceTest extends UnitTestCase {
     $this->assertFalse(GitHubService::isValidSubpath($path), "'$path' must be rejected.");
   }
 
+  /**
+   * fetchAppSubpaths THROWS on a GraphQL error body instead of returning
+   * all-NULL files. This is the guard that stops an unattended caller (cron)
+   * from rewriting every previously-valid member to rejected/empty on a
+   * transient upstream failure.
+   *
+   * @covers ::fetchAppSubpaths
+   */
+  public function testFetchAppSubpathsThrowsOnGraphQLError(): void {
+    // A 200 with an errors-only body (data absent) — the common rate-limit /
+    // 5xx-normalized GraphQL failure shape.
+    $this->mockGraphQLResponse(json_encode(['errors' => [['message' => 'API rate limit exceeded']]]));
+
+    // owner/name are set by parseUrl(); set them directly to reach the fetch.
+    $ref = new \ReflectionClass($this->service);
+    foreach (['owner' => 'OSC', 'name' => 'mono'] as $prop => $val) {
+      $p = $ref->getProperty($prop);
+      $p->setAccessible(TRUE);
+      $p->setValue($this->service, $val);
+    }
+
+    $this->expectException(\RuntimeException::class);
+    $this->service->fetchAppSubpaths(['jupyter', 'rstudio']);
+  }
+
+  /**
+   * getAppPreviewData DEGRADES (returns records, doesn't throw) when the
+   * per-subpath fetch fails. Regression guard for the WSOD where a transient
+   * GitHub failure crashed the Add-Repo form preview instead of rendering a
+   * degraded one.
+   *
+   * @covers ::getAppPreviewData
+   */
+  public function testPreviewDegradesWhenSubpathFetchFails(): void {
+    // The preview's per-subpath fetch will hit this errors-only body and throw
+    // inside fetchAppSubpaths — getAppPreviewData must catch and degrade.
+    $this->mockGraphQLResponse(json_encode(['errors' => [['message' => 'rate limited']]]));
+
+    // Put the service into the declared-repo state getAppPreviewData needs:
+    // owner/name (fetch), non-empty $data (isEmptyRepo=false), and a root
+    // appverse.yml declaring one app subpath (isDeclaredRepo=true).
+    $ref = new \ReflectionClass($this->service);
+    $set = function (string $prop, $val) use ($ref) {
+      $p = $ref->getProperty($prop);
+      $p->setAccessible(TRUE);
+      $p->setValue($this->service, $val);
+    };
+    $set('owner', 'OSC');
+    $set('name', 'mono');
+    $set('data', ['x' => 1]);
+    $set('appverseYmlText', "apps:\n  - path: jupyter\n    name: Jupyter\n");
+
+    // Must not throw; returns an array (degraded preview).
+    $records = $this->service->getAppPreviewData();
+    $this->assertIsArray($records, 'Preview degrades to an array rather than throwing on fetch failure.');
+  }
+
 }

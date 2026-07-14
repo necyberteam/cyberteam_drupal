@@ -531,8 +531,40 @@ class GitHubService {
         ],
       ],
     ]);
+    $status = $response->getStatusCode();
     $body = json_decode($response->getBody()->getContents(), TRUE);
-    $repoData = $body['data']['repository'] ?? [];
+
+    // Distinguish a REAL fetch failure from "files genuinely absent". On a
+    // non-2xx or a missing data.repository, every subpath would resolve to
+    // all-NULL text — indistinguishable from an empty repo — which would let a
+    // caller rewrite valid members to rejected/empty on a transient blip. Throw
+    // so callers abort instead of degrading the catalog.
+    //
+    // A non-empty errors[] does NOT by itself mean failure: GitHub GraphQL can
+    // return usable data.repository alongside a partial/non-fatal errors array
+    // (a per-field error, a secondary-rate-limit warning). Keep the usable data
+    // in that case; only log the errors for visibility. This is safe because
+    // every caller of fetchAppSubpaths is now ATTENDED — the Resync batch
+    // (per-subpath catch), the drush command, and the form preview
+    // (catch+degrade). A single subpath that errors surfaces to the operator;
+    // there is no unattended (cron) caller that could silently degrade the
+    // catalog on a partial error.
+    if ($status < 200 || $status >= 300 || !isset($body['data']['repository'])) {
+      throw new \RuntimeException(sprintf(
+        'fetchAppSubpaths failed for %s/%s (HTTP %d%s).',
+        $this->owner,
+        $this->name,
+        $status,
+        !empty($body['errors']) ? ', GraphQL errors' : ''
+      ));
+    }
+    if (!empty($body['errors'])) {
+      $this->logger->warning('fetchAppSubpaths for %o/%n returned partial data with GraphQL errors; using the data present.', [
+        '%o' => $this->owner,
+        '%n' => $this->name,
+      ]);
+    }
+    $repoData = $body['data']['repository'];
 
     $result = [];
     foreach ($aliasMap as $alias => $path) {
@@ -855,7 +887,17 @@ class GitHubService {
       if (empty($subpaths)) {
         return [];
       }
-      $this->fetchAppSubpaths($subpaths);
+      // fetchAppSubpaths() throws on a transport/GraphQL failure. This is a
+      // PREVIEW — degrade gracefully (render whatever we can from the root
+      // yaml, with empty per-subpath files) rather than WSOD the Add-Repo
+      // form when GitHub is transiently unavailable.
+      try {
+        $this->fetchAppSubpaths($subpaths);
+      }
+      catch (\Throwable $e) {
+        $this->logger->warning('App preview: per-subpath fetch failed, showing a degraded preview: @msg', ['@msg' => $e->getMessage()]);
+        $this->appSubpathFiles = [];
+      }
 
       $records = [];
       // Repo-level license falls through to apps that lack their own.

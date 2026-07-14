@@ -88,6 +88,13 @@ class CronMemberAppGuardTest extends KernelTestBase {
       'field.field.node.appverse_app.field_appverse_stars',
       'field.storage.node.field_appverse_app_type',
       'field.field.node.appverse_app.field_appverse_app_type',
+      // Repo validation fields — the shape-change flag writes to these.
+      'field.storage.node.field_repo_validation_st',
+      'field.field.node.appverse_repo.field_repo_validation_st',
+      'field.storage.node.field_repo_validation_er',
+      'field.field.node.appverse_repo.field_repo_validation_er',
+      'field.storage.node.field_repo_last_synced',
+      'field.field.node.appverse_repo.field_repo_last_synced',
     ]);
 
     // field_repo_shape lives in the module's config/install.
@@ -172,16 +179,24 @@ class CronMemberAppGuardTest extends KernelTestBase {
       }
     };
 
-    // Stub resolveRepo to return the existing repo (no network / sync).
+    // Stub resolveRepo/findRepoByUrl to return the existing repo (no network).
+    // Records whether resolveRepo was called so tests can assert the
+    // shape-change path does NOT reshape.
     $repoSync = new class($repo) extends RepoSyncService {
 
       private NodeInterface $repo;
+      public bool $resolveRepoCalled = FALSE;
 
       public function __construct(NodeInterface $repo) {
         $this->repo = $repo;
       }
 
       public function resolveRepo(string $repoUrl, ?string $appverseYmlText, array $repoMetadata): NodeInterface {
+        $this->resolveRepoCalled = TRUE;
+        return $this->repo;
+      }
+
+      public function findRepoByUrl(string $repoUrl): ?NodeInterface {
         return $this->repo;
       }
 
@@ -259,6 +274,160 @@ class CronMemberAppGuardTest extends KernelTestBase {
       $reloaded->get('body')->value,
       'Standalone (no-subpath) app SHOULD receive root content on new commits.'
     );
+  }
+
+  /**
+   * A shape change (inferred repo gains an appverse.yml) is FLAGGED, not
+   * transformed: cron sets the repo degraded and does NOT reshape (resolveRepo
+   * is not called on that path). The attended Resync does the real work.
+   */
+  public function testShapeChangeIsFlaggedNotTransformed(): void {
+    // Repo registered as INFERRED (no appverse.yml at registration), carrying a
+    // pre-existing validation error that the flag must NOT clobber.
+    $repo = Node::create([
+      'type' => 'appverse_repo',
+      'title' => 'WasInferred',
+      'field_repo_url' => ['uri' => 'https://github.com/OSC/mono'],
+      'field_repo_shape' => 'inferred',
+      'field_repo_validation_st' => 'valid',
+      'field_repo_validation_er' => ['A pre-existing error the maintainer must still see.'],
+      'moderation_state' => 'published',
+    ]);
+    $repo->save();
+
+    $app = Node::create([
+      'type' => 'appverse_app',
+      'title' => 'Root App',
+      'field_appverse_repo' => $repo->id(),
+      'field_appverse_github_url' => ['uri' => 'https://github.com/OSC/mono'],
+      'moderation_state' => 'published',
+    ]);
+    $app->save();
+
+    // GH stub that now reports a root appverse.yml → isDeclaredRepo() TRUE.
+    $gh = new class(
+      $this->container->get('http_client'),
+      $this->container->get('key.repository'),
+      $this->container->get('messenger'),
+      $this->container->get('logger.factory'),
+      $this->container->get('entity_type.manager'),
+    ) extends GitHubService {
+      public function parseUrl($repo) { return TRUE; }
+      public function getData() {}
+      public function getLastComittedDate() { return '2000000000'; }
+      public function getDescription() { return 'D'; }
+      public function getReadme() { return 'R'; }
+      public function getAppTypeIds(): array { return []; }
+      public function getStars() { return 0; }
+      public function getRepoUrl(): string { return 'https://github.com/OSC/mono'; }
+      public function getRepoName() { return 'mono'; }
+      public function getRepoDescription(): string { return ''; }
+      public function getOrganization() { return ''; }
+      // Now HAS a root appverse.yml → isDeclaredRepo() returns TRUE.
+      // (isDeclaredRepo reads the $appverseYmlText property, which parseUrl
+      // would set in real cron; override it directly in the stub.)
+      public function getAppverseYmlText(): ?string { return "apps:\n  - path: jupyter\n"; }
+      public function isDeclaredRepo(): bool { return TRUE; }
+    };
+
+    $repoSync = new class($repo) extends RepoSyncService {
+      private NodeInterface $repo;
+      public bool $resolveRepoCalled = FALSE;
+      public function __construct(NodeInterface $repo) { $this->repo = $repo; }
+      public function resolveRepo(string $u, ?string $y, array $m): NodeInterface {
+        $this->resolveRepoCalled = TRUE;
+        return $this->repo;
+      }
+      public function findRepoByUrl(string $u): ?NodeInterface { return $this->repo; }
+    };
+
+    $worker = new AppverseAppUpdater(
+      [], 'appverse_app_updater', [],
+      $this->container->get('entity_type.manager'),
+      $gh,
+      $repoSync,
+    );
+    $worker->processItem(['nid' => $app->id()]);
+
+    self::assertFalse($repoSync->resolveRepoCalled, 'Cron must NOT reshape (resolveRepo not called) on a pending shape change.');
+
+    $reloadedRepo = Node::load($repo->id());
+    self::assertSame('degraded', $reloadedRepo->get('field_repo_validation_st')->value, 'Repo is flagged degraded for the shape change.');
+    $errs = array_column($reloadedRepo->get('field_repo_validation_er')->getValue(), 'value');
+    self::assertContains('A pre-existing error the maintainer must still see.', $errs, 'Pre-existing validation errors are preserved, not clobbered.');
+    self::assertTrue((bool) array_filter($errs, fn($e) => str_contains($e, 're-synced')), 'A neutral, publicly-safe shape-change note is appended (no admin-only instruction).');
+    self::assertSame('inferred', $reloadedRepo->get('field_repo_shape')->value, 'Shape is left unchanged (not flipped to declared).');
+  }
+
+  /**
+   * The REVERSE shape change (declared repo LOST its appverse.yml) is also
+   * flagged, not transformed — cron must not flip it to inferred and orphan
+   * the declared members.
+   */
+  public function testReverseShapeChangeIsFlaggedNotTransformed(): void {
+    $repo = Node::create([
+      'type' => 'appverse_repo',
+      'title' => 'WasDeclared',
+      'field_repo_url' => ['uri' => 'https://github.com/OSC/mono'],
+      'field_repo_shape' => 'declared',
+      'field_repo_validation_st' => 'valid',
+      'moderation_state' => 'published',
+    ]);
+    $repo->save();
+    $app = Node::create([
+      'type' => 'appverse_app',
+      'title' => 'Member',
+      'field_appverse_repo' => $repo->id(),
+      'field_appverse_github_url' => ['uri' => 'https://github.com/OSC/mono'],
+      'field_appverse_app_subpath' => 'jupyter',
+      'moderation_state' => 'published',
+    ]);
+    $app->save();
+
+    // GH stub reporting NO root appverse.yml now → isDeclaredRepo() FALSE.
+    $gh = new class(
+      $this->container->get('http_client'),
+      $this->container->get('key.repository'),
+      $this->container->get('messenger'),
+      $this->container->get('logger.factory'),
+      $this->container->get('entity_type.manager'),
+    ) extends GitHubService {
+      public function parseUrl($repo) { return TRUE; }
+      public function getData() {}
+      public function getLastComittedDate() { return '2000000000'; }
+      public function getDescription() { return 'D'; }
+      public function getReadme() { return 'R'; }
+      public function getAppTypeIds(): array { return []; }
+      public function getStars() { return 0; }
+      public function getRepoUrl(): string { return 'https://github.com/OSC/mono'; }
+      public function getRepoName() { return 'mono'; }
+      public function getRepoDescription(): string { return ''; }
+      public function getOrganization() { return ''; }
+      public function getAppverseYmlText(): ?string { return NULL; }
+      public function isDeclaredRepo(): bool { return FALSE; }
+    };
+    $repoSync = new class($repo) extends RepoSyncService {
+      private NodeInterface $repo;
+      public bool $resolveRepoCalled = FALSE;
+      public function __construct(NodeInterface $repo) { $this->repo = $repo; }
+      public function resolveRepo(string $u, ?string $y, array $m): NodeInterface {
+        $this->resolveRepoCalled = TRUE;
+        return $this->repo;
+      }
+      public function findRepoByUrl(string $u): ?NodeInterface { return $this->repo; }
+    };
+    $worker = new AppverseAppUpdater(
+      [], 'appverse_app_updater', [],
+      $this->container->get('entity_type.manager'),
+      $gh,
+      $repoSync,
+    );
+    $worker->processItem(['nid' => $app->id()]);
+
+    self::assertFalse($repoSync->resolveRepoCalled, 'Cron must NOT reshape declared→inferred.');
+    $reloadedRepo = Node::load($repo->id());
+    self::assertSame('degraded', $reloadedRepo->get('field_repo_validation_st')->value, 'Reverse shape change is flagged degraded.');
+    self::assertSame('declared', $reloadedRepo->get('field_repo_shape')->value, 'Shape left unchanged (not flipped to inferred).');
   }
 
 }
