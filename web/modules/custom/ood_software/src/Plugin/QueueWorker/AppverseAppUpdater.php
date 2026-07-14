@@ -8,6 +8,9 @@ use Drupal\Core\Queue\QueueWorkerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\ood_software\Plugin\GitHubService;
 use Drupal\ood_software\Service\RepoSyncService;
+use Drupal\node\NodeInterface;
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
  * Processes Appverse App nodes to update GitHub data.
@@ -97,19 +100,32 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
       $lastupdated = $node->get('field_appverse_lastupdated')->value;
       $needsSave = FALSE;
 
+      $appverseYmlText = $this->githubService->getAppverseYmlText();
+      $repoMetadata = [
+        'name' => $this->githubService->getRepoName(),
+        'description' => $this->githubService->getRepoDescription(),
+        'organization' => $this->githubService->getOrganization(),
+        'stars' => $this->githubService->getStars(),
+        'lastCommittedDate' => $this->githubService->getLastComittedDate(),
+        'readme' => $this->githubService->getReadme(),
+      ];
+
       // Resolve the Repo for this repo and attach to the app.
       $repo = $this->repoSync->resolveRepo(
         $this->githubService->getRepoUrl(),
-        $this->githubService->getAppverseYmlText(),
-        [
-          'name' => $this->githubService->getRepoName(),
-          'description' => $this->githubService->getRepoDescription(),
-          'organization' => $this->githubService->getOrganization(),
-          'stars' => $this->githubService->getStars(),
-          'lastCommittedDate' => $this->githubService->getLastComittedDate(),
-          'readme' => $this->githubService->getReadme(),
-        ]
+        $appverseYmlText,
+        $repoMetadata
       );
+
+      // If the maintainer added a root appverse.yml declaring an apps[] list
+      // since this repo was registered (a single-app or inferred repo becoming
+      // a monorepo), resolveRepo() above flips the shape but does NOT create
+      // the member apps — that needs a fetch-subpaths pass. Detect the pending
+      // transition and run the full declared sync so cron materializes the
+      // members instead of leaving an empty Collection. Guarded to fire only
+      // when the repo's members don't yet match the declared apps[], so it
+      // doesn't re-sync on every pass (the queue processes every app).
+      $this->syncDeclaredMembersIfPending($repo, $appverseYmlText, $repoMetadata);
       $currentRepoId = $node->get('field_appverse_repo')->target_id;
       if ((int) $currentRepoId !== (int) $repo->id()) {
         $node->set('field_appverse_repo', $repo->id());
@@ -134,8 +150,17 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
       // link above still apply to every app.
       $isMemberApp = !$node->get('field_appverse_app_subpath')->isEmpty();
       if (!$isMemberApp && $lastupdated != $this->githubService->getLastComittedDate()) {
-        $node->set('body', [['format' => 'markdown', 'value' => $this->githubService->getDescription()]]);
-        $node->set('field_appverse_readme', [['format' => 'markdown', 'value' => $this->githubService->getReadme()]]);
+        // A repo that lost (or never had) a root manifest.yml returns an empty
+        // description/README; guard the writes so an empty source can't blank a
+        // good catalog value.
+        $newDescription = $this->githubService->getDescription();
+        if ($newDescription !== NULL && $newDescription !== '') {
+          $node->set('body', [['format' => 'markdown', 'value' => $newDescription]]);
+        }
+        $newReadme = $this->githubService->getReadme();
+        if ($newReadme !== NULL && $newReadme !== '') {
+          $node->set('field_appverse_readme', [['format' => 'markdown', 'value' => $newReadme]]);
+        }
         $node->set('field_appverse_lastupdated', [['value' => $this->githubService->getLastComittedDate()]]);
         $needsSave = TRUE;
 
@@ -173,6 +198,94 @@ final class AppverseAppUpdater extends QueueWorkerBase implements ContainerFacto
         $node->save();
       }
     }
+    else {
+      // parseUrl() failed: the repo is gone, private, rate-limited, or its
+      // URL no longer parses. Previously the app was skipped silently, hiding
+      // the fact that a catalogued app's upstream is unreachable. Log it so
+      // it's visible; leave the node untouched (a transient rate-limit
+      // shouldn't mutate catalog state).
+      \Drupal::logger('ood_software')->warning('Cron app update skipped: could not fetch @url for app @nid (repo deleted, private, rate-limited, or invalid URL).', [
+        '@url' => $github_url,
+        '@nid' => $nid,
+      ]);
+    }
+  }
+
+  /**
+   * Materialize declared member apps when a repo has newly gained an apps[].
+   *
+   * Fires only when the root appverse.yml declares subpaths that don't all
+   * exist as member apps yet — i.e. a real pending transition — so the full
+   * (GitHub-hitting) sync runs once, not on every queued app of the repo.
+   *
+   * @param \Drupal\node\NodeInterface $repo
+   *   The parent Repo node.
+   * @param string|null $appverseYmlText
+   *   Raw root appverse.yml text, or NULL if the repo has none.
+   * @param array $repoMetadata
+   *   Repo-level metadata forwarded to the sync.
+   */
+  protected function syncDeclaredMembersIfPending(NodeInterface $repo, ?string $appverseYmlText, array $repoMetadata): void {
+    if ($appverseYmlText === NULL || trim($appverseYmlText) === '') {
+      return;
+    }
+    try {
+      $parsed = Yaml::parse($appverseYmlText);
+    }
+    catch (ParseException) {
+      return;
+    }
+    if (!is_array($parsed)) {
+      return;
+    }
+    $declaredSubpaths = [];
+    foreach (($parsed['apps'] ?? []) as $entry) {
+      $path = is_array($entry) ? trim((string) ($entry['path'] ?? ''), '/') : '';
+      if ($path !== '') {
+        $declaredSubpaths[$path] = TRUE;
+      }
+    }
+    if (!$declaredSubpaths) {
+      // No apps[] — a declared single-app or inferred repo; resolveRepo already
+      // handled it. Nothing to materialize.
+      return;
+    }
+
+    // What member subpaths already exist for this repo?
+    $existingIds = $this->entityTypeManager->getStorage('node')->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('type', 'appverse_app')
+      ->condition('field_appverse_repo', $repo->id())
+      ->execute();
+    $existingSubpaths = [];
+    foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($existingIds) as $app) {
+      $existingSubpaths[trim((string) $app->get('field_appverse_app_subpath')->value, '/')] = TRUE;
+    }
+
+    // Pending transition = a declared subpath with no member yet. (This also
+    // covers the fresh flip where the repo has zero real members.) When the
+    // members already match, do nothing so cron doesn't re-sync every pass.
+    $pending = array_diff_key($declaredSubpaths, $existingSubpaths);
+    if (!$pending) {
+      return;
+    }
+
+    // Fetch every declared subpath's files in one GitHub round-trip, then hand
+    // them to the sync (the fetch lives here, where GitHubService is loaded).
+    $this->githubService->fetchAppSubpaths(array_keys($declaredSubpaths));
+    $subpathFiles = $this->githubService->getAppSubpathFiles();
+
+    $count = $this->repoSync->syncDeclaredRepoFully(
+      $repo,
+      $this->githubService->getRepoUrl(),
+      $parsed,
+      $subpathFiles,
+      $repoMetadata
+    );
+    \Drupal::logger('ood_software')->notice('Cron materialized @count declared member apps for repo @nid (appverse.yml apps[] added after registration).', [
+      '@count' => $count,
+      '@nid' => $repo->id(),
+    ]);
   }
 
 }

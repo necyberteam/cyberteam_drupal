@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
+use Drupal\ood_software\Service\RepoMemberApps;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -26,10 +27,14 @@ final class AppverseHubRequestChangesForm extends FormBase {
 
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
+    protected RepoMemberApps $repoMemberApps,
   ) {}
 
   public static function create(ContainerInterface $container): self {
-    return new self($container->get('entity_type.manager'));
+    return new self(
+      $container->get('entity_type.manager'),
+      $container->get('ood_software.repo_member_apps'),
+    );
   }
 
   public function getFormId(): string {
@@ -100,33 +105,11 @@ final class AppverseHubRequestChangesForm extends FormBase {
 
   /**
    * Drop all currently-published member apps of $repo to draft.
-   *
-   * Mirrors AppverseHubController::cascadeUnpublishMemberApps. Inlined here
-   * to keep this form independent of the controller; both should stay
-   * structurally identical. If the rule grows beyond a simple loop, move
-   * it to a shared service.
    */
   protected function cascadeUnpublishMemberApps(NodeInterface $repo): void {
-    $storage = $this->entityTypeManager->getStorage('node');
-    $memberAppIds = $storage->getQuery()
-      ->accessCheck(FALSE)
-      ->condition('type', 'appverse_app')
-      ->condition('field_appverse_repo', $repo->id())
-      ->condition('status', 1)
-      ->execute();
-
-    $count = 0;
-    foreach ($storage->loadMultiple($memberAppIds) as $app) {
-      if (!$app->hasField('moderation_state')) {
-        continue;
-      }
-      $app->set('moderation_state', 'draft');
-      $app->setNewRevision(TRUE);
-      $app->setRevisionLogMessage('Auto-unpublished via parent Repo request-changes.');
-      $app->save();
-      $count++;
-    }
-
+    $count = $this->repoMemberApps->cascadeModeration(
+      $repo, 'draft', [], 'Auto-unpublished via parent Repo request-changes.', TRUE
+    );
     if ($count > 0) {
       $this->messenger()->addStatus($this->t(
         'Also unpublished @count member apps under @title.',

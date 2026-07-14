@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\node\NodeInterface;
 use Drupal\user\UserInterface;
 use Drupal\ood_software\Service\RepoSyncService;
+use Drupal\ood_software\Service\RepoMemberApps;
 use Drupal\ood_software\Plugin\GitHubService;
 
 /**
@@ -31,6 +32,7 @@ final class AppverseHubController extends ControllerBase {
     protected TimeInterface $time,
     protected ModerationInformationInterface $moderationInformation,
     protected RequestStack $requestStack,
+    protected RepoMemberApps $repoMemberApps,
   ) {}
 
   public static function create(ContainerInterface $container): self {
@@ -40,6 +42,7 @@ final class AppverseHubController extends ControllerBase {
       $container->get('datetime.time'),
       $container->get('content_moderation.moderation_information'),
       $container->get('request_stack'),
+      $container->get('ood_software.repo_member_apps'),
     );
   }
 
@@ -470,31 +473,11 @@ final class AppverseHubController extends ControllerBase {
    * documented on adminPublish().
    */
   protected function cascadePublishToMemberApps(NodeInterface $repo): void {
-    $cascadeStates = ['draft', 'ready_for_review', 'needs_adjustment'];
-    $memberAppIds = $this->entityTypeManager()->getStorage('node')->getQuery()
-      ->accessCheck(FALSE)
-      ->condition('type', 'appverse_app')
-      ->condition('field_appverse_repo', $repo->id())
-      ->execute();
-
-    $count = 0;
-    foreach ($this->entityTypeManager()->getStorage('node')->loadMultiple($memberAppIds) as $app) {
-      if (!$app->hasField('moderation_state')) {
-        continue;
-      }
-      $state = $app->get('moderation_state')->value;
-      if (!in_array($state, $cascadeStates, TRUE)) {
-        continue;
-      }
-      $app->set('moderation_state', 'published');
-      $app->setNewRevision(TRUE);
-      $app->setRevisionLogMessage('Auto-published via parent Repo first-publish.');
-      if (method_exists($app, 'setValidationRequired')) {
-        $app->setValidationRequired(FALSE);
-      }
-      $app->save();
-      $count++;
-    }
+    $count = $this->repoMemberApps->cascadeModeration(
+      $repo, 'published',
+      ['draft', 'ready_for_review', 'needs_adjustment'],
+      'Auto-published via parent Repo first-publish.'
+    );
 
     if ($count > 0) {
       $this->messenger()->addStatus($this->t(
@@ -513,28 +496,9 @@ final class AppverseHubController extends ControllerBase {
    * "published" app would still appear).
    */
   protected function cascadeUnpublishMemberApps(NodeInterface $repo): void {
-    $memberAppIds = $this->entityTypeManager()->getStorage('node')->getQuery()
-      ->accessCheck(FALSE)
-      ->condition('type', 'appverse_app')
-      ->condition('field_appverse_repo', $repo->id())
-      ->condition('status', 1)
-      ->execute();
-
-    $count = 0;
-    foreach ($this->entityTypeManager()->getStorage('node')->loadMultiple($memberAppIds) as $app) {
-      if (!$app->hasField('moderation_state')) {
-        continue;
-      }
-      $app->set('moderation_state', 'draft');
-      $app->setNewRevision(TRUE);
-      $app->setRevisionLogMessage('Auto-unpublished via parent Repo.');
-      if (method_exists($app, 'setValidationRequired')) {
-        $app->setValidationRequired(FALSE);
-      }
-      $app->save();
-      $count++;
-    }
-
+    $count = $this->repoMemberApps->cascadeModeration(
+      $repo, 'draft', [], 'Auto-unpublished via parent Repo.', TRUE
+    );
     if ($count > 0) {
       $this->messenger()->addStatus($this->t(
         'Also unpublished @count member apps under @title.',

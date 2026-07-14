@@ -65,6 +65,41 @@ class RepoSyncService {
   }
 
   /**
+   * Fully sync a declared multi-app repo, creating/updating all member apps.
+   *
+   * resolveRepo() only flips a repo to declared shape; the member apps are
+   * created by a separate applyDeclaredApps + reconcile pass that the Add-Repo
+   * form runs via the Batch API. This is the non-batch equivalent so an
+   * unattended caller (cron, when it detects a repo that gained an apps[]
+   * list) can materialize the members instead of leaving an empty Collection.
+   *
+   * The caller supplies the already-fetched per-subpath files — keeping the
+   * GitHub fetch out of this method matches the codebase's fetch/apply
+   * separation and makes the sync unit-testable without hitting GitHub.
+   *
+   * @param \Drupal\node\NodeInterface $repo
+   *   The Repo node (already resolved to declared shape).
+   * @param string $repoUrl
+   *   Canonical GitHub repo URL.
+   * @param array $parsedRootYml
+   *   The parsed root appverse.yml (must contain a non-empty apps[]).
+   * @param array $subpathFiles
+   *   Per-subpath file contents (from GitHubService::getAppSubpathFiles()).
+   * @param array $repoMetadata
+   *   Repo-level metadata (organization, etc.).
+   *
+   * @return int
+   *   The number of member apps synced.
+   */
+  public function syncDeclaredRepoFully(NodeInterface $repo, string $repoUrl, array $parsedRootYml, array $subpathFiles, array $repoMetadata = []): int {
+    // Create/update all members from the full apps[] list, then reconcile once
+    // (reconcile=TRUE) so any member no longer in apps[] — including a stale
+    // subpath-'' remnant from the repo's pre-declared shape — is removed.
+    $synced = $this->applyDeclaredApps($repo, $parsedRootYml, $subpathFiles, $repoUrl, $repoMetadata, TRUE);
+    return count($synced);
+  }
+
+  /**
    * Load a Repo by its repo URL, or NULL if not yet created.
    */
   protected function loadRepoByUrl(string $repoUrl): ?NodeInterface {
@@ -487,8 +522,13 @@ class RepoSyncService {
 
     foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($existingAppIds) as $existingApp) {
       $subpath = trim((string) $existingApp->get('field_appverse_app_subpath')->value, '/');
-      if ($subpath !== '' && !isset($declaredSubpaths[$subpath])) {
-        $this->logger->info('Deleting App @nid (subpath @sub) — no longer in apps[] of @repo.', [
+      // This method only runs when the repo has a non-empty apps[] list (guarded
+      // above), so a subpath-'' member cannot be a legitimate declared-single-app
+      // or inferred root app here — it's the stale remnant from before the repo
+      // gained its apps[] list, and must be reconciled away like any other
+      // subpath no longer in the canonical set.
+      if (!isset($declaredSubpaths[$subpath])) {
+        $this->logger->info('Deleting App @nid (subpath "@sub") — no longer in apps[] of @repo.', [
           '@nid' => $existingApp->id(),
           '@sub' => $subpath,
           '@repo' => $repoUrl,

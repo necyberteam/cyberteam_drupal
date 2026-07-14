@@ -1302,24 +1302,27 @@ main a:focus:not(.btn) {
   padding: 1.5rem;
   text-align: center;
 }
-.progress__track {
+/* Scope the child element rules to the batch progress card too — .progress__*
+   are Drupal core classes shared by every progress bar (AJAX throbbers, file
+   uploads), so leaving them top-level would restyle progress bars sitewide. */
+.progress[data-drupal-progress] .progress__track {
   height: 16px;
   background: #e9ecef;
   border-radius: 4px;
   overflow: hidden;
   margin: 0.75rem 0;
 }
-.progress__bar {
+.progress[data-drupal-progress] .progress__bar {
   height: 100%;
   background: #0473bd;
   transition: width 0.3s ease;
 }
-.progress__label {
+.progress[data-drupal-progress] .progress__label {
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
 }
-.progress__percentage {
+.progress[data-drupal-progress] .progress__percentage {
   font-weight: 600;
 }
 

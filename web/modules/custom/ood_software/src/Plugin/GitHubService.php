@@ -907,7 +907,13 @@ class GitHubService {
         // Tags: per-app `tags:` declared in the appverse layer. Resolve
         // against the appverse_implementation_tags vocabulary with the
         // same case-insensitive + fuzzy-suggestion pattern as software.
-        $declaredTags = $appverseLayer['tags'] ?? NULL;
+        // Per-app tags come from `implementation_tags:`, NOT `tags:` — root
+        // `tags:` is repo-level DISCOVERY tags (a different vocabulary). The
+        // sync (RepoSyncService::applyDeclaredApp) reads implementation_tags;
+        // the preview must read the same key or it misrepresents what will be
+        // catalogued. (Repo-root shared_implementation_tags additively merged
+        // by the sync are not shown in this per-app preview.)
+        $declaredTags = $appverseLayer['implementation_tags'] ?? NULL;
         $tagsInfo = $this->resolveTaxonomyTermsFromAppverseYml('appverse_implementation_tags', is_array($declaredTags) ? $declaredTags : NULL);
 
         $records[] = [

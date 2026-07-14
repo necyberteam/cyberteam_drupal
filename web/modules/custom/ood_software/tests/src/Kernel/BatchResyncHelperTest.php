@@ -358,6 +358,45 @@ class BatchResyncHelperTest extends KernelTestBase {
   }
 
   /**
+   * syncDeclaredRepoFully materializes members and clears the subpath-'' orphan.
+   *
+   * The transition case behind cron finding #4/#5: a repo that was an inferred
+   * single-app (one member at subpath '') later gains an apps[] list. The full
+   * sync must create the declared members AND reconcile away the stale
+   * subpath-'' remnant, so the repo ends up as a clean monorepo.
+   */
+  public function testSyncDeclaredRepoFullyMaterializesAndReconciles(): void {
+    $sync = $this->container->get('ood_software.repo_sync');
+    $repo = $this->createRepo();
+
+    // Pre-existing inferred single-app member at subpath ''.
+    Node::create([
+      'type' => 'appverse_app',
+      'title' => 'Legacy Root App',
+      'field_appverse_repo' => $repo->id(),
+      'field_appverse_app_subpath' => '',
+    ])->save();
+
+    $parsedRootYml = $this->parsedRootYmlFor(['jupyter', 'rstudio']);
+    $subpathFiles = [
+      'jupyter' => ['manifestYml' => NULL, 'appverseYml' => NULL, 'readme' => ''],
+      'rstudio' => ['manifestYml' => NULL, 'appverseYml' => NULL, 'readme' => ''],
+    ];
+
+    $count = $sync->syncDeclaredRepoFully($repo, $this->repoUrl, $parsedRootYml, $subpathFiles, $this->repoMetadata);
+    self::assertSame(2, $count, 'Both declared member apps were synced.');
+
+    \Drupal::entityTypeManager()->getStorage('node')->resetCache();
+    $apps = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+      'type' => 'appverse_app',
+      'field_appverse_repo' => $repo->id(),
+    ]);
+    $subpaths = array_map(fn($a) => $a->get('field_appverse_app_subpath')->value, $apps);
+    sort($subpaths);
+    self::assertSame(['jupyter', 'rstudio'], $subpaths, 'Declared members exist and the subpath-\'\' orphan is gone.');
+  }
+
+  /**
    * The helper function exists and is callable.
    *
    * Verifies that _ood_software_resync_repo_batch() is defined in

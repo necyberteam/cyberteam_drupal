@@ -294,9 +294,11 @@ final class AddRepoForm extends FormBase {
    */
   private function buildRepoMetadata(): array {
     return [
+      // Title fallback: the GitHub repo name, else the URL's repo segment
+      // (e.g. "bc_jupyter"). Never the repo *description* — that's often a
+      // full sentence and makes a poor node title.
       'name' => $this->github->getRepoName()
-        ?? ($this->github->getRepoDescription() ?: NULL)
-        ?? $this->urlSegment($this->github->getRepoUrl()),
+        ?: $this->urlSegment($this->github->getRepoUrl()),
       'description' => $this->github->getRepoDescription(),
       'organization' => $this->github->getOrganization(),
       'stars' => $this->github->getStars(),
