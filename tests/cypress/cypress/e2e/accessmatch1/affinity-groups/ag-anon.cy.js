@@ -47,21 +47,23 @@ describe('Anonymous user visit the affinity-group page', () => {
       .invoke('attr', 'title')
       .should('eq', 'Login to join');
 
-    // Check ai filter
+    // Check ai filter. Facets disables the checkboxes while its AJAX
+    // request is in flight, so wait for them to be enabled before
+    // interacting, and assert on result content (which retries) instead
+    // of using fixed waits.
     cy.contains('Show more').click();
-    cy.get('#affinity-search-tags-271').check();
-    cy.wait(500); // wait for the filter to apply
+    cy.get('#affinity-search-tags-271').should('not.be.disabled').check();
     cy.contains('Anvil');
     cy.contains('ACCESS Support').should('not.exist');
-    cy.get('#affinity-search-tags-271').uncheck();
-    cy.wait(500); // wait for page to stabilize after uncheck
+    cy.get('#affinity-search-tags-271').should('not.be.disabled').uncheck();
+    // Full list must come back before the search box is used.
+    cy.contains('ACCESS Support');
 
     // Use Search Box — type and trigger BEF auto-submit via input event
-    cy.get('#edit-search-api-fulltext--2').should('be.visible')
+    cy.get('#edit-search-api-fulltext--2').should('be.visible').and('not.be.disabled')
       .clear()
       .type('ACCESS RP Integration')
       .trigger('keyup');
-    cy.wait(500);
     cy.contains('ACCESS RP Integration');
     cy.contains('Anvil').should('not.exist');
     cy.contains('ACCESS Support').should('not.exist');
