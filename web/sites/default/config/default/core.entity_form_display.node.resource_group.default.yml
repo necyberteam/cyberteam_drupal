@@ -25,11 +25,11 @@ dependencies:
     - field.field.node.resource_group.field_rp_support_links
     - node.type.resource_group
   module:
-    - entity_reference_revisions
+    - content_moderation
     - field_group
     - link
-    - path
     - paragraphs
+    - path
     - text
 third_party_settings:
   field_group:
@@ -250,6 +250,13 @@ content:
     settings:
       placeholder_url: ''
       placeholder_title: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
