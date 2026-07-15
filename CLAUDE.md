@@ -30,6 +30,10 @@ vendor/bin/phpcs --standard=Drupal,DrupalPractice --extensions=php,module,inc,in
 vendor/bin/phpstan analyse -l 0 docroot/modules/custom/<module>
 # Run PHPUnit for a specific module
 cd docroot/modules/custom/<module> && ../../../../vendor/bin/phpunit
+
+# When changing composer patches, be sure to run:
+composer patches-relock
+composer patches-repatch
 ```
 # General Instructions
 - do not commit any code, leave all git work to the developers
