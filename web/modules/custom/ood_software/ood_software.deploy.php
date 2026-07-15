@@ -1260,3 +1260,49 @@ function ood_software_deploy_10013_singularize_app_types() {
   }
   return t('Singularized @count app type terms.', ['@count' => $count]);
 }
+
+/**
+ * Backfill inferred repos for legacy Apps with NULL field_appverse_repo.
+ *
+ * Creates one appverse_repo per legacy appverse_app that has no
+ * field_appverse_repo yet, links the App to it, and lets RepoSyncService
+ * populate the repo's metadata. Chunked via $sandbox to bound memory.
+ *
+ * This is a deploy hook (not an update or post_update hook) on purpose: the
+ * backfill queries field_appverse_repo and field_repo_url and writes the whole
+ * field_repo_* family, all of which are defined only in config/default and are
+ * created by config import. In `drush deploy`, deploy hooks run in the final
+ * deploy:hook step — after config:import — so every field exists here. Running
+ * this during the update phase (update_10503, or a post_update hook) was too
+ * early and failed with "getColumns() on false" for every App.
+ */
+function ood_software_deploy_10014_backfill_inferred_repos(&$sandbox) {
+  $entityTypeManager = \Drupal::entityTypeManager();
+
+  if (!isset($sandbox['progress'])) {
+    $sandbox['progress'] = 0;
+    $sandbox['ids'] = array_values($entityTypeManager->getStorage('node')->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('type', 'appverse_app')
+      ->notExists('field_appverse_repo')
+      ->execute());
+    $sandbox['total'] = count($sandbox['ids']);
+  }
+
+  if ($sandbox['total'] === 0) {
+    $sandbox['#finished'] = 1;
+    return t('No Apps needed backfill.');
+  }
+
+  $chunk = array_slice($sandbox['ids'], $sandbox['progress'], 25);
+  $context = ['results' => []];
+  \Drupal\ood_software\Commands\AppverseBackfillCommands::processChunk($chunk, $context);
+
+  $sandbox['progress'] += count($chunk);
+  $sandbox['#finished'] = $sandbox['progress'] / max(1, $sandbox['total']);
+
+  return t('Backfilled @progress of @total Apps.', [
+    '@progress' => $sandbox['progress'],
+    '@total' => $sandbox['total'],
+  ]);
+}
