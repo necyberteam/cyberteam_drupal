@@ -12,12 +12,12 @@ dependencies:
     - field.field.node.appverse_app.field_appverse_organization
     - field.field.node.appverse_app.field_appverse_readme
     - field.field.node.appverse_app.field_appverse_software_implemen
+    - field.field.node.appverse_app.field_appverse_stars
     - field.field.node.appverse_app.field_domain_access
     - field.field.node.appverse_app.field_domain_all_affiliates
     - field.field.node.appverse_app.field_domain_source
     - field.field.node.appverse_app.field_license
     - node.type.appverse_app
-    - workflows.workflow.appverse_editorial
   module:
     - content_moderation
     - field_group
@@ -143,6 +143,13 @@ content:
       match_limit: 10
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
