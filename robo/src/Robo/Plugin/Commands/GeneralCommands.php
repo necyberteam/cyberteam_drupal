@@ -194,7 +194,7 @@ GITHUB_TOKEN=$token'>.env");
     foreach ($security_updates as $value) {
       $name = $value[0]['packageName'];
       $this->say("Sending update to GitHub composer action for $name");
-      $this->_exec("gh workflow run updates.yml --ref main --repo github.com/necyberteam/cyberteam_drupal -f drupal_update=$name");
+      $this->_exec("gh workflow run updates.yml --ref main --repo github.com/connectci-platform/portal -f drupal_update=$name");
     }
   }
 
@@ -637,6 +637,55 @@ GITHUB_TOKEN=$token'>.env");
     $this->_exec("cd $worktree && git update-index --assume-unchanged .ddev/config.yaml");
 
     $this->_exec("cd $worktree && vendor/bin/robo ddevsetup ''");
+  }
+
+  /**
+   * Reset .ddev/config.yaml in a worktree to its correct state after a merge or rebase.
+   *
+   * @command tree:config
+   * @description Resets the worktree's .ddev/config.yaml with the correct project name and domain alias prefixes, then marks it assume-unchanged.
+   */
+  public function configTree() {
+    $branch = trim(shell_exec('git rev-parse --abbrev-ref HEAD'));
+    if (empty($branch) || $branch === 'HEAD') {
+      $this->yell("Could not detect current branch.");
+      return;
+    }
+
+    $sitename = strtolower($branch);
+    $sitename = preg_replace('/[^a-z0-9]+/', '-', $sitename);
+    $sitename = trim($sitename, '-');
+    if (empty($sitename)) {
+      $sitename = 'site';
+    }
+
+    $config_path = ".ddev/config.yaml";
+    if (!file_exists($config_path)) {
+      $this->yell("config.yaml not found at $config_path.");
+      return;
+    }
+
+    // Temporarily allow changes so git checkout can overwrite the file.
+    $this->_exec("git update-index --no-assume-unchanged .ddev/config.yaml");
+    $this->_exec("git checkout HEAD -- .ddev/config.yaml");
+
+    $config_file = file_get_contents($config_path);
+    $config_file = str_replace('name: cyberteam-drupal', 'name: ' . $sitename, $config_file);
+    $config_file = preg_replace_callback(
+      '/^(additional_hostnames:\s*\n)((?:\s+-\s+.+\n)*)/m',
+      function ($matches) use ($sitename) {
+        if (empty($matches[2])) {
+          return $matches[0];
+        }
+        $lines = preg_replace('/^(\s+-\s+)(.+)$/m', '${1}' . $sitename . '.${2}', rtrim($matches[2]));
+        return $matches[1] . $lines . "\n";
+      },
+      $config_file
+    );
+    file_put_contents($config_path, $config_file);
+
+    $this->_exec("git update-index --assume-unchanged .ddev/config.yaml");
+    $this->say("config.yaml reset for branch '$branch' (site: $sitename).");
   }
 
   /**
