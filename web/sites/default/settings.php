@@ -482,14 +482,19 @@ if (($env === 'live') && !empty($_GET['f'])) {
 }
 
 // Emergency multi-facet kill switch (2026-07-01 facet-crawl outage).
-// While the attack is active, return a cheap 503 for anonymous multi-facet
-// requests (2+ facets) before Drupal bootstraps — this is the expensive,
-// uncacheable URL space the bots walk. Real single-facet filtering still
-// works. Controlled by an env var so it can be flipped off WITHOUT a deploy:
+// While the attack is active, return a cheap 503 for anonymous requests with
+// many facets (3+) before Drupal bootstraps — this is the expensive,
+// uncacheable URL space the bots walk. Real single- and two-facet filtering
+// still works: those fall through to the solvable Turnstile challenge below,
+// so legitimate links (e.g. a two-facet URL shared in an email) let a human
+// prove themselves once instead of hitting a dead-end 503. The threshold was
+// raised from 2 to 3 on 2026-07-13 after a CCMNet affinity-group email sent a
+// two-facet mentorships link that the 503 was blocking for real recipients.
+// Controlled by an env var so it can be flipped off WITHOUT a deploy:
 // unset FACET_KILL_SWITCH (or set to '0') once traffic subsides.
 if ($env === 'live'
   && getenv('FACET_KILL_SWITCH') !== '0'
-  && isset($_GET['f']) && is_array($_GET['f']) && count($_GET['f']) >= 2) {
+  && isset($_GET['f']) && is_array($_GET['f']) && count($_GET['f']) >= 3) {
   // Exempt genuine logged-in users only: a real Drupal session cookie is
   // SESS/SSESS followed by a 32-char hex id. Do NOT exempt on mere presence of
   // any SESS* name (that would let our own SESSturnstileverified cookie, or a
