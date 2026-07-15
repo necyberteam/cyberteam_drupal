@@ -198,58 +198,24 @@ function ood_software_update_10502() {
 }
 
 /**
- * Backfill inferred repos for legacy Apps with NULL field_appverse_repo.
+ * Backfill inferred repos for legacy Apps (moved to post_update).
  *
- * Sequence: runs after 10502 (workflow attachment + moderation_state
- * backfill) so newly-created repo nodes get the workflow's default
- * state instead of NULL. Calls processChunk in chunks of 25 via a
- * sandbox to bound memory.
+ * The inferred-repo backfill used to run here, during updb. That is too
+ * early: the backfill creates appverse_repo nodes and writes the full
+ * field_repo_* family (field_repo_url, field_repo_description,
+ * field_repo_organization, …), and those fields exist only in
+ * config/default — i.e. they are created by `drush cim`, which runs AFTER
+ * updb in `drush deploy`. Querying/writing them here failed with
+ * "Call to a member function getColumns() on false" for every App because
+ * the field storage did not exist yet.
+ *
+ * The backfill now lives in ood_software_post_update_backfill_inferred_repos(),
+ * which runs after cim (deploy:hook step) when every field_repo_* field is
+ * present. This hook is intentionally a no-op so its schema number stays
+ * consumed on sites that already ran the old version.
  */
-function ood_software_update_10503(&$sandbox) {
-  $entityTypeManager = \Drupal::entityTypeManager();
-  $source = new \Drupal\Core\Config\FileStorage(
-    \Drupal::service('extension.list.module')->getPath('ood_software') . '/config/install'
-  );
-
-  // Ensure field_appverse_repo is attached to appverse_app before
-  // the entity query below references it.
-  if (!\Drupal\field\Entity\FieldStorageConfig::loadByName('node', 'field_appverse_repo')) {
-    \Drupal\field\Entity\FieldStorageConfig::create(
-      $source->read('field.storage.node.field_appverse_repo')
-    )->save();
-  }
-  if (!\Drupal\field\Entity\FieldConfig::loadByName('node', 'appverse_app', 'field_appverse_repo')) {
-    \Drupal\field\Entity\FieldConfig::create(
-      $source->read('field.field.node.appverse_app.field_appverse_repo')
-    )->save();
-  }
-
-  if (!isset($sandbox['progress'])) {
-    $sandbox['progress'] = 0;
-    $sandbox['ids'] = array_values($entityTypeManager->getStorage('node')->getQuery()
-      ->accessCheck(FALSE)
-      ->condition('type', 'appverse_app')
-      ->notExists('field_appverse_repo')
-      ->execute());
-    $sandbox['total'] = count($sandbox['ids']);
-  }
-
-  if ($sandbox['total'] === 0) {
-    $sandbox['#finished'] = 1;
-    return t('No Apps needed backfill.');
-  }
-
-  $chunk = array_slice($sandbox['ids'], $sandbox['progress'], 25);
-  $context = ['results' => []];
-  \Drupal\ood_software\Commands\AppverseBackfillCommands::processChunk($chunk, $context);
-
-  $sandbox['progress'] += count($chunk);
-  $sandbox['#finished'] = $sandbox['progress'] / max(1, $sandbox['total']);
-
-  return t('Backfilled @progress of @total Apps.', [
-    '@progress' => $sandbox['progress'],
-    '@total' => $sandbox['total'],
-  ]);
+function ood_software_update_10503() {
+  return t('Inferred-repo backfill moved to post_update (runs after cim).');
 }
 
 /**
