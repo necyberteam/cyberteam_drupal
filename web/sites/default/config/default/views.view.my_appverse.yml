@@ -654,6 +654,7 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           sub_handler: 'default:node'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles:
               appverse_software: appverse_software
@@ -662,11 +663,19 @@ display:
               direction: ASC
             auto_create: false
             auto_create_bundle: ''
-          widget: autocomplete
       filter_groups:
         operator: AND
         groups:
           1: AND
+      defaults:
+        empty: false
+        access: false
+        title: false
+        pager: false
+        relationships: false
+        filters: false
+        filter_groups: false
+        path: false
       relationships:
         reverse__node__field_appverse_repo:
           id: reverse__node__field_appverse_repo
@@ -678,15 +687,6 @@ display:
           entity_type: node
           plugin_id: entity_reverse
           required: false
-      defaults:
-        empty: false
-        access: false
-        title: false
-        pager: false
-        filters: false
-        filter_groups: false
-        path: false
-        relationships: false
       display_extenders: {  }
       path: appverse/manage-repos
     cache_metadata:
@@ -745,17 +745,12 @@ display:
           break_phrase: false
           not: false
           target_entity_type: user
-      # Drop the member-apps relationship inherited from the default
-      # display. The admin display uses it for the software filter; the
-      # user display has no filter that needs it, and the LEFT JOIN
-      # would produce one row per member app (a repo with N apps
-      # would render N duplicate cards).
-      relationships: {  }
       defaults:
         title: false
+        relationships: false
         arguments: false
         path: false
-        relationships: false
+      relationships: {  }
       display_extenders: {  }
       path: user/%user/my-appverse
     cache_metadata:
