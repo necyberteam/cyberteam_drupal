@@ -1,0 +1,27 @@
+uuid: 40c9bdb2-81cd-4978-8479-46786086979f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.eventinstance.field_events_slide_deck
+    - recurring_events.eventinstance_type.default
+  module:
+    - file
+id: eventinstance.default.field_events_slide_deck
+field_name: field_events_slide_deck
+entity_type: eventinstance
+bundle: default
+label: 'PDF Slide Deck'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: events_pdf_slides
+  file_extensions: pdf
+  max_filesize: ''
+  description_field: false
+field_type: file
