@@ -112,9 +112,10 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
 
   it("renders queue specs table", () => {
     cy.contains("h2", "Jobs");
-    cy.get(".rp-queue-specs table tbody tr").should("have.length", 4);
+    cy.get(".rp-queue-specs table tbody tr").should("have.length", 5);
     cy.contains("td", "gpu-standard");
     cy.contains("td", "gpu-large");
+    cy.contains("td", "debug");
     cy.contains("td", "cpu-shared");
     cy.contains("td", "gpu-cloud");
   });
@@ -144,19 +145,25 @@ describe("Resource Documentation Page — Alpha (full data)", () => {
   });
 
   it("renders the max wall time on the wall-time cell", () => {
-    // The wall-time limit renders as text below the sparkline ("limit Nh", in
-    // hours) plus a red ceiling line inside the SVG. Numbers (range/avg/limit)
-    // live in the text row, not inside the chart.
-    // gpu-standard: limit 48h, drawn as a red line + "limit 48h" text.
+    // The wall-time limit renders as text below the sparkline ("limit <chip>",
+    // compact minutes-aware form) plus a red ceiling line inside the SVG.
+    // Numbers (range/avg/limit) live in the text row, not inside the chart.
+    // gpu-standard: 2880 min -> "limit 48h", drawn as a red line + text.
     cy.get(".rp-queue-specs table tbody tr").contains("td", "gpu-standard")
       .parent("tr").within(() => {
         cy.contains("limit 48h");
         cy.get("svg line[stroke='#c0392b']").should("exist"); // red ceiling line
         cy.get("svg polyline").should("exist"); // trend not flattened
       });
-    // gpu-large: limit 120h (the 30-day usage exceeds it — line drawn, text shown).
+    // gpu-large: 7200 min -> "limit 120h" (the 30-day usage exceeds it — line drawn, text shown).
     cy.get(".rp-queue-specs table tbody tr").contains("td", "gpu-large")
       .parent("tr").should("contain", "limit 120h");
+    // debug: 30 min -> sub-hour "limit 30m" chip + red line inside the SVG.
+    cy.get(".rp-queue-specs table tbody tr").contains("td", "debug")
+      .parent("tr").within(() => {
+        cy.contains("limit 30m");
+        cy.get("svg line[stroke='#c0392b']").should("exist"); // red ceiling line
+      });
     // cpu-shared has no limit set -> no "limit" text, no red line.
     cy.get(".rp-queue-specs table tbody tr").contains("td", "cpu-shared")
       .parent("tr").within(() => {

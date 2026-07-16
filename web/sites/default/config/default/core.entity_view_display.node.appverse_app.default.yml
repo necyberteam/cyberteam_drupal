@@ -5,10 +5,13 @@ dependencies:
   config:
     - field.field.node.appverse_app.body
     - field.field.node.appverse_app.field_add_implementation_tags
+    - field.field.node.appverse_app.field_appverse_app_subpath
     - field.field.node.appverse_app.field_appverse_app_type
+    - field.field.node.appverse_app.field_appverse_repo
     - field.field.node.appverse_app.field_appverse_github_url
     - field.field.node.appverse_app.field_appverse_lastupdated
     - field.field.node.appverse_app.field_appverse_license_link
+    - field.field.node.appverse_app.field_appverse_maintainer_name
     - field.field.node.appverse_app.field_appverse_organization
     - field.field.node.appverse_app.field_appverse_readme
     - field.field.node.appverse_app.field_appverse_software_implemen
@@ -38,6 +41,30 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: -20
+    region: content
+  field_appverse_app_subpath:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 99
+    region: content
+  field_appverse_repo:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 98
+    region: content
+  field_appverse_maintainer_name:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
     region: content
   field_add_implementation_tags:
     type: entity_reference_label
@@ -119,17 +146,15 @@ content:
     third_party_settings: {  }
     weight: 108
     region: content
-  flag_appverse_apps:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 10
-    region: content
   links:
     settings: {  }
     third_party_settings: {  }
     weight: 100
     region: content
 hidden:
+  flag_appverse_apps: true
+  field_appverse_app_validation_er: true
+  field_appverse_app_validation_st: true
   field_appverse_stars: true
   field_domain_access: true
   field_domain_all_affiliates: true

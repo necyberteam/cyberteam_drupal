@@ -106,7 +106,7 @@ describe("Resource Documentation API", () => {
       expect(project.summary).to.eq("10 TB, 5,000,000 files");
 
       expect(body.queue_specs).to.be.an("array");
-      expect(body.queue_specs).to.have.length(4);
+      expect(body.queue_specs).to.have.length(5);
       // Structured queue fields stay raw and typed (GB), with a derived summary.
       const gpuStandard = body.queue_specs[0];
       expect(gpuStandard.name).to.eq("gpu-standard");
@@ -137,10 +137,15 @@ describe("Resource Documentation API", () => {
         "NVIDIA H100 (80 GB vRAM), 32-core AMD EPYC 9004, 384 GB RAM"
       );
 
-      // Max wall time: gpu-standard has a limit (fixture sets 48h); the API
-      // exposes raw hours + a friendly display string.
+      // Max wall time: the field stores minutes; the API exposes hours (possibly
+      // fractional) under the original key plus a friendly display string.
+      // gpu-standard: 2880 min = 48 hours.
       expect(gpuStandard.max_wall_time_hours).to.eq(48);
       expect(gpuStandard.max_wall_time_display).to.eq("48 hours");
+      // debug: 30 min = 0.5 hours, sub-hour display.
+      const debug = body.queue_specs.find((q) => q.name === "debug");
+      expect(debug.max_wall_time_hours).to.eq(0.5);
+      expect(debug.max_wall_time_display).to.eq("30 minutes");
       // cpu-shared has no limit -> null.
       expect(cpuShared.max_wall_time_hours).to.be.null;
       expect(cpuShared.max_wall_time_display).to.be.null;

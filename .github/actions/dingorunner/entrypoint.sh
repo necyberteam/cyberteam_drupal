@@ -124,10 +124,10 @@ then
   git config --get remote.origin.url
 
   echo 'Remove some dev files/folders'
-  # Remove all .txt files.
-  find . -type f -name "*.txt" -delete
-  # Remove all .github directories.
-  find . -mindepth 1 -type f -name "*.txt" -not -path "*/.github/*" -delete
+  # Remove all .txt files EXCEPT robots.txt — deleting robots.txt left prod
+  # with a 404 robots.txt and unrestricted crawling of faceted pages.
+  find . -type f -name "*.txt" -not -name "robots.txt" -delete
+  find . -mindepth 1 -type f -name "*.txt" -not -path "*/.github/*" -not -name "robots.txt" -delete
   rm -fR .devcontainer
   rm -fR .editorconfig
   rm -fR .github
@@ -160,7 +160,7 @@ then
   storeKey
   git branch $drupal_update
   git checkout $drupal_update
-  git remote set-url origin "https://$username:$gh_token@github.com/necyberteam/cyberteam_drupal.git"
+  git remote set-url origin "https://$username:$gh_token@github.com/connectci-platform/portal.git"
   git config --global user.email \"$email\"
   git config --global user.name \"$username\"
   composer config -g github-oauth.github.com $gh_token
