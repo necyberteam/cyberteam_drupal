@@ -49,8 +49,11 @@ describe('AddRepoForm — Phase 1.9 dedicated submit form', () => {
       followRedirect: false,
       failOnStatusCode: false,
     }).then((response) => {
-      // 403 directly, or 302 to login (Drupal's default for anonymous access denied).
-      expect([302, 403]).to.include(response.status);
+      // 403 directly, or a redirect to login. r4032login handles the
+      // anonymous access-denied redirect here and is configured with
+      // default_redirect_code: 307 (see r4032login.settings.yml), so accept
+      // 307 alongside Drupal's plain 302.
+      expect([302, 307, 403]).to.include(response.status);
     });
   });
 

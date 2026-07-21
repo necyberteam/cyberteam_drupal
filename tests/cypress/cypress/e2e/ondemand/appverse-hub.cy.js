@@ -76,7 +76,7 @@ function seedRepo(opts) {
       foreach ($storage->loadMultiple($apps) as $app) { $app->delete(); }
       $old->delete();
     }
-    // Drop any other stale "Test Notebooks*" Collection (covers casing/renaming drift).
+    /* Drop any other stale "Test Notebooks*" Collection (covers casing/renaming drift). */
     $staleIds = $storage->getQuery()->accessCheck(FALSE)
       ->condition('type', 'appverse_repo')
       ->condition('title', 'Test Notebooks%', 'LIKE')
@@ -89,7 +89,7 @@ function seedRepo(opts) {
       foreach ($storage->loadMultiple($staleApps) as $app) { $app->delete(); }
       $stale->delete();
     }
-    // Drop orphan apps from prior runs (no Collection reference).
+    /* Drop orphan apps from prior runs (no Collection reference). */
     $orphanIds = $storage->getQuery()->accessCheck(FALSE)
       ->condition('type', 'appverse_app')
       ->notExists('field_appverse_repo')
@@ -125,6 +125,11 @@ function seedRepo(opts) {
   // glob expansion and aborts before drush runs. drush php:script reads
   // from stdin when its path argument is `-`, so we can pipe a fully
   // single-quoted heredoc-equivalent and never invoke globbing.
+  //
+  // Every comment inside `phpEval` MUST be `/* */`. Collapsing to one line
+  // turns a `//` comment into one that swallows the entire remainder of the
+  // script — drush then exits 0 with empty stdout and the seed silently
+  // no-ops instead of failing loudly.
   const oneLiner = phpEval.replace(/\n\s*/g, ' ');
   // POSIX-shell-safe single-quote escape: close, escaped-quote, reopen.
   const shellEscaped = oneLiner.replace(/'/g, `'\\''`);
