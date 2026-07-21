@@ -1,0 +1,25 @@
+Add the missing Drupal\Core\Url import to WidgetPluginBase.
+
+The facets.block.ajax branch in WidgetPluginBase::build() calls
+`new Url($route_name, $route_params, $options)`, but the file only
+imports Drupal\Core\Link. PHP therefore resolves the unqualified name
+against the current namespace and fatals with:
+
+  Error: Class "Drupal\facets\Widget\Url" not found in
+  Drupal\facets\Widget\WidgetPluginBase->Drupal\facets\Widget\{closure}()
+  (line 63 of src/Widget/WidgetPluginBase.php)
+
+Present in every 2.0.x release including 2.0.10 and 2.0.x HEAD. The
+block was removed outright in 3.0.x, so there is nothing to backport.
+
+diff --git a/src/Widget/WidgetPluginBase.php b/src/Widget/WidgetPluginBase.php
+--- a/src/Widget/WidgetPluginBase.php
++++ b/src/Widget/WidgetPluginBase.php
+@@ -7,6 +7,7 @@
+ use Drupal\Core\Form\FormStateInterface;
+ use Drupal\Core\Link;
+ use Drupal\Core\Plugin\PluginBase;
++use Drupal\Core\Url;
+ use Drupal\facets\FacetInterface;
+ use Drupal\facets\Result\Result;
+ use Drupal\facets\Result\ResultInterface;
