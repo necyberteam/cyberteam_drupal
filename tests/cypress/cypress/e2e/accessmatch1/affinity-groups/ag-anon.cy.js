@@ -84,7 +84,11 @@ describe('Anonymous user visit the affinity-group page', () => {
     // retries until the final full-string search lands — before checking that
     // the partial-match groups are gone. Otherwise we race the debounce and
     // assert against a partial-query result set.
-    cy.get('#edit-search-api-fulltext--2').should('be.visible').and('not.be.disabled')
+    // Target the input by its stable data-drupal-selector, NOT the id: the id
+    // carries a Drupal form-build counter suffix (--2) that increments when the
+    // exposed form is rebuilt by the facet AJAX above, so a hardcoded
+    // #edit-search-api-fulltext--2 stops matching after those interactions.
+    cy.get('[data-drupal-selector="edit-search-api-fulltext"]').should('be.visible').and('not.be.disabled')
       .clear()
       // 30ms/keystroke: Cypress 15's faster default typing let the debounced
       // BEF auto-submit fire on a partial query; this keeps keystrokes paced so
