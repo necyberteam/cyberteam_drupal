@@ -75,6 +75,15 @@ describe('Anonymous user visit the affinity-group page', () => {
       .should('not.be.disabled').uncheck();
     // Full list must come back before the search box is used.
     cy.get('.view-affinity-group-search table.views-table').contains('ACCESS Support');
+    // Wait for the facet AJAX to FULLY settle before touching the search box.
+    // Facets disables its checkboxes (input disabled + a .facets-disabled class
+    // on the .facets-widget-checkbox wrapper) for the duration of the Views
+    // AJAX that re-renders both the results and the exposed form; both clearing
+    // is the signal that the re-render is done. Without this, the search input
+    // can still be mid-detach when we reach it, and cy.type() fails
+    // intermittently with "requires a valid typeable element".
+    cy.get('#affinity-search-tags-271:visible').should('not.be.disabled');
+    cy.get('.facets-widget-checkbox:visible').should('not.have.class', 'facets-disabled');
 
     // Use Search Box — type and trigger BEF auto-submit via input event.
     // The auto-submit is debounced, so an intermediate keystroke (e.g. the
@@ -84,8 +93,22 @@ describe('Anonymous user visit the affinity-group page', () => {
     // retries until the final full-string search lands — before checking that
     // the partial-match groups are gone. Otherwise we race the debounce and
     // assert against a partial-query result set.
-    cy.get('#edit-search-api-fulltext--2').should('be.visible').and('not.be.disabled')
-      .clear()
+    // Target the input by its stable data-drupal-selector, NOT the id: the id
+    // carries a Drupal form-build counter suffix (--2) that increments when the
+    // exposed form is rebuilt by the facet AJAX above, so a hardcoded
+    // #edit-search-api-fulltext--2 stops matching after those interactions.
+    //
+    // The facet uncheck fires a Views AJAX that re-renders the exposed form,
+    // detaching and replacing the search input. Chaining .clear().type()
+    // straight off a single cy.get() races that re-render: Cypress can resolve
+    // the old (about-to-detach) element and then fail with "requires a valid
+    // typeable element". So re-query the input right before each interaction
+    // (each cy.get retries until it resolves the current, attached input) and
+    // assert it is not detached before typing.
+    const SEARCH_INPUT = '[data-drupal-selector="edit-search-api-fulltext"]';
+    cy.get(SEARCH_INPUT).should('be.visible').and('not.be.disabled');
+    cy.get(SEARCH_INPUT).clear();
+    cy.get(SEARCH_INPUT)
       // 30ms/keystroke: Cypress 15's faster default typing let the debounced
       // BEF auto-submit fire on a partial query; this keeps keystrokes paced so
       // the submit settles on the full string (the settled-state asserts below
