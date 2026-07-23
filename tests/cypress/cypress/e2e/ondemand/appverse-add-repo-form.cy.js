@@ -49,8 +49,12 @@ describe('AddRepoForm — Phase 1.9 dedicated submit form', () => {
       followRedirect: false,
       failOnStatusCode: false,
     }).then((response) => {
-      // 403 directly, or 302 to login (Drupal's default for anonymous access denied).
-      expect([302, 403]).to.include(response.status);
+      // Anonymous access is denied by bouncing to the login form: the custom
+      // access check redirects anon to /user/login?redirect=/appverse/add-repo
+      // with a 307 Temporary Redirect (preserving the request method).
+      expect(response.status).to.eq(307);
+      expect(response.headers.location || response.redirectedToUrl)
+        .to.match(/\/user\/login/);
     });
   });
 
