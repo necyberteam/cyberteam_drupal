@@ -7,6 +7,8 @@ dependencies:
     - field.storage.eventinstance.field_video
     - search_api.index.events
   module:
+    - access_events
+    - access_misc
     - better_exposed_filters
     - datetime_range
     - rest
@@ -7599,6 +7601,33 @@ display:
           use_highlighting: false
           multi_type: separator
           multi_separator: ', '
+        registration_enabled:
+          id: registration_enabled
+          table: search_api_index_events
+          field: registration_enabled
+          relationship: none
+          group_type: group
+          plugin_id: search_api_field
+          label: registration_enabled
+          exclude: false
+        registration_capacity:
+          id: registration_capacity
+          table: search_api_index_events
+          field: registration_capacity
+          relationship: none
+          group_type: group
+          plugin_id: search_api_field
+          label: registration_capacity
+          exclude: false
+        registration_has_waitlist:
+          id: registration_has_waitlist
+          table: search_api_index_events
+          field: registration_has_waitlist
+          relationship: none
+          group_type: group
+          plugin_id: search_api_field
+          label: registration_has_waitlist
+          exclude: false
       pager:
         type: full
         options:

@@ -1,3 +1,4 @@
+uuid: 93d301d7-c97a-40b8-9f8a-2b98fee7cbd7
 langcode: en
 status: true
 dependencies:
@@ -35,6 +36,70 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
+  field_repo_docs_url:
+    type: link
+    label: inline
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: _blank
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_repo_last_synced:
+    type: datetime_default
+    label: inline
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_repo_maintainer_name:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_repo_maintainer_url:
+    type: link
+    label: inline
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: _blank
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_repo_organization:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_repo_readme:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_repo_tags:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
   field_repo_url:
     type: link
     label: inline
@@ -59,70 +124,6 @@ content:
     third_party_settings: {  }
     weight: 2
     region: content
-  field_repo_docs_url:
-    type: link
-    label: inline
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: _blank
-    third_party_settings: {  }
-    weight: 3
-    region: content
-  field_repo_organization:
-    type: entity_reference_label
-    label: inline
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 4
-    region: content
-  field_repo_maintainer_name:
-    type: string
-    label: inline
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 5
-    region: content
-  field_repo_maintainer_url:
-    type: link
-    label: inline
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: _blank
-    third_party_settings: {  }
-    weight: 6
-    region: content
-  field_repo_tags:
-    type: entity_reference_label
-    label: inline
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 7
-    region: content
-  field_repo_last_synced:
-    type: datetime_default
-    label: inline
-    settings:
-      format_type: medium
-      timezone_override: ''
-    third_party_settings: {  }
-    weight: 8
-    region: content
-  field_repo_readme:
-    type: text_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 10
-    region: content
   links:
     settings: {  }
     third_party_settings: {  }
@@ -136,4 +137,5 @@ hidden:
   field_repo_stars: true
   field_repo_validation_er: true
   field_repo_validation_st: true
+  langcode: true
   search_api_excerpt: true
