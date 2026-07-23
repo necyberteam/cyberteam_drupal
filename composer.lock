@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e5847a37b78089b6a02b8bd1ea8fd18",
+    "content-hash": "5f725e6f5634e8e1f3f378b0b946e1f4",
     "packages": [
         {
             "name": "access/drupal_seamless_cilogon",
@@ -679,7 +679,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/connectci-platform/access.git",
-                "reference": "9349d98d455c98b20119ca8ac840333423cbd91a"
+                "reference": "98939718c7718b2f10224376164098b3f75c7c70"
             },
             "require": {
                 "firebase/php-jwt": "^6.0 || ^7.0",
@@ -702,7 +702,7 @@
                 "issues": "https://github.com/connectci-platform/access/issues",
                 "source": "https://github.com/connectci-platform/access"
             },
-            "time": "2026-07-13T21:14:27+00:00"
+            "time": "2026-07-22T22:01:17+00:00"
         },
         {
             "name": "connectci/asp-theme",
@@ -710,7 +710,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/connectci-platform/aspTheme.git",
-                "reference": "9ce578ab944fb42224abd7d66e4c7f2f570a3f72"
+                "reference": "709a260b8df44e546efc0b33916e74cb271078b7"
             },
             "default-branch": true,
             "type": "drupal-theme",
@@ -728,7 +728,7 @@
                 "issues": "https://github.com/connectci-platform/aspTheme/issues",
                 "source": "https://github.com/connectci-platform/aspTheme"
             },
-            "time": "2026-07-13T19:54:25+00:00"
+            "time": "2026-07-22T22:02:26+00:00"
         },
         {
             "name": "connectci/campus-champions-theme",
@@ -11676,7 +11676,7 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.12.3",
+            "version": "7.12.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
@@ -11784,7 +11784,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.12.3"
+                "source": "https://github.com/guzzle/guzzle/tree/7.12"
             },
             "funding": [
                 {
@@ -18993,7 +18993,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/connectci-platform/amp_dev.git",
-                "reference": "7a1c3191643d1b8e9fb8fd39c89d85f5329b644b"
+                "reference": "5e6c28d61410d1dea67ec84aacaab9eebc004bba"
             },
             "default-branch": true,
             "type": "drupal-custom-module",
@@ -19005,7 +19005,7 @@
             "keywords": [
                 "Drupal"
             ],
-            "time": "2026-07-13T01:29:11+00:00"
+            "time": "2026-07-21T14:38:50+00:00"
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
@@ -20740,20 +20740,20 @@
         },
         {
             "name": "palantirnet/drupal-rector",
-            "version": "0.15.1",
+            "version": "0.20.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/palantirnet/drupal-rector.git",
-                "reference": "85382a67a07b928f5a963d94fbca11d7be33d6ca"
+                "reference": "50c742a34f89e4202056e433bbb476ca1fdf3797"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/palantirnet/drupal-rector/zipball/85382a67a07b928f5a963d94fbca11d7be33d6ca",
-                "reference": "85382a67a07b928f5a963d94fbca11d7be33d6ca",
+                "url": "https://api.github.com/repos/palantirnet/drupal-rector/zipball/50c742a34f89e4202056e433bbb476ca1fdf3797",
+                "reference": "50c742a34f89e4202056e433bbb476ca1fdf3797",
                 "shasum": ""
             },
             "require": {
-                "rector/rector": "~0.15.2",
+                "rector/rector": "^1.0",
                 "webflo/drupal-finder": "^1.2"
             },
             "replace": {
@@ -20762,13 +20762,13 @@
             },
             "require-dev": {
                 "cweagans/composer-patches": "^1.7.2",
-                "php": "^8.1",
+                "friendsofphp/php-cs-fixer": "^3.58",
+                "php": "^8.2",
                 "phpstan/extension-installer": "^1.1",
                 "phpstan/phpstan": "^1.0",
                 "phpstan/phpstan-deprecation-rules": "^1.0",
                 "phpunit/phpunit": "^10.0",
-                "rector/rector-src": "dev-main",
-                "symfony/yaml": "^5 || ^6",
+                "symfony/yaml": "^5 || ^6 || ^7",
                 "symplify/vendor-patches": "^11.0"
             },
             "type": "library",
@@ -20800,6 +20800,14 @@
                 {
                     "name": "Matt Glaman",
                     "email": "nmd.matt@gmail.com"
+                },
+                {
+                    "name": "Björn Brala",
+                    "email": "drupal@bjorn.dev"
+                },
+                {
+                    "name": "Ken Rickard",
+                    "email": "agentrickard@gmail.com"
                 }
             ],
             "description": "Instant fixes for your Drupal code by using Rector.",
@@ -20811,9 +20819,9 @@
                 "rector"
             ],
             "support": {
-                "source": "https://github.com/palantirnet/drupal-rector/tree/0.15.1"
+                "source": "https://github.com/palantirnet/drupal-rector/tree/0.20.3"
             },
-            "time": "2023-03-23T20:57:43+00:00"
+            "time": "2024-06-10T19:18:13+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -22293,21 +22301,21 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.15.25",
+            "version": "1.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "015935c7ed9e48a4f5895ba974f337e20a263841"
+                "reference": "40f9cf38c05296bd32f444121336a521a293fa61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/015935c7ed9e48a4f5895ba974f337e20a263841",
-                "reference": "015935c7ed9e48a4f5895ba974f337e20a263841",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/40f9cf38c05296bd32f444121336a521a293fa61",
+                "reference": "40f9cf38c05296bd32f444121336a521a293fa61",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.10.14"
+                "phpstan/phpstan": "^1.12.5"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
@@ -22315,15 +22323,13 @@
                 "rector/rector-phpunit": "*",
                 "rector/rector-symfony": "*"
             },
+            "suggest": {
+                "ext-dom": "To manipulate phpunit.xml via the custom-rule command"
+            },
             "bin": [
                 "bin/rector"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "0.15-dev"
-                }
-            },
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -22342,7 +22348,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.15.25"
+                "source": "https://github.com/rectorphp/rector/tree/1.2.10"
             },
             "funding": [
                 {
@@ -22350,7 +22356,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-04-20T16:07:39+00:00"
+            "time": "2024-11-08T13:59:10+00:00"
         },
         {
             "name": "sebastian/cli-parser",
