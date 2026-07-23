@@ -357,6 +357,70 @@ YAML;
   }
 
   /**
+   * Resync preserves an already-published app's node identity and state.
+   *
+   * The contributor docs promise that adding an appverse.yml to a repo already
+   * in the catalog updates the existing entry in place — same entry, same URL,
+   * same review status — rather than replacing it or sending it back to draft.
+   * A listed app is published, so that is the state that must survive.
+   */
+  public function testResyncPreservesPublishedAppIdentityAndState(): void {
+    $request = Request::create('/');
+    $request->setSession(new Session(new MockArraySessionStorage()));
+    $this->container->get('request_stack')->push($request);
+
+    $repo = Node::create([
+      'type' => 'appverse_repo',
+      'title' => 'bc_osc_rstudio',
+      'field_repo_url' => ['uri' => $this->repoUrl],
+      'field_repo_shape' => 'inferred',
+      'moderation_state' => 'published',
+      'status' => 1,
+    ]);
+    $repo->save();
+
+    // An app already LISTED in the catalog: published, not draft.
+    $app = Node::create([
+      'type' => 'appverse_app',
+      'title' => 'RStudio (inferred)',
+      'field_appverse_repo' => $repo->id(),
+      'field_appverse_github_url' => ['uri' => $this->repoUrl],
+      'field_appverse_app_subpath' => '',
+      'moderation_state' => 'published',
+    ]);
+    $app->save();
+    $originalAppId = (int) $app->id();
+    self::assertSame('published', $app->get('moderation_state')->value);
+
+    $this->makeController()->resync($repo);
+
+    \Drupal::entityTypeManager()->getStorage('node')->resetCache();
+    $apps = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('type', 'appverse_app')
+      ->condition('field_appverse_repo', $repo->id())
+      ->execute();
+    self::assertCount(1, $apps, 'Resync must not create a second app.');
+
+    $freshApp = Node::load((int) reset($apps));
+
+    // Same node — the entry is updated in place, not replaced. This is what
+    // keeps the app's catalog URL stable.
+    self::assertSame($originalAppId, (int) $freshApp->id(),
+      'Resync must update the existing app node, not create a replacement.');
+
+    // Still published — a resync must not send a listed app back to draft.
+    self::assertSame('published', $freshApp->get('moderation_state')->value,
+      'Resync must preserve an already-published app\'s moderation state.');
+    self::assertTrue($freshApp->isPublished(),
+      'Resync must leave an already-published app published.');
+
+    // And the declared metadata still landed.
+    self::assertGreaterThan(0, (int) $freshApp->get('field_appverse_software_implemen')->target_id,
+      'Declared software must still be applied on the published-app path.');
+  }
+
+  /**
    * Import config objects from the prod default snapshot.
    *
    * @param string[] $names
