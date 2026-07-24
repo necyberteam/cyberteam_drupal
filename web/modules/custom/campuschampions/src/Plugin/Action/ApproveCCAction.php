@@ -122,6 +122,20 @@ class ApproveCCAction extends ViewsBulkOperationsActionBase implements Container
       $username = $data['username'] ?? NULL;
       if ($username) {
         $user = user_load_by_name($username);
+        if ($user) {
+          // Audit trail: the approval is adopting an account whose email
+          // differs from the application's. The welcome email goes to the
+          // account's registered address, not the one on the application.
+          $this->loggerFactory->get('campuschampions')->notice(
+            'Approval for @app_email adopted existing account @name (uid @uid, account email @acct_email).',
+            [
+              '@app_email' => $user_email,
+              '@name' => $username,
+              '@uid' => $user->id(),
+              '@acct_email' => $user->getEmail(),
+            ]
+          );
+        }
       }
     }
     if (!$user) {

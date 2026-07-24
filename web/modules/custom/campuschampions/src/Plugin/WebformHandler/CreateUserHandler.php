@@ -111,7 +111,7 @@ class CreateUserHandler extends WebformHandlerBase {
       ->accessCheck(FALSE);
     $query->condition($query->orConditionGroup()
       ->condition('mail', $data['user_email'])
-      ->condition('name', $data['username']));
+      ->condition('name', $data['username'] ?? ''));
     $ids = $query->execute();
     if (empty($ids)) {
       $user = $this->createUser($data);
